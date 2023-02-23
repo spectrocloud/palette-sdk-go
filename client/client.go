@@ -92,9 +92,9 @@ type V1Client struct {
 	GetPackRegistryCommonByNameFn func(string) (*models.V1RegistryMetadata, error)
 
 	// VSphere Cluster
-	CreateClusterVsphereFn         func(*models.V1SpectroVsphereClusterEntity) (string, error)
-	GetCloudConfigVsphereFn        func(cloudConfigUid string) (*models.V1VsphereCloudConfig, error)
-	GetVsphereClouldConfigValuesFn func(uid string) (*models.V1VsphereCloudConfig, error)
+	CreateClusterVsphereFn        func(*models.V1SpectroVsphereClusterEntity) (string, error)
+	GetCloudConfigVsphereFn       func(cloudConfigUid string) (*models.V1VsphereCloudConfig, error)
+	GetCloudConfigVsphereValuesFn func(uid string) (*models.V1VsphereCloudConfig, error)
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
@@ -206,4 +206,10 @@ func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
 	}
 
 	return cloudC.New(httpTransport, strfmt.Default), nil
+}
+
+func (h *V1Client) Validate() error {
+	authToken = nil
+	_, err := h.getTransport()
+	return err
 }

@@ -161,3 +161,22 @@ func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1Spe
 	_, err = client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
+
+func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	params := clusterC.NewV1SpectroClustersGenericImportParamsWithContext(h.Ctx).WithBody(
+		&models.V1SpectroGenericClusterImportEntity{
+			Metadata: meta,
+		},
+	)
+	success, err := client.V1SpectroClustersGenericImport(params)
+	if err != nil {
+		return "", err
+	}
+
+	return *success.Payload.UID, nil
+}

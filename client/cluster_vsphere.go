@@ -6,6 +6,8 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
+// Cluster
+
 func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
 	if h.CreateClusterVsphereFn != nil {
 		return h.CreateClusterVsphereFn(cluster)
@@ -23,6 +25,8 @@ func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterE
 
 	return *success.Payload.UID, nil
 }
+
+// Machine Pool
 
 func (h *V1Client) CreateMachinePoolVsphere(cloudConfigId string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
@@ -60,6 +64,8 @@ func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId string, machinePoolNam
 	return err
 }
 
+// Cloud Config
+
 func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereCloudConfig, error) {
 	if h.GetCloudConfigVsphereFn != nil {
 		return h.GetCloudConfigVsphereFn(configUID)
@@ -72,7 +78,6 @@ func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereClo
 	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
 	success, err := client.V1CloudConfigsVsphereGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
-
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -80,6 +85,38 @@ func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereClo
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereCloudConfig, error) {
+	if h.GetCloudConfigVsphereValuesFn != nil {
+		return h.GetCloudConfigVsphereValuesFn(uid)
+	}
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(uid)
+	cloudConfig, err := client.V1CloudConfigsVsphereGet(params)
+	if err != nil {
+		return nil, err
+	}
+
+	return cloudConfig.Payload, nil
+}
+
+func (h *V1Client) UpdateCloudConfigVsphereValues(uid string, clusterConfig *models.V1VsphereCloudClusterConfigEntity) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	params := clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.Ctx).WithConfigUID(uid).WithBody(clusterConfig)
+	_, err = client.V1CloudConfigsVsphereUIDClusterConfig(params)
+
+	return err
+}
+
+// Import
 
 func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	client, err := h.GetClusterClient()
@@ -98,53 +135,4 @@ func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (s
 	}
 
 	return *success.Payload.UID, nil
-}
-
-func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
-	params := clusterC.NewV1SpectroClustersGenericImportParamsWithContext(h.Ctx).WithBody(
-		&models.V1SpectroGenericClusterImportEntity{
-			Metadata: meta,
-		},
-	)
-	success, err := client.V1SpectroClustersGenericImport(params)
-	if err != nil {
-		return "", err
-	}
-
-	return *success.Payload.UID, nil
-}
-
-func (h *V1Client) GetVsphereClouldConfigValues(uid string) (*models.V1VsphereCloudConfig, error) {
-	if h.GetVsphereClouldConfigValuesFn != nil {
-		return h.GetVsphereClouldConfigValuesFn(uid)
-	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(uid)
-	cloudConfig, err := client.V1CloudConfigsVsphereGet(params)
-	if err != nil {
-		return nil, err
-	}
-
-	return cloudConfig.Payload, nil
-}
-
-func (h *V1Client) UpdateVsphereCloudConfigValues(uid string, clusterConfig *models.V1VsphereCloudClusterConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	params := clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.Ctx).WithConfigUID(uid).WithBody(clusterConfig)
-	_, err = client.V1CloudConfigsVsphereUIDClusterConfig(params)
-
-	return err
 }

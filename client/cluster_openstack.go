@@ -7,6 +7,8 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
+// Cluster
+
 func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClusterEntity) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -22,20 +24,7 @@ func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClus
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccount) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
-	params := clusterC.NewV1CloudAccountsOpenStackCreateParamsWithContext(h.Ctx).WithBody(account)
-	success, err := client.V1CloudAccountsOpenStackCreate(params)
-	if err != nil {
-		return "", err
-	}
-
-	return *success.Payload.UID, nil
-}
+// Machine Pool
 
 func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigId string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
@@ -73,6 +62,23 @@ func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigId string, machinePoolN
 	return err
 }
 
+// Cloud Account
+
+func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccount) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	params := clusterC.NewV1CloudAccountsOpenStackCreateParamsWithContext(h.Ctx).WithBody(account)
+	success, err := client.V1CloudAccountsOpenStackCreate(params)
+	if err != nil {
+		return "", err
+	}
+
+	return *success.Payload.UID, nil
+}
+
 func (h *V1Client) GetCloudAccountOpenStack(uid string) (*models.V1OpenStackAccount, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -82,24 +88,6 @@ func (h *V1Client) GetCloudAccountOpenStack(uid string) (*models.V1OpenStackAcco
 	params := clusterC.NewV1CloudAccountsOpenStackGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1CloudAccountsOpenStackGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	return success.Payload, nil
-}
-
-func (h *V1Client) GetCloudConfigOpenStack(configUID string) (*models.V1OpenStackCloudConfig, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	params := clusterC.NewV1CloudConfigsOpenStackGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	success, err := client.V1CloudConfigsOpenStackGet(params)
-
-	if herr.IsNotFound(err) {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -147,4 +135,44 @@ func (h *V1Client) GetCloudAccountsOpenStack() ([]*models.V1OpenStackAccount, er
 	copy(accounts, response.Payload.Items)
 
 	return accounts, nil
+}
+
+// Cloud Config
+
+func (h *V1Client) GetCloudConfigOpenStack(configUID string) (*models.V1OpenStackCloudConfig, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1CloudConfigsOpenStackGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	success, err := client.V1CloudConfigsOpenStackGet(params)
+
+	if herr.IsNotFound(err) {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+
+	return success.Payload, nil
+}
+
+// Import
+
+func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	params := clusterC.NewV1SpectroClustersOpenStackImportParamsWithContext(h.Ctx).WithBody(
+		&models.V1SpectroOpenStackClusterImportEntity{
+			Metadata: meta,
+		},
+	)
+	success, err := client.V1SpectroClustersOpenStackImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *success.Payload.UID, nil
 }
