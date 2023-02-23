@@ -1,0 +1,8 @@
+approvers:
+- palette-sdk-go-dev
+
+reviewers:
+- palette-sdk-go-dev
+
+labels:
+- palette-sdk-go

@@ -1,0 +1,6 @@
+# Editor and IDE paraphernalia
+.idea
+.vscode
+
+# Lint/test output
+golangci-report.xml
