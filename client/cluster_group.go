@@ -45,7 +45,6 @@ func (h *V1Client) GetClusterGroup(uid string) (*models.V1ClusterGroup, error) {
 	if h.GetClusterGroupFn != nil {
 		return h.GetClusterGroupFn(uid)
 	}
-
 	group, err := h.GetClusterGroupWithoutStatus(uid)
 	if err != nil {
 		return nil, err
@@ -127,6 +126,9 @@ func (h *V1Client) UpdateClusterGroupMeta(clusterGroup *models.V1ClusterGroupEnt
 
 // Update cluster group by invoking V1ClusterGroupsUIDHostClusterUpdate hapi api
 func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1ClusterGroupHostClusterEntity) error {
+	if h.UpdateClusterGroupFn != nil {
+		return h.UpdateClusterGroupFn(uid, clusterGroup)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
