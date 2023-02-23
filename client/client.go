@@ -11,6 +11,7 @@ import (
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	authC "github.com/spectrocloud/hapi/auth/client/v1"
+	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -50,6 +51,15 @@ type V1Client struct {
 	// Cluster client(common)
 	GetClusterClientFn func() (clusterC.ClientService, error)
 
+	// Cluster generic
+	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
+	GetClusterFn                func(uid string) (*models.V1SpectroCluster, error)
+	GetClusterKubeConfigFn      func(uid string) (string, error)
+	GetClusterBackupConfigFn    func(uid string) (*models.V1ClusterBackup, error)
+	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
+	GetClusterRbacConfigFn      func(uid string) (*models.V1ClusterRbacs, error)
+	GetClusterNamespaceConfigFn func(uid string) (*models.V1ClusterNamespaceResources, error)
+
 	// Cluster Groups
 	CreateClusterGroupFn func(*models.V1ClusterGroupEntity) (string, error)
 	GetClusterGroupFn    func(string) (*models.V1ClusterGroup, error)
@@ -80,6 +90,11 @@ type V1Client struct {
 
 	// Registry
 	GetPackRegistryCommonByNameFn func(string) (*models.V1RegistryMetadata, error)
+
+	// VSphere Cluster
+	CreateClusterVsphereFn         func(*models.V1SpectroVsphereClusterEntity) (string, error)
+	GetCloudConfigVsphereFn        func(cloudConfigUid string) (*models.V1VsphereCloudConfig, error)
+	GetVsphereClouldConfigValuesFn func(uid string) (*models.V1VsphereCloudConfig, error)
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
@@ -155,6 +170,9 @@ func (h *V1Client) getTransport() (*transport.Runtime, error) {
 
 // Clients
 func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
+	if h.GetClusterClientFn != nil {
+		return h.GetClusterClientFn()
+	}
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
@@ -179,4 +197,13 @@ func (h *V1Client) GetHashboard() (hashboardC.ClientService, error) {
 	}
 
 	return hashboardC.New(httpTransport, strfmt.Default), nil
+}
+
+func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
+	httpTransport, err := h.getTransport()
+	if err != nil {
+		return nil, err
+	}
+
+	return cloudC.New(httpTransport, strfmt.Default), nil
 }

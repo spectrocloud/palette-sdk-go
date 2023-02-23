@@ -12,15 +12,30 @@ import (
 func (h *V1Client) DeleteCluster(uid string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
-		return nil
+		return err
 	}
 
-	params := clusterC.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	cluster, err := h.GetCluster(uid)
+	if err != nil || cluster == nil {
+		return err
+	}
+
+	var params *clusterC.V1SpectroClustersDeleteParams
+	switch cluster.Metadata.Annotations["scope"] {
+	case "project":
+		params = clusterC.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersDeleteParams().WithUID(uid)
+	}
+
 	_, err = client.V1SpectroClustersDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
+	if h.GetClusterFn != nil {
+		return h.GetClusterFn(uid)
+	}
 	cluster, err := h.GetClusterWithoutStatus(uid)
 	if err != nil {
 		return nil, err
@@ -34,6 +49,9 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 }
 
 func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster, error) {
+	if h.GetClusterWithoutStatusFn != nil {
+		return h.GetClusterWithoutStatusFn(uid)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -94,6 +112,9 @@ func (h *V1Client) GetClusterByName(name string, ClusterContext string) (*models
 }
 
 func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
+	if h.GetClusterKubeConfigFn != nil {
+		return h.GetClusterKubeConfigFn(uid)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -131,7 +152,7 @@ func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
 func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1SpectroClusterProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
-		return nil
+		return err
 	}
 
 	resolveNotification := true
