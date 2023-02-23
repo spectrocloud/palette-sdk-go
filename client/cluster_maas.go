@@ -6,6 +6,8 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
+// Cluster
+
 func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -20,6 +22,8 @@ func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity)
 
 	return *success.Payload.UID, nil
 }
+
+// Machine Pool
 
 func (h *V1Client) CreateMachinePoolMaas(cloudConfigId string, machinePool *models.V1MaasMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
@@ -132,6 +136,8 @@ func (h *V1Client) GetCloudAccountsMaas() ([]*models.V1MaasAccount, error) {
 	return accounts, nil
 }
 
+// Cloud Config
+
 func (h *V1Client) GetCloudConfigMaas(configUID string) (*models.V1MaasCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -147,4 +153,24 @@ func (h *V1Client) GetCloudConfigMaas(configUID string) (*models.V1MaasCloudConf
 	}
 
 	return success.Payload, nil
+}
+
+// Import
+
+func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	params := clusterC.NewV1SpectroClustersMaasImportParamsWithContext(h.Ctx).WithBody(
+		&models.V1SpectroMaasClusterImportEntity{
+			Metadata: meta,
+		},
+	)
+	success, err := client.V1SpectroClustersMaasImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *success.Payload.UID, nil
 }
