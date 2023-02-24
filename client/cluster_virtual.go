@@ -72,3 +72,16 @@ func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualClo
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.V1LifecycleConfigEntity) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "V1Client Error", err
+	}
+	params := clusterC.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
+	_, err = client.V1SpectroClustersUIDLifecycleConfigUpdate(params)
+	if err != nil {
+		return "Fail", err
+	}
+	return "Success", nil
+}
