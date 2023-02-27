@@ -294,3 +294,18 @@ func (h *V1Client) DeleteIpPool(pcgUID, poolUID string) error {
 	_, err = client.V1OverlordsUIDPoolDelete(params)
 	return err
 }
+
+func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	codeParams := clusterC.NewV1OverlordsPairingCodeParams().WithContext(h.Ctx).WithCloudType(&cloudType)
+	ret, err := client.V1OverlordsPairingCode(codeParams)
+	if err != nil {
+		return "", err
+	}
+
+	return ret.Payload.PairingCode, nil
+}
