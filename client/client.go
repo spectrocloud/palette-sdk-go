@@ -95,6 +95,15 @@ type V1Client struct {
 	CreateClusterVsphereFn        func(*models.V1SpectroVsphereClusterEntity) (string, error)
 	GetCloudConfigVsphereFn       func(cloudConfigUid string) (*models.V1VsphereCloudConfig, error)
 	GetCloudConfigVsphereValuesFn func(uid string) (*models.V1VsphereCloudConfig, error)
+
+	// Project
+	GetProjectUIDFn func(projectName string) (string, error)
+
+	//Alert
+	CreateAlertFn  func(body *models.V1Channel, projectUID string, component string) (string, error)
+	UpdateAlertFn  func(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error)
+	ReadAlertFn    func(projectUID string, component string, alertUID string) (*models.V1Channel, error)
+	DeleteAlertsFn func(projectUID string, component string, alertUID string) error
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {

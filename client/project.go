@@ -25,6 +25,9 @@ func (h *V1Client) CreateProject(body *models.V1ProjectEntity) (string, error) {
 }
 
 func (h *V1Client) GetProjectUID(projectName string) (string, error) {
+	if h.GetProjectUIDFn != nil {
+		return h.GetProjectUIDFn(projectName)
+	}
 	projects, err := h.GetProjects()
 	if err != nil {
 		return "", err

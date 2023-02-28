@@ -6,6 +6,9 @@ import (
 )
 
 func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID string, component string) (string, error) {
+	if h.CreateAlertFn != nil {
+		return h.CreateAlertFn(body, projectUID, component)
+	}
 	client, err := h.GetUserClient()
 
 	if err != nil {
@@ -21,6 +24,9 @@ func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID string, compon
 }
 
 func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error) {
+	if h.UpdateAlertFn != nil {
+		return h.UpdateAlertFn(body, projectUID, component, alertUID)
+	}
 	client, err := h.GetUserClient()
 	if err != nil {
 		return "", err
@@ -35,6 +41,9 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID string, compon
 }
 
 func (h *V1Client) ReadAlert(projectUID string, component string, alertUID string) (*models.V1Channel, error) {
+	if h.ReadAlertFn != nil {
+		return h.ReadAlertFn(projectUID, component, alertUID)
+	}
 	client, err := h.GetUserClient()
 	channel := &models.V1Channel{}
 	if err != nil {
@@ -50,6 +59,9 @@ func (h *V1Client) ReadAlert(projectUID string, component string, alertUID strin
 }
 
 func (h *V1Client) DeleteAlerts(projectUID string, component string, alertUID string) error {
+	if h.DeleteAlertsFn != nil {
+		return h.DeleteAlertsFn(projectUID, component, alertUID)
+	}
 	client, err := h.GetUserClient()
 	if err != nil {
 		return err
