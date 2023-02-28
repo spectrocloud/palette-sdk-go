@@ -1,5 +1,11 @@
 package client
 
+import (
+	"errors"
+
+	"github.com/spectrocloud/hapi/models"
+)
+
 // remove models after refactoring to hapi models.
 type VirtualMachine struct {
 	APIVersion string   `json:"apiVersion"`
@@ -87,4 +93,24 @@ type ContainerDisk struct {
 
 type CloudInitNoCloud struct {
 	UserData string `json:"userData"`
+}
+
+func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) error {
+	return errors.New("not implemented")
+}
+
+func (h *V1Client) GetVirtualMachine(uid string) error {
+	return errors.New("not implemented")
+}
+
+func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *VirtualMachine) error {
+	return errors.New("not implemented")
+}
+
+func (h *V1Client) CreateVirtualMachine(uid string, body *VirtualMachine) error {
+	return errors.New("not implemented")
+}
+
+func (h *V1Client) DeleteVirtualMachine(uid string, body *VirtualMachine) error {
+	return errors.New("not implemented")
 }
