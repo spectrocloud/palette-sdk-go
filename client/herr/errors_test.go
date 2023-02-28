@@ -2,9 +2,10 @@ package herr
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
-	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
