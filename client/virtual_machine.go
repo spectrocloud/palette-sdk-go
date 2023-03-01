@@ -20,7 +20,7 @@ type Metadata struct {
 	Namespace string `json:"namespace"`
 }
 type Spec struct {
-	Running      bool         `json:"running"`
+	Status       string       `json:"status"`
 	SpecTemplate SpecTemplate `json:"template"`
 }
 
