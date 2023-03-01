@@ -99,8 +99,8 @@ func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) error {
 	return errors.New("not implemented")
 }
 
-func (h *V1Client) GetVirtualMachine(uid string) error {
-	return errors.New("not implemented")
+func (h *V1Client) GetVirtualMachine(uid string) (VirtualMachine, error) {
+	return VirtualMachine{}, errors.New("not implemented")
 }
 
 func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *VirtualMachine) error {
