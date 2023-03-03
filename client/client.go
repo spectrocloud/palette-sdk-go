@@ -95,6 +95,10 @@ type V1Client struct {
 	CreateClusterVsphereFn        func(*models.V1SpectroVsphereClusterEntity) (string, error)
 	GetCloudConfigVsphereFn       func(cloudConfigUid string) (*models.V1VsphereCloudConfig, error)
 	GetCloudConfigVsphereValuesFn func(uid string) (*models.V1VsphereCloudConfig, error)
+
+	// Virtual Machines
+	GetVirtualMachineWithoutStatusFn func(string) (*models.V1ClusterVirtualMachine, error)
+	GetVirtualMachineFn              func(uid string) (*models.V1ClusterVirtualMachine, error)
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {

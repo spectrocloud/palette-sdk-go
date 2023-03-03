@@ -3,114 +3,211 @@ package client
 import (
 	"errors"
 
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
+	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-// remove models after refactoring to hapi models.
-type VirtualMachine struct {
-	APIVersion string   `json:"apiVersion"`
-	APIGroup   string   `json:"apiGroup"`
-	Kind       string   `json:"kind"`
-	Metadata   Metadata `json:"metadata"`
-	Spec       Spec     `json:"spec"`
+func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	uid := cluster.Metadata.UID
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMListParams
+
+	// switch cluster scope
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMListParams().WithUID(uid)
+		break
+	default:
+		return nil, errors.New("invalid cluster scope specified")
+	}
+
+	params = params.WithUID(uid)
+
+	vms, err := client.V1SpectroClustersVMList(params)
+	if err != nil {
+		return nil, err
+	}
+	return vms.Payload.Items, nil
 }
 
-type Metadata struct {
-	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
-}
-type Spec struct {
-	Status       string       `json:"status"`
-	SpecTemplate SpecTemplate `json:"template"`
-}
+func (h *V1Client) GetVirtualMachine(uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+	if h.GetVirtualMachineFn != nil {
+		return h.GetVirtualMachineFn(uid)
+	}
+	vm, err := h.GetVirtualMachineWithoutStatus(uid, name, namespace)
+	if err != nil {
+		return nil, err
+	}
 
-type SpecTemplate struct {
-	Domain   Domain    `json:"domain"`
-	Networks []Network `json:"networks"`
-	Volumes  []Volume  `json:"volumes"`
-}
+	if vm == nil || vm.Status.Created == false { // TODO: check on what is the correct condition to check for deleted
+		return nil, nil
+	}
 
-type Domain struct {
-	CPU       CPU       `json:"cpu"`
-	Devices   Devices   `json:"devices"`
-	Machine   Machine   `json:"machine"`
-	Resources Resources `json:"resources"`
+	return vm, nil
 }
 
-type CPU struct {
-	Cores int `json:"cores"`
+func (h *V1Client) GetVirtualMachineWithoutStatus(uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+	if h.GetVirtualMachineWithoutStatusFn != nil {
+		return h.GetVirtualMachineWithoutStatusFn(uid)
+	}
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
+	success, err := client.V1SpectroClustersVMGet(params)
+	// handle tenant context here cluster may be a tenant cluster
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params := clusterC.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
+		success, err = client.V1SpectroClustersVMGet(params)
+		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+			return nil, nil
+		} else if err != nil {
+			return nil, err
+		}
+		//return nil, nil
+	}
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+
+	// special check if the cluster is marked deleted
+	vm := success.Payload
+	return vm, nil
 }
 
-type Devices struct {
-	Disks      []Disk      `json:"disks"`
-	Interfaces []Interface `json:"interfaces"`
+func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterVMUpdateEntity) (*models.V1ClusterVirtualMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	uid := cluster.Metadata.UID
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMUpdateParams
+
+	// switch cluster scope
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMUpdateParams()
+		break
+	default:
+		return nil, errors.New("invalid cluster scope specified")
+
+	}
+
+	params = params.WithUID(uid).WithBody(body)
+
+	// check if vm exists, return error
+	exists, err := h.IsVMExists(cluster, body)
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		// cannot update vm as another with same name exists
+		return nil, errors.New("cannot update vm as another with same name exists")
+	}
+
+	vm, err := client.V1SpectroClustersVMUpdate(params)
+	if err != nil {
+		return nil, err
+	}
+	return vm.Payload, nil
 }
 
-type Disk struct {
-	Name     string   `json:"name"`
-	DiskType DiskType `json:"disk"`
+func (h *V1Client) IsVMExists(cluster *models.V1SpectroCluster, newVM *models.V1SpectroClusterVMUpdateEntity) (bool, error) {
+	vms, err := h.GetVirtualMachines(cluster)
+	if err != nil {
+		return false, err
+	}
+	// return true if vm exists
+	for _, vm := range vms {
+		if vm.Metadata.Name == newVM.Yaml && vm.Metadata.Namespace == newVM.Yaml { // TODO: deserialize with name and namespace
+			return true, nil
+		}
+	}
+
+	return false, nil
 }
 
-type DiskType struct {
-	Bus string `json:"bus"`
+func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1SpectroClusterVMCreateEntity) (*models.V1ClusterVirtualMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(uid)
+	if err != nil {
+		return nil, err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMCreateParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMCreateParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMCreateParams()
+		break
+	default:
+		return nil, errors.New("invalid cluster scope specified")
+	}
+
+	params = params.WithUID(uid).WithBody(body)
+
+	vm, err := client.V1SpectroClustersVMCreate(params)
+	if err != nil {
+		return nil, err
+	}
+	return vm.Payload, nil
 }
 
-type Interface struct {
-	Masquerade Masquerade `json:"masquerade"`
-	Name       string     `json:"name"`
-}
+func (h *V1Client) DeleteVirtualMachine(uid string, name string, namespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
 
-type Masquerade struct{}
+	// get cluster
+	cluster, err := h.GetCluster(uid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMDeleteParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMDeleteParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMDeleteParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
 
-type Machine struct {
-	Type string `json:"type"`
-}
+	}
+	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace)
 
-type Resources struct {
-	Requests Requests `json:"requests"`
-}
-
-type Requests struct {
-	Memory string `json:"memory"`
-}
-
-type Network struct {
-	Name string `json:"name"`
-	Pod  Pod    `json:"pod"`
-}
-
-type Pod struct{}
-
-type Volume struct {
-	Name             string           `json:"name"`
-	ContainerDisk    ContainerDisk    `json:"containerDisk"`
-	CloudInitNoCloud CloudInitNoCloud `json:"cloudInitNoCloud"`
-}
-
-type ContainerDisk struct {
-	Image string `json:"image"`
-}
-
-type CloudInitNoCloud struct {
-	UserData string `json:"userData"`
-}
-
-func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) error {
-	return errors.New("not implemented")
-}
-
-func (h *V1Client) GetVirtualMachine(uid string) (VirtualMachine, error) {
-	return VirtualMachine{}, errors.New("not implemented")
-}
-
-func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *VirtualMachine) error {
-	return errors.New("not implemented")
-}
-
-func (h *V1Client) CreateVirtualMachine(uid string, body *VirtualMachine) error {
-	return errors.New("not implemented")
-}
-
-func (h *V1Client) DeleteVirtualMachine(uid string, body *VirtualMachine) error {
-	return errors.New("not implemented")
+	_, err = client.V1SpectroClustersVMDelete(params)
+	return err
 }
