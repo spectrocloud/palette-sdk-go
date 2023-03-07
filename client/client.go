@@ -104,6 +104,11 @@ type V1Client struct {
 	UpdateAlertFn  func(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error)
 	ReadAlertFn    func(projectUID string, component string, alertUID string) (*models.V1Channel, error)
 	DeleteAlertsFn func(projectUID string, component string, alertUID string) error
+  
+	// Virtual Machines
+	GetVirtualMachineWithoutStatusFn func(string) (*models.V1ClusterVirtualMachine, error)
+	GetVirtualMachineFn              func(uid string) (*models.V1ClusterVirtualMachine, error)
+
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
