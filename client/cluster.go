@@ -48,6 +48,43 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 	return cluster, nil
 }
 
+func (h *V1Client) listClusters(ClusterContext string) ([]*models.V1SpectroCluster, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1SpectroClustersListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersListParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersListParams()
+	}
+
+	resp, err := client.V1SpectroClustersList(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
+func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
+	allClusters, err := h.listClusters(clusterContext)
+	if err != nil {
+		return nil, err
+	}
+	clusters := make([]*models.V1SpectroCluster, 0)
+	for _, c := range allClusters {
+		if c.Status.State != "Deleted" {
+			clusters = append(clusters, c)
+		}
+	}
+	return clusters, nil
+}
+
 func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterWithoutStatusFn != nil {
 		return h.GetClusterWithoutStatusFn(uid)
@@ -81,28 +118,13 @@ func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster
 	return cluster, nil
 }
 
-func (h *V1Client) GetClusterByName(name string, ClusterContext string) (*models.V1SpectroCluster, error) {
-	client, err := h.GetClusterClient()
+func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
+	clusters, err := h.listClusters(clusterContext)
 	if err != nil {
 		return nil, err
 	}
 
-	var params *clusterC.V1SpectroClustersListParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersListParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersListParams()
-	}
-
-	success, err := client.V1SpectroClustersList(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	for _, cluster := range success.Payload.Items {
+	for _, cluster := range clusters {
 		if cluster.Metadata.Name == name && cluster.Status.State != "Deleted" {
 			return cluster, nil
 		}
