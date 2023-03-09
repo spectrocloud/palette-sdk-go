@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
+	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
@@ -48,14 +49,41 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 	return cluster, nil
 }
 
-func (h *V1Client) listClusters(ClusterContext string) ([]*models.V1SpectroCluster, error) {
+func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
+	client, err := h.GetHashboard()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *hashboardC.V1SpectroClustersSearchFilterSummaryParams
+	switch clusterContext {
+	case "project":
+		params = hashboardC.NewV1SpectroClustersSearchFilterSummaryParamsWithContext(h.Ctx)
+	case "tenant":
+		params = hashboardC.NewV1SpectroClustersSearchFilterSummaryParams()
+	}
+	params.Body = &models.V1SearchFilterSummarySpec{
+		Filter: filter,
+		Sort:   sort,
+	}
+
+	resp, err := client.V1SpectroClustersSearchFilterSummary(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
+func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
 	var params *clusterC.V1SpectroClustersListParams
-	switch ClusterContext {
+	switch clusterContext {
 	case "project":
 		params = clusterC.NewV1SpectroClustersListParamsWithContext(h.Ctx)
 	case "tenant":
