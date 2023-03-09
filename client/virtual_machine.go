@@ -2,7 +2,6 @@ package client
 
 import (
 	"errors"
-
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -48,11 +47,6 @@ func (h *V1Client) GetVirtualMachine(uid string, name string, namespace string) 
 	if err != nil {
 		return nil, err
 	}
-
-	if vm == nil || vm.Status.Created == false { // TODO: check on what is the correct condition to check for deleted
-		return nil, nil
-	}
-
 	return vm, nil
 }
 
@@ -89,7 +83,7 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid string, name string, names
 	return vm, nil
 }
 
-func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterVMUpdateEntity) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -113,10 +107,10 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *
 
 	}
 
-	params = params.WithUID(uid).WithBody(body)
+	params = params.WithUID(uid).WithBody(body).WithNamespace(body.Metadata.Namespace).WithVMName(vmName)
 
 	// check if vm exists, return error
-	exists, err := h.IsVMExists(cluster, body)
+	exists, err := h.IsVMExists(cluster, vmName, body.Metadata.Namespace)
 	if err != nil {
 		return nil, err
 	}
@@ -130,16 +124,18 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, body *
 		return nil, err
 	}
 	return vm.Payload, nil
+
+	//return nil, nil
 }
 
-func (h *V1Client) IsVMExists(cluster *models.V1SpectroCluster, newVM *models.V1SpectroClusterVMUpdateEntity) (bool, error) {
+func (h *V1Client) IsVMExists(cluster *models.V1SpectroCluster, vmName string, vmNamespace string) (bool, error) {
 	vms, err := h.GetVirtualMachines(cluster)
 	if err != nil {
 		return false, err
 	}
 	// return true if vm exists
 	for _, vm := range vms {
-		if vm.Metadata.Name == newVM.Yaml && vm.Metadata.Namespace == newVM.Yaml { // TODO: deserialize with name and namespace
+		if vm.Metadata.Name == vmName && vm.Metadata.Namespace == vmNamespace { // TODO: deserialize with name and namespace
 			return true, nil
 		}
 	}
@@ -147,7 +143,7 @@ func (h *V1Client) IsVMExists(cluster *models.V1SpectroCluster, newVM *models.V1
 	return false, nil
 }
 
-func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1SpectroClusterVMCreateEntity) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -172,7 +168,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1SpectroCluste
 		return nil, errors.New("invalid cluster scope specified")
 	}
 
-	params = params.WithUID(uid).WithBody(body)
+	params = params.WithUID(uid).WithBody(body).WithNamespace(params.Body.Metadata.Namespace)
 
 	vm, err := client.V1SpectroClustersVMCreate(params)
 	if err != nil {
@@ -210,4 +206,202 @@ func (h *V1Client) DeleteVirtualMachine(uid string, name string, namespace strin
 
 	_, err = client.V1SpectroClustersVMDelete(params)
 	return err
+}
+
+func (h *V1Client) RestartVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMRestartParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMRestartParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMRestartParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMRestart(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) PauseVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMPauseParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMPauseParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMPauseParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMPause(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) StopVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMStopParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMStopParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMStopParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMStop(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) StartVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMStartParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMStartParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMStartParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMStart(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) MigrateVirtualMachineNodeToNode(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMMigrateParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMMigrateParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMMigrateParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMMigrate(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMResumeParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMResumeParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMResumeParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
+
+	_, err = client.V1SpectroClustersVMResume(params)
+	if err != nil {
+		return err
+	}
+	return nil
 }
