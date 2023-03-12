@@ -89,7 +89,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 		return nil, err
 	}
 
-	uid := cluster.Metadata.UID
+	clusterUid := cluster.Metadata.UID
 	// get cluster scope
 	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMUpdateParams
@@ -107,16 +107,16 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 
 	}
 
-	params = params.WithUID(uid).WithBody(body).WithNamespace(body.Metadata.Namespace).WithVMName(vmName)
+	params = params.WithUID(clusterUid).WithBody(body).WithNamespace(body.Metadata.Namespace).WithVMName(vmName)
 
 	// check if vm exists, return error
-	exists, err := h.IsVMExists(cluster, vmName, body.Metadata.Namespace)
+	exists, err := h.IsVMExists(clusterUid, vmName, body.Metadata.Namespace)
 	if err != nil {
 		return nil, err
 	}
-	if exists {
+	if exists == false {
 		// cannot update vm as another with same name exists
-		return nil, errors.New("cannot update vm as another with same name exists")
+		return nil, errors.New("VM not exists")
 	}
 
 	vm, err := client.V1SpectroClustersVMUpdate(params)
@@ -128,18 +128,14 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	//return nil, nil
 }
 
-func (h *V1Client) IsVMExists(cluster *models.V1SpectroCluster, vmName string, vmNamespace string) (bool, error) {
-	vms, err := h.GetVirtualMachines(cluster)
+func (h *V1Client) IsVMExists(clusterUid string, vmName string, vmNamespace string) (bool, error) {
+	vm, err := h.GetVirtualMachine(clusterUid, vmName, vmNamespace)
 	if err != nil {
 		return false, err
 	}
-	// return true if vm exists
-	for _, vm := range vms {
-		if vm.Metadata.Name == vmName && vm.Metadata.Namespace == vmNamespace { // TODO: deserialize with name and namespace
-			return true, nil
-		}
+	if vm != nil {
+		return true, nil
 	}
-
 	return false, nil
 }
 
@@ -400,6 +396,43 @@ func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmName
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
 	_, err = client.V1SpectroClustersVMResume(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) CloneVirtualMachine(clusterUid string, cloneVMFromName string, vmName string, vmNamespace string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// get cluster
+	cluster, err := h.GetCluster(clusterUid)
+
+	body := &models.V1SpectroClusterVMCloneEntity{
+		CloneName: &vmName,
+	}
+	if err != nil {
+		return err
+	}
+	// get cluster scope
+	scope := cluster.Metadata.Annotations["scope"]
+	var params *clusterC.V1SpectroClustersVMCloneParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMCloneParamsWithContext(h.Ctx)
+		break
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMCloneParams()
+		break
+	default:
+		return errors.New("invalid cluster scope specified")
+	}
+	params = params.WithUID(clusterUid).WithVMName(cloneVMFromName).WithNamespace(vmNamespace).WithBody(body)
+
+	_, err = client.V1SpectroClustersVMClone(params)
 	if err != nil {
 		return err
 	}
