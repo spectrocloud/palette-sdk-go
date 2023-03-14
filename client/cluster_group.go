@@ -3,7 +3,7 @@ package client
 import (
 	"errors"
 
-	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -65,7 +65,7 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string) (*models.V1ClusterGr
 
 	params := clusterC.NewV1ClusterGroupsUIDGetParams().WithUID(uid)
 	success, err := client.V1ClusterGroupsUIDGet(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -92,7 +92,7 @@ func (h *V1Client) GetClusterGroupByName(name string, ClusterGroupContext string
 	}
 
 	success, err := client.V1ClusterGroupsHostClusterMetadata(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -105,6 +105,29 @@ func (h *V1Client) GetClusterGroupByName(name string, ClusterGroupContext string
 	}
 
 	return nil, nil
+}
+
+func (h *V1Client) GetClusterGroupSummaries(clusterGroupContext string) ([]*models.V1ClusterGroupSummary, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1ClusterGroupsHostClusterSummaryParams
+	switch clusterGroupContext {
+	case "system":
+		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParams()
+	case "tenant":
+		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.Ctx)
+	}
+
+	resp, err := client.V1ClusterGroupsHostClusterSummary(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Summaries, nil
 }
 
 // Update cluster group metadata by invoking V1ClusterGroupsUIDMetaUpdate hapi api
