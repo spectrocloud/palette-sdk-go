@@ -24,6 +24,8 @@ func (h *V1Client) CreateClusterGroup(cluster *models.V1ClusterGroupEntity, scop
 		params = clusterC.NewV1ClusterGroupsCreateParamsWithContext(h.Ctx).WithBody(cluster)
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsCreateParams().WithBody(cluster)
+	default:
+		return "", errors.New("invalid scope")
 	}
 	success, err := client.V1ClusterGroupsCreate(params)
 	if err != nil {
@@ -47,6 +49,8 @@ func (h *V1Client) DeleteClusterGroup(uid string, scope string) error {
 		params = clusterC.NewV1ClusterGroupsUIDDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDDeleteParams().WithUID(uid)
+	default:
+		return errors.New("invalid scope")
 	}
 	_, err = client.V1ClusterGroupsUIDDelete(params)
 	return err
@@ -80,6 +84,8 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string, scope string) (*mode
 		params = clusterC.NewV1ClusterGroupsUIDGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDGetParams().WithUID(uid)
+	default:
+		return nil, errors.New("invalid scope")
 	}
 	success, err := client.V1ClusterGroupsUIDGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
@@ -152,6 +158,8 @@ func (h *V1Client) UpdateClusterGroupMeta(clusterGroup *models.V1ClusterGroupEnt
 		params = clusterC.NewV1ClusterGroupsUIDMetaUpdateParamsWithContext(h.Ctx).WithUID(clusterGroup.Metadata.UID)
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDMetaUpdateParams().WithUID(clusterGroup.Metadata.UID)
+	default:
+		return errors.New("invalid scope")
 	}
 	params = params.WithBody(&models.V1ObjectMeta{
 		Name:        clusterGroup.Metadata.Name,
@@ -177,6 +185,8 @@ func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1Cluster
 		params = clusterC.NewV1ClusterGroupsUIDHostClusterUpdateParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDHostClusterUpdateParams().WithUID(uid)
+	default:
+		return errors.New("invalid scope")
 	}
 	params = params.WithBody(clusterGroup)
 	_, err = client.V1ClusterGroupsUIDHostClusterUpdate(params)
