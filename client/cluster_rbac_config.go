@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
@@ -17,6 +18,10 @@ func (h *V1Client) GetClusterRbacConfig(uid string) (*models.V1ClusterRbacs, err
 
 	params := clusterC.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1SpectroClustersUIDConfigRbacsGet(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
+		success, err = client.V1SpectroClustersUIDConfigRbacsGet(params)
+	}
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -35,6 +40,10 @@ func (h *V1Client) CreateClusterRbacConfig(uid string, config *models.V1ClusterR
 
 	params := clusterC.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	_, err = client.V1WorkspacesClusterRbacCreate(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
+		_, err = client.V1WorkspacesClusterRbacCreate(params)
+	}
 	return err
 }
 
@@ -46,6 +55,10 @@ func (h *V1Client) UpdateClusterRbacConfig(uid string, config *models.V1ClusterR
 
 	params := clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	_, err = client.V1SpectroClustersUIDConfigRbacsUpdate(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
+		_, err = client.V1SpectroClustersUIDConfigRbacsUpdate(params)
+	}
 	return err
 }
 

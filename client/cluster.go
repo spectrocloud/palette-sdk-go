@@ -61,7 +61,7 @@ func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster
 	success, err := client.V1SpectroClustersGet(params)
 	// handle tenant context here cluster may be a tenant cluster
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		params := clusterC.NewV1SpectroClustersGetParams().WithUID(uid)
+		params = clusterC.NewV1SpectroClustersGetParams().WithUID(uid)
 		success, err = client.V1SpectroClustersGet(params)
 		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 			return nil, nil
@@ -123,6 +123,10 @@ func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
 	builder := new(strings.Builder)
 	params := clusterC.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
 	_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDKubeConfigParams().WithUID(uid)
+		_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
+	}
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
@@ -142,6 +146,10 @@ func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
 	builder := new(strings.Builder)
 	params := clusterC.NewV1SpectroClustersUIDImportManifestParamsWithContext(h.Ctx).WithUID(uid)
 	_, err = client.V1SpectroClustersUIDImportManifest(params, builder)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDImportManifestParams().WithUID(uid)
+		_, err = client.V1SpectroClustersUIDImportManifest(params, builder)
+	}
 	if err != nil {
 		return "", err
 	}
@@ -159,6 +167,11 @@ func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1Spe
 	params := clusterC.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.Ctx).WithUID(uid).
 		WithBody(profiles).WithResolveNotification(&resolveNotification)
 	_, err = client.V1SpectroClustersUpdateProfiles(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUpdateProfilesParams().WithUID(uid).
+			WithBody(profiles).WithResolveNotification(&resolveNotification)
+		_, err = client.V1SpectroClustersUpdateProfiles(params)
+	}
 	return err
 }
 
@@ -174,6 +187,14 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 		},
 	)
 	success, err := client.V1SpectroClustersGenericImport(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersGenericImportParams().WithBody(
+			&models.V1SpectroGenericClusterImportEntity{
+				Metadata: meta,
+			},
+		)
+		success, err = client.V1SpectroClustersGenericImport(params)
+	}
 	if err != nil {
 		return "", err
 	}

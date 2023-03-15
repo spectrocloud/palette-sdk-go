@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
@@ -17,6 +18,11 @@ func (h *V1Client) GetClusterNamespaceConfig(uid string) (*models.V1ClusterNames
 
 	params := clusterC.NewV1SpectroClustersUIDConfigNamespacesGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1SpectroClustersUIDConfigNamespacesGet(params)
+	// handle tenant context here cluster may be a tenant cluster
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesGetParams().WithUID(uid)
+		success, err = client.V1SpectroClustersUIDConfigNamespacesGet(params)
+	}
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -36,6 +42,16 @@ func (h *V1Client) UpdateClusterNamespaceConfig(uid string, config *models.V1Clu
 
 	params := clusterC.NewV1SpectroClustersUIDConfigNamespacesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	_, err = client.V1SpectroClustersUIDConfigNamespacesUpdate(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesUpdateParams().WithUID(uid).WithBody(config)
+		_, err = client.V1SpectroClustersUIDConfigNamespacesUpdate(params)
+	}
+	if err != nil {
+		if herr.IsNotFound(err) {
+			return nil
+		}
+		return err
+	}
 	return err
 }
 
