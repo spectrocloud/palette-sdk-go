@@ -21,6 +21,20 @@ func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterE
 	return *success.Payload.UID, nil
 }
 
+func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1VirtualClusterResize) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	params := clusterC.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.Ctx).WithConfigUID(configUID).WithBody(body)
+	_, err = client.V1CloudConfigsVirtualUIDUpdate(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (h *V1Client) CreateMachinePoolVirtual(cloudConfigId string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
