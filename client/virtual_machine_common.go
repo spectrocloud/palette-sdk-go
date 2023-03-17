@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -66,10 +67,8 @@ func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*mode
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMListParams().WithUID(uid)
-		break
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}

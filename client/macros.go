@@ -132,7 +132,10 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 			return err
 		}
 	}
-	h.GetMacros(uid)
+	_, err = h.GetMacros(uid)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

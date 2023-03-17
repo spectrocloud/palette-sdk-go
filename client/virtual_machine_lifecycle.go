@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
@@ -22,10 +23,8 @@ func (h *V1Client) StartVirtualMachine(clusterUid string, vmName string, vmNames
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMStartParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMStartParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
@@ -55,10 +54,8 @@ func (h *V1Client) StopVirtualMachine(clusterUid string, vmName string, vmNamesp
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMStopParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMStopParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
@@ -88,10 +85,8 @@ func (h *V1Client) PauseVirtualMachine(clusterUid string, vmName string, vmNames
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMPauseParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMPauseParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
@@ -121,10 +116,8 @@ func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmName
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMResumeParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMResumeParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
@@ -154,10 +147,8 @@ func (h *V1Client) RestartVirtualMachine(clusterUid string, vmName string, vmNam
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMRestartParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMRestartParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}

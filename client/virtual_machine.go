@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -23,10 +24,8 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMCreateParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMCreateParams()
-		break
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}
@@ -66,13 +65,10 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMUpdateParams()
-		break
 	default:
 		return nil, errors.New("invalid cluster scope specified")
-
 	}
 
 	params = params.WithUID(clusterUid).WithBody(body).WithNamespace(body.Metadata.Namespace).WithVMName(vmName)
@@ -82,7 +78,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	if err != nil {
 		return nil, err
 	}
-	if exists == false {
+	if !exists {
 		// cannot update vm as another with same name exists
 		return nil, errors.New("VM not exists")
 	}
@@ -113,13 +109,10 @@ func (h *V1Client) DeleteVirtualMachine(uid string, name string, namespace strin
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMDeleteParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMDeleteParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
-
 	}
 	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace)
 
