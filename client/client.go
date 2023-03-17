@@ -104,11 +104,10 @@ type V1Client struct {
 	UpdateAlertFn  func(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error)
 	ReadAlertFn    func(projectUID string, component string, alertUID string) (*models.V1Channel, error)
 	DeleteAlertsFn func(projectUID string, component string, alertUID string) error
-  
+
 	// Virtual Machines
 	GetVirtualMachineWithoutStatusFn func(string) (*models.V1ClusterVirtualMachine, error)
 	GetVirtualMachineFn              func(uid string) (*models.V1ClusterVirtualMachine, error)
-
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
@@ -225,5 +224,15 @@ func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
 func (h *V1Client) Validate() error {
 	authToken = nil
 	_, err := h.getTransport()
+
+	// API key can only be validated by making an API call
+	if h.apikey != "" {
+		c, _ := h.GetUserClient()
+		_, err := c.V1ProjectsList(nil)
+		if err != nil {
+			return err
+		}
+	}
+
 	return err
 }
