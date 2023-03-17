@@ -3,7 +3,7 @@ package client
 import (
 	"errors"
 
-	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -65,7 +65,7 @@ func (h *V1Client) GetClusterGroup(uid string, scope string) (*models.V1ClusterG
 		return nil, err
 	}
 
-	if group == nil && group.Status.IsActive {
+	if group != nil && !group.Status.IsActive {
 		return nil, nil
 	}
 
@@ -88,7 +88,7 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string, scope string) (*mode
 		return nil, errors.New("invalid scope")
 	}
 	success, err := client.V1ClusterGroupsUIDGet(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -98,52 +98,67 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string, scope string) (*mode
 	return cluster, nil
 }
 
-func (h *V1Client) GetClusterGroupByNameForProject(name string, ClusterGroupContext string) (*models.V1ClusterGroupSummary, error) {
-	client, err := h.GetClusterClient()
-	var paramProject *clusterC.V1ClusterGroupsHostClusterSummaryParams
-	paramProject = clusterC.NewV1ClusterGroupsHostClusterSummaryParams().WithContext(h.Ctx)
-	success, err := client.V1ClusterGroupsHostClusterSummary(paramProject)
+func (h *V1Client) GetClusterGroupByName(name string, clusterGroupContext string) (*models.V1ObjectScopeEntity, error) {
+	metadata, err := h.getClusterGroupMetadata(clusterGroupContext)
 	if err != nil {
 		return nil, err
 	}
-	for _, group := range success.Payload.Summaries {
-		if group.Metadata.Name == name && group.Spec.Scope == ClusterGroupContext { // tenant or system. keep it to extend to project in future.
-			return group, nil
+
+	for _, groupMeta := range metadata {
+		if groupMeta.Name == name && groupMeta.Scope == clusterGroupContext { // tenant or system. keep it to extend to project in future.
+			return groupMeta, nil
 		}
 	}
+
 	return nil, nil
 }
 
-func (h *V1Client) GetClusterGroupByName(name string, ClusterGroupContext string) (*models.V1ObjectScopeEntity, error) {
+func (h *V1Client) GetClusterGroupByNameForProject(name string, clusterGroupContext string) (*models.V1ClusterGroupSummary, error) {
+	summaries, err := h.GetClusterGroupSummaries(clusterGroupContext)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, groupSummary := range summaries {
+		if groupSummary.Metadata.Name == name && groupSummary.Spec.Scope == clusterGroupContext { // tenant or system. keep it to extend to project in future.
+			return groupSummary, nil
+		}
+	}
+
+	return nil, nil
+}
+
+func (h *V1Client) GetClusterGroupMetadata(clusterGroupContext string) ([]*models.V1ObjectScopeEntity, error) {
+	metadata, err := h.getClusterGroupMetadata(clusterGroupContext)
+	if err != nil {
+		return nil, err
+	}
+	return metadata, nil
+}
+
+func (h *V1Client) GetClusterGroupSummaries(clusterGroupContext string) ([]*models.V1ClusterGroupSummary, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	var params *clusterC.V1ClusterGroupsHostClusterMetadataParams
-	switch ClusterGroupContext {
+	var params *clusterC.V1ClusterGroupsHostClusterSummaryParams
+	switch clusterGroupContext {
 	case "system":
-		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParams()
+		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParams()
 	case "tenant":
-		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParams().WithContext(h.Ctx)
+		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.Ctx)
 	default:
 		return nil, errors.New("invalid scope")
 	}
-	success, err := client.V1ClusterGroupsHostClusterMetadata(params)
 
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	resp, err := client.V1ClusterGroupsHostClusterSummary(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
-
-	for _, group := range success.Payload.Items {
-		if group.Name == name && group.Scope == ClusterGroupContext { // tenant or system. keep it to extend to project in future.
-			return group, nil
-		}
-	}
-
-	return nil, nil
+	return resp.Payload.Summaries, nil
 }
 
 // Update cluster group metadata by invoking V1ClusterGroupsUIDMetaUpdate hapi api
@@ -191,4 +206,29 @@ func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1Cluster
 	params = params.WithBody(clusterGroup)
 	_, err = client.V1ClusterGroupsUIDHostClusterUpdate(params)
 	return err
+}
+
+func (h *V1Client) getClusterGroupMetadata(clusterGroupContext string) ([]*models.V1ObjectScopeEntity, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1ClusterGroupsHostClusterMetadataParams
+	switch clusterGroupContext {
+	case "system":
+		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParams()
+	case "tenant":
+		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.Ctx)
+	default:
+		return nil, errors.New("invalid scope")
+	}
+
+	resp, err := client.V1ClusterGroupsHostClusterMetadata(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
 }

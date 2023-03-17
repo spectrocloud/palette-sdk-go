@@ -2,5 +2,8 @@
 .idea
 .vscode
 
+bin
+
 # Lint/test output
 golangci-report.xml
+profile.cov

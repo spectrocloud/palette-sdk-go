@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
@@ -22,10 +23,8 @@ func (h *V1Client) MigrateVirtualMachineNodeToNode(clusterUid string, vmName str
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMMigrateParamsWithContext(h.Ctx)
-		break
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersVMMigrateParams()
-		break
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
