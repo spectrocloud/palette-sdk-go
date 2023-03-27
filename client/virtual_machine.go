@@ -39,7 +39,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	return vm.Payload, nil
 }
 
-func (h *V1Client) GetVirtualMachine(uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachine(uid string, namespace string, name string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineFn != nil {
 		return h.GetVirtualMachineFn(uid)
 	}
@@ -92,7 +92,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	//return nil, nil
 }
 
-func (h *V1Client) DeleteVirtualMachine(uid string, name string, namespace string) error {
+func (h *V1Client) DeleteVirtualMachine(uid string, namespace string, name string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
