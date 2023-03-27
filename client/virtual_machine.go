@@ -22,7 +22,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 
 	// if cluster is nil(deleted or not found), return error
 	if cluster == nil {
-		return nil, errors.New(fmt.Sprintf("cluster not found for uid %s", uid))
+		return nil, fmt.Errorf("cluster not found for uid %s", uid)
 	}
 
 	// get cluster scope
