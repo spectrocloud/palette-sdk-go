@@ -9,7 +9,7 @@ import (
 )
 
 func (h *V1Client) IsVMExists(clusterUid string, vmName string, vmNamespace string) (bool, error) {
-	vm, err := h.GetVirtualMachine(clusterUid, vmName, vmNamespace)
+	vm, err := h.GetVirtualMachine(clusterUid, vmNamespace, vmName)
 	if err != nil {
 		return false, err
 	}
@@ -31,17 +31,17 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid string, name string, names
 	params := clusterC.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
 	success, err := client.V1SpectroClustersVMGet(params)
 	// handle tenant context here cluster may be a tenant cluster
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
 		params := clusterC.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
 		success, err = client.V1SpectroClustersVMGet(params)
-		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
 			return nil, nil
 		} else if err != nil {
 			return nil, err
 		}
 		//return nil, nil
 	}
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
 		return nil, nil
 	} else if err != nil {
 		return nil, err

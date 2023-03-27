@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -18,6 +19,12 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	if err != nil {
 		return nil, err
 	}
+
+	// if cluster is nil(deleted or not found), return error
+	if cluster == nil {
+		return nil, fmt.Errorf("cluster not found for uid %s", uid)
+	}
+
 	// get cluster scope
 	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMCreateParams
@@ -39,7 +46,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	return vm.Payload, nil
 }
 
-func (h *V1Client) GetVirtualMachine(uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachine(uid string, namespace string, name string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineFn != nil {
 		return h.GetVirtualMachineFn(uid)
 	}
@@ -92,7 +99,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	//return nil, nil
 }
 
-func (h *V1Client) DeleteVirtualMachine(uid string, name string, namespace string) error {
+func (h *V1Client) DeleteVirtualMachine(uid string, namespace string, name string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
