@@ -48,9 +48,6 @@ type V1Client struct {
 	transportDebug bool
 	RetryAttempts  int
 
-	// Cluster client(common)
-	GetClusterClientFn func() (clusterC.ClientService, error)
-
 	// Cluster generic
 	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
 	GetClusterFn                func(uid string) (*models.V1SpectroCluster, error)
@@ -183,9 +180,6 @@ func (h *V1Client) getTransport() (*transport.Runtime, error) {
 
 // Clients
 func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
-	if h.GetClusterClientFn != nil {
-		return h.GetClusterClientFn()
-	}
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
