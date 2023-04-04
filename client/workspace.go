@@ -44,7 +44,7 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 }
 
 func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace, error) {
-	client, err := h.GetHashboard()
+	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, err
 	}

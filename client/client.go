@@ -73,11 +73,6 @@ type V1Client struct {
 	GetApplicationProfileFn                    func(string) (*models.V1AppProfile, error)
 	DeleteApplicationProfileFn                 func(string) error
 
-	// Cluster profiles
-	ClustersPatchProfilesFn func(*clusterC.V1SpectroClustersPatchProfilesParams) error // used in application deployment
-	GetClusterProfileFn     func(string) (*models.V1ClusterProfile, error)
-	DeleteClusterProfileFn  func(string) error
-
 	// special function for virtual cluster mock
 	V1ClusterProfilesDeleteFn            func(params *clusterC.V1ClusterProfilesDeleteParams) (*clusterC.V1ClusterProfilesDeleteNoContent, error)
 	V1ClusterProfilesUIDMetadataUpdateFn func(params *clusterC.V1ClusterProfilesUIDMetadataUpdateParams) (*clusterC.V1ClusterProfilesUIDMetadataUpdateNoContent, error)
@@ -96,7 +91,7 @@ type V1Client struct {
 	// Project
 	GetProjectUIDFn func(projectName string) (string, error)
 
-	//Alert
+	// Alert
 	CreateAlertFn  func(body *models.V1Channel, projectUID string, component string) (string, error)
 	UpdateAlertFn  func(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error)
 	ReadAlertFn    func(projectUID string, component string, alertUID string) (*models.V1Channel, error)
@@ -119,14 +114,17 @@ func New(hubbleHost, email, password, projectUID string, apikey string, transpor
 	authHttpTransport.RetryAttempts = 0
 	//authHttpTransport.Debug = true
 	AuthClient = authC.New(authHttpTransport, strfmt.Default)
-	return &V1Client{Ctx: ctx, email: email, password: password, apikey: apikey, transportDebug: transportDebug, RetryAttempts: retryAttempts}
+	return &V1Client{
+		Ctx:            ctx,
+		email:          email,
+		password:       password,
+		apikey:         apikey,
+		transportDebug: transportDebug,
+		RetryAttempts:  retryAttempts,
+	}
 }
 
 func (h *V1Client) getNewAuthToken() (*AuthToken, error) {
-	//httpClient, err := certs.GetHttpClient()
-	//if err != nil {
-	//	return nil, err
-	//}
 	authParam := authC.NewV1AuthenticateParams().
 		WithBody(&models.V1AuthLogin{
 			EmailID:  h.email,
@@ -148,13 +146,6 @@ func (h *V1Client) getNewAuthToken() (*AuthToken, error) {
 		expiry: time.Now().Add(tokenExpiry),
 	}
 	return authToken, nil
-}
-
-func GetProjectContextWithCtx(c context.Context, projectUid string) context.Context {
-	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
-		HeaderMap: map[string]string{
-			"ProjectUid": projectUid,
-		}})
 }
 
 func (h *V1Client) getTransport() (*transport.Runtime, error) {
@@ -197,7 +188,7 @@ func (h *V1Client) GetUserClient() (userC.ClientService, error) {
 	return userC.New(httpTransport, strfmt.Default), nil
 }
 
-func (h *V1Client) GetHashboard() (hashboardC.ClientService, error) {
+func (h *V1Client) GetHashboardClient() (hashboardC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
@@ -229,4 +220,11 @@ func (h *V1Client) Validate() error {
 	}
 
 	return err
+}
+
+func GetProjectContextWithCtx(c context.Context, projectUid string) context.Context {
+	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
+		HeaderMap: map[string]string{
+			"ProjectUid": projectUid,
+		}})
 }

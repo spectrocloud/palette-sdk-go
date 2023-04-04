@@ -58,7 +58,7 @@ func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
 }
 
 func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
-	client, err := h.GetHashboard()
+	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, err
 	}

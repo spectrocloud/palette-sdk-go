@@ -50,7 +50,7 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 }
 
 func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
-	client, err := h.GetHashboard()
+	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, err
 	}
