@@ -222,6 +222,22 @@ func (h *V1Client) Validate() error {
 	return err
 }
 
+func (h *V1Client) ValidateTenantAdmin() error {
+	authToken = nil
+	_, err := h.getTransport()
+
+	// API key can only be validated by making an API call
+	if h.apikey != "" {
+		c, _ := h.GetUserClient()
+		_, err := c.V1UsersList(nil)
+		if err != nil {
+			return err
+		}
+	}
+
+	return err
+}
+
 func GetProjectContextWithCtx(c context.Context, projectUid string) context.Context {
 	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
 		HeaderMap: map[string]string{
