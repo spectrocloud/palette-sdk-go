@@ -9,16 +9,8 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) DeleteClusterProfile(uid string) error {
-	if h.DeleteClusterProfileFn != nil {
-		return h.DeleteClusterProfileFn(uid)
-	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	profile, err := h.GetClusterProfile(uid)
+func (h *V1Client) DeleteClusterProfile(client clusterC.ClientService, uid string) error {
+	profile, err := h.GetClusterProfile(client, uid)
 	if err != nil || profile == nil {
 		return err
 	}
@@ -33,57 +25,32 @@ func (h *V1Client) DeleteClusterProfile(uid string) error {
 		return errors.New("invalid scope")
 	}
 
-	if h.V1ClusterProfilesDeleteFn != nil {
-		_, err = h.V1ClusterProfilesDeleteFn(params)
-	} else {
-		_, err = client.V1ClusterProfilesDelete(params)
-	}
+	_, err = client.V1ClusterProfilesDelete(params)
 	return err
 }
 
-func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, error) {
-	if h.GetClusterProfileFn != nil {
-		return h.GetClusterProfileFn(uid)
-	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
+func (h *V1Client) GetClusterProfile(client clusterC.ClientService, uid string) (*models.V1ClusterProfile, error) {
 	// no need to switch request context here as /v1/clusterprofiles/{uid} works for profile in any scope.
 	params := clusterC.NewV1ClusterProfilesGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1ClusterProfilesGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
-
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
-
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetClusterProfiles() ([]*models.V1ClusterProfileMetadata, error) {
-	client, err := h.GetHashboard()
-	if err != nil {
-		return nil, err
-	}
-
+func (h *V1Client) GetClusterProfiles(client hashboardC.ClientService) ([]*models.V1ClusterProfileMetadata, error) {
 	params := hashboardC.NewV1ClusterProfilesMetadataParamsWithContext(h.Ctx)
 	response, err := client.V1ClusterProfilesMetadata(params)
 	if err != nil {
 		return nil, err
 	}
-
 	return response.Payload.Items, nil
 }
 
-func (h *V1Client) PatchClusterProfile(clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+func (h *V1Client) PatchClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity, ProfileContext string) error {
 	uid := clusterProfile.Metadata.UID
 	var params *clusterC.V1ClusterProfilesUIDMetadataUpdateParams
 	switch ProfileContext {
@@ -94,20 +61,12 @@ func (h *V1Client) PatchClusterProfile(clusterProfile *models.V1ClusterProfileUp
 	default:
 		return errors.New("invalid scope")
 	}
-	if h.V1ClusterProfilesUIDMetadataUpdateFn != nil {
-		_, err = h.V1ClusterProfilesUIDMetadataUpdateFn(params)
-	} else {
-		_, err = client.V1ClusterProfilesUIDMetadataUpdate(params)
-	}
+
+	_, err := client.V1ClusterProfilesUIDMetadataUpdate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterProfile(clusterProfile *models.V1ClusterProfileUpdateEntity, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+func (h *V1Client) UpdateClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, ProfileContext string) error {
 	uid := clusterProfile.Metadata.UID
 	var params *clusterC.V1ClusterProfilesUpdateParams
 	switch ProfileContext {
@@ -119,20 +78,11 @@ func (h *V1Client) UpdateClusterProfile(clusterProfile *models.V1ClusterProfileU
 		return errors.New("invalid scope")
 	}
 
-	if h.V1ClusterProfilesUpdateFn != nil {
-		_, err = h.V1ClusterProfilesUpdateFn(params)
-	} else {
-		_, err = client.V1ClusterProfilesUpdate(params)
-	}
+	_, err := client.V1ClusterProfilesUpdate(params)
 	return err
 }
 
-func (h *V1Client) CreateClusterProfile(clusterProfile *models.V1ClusterProfileEntity, ProfileContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
+func (h *V1Client) CreateClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileEntity, ProfileContext string) (string, error) {
 	var params *clusterC.V1ClusterProfilesCreateParams
 	switch ProfileContext {
 	case "project":
@@ -143,25 +93,14 @@ func (h *V1Client) CreateClusterProfile(clusterProfile *models.V1ClusterProfileE
 		return "", errors.New("invalid scope")
 	}
 
-	var success *clusterC.V1ClusterProfilesCreateCreated
-	if h.V1ClusterProfilesCreateFn != nil {
-		success, err = h.V1ClusterProfilesCreateFn(params)
-	} else {
-		success, err = client.V1ClusterProfilesCreate(params)
-	}
+	success, err := client.V1ClusterProfilesCreate(params)
 	if err != nil {
 		return "", err
 	}
-
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) PublishClusterProfile(uid string, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+func (h *V1Client) PublishClusterProfile(client clusterC.ClientService, uid string, ProfileContext string) error {
 	var params *clusterC.V1ClusterProfilesPublishParams
 	switch ProfileContext {
 	case "project":
@@ -171,11 +110,7 @@ func (h *V1Client) PublishClusterProfile(uid string, ProfileContext string) erro
 	default:
 		return errors.New("invalid scope")
 	}
-	if h.V1ClusterProfilesPublishFn != nil {
-		_, err = h.V1ClusterProfilesPublishFn(params)
-	} else {
-		_, err = client.V1ClusterProfilesPublish(params)
-	}
 
+	_, err := client.V1ClusterProfilesPublish(params)
 	return err
 }

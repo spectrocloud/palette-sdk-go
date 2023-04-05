@@ -13,7 +13,7 @@ import (
 )
 
 func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName string, version string) (*models.V1AppProfileSummary, string, string, error) {
-	client, err := h.GetHashboard()
+	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, "", "", err
 	}
