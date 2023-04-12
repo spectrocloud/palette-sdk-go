@@ -105,7 +105,7 @@ func (h *V1Client) GetClusterGroupByName(name string, clusterGroupContext string
 	}
 
 	for _, groupMeta := range metadata {
-		if groupMeta.Name == name && groupMeta.Scope == clusterGroupContext { // tenant or system. keep it to extend to project in future.
+		if groupMeta.Name == name && groupMeta.Scope == clusterGroupContext {
 			return groupMeta, nil
 		}
 	}
@@ -120,7 +120,7 @@ func (h *V1Client) GetClusterGroupByNameForProject(name string, clusterGroupCont
 	}
 
 	for _, groupSummary := range summaries {
-		if groupSummary.Metadata.Name == name && groupSummary.Spec.Scope == clusterGroupContext { // tenant or system. keep it to extend to project in future.
+		if groupSummary.Metadata.Name == name && groupSummary.Spec.Scope == clusterGroupContext {
 			return groupSummary, nil
 		}
 	}
@@ -146,6 +146,8 @@ func (h *V1Client) GetClusterGroupSummaries(clusterGroupContext string) ([]*mode
 	switch clusterGroupContext {
 	case "system":
 		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParams()
+	case "project":
+		fallthrough
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.Ctx)
 	default:
@@ -218,6 +220,8 @@ func (h *V1Client) getClusterGroupMetadata(clusterGroupContext string) ([]*model
 	switch clusterGroupContext {
 	case "system":
 		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParams()
+	case "project":
+		fallthrough
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.Ctx)
 	default:
