@@ -10,12 +10,12 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
-	auth "github.com/spectrocloud/hapi/auth/client/v1"
-	cloud "github.com/spectrocloud/hapi/cloud/client/v1"
-	event "github.com/spectrocloud/hapi/event/client/v1"
-	hashboard "github.com/spectrocloud/hapi/hashboard/client/v1"
+	authC "github.com/spectrocloud/hapi/auth/client/v1"
+	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
+	eventC "github.com/spectrocloud/hapi/event/client/v1"
+	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
-	cluster "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	user "github.com/spectrocloud/hapi/user/client/v1"
 )
 
@@ -28,7 +28,7 @@ const (
 var (
 	hubbleUri string
 
-	AuthClient auth.ClientService
+	AuthClient authC.ClientService
 
 	schemes []string
 
@@ -75,11 +75,11 @@ type V1Client struct {
 	DeleteApplicationProfileFn                 func(string) error
 
 	// special function for virtual cluster mock
-	V1ClusterProfilesDeleteFn            func(params *cluster.V1ClusterProfilesDeleteParams) (*cluster.V1ClusterProfilesDeleteNoContent, error)
-	V1ClusterProfilesUIDMetadataUpdateFn func(params *cluster.V1ClusterProfilesUIDMetadataUpdateParams) (*cluster.V1ClusterProfilesUIDMetadataUpdateNoContent, error)
-	V1ClusterProfilesUpdateFn            func(params *cluster.V1ClusterProfilesUpdateParams) (*cluster.V1ClusterProfilesUpdateNoContent, error)
-	V1ClusterProfilesCreateFn            func(params *cluster.V1ClusterProfilesCreateParams) (*cluster.V1ClusterProfilesCreateCreated, error)
-	V1ClusterProfilesPublishFn           func(params *cluster.V1ClusterProfilesPublishParams) (*models.V1ClusterProfile, error)
+	V1ClusterProfilesDeleteFn            func(params *clusterC.V1ClusterProfilesDeleteParams) (*clusterC.V1ClusterProfilesDeleteNoContent, error)
+	V1ClusterProfilesUIDMetadataUpdateFn func(params *clusterC.V1ClusterProfilesUIDMetadataUpdateParams) (*clusterC.V1ClusterProfilesUIDMetadataUpdateNoContent, error)
+	V1ClusterProfilesUpdateFn            func(params *clusterC.V1ClusterProfilesUpdateParams) (*clusterC.V1ClusterProfilesUpdateNoContent, error)
+	V1ClusterProfilesCreateFn            func(params *clusterC.V1ClusterProfilesCreateParams) (*clusterC.V1ClusterProfilesCreateCreated, error)
+	V1ClusterProfilesPublishFn           func(params *clusterC.V1ClusterProfilesPublishParams) (*models.V1ClusterProfile, error)
 
 	// Registry
 	GetPackRegistryCommonByNameFn func(string) (*models.V1RegistryMetadata, error)
@@ -114,7 +114,7 @@ func New(hubbleHost, email, password, projectUID string, apikey string, transpor
 	authHttpTransport := transport.New(hubbleUri, "", schemes)
 	authHttpTransport.RetryAttempts = 0
 	//authHttpTransport.Debug = true
-	AuthClient = auth.New(authHttpTransport, strfmt.Default)
+	AuthClient = authC.New(authHttpTransport, strfmt.Default)
 	return &V1Client{
 		Ctx:            ctx,
 		email:          email,
@@ -126,7 +126,7 @@ func New(hubbleHost, email, password, projectUID string, apikey string, transpor
 }
 
 func (h *V1Client) getNewAuthToken() (*AuthToken, error) {
-	authParam := auth.NewV1AuthenticateParams().
+	authParam := authC.NewV1AuthenticateParams().
 		WithBody(&models.V1AuthLogin{
 			EmailID:  h.email,
 			Password: strfmt.Password(h.password),
@@ -171,13 +171,13 @@ func (h *V1Client) getTransport() (*transport.Runtime, error) {
 }
 
 // Clients
-func (h *V1Client) GetClusterClient() (cluster.ClientService, error) {
+func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
 	}
 
-	return cluster.New(httpTransport, strfmt.Default), nil
+	return clusterC.New(httpTransport, strfmt.Default), nil
 }
 
 func (h *V1Client) GetUserClient() (user.ClientService, error) {
@@ -189,31 +189,31 @@ func (h *V1Client) GetUserClient() (user.ClientService, error) {
 	return user.New(httpTransport, strfmt.Default), nil
 }
 
-func (h *V1Client) GetHashboardClient() (hashboard.ClientService, error) {
+func (h *V1Client) GetHashboardClient() (hashboardC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
 	}
 
-	return hashboard.New(httpTransport, strfmt.Default), nil
+	return hashboardC.New(httpTransport, strfmt.Default), nil
 }
 
-func (h *V1Client) GetCloudClient() (cloud.ClientService, error) {
+func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
 	}
 
-	return cloud.New(httpTransport, strfmt.Default), nil
+	return cloudC.New(httpTransport, strfmt.Default), nil
 }
 
-func (h *V1Client) GetEventClient() (event.ClientService, error) {
+func (h *V1Client) GetEventClient() (eventC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
 	}
 
-	return event.New(httpTransport, strfmt.Default), nil
+	return eventC.New(httpTransport, strfmt.Default), nil
 }
 
 func (h *V1Client) Validate() error {
