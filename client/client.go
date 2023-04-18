@@ -16,7 +16,7 @@ import (
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-	user "github.com/spectrocloud/hapi/user/client/v1"
+	userC "github.com/spectrocloud/hapi/user/client/v1"
 )
 
 const (
@@ -180,13 +180,13 @@ func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
 	return clusterC.New(httpTransport, strfmt.Default), nil
 }
 
-func (h *V1Client) GetUserClient() (user.ClientService, error) {
+func (h *V1Client) GetUserClient() (userC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
 		return nil, err
 	}
 
-	return user.New(httpTransport, strfmt.Default), nil
+	return userC.New(httpTransport, strfmt.Default), nil
 }
 
 func (h *V1Client) GetHashboardClient() (hashboardC.ClientService, error) {
