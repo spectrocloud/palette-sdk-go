@@ -171,8 +171,19 @@ func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
 	}
 
 	builder := new(strings.Builder)
+
 	params := clusterC.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
 	_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
+	// handle tenant context here cluster may be a tenant cluster
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		params := clusterC.NewV1SpectroClustersUIDKubeConfigParams().WithUID(uid)
+		_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
+		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+			return "", nil
+		} else if err != nil {
+			return "", err
+		}
+	}
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
