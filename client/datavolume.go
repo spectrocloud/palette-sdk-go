@@ -8,7 +8,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateDatavolume(uid string, name string, namespace string, body *models.V1VMAddVolumeEntity) (string, error) {
+func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -37,7 +37,7 @@ func (h *V1Client) CreateDatavolume(uid string, name string, namespace string, b
 		return "", errors.New("invalid cluster scope specified")
 	}
 
-	params = params.WithUID(uid).WithBody(body).WithVMName(name).WithNamespace(namespace)
+	params = params.WithUID(uid).WithBody(body).WithVMName(name).WithNamespace(body.DataVolumeTemplate.Metadata.Namespace)
 
 	volume, err := client.V1SpectroClustersVMAddVolume(params)
 	if err != nil {
@@ -46,7 +46,7 @@ func (h *V1Client) CreateDatavolume(uid string, name string, namespace string, b
 	return volume.AuditUID, nil
 }
 
-func (h *V1Client) DeleteDatavolume(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
+func (h *V1Client) DeleteDataVolume(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
