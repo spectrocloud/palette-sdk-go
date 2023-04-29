@@ -6,8 +6,8 @@ require (
 	github.com/go-openapi/runtime v0.19.24
 	github.com/go-openapi/strfmt v0.20.0
 	github.com/pkg/errors v0.9.1
-	github.com/spectrocloud/gomi v1.14.1-0.20230227082335-00ec30f78888
-	github.com/spectrocloud/hapi v1.14.1-0.20230315115513-301628ae2f5e
+	github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08
+	github.com/spectrocloud/hapi v1.14.1-0.20230424093802-d7edf3c56d58
 	github.com/stretchr/testify v1.7.0
 )
 
@@ -27,11 +27,11 @@ require (
 	github.com/go-openapi/validate v0.20.2 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/sirupsen/logrus v1.4.2 // indirect
+	github.com/sirupsen/logrus v1.6.0 // indirect
 	go.mongodb.org/mongo-driver v1.4.6 // indirect
 	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/sys v0.4.0 // indirect
