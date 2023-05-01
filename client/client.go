@@ -101,6 +101,10 @@ type V1Client struct {
 	// Virtual Machines
 	GetVirtualMachineWithoutStatusFn func(string) (*models.V1ClusterVirtualMachine, error)
 	GetVirtualMachineFn              func(uid string) (*models.V1ClusterVirtualMachine, error)
+
+	// Data Volumes
+	CreateDataVolumeFn func(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error)
+	DeleteDataVolumeFn func(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
