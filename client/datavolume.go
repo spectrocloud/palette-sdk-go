@@ -9,6 +9,9 @@ import (
 )
 
 func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error) {
+	if h.CreateDataVolumeFn != nil {
+		return h.CreateDataVolumeFn(uid, name, body)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -47,6 +50,9 @@ func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAd
 }
 
 func (h *V1Client) DeleteDataVolume(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
+	if h.DeleteDataVolumeFn != nil {
+		return h.DeleteDataVolumeFn(uid, namespace, name, body)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
