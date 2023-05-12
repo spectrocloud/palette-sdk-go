@@ -65,7 +65,7 @@ func (h *V1Client) GetClusterGroup(uid string, scope string) (*models.V1ClusterG
 		return nil, err
 	}
 
-	if group != nil && !group.Status.IsActive {
+	if group != nil && group.Status != nil && !group.Status.IsActive {
 		return nil, nil
 	}
 
