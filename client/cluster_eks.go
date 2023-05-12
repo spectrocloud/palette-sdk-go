@@ -1,6 +1,8 @@
 package client
 
 import (
+	"time"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -20,7 +22,7 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, C
 		params = clusterC.NewV1SpectroClustersEksCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersEksCreate(params)
+	success, err := client.V1SpectroClustersEksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err
 	}
