@@ -153,6 +153,9 @@ func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegis
 }
 
 func (h *V1Client) GetOciRegistry(uid string) (*models.V1EcrRegistry, error) {
+	if h.GetOciRegistryFn != nil {
+		return h.GetOciRegistryFn(uid)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -168,6 +171,9 @@ func (h *V1Client) GetOciRegistry(uid string) (*models.V1EcrRegistry, error) {
 }
 
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
+	if h.CreateOciEcrRegistryFn != nil {
+		return h.CreateOciEcrRegistryFn(registry)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -182,6 +188,9 @@ func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string,
 }
 
 func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry) error {
+	if h.UpdateEcrRegistryFn != nil {
+		return h.UpdateEcrRegistryFn(uid, registry)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -197,6 +206,9 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 }
 
 func (h *V1Client) DeleteRegistry(uid string) error {
+	if h.DeleteRegistryFn != nil {
+		return h.DeleteRegistryFn(uid)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
