@@ -105,6 +105,12 @@ type V1Client struct {
 	// Data Volumes
 	CreateDataVolumeFn func(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error)
 	DeleteDataVolumeFn func(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error
+
+	// Registry
+	CreateOciEcrRegistryFn func(registry *models.V1EcrRegistry) (string, error)
+	UpdateEcrRegistryFn    func(uid string, registry *models.V1EcrRegistry) error
+	DeleteRegistryFn       func(uid string) error
+	GetOciRegistryFn       func(uid string) (*models.V1EcrRegistry, error)
 }
 
 func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
