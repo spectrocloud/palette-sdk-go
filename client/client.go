@@ -181,6 +181,15 @@ func (h *V1Client) getTransport() (*transport.Runtime, error) {
 }
 
 // Clients
+func (h *V1Client) GetAuthClient() (authC.ClientService, error) {
+	httpTransport, err := h.getTransport()
+	if err != nil {
+		return nil, err
+	}
+
+	return authC.New(httpTransport, strfmt.Default), nil
+}
+
 func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
 	httpTransport, err := h.getTransport()
 	if err != nil {
