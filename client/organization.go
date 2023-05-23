@@ -32,6 +32,28 @@ func (h *V1Client) ListOrganizations(scope string) ([]*models.V1Organization, er
 	return resp.Payload.Organizations, nil
 }
 
+func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
+	client, err := h.GetAuthClient()
+	if err != nil {
+		return "", err
+	}
+
+	var params *authC.V1AuthOrgSwitchParams
+	switch scope {
+	case "project":
+		params = authC.NewV1AuthOrgSwitchParams().WithContext(h.Ctx).WithOrgName(orgName)
+	case "tenant":
+		params = authC.NewV1AuthOrgSwitchParams().WithOrgName(orgName)
+	}
+
+	resp, err := client.V1AuthOrgSwitch(params)
+	if err != nil || resp == nil {
+		return "", err
+	}
+
+	return resp.Payload.Authorization, nil
+}
+
 func (h *V1Client) PrintLoginBanner(orgName string) error {
 	client, err := h.GetAuthClient()
 	if err != nil {
