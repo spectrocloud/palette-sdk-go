@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/spectrocloud/hapi/apiutil/transport"
+	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	v1 "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -26,6 +27,33 @@ func (h *V1Client) GetApplication(uid string) (*models.V1AppDeployment, error) {
 	// special check if the cluster is marked deleted
 	application := success.Payload //success.Payload.Spec.Config.Target.ClusterRef.UID
 	return application, nil
+}
+
+func (h *V1Client) SearchAppDeploymentSummaries(scope string, filter *models.V1AppDeploymentFilterSpec, sortBy []*models.V1AppDeploymentSortSpec) ([]*models.V1AppDeploymentSummary, error) {
+	client, err := h.GetHashboardClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *hashboardC.V1DashboardAppDeploymentsParams
+	switch scope {
+	case "project":
+		params = hashboardC.NewV1DashboardAppDeploymentsParams().WithContext(h.Ctx)
+	case "tenant":
+		params = hashboardC.NewV1DashboardAppDeploymentsParams()
+	}
+	params.Body = &models.V1AppDeploymentsFilterSpec{
+		Filter: filter,
+		Sort:   sortBy,
+	}
+
+	resp, err := client.V1DashboardAppDeployments(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.AppDeployments, nil
 }
 
 func (h *V1Client) CreateApplicationWithNewSandboxCluster(body *models.V1AppDeploymentClusterGroupEntity) (string, error) {
