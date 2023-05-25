@@ -97,3 +97,13 @@ func (h *V1Client) DeleteApplication(uid string) error {
 	_, err = client.V1AppDeploymentsUIDDelete(params)
 	return err
 }
+
+func (h *V1Client) ApplyApplicationUpdate(uid, notificationUid string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil
+	}
+	params := v1.NewV1AppDeploymentsUIDProfileApplyParamsWithContext(h.Ctx).WithUID(uid).WithNotify(&notificationUid)
+	_, err = client.V1AppDeploymentsUIDProfileApply(params)
+	return err
+}
