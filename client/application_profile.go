@@ -105,6 +105,33 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 	return success.Payload.Spec.Published.Content, nil
 }
 
+func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec) ([]*models.V1AppProfileSummary, error) {
+	client, err := h.GetHashboardClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *hashboardC.V1DashboardAppProfilesParams
+	switch scope {
+	case "project":
+		params = hashboardC.NewV1DashboardAppProfilesParamsWithContext(h.Ctx)
+	case "tenant":
+		params = hashboardC.NewV1DashboardAppProfilesParams()
+	}
+	params.Body = &models.V1AppProfilesFilterSpec{
+		Filter: filter,
+		Sort:   sortBy,
+	}
+
+	resp, err := client.V1DashboardAppProfiles(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.AppProfiles, nil
+}
+
 func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *models.V1AppProfileMetaEntity, ProfileContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
