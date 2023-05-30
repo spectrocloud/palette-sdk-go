@@ -10,6 +10,26 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
+func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models.V1PackSortSpec) ([]*models.V1PackMetadata, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+	body := &models.V1PacksFilterSpec{
+		Filter: filter,
+		Sort:   sortBy,
+	}
+	params := clusterC.NewV1PacksSearchParams().WithContext(h.Ctx).WithBody(body)
+	resp, err := client.V1PacksSearch(params)
+	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+
+	return resp.Payload.Items, nil
+}
+
 func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName string) ([]*models.V1ManifestEntity, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {

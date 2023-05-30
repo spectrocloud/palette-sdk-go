@@ -8,10 +8,29 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
+func (h *V1Client) SearchPackRegistryCommon() ([]*models.V1RegistryMetadata, error) {
+	return h.getRegistryCommon()
+}
+
 func (h *V1Client) GetPackRegistryCommonByName(registryName string) (*models.V1RegistryMetadata, error) {
 	if h.GetPackRegistryCommonByNameFn != nil {
 		return h.GetPackRegistryCommonByNameFn(registryName)
 	}
+
+	registries, err := h.getRegistryCommon()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, registry := range registries {
+		if registry.Name == registryName {
+			return registry, nil
+		}
+	}
+	return nil, fmt.Errorf("registry '%s' not found", registryName)
+}
+
+func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -22,14 +41,7 @@ func (h *V1Client) GetPackRegistryCommonByName(registryName string) (*models.V1R
 	if err != nil {
 		return nil, err
 	}
-
-	for _, registry := range registries.Payload.Items {
-		if registry.Name == registryName {
-			return registry, nil
-		}
-	}
-
-	return nil, fmt.Errorf("registry '%s' not found", registryName)
+	return registries.Payload.Items, nil
 }
 
 func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackRegistry, error) {
