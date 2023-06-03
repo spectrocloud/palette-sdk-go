@@ -34,7 +34,8 @@ func (h *V1Client) GetUser(name string) (*models.V1User, error) {
 		return nil, err
 	}
 
-	params := userC.NewV1UsersListParams()
+	limit := int64(0)
+	params := userC.NewV1UsersListParams().WithLimit(&limit)
 	users, err := client.V1UsersList(params)
 	if err != nil {
 		return nil, err
