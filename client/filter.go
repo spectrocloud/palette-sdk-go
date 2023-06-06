@@ -20,13 +20,13 @@ func (h *V1Client) CreateTag(body *models.V1TagFilter) (*models.V1UID, error) {
 	return tag.Payload, nil
 }
 
-func (h *V1Client) UpdateTag(body *models.V1TagFilter) error {
+func (h *V1Client) UpdateTag(uid string, body *models.V1TagFilter) error {
 	client, err := h.GetHashboardClient()
 	if err != nil {
 		return err
 	}
 
-	params := hashboardC.NewV1TagFilterUIDUpdateParams().WithBody(body)
+	params := hashboardC.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
 	_, err = client.V1TagFilterUIDUpdate(params)
 	if err != nil {
 		return err
