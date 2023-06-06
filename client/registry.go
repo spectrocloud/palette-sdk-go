@@ -143,6 +143,21 @@ func (h *V1Client) DeleteHelmRegistry(uid string) error {
 	}
 }
 
+func (h *V1Client) ListOCIRegistries() ([]*models.V1OciRegistry, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1OciRegistriesSummaryParams().WithContext(h.Ctx)
+	ociRegistries, err := client.V1OciRegistriesSummary(params)
+	if err != nil {
+		return nil, err
+	}
+
+	return ociRegistries.Payload.Items, nil
+}
+
 func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegistry, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -180,6 +195,20 @@ func (h *V1Client) GetOciRegistry(uid string) (*models.V1EcrRegistry, error) {
 	}
 
 	return response.Payload, nil
+}
+
+func (h *V1Client) CreateOciBasicRegistry(registry *models.V1BasicOciRegistry) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	params := clusterC.NewV1BasicOciRegistriesCreateParams().WithBody(registry)
+	if resp, err := client.V1BasicOciRegistriesCreate(params); err != nil {
+		return "", err
+	} else {
+		return *resp.Payload.UID, nil
+	}
 }
 
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
