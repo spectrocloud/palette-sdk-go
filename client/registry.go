@@ -65,6 +65,21 @@ func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackReg
 	return nil, fmt.Errorf("registry '%s' not found", registryName)
 }
 
+func (h *V1Client) ListHelmRegistries() ([]*models.V1HelmRegistrySummary, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1RegistriesHelmSummaryListParams().WithContext(h.Ctx)
+	helmRegistries, err := client.V1RegistriesHelmSummaryList(params)
+	if err != nil {
+		return nil, err
+	}
+
+	return helmRegistries.Payload.Items, nil
+}
+
 func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmRegistry, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -211,6 +226,36 @@ func (h *V1Client) CreateOciBasicRegistry(registry *models.V1BasicOciRegistry) (
 	}
 }
 
+func (h *V1Client) UpdateOciBasicRegistry(uid string, registry *models.V1BasicOciRegistry) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	params := clusterC.NewV1BasicOciRegistriesUIDUpdateParams().WithBody(registry).WithUID(uid)
+	_, err = client.V1BasicOciRegistriesUIDUpdate(params)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (h *V1Client) DeleteOciBasicRegistry(uid string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	params := clusterC.NewV1BasicOciRegistriesUIDDeleteParams().WithUID(uid)
+	_, err = client.V1BasicOciRegistriesUIDDelete(params)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
 	if h.CreateOciEcrRegistryFn != nil {
 		return h.CreateOciEcrRegistryFn(registry)
@@ -246,17 +291,14 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 	return nil
 }
 
-func (h *V1Client) DeleteRegistry(uid string) error {
-	if h.DeleteRegistryFn != nil {
-		return h.DeleteRegistryFn(uid)
-	}
+func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1BasicOciRegistriesUIDDeleteParams().WithUID(uid)
-	_, err = client.V1BasicOciRegistriesUIDDelete(params)
+	params := clusterC.NewV1EcrRegistriesUIDDeleteParams().WithUID(uid)
+	_, err = client.V1EcrRegistriesUIDDelete(params)
 	if err != nil {
 		return err
 	}

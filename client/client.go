@@ -109,7 +109,6 @@ type V1Client struct {
 	// Registry
 	CreateOciEcrRegistryFn func(registry *models.V1EcrRegistry) (string, error)
 	UpdateEcrRegistryFn    func(uid string, registry *models.V1EcrRegistry) error
-	DeleteRegistryFn       func(uid string) error
 	GetOciRegistryFn       func(uid string) (*models.V1EcrRegistry, error)
 }
 
