@@ -65,13 +65,13 @@ func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackReg
 	return nil, fmt.Errorf("registry '%s' not found", registryName)
 }
 
-func (h *V1Client) ListHelmRegistries() ([]*models.V1HelmRegistrySummary, error) {
+func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySummary, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1RegistriesHelmSummaryListParams().WithContext(h.Ctx)
+	params := clusterC.NewV1RegistriesHelmSummaryListParams().WithContext(h.Ctx).WithScope(&scope)
 	helmRegistries, err := client.V1RegistriesHelmSummaryList(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmReg
 		return nil, err
 	}
 
-	params := clusterC.NewV1RegistriesHelmListParams()
+	params := clusterC.NewV1RegistriesHelmListParams().WithContext(h.Ctx)
 	registries, err := client.V1RegistriesHelmList(params)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (h *V1Client) GetHelmRegistry(uid string) (*models.V1HelmRegistry, error) {
 		return nil, err
 	}
 
-	params := clusterC.NewV1RegistriesHelmUIDGetParams().WithUID(uid)
+	params := clusterC.NewV1RegistriesHelmUIDGetParams().WithContext(h.Ctx).WithUID(uid)
 	response, err := client.V1RegistriesHelmUIDGet(params)
 	if err != nil {
 		return nil, err
@@ -122,7 +122,7 @@ func (h *V1Client) CreateHelmRegistry(registry *models.V1HelmRegistryEntity) (st
 		return "", err
 	}
 
-	params := clusterC.NewV1RegistriesHelmCreateParams().WithBody(registry)
+	params := clusterC.NewV1RegistriesHelmCreateParams().WithContext(h.Ctx).WithBody(registry)
 	if resp, err := client.V1RegistriesHelmCreate(params); err != nil {
 		return "", err
 	} else {
@@ -136,7 +136,7 @@ func (h *V1Client) UpdateHelmRegistry(uid string, registry *models.V1HelmRegistr
 		return err
 	}
 
-	params := clusterC.NewV1RegistriesHelmUIDUpdateParams().WithBody(registry).WithUID(uid)
+	params := clusterC.NewV1RegistriesHelmUIDUpdateParams().WithContext(h.Ctx).WithBody(registry).WithUID(uid)
 	if _, err := client.V1RegistriesHelmUIDUpdate(params); err != nil {
 		return err
 	} else {
@@ -150,7 +150,7 @@ func (h *V1Client) DeleteHelmRegistry(uid string) error {
 		return err
 	}
 
-	params := clusterC.NewV1RegistriesHelmUIDDeleteParams().WithUID(uid)
+	params := clusterC.NewV1RegistriesHelmUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
 	if _, err := client.V1RegistriesHelmUIDDelete(params); err != nil {
 		return err
 	} else {
@@ -179,7 +179,7 @@ func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegis
 		return nil, err
 	}
 
-	params := clusterC.NewV1OciRegistriesSummaryParams()
+	params := clusterC.NewV1OciRegistriesSummaryParams().WithContext(h.Ctx)
 	registries, err := client.V1OciRegistriesSummary(params)
 	if err != nil {
 		return nil, err
@@ -194,17 +194,14 @@ func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegis
 	return nil, fmt.Errorf("registry '%s' not found", registryName)
 }
 
-func (h *V1Client) GetOciRegistry(uid string) (*models.V1EcrRegistry, error) {
-	if h.GetOciRegistryFn != nil {
-		return h.GetOciRegistryFn(uid)
-	}
+func (h *V1Client) GetOciBasicRegistry(uid string) (*models.V1BasicOciRegistry, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1EcrRegistriesUIDGetParams().WithUID(uid)
-	response, err := client.V1EcrRegistriesUIDGet(params)
+	params := clusterC.NewV1BasicOciRegistriesUIDGetParams().WithContext(h.Ctx).WithUID(uid)
+	response, err := client.V1BasicOciRegistriesUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -218,7 +215,7 @@ func (h *V1Client) CreateOciBasicRegistry(registry *models.V1BasicOciRegistry) (
 		return "", err
 	}
 
-	params := clusterC.NewV1BasicOciRegistriesCreateParams().WithBody(registry)
+	params := clusterC.NewV1BasicOciRegistriesCreateParams().WithContext(h.Ctx).WithBody(registry)
 	if resp, err := client.V1BasicOciRegistriesCreate(params); err != nil {
 		return "", err
 	} else {
@@ -232,7 +229,7 @@ func (h *V1Client) UpdateOciBasicRegistry(uid string, registry *models.V1BasicOc
 		return err
 	}
 
-	params := clusterC.NewV1BasicOciRegistriesUIDUpdateParams().WithBody(registry).WithUID(uid)
+	params := clusterC.NewV1BasicOciRegistriesUIDUpdateParams().WithContext(h.Ctx).WithBody(registry).WithUID(uid)
 	_, err = client.V1BasicOciRegistriesUIDUpdate(params)
 	if err != nil {
 		return err
@@ -247,13 +244,31 @@ func (h *V1Client) DeleteOciBasicRegistry(uid string) error {
 		return err
 	}
 
-	params := clusterC.NewV1BasicOciRegistriesUIDDeleteParams().WithUID(uid)
+	params := clusterC.NewV1BasicOciRegistriesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
 	_, err = client.V1BasicOciRegistriesUIDDelete(params)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) {
+	if h.GetOciRegistryFn != nil {
+		return h.GetOciRegistryFn(uid)
+	}
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1EcrRegistriesUIDGetParams().WithContext(h.Ctx).WithUID(uid)
+	response, err := client.V1EcrRegistriesUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+
+	return response.Payload, nil
 }
 
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
@@ -265,7 +280,7 @@ func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string,
 		return "", err
 	}
 
-	params := clusterC.NewV1EcrRegistriesCreateParams().WithBody(registry)
+	params := clusterC.NewV1EcrRegistriesCreateParams().WithContext(h.Ctx).WithBody(registry)
 	if resp, err := client.V1EcrRegistriesCreate(params); err != nil {
 		return "", err
 	} else {
@@ -282,7 +297,7 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 		return err
 	}
 
-	params := clusterC.NewV1EcrRegistriesUIDUpdateParams().WithBody(registry).WithUID(uid)
+	params := clusterC.NewV1EcrRegistriesUIDUpdateParams().WithContext(h.Ctx).WithBody(registry).WithUID(uid)
 	_, err = client.V1EcrRegistriesUIDUpdate(params)
 	if err != nil {
 		return err
@@ -297,7 +312,7 @@ func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 		return err
 	}
 
-	params := clusterC.NewV1EcrRegistriesUIDDeleteParams().WithUID(uid)
+	params := clusterC.NewV1EcrRegistriesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
 	_, err = client.V1EcrRegistriesUIDDelete(params)
 	if err != nil {
 		return err
