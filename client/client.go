@@ -49,6 +49,8 @@ type V1Client struct {
 	transportDebug bool
 	RetryAttempts  int
 
+	ClusterC clusterC.ClientService
+
 	// Cluster generic
 	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
 	GetClusterFn                func(uid string) (*models.V1SpectroCluster, error)

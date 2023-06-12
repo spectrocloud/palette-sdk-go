@@ -306,17 +306,8 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 	return nil
 }
 
-func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+func (h *V1Client) DeleteOciEcrRegistry(client clusterC.ClientService, uid string) error {
 	params := clusterC.NewV1EcrRegistriesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
-	_, err = client.V1EcrRegistriesUIDDelete(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	_, err := client.V1EcrRegistriesUIDDelete(params)
+	return err
 }
