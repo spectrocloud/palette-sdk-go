@@ -7,7 +7,7 @@ import (
 	userC "github.com/spectrocloud/hapi/user/client/v1"
 )
 
-func (h *V1Client) GetUser(name string) (*models.V1User, error) {
+func (h *V1Client) GetUsers() (*models.V1Users, error) {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return nil, err
@@ -20,11 +20,35 @@ func (h *V1Client) GetUser(name string) (*models.V1User, error) {
 		return nil, err
 	}
 
-	for _, user := range users.Payload.Items {
+	return users.Payload, nil
+}
+
+func (h *V1Client) GetUserByName(name string) (*models.V1User, error) {
+	users, err := h.GetUsers()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, user := range users.Items {
 		if user.Metadata.Name == name {
 			return user, nil
 		}
 	}
 
-	return nil, fmt.Errorf("user '%s' not found", name)
+	return nil, fmt.Errorf("user with name '%s' not found", name)
+}
+
+func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
+	users, err := h.GetUsers()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, user := range users.Items {
+		if user.Spec.EmailID == email {
+			return user, nil
+		}
+	}
+
+	return nil, fmt.Errorf("user with email '%s' not found", email)
 }
