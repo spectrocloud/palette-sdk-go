@@ -33,6 +33,29 @@ func (h *V1Client) DeleteCluster(uid string) error {
 	return err
 }
 
+func (h *V1Client) ForceDeleteCluster(uid string, forceDelete bool) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	cluster, err := h.GetCluster(uid)
+	if err != nil || cluster == nil {
+		return err
+	}
+
+	var params *clusterC.V1SpectroClustersDeleteParams
+	switch cluster.Metadata.Annotations["scope"] {
+	case "project":
+		params = clusterC.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid).WithForceDelete(&forceDelete)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersDeleteParams().WithUID(uid).WithForceDelete(&forceDelete)
+	}
+
+	_, err = client.V1SpectroClustersDelete(params)
+	return err
+}
+
 func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterFn != nil {
 		return h.GetClusterFn(uid)
