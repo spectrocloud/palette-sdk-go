@@ -14,7 +14,7 @@ func (h *V1Client) CloneVirtualMachine(clusterUid string, cloneVMFromName string
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 
 	body := &models.V1SpectroClusterVMCloneEntity{
 		CloneName: &vmName,

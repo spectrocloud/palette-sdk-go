@@ -7,39 +7,12 @@ import (
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) DeleteCluster(uid string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	cluster, err := h.GetCluster(uid)
-	if err != nil || cluster == nil {
-		return err
-	}
-
-	var params *clusterC.V1SpectroClustersDeleteParams
-	switch cluster.Metadata.Annotations["scope"] {
-	case "project":
-		params = clusterC.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersDeleteParams().WithUID(uid)
-	}
-
-	_, err = client.V1SpectroClustersDelete(params)
-	return err
-}
-
-func (h *V1Client) ForceDeleteCluster(uid string, forceDelete bool) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	cluster, err := h.GetCluster(uid)
+func (h *V1Client) DeleteCluster(client clusterC.ClientService, uid string, forceDelete bool) error {
+	cluster, err := h.GetCluster(client, uid)
 	if err != nil || cluster == nil {
 		return err
 	}
@@ -56,7 +29,7 @@ func (h *V1Client) ForceDeleteCluster(uid string, forceDelete bool) error {
 	return err
 }
 
-func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
+func (h *V1Client) GetCluster(client clusterC.ClientService, uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterFn != nil {
 		return h.GetClusterFn(uid)
 	}

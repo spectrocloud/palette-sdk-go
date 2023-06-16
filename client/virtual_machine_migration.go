@@ -13,7 +13,7 @@ func (h *V1Client) MigrateVirtualMachineNodeToNode(clusterUid string, vmName str
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}

@@ -13,7 +13,7 @@ func (h *V1Client) StartVirtualMachine(clusterUid string, vmName string, vmNames
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}
@@ -44,7 +44,7 @@ func (h *V1Client) StopVirtualMachine(clusterUid string, vmName string, vmNamesp
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}
@@ -75,7 +75,7 @@ func (h *V1Client) PauseVirtualMachine(clusterUid string, vmName string, vmNames
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmName
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}
@@ -137,7 +137,7 @@ func (h *V1Client) RestartVirtualMachine(clusterUid string, vmName string, vmNam
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(client, clusterUid)
 	if err != nil {
 		return err
 	}

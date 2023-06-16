@@ -18,7 +18,7 @@ func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAd
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(client, uid)
 	if err != nil {
 		return "", err
 	}
@@ -59,7 +59,7 @@ func (h *V1Client) DeleteDataVolume(uid string, namespace string, name string, b
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(client, uid)
 	if err != nil {
 		return err
 	}
