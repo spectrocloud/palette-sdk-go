@@ -7,7 +7,7 @@ require (
 	github.com/go-openapi/strfmt v0.20.0
 	github.com/pkg/errors v0.9.1
 	github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08
-	github.com/spectrocloud/hapi v1.14.1-0.20230521133257-d73b9e4aea65
+	github.com/spectrocloud/hapi v1.14.1-0.20230619173315-64e3e574c13d
 	github.com/stretchr/testify v1.7.0
 )
 
@@ -39,3 +39,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
+
+//replace github.com/spectrocloud/hapi => ../hapi

@@ -7,7 +7,7 @@ import (
 	userC "github.com/spectrocloud/hapi/user/client/v1"
 )
 
-func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, ProfileContext string) (string, error) {
+func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext string) (string, error) {
 	client, err := h.GetUserClient()
 	SSHEntity := &models.V1UserAssetSSHEntity{
 		Metadata: &models.V1ObjectMetaInputEntity{
@@ -21,7 +21,7 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, ProfileContext stri
 		return "", err
 	}
 	params := userC.NewV1UserAssetsSSHCreateParams()
-	switch ProfileContext {
+	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(SSHEntity)
 	case "tenant":
@@ -38,37 +38,44 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, ProfileContext stri
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetSSHKeyUID(SSHKeyName string) (string, error) {
-	client, err := h.GetUserClient()
-	SSHKeys, err := client.V1UsersAssetSSHGet(nil)
-	if err != nil {
-		return "", err
-	}
-	print(SSHKeys)
-	//for _, key := range SSHKeys.Get {
-	//	if key.Metadata.Name == projectName {
-	//		return project.Metadata.UID, nil
-	//	}
-	//}
-
-	return "", fmt.Errorf("project '%s' not found", SSHKeyName)
-}
-
-func (h *V1Client) GetSSHKeyByUID(uid string, ProfileContext string) (*models.V1UserAssetSSH, error) {
+func (h *V1Client) GetSSHKeyByName(SSHKeyName string, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return nil, err
 	}
-	params := userC.NewV1UsersAssetSSHGetParams()
-	switch ProfileContext {
+	params := userC.NewV1UsersAssetsSSHGetParams()
+	switch SSHKeyContext {
 	case "project":
-		params = userC.NewV1UsersAssetSSHGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = userC.NewV1UsersAssetsSSHGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = userC.NewV1UsersAssetSSHGetParams().WithUID(uid)
+		params = userC.NewV1UsersAssetsSSHGetParams()
 	default:
 		return nil, errors.New("invalid scope")
 	}
-	SSHKey, err := client.V1UsersAssetSSHGet(params)
+	SSHKeys, err := client.V1UsersAssetsSSHGet(params)
+	for _, key := range SSHKeys.Payload.Items {
+		if key.Metadata.Name == SSHKeyName {
+			return key, nil
+		}
+	}
+	return nil, fmt.Errorf("project '%s' not found", SSHKeyName)
+}
+
+func (h *V1Client) GetSSHKeyByUID(uid string, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
+	client, err := h.GetUserClient()
+	if err != nil {
+		return nil, err
+	}
+	params := userC.NewV1UsersAssetSSHGetUIDParams()
+	switch SSHKeyContext {
+	case "project":
+		params = userC.NewV1UsersAssetSSHGetUIDParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = userC.NewV1UsersAssetSSHGetUIDParams().WithUID(uid)
+	default:
+		return nil, errors.New("invalid scope")
+	}
+	SSHKey, err := client.V1UsersAssetSSHGetUID(params)
 	if err != nil || SSHKey == nil {
 		return nil, err
 	}
@@ -76,54 +83,13 @@ func (h *V1Client) GetSSHKeyByUID(uid string, ProfileContext string) (*models.V1
 	return SSHKey.Payload, nil
 }
 
-//func (h *V1Client) GetSSHKeys() (*models.V1ProjectsMetadata, error) {
-//	client, err := h.GetHashboardClient()
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	params := hashboardC.NewV1ProjectsMetadataParams()
-//
-//	projects, err := client.V1ProjectsMetadata(params)
-//	if err != nil || projects == nil {
-//		// to support 2.6 projects list
-//		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-//			limit := int64(0)
-//			userClient, err := h.GetUserClient()
-//			if err != nil {
-//				return nil, err
-//			}
-//			oldParams := userC.NewV1ProjectsListParams().WithLimit(&limit)
-//			oldProjects, err := userClient.V1ProjectsList(oldParams)
-//			if err != nil || oldProjects == nil {
-//				return nil, err
-//			}
-//			ret := make([]*models.V1ProjectMetadata, 0)
-//			for _, pr := range oldProjects.Payload.Items {
-//				ret = append(ret, &models.V1ProjectMetadata{
-//					Metadata: &models.V1ObjectEntity{
-//						UID:  pr.Metadata.UID,
-//						Name: pr.Metadata.Name,
-//					},
-//				})
-//			}
-//			return &models.V1ProjectsMetadata{
-//				Items: ret,
-//			}, nil
-//		}
-//		return nil, err
-//	}
-//
-//	return projects.Payload, nil
-//}
-
-func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, ProfileContext string) error {
+func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyContext string) error {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return err
 	}
 	params := userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
-	switch ProfileContext {
+	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
 	case "tenant":
@@ -139,13 +105,13 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, Profile
 	return nil
 }
 
-func (h *V1Client) DeleteSSHKey(uid string, ProfileContext string) error {
+func (h *V1Client) DeleteSSHKey(uid string, SSHKeyContext string) error {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return err
 	}
 	params := userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	switch ProfileContext {
+	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
