@@ -2,23 +2,27 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) StartVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) StartVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
 	}
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, clusterUid)
+	}
+
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMStartParams
 	switch scope {
 	case "project":
@@ -37,19 +41,21 @@ func (h *V1Client) StartVirtualMachine(clusterUid string, vmName string, vmNames
 	return nil
 }
 
-func (h *V1Client) StopVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) StopVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
 	}
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, clusterUid)
+	}
+
 	var params *clusterC.V1SpectroClustersVMStopParams
 	switch scope {
 	case "project":
@@ -68,19 +74,21 @@ func (h *V1Client) StopVirtualMachine(clusterUid string, vmName string, vmNamesp
 	return nil
 }
 
-func (h *V1Client) PauseVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) PauseVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
 	}
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, clusterUid)
+	}
+
 	var params *clusterC.V1SpectroClustersVMPauseParams
 	switch scope {
 	case "project":
@@ -99,19 +107,21 @@ func (h *V1Client) PauseVirtualMachine(clusterUid string, vmName string, vmNames
 	return nil
 }
 
-func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) ResumeVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
 	}
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, clusterUid)
+	}
+
 	var params *clusterC.V1SpectroClustersVMResumeParams
 	switch scope {
 	case "project":
@@ -130,19 +140,21 @@ func (h *V1Client) ResumeVirtualMachine(clusterUid string, vmName string, vmName
 	return nil
 }
 
-func (h *V1Client) RestartVirtualMachine(clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) RestartVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
 	}
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, clusterUid)
+	}
+
 	var params *clusterC.V1SpectroClustersVMRestartParams
 	switch scope {
 	case "project":

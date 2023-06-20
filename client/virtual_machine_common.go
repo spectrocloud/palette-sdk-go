@@ -59,12 +59,10 @@ func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*mode
 	}
 
 	uid := cluster.Metadata.UID
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMListParams
 
 	// switch cluster scope
-	switch scope {
+	switch cluster.Metadata.Annotations["scope"] {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx)
 	case "tenant":

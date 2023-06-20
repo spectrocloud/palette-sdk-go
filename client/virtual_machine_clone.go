@@ -7,23 +7,25 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CloneVirtualMachine(clusterUid string, cloneVMFromName string, vmName string, vmNamespace string) error {
+func (h *V1Client) CloneVirtualMachine(scope string, clusterUid string, cloneVMFromName string, vmName string, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(clusterUid)
+	cluster, err := h.GetCluster(scope, clusterUid)
+	if err != nil {
+		return err
+	}
+	if cluster == nil {
+		return errors.New("cluster not found")
+	}
 
 	body := &models.V1SpectroClusterVMCloneEntity{
 		CloneName: &vmName,
 	}
-	if err != nil {
-		return err
-	}
-	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
+
 	var params *clusterC.V1SpectroClustersVMCloneParams
 	switch scope {
 	case "project":

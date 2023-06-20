@@ -8,14 +8,14 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) CreateVirtualMachine(scope string, uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,6 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	}
 
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMCreateParams
 	switch scope {
 	case "project":
@@ -65,11 +64,10 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 
 	clusterUid := cluster.Metadata.UID
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMUpdateParams
 
 	// switch cluster scope
-	switch scope {
+	switch cluster.Metadata.Annotations["scope"] {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
 	case "tenant":
@@ -99,19 +97,22 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	//return nil, nil
 }
 
-func (h *V1Client) DeleteVirtualMachine(uid string, namespace string, name string) error {
+func (h *V1Client) DeleteVirtualMachine(scope string, uid string, namespace string, name string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
 		return err
 	}
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, uid)
+	}
+
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMDeleteParams
 	switch scope {
 	case "project":
