@@ -20,7 +20,7 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext strin
 	if err != nil {
 		return "", err
 	}
-	params := userC.NewV1UserAssetsSSHCreateParams()
+	var params *userC.V1UserAssetsSSHCreateParams
 	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(SSHEntity)
