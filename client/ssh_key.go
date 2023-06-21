@@ -43,7 +43,7 @@ func (h *V1Client) GetSSHKeyByName(SSHKeyName string, SSHKeyContext string) (*mo
 	if err != nil {
 		return nil, err
 	}
-	params := userC.NewV1UsersAssetsSSHGetParams()
+	var params *userC.V1UsersAssetsSSHGetParams
 	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetsSSHGetParamsWithContext(h.Ctx)
@@ -53,6 +53,9 @@ func (h *V1Client) GetSSHKeyByName(SSHKeyName string, SSHKeyContext string) (*mo
 		return nil, errors.New("invalid scope")
 	}
 	SSHKeys, err := client.V1UsersAssetsSSHGet(params)
+	if err != nil {
+		return nil, err
+	}
 	for _, key := range SSHKeys.Payload.Items {
 		if key.Metadata.Name == SSHKeyName {
 			return key, nil
@@ -66,7 +69,7 @@ func (h *V1Client) GetSSHKeyByUID(uid string, SSHKeyContext string) (*models.V1U
 	if err != nil {
 		return nil, err
 	}
-	params := userC.NewV1UsersAssetSSHGetUIDParams()
+	var params *userC.V1UsersAssetSSHGetUIDParams
 	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetSSHGetUIDParamsWithContext(h.Ctx).WithUID(uid)
@@ -88,7 +91,7 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyC
 	if err != nil {
 		return err
 	}
-	params := userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
+	var params *userC.V1UsersAssetSSHUpdateParams
 	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
@@ -110,7 +113,7 @@ func (h *V1Client) DeleteSSHKey(uid string, SSHKeyContext string) error {
 	if err != nil {
 		return err
 	}
-	params := userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	var params *userC.V1UsersAssetSSHDeleteParams
 	switch SSHKeyContext {
 	case "project":
 		params = userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
