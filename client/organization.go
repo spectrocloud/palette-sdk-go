@@ -55,7 +55,7 @@ func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
 }
 
 func (h *V1Client) PrintLoginBanner(orgName string) error {
-	client, err := h.GetAuthClient()
+	client, err := h.GetNoAuthClient()
 	if err != nil {
 		return err
 	}
