@@ -2,14 +2,14 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) IsVMExists(clusterUid string, vmName string, vmNamespace string) (bool, error) {
-	vm, err := h.GetVirtualMachine(clusterUid, vmNamespace, vmName)
+func (h *V1Client) IsVMExists(scope string, clusterUid string, vmName string, vmNamespace string) (bool, error) {
+	vm, err := h.GetVirtualMachine(scope, clusterUid, vmNamespace, vmName)
 	if err != nil {
 		return false, err
 	}
@@ -19,7 +19,7 @@ func (h *V1Client) IsVMExists(clusterUid string, vmName string, vmNamespace stri
 	return false, nil
 }
 
-func (h *V1Client) GetVirtualMachineWithoutStatus(uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachineWithoutStatus(scope string, uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineWithoutStatusFn != nil {
 		return h.GetVirtualMachineWithoutStatusFn(uid)
 	}
@@ -28,26 +28,21 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid string, name string, names
 		return nil, err
 	}
 
-	params := clusterC.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
-	success, err := client.V1SpectroClustersVMGet(params)
-	// handle tenant context here cluster may be a tenant cluster
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
-		params := clusterC.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
-		success, err = client.V1SpectroClustersVMGet(params)
-		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
-			return nil, nil
-		} else if err != nil {
-			return nil, err
-		}
-		//return nil, nil
+	var params *clusterC.V1SpectroClustersVMGetParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
+	default:
+		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 500 { // 500 is the code returned in case vm is not found instead of 404
-		return nil, nil
-	} else if err != nil {
+
+	success, err := client.V1SpectroClustersVMGet(params)
+	if err != nil {
 		return nil, err
 	}
 
-	// special check if the cluster is marked deleted
 	vm := success.Payload
 	return vm, nil
 }

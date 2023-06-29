@@ -8,13 +8,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersAksCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersAksCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersAksCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersAksCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersAksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err

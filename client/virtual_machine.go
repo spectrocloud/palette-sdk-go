@@ -45,11 +45,11 @@ func (h *V1Client) CreateVirtualMachine(scope string, uid string, body *models.V
 	return vm.Payload, nil
 }
 
-func (h *V1Client) GetVirtualMachine(uid string, namespace string, name string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachine(scope string, uid string, namespace string, name string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineFn != nil {
 		return h.GetVirtualMachineFn(uid)
 	}
-	vm, err := h.GetVirtualMachineWithoutStatus(uid, name, namespace)
+	vm, err := h.GetVirtualMachineWithoutStatus(scope, uid, name, namespace)
 	if err != nil {
 		return nil, err
 	}
@@ -63,11 +63,12 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	}
 
 	clusterUid := cluster.Metadata.UID
+	scope := cluster.Metadata.Annotations["scope"]
 	// get cluster scope
 	var params *clusterC.V1SpectroClustersVMUpdateParams
 
 	// switch cluster scope
-	switch cluster.Metadata.Annotations["scope"] {
+	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
 	case "tenant":
@@ -79,7 +80,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	params = params.WithUID(clusterUid).WithBody(body).WithNamespace(body.Metadata.Namespace).WithVMName(vmName)
 
 	// check if vm exists, return error
-	exists, err := h.IsVMExists(clusterUid, vmName, body.Metadata.Namespace)
+	exists, err := h.IsVMExists(scope, clusterUid, vmName, body.Metadata.Namespace)
 	if err != nil {
 		return nil, err
 	}
