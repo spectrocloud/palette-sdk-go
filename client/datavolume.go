@@ -8,7 +8,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error) {
+func (h *V1Client) CreateDataVolume(scope string, uid string, name string, body *models.V1VMAddVolumeEntity) (string, error) {
 	if h.CreateDataVolumeFn != nil {
 		return h.CreateDataVolumeFn(uid, name, body)
 	}
@@ -18,7 +18,7 @@ func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAd
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
 		return "", err
 	}
@@ -29,7 +29,6 @@ func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAd
 	}
 
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMAddVolumeParams
 	switch scope {
 	case "project":
@@ -49,7 +48,7 @@ func (h *V1Client) CreateDataVolume(uid string, name string, body *models.V1VMAd
 	return volume.AuditUID, nil
 }
 
-func (h *V1Client) DeleteDataVolume(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
+func (h *V1Client) DeleteDataVolume(scope string, uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
 	if h.DeleteDataVolumeFn != nil {
 		return h.DeleteDataVolumeFn(uid, namespace, name, body)
 	}
@@ -59,12 +58,15 @@ func (h *V1Client) DeleteDataVolume(uid string, namespace string, name string, b
 	}
 
 	// get cluster
-	cluster, err := h.GetCluster(uid)
+	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
 		return err
 	}
+	if cluster == nil {
+		return fmt.Errorf("cluster not found for scope %s and uid %s", scope, uid)
+	}
+
 	// get cluster scope
-	scope := cluster.Metadata.Annotations["scope"]
 	var params *clusterC.V1SpectroClustersVMRemoveVolumeParams
 	switch scope {
 	case "project":
