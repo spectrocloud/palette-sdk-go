@@ -170,15 +170,20 @@ func (h *V1Client) getTransport() (*transport.Runtime, error) {
 		}
 	}
 
-	httpTransport := transport.New(hubbleUri, "", schemes)
+	httpTransport := h.baseTransport()
 	if h.apikey != "" {
 		httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
 	} else {
 		httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authTokenKey, authTokenInput, authToken.token.Authorization)
 	}
+	return httpTransport, nil
+}
+
+func (h *V1Client) baseTransport() *transport.Runtime {
+	httpTransport := transport.New(hubbleUri, "", schemes)
 	httpTransport.RetryAttempts = h.RetryAttempts
 	httpTransport.Debug = h.transportDebug
-	return httpTransport, nil
+	return httpTransport
 }
 
 // Clients
@@ -188,6 +193,11 @@ func (h *V1Client) GetAuthClient() (authC.ClientService, error) {
 		return nil, err
 	}
 
+	return authC.New(httpTransport, strfmt.Default), nil
+}
+
+func (h *V1Client) GetNoAuthClient() (authC.ClientService, error) {
+	httpTransport := h.baseTransport()
 	return authC.New(httpTransport, strfmt.Default), nil
 }
 
