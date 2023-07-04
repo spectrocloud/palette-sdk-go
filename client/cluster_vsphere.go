@@ -8,7 +8,7 @@ import (
 
 // Cluster
 
-func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity, ClusterContext string) (string, error) {
 	if h.CreateClusterVsphereFn != nil {
 		return h.CreateClusterVsphereFn(cluster)
 	}
@@ -17,7 +17,14 @@ func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterE
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersVsphereCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersVsphereCreate(params)
 	if err != nil {
 		return "", err
