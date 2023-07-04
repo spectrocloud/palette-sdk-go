@@ -1,6 +1,7 @@
 package client
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -183,7 +184,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 	return nil, nil
 }
 
-func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
+func (h *V1Client) GetClusterKubeConfig(uid string, ClusterContext string) (string, error) {
 	if h.GetClusterKubeConfigFn != nil {
 		return h.GetClusterKubeConfigFn(uid)
 	}
@@ -192,20 +193,18 @@ func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
 		return "", err
 	}
 
-	builder := new(strings.Builder)
-
-	params := clusterC.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
-	_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
-	// handle tenant context here cluster may be a tenant cluster
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		params := clusterC.NewV1SpectroClustersUIDKubeConfigParams().WithUID(uid)
-		_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
-		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-			return "", nil
-		} else if err != nil {
-			return "", err
-		}
+	var params *clusterC.V1SpectroClustersUIDKubeConfigParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDKubeConfigParams().WithUID(uid)
+	default:
+		return "", errors.New("invalid cluster scope specified")
 	}
+
+	builder := new(strings.Builder)
+	_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil

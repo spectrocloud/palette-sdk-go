@@ -1,12 +1,15 @@
 package client
 
 import (
+	"errors"
+
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterBackupConfig(uid string) (*models.V1ClusterBackup, error) {
+func (h *V1Client) GetClusterBackupConfig(uid, ClusterContext string) (*models.V1ClusterBackup, error) {
 	if h.GetClusterBackupConfigFn != nil {
 		return h.GetClusterBackupConfigFn(uid)
 	}
@@ -15,7 +18,17 @@ func (h *V1Client) GetClusterBackupConfig(uid string) (*models.V1ClusterBackup, 
 		return nil, err
 	}
 
-	params := clusterC.NewV1ClusterFeatureBackupGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1ClusterFeatureBackupGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureBackupGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureBackupGetParams().WithUID(uid)
+	default:
+		return nil, errors.New("invalid cluster scope specified")
+
+	}
+
 	success, err := client.V1ClusterFeatureBackupGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) || herr.IsBackupNotConfigured(err) {
@@ -47,14 +60,4 @@ func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1Cluste
 	params := clusterC.NewV1ClusterFeatureBackupUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	_, err = client.V1ClusterFeatureBackupUpdate(params)
 	return err
-}
-
-func (h *V1Client) ApplyClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig) error {
-	if policy, err := h.GetClusterBackupConfig(uid); err != nil {
-		return err
-	} else if policy == nil {
-		return h.CreateClusterBackupConfig(uid, config)
-	} else {
-		return h.UpdateClusterBackupConfig(uid, config)
-	}
 }
