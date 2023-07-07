@@ -6,8 +6,6 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-// Cloud Account
-
 func (h *V1Client) CreateCloudAccountCoxEdge(account *models.V1CoxEdgeAccount, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -93,7 +91,8 @@ func (h *V1Client) GetCloudAccountsCoxEdge() ([]*models.V1CoxEdgeAccount, error)
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsCoxEdgeListParamsWithContext(h.Ctx)
+	limit := int64(0)
+	params := clusterC.NewV1CloudAccountsCoxEdgeListParamsWithContext(h.Ctx).WithLimit(&limit)
 	response, err := client.V1CloudAccountsCoxEdgeList(params)
 	if err != nil {
 		return nil, err

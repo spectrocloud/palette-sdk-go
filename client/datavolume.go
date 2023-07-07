@@ -8,7 +8,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateDataVolume(scope string, uid string, name string, body *models.V1VMAddVolumeEntity) (string, error) {
+func (h *V1Client) CreateDataVolume(scope, uid, name string, body *models.V1VMAddVolumeEntity) (string, error) {
 	if h.CreateDataVolumeFn != nil {
 		return h.CreateDataVolumeFn(uid, name, body)
 	}
@@ -48,7 +48,7 @@ func (h *V1Client) CreateDataVolume(scope string, uid string, name string, body 
 	return volume.AuditUID, nil
 }
 
-func (h *V1Client) DeleteDataVolume(scope string, uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error {
+func (h *V1Client) DeleteDataVolume(scope, uid, namespace, name string, body *models.V1VMRemoveVolumeEntity) error {
 	if h.DeleteDataVolumeFn != nil {
 		return h.DeleteDataVolumeFn(uid, namespace, name, body)
 	}

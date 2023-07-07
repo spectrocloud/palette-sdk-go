@@ -28,7 +28,7 @@ func (h *V1Client) CreateClusterCoxEdge(cluster *models.V1SpectroCoxEdgeClusterE
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
@@ -39,7 +39,7 @@ func (h *V1Client) CreateMachinePoolCoxEdge(cloudConfigId string, machinePool *m
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolCoxEdge(cloudConfigId string, machinePool *m
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolCoxEdge(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolCoxEdge(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
@@ -64,7 +64,7 @@ func (h *V1Client) DeleteMachinePoolCoxEdge(cloudConfigId string, machinePoolNam
 	return err
 }
 
-func (h *V1Client) GetCloudConfigCoxEdge(configUID string) (*models.V1CoxEdgeCloudConfig, error) {
+func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*models.V1CoxEdgeCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

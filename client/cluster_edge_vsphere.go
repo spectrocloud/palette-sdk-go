@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersVsphereCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersVsphereCreate(params)
 	if err != nil {
 		return "", err
@@ -46,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolEdgeVsphere(cloudConfigId string, machinePoo
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil

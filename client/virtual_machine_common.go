@@ -8,7 +8,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) IsVMExists(scope string, clusterUid string, vmName string, vmNamespace string) (bool, error) {
+func (h *V1Client) IsVMExists(scope, clusterUid, vmName, vmNamespace string) (bool, error) {
 	vm, err := h.GetVirtualMachine(scope, clusterUid, vmNamespace, vmName)
 	if err != nil {
 		return false, err
@@ -19,7 +19,7 @@ func (h *V1Client) IsVMExists(scope string, clusterUid string, vmName string, vm
 	return false, nil
 }
 
-func (h *V1Client) GetVirtualMachineWithoutStatus(scope string, uid string, name string, namespace string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineWithoutStatusFn != nil {
 		return h.GetVirtualMachineWithoutStatusFn(uid)
 	}

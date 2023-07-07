@@ -17,7 +17,6 @@ func toV1OverlordsUIDVsphereAccountValidateBody(account *models.V1VsphereAccount
 	}
 }
 
-// Cloud Account
 func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -126,7 +125,8 @@ func (h *V1Client) GetCloudAccountsVsphere() ([]*models.V1VsphereAccount, error)
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx)
+	limit := int64(0)
+	params := clusterC.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx).WithLimit(&limit)
 	response, err := client.V1CloudAccountsVsphereList(params)
 	if err != nil {
 		return nil, err

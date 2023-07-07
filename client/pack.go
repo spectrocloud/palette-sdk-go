@@ -76,7 +76,7 @@ func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1P
 	return packs, nil
 }
 
-func (h *V1Client) GetPacksByNameAndRegistry(name string, registryUID string, packContext string) (*models.V1PackTagEntity, error) {
+func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext string) (*models.V1PackTagEntity, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func (h *V1Client) GetPack(uid string) (*models.V1PackTagEntity, error) {
 	return response.Payload, nil
 }
 
-func (h *V1Client) GetPackRegistry(packUID string, packType string) string {
+func (h *V1Client) GetPackRegistry(packUID, packType string) string {
 	if packUID == "uid" || packType == "manifest" {
 		registry, err := h.GetPackRegistryCommonByName("Public Repo")
 		if err != nil {

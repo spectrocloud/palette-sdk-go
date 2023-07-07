@@ -79,7 +79,7 @@ func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, wo *models.V1Wo
 	return nil
 }
 
-func (h *V1Client) UpdateWorkspaceRBACS(uid string, rbac_uid string, wo *models.V1ClusterRbac) error {
+func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, wo *models.V1ClusterRbac) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

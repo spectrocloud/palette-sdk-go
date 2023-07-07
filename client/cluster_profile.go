@@ -100,7 +100,7 @@ func (h *V1Client) CreateClusterProfile(client clusterC.ClientService, clusterPr
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) PublishClusterProfile(client clusterC.ClientService, uid string, ProfileContext string) error {
+func (h *V1Client) PublishClusterProfile(client clusterC.ClientService, uid, ProfileContext string) error {
 	var params *clusterC.V1ClusterProfilesPublishParams
 	switch ProfileContext {
 	case "project":

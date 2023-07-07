@@ -38,7 +38,7 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext strin
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetSSHKeyByName(SSHKeyName string, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
+func (h *V1Client) GetSSHKeyByName(SSHKeyName, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (h *V1Client) GetSSHKeyByName(SSHKeyName string, SSHKeyContext string) (*mo
 	return nil, fmt.Errorf("project '%s' not found", SSHKeyName)
 }
 
-func (h *V1Client) GetSSHKeyByUID(uid string, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
+func (h *V1Client) GetSSHKeyByUID(uid, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyC
 	return nil
 }
 
-func (h *V1Client) DeleteSSHKey(uid string, SSHKeyContext string) error {
+func (h *V1Client) DeleteSSHKey(uid, SSHKeyContext string) error {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return err

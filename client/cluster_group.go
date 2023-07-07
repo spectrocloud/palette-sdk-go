@@ -35,7 +35,7 @@ func (h *V1Client) CreateClusterGroup(cluster *models.V1ClusterGroupEntity, scop
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) DeleteClusterGroup(uid string, scope string) error {
+func (h *V1Client) DeleteClusterGroup(uid, scope string) error {
 	if h.DeleteClusterGroupFn != nil {
 		return h.DeleteClusterGroupFn(uid)
 	}
@@ -56,7 +56,7 @@ func (h *V1Client) DeleteClusterGroup(uid string, scope string) error {
 	return err
 }
 
-func (h *V1Client) GetClusterGroup(uid string, scope string) (*models.V1ClusterGroup, error) {
+func (h *V1Client) GetClusterGroup(uid, scope string) (*models.V1ClusterGroup, error) {
 	if h.GetClusterGroupFn != nil {
 		return h.GetClusterGroupFn(uid)
 	}
@@ -72,7 +72,7 @@ func (h *V1Client) GetClusterGroup(uid string, scope string) (*models.V1ClusterG
 	return group, nil
 }
 
-func (h *V1Client) GetClusterGroupWithoutStatus(uid string, scope string) (*models.V1ClusterGroup, error) {
+func (h *V1Client) GetClusterGroupWithoutStatus(uid, scope string) (*models.V1ClusterGroup, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string, scope string) (*mode
 	return cluster, nil
 }
 
-func (h *V1Client) GetClusterGroupByName(name string, clusterGroupContext string) (*models.V1ObjectScopeEntity, error) {
+func (h *V1Client) GetClusterGroupByName(name, clusterGroupContext string) (*models.V1ObjectScopeEntity, error) {
 	metadata, err := h.getClusterGroupMetadata(clusterGroupContext)
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func (h *V1Client) GetClusterGroupByName(name string, clusterGroupContext string
 	return nil, nil
 }
 
-func (h *V1Client) GetClusterGroupByNameForProject(name string, clusterGroupContext string) (*models.V1ClusterGroupSummary, error) {
+func (h *V1Client) GetClusterGroupByNameForProject(name, clusterGroupContext string) (*models.V1ClusterGroupSummary, error) {
 	summaries, err := h.GetClusterGroupSummaries(clusterGroupContext)
 	if err != nil {
 		return nil, err

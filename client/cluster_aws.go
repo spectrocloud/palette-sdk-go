@@ -28,7 +28,7 @@ func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, C
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *model
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *model
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAws(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolAws(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -64,7 +64,7 @@ func (h *V1Client) DeleteMachinePoolAws(cloudConfigId string, machinePoolName st
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAws(configUID string) (*models.V1AwsCloudConfig, error) {
+func (h *V1Client) GetCloudConfigAws(configUID, ClusterContext string) (*models.V1AwsCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

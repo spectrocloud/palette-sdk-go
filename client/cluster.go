@@ -13,7 +13,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) DeleteCluster(scope string, uid string) error {
+func (h *V1Client) DeleteCluster(scope, uid string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -36,7 +36,7 @@ func (h *V1Client) DeleteCluster(scope string, uid string) error {
 	return err
 }
 
-func (h *V1Client) ForceDeleteCluster(scope string, uid string, forceDelete bool) error {
+func (h *V1Client) ForceDeleteCluster(scope, uid string, forceDelete bool) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func (h *V1Client) ForceDeleteCluster(scope string, uid string, forceDelete bool
 	return err
 }
 
-func (h *V1Client) GetCluster(scope string, uid string) (*models.V1SpectroCluster, error) {
+func (h *V1Client) GetCluster(scope, uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterFn != nil {
 		return h.GetClusterFn(scope, uid)
 	}
@@ -139,7 +139,7 @@ func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroClust
 	return clusters, nil
 }
 
-func (h *V1Client) GetClusterWithoutStatus(scope string, uid string) (*models.V1SpectroCluster, error) {
+func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterWithoutStatusFn != nil {
 		return h.GetClusterWithoutStatusFn(uid)
 	}
@@ -184,7 +184,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 	return nil, nil
 }
 
-func (h *V1Client) GetClusterKubeConfig(uid string, ClusterContext string) (string, error) {
+func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, error) {
 	if h.GetClusterKubeConfigFn != nil {
 		return h.GetClusterKubeConfigFn(uid)
 	}

@@ -59,7 +59,7 @@ func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigId string, machinePool *m
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil

@@ -7,7 +7,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CloneVirtualMachine(scope string, clusterUid string, cloneVMFromName string, vmName string, vmNamespace string) error {
+func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

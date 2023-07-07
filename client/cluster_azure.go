@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersAzureCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersAzureCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersAzureCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersAzureCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersAzureCreate(params)
 	if err != nil {
 		return "", err
@@ -46,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolAzure(cloudConfigId string, machinePool *mod
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAzure(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolAzure(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
@@ -55,81 +62,6 @@ func (h *V1Client) DeleteMachinePoolAzure(cloudConfigId string, machinePoolName 
 	params := clusterC.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	_, err = client.V1CloudConfigsAzureMachinePoolDelete(params)
 	return err
-}
-
-// Cloud Account
-
-func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
-	params := clusterC.NewV1CloudAccountsAzureCreateParamsWithContext(h.Ctx).WithBody(account)
-	success, err := client.V1CloudAccountsAzureCreate(params)
-	if err != nil {
-		return "", err
-	}
-
-	return *success.Payload.UID, nil
-}
-
-func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
-	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsAzureUpdate(params)
-	return err
-}
-
-func (h *V1Client) DeleteCloudAccountAzure(uid string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
-	params := clusterC.NewV1CloudAccountsAzureDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	_, err = client.V1CloudAccountsAzureDelete(params)
-	return err
-}
-
-func (h *V1Client) GetCloudAccountAzure(uid string) (*models.V1AzureAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	params := clusterC.NewV1CloudAccountsAzureGetParamsWithContext(h.Ctx).WithUID(uid)
-	success, err := client.V1CloudAccountsAzureGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	return success.Payload, nil
-}
-
-func (h *V1Client) GetCloudAccountsAzure() ([]*models.V1AzureAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	params := clusterC.NewV1CloudAccountsAzureListParamsWithContext(h.Ctx)
-	response, err := client.V1CloudAccountsAzureList(params)
-	if err != nil {
-		return nil, err
-	}
-
-	accounts := make([]*models.V1AzureAccount, len(response.Payload.Items))
-	copy(accounts, response.Payload.Items)
-
-	return accounts, nil
 }
 
 func (h *V1Client) GetCloudConfigAzure(configUID string) (*models.V1AzureCloudConfig, error) {

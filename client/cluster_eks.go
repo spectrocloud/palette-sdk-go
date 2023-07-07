@@ -55,7 +55,7 @@ func (h *V1Client) UpdateMachinePoolEks(cloudConfigId string, machinePool *model
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEks(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEks(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil

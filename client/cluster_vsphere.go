@@ -60,7 +60,7 @@ func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigId string, machinePool *m
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

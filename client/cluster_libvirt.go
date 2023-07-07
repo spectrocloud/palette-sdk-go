@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterLibvirt(cluster *models.V1SpectroLibvirtClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterLibvirt(cluster *models.V1SpectroLibvirtClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersLibvirtCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersLibvirtCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersLibvirtCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersLibvirtCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersLibvirtCreate(params)
 	if err != nil {
 		return "", err
@@ -46,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolLibvirt(cloudConfigId string, machinePool *m
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolLibvirt(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolLibvirt(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil

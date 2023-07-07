@@ -3,6 +3,7 @@ package client
 import (
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
@@ -27,34 +28,48 @@ func (h *V1Client) GetClusterScanConfig(uid string) (*models.V1ClusterCompliance
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
+func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	var params *clusterC.V1ClusterFeatureComplianceScanCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureComplianceScanCreateParams().WithUID(uid).WithBody(config)
+	}
+
 	_, err = client.V1ClusterFeatureComplianceScanCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
+func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	var params *clusterC.V1ClusterFeatureComplianceScanUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureComplianceScanUpdateParams().WithUID(uid).WithBody(config)
+	}
+
 	_, err = client.V1ClusterFeatureComplianceScanUpdate(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
+func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
 	if policy, err := h.GetClusterScanConfig(uid); err != nil {
 		return err
 	} else if policy == nil {
-		return h.CreateClusterScanConfig(uid, config)
+		return h.CreateClusterScanConfig(uid, config, ClusterContext)
 	} else {
-		return h.UpdateClusterScanConfig(uid, config)
+		return h.UpdateClusterScanConfig(uid, config, ClusterContext)
 	}
 }

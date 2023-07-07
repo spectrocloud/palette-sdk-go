@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersEdgeNativeCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersEdgeNativeCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersEdgeNativeCreate(params)
 	if err != nil {
 		return "", err
@@ -46,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigId string, machinePool
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId, machinePoolName string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
