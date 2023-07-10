@@ -8,6 +8,21 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
+func (h *V1Client) GetOrganizationByName(name string) (*models.V1LoginResponse, error) {
+	client, err := h.GetAuthClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := authC.NewV1AuthOrgParams().WithOrgName(&name)
+	resp, err := client.V1AuthOrg(params)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+
+	return resp.Payload, nil
+}
+
 func (h *V1Client) ListOrganizations(scope string) ([]*models.V1Organization, error) {
 	client, err := h.GetAuthClient()
 	if err != nil {
