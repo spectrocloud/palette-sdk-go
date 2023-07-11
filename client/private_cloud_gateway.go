@@ -64,6 +64,21 @@ func (h *V1Client) GetPCGByName(name *string) (*models.V1Overlord, error) {
 	return overlord, nil
 }
 
+func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	codeParams := clusterC.NewV1OverlordsPairingCodeParams().WithContext(h.Ctx).WithCloudType(&cloudType)
+	ret, err := client.V1OverlordsPairingCode(codeParams)
+	if err != nil {
+		return "", err
+	}
+
+	return ret.Payload.PairingCode, nil
+}
+
 // PCG - vSphere
 
 func (h *V1Client) CreatePCGVsphere(uid string, cloudConfig *models.V1OverlordVsphereCloudConfig) (string, error) {
@@ -107,6 +122,20 @@ func (h *V1Client) GetPCGManifestVsphere(pairingCode string) (string, error) {
 		return "", err
 	}
 	return success.Payload.Manifest, nil
+}
+
+func (h *V1Client) GetPCGClusterProfileVsphere(uid string) (*models.V1ClusterProfile, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1OverlordsUIDVsphereClusterProfileParams().WithUID(uid)
+	resp, err := client.V1OverlordsUIDVsphereClusterProfile(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
 
 func (h *V1Client) CreateDDNSSearchDomainVsphere(vsphereDnsMapping *models.V1VsphereDNSMapping) error {
@@ -168,6 +197,20 @@ func (h *V1Client) GetPCGManifestOpenStack(pairingCode string) (string, error) {
 	return success.Payload.Manifest, nil
 }
 
+func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterProfile, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1OverlordsUIDOpenStackClusterProfileParams().WithUID(uid)
+	resp, err := client.V1OverlordsUIDOpenStackClusterProfile(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // PCG - MAAS
 
 func (h *V1Client) CreatePCGCloudAccountMaas(overlordUid string, account *models.V1OverlordMaasAccountCreate) (string, error) {
@@ -212,6 +255,20 @@ func (h *V1Client) GetPCGManifestMaas(pairingCode string) (string, error) {
 		return "", err
 	}
 	return success.Payload.Manifest, nil
+}
+
+func (h *V1Client) GetPCGClusterProfileMaas(uid string) (*models.V1ClusterProfile, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := clusterC.NewV1OverlordsUIDMaasClusterProfileParams().WithUID(uid)
+	resp, err := client.V1OverlordsUIDMaasClusterProfile(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
 
 // IP Pool
@@ -293,19 +350,4 @@ func (h *V1Client) DeleteIpPool(pcgUID, poolUID string) error {
 	params := clusterC.NewV1OverlordsUIDPoolDeleteParams().WithUID(pcgUID).WithPoolUID(poolUID)
 	_, err = client.V1OverlordsUIDPoolDelete(params)
 	return err
-}
-
-func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
-	codeParams := clusterC.NewV1OverlordsPairingCodeParams().WithContext(h.Ctx).WithCloudType(&cloudType)
-	ret, err := client.V1OverlordsPairingCode(codeParams)
-	if err != nil {
-		return "", err
-	}
-
-	return ret.Payload.PairingCode, nil
 }

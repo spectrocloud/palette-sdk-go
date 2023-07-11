@@ -205,10 +205,8 @@ github.com/sirupsen/logrus v1.6.0 h1:UBcNElsrwanuuMsnGSlYmtmgbb23qDR5dG+6X6Oo89I
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
 github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08 h1:AnOC0U+ExlKBeT5yF2Pg8PPfVOfxwOUBS/5deOl1Q4Y=
 github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08/go.mod h1:UnhUDpFEvtYh6m384r3xzj8/+Z6/hMp2O8whEMYVHec=
-github.com/spectrocloud/hapi v1.14.1-0.20230521133257-d73b9e4aea65 h1:mz46BzwOQg49P+CEGeMQgD7W6u3s0DmixMT4mudNQeA=
-github.com/spectrocloud/hapi v1.14.1-0.20230521133257-d73b9e4aea65/go.mod h1:9lX5c6bShSkAg24223A7XBCyJj4/Kr9w0YFv6Mf5ZlE=
-github.com/spectrocloud/hapi v1.14.1-0.20230619173315-64e3e574c13d h1:4R0CarVmnTRT0b4SlkFWZcwiNRtavjWAcwnSMYmGhGg=
-github.com/spectrocloud/hapi v1.14.1-0.20230619173315-64e3e574c13d/go.mod h1:9lX5c6bShSkAg24223A7XBCyJj4/Kr9w0YFv6Mf5ZlE=
+github.com/spectrocloud/hapi v1.14.1-0.20230708120006-0c3327c8c1bc h1:F7K8HjzLPa2DsMftC/hBQjCngEurPuH0mVdfOw7NziA=
+github.com/spectrocloud/hapi v1.14.1-0.20230708120006-0c3327c8c1bc/go.mod h1:O/Bkbw92QPSGPNQPqKt7Qlkn+9BKK/a22KTUlk76KHI=
 github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
 github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
