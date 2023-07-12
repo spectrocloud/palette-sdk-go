@@ -34,7 +34,7 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) error {
 	return nil
 }
 
-func (h *V1Client) GetMacro(name string, projectUID string) (*models.V1Macro, error) {
+func (h *V1Client) GetMacro(name, projectUID string) (*models.V1Macro, error) {
 	macros, err := h.GetMacros(projectUID)
 	if err != nil {
 		return nil, err
@@ -145,7 +145,7 @@ func hash(s string) uint32 {
 	return h.Sum32()
 }
 
-func (h *V1Client) GetMacroId(uid string, name string) string {
+func (h *V1Client) GetMacroId(uid, name string) string {
 	var hash string
 	if uid != "" {
 		hash = h.StringHash(name + uid)

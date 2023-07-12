@@ -40,13 +40,20 @@ func (h *V1Client) GetClusterBackupConfig(uid, ClusterContext string) (*models.V
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig) error {
+func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1ClusterFeatureBackupCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	var params *clusterC.V1ClusterFeatureBackupCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureBackupCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureBackupCreateParams().WithUID(uid).WithBody(config)
+	}
+
 	_, err = client.V1ClusterFeatureBackupCreate(params)
 	return err
 }

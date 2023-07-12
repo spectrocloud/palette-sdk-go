@@ -186,7 +186,7 @@ func (h *V1Client) UpdateTeamResourceRole(uid string, body *models.V1ResourceRol
 	return nil
 }
 
-func (h *V1Client) GetTeamResourceRole(uid string, name string) (*models.V1UIDSummary, error) {
+func (h *V1Client) GetTeamResourceRole(uid, name string) (*models.V1UIDSummary, error) {
 	client, err := h.GetUserClient()
 	if err != nil {
 		return nil, err

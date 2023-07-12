@@ -8,7 +8,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateVirtualMachine(scope string, uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (h *V1Client) CreateVirtualMachine(scope string, uid string, body *models.V
 	return vm.Payload, nil
 }
 
-func (h *V1Client) GetVirtualMachine(scope string, uid string, namespace string, name string) (*models.V1ClusterVirtualMachine, error) {
+func (h *V1Client) GetVirtualMachine(scope, uid, namespace, name string) (*models.V1ClusterVirtualMachine, error) {
 	if h.GetVirtualMachineFn != nil {
 		return h.GetVirtualMachineFn(uid)
 	}
@@ -98,7 +98,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	//return nil, nil
 }
 
-func (h *V1Client) DeleteVirtualMachine(scope string, uid string, namespace string, name string) error {
+func (h *V1Client) DeleteVirtualMachine(scope, uid, namespace, name string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

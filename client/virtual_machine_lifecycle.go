@@ -7,7 +7,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) StartVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) StartVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -41,7 +41,7 @@ func (h *V1Client) StartVirtualMachine(scope string, clusterUid string, vmName s
 	return nil
 }
 
-func (h *V1Client) StopVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) StopVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -74,7 +74,7 @@ func (h *V1Client) StopVirtualMachine(scope string, clusterUid string, vmName st
 	return nil
 }
 
-func (h *V1Client) PauseVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) PauseVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func (h *V1Client) PauseVirtualMachine(scope string, clusterUid string, vmName s
 	return nil
 }
 
-func (h *V1Client) ResumeVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) ResumeVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -140,7 +140,7 @@ func (h *V1Client) ResumeVirtualMachine(scope string, clusterUid string, vmName 
 	return nil
 }
 
-func (h *V1Client) RestartVirtualMachine(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) RestartVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

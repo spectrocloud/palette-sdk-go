@@ -12,7 +12,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName string, version string) (*models.V1AppProfileSummary, string, string, error) {
+func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version string) (*models.V1AppProfileSummary, string, string, error) {
 	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, "", "", err
@@ -81,7 +81,7 @@ func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*
 	return success.Payload.Spec.AppTiers, nil
 }
 
-func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUID string, tierUID string, manifestUID string) (string, error) {
+func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUID, tierUID, manifestUID string) (string, error) {
 	if h.GetApplicationProfileTierManifestContentFn != nil {
 		return h.GetApplicationProfileTierManifestContentFn(applicationProfileUID, tierUID, manifestUID)
 	}
@@ -173,7 +173,7 @@ func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers 
 	return err
 }
 
-func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID string, tierUID string, appTier *models.V1AppTierUpdateEntity, ProfileContext string) error {
+func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, appTier *models.V1AppTierUpdateEntity, ProfileContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

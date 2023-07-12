@@ -6,8 +6,6 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-// Cloud Account
-
 func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
@@ -47,19 +45,19 @@ func (h *V1Client) UpdateCloudAccountAws(account *models.V1AwsAccount) error {
 	return err
 }
 
-func (h *V1Client) DeleteCloudAccountAws(uid string) error {
+func (h *V1Client) DeleteCloudAccountAws(uid, AccountContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	account, err := h.GetCloudAccountAws(uid)
+	_, err = h.GetCloudAccountAws(uid, AccountContext)
 	if err != nil {
 		return err
 	}
 
 	var params *clusterC.V1CloudAccountsAwsDeleteParams
-	switch account.Metadata.Annotations["scope"] {
+	switch AccountContext {
 	case "project":
 		params = clusterC.NewV1CloudAccountsAwsDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
@@ -69,13 +67,19 @@ func (h *V1Client) DeleteCloudAccountAws(uid string) error {
 	return err
 }
 
-func (h *V1Client) GetCloudAccountAws(uid string) (*models.V1AwsAccount, error) {
+func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1AwsAccount, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsAwsGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsAwsGetParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsAwsGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsAwsGetParams().WithUID(uid)
+	}
 	success, err := client.V1CloudAccountsAwsGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
 
@@ -93,7 +97,8 @@ func (h *V1Client) GetCloudAccountsAws() ([]*models.V1AwsAccount, error) {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsAwsListParamsWithContext(h.Ctx)
+	limit := int64(0)
+	params := clusterC.NewV1CloudAccountsAwsListParamsWithContext(h.Ctx).WithLimit(&limit)
 	response, err := client.V1CloudAccountsAwsList(params)
 	if err != nil {
 		return nil, err

@@ -53,7 +53,7 @@ type V1Client struct {
 
 	// Cluster generic
 	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
-	GetClusterFn                func(scope string, uid string) (*models.V1SpectroCluster, error)
+	GetClusterFn                func(scope, uid string) (*models.V1SpectroCluster, error)
 	GetClusterKubeConfigFn      func(uid string) (string, error)
 	GetClusterBackupConfigFn    func(uid string) (*models.V1ClusterBackup, error)
 	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
@@ -95,18 +95,18 @@ type V1Client struct {
 	GetProjectUIDFn func(projectName string) (string, error)
 
 	// Alert
-	CreateAlertFn  func(body *models.V1Channel, projectUID string, component string) (string, error)
-	UpdateAlertFn  func(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error)
-	ReadAlertFn    func(projectUID string, component string, alertUID string) (*models.V1Channel, error)
-	DeleteAlertsFn func(projectUID string, component string, alertUID string) error
+	CreateAlertFn  func(body *models.V1Channel, projectUID, component string) (string, error)
+	UpdateAlertFn  func(body *models.V1Channel, projectUID, component, alertUID string) (string, error)
+	ReadAlertFn    func(projectUID, component, alertUID string) (*models.V1Channel, error)
+	DeleteAlertsFn func(projectUID, component, alertUID string) error
 
 	// Virtual Machines
 	GetVirtualMachineWithoutStatusFn func(string) (*models.V1ClusterVirtualMachine, error)
 	GetVirtualMachineFn              func(uid string) (*models.V1ClusterVirtualMachine, error)
 
 	// Data Volumes
-	CreateDataVolumeFn func(uid string, name string, body *models.V1VMAddVolumeEntity) (string, error)
-	DeleteDataVolumeFn func(uid string, namespace string, name string, body *models.V1VMRemoveVolumeEntity) error
+	CreateDataVolumeFn func(uid, name string, body *models.V1VMAddVolumeEntity) (string, error)
+	DeleteDataVolumeFn func(uid, namespace, name string, body *models.V1VMRemoveVolumeEntity) error
 
 	// Registry
 	CreateOciEcrRegistryFn func(registry *models.V1EcrRegistry) (string, error)
@@ -114,7 +114,7 @@ type V1Client struct {
 	GetOciRegistryFn       func(uid string) (*models.V1EcrRegistry, error)
 }
 
-func New(hubbleHost, email, password, projectUID string, apikey string, transportDebug bool, retryAttempts int) *V1Client {
+func New(hubbleHost, email, password, projectUID, apikey string, transportDebug bool, retryAttempts int) *V1Client {
 	ctx := context.Background()
 	if projectUID != "" {
 		ctx = GetProjectContextWithCtx(ctx, projectUID)

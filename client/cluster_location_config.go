@@ -7,7 +7,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) GetClusterLocationConfig(scope string, uid string) (*models.V1ClusterLocation, error) {
+func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1ClusterLocation, error) {
 	if clusterStatus, err := h.GetClusterWithoutStatus(scope, uid); err != nil {
 		return nil, err
 	} else if clusterStatus != nil && clusterStatus.Status != nil && clusterStatus.Status.Location != nil {
@@ -28,7 +28,7 @@ func (h *V1Client) UpdateClusterLocationConfig(uid string, config *models.V1Spec
 	return err
 }
 
-func (h *V1Client) ApplyClusterLocationConfig(scope string, uid string, config *models.V1SpectroClusterLocationInputEntity) error {
+func (h *V1Client) ApplyClusterLocationConfig(scope, uid string, config *models.V1SpectroClusterLocationInputEntity) error {
 	if curentConfig, err := h.GetClusterLocationConfig(scope, uid); err != nil {
 		return err
 	} else if curentConfig == nil {

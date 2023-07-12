@@ -5,7 +5,7 @@ import (
 	v1 "github.com/spectrocloud/hapi/user/client/v1"
 )
 
-func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID string, component string) (string, error) {
+func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID, component string) (string, error) {
 	if h.CreateAlertFn != nil {
 		return h.CreateAlertFn(body, projectUID, component)
 	}
@@ -23,7 +23,7 @@ func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID string, compon
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID string, component string, alertUID string) (string, error) {
+func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, alertUID string) (string, error) {
 	if h.UpdateAlertFn != nil {
 		return h.UpdateAlertFn(body, projectUID, component, alertUID)
 	}
@@ -40,7 +40,7 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID string, compon
 
 }
 
-func (h *V1Client) ReadAlert(projectUID string, component string, alertUID string) (*models.V1Channel, error) {
+func (h *V1Client) ReadAlert(projectUID, component, alertUID string) (*models.V1Channel, error) {
 	if h.ReadAlertFn != nil {
 		return h.ReadAlertFn(projectUID, component, alertUID)
 	}
@@ -58,7 +58,7 @@ func (h *V1Client) ReadAlert(projectUID string, component string, alertUID strin
 
 }
 
-func (h *V1Client) DeleteAlerts(projectUID string, component string, alertUID string) error {
+func (h *V1Client) DeleteAlerts(projectUID, component, alertUID string) error {
 	if h.DeleteAlertsFn != nil {
 		return h.DeleteAlertsFn(projectUID, component, alertUID)
 	}

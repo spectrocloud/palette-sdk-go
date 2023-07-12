@@ -7,7 +7,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) MigrateVirtualMachineNodeToNode(scope string, clusterUid string, vmName string, vmNamespace string) error {
+func (h *V1Client) MigrateVirtualMachineNodeToNode(scope, clusterUid, vmName, vmNamespace string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

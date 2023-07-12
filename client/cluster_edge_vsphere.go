@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
+func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClusterEntity, ClusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	var params *clusterC.V1SpectroClustersVsphereCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersVsphereCreateParams().WithBody(cluster)
+	}
+
 	success, err := client.V1SpectroClustersVsphereCreate(params)
 	if err != nil {
 		return "", err
@@ -21,49 +28,80 @@ func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClus
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolEdgeVsphere(cloudConfigId string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEdgeVsphere(cloudConfigId string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigEdgeVsphere(configUID string) (*models.V1VsphereCloudConfig, error) {
+func (h *V1Client) GetCloudConfigEdgeVsphere(configUID, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsVsphereGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsVsphereGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil

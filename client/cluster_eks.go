@@ -30,61 +30,102 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, C
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolEks(cloudConfigId string, machinePool *models.V1EksMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolEks(cloudConfigId, ClusterContext string, machinePool *models.V1EksMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsEksMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsEksMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsEksMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEks(cloudConfigId string, machinePool *models.V1EksMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolEks(cloudConfigId, ClusterContext string, machinePool *models.V1EksMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsEksMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsEksMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsEksMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEks(cloudConfigId string, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEks(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsEksMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsEksMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsEksMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) UpdateFargateProfilesEks(cloudConfigId string, fargateProfiles *models.V1EksFargateProfiles) error {
+func (h *V1Client) UpdateFargateProfilesEks(cloudConfigId, ClusterContext string, fargateProfiles *models.V1EksFargateProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
-	params := clusterC.NewV1CloudConfigsEksUIDFargateProfilesUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithBody(fargateProfiles)
+
+	var params *clusterC.V1CloudConfigsEksUIDFargateProfilesUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksUIDFargateProfilesUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithBody(fargateProfiles)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksUIDFargateProfilesUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithBody(fargateProfiles)
+	}
+
 	_, err = client.V1CloudConfigsEksUIDFargateProfilesUpdate(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigEks(configUID string) (*models.V1EksCloudConfig, error) {
+func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.V1EksCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsEksGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsEksGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsEksGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
