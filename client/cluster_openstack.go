@@ -33,51 +33,82 @@ func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClus
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigId string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigId, ClusterContext string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsOpenStackMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsOpenStackMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsOpenStackMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigId string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigId, ClusterContext string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsOpenStackMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsOpenStackMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsOpenStackMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigId, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsOpenStackMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsOpenStackMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsOpenStackMachinePoolDelete(params)
 	return err
 }
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigOpenStack(configUID string) (*models.V1OpenStackCloudConfig, error) {
+func (h *V1Client) GetCloudConfigOpenStack(configUID, ClusterContext string) (*models.V1OpenStackCloudConfig, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsOpenStackGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsOpenStackGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsOpenStackGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsOpenStackGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsOpenStackGet(params)
 
 	if herr.IsNotFound(err) {

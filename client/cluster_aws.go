@@ -34,7 +34,14 @@ func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *model
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsAwsMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsAwsMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsAwsMachinePoolCreate(params)
 	return err
 }
@@ -45,10 +52,18 @@ func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *model
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsAwsMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsAwsMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolUpdateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolUpdateParams().WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsAwsMachinePoolUpdate(params)
 	return err
 }
@@ -59,7 +74,14 @@ func (h *V1Client) DeleteMachinePoolAws(cloudConfigId, machinePoolName, ClusterC
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsAwsMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsAwsMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsAwsMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsAwsMachinePoolDelete(params)
 	return err
 }
@@ -70,7 +92,14 @@ func (h *V1Client) GetCloudConfigAws(configUID, ClusterContext string) (*models.
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsAwsGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsAwsGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsAwsGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsAwsGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsAwsGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil

@@ -35,45 +35,69 @@ func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterE
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolVsphere(cloudConfigId string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigId string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId, machinePoolName, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsVsphereMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
 }
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereCloudConfig, error) {
+func (h *V1Client) GetCloudConfigVsphere(configUID, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
 	if h.GetCloudConfigVsphereFn != nil {
 		return h.GetCloudConfigVsphereFn(configUID)
 	}
@@ -82,7 +106,14 @@ func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereClo
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsVsphereGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsVsphereGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
@@ -93,7 +124,7 @@ func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereClo
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereCloudConfig, error) {
+func (h *V1Client) GetCloudConfigVsphereValues(uid, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
 	if h.GetCloudConfigVsphereValuesFn != nil {
 		return h.GetCloudConfigVsphereValuesFn(uid)
 	}
@@ -102,7 +133,14 @@ func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereClo
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(uid)
+	var params *clusterC.V1CloudConfigsVsphereGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(uid)
+	}
+
 	cloudConfig, err := client.V1CloudConfigsVsphereGet(params)
 	if err != nil {
 		return nil, err
@@ -111,13 +149,20 @@ func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereClo
 	return cloudConfig.Payload, nil
 }
 
-func (h *V1Client) UpdateCloudConfigVsphereValues(uid string, clusterConfig *models.V1VsphereCloudClusterConfigEntity) error {
+func (h *V1Client) UpdateCloudConfigVsphereValues(uid, ClusterContext string, clusterConfig *models.V1VsphereCloudClusterConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	params := clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.Ctx).WithConfigUID(uid).WithBody(clusterConfig)
+	var params *clusterC.V1CloudConfigsVsphereUIDClusterConfigParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.Ctx).WithConfigUID(uid).WithBody(clusterConfig)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParams().WithConfigUID(uid).WithBody(clusterConfig)
+	}
+
 	_, err = client.V1CloudConfigsVsphereUIDClusterConfig(params)
 
 	return err

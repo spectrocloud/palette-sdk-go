@@ -34,7 +34,14 @@ func (h *V1Client) CreateMachinePoolCoxEdge(cloudConfigId string, machinePool *m
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsCoxEdgeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolCreateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsCoxEdgeMachinePoolCreate(params)
 	return err
 }
@@ -45,10 +52,20 @@ func (h *V1Client) UpdateMachinePoolCoxEdge(cloudConfigId string, machinePool *m
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(cloudConfigId).
-		WithMachinePoolName(*machinePool.PoolConfig.Name).
-		WithBody(machinePool)
+	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParams().
+			WithConfigUID(cloudConfigId).
+			WithMachinePoolName(*machinePool.PoolConfig.Name).
+			WithBody(machinePool)
+	}
+
 	_, err = client.V1CloudConfigsCoxEdgeMachinePoolUpdate(params)
 	return err
 }
@@ -59,7 +76,14 @@ func (h *V1Client) DeleteMachinePoolCoxEdge(cloudConfigId, machinePoolName, Clus
 		return nil
 	}
 
-	params := clusterC.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolDeleteParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	}
+
 	_, err = client.V1CloudConfigsCoxEdgeMachinePoolDelete(params)
 	return err
 }
@@ -70,7 +94,14 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*mod
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudConfigsCoxEdgeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	var params *clusterC.V1CloudConfigsCoxEdgeGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgeGetParams().WithConfigUID(configUID)
+	}
+
 	success, err := client.V1CloudConfigsCoxEdgeGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil
