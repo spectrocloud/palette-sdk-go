@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount) (string, error) {
+func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1CloudAccountsTencentCreateParamsWithContext(h.Ctx).WithBody(account)
+	var params *clusterC.V1CloudAccountsTencentCreateParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsTencentCreateParamsWithContext(h.Ctx).WithBody(account)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsTencentCreateParams().WithBody(account)
+	}
+
 	success, err := client.V1CloudAccountsTencentCreate(params)
 	if err != nil {
 		return "", err
@@ -33,24 +40,38 @@ func (h *V1Client) UpdateCloudAccountTencent(account *models.V1TencentAccount) e
 	return err
 }
 
-func (h *V1Client) DeleteCloudAccountTke(uid string) error {
+func (h *V1Client) DeleteCloudAccountTke(uid, AccountContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudAccountsTencentDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsTencentDeleteParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsTencentDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsTencentDeleteParams().WithUID(uid)
+	}
+
 	_, err = client.V1CloudAccountsTencentDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudAccountTke(uid string) (*models.V1TencentAccount, error) {
+func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1TencentAccount, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsTencentGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsTencentGetParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsTencentGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsTencentGetParams().WithUID(uid)
+	}
+
 	success, err := client.V1CloudAccountsTencentGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil

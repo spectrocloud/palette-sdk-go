@@ -34,30 +34,19 @@ func (h *V1Client) UpdateCloudAccountCoxEdge(account *models.V1CoxEdgeAccount) e
 	}
 
 	uid := account.Metadata.UID
-	var params *clusterC.V1CloudAccountsCoxEdgeUpdateParams
-	switch account.Metadata.Annotations["scope"] {
-	case "project":
-		params = clusterC.NewV1CloudAccountsCoxEdgeUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	case "tenant":
-		params = clusterC.NewV1CloudAccountsCoxEdgeUpdateParams().WithBody(account)
-	}
+	params := clusterC.NewV1CloudAccountsCoxEdgeUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
 	_, err = client.V1CloudAccountsCoxEdgeUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteCloudAccountCoxEdge(uid string) error {
+func (h *V1Client) DeleteCloudAccountCoxEdge(uid, AccountContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
-	account, err := h.GetCloudAccountCoxEdge(uid)
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudAccountsCoxEdgeDeleteParams
-	switch account.Metadata.Annotations["scope"] {
+	switch AccountContext {
 	case "project":
 		params = clusterC.NewV1CloudAccountsCoxEdgeDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
@@ -67,13 +56,20 @@ func (h *V1Client) DeleteCloudAccountCoxEdge(uid string) error {
 	return err
 }
 
-func (h *V1Client) GetCloudAccountCoxEdge(uid string) (*models.V1CoxEdgeAccount, error) {
+func (h *V1Client) GetCloudAccountCoxEdge(uid, AccountContext string) (*models.V1CoxEdgeAccount, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsCoxEdgeGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsCoxEdgeGetParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsCoxEdgeGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsCoxEdgeGetParams().WithUID(uid)
+	}
+
 	success, err := client.V1CloudAccountsCoxEdgeGet(params)
 	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
 

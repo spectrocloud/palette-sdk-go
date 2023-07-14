@@ -6,13 +6,20 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity) (string, error) {
+func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
-	params := clusterC.NewV1CloudAccountsGcpCreateParamsWithContext(h.Ctx).WithBody(account)
+	var params *clusterC.V1CloudAccountsGcpCreateParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsGcpCreateParamsWithContext(h.Ctx).WithBody(account)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsGcpCreateParams().WithBody(account)
+	}
+
 	success, err := client.V1CloudAccountsGcpCreate(params)
 	if err != nil {
 		return "", err
@@ -33,24 +40,38 @@ func (h *V1Client) UpdateCloudAccountGcp(account *models.V1GcpAccountEntity) err
 	return err
 }
 
-func (h *V1Client) DeleteCloudAccountGcp(uid string) error {
+func (h *V1Client) DeleteCloudAccountGcp(uid, AccountContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil
 	}
 
-	params := clusterC.NewV1CloudAccountsGcpDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsGcpDeleteParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsGcpDeleteParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsGcpDeleteParams().WithUID(uid)
+	}
+
 	_, err = client.V1CloudAccountsGcpDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudAccountGcp(uid string) (*models.V1GcpAccount, error) {
+func (h *V1Client) GetCloudAccountGcp(uid, AccountContext string) (*models.V1GcpAccount, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1CloudAccountsGcpGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1CloudAccountsGcpGetParams
+	switch AccountContext {
+	case "project":
+		params = clusterC.NewV1CloudAccountsGcpGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1CloudAccountsGcpGetParams().WithUID(uid)
+	}
+
 	success, err := client.V1CloudAccountsGcpGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 		return nil, nil

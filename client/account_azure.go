@@ -34,13 +34,7 @@ func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error
 	}
 
 	uid := account.Metadata.UID
-	var params *clusterC.V1CloudAccountsAzureUpdateParams
-	switch account.Metadata.Annotations["scope"] {
-	case "project":
-		params = clusterC.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	case "tenant":
-		params = clusterC.NewV1CloudAccountsAzureUpdateParams().WithBody(account)
-	}
+	params := clusterC.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
 	_, err = client.V1CloudAccountsAzureUpdate(params)
 	return err
 }

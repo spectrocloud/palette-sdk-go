@@ -19,6 +19,7 @@ func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountCo
 	case "tenant":
 		params = clusterC.NewV1CloudAccountsAwsCreateParams().WithBody(account)
 	}
+
 	success, err := client.V1CloudAccountsAwsCreate(params)
 	if err != nil {
 		return "", err
@@ -34,24 +35,13 @@ func (h *V1Client) UpdateCloudAccountAws(account *models.V1AwsAccount) error {
 	}
 
 	uid := account.Metadata.UID
-	var params *clusterC.V1CloudAccountsAwsUpdateParams
-	switch account.Metadata.Annotations["scope"] {
-	case "project":
-		params = clusterC.NewV1CloudAccountsAwsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	case "tenant":
-		params = clusterC.NewV1CloudAccountsAwsUpdateParams().WithBody(account)
-	}
+	params := clusterC.NewV1CloudAccountsAwsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
 	_, err = client.V1CloudAccountsAwsUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountAws(uid, AccountContext string) error {
 	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	_, err = h.GetCloudAccountAws(uid, AccountContext)
 	if err != nil {
 		return err
 	}
