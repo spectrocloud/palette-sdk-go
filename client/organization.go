@@ -69,7 +69,7 @@ func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
 	return resp.Payload.Authorization, nil
 }
 
-func (h *V1Client) PrintLoginBanner(orgName string) (bool, error) {
+func (h *V1Client) PrintOrgLoginBanner(orgName string) (bool, error) {
 	client, err := h.GetNoAuthClient()
 	if err != nil {
 		return false, err
@@ -81,6 +81,24 @@ func (h *V1Client) PrintLoginBanner(orgName string) (bool, error) {
 		if herr.IsNotFound(err) {
 			return false, fmt.Errorf("invalid Organization: %s", orgName)
 		}
+		return false, err
+	} else if !resp.Payload.IsEnabled {
+		return false, nil
+	}
+
+	fmt.Println(resp.Payload.Message)
+	return true, nil
+}
+
+func (h *V1Client) PrintSystemLoginBanner(orgName string) (bool, error) {
+	client, err := h.GetNoAuthClient()
+	if err != nil {
+		return false, err
+	}
+
+	params := authC.NewV1AuthSystemLoginBannerGetParams()
+	resp, err := client.V1AuthSystemLoginBannerGet(params)
+	if err != nil || resp == nil {
 		return false, err
 	} else if !resp.Payload.IsEnabled {
 		return false, nil
