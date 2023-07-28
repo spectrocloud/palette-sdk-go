@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/spectrocloud/hapi/apiutil"
 	"github.com/spectrocloud/hapi/models"
@@ -77,6 +78,19 @@ func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
 	}
 
 	return ret.Payload.PairingCode, nil
+}
+
+func (h *V1Client) CheckPCG(PcgId string) error {
+	pcg, err := h.GetPCGById(PcgId)
+	if err != nil {
+		return err
+	}
+	if pcg == nil {
+		return fmt.Errorf("Private Cloud Gateway not found: %s", PcgId)
+	} else if pcg.Status.State != "Running" {
+		return fmt.Errorf("Private Cloud Gateway is not running: %s", PcgId)
+	}
+	return nil
 }
 
 // PCG - vSphere

@@ -46,7 +46,15 @@ func validateCloudAccountOpenStack(account *models.V1OpenStackAccount, h *V1Clie
 		return err
 	}
 
-	paramsValidate := clusterC.NewV1OverlordsUIDOpenStackAccountValidateParams().WithUID(account.Metadata.Annotations[OverlordUID])
+	PcgId := account.Metadata.Annotations[OverlordUID]
+	// check PCG
+	err = h.CheckPCG(PcgId)
+	if err != nil {
+		return err
+	}
+
+	// validate account
+	paramsValidate := clusterC.NewV1OverlordsUIDOpenStackAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDOpenStackAccountValidateBody(account))
 	_, err = client.V1OverlordsUIDOpenStackAccountValidate(paramsValidate)
 	if err != nil {
