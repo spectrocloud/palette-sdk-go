@@ -46,7 +46,15 @@ func validateCloudAccountMaas(account *models.V1MaasAccount, h *V1Client) error 
 		return err
 	}
 
-	paramsValidate := clusterC.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(account.Metadata.Annotations[OverlordUID])
+	PcgId := account.Metadata.Annotations[OverlordUID]
+	// check PCG
+	err = h.CheckPCG(PcgId)
+	if err != nil {
+		return err
+	}
+
+	// validate account
+	paramsValidate := clusterC.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDMaasAccountValidateBody(account))
 	_, err = client.V1OverlordsUIDMaasAccountValidate(paramsValidate)
 	if err != nil {

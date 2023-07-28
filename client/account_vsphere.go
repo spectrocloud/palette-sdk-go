@@ -51,7 +51,15 @@ func validateCloudAccountVsphere(account *models.V1VsphereAccount, h *V1Client) 
 		return err
 	}
 
-	paramsValidate := clusterC.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(account.Metadata.Annotations[OverlordUID])
+	PcgId := account.Metadata.Annotations[OverlordUID]
+	// check PCG
+	err = h.CheckPCG(PcgId)
+	if err != nil {
+		return err
+	}
+
+	// validate account
+	paramsValidate := clusterC.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDVsphereAccountValidateBody(account))
 	_, err = client.V1OverlordsUIDVsphereAccountValidate(paramsValidate)
 	if err != nil {

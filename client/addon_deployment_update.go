@@ -42,7 +42,8 @@ func (h *V1Client) CreateAddonDeployment(client clusterC.ClientService, uid stri
 
 func (h *V1Client) PatchWithRetry(client clusterC.ClientService, params *clusterC.V1SpectroClustersPatchProfilesParams) error {
 	var err error
-	rand.Seed(time.Now().UnixNano())
+
+	rand.NewSource(time.Now().UnixNano())
 	for attempt := 0; attempt < h.RetryAttempts; attempt++ {
 		// small jitter to prevent simultaneous retries
 		s := rand.Intn(h.RetryAttempts) // n will be between 0 and number of retries
