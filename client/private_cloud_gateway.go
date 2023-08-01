@@ -87,10 +87,15 @@ func (h *V1Client) CheckPCG(PcgId string) error {
 	}
 	if pcg == nil {
 		return fmt.Errorf("Private Cloud Gateway not found: %s", PcgId)
-	} else if pcg.Status.State != "Running" {
-		return fmt.Errorf("Private Cloud Gateway is not running: %s", PcgId)
 	}
-	return nil
+	if pcg.Status == nil {
+		return fmt.Errorf("Private Cloud Gateway status not found: %s", PcgId)
+	}
+	if pcg.Status.State != "Running" {
+		return fmt.Errorf("Private Cloud Gateway is not running: %s", PcgId)
+	} else {
+		return nil // pcg is running
+	}
 }
 
 // PCG - vSphere
