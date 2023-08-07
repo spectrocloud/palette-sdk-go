@@ -19,7 +19,15 @@ func (h *V1Client) UpdateAddonDeployment(client clusterC.ClientService, cluster 
 	}
 
 	resolveNotification := true
-	params := clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx).WithUID(uid).WithBody(body).WithResolveNotification(&resolveNotification)
+	var params *clusterC.V1SpectroClustersPatchProfilesParams
+	scope := cluster.Metadata.Annotations["scope"]
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersPatchProfilesParams()
+	}
+	params = params.WithUID(uid).WithBody(body).WithResolveNotification(&resolveNotification)
 	err := h.PatchWithRetry(client, params)
 	return err
 }
@@ -33,9 +41,17 @@ func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *model
 	return false, ""
 }
 
-func (h *V1Client) CreateAddonDeployment(client clusterC.ClientService, uid string, body *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) CreateAddonDeployment(client clusterC.ClientService, cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles) error {
 	resolveNotification := false // during initial creation we never need to resolve packs.
-	params := clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx).WithUID(uid).WithBody(body).WithResolveNotification(&resolveNotification)
+	var params *clusterC.V1SpectroClustersPatchProfilesParams
+	scope := cluster.Metadata.Annotations["scope"]
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersPatchProfilesParams()
+	}
+	params = params.WithUID(cluster.Metadata.UID).WithBody(body).WithResolveNotification(&resolveNotification)
 	err := h.PatchWithRetry(client, params)
 	return err
 }
@@ -62,8 +78,15 @@ func (h *V1Client) ClustersPatchProfiles(client clusterC.ClientService, params *
 	return err
 }
 
-func (h *V1Client) DeleteAddonDeployment(client clusterC.ClientService, uid string, body *models.V1SpectroClusterProfilesDeleteEntity) error {
-	params := clusterC.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
+func (h *V1Client) DeleteAddonDeployment(client clusterC.ClientService, uid, scope string, body *models.V1SpectroClusterProfilesDeleteEntity) error {
+	var params *clusterC.V1SpectroClustersDeleteProfilesParams
+	switch scope {
+	case "project":
+		params = clusterC.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersDeleteProfilesParams()
+	}
+	params = params.WithUID(uid).WithBody(body)
 	_, err := client.V1SpectroClustersDeleteProfiles(params)
 	return err
 }
