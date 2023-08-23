@@ -43,7 +43,7 @@ func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ClusterCont
 	return fn(ClusterContext, ConfigUID, MachineName, NodeId)
 }
 
-func (h *V1Client) GetAwsNodeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (h *V1Client) GetAwsNodeMaintenanceStatus(ClusterContext string, ConfigUID 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetMaasNodeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (h *V1Client) GetMaasNodeMaintenanceStatus(ClusterContext string, ConfigUID
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetAksNodeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -118,7 +118,7 @@ func (h *V1Client) GetAksNodeMaintenanceStatus(ClusterContext string, ConfigUID 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetAzureNodeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -143,7 +143,7 @@ func (h *V1Client) GetAzureNodeMaintenanceStatus(ClusterContext string, ConfigUI
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetCoxEdgeNodeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -168,7 +168,7 @@ func (h *V1Client) GetCoxEdgeNodeMaintenanceStatus(ClusterContext string, Config
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetEdgeNativeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -193,7 +193,7 @@ func (h *V1Client) GetEdgeNativeMaintenanceStatus(ClusterContext string, ConfigU
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetEdgeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -218,7 +218,32 @@ func (h *V1Client) GetEdgeMaintenanceStatus(ClusterContext string, ConfigUID str
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetEksMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsVspherePoolMachinesUIDGetParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParams()
+	}
+	params.WithConfigUID(ConfigUID)
+	params.WithMachinePoolName(MachineName)
+	params.WithMachineUID(NodeId)
+	s, err := client.V1CloudConfigsVspherePoolMachinesUIDGet(params)
+	print(s)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.Payload.Status.MaintenanceStatus, nil
+}
+
+func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -243,7 +268,7 @@ func (h *V1Client) GetEksMaintenanceStatus(ClusterContext string, ConfigUID stri
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetGcpMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -268,7 +293,7 @@ func (h *V1Client) GetGcpMaintenanceStatus(ClusterContext string, ConfigUID stri
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetGenericMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -293,7 +318,7 @@ func (h *V1Client) GetGenericMaintenanceStatus(ClusterContext string, ConfigUID 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetGkeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -318,7 +343,7 @@ func (h *V1Client) GetGkeMaintenanceStatus(ClusterContext string, ConfigUID stri
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetLibvirtMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -343,7 +368,7 @@ func (h *V1Client) GetLibvirtMaintenanceStatus(ClusterContext string, ConfigUID 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetOpenStackMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -368,7 +393,7 @@ func (h *V1Client) GetOpenStackMaintenanceStatus(ClusterContext string, ConfigUI
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetTkeMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -393,7 +418,7 @@ func (h *V1Client) GetTkeMaintenanceStatus(ClusterContext string, ConfigUID stri
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetVirtualMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -418,7 +443,7 @@ func (h *V1Client) GetVirtualMaintenanceStatus(ClusterContext string, ConfigUID 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetVsphereMaintenanceStatus(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+func (h *V1Client) GetNodeMaintenanceStatusVsphere(ClusterContext string, ConfigUID string, MachineName string, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

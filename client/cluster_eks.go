@@ -135,3 +135,34 @@ func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetMachineListEks(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1AwsMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsEksPoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEksPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEksPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsEksPoolMachinesList(params)
+	return mpList.Payload.Items, err
+}
+
+func (h *V1Client) GetMachinesItemsActionsEks(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
+	mpList, err := h.GetMachineListEks(configUID, machinePoolName, ClusterContext)
+	nMap := map[string]string{}
+	if len(mpList) > 0 {
+		for _, node := range mpList {
+			if node.Status.MaintenanceStatus.Action != "" {
+				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
+			}
+		}
+	}
+	return nMap, err
+}

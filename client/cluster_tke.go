@@ -111,3 +111,34 @@ func (h *V1Client) GetCloudConfigTke(configUID, ClusterContext string) (*models.
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetMachineListTke(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1TencentMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsTkePoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsTkePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsTkePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsTkePoolMachinesList(params)
+	return mpList.Payload.Items, err
+}
+
+func (h *V1Client) GetMachinesItemsActionsTke(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
+	mpList, err := h.GetMachineListTke(configUID, machinePoolName, ClusterContext)
+	nMap := map[string]string{}
+	if len(mpList) > 0 {
+		for _, node := range mpList {
+			if node.Status.MaintenanceStatus.Action != "" {
+				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
+			}
+		}
+	}
+	return nMap, err
+}

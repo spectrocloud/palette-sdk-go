@@ -111,3 +111,34 @@ func (h *V1Client) GetCloudConfigEdge(configUID, ClusterContext string) (*models
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetMachineListEdge(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1EdgeMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsEdgePoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsEdgePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsEdgePoolMachinesList(params)
+	return mpList.Payload.Items, err
+}
+
+func (h *V1Client) GetMachinesItemsActionsEdge(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
+	mpList, err := h.GetMachineListEdge(configUID, machinePoolName, ClusterContext)
+	nMap := map[string]string{}
+	if len(mpList) > 0 {
+		for _, node := range mpList {
+			if node.Status.MaintenanceStatus.Action != "" {
+				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
+			}
+		}
+	}
+	return nMap, err
+}

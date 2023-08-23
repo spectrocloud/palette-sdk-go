@@ -146,3 +146,16 @@ func (h *V1Client) GetMachineListAws(configUID string, machinePoolName string, C
 	mpList, err := client.V1CloudConfigsAwsPoolMachinesList(params)
 	return mpList.Payload.Items, err
 }
+
+func (h *V1Client) GetMachinesItemsActionsAws(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
+	mpList, err := h.GetMachineListAws(configUID, machinePoolName, ClusterContext)
+	nMap := map[string]string{}
+	if len(mpList) > 0 {
+		for _, node := range mpList {
+			if node.Status.MaintenanceStatus.Action != "" {
+				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
+			}
+		}
+	}
+	return nMap, err
+}

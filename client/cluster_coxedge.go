@@ -111,3 +111,34 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*mod
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetMachineListCoxEdge(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1CoxEdgeMachine, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsCoxEdgePoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsCoxEdgePoolMachinesList(params)
+	return mpList.Payload.Items, err
+}
+
+func (h *V1Client) GetMachinesItemsActionsCoxEdge(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
+	mpList, err := h.GetMachineListCoxEdge(configUID, machinePoolName, ClusterContext)
+	nMap := map[string]string{}
+	if len(mpList) > 0 {
+		for _, node := range mpList {
+			if node.Status.MaintenanceStatus.Action != "" {
+				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
+			}
+		}
+	}
+	return nMap, err
+}
