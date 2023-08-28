@@ -138,7 +138,7 @@ func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (stri
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetMachineListMaas(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1MaasMachine, error) {
+func (h *V1Client) GetNodeStatusMapMaas(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -153,17 +153,10 @@ func (h *V1Client) GetMachineListMaas(configUID string, machinePoolName string, 
 	}
 
 	mpList, err := client.V1CloudConfigsMaasPoolMachinesList(params)
-	return mpList.Payload.Items, err
-}
-
-func (h *V1Client) GetMachinesItemsActionsMaas(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
-	mpList, err := h.GetMachineListMaas(configUID, machinePoolName, ClusterContext)
-	nMap := map[string]string{}
-	if len(mpList) > 0 {
-		for _, node := range mpList {
-			if node.Status.MaintenanceStatus.Action != "" {
-				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
-			}
+	nMap := map[string]models.V1CloudMachineStatus{}
+	if len(mpList.Payload.Items) > 0 {
+		for _, node := range mpList.Payload.Items {
+			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
 	return nMap, err

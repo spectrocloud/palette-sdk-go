@@ -131,7 +131,7 @@ func (h *V1Client) ImportClusterEdgeVsphere(meta *models.V1ObjectMetaInputEntity
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetMachineListEdgeVsphere(configUID string, machinePoolName string, ClusterContext string) ([]*models.V1VsphereMachine, error) {
+func (h *V1Client) GetNodeStatusMapEdgeVsphere(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
@@ -146,17 +146,10 @@ func (h *V1Client) GetMachineListEdgeVsphere(configUID string, machinePoolName s
 	}
 
 	mpList, err := client.V1CloudConfigsVspherePoolMachinesList(params)
-	return mpList.Payload.Items, err
-}
-
-func (h *V1Client) GetMachinesItemsActionsEdgeVsphere(configUID string, machinePoolName string, ClusterContext string) (map[string]string, error) {
-	mpList, err := h.GetMachineListEdgeVsphere(configUID, machinePoolName, ClusterContext)
-	nMap := map[string]string{}
-	if len(mpList) > 0 {
-		for _, node := range mpList {
-			if node.Status.MaintenanceStatus.Action != "" {
-				nMap[node.Metadata.UID] = node.Status.MaintenanceStatus.Action
-			}
+	nMap := map[string]models.V1CloudMachineStatus{}
+	if len(mpList.Payload.Items) > 0 {
+		for _, node := range mpList.Payload.Items {
+			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
 	return nMap, err
