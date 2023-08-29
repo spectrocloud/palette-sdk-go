@@ -111,3 +111,27 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*mod
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetNodeStatusMapCoxEdge(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsCoxEdgePoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsCoxEdgePoolMachinesList(params)
+	nMap := map[string]models.V1CloudMachineStatus{}
+	if len(mpList.Payload.Items) > 0 {
+		for _, node := range mpList.Payload.Items {
+			nMap[node.Metadata.UID] = *node.Status
+		}
+	}
+	return nMap, err
+}

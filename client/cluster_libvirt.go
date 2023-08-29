@@ -111,3 +111,27 @@ func (h *V1Client) GetCloudConfigLibvirt(configUID, ClusterContext string) (*mod
 
 	return success.Payload, nil
 }
+
+func (h *V1Client) GetNodeStatusMapLibvirt(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *clusterC.V1CloudConfigsLibvirtPoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsLibvirtPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsLibvirtPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := client.V1CloudConfigsLibvirtPoolMachinesList(params)
+	nMap := map[string]models.V1CloudMachineStatus{}
+	if len(mpList.Payload.Items) > 0 {
+		for _, node := range mpList.Payload.Items {
+			nMap[node.Metadata.UID] = *node.Status
+		}
+	}
+	return nMap, err
+}
