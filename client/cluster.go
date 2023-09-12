@@ -215,6 +215,37 @@ func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, err
 	return builder.String(), nil
 }
 
+func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string, error) {
+	if h.GetClusterKubeConfigFn != nil {
+		return h.GetClusterKubeConfigFn(uid)
+	}
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	var params *clusterC.V1SpectroClustersUIDAdminKubeConfigParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDAdminKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDAdminKubeConfigParams().WithUID(uid)
+	default:
+		return "", errors.New("invalid cluster scope specified")
+	}
+
+	builder := new(strings.Builder)
+	_, err = client.V1SpectroClustersUIDAdminKubeConfig(params, builder)
+	if err != nil {
+		if herr.IsNotFound(err) {
+			return "", nil
+		}
+		return "", err
+	}
+
+	return builder.String(), nil
+}
+
 func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
