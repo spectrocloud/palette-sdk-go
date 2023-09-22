@@ -213,6 +213,8 @@ github.com/spectrocloud/hapi v1.14.1-0.20230809113851-e533537baa55 h1:0V4LeAlh+/
 github.com/spectrocloud/hapi v1.14.1-0.20230809113851-e533537baa55/go.mod h1:O/Bkbw92QPSGPNQPqKt7Qlkn+9BKK/a22KTUlk76KHI=
 github.com/spectrocloud/hapi v1.14.1-0.20230814141242-394093e7fedb h1:Y/TDXfEZ6GJbYi4bKxFS0HFvmOL6Xs653BoxuZjuKEQ=
 github.com/spectrocloud/hapi v1.14.1-0.20230814141242-394093e7fedb/go.mod h1:O/Bkbw92QPSGPNQPqKt7Qlkn+9BKK/a22KTUlk76KHI=
+github.com/spectrocloud/hapi v1.14.1-0.20230904110035-ed2b1df599dc h1:3dC4+8RimiF6hlVPdA6fgMeEUIYEbE1Z08ad4f9153Q=
+github.com/spectrocloud/hapi v1.14.1-0.20230904110035-ed2b1df599dc/go.mod h1:O/Bkbw92QPSGPNQPqKt7Qlkn+9BKK/a22KTUlk76KHI=
 github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
 github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
