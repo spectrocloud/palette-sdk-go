@@ -7,7 +7,7 @@ require (
 	github.com/go-openapi/strfmt v0.20.0
 	github.com/pkg/errors v0.9.1
 	github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08
-	github.com/spectrocloud/hapi v1.14.1-0.20230904110035-ed2b1df599dc
+	github.com/spectrocloud/hapi v1.14.1-0.20230921130725-2afc79a3ea05
 	github.com/stretchr/testify v1.7.0
 )
 

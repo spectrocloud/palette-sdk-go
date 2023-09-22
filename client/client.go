@@ -54,6 +54,7 @@ type V1Client struct {
 	// Cluster generic
 	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
 	GetClusterFn                func(scope, uid string) (*models.V1SpectroCluster, error)
+	GetClusterAdminConfigFn     func(uid string) (string, error)
 	GetClusterKubeConfigFn      func(uid string) (string, error)
 	GetClusterBackupConfigFn    func(uid string) (*models.V1ClusterBackup, error)
 	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
