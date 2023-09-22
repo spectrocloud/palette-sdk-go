@@ -216,8 +216,8 @@ func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, err
 }
 
 func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string, error) {
-	if h.GetClusterKubeConfigFn != nil {
-		return h.GetClusterKubeConfigFn(uid)
+	if h.GetClusterAdminConfigFn != nil {
+		return h.GetClusterAdminConfigFn(uid)
 	}
 	client, err := h.GetClusterClient()
 	if err != nil {
