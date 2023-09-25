@@ -89,6 +89,9 @@ func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId, machinePoolName, C
 }
 
 func (h *V1Client) GetCloudConfigEdgeNative(configUID, ClusterContext string) (*models.V1EdgeNativeCloudConfig, error) {
+	if h.GetCloudConfigEdgeNativeFn != nil {
+		return h.GetCloudConfigEdgeNativeFn(configUID, ClusterContext)
+	}
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err
