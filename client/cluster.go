@@ -262,15 +262,22 @@ func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
 	return builder.String(), nil
 }
 
-func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpdateClusterProfileValues(uid string, context string, profiles *models.V1SpectroClusterProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
 
 	resolveNotification := true
-	params := clusterC.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.Ctx).WithUID(uid).
-		WithBody(profiles).WithResolveNotification(&resolveNotification)
+	var params *clusterC.V1SpectroClustersUpdateProfilesParams
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.Ctx).WithUID(uid).
+			WithBody(profiles).WithResolveNotification(&resolveNotification)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUpdateProfilesParams().WithUID(uid).
+			WithBody(profiles).WithResolveNotification(&resolveNotification)
+	}
 	_, err = client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
