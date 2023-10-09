@@ -58,13 +58,28 @@ func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1Cluste
 	return err
 }
 
-func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig) error {
+func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig, ClusterContext string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
-
-	params := clusterC.NewV1ClusterFeatureBackupUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	var params *clusterC.V1ClusterFeatureBackupUpdateParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureBackupUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureBackupUpdateParams().WithUID(uid).WithBody(config)
+	}
 	_, err = client.V1ClusterFeatureBackupUpdate(params)
 	return err
+}
+
+func (h *V1Client) ApplyClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig, ClusterContext string) error {
+	if policy, err := h.GetClusterBackupConfig(uid, ClusterContext); err != nil {
+		return err
+	} else if policy == nil {
+		return h.CreateClusterBackupConfig(uid, config, ClusterContext)
+	} else {
+		return h.UpdateClusterBackupConfig(uid, config, ClusterContext)
+	}
 }
