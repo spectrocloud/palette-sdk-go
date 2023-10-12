@@ -246,14 +246,20 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 	return builder.String(), nil
 }
 
-func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
+func (h *V1Client) GetClusterImportManifest(uid string, clusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
 	}
 
 	builder := new(strings.Builder)
-	params := clusterC.NewV1SpectroClustersUIDImportManifestParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1SpectroClustersUIDImportManifestParams
+	switch clusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDImportManifestParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDImportManifestParams().WithUID(uid)
+	}
 	_, err = client.V1SpectroClustersUIDImportManifest(params, builder)
 	if err != nil {
 		return "", err

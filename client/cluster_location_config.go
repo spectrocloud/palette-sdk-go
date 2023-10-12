@@ -17,13 +17,18 @@ func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1Cluste
 	return nil, errors.New("failed to read cluster location")
 }
 
-func (h *V1Client) UpdateClusterLocationConfig(uid string, config *models.V1SpectroClusterLocationInputEntity) error {
+func (h *V1Client) UpdateClusterLocationConfig(uid string, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
 	}
-
-	params := clusterC.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	var params *clusterC.V1SpectroClustersUIDLocationPutParams
+	switch clusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
+	}
 	_, err = client.V1SpectroClustersUIDLocationPut(params)
 	return err
 }
@@ -32,8 +37,8 @@ func (h *V1Client) ApplyClusterLocationConfig(scope, uid string, config *models.
 	if curentConfig, err := h.GetClusterLocationConfig(scope, uid); err != nil {
 		return err
 	} else if curentConfig == nil {
-		return h.UpdateClusterLocationConfig(uid, config)
+		return h.UpdateClusterLocationConfig(uid, scope, config)
 	} else {
-		return h.UpdateClusterLocationConfig(uid, config)
+		return h.UpdateClusterLocationConfig(uid, scope, config)
 	}
 }
