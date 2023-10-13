@@ -7,7 +7,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterScanConfig(uid string) (*models.V1ClusterComplianceScan, error) {
+func (h *V1Client) GetClusterScanConfig(uid string, clusterContext string) (*models.V1ClusterComplianceScan, error) {
 	if h.GetClusterScanConfigFn != nil {
 		return h.GetClusterScanConfigFn(uid)
 	}
@@ -15,8 +15,13 @@ func (h *V1Client) GetClusterScanConfig(uid string) (*models.V1ClusterCompliance
 	if err != nil {
 		return nil, err
 	}
-
-	params := clusterC.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.Ctx).WithUID(uid)
+	var params *clusterC.V1ClusterFeatureComplianceScanGetParams
+	switch clusterContext {
+	case "project":
+		params = clusterC.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.Ctx).WithUID(uid)
+	case "tenant":
+		params = clusterC.NewV1ClusterFeatureComplianceScanGetParams().WithUID(uid)
+	}
 	success, err := client.V1ClusterFeatureComplianceScanGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
@@ -65,7 +70,7 @@ func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterC
 }
 
 func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	if policy, err := h.GetClusterScanConfig(uid); err != nil {
+	if policy, err := h.GetClusterScanConfig(uid, ClusterContext); err != nil {
 		return err
 	} else if policy == nil {
 		return h.CreateClusterScanConfig(uid, config, ClusterContext)
