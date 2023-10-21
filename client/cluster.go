@@ -102,10 +102,10 @@ func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
+func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroCluster, string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
 	var params *clusterC.V1SpectroClustersListParams
@@ -118,17 +118,41 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 
 	resp, err := client.V1SpectroClustersList(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
+		return nil, "", nil
 	} else if err != nil {
-		return nil, err
+		return nil, "", err
 	}
-	return resp.Payload.Items, nil
+	return resp.Payload.Items, resp.Payload.Listmeta.Continue, nil
 }
 
-func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
-	allClusters, err := h.listClusters(clusterContext)
+func (h *V1Client) listClustersWithPagination(clusterContext string, ContinueToken string) ([]*models.V1SpectroCluster, string, error) {
+	client, err := h.GetClusterClient()
 	if err != nil {
-		return nil, err
+		return nil, "", err
+	}
+
+	var params *clusterC.V1SpectroClustersListParams
+	switch clusterContext {
+	case "project":
+		params = clusterC.NewV1SpectroClustersListParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersListParams()
+	}
+	params.Continue = &ContinueToken
+	resp, err := client.V1SpectroClustersList(params)
+
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, "", nil
+	} else if err != nil {
+		return nil, "", err
+	}
+	return resp.Payload.Items, resp.Payload.Listmeta.Continue, nil
+}
+
+func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroCluster, string, error) {
+	allClusters, continueToken, err := h.listClusters(clusterContext)
+	if err != nil {
+		return nil, "", err
 	}
 	clusters := make([]*models.V1SpectroCluster, 0)
 	for _, c := range allClusters {
@@ -136,7 +160,7 @@ func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroClust
 			clusters = append(clusters, c)
 		}
 	}
-	return clusters, nil
+	return clusters, continueToken, nil
 }
 
 func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1SpectroCluster, error) {
@@ -170,17 +194,25 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 }
 
 func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
-	clusters, err := h.listClusters(clusterContext)
+	clusters, continueToken, err := h.listClusters(clusterContext)
 	if err != nil {
 		return nil, err
 	}
-
+	// Finding out in page one with the limit of 50
 	for _, cluster := range clusters {
 		if cluster.Metadata.Name == name && cluster.Status.State != "Deleted" {
 			return cluster, nil
 		}
 	}
-
+	// Pagination loop till continueToken becomes = ""
+	for continueToken != "" {
+		clusters, continueToken, err = h.listClustersWithPagination(clusterContext, continueToken)
+		for _, cluster := range clusters {
+			if cluster.Metadata.Name == name && cluster.Status.State != "Deleted" {
+				return cluster, nil
+			}
+		}
+	}
 	return nil, nil
 }
 
