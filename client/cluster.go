@@ -115,6 +115,7 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersListParams()
 	}
+	
 	var limit int64 = 0
 	params.Limit = &limit
 	resp, err := client.V1SpectroClustersList(params)
@@ -175,11 +176,13 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 	if err != nil {
 		return nil, err
 	}
+
 	for _, cluster := range clusters {
 		if cluster.Metadata.Name == name && cluster.Status.State != "Deleted" {
 			return cluster, nil
 		}
 	}
+
 	return nil, nil
 }
 
