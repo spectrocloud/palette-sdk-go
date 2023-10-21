@@ -115,7 +115,6 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersListParams()
 	}
-	
 	var limit int64 = 0
 	params.Limit = &limit
 	resp, err := client.V1SpectroClustersList(params)
