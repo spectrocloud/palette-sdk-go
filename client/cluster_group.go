@@ -210,6 +210,25 @@ func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1Cluster
 	return err
 }
 
+func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupContext string, clusterGroupUid string, clusterProfiles *models.V1SpectroClusterProfiles) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+	var params *clusterC.V1ClusterGroupsUIDProfilesUpdateParams
+	switch clusterGroupContext {
+	case "project":
+		params = clusterC.NewV1ClusterGroupsUIDProfilesUpdateParamsWithContext(h.Ctx).WithUID(clusterGroupUid)
+	case "tenant":
+		params = clusterC.NewV1ClusterGroupsUIDProfilesUpdateParams().WithUID(clusterGroupUid)
+	default:
+		return errors.New("invalid scope")
+	}
+	params = params.WithBody(clusterProfiles)
+	_, err = client.V1ClusterGroupsUIDProfilesUpdate(params)
+	return err
+}
+
 func (h *V1Client) getClusterGroupMetadata(clusterGroupContext string) ([]*models.V1ObjectScopeEntity, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
