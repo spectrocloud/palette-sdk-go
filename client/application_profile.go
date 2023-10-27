@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
@@ -104,7 +105,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 	return success.Payload.Spec.Published.Content, nil
 }
 
-func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec, getAllPages bool) ([]*models.V1AppProfileSummary, error) {
+func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec) ([]*models.V1AppProfileSummary, error) {
 	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, err
@@ -122,16 +123,12 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		Sort:   sortBy,
 	}
 	var appProfile []*models.V1AppProfileSummary
-	resp, err := client.V1DashboardAppProfiles(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-	appProfile = append(appProfile, resp.Payload.AppProfiles...)
-	for len(resp.Payload.Listmeta.Continue) != 0 && getAllPages {
-		params.Offset = &resp.Payload.Listmeta.Offset
-		resp, err := client.V1DashboardAppProfiles(params)
+	var resp *hashboardC.V1DashboardAppProfilesOK
+	for {
+		if resp != nil {
+			params.Offset = &resp.Payload.Listmeta.Offset
+		}
+		resp, err = client.V1DashboardAppProfiles(params)
 		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
 			return nil, nil
 		} else if err != nil {
@@ -141,7 +138,6 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		if len(resp.Payload.Listmeta.Continue) == 0 {
 			break
 		}
-		getAllPages = true
 	}
 	return appProfile, nil
 }
