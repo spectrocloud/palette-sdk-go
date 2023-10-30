@@ -122,14 +122,24 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		Filter: filter,
 		Sort:   sortBy,
 	}
-
-	resp, err := client.V1DashboardAppProfiles(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
+	var appProfile []*models.V1AppProfileSummary
+	var resp *hashboardC.V1DashboardAppProfilesOK
+	for {
+		if resp != nil {
+			params.Offset = &resp.Payload.Listmeta.Offset
+		}
+		resp, err = client.V1DashboardAppProfiles(params)
+		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+			return nil, nil
+		} else if err != nil {
+			return nil, err
+		}
+		appProfile = append(appProfile, resp.Payload.AppProfiles...)
+		if len(resp.Payload.Listmeta.Continue) == 0 {
+			break
+		}
 	}
-	return resp.Payload.AppProfiles, nil
+	return appProfile, nil
 }
 
 func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *models.V1AppProfileMetaEntity, ProfileContext string) error {
@@ -137,7 +147,6 @@ func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *model
 	if err != nil {
 		return err
 	}
-
 	var params *clusterC.V1AppProfilesUIDMetadataUpdateParams
 	switch ProfileContext {
 	case "project":
