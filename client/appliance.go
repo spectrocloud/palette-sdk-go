@@ -3,19 +3,25 @@ package client
 import (
 	"fmt"
 
+	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
 func (h *V1Client) GetApplianceByName(deviceName string) (*models.V1EdgeHostDevice, error) {
-	appliances, err := h.GetAppliances()
+	appliances, err := h.GetAppliances(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	for _, appliance := range appliances.Payload.Items {
 		if appliance.Metadata.Name == deviceName {
+			appliance, err := h.GetAppliance(appliance.Metadata.UID)
+			if err != nil {
+				return nil, err
+			}
 			return appliance, nil
 		}
 	}
@@ -23,14 +29,15 @@ func (h *V1Client) GetApplianceByName(deviceName string) (*models.V1EdgeHostDevi
 	return nil, fmt.Errorf("appliance '%s' not found", deviceName)
 }
 
-func (h *V1Client) GetAppliances() (*clusterC.V1EdgeHostDevicesListOK, error) {
-	client, err := h.GetClusterClient()
+func (h *V1Client) GetAppliances(filter *models.V1SearchFilterSummarySpec) (*hashboardC.V1DashboardEdgehostsSearchOK, error) {
+	client, err := h.GetHashboardClient()
 	if err != nil {
 		return nil, err
 	}
 
-	params := clusterC.NewV1EdgeHostDevicesListParamsWithContext(h.Ctx)
-	appliances, err := client.V1EdgeHostDevicesList(params)
+	limit := int64(0)
+	params := hashboardC.NewV1DashboardEdgehostsSearchParamsWithContext(h.Ctx).WithBody(filter).WithLimit(&limit)
+	appliances, err := client.V1DashboardEdgehostsSearch(params)
 	if err != nil {
 		return nil, err
 	}
