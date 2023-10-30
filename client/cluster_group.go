@@ -25,7 +25,7 @@ func (h *V1Client) CreateClusterGroup(cluster *models.V1ClusterGroupEntity, scop
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsCreateParams().WithBody(cluster)
 	default:
-		return "", errors.New("invalid scope")
+		return "", errors.New("invalid scope " + scope)
 	}
 	success, err := client.V1ClusterGroupsCreate(params)
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *V1Client) DeleteClusterGroup(uid, scope string) error {
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDDeleteParams().WithUID(uid)
 	default:
-		return errors.New("invalid scope")
+		return errors.New("invalid scope " + scope)
 	}
 	_, err = client.V1ClusterGroupsUIDDelete(params)
 	return err
@@ -85,7 +85,7 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid, scope string) (*models.V1Cl
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDGetParams().WithUID(uid)
 	default:
-		return nil, errors.New("invalid scope")
+		return nil, errors.New("invalid scope " + scope)
 	}
 	success, err := client.V1ClusterGroupsUIDGet(params)
 	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
@@ -151,7 +151,7 @@ func (h *V1Client) GetClusterGroupSummaries(clusterGroupContext string) ([]*mode
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.Ctx)
 	default:
-		return nil, errors.New("invalid scope")
+		return nil, errors.New("invalid scope " + clusterGroupContext)
 	}
 
 	resp, err := client.V1ClusterGroupsHostClusterSummary(params)
@@ -176,7 +176,7 @@ func (h *V1Client) UpdateClusterGroupMeta(clusterGroup *models.V1ClusterGroupEnt
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDMetaUpdateParams().WithUID(clusterGroup.Metadata.UID)
 	default:
-		return errors.New("invalid scope")
+		return errors.New("invalid scope " + scope)
 	}
 	params = params.WithBody(&models.V1ObjectMeta{
 		Name:        clusterGroup.Metadata.Name,
@@ -203,10 +203,29 @@ func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1Cluster
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsUIDHostClusterUpdateParams().WithUID(uid)
 	default:
-		return errors.New("invalid scope")
+		return errors.New("invalid scope " + scope)
 	}
 	params = params.WithBody(clusterGroup)
 	_, err = client.V1ClusterGroupsUIDHostClusterUpdate(params)
+	return err
+}
+
+func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupContext string, clusterGroupUid string, clusterProfiles *models.V1SpectroClusterProfiles) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+	var params *clusterC.V1ClusterGroupsUIDProfilesUpdateParams
+	switch clusterGroupContext {
+	case "project":
+		params = clusterC.NewV1ClusterGroupsUIDProfilesUpdateParamsWithContext(h.Ctx).WithUID(clusterGroupUid)
+	case "tenant":
+		params = clusterC.NewV1ClusterGroupsUIDProfilesUpdateParams().WithUID(clusterGroupUid)
+	default:
+		return errors.New("invalid scope " + clusterGroupContext)
+	}
+	params = params.WithBody(clusterProfiles)
+	_, err = client.V1ClusterGroupsUIDProfilesUpdate(params)
 	return err
 }
 
@@ -225,7 +244,7 @@ func (h *V1Client) getClusterGroupMetadata(clusterGroupContext string) ([]*model
 	case "tenant":
 		params = clusterC.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.Ctx)
 	default:
-		return nil, errors.New("invalid scope")
+		return nil, errors.New("invalid scope " + clusterGroupContext)
 	}
 
 	resp, err := client.V1ClusterGroupsHostClusterMetadata(params)
