@@ -306,7 +306,7 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 	return nil
 }
 
-func (h *V1Client) DeleteOciEcrRegistry(client clusterC.ClientService, uid string) error {
+func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 	if h.DeleteOciEcrRegistryFn != nil {
 		return h.DeleteOciEcrRegistryFn(uid)
 	}
