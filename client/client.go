@@ -113,6 +113,7 @@ type V1Client struct {
 	CreateOciEcrRegistryFn func(registry *models.V1EcrRegistry) (string, error)
 	UpdateEcrRegistryFn    func(uid string, registry *models.V1EcrRegistry) error
 	GetOciRegistryFn       func(uid string) (*models.V1EcrRegistry, error)
+	DeleteOciEcrRegistryFn func(uid string) error
 
 	// Edge Native
 	GetCloudConfigEdgeNativeFn func(uid string, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
