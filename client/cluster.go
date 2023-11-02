@@ -126,6 +126,29 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 	return resp.Payload.Items, nil
 }
 
+func (h *V1Client) listClustersMetadata(clusterContext string) ([]*models.V1ObjectMeta, error) {
+	client, err := h.GetHashboardClient()
+	if err != nil {
+		return nil, err
+	}
+
+	var params *hashboardC.V1SpectroClustersMetadataParams
+	switch clusterContext {
+	case "project":
+		params = hashboardC.NewV1SpectroClustersMetadataParams().WithContext(h.Ctx)
+	case "tenant":
+		params = hashboardC.NewV1SpectroClustersMetadataParams()
+	}
+	resp, err := client.V1SpectroClustersMetadata(params)
+	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
+// ListClusters This API is Deprecated in 3.1 in hubble, so basically it will return only 50 cluster by default.
 func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
 	allClusters, err := h.listClusters(clusterContext)
 	if err != nil {
@@ -171,14 +194,20 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 }
 
 func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
-	clusters, err := h.listClusters(clusterContext)
+	clustersMetadataList, err := h.listClustersMetadata(clusterContext)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, cluster := range clusters {
-		if cluster.Metadata.Name == name && cluster.Status.State != "Deleted" {
-			return cluster, nil
+	for _, clusterMetadata := range clustersMetadataList {
+		if clusterMetadata.Name == name {
+			cluster, err := h.GetCluster(clusterContext, clusterMetadata.UID)
+			if err != nil {
+				return nil, err
+			}
+			if cluster.Status.State != "Deleted" {
+				return cluster, nil
+			}
 		}
 	}
 
