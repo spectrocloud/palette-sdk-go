@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spectrocloud/gomi/pkg/ptr"
 	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -57,7 +56,7 @@ func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1P
 
 	params := clusterC.NewV1PacksSummaryListParamsWithContext(h.Ctx)
 	if filters != nil {
-		filterString := ptr.StringPtr(strings.Join(filters, "AND"))
+		filterString := Ptr(strings.Join(filters, "AND"))
 		params = params.WithFilters(filterString)
 	}
 

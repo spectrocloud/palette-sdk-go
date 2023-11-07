@@ -206,8 +206,8 @@ github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMB
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.6.0 h1:UBcNElsrwanuuMsnGSlYmtmgbb23qDR5dG+6X6Oo89I=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
-github.com/spectrocloud/gomi v1.14.1-0.20231018185613-210a5f32e20a h1:fIRwPG93quk2DHfYhaPNfnzMhynhPbgvnvn1zTW+sKA=
-github.com/spectrocloud/gomi v1.14.1-0.20231018185613-210a5f32e20a/go.mod h1:5T1lnweC0UQVJcswAguAC8o/gLaaumVL7+PvgP9LVLc=
+github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08 h1:AnOC0U+ExlKBeT5yF2Pg8PPfVOfxwOUBS/5deOl1Q4Y=
+github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08/go.mod h1:UnhUDpFEvtYh6m384r3xzj8/+Z6/hMp2O8whEMYVHec=
 github.com/spectrocloud/hapi v1.14.1-0.20231107061715-d18e1e78daf8 h1:vSU7q/fj0vmQIh5R/+m3o5a3ppcCbCCbB34JYveM5n4=
 github.com/spectrocloud/hapi v1.14.1-0.20231107061715-d18e1e78daf8/go.mod h1:Krk9mzbO1MnUTLvvzztBYpOWCFunIlSDWSGlsLh1vkk=
 github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
