@@ -1,6 +1,8 @@
 module github.com/spectrocloud/palette-sdk-go
 
-go 1.19
+go 1.21
+
+toolchain go1.21.1
 
 require (
 	github.com/go-openapi/runtime v0.19.24
