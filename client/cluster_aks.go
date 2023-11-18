@@ -1,6 +1,7 @@
 package client
 
 import (
+	"errors"
 	"time"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
@@ -105,7 +106,8 @@ func (h *V1Client) GetCloudConfigAks(configUID, ClusterContext string) (*models.
 	}
 
 	success, err := client.V1CloudConfigsAksGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err

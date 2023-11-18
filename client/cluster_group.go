@@ -88,7 +88,8 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid, scope string) (*models.V1Cl
 		return nil, errors.New("invalid scope " + scope)
 	}
 	success, err := client.V1ClusterGroupsUIDGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -155,7 +156,8 @@ func (h *V1Client) GetClusterGroupSummaries(clusterGroupContext string) ([]*mode
 	}
 
 	resp, err := client.V1ClusterGroupsHostClusterSummary(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -248,7 +250,8 @@ func (h *V1Client) getClusterGroupMetadata(clusterGroupContext string) ([]*model
 	}
 
 	resp, err := client.V1ClusterGroupsHostClusterMetadata(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
