@@ -348,6 +348,9 @@ func (h *V1Client) ApproveClusterRepave(clusterUID string, context string) error
 		params = clusterC.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.Ctx).WithUID(clusterUID)
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDRepaveApproveUpdateParams().WithUID(clusterUID)
+	default:
+		err = fmt.Errorf("invalid Context set - %s", context)
+		return err
 	}
 	_, err = client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
