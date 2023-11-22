@@ -1,6 +1,8 @@
 package client
 
 import (
+	"errors"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
@@ -18,7 +20,8 @@ func (h *V1Client) GetApplication(uid string) (*models.V1AppDeployment, error) {
 
 	params := v1.NewV1AppDeploymentsUIDGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1AppDeploymentsUIDGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -48,11 +51,13 @@ func (h *V1Client) SearchAppDeploymentSummaries(scope string, filter *models.V1A
 	}
 
 	resp, err := client.V1DashboardAppDeployments(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.AppDeployments, nil
 }
 

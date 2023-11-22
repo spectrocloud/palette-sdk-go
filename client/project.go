@@ -1,6 +1,7 @@
 package client
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
@@ -68,7 +69,8 @@ func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
 	projects, err := client.V1ProjectsMetadata(params)
 	if err != nil || projects == nil {
 		// to support 2.6 projects list
-		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		var e *transport.TransportError
+		if errors.As(err, &e) && e.HttpCode == 404 {
 			limit := int64(0)
 			userClient, err := h.GetUserClient()
 			if err != nil {
