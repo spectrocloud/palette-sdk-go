@@ -94,11 +94,13 @@ func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.
 	}
 
 	resp, err := client.V1SpectroClustersSearchFilterSummary(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 
@@ -118,11 +120,14 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 	var limit int64 = 0
 	params.Limit = &limit
 	resp, err := client.V1SpectroClustersList(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 
@@ -140,11 +145,14 @@ func (h *V1Client) listClustersMetadata(clusterContext string) ([]*models.V1Obje
 		params = hashboardC.NewV1SpectroClustersMetadataParams()
 	}
 	resp, err := client.V1SpectroClustersMetadata(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 

@@ -9,6 +9,7 @@ import (
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
@@ -72,7 +73,9 @@ func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*
 
 	params := clusterC.NewV1AppProfilesUIDTiersGetParamsWithContext(h.Ctx).WithUID(applicationProfileUID)
 	success, err := client.V1AppProfilesUIDTiersGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -97,11 +100,14 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		Context:     h.Ctx,
 	}
 	success, err := client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return "", nil
 	} else if err != nil {
 		return "", err
 	}
+
 	return success.Payload.Spec.Published.Content, nil
 }
 
@@ -129,7 +135,8 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 			params.Offset = &resp.Payload.Listmeta.Offset
 		}
 		resp, err = client.V1DashboardAppProfiles(params)
-		if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+		var e *transport.TransportError
+		if errors.As(err, &e) && e.HttpCode == 404 {
 			return nil, nil
 		} else if err != nil {
 			return nil, err
@@ -197,7 +204,8 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 	}
 
 	_, err = client.V1AppProfilesUIDTiersUIDUpdate(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil
 	} else if err != nil {
 		return err

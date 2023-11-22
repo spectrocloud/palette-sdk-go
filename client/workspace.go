@@ -32,7 +32,8 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 
 	params := clusterC.NewV1WorkspacesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1WorkspacesUIDGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -51,7 +52,8 @@ func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace
 
 	params := hashboardC.NewV1DashboardWorkspacesListParamsWithContext(h.Ctx)
 	success, err := client.V1DashboardWorkspacesList(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -124,7 +126,8 @@ func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, er
 
 	params := clusterC.NewV1WorkspaceOpsBackupGetParams().WithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1WorkspaceOpsBackupGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err

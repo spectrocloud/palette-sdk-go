@@ -1,6 +1,8 @@
 package client
 
 import (
+	"errors"
+
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -70,7 +72,9 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 		params = clusterC.NewV1CloudAccountsAzureGetParams().WithUID(uid)
 	}
 	success, err := client.V1CloudAccountsAzureGet(params)
-	if e, ok := err.(*transport.TransportError); ok && e.HttpCode == 404 {
+
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
