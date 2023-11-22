@@ -212,7 +212,7 @@ func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1Cluster
 	return err
 }
 
-func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupContext string, clusterGroupUid string, clusterProfiles *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupContext, clusterGroupUid string, clusterProfiles *models.V1SpectroClusterProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

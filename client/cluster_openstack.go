@@ -140,7 +140,7 @@ func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) 
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapOpenStack(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapOpenStack(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

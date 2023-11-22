@@ -5,7 +5,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) UpdateClusterHostConfig(uid string, clusterContext string, config *models.V1HostClusterConfigEntity) error {
+func (h *V1Client) UpdateClusterHostConfig(uid, clusterContext string, config *models.V1HostClusterConfigEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -21,7 +21,7 @@ func (h *V1Client) UpdateClusterHostConfig(uid string, clusterContext string, co
 	return err
 }
 
-func (h *V1Client) ApplyClusterHostConfig(uid string, clusterContext string, config *models.V1HostClusterConfigEntity) error {
+func (h *V1Client) ApplyClusterHostConfig(uid, clusterContext string, config *models.V1HostClusterConfigEntity) error {
 	if policy, err := h.GetClusterScanConfig(uid, clusterContext); err != nil {
 		return err
 	} else if policy == nil {

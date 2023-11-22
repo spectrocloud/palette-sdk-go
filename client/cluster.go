@@ -284,7 +284,7 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 	return builder.String(), nil
 }
 
-func (h *V1Client) GetClusterImportManifest(uid string, clusterContext string) (string, error) {
+func (h *V1Client) GetClusterImportManifest(uid, clusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -306,7 +306,7 @@ func (h *V1Client) GetClusterImportManifest(uid string, clusterContext string) (
 	return builder.String(), nil
 }
 
-func (h *V1Client) UpdateClusterProfileValues(uid string, context string, profiles *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *models.V1SpectroClusterProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

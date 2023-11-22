@@ -132,7 +132,7 @@ func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (strin
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAws(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

@@ -135,7 +135,7 @@ func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (str
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAzure(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

@@ -35,7 +35,7 @@ func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1C
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateClusterRbacConfig(uid string, ClusterContext string, config *models.V1ClusterRbac) error {
+func (h *V1Client) CreateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbac) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (h *V1Client) CreateClusterRbacConfig(uid string, ClusterContext string, co
 	return err
 }
 
-func (h *V1Client) UpdateClusterRbacConfig(uid string, ClusterContext string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
+func (h *V1Client) UpdateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -71,7 +71,7 @@ func (h *V1Client) UpdateClusterRbacConfig(uid string, ClusterContext string, co
 	return err
 }
 
-func (h *V1Client) ApplyClusterRbacConfig(uid string, ClusterContext string, config []*models.V1ClusterRbacInputEntity) error {
+func (h *V1Client) ApplyClusterRbacConfig(uid, ClusterContext string, config []*models.V1ClusterRbacInputEntity) error {
 	if rbac, err := h.GetClusterRbacConfig(uid, ClusterContext); err != nil {
 		return err
 	} else if rbac == nil {
