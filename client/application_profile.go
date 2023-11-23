@@ -99,6 +99,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		ManifestUID: manifestUID,
 		Context:     h.Ctx,
 	}
+
 	success, err := client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
 
 	var e *transport.TransportError

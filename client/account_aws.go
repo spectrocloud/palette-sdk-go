@@ -4,12 +4,30 @@ import (
 	"errors"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
+	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
+func toV1AwsCloudAccount(account *models.V1AwsAccount) *models.V1AwsCloudAccount {
+	return &models.V1AwsCloudAccount{
+		AccessKey:      account.Spec.AccessKey,
+		CredentialType: account.Spec.CredentialType,
+		Partition:      account.Spec.Partition,
+		PolicyARNs:     account.Spec.PolicyARNs,
+		SecretKey:      account.Spec.SecretKey,
+		Sts:            account.Spec.Sts,
+	}
+}
+
 func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountContext string) (string, error) {
 	client, err := h.GetClusterClient()
+	if err != nil {
+		return "", err
+	}
+
+	// validate account
+	err = validateCloudAccountAws(account, h)
 	if err != nil {
 		return "", err
 	}
@@ -30,8 +48,38 @@ func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountCo
 	return *success.Payload.UID, nil
 }
 
+func validateCloudAccountAws(account *models.V1AwsAccount, h *V1Client) error {
+	client, err := h.GetCloudClient()
+	if err != nil {
+		return err
+	}
+
+	PcgId := account.Metadata.Annotations[OverlordUID]
+	// check PCG
+	err = h.CheckPCG(PcgId)
+	if err != nil {
+		return err
+	}
+
+	// validate account
+	paramsValidate := cloudC.NewV1AwsAccountValidateParams()
+	paramsValidate = paramsValidate.WithAwsCloudAccount(toV1AwsCloudAccount(account))
+	_, err = client.V1AwsAccountValidate(paramsValidate)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (h *V1Client) UpdateCloudAccountAws(account *models.V1AwsAccount) error {
 	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+
+	// validate account
+	err = validateCloudAccountAws(account, h)
 	if err != nil {
 		return err
 	}
