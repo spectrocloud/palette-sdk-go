@@ -115,7 +115,7 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*mod
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapCoxEdge(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapCoxEdge(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

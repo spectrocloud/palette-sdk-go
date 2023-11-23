@@ -1,10 +1,11 @@
 package client
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
-	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -20,7 +21,8 @@ func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models
 	}
 	params := clusterC.NewV1PacksSearchParams().WithContext(h.Ctx).WithBody(body)
 	resp, err := client.V1PacksSearch(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -39,7 +41,8 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName str
 	params := clusterC.NewV1ClusterProfilesUIDPacksUIDManifestsParamsWithContext(h.Ctx).
 		WithUID(clusterProfileUID).WithPackName(packName)
 	success, err := client.V1ClusterProfilesUIDPacksUIDManifests(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err

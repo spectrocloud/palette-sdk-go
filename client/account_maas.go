@@ -117,6 +117,7 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 	}
 
 	success, err := client.V1CloudAccountsMaasGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

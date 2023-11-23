@@ -138,7 +138,7 @@ func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEks(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

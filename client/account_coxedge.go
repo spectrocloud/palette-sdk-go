@@ -1,7 +1,9 @@
 package client
 
 import (
-	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
+	"errors"
+
+	"github.com/spectrocloud/hapi/apiutil/transport"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -71,8 +73,9 @@ func (h *V1Client) GetCloudAccountCoxEdge(uid, AccountContext string) (*models.V
 	}
 
 	success, err := client.V1CloudAccountsCoxEdgeGet(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
 
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err

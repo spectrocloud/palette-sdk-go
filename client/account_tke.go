@@ -75,6 +75,7 @@ func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1Ten
 	}
 
 	success, err := client.V1CloudAccountsTencentGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

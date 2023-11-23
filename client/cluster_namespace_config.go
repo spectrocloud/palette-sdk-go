@@ -6,7 +6,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterNamespaceConfig(uid string, clusterContext string) (*models.V1ClusterNamespaceResources, error) {
+func (h *V1Client) GetClusterNamespaceConfig(uid, clusterContext string) (*models.V1ClusterNamespaceResources, error) {
 	if h.GetClusterNamespaceConfigFn != nil {
 		return h.GetClusterNamespaceConfigFn(uid)
 	}
@@ -33,7 +33,7 @@ func (h *V1Client) GetClusterNamespaceConfig(uid string, clusterContext string) 
 }
 
 // UpdateClusterNamespaceConfig no create for namespaces, there is only update.
-func (h *V1Client) UpdateClusterNamespaceConfig(uid string, clusterContext string, config *models.V1ClusterNamespaceResourcesUpdateEntity) error {
+func (h *V1Client) UpdateClusterNamespaceConfig(uid, clusterContext string, config *models.V1ClusterNamespaceResourcesUpdateEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func (h *V1Client) UpdateClusterNamespaceConfig(uid string, clusterContext strin
 	return err
 }
 
-func (h *V1Client) ApplyClusterNamespaceConfig(uid string, clusterContext string, config []*models.V1ClusterNamespaceResourceInputEntity) error {
+func (h *V1Client) ApplyClusterNamespaceConfig(uid, clusterContext string, config []*models.V1ClusterNamespaceResourceInputEntity) error {
 	if _, err := h.GetClusterNamespaceConfig(uid, clusterContext); err != nil {
 		return err
 	} else {

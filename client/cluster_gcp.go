@@ -134,7 +134,7 @@ func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (strin
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapGcp(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapGcp(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

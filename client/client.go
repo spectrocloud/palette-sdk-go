@@ -116,7 +116,7 @@ type V1Client struct {
 	DeleteOciEcrRegistryFn func(uid string) error
 
 	// Edge Native
-	GetCloudConfigEdgeNativeFn func(uid string, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
+	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
 }
 
 func New(hubbleHost, email, password, projectUID, apikey string, transportDebug bool, retryAttempts int) *V1Client {

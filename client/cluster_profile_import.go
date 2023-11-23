@@ -1,9 +1,11 @@
 package client
 
 import (
-	"github.com/go-openapi/runtime"
+	"errors"
 
-	hapitransport "github.com/spectrocloud/hapi/apiutil/transport"
+	"github.com/go-openapi/runtime"
+	"github.com/spectrocloud/hapi/apiutil/transport"
+
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
@@ -45,7 +47,8 @@ func (h *V1Client) ClusterProfileExport(uid string) (*models.V1ClusterProfile, e
 	// no need to switch request context here as /v1/clusterprofiles/{uid} works for profile in any scope.
 	params := clusterC.NewV1ClusterProfilesGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1ClusterProfilesGet(params)
-	if e, ok := err.(*hapitransport.TransportError); ok && e.HttpCode == 404 {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err

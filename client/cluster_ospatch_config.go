@@ -5,7 +5,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) UpdateClusterOsPatchConfig(uid string, clusterContext string, config *models.V1OsPatchEntity) error {
+func (h *V1Client) UpdateClusterOsPatchConfig(uid, clusterContext string, config *models.V1OsPatchEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

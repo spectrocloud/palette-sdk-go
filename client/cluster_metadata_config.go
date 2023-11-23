@@ -5,7 +5,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) UpdateClusterMetadata(uid string, clusterContext string, config *models.V1ObjectMetaInputEntitySchema) error {
+func (h *V1Client) UpdateClusterMetadata(uid, clusterContext string, config *models.V1ObjectMetaInputEntitySchema) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err
@@ -24,7 +24,7 @@ func (h *V1Client) UpdateClusterMetadata(uid string, clusterContext string, conf
 	return err
 }
 
-func (h *V1Client) UpdateAdditionalClusterMetadata(uid string, clusterContext string, additionalMeta *models.V1ClusterMetaAttributeEntity) error {
+func (h *V1Client) UpdateAdditionalClusterMetadata(uid, clusterContext string, additionalMeta *models.V1ClusterMetaAttributeEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

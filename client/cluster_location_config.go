@@ -17,7 +17,7 @@ func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1Cluste
 	return nil, errors.New("failed to read cluster location")
 }
 
-func (h *V1Client) UpdateClusterLocationConfig(uid string, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
+func (h *V1Client) UpdateClusterLocationConfig(uid, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

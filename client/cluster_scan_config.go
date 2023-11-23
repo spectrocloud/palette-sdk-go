@@ -7,7 +7,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterScanConfig(uid string, clusterContext string) (*models.V1ClusterComplianceScan, error) {
+func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1ClusterComplianceScan, error) {
 	if h.GetClusterScanConfigFn != nil {
 		return h.GetClusterScanConfigFn(uid)
 	}

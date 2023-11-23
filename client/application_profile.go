@@ -9,6 +9,7 @@ import (
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
@@ -72,6 +73,7 @@ func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*
 
 	params := clusterC.NewV1AppProfilesUIDTiersGetParamsWithContext(h.Ctx).WithUID(applicationProfileUID)
 	success, err := client.V1AppProfilesUIDTiersGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -99,6 +101,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 	}
 
 	success, err := client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return "", nil

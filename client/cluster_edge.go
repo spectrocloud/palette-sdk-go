@@ -115,7 +115,7 @@ func (h *V1Client) GetCloudConfigEdge(configUID, ClusterContext string) (*models
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEdge(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapEdge(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

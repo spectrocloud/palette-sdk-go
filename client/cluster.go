@@ -100,6 +100,7 @@ func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 
@@ -119,12 +120,14 @@ func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroClust
 	var limit int64 = 0
 	params.Limit = &limit
 	resp, err := client.V1SpectroClustersList(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 
@@ -142,12 +145,14 @@ func (h *V1Client) listClustersMetadata(clusterContext string) ([]*models.V1Obje
 		params = hashboardC.NewV1SpectroClustersMetadataParams()
 	}
 	resp, err := client.V1SpectroClustersMetadata(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
+
 	return resp.Payload.Items, nil
 }
 
@@ -279,7 +284,7 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 	return builder.String(), nil
 }
 
-func (h *V1Client) GetClusterImportManifest(uid string, clusterContext string) (string, error) {
+func (h *V1Client) GetClusterImportManifest(uid, clusterContext string) (string, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return "", err
@@ -301,7 +306,7 @@ func (h *V1Client) GetClusterImportManifest(uid string, clusterContext string) (
 	return builder.String(), nil
 }
 
-func (h *V1Client) UpdateClusterProfileValues(uid string, context string, profiles *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *models.V1SpectroClusterProfiles) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

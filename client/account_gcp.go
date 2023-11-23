@@ -75,6 +75,7 @@ func (h *V1Client) GetCloudAccountGcp(uid, AccountContext string) (*models.V1Gcp
 	}
 
 	success, err := client.V1CloudAccountsGcpGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

@@ -105,6 +105,7 @@ func (h *V1Client) GetCloudConfigLibvirt(configUID, ClusterContext string) (*mod
 	}
 
 	success, err := client.V1CloudConfigsLibvirtGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -115,7 +116,7 @@ func (h *V1Client) GetCloudConfigLibvirt(configUID, ClusterContext string) (*mod
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapLibvirt(configUID string, machinePoolName string, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapLibvirt(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return nil, err

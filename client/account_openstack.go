@@ -116,6 +116,7 @@ func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models
 	}
 
 	success, err := client.V1CloudAccountsOpenStackGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

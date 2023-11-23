@@ -121,6 +121,7 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 	}
 
 	success, err := client.V1CloudAccountsAzureGet(params)
+
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
