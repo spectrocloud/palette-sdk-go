@@ -339,3 +339,22 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 
 	return *success.Payload.UID, nil
 }
+
+func (h *V1Client) ApproveClusterRepave(clusterUID string, context string) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+	var params *clusterC.V1SpectroClustersUIDRepaveApproveUpdateParams
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.Ctx).WithUID(clusterUID)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDRepaveApproveUpdateParams().WithUID(clusterUID)
+	default:
+		err = fmt.Errorf("invalid Context set - %s", context)
+		return err
+	}
+	_, err = client.V1SpectroClustersUIDRepaveApproveUpdate(params)
+	return err
+}
