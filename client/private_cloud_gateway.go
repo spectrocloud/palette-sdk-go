@@ -81,6 +81,9 @@ func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
 }
 
 func (h *V1Client) CheckPCG(PcgId string) error {
+	if PcgId == "" {
+		return nil // no pcg to check
+	}
 	pcg, err := h.GetPCGById(PcgId)
 	if err != nil {
 		return err
