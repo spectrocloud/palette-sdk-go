@@ -346,6 +346,10 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 }
 
 func (h *V1Client) ApproveClusterRepave(clusterUID string, context string) error {
+	if h.ApproveClusterRepaveFn != nil {
+		return h.ApproveClusterRepaveFn(clusterUID, context)
+	}
+
 	client, err := h.GetClusterClient()
 	if err != nil {
 		return err

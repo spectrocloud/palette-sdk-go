@@ -60,6 +60,7 @@ type V1Client struct {
 	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
 	GetClusterRbacConfigFn      func(uid string) (*models.V1ClusterRbacs, error)
 	GetClusterNamespaceConfigFn func(uid string) (*models.V1ClusterNamespaceResources, error)
+	ApproveClusterRepaveFn      func(clusterUID string, context string) error
 
 	// Cluster Groups
 	CreateClusterGroupFn func(*models.V1ClusterGroupEntity) (string, error)
