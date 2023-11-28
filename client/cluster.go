@@ -213,7 +213,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 			if err != nil {
 				return nil, err
 			}
-			if cluster.Status.State != "Deleted" {
+			if cluster != nil {
 				return cluster, nil
 			}
 		}
