@@ -257,7 +257,7 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) ApproveClusterRepave(clusterUID string, context string) error {
+func (h *V1Client) ApproveClusterRepave(context string, clusterUID string) error {
 	if h.ApproveClusterRepaveFn != nil {
 		return h.ApproveClusterRepaveFn(clusterUID, context)
 	}
@@ -278,4 +278,34 @@ func (h *V1Client) ApproveClusterRepave(clusterUID string, context string) error
 	}
 	_, err = client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
+}
+
+func (h *V1Client) GetRepaveReasons(context string, clusterUID string) ([]string, error) {
+	if h.GetRepaveReasonsFn != nil {
+		return h.GetRepaveReasonsFn(context, clusterUID)
+	}
+
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return nil, err
+	}
+	var params *clusterC.V1SpectroClustersUIDRepaveGetParams
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDRepaveGetParamsWithContext(h.Ctx).WithUID(clusterUID)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDRepaveGetParams().WithUID(clusterUID)
+	default:
+		err = fmt.Errorf("invalid Context set - %s", context)
+		return nil, err
+	}
+	res, err := client.V1SpectroClustersUIDRepaveGet(params)
+	if err != nil {
+		return nil, err
+	}
+	var reasons []string
+	for _, r := range res.Payload.Spec.Reasons {
+		reasons = append(reasons, fmt.Sprintf("Repave Reason Code -  %s , Reason - %s.", r.Code, r.Message))
+	}
+	return reasons, err
 }
