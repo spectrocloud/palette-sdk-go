@@ -210,12 +210,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 	for _, clusterMetadata := range clustersMetadataList {
 		if clusterMetadata.Name == name {
 			cluster, err := h.GetCluster(clusterContext, clusterMetadata.UID)
-			if err != nil {
-				return nil, err
-			}
-			if cluster != nil {
-				return cluster, nil
-			}
+			return cluster, err
 		}
 	}
 
