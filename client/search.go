@@ -25,6 +25,20 @@ func getClusterFilter(extraFilters []*models.V1SearchFilterItem) *models.V1Searc
 				Filters: []*models.V1SearchFilterItem{
 					{
 						Condition: &models.V1SearchFilterCondition{
+							String: &models.V1SearchFilterStringCondition{
+								Match: &models.V1SearchFilterStringConditionMatch{
+									Conjunction: or(),
+									Values:      []string{"nested"},
+								},
+								Negation: true,
+								Operator: models.V1SearchFilterStringOperatorEq,
+							},
+						},
+						Property: "environment",
+						Type:     models.V1SearchFilterPropertyTypeString,
+					},
+					{
+						Condition: &models.V1SearchFilterCondition{
 							Bool: &models.V1SearchFilterBoolCondition{
 								Value: false,
 							},
@@ -37,12 +51,12 @@ func getClusterFilter(extraFilters []*models.V1SearchFilterItem) *models.V1Searc
 		},
 	}
 
-	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, extraFilters...)
+	filter.FilterGroups = append(filter.FilterGroups, &models.V1SearchFilterGroup{Conjunction: and(), Filters: extraFilters})
 
 	return filter
 }
 
-func nameFilter(name string) *models.V1SearchFilterItem {
+func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 	return &models.V1SearchFilterItem{
 		Condition: &models.V1SearchFilterCondition{
 			String: &models.V1SearchFilterStringCondition{
@@ -50,19 +64,23 @@ func nameFilter(name string) *models.V1SearchFilterItem {
 					Conjunction: or(),
 					Values:      []string{name},
 				},
-				Operator: models.V1SearchFilterStringOperatorEq,
+				Operator:   models.V1SearchFilterStringOperatorEq,
+				Negation:   false,
+				IgnoreCase: false,
 			},
 		},
-		Property: "name",
+		Property: "clusterName",
 		Type:     models.V1SearchFilterPropertyTypeString,
 	}
 }
 
+func (h *V1Client) SearchClusterSummariesNonVirtual(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
+	return h.SearchClusterSummaries("tenant", filter, sort) // regular clusters search is working only in tenant context.
+}
+
 func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
-	filters := []*models.V1SearchFilterItem{nameFilter(name)}
-	clusterSummaries, err := h.SearchClusterSummaries(
-		clusterContext, getClusterFilter(filters), nil,
-	)
+	filters := []*models.V1SearchFilterItem{clusterNameEqFilter(name)}
+	clusterSummaries, err := h.SearchClusterSummariesNonVirtual(getClusterFilter(filters), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +88,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1Spec
 		return nil, fmt.Errorf("expected 1 cluster: %v in %v, got %d", name, clusterContext, len(clusterSummaries))
 	}
 
-	cluster, err := h.GetCluster(clusterContext, clusterSummaries[0].Metadata.UID)
+	cluster, err := h.GetCluster(clusterSummaries[0].Metadata.Annotations["scope"], clusterSummaries[0].Metadata.UID)
 	if err != nil {
 		return nil, err
 	}
