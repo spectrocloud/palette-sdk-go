@@ -16,7 +16,7 @@ func or() *models.V1SearchFilterConjunctionOperator {
 	return &or
 }
 
-func getClusterFilter(extraFilters []*models.V1SearchFilterItem) *models.V1SearchFilterSpec {
+func getClusterFilter(extraFilters []*models.V1SearchFilterItem, virtual bool) *models.V1SearchFilterSpec {
 	filter := &models.V1SearchFilterSpec{
 		Conjunction: and(),
 		FilterGroups: []*models.V1SearchFilterGroup{
@@ -30,7 +30,7 @@ func getClusterFilter(extraFilters []*models.V1SearchFilterItem) *models.V1Searc
 									Conjunction: or(),
 									Values:      []string{"nested"},
 								},
-								Negation: true,
+								Negation: !virtual,
 								Operator: models.V1SearchFilterStringOperatorEq,
 							},
 						},
@@ -74,13 +74,15 @@ func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 	}
 }
 
-func (h *V1Client) SearchClusterSummariesNonVirtual(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
-	return h.SearchClusterSummaries("tenant", filter, sort) // regular clusters search is working only in tenant context.
-}
-
-func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
+func (h *V1Client) GetClusterByName(name, clusterContext string, virtual bool) (*models.V1SpectroCluster, error) {
 	filters := []*models.V1SearchFilterItem{clusterNameEqFilter(name)}
-	clusterSummaries, err := h.SearchClusterSummariesNonVirtual(getClusterFilter(filters), nil)
+	var clusterSummaries []*models.V1SpectroClusterSummary
+	var err error
+	if virtual {
+		clusterSummaries, err = h.SearchClusterSummaries(clusterContext, getClusterFilter(filters, virtual), nil)
+	} else {
+		clusterSummaries, err = h.SearchClusterSummaries("tenant", getClusterFilter(filters, virtual), nil) // regular clusters search is working only in tenant context.
+	}
 	if err != nil {
 		return nil, err
 	}
