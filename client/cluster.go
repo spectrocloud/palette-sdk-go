@@ -104,73 +104,6 @@ func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) listClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	var params *clusterC.V1SpectroClustersListParams
-	switch clusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersListParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersListParams()
-	}
-	var limit int64 = 0
-	params.Limit = &limit
-	resp, err := client.V1SpectroClustersList(params)
-
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	return resp.Payload.Items, nil
-}
-
-func (h *V1Client) listClustersMetadata(clusterContext string) ([]*models.V1ObjectMeta, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
-	var params *hashboardC.V1SpectroClustersMetadataParams
-	switch clusterContext {
-	case "project":
-		params = hashboardC.NewV1SpectroClustersMetadataParams().WithContext(h.Ctx)
-	case "tenant":
-		params = hashboardC.NewV1SpectroClustersMetadataParams()
-	}
-	resp, err := client.V1SpectroClustersMetadata(params)
-
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
-	}
-
-	return resp.Payload.Items, nil
-}
-
-// ListClusters This API is Deprecated in 3.1 in hubble, so basically it will return only 50 cluster by default.
-func (h *V1Client) ListClusters(clusterContext string) ([]*models.V1SpectroCluster, error) {
-	allClusters, err := h.listClusters(clusterContext)
-	if err != nil {
-		return nil, err
-	}
-	clusters := make([]*models.V1SpectroCluster, 0)
-	for _, c := range allClusters {
-		if c.Status.State != "Deleted" {
-			clusters = append(clusters, c)
-		}
-	}
-	return clusters, nil
-}
-
 func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1SpectroCluster, error) {
 	if h.GetClusterWithoutStatusFn != nil {
 		return h.GetClusterWithoutStatusFn(uid)
@@ -199,27 +132,6 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 	// special check if the cluster is marked deleted
 	cluster := success.Payload
 	return cluster, nil
-}
-
-func (h *V1Client) GetClusterByName(name, clusterContext string) (*models.V1SpectroCluster, error) {
-	clustersMetadataList, err := h.listClustersMetadata(clusterContext)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, clusterMetadata := range clustersMetadataList {
-		if clusterMetadata.Name == name {
-			cluster, err := h.GetCluster(clusterContext, clusterMetadata.UID)
-			if err != nil {
-				return nil, err
-			}
-			if cluster.Status.State != "Deleted" {
-				return cluster, nil
-			}
-		}
-	}
-
-	return nil, nil
 }
 
 func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, error) {
