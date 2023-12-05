@@ -142,8 +142,14 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		} else if err != nil {
 			return nil, err
 		}
-		appProfile = append(appProfile, resp.Payload.AppProfiles...)
-		if len(resp.Payload.Listmeta.Continue) == 0 {
+		if resp != nil && resp.Payload != nil {
+			if resp.Payload.AppProfiles != nil {
+				appProfile = append(appProfile, resp.Payload.AppProfiles...)
+			}
+			if resp.Payload.Listmeta == nil || len(resp.Payload.Listmeta.Continue) == 0 {
+				break
+			}
+		} else {
 			break
 		}
 	}
