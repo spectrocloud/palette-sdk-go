@@ -91,6 +91,20 @@ func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevic
 	return nil
 }
 
+func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostDeviceMetaUpdateEntity) error {
+	client, err := h.GetClusterClient()
+	if err != nil {
+		return err
+	}
+	params := clusterC.NewV1EdgeHostDevicesUIDMetaUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
+	_, err = client.V1EdgeHostDevicesUIDMetaUpdate(params)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (h *V1Client) DeleteAppliance(uid string) error {
 	client, err := h.GetClusterClient()
 	if err != nil {
