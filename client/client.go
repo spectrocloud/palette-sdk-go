@@ -3,8 +3,6 @@ package client
 import (
 	"context"
 	"errors"
-	"log"
-	"time"
 
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -28,23 +26,11 @@ const (
 var (
 	hubbleUri string
 
-	AuthClient authC.ClientService
-
 	schemes []string
-
-	authToken   *AuthToken
-	tokenExpiry = 10 * time.Minute
 )
-
-type AuthToken struct {
-	token  *models.V1UserToken
-	expiry time.Time
-}
 
 type V1Client struct {
 	Ctx            context.Context
-	email          string
-	password       string
 	apikey         string
 	transportDebug bool
 	RetryAttempts  int
@@ -60,8 +46,8 @@ type V1Client struct {
 	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
 	GetClusterRbacConfigFn      func(uid string) (*models.V1ClusterRbacs, error)
 	GetClusterNamespaceConfigFn func(uid string) (*models.V1ClusterNamespaceResources, error)
-	ApproveClusterRepaveFn      func(context string, clusterUID string) error
-	GetRepaveReasonsFn          func(context string, clusterUID string) ([]string, error)
+	ApproveClusterRepaveFn      func(context, clusterUID string) error
+	GetRepaveReasonsFn          func(context, clusterUID string) ([]string, error)
 
 	// Cluster Groups
 	CreateClusterGroupFn func(*models.V1ClusterGroupEntity) (string, error)
@@ -121,7 +107,7 @@ type V1Client struct {
 	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
 }
 
-func New(hubbleHost, email, password, projectUID, apikey string, transportDebug bool, retryAttempts int) *V1Client {
+func New(hubbleHost, projectUID, apikey string, transportDebug bool, retryAttempts int) *V1Client {
 	ctx := context.Background()
 	if projectUID != "" {
 		ctx = GetProjectContextWithCtx(ctx, projectUID)
@@ -132,56 +118,20 @@ func New(hubbleHost, email, password, projectUID, apikey string, transportDebug 
 	authHttpTransport := transport.New(hubbleUri, "", schemes)
 	authHttpTransport.RetryAttempts = 0
 	//authHttpTransport.Debug = true
-	AuthClient = authC.New(authHttpTransport, strfmt.Default)
 	return &V1Client{
 		Ctx:            ctx,
-		email:          email,
-		password:       password,
 		apikey:         apikey,
 		transportDebug: transportDebug,
 		RetryAttempts:  retryAttempts,
 	}
 }
 
-func (h *V1Client) getNewAuthToken() (*AuthToken, error) {
-	authParam := authC.NewV1AuthenticateParams().
-		WithBody(&models.V1AuthLogin{
-			EmailID:  h.email,
-			Password: strfmt.Password(h.password),
-		})
-	res, err := AuthClient.V1Authenticate(authParam)
-	if err != nil {
-		log.Fatal(err.Error())
-		return nil, err
-	}
-
-	if len(res.Payload.Authorization) == 0 {
-		errMsg := "authorization auth token is empty in hubble payload"
-		return nil, errors.New(errMsg)
-	}
-
-	authToken = &AuthToken{
-		token:  res.Payload,
-		expiry: time.Now().Add(tokenExpiry),
-	}
-	return authToken, nil
-}
-
 func (h *V1Client) getTransport() (*transport.Runtime, error) {
-	if h.apikey == "" && (authToken == nil || authToken.expiry.Before(time.Now())) {
-		if tkn, err := h.getNewAuthToken(); err != nil {
-			log.Fatal("Failed to get auth token ", err.Error())
-			return nil, err
-		} else {
-			authToken = tkn
-		}
-	}
-
 	httpTransport := h.baseTransport()
 	if h.apikey != "" {
 		httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
 	} else {
-		httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authTokenKey, authTokenInput, authToken.token.Authorization)
+		return nil, errors.New("api_key is required")
 	}
 	return httpTransport, nil
 }
@@ -254,7 +204,6 @@ func (h *V1Client) GetEventClient() (eventC.ClientService, error) {
 }
 
 func (h *V1Client) Validate() error {
-	authToken = nil
 	_, err := h.getTransport()
 
 	// API key can only be validated by making an API call
@@ -270,7 +219,6 @@ func (h *V1Client) Validate() error {
 }
 
 func (h *V1Client) ValidateTenantAdmin() error {
-	authToken = nil
 	_, err := h.getTransport()
 
 	// API key can only be validated by making an API call
