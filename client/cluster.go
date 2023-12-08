@@ -257,7 +257,7 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) ApproveClusterRepave(context string, clusterUID string) error {
+func (h *V1Client) ApproveClusterRepave(context, clusterUID string) error {
 	if h.ApproveClusterRepaveFn != nil {
 		return h.ApproveClusterRepaveFn(clusterUID, context)
 	}
@@ -280,7 +280,7 @@ func (h *V1Client) ApproveClusterRepave(context string, clusterUID string) error
 	return err
 }
 
-func (h *V1Client) GetRepaveReasons(context string, clusterUID string) ([]string, error) {
+func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error) {
 	if h.GetRepaveReasonsFn != nil {
 		return h.GetRepaveReasonsFn(context, clusterUID)
 	}
