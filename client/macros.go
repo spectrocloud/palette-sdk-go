@@ -1,6 +1,8 @@
 package client
 
 import (
+	"errors"
+	"fmt"
 	"hash/fnv"
 	"strconv"
 
@@ -32,6 +34,37 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) error {
 		}
 	}
 
+	return nil
+}
+
+func (h *V1Client) CreateMacrosNew(macroContext string, macros *models.V1Macros) error {
+	client, err := h.GetUserClient()
+	if err != nil {
+		return err
+	}
+
+	switch macroContext {
+	case "project":
+		s, _ := h.GetProjectByCtx()
+		fmt.Printf("%s", s)
+		params := userC.NewV1ProjectsUIDMacrosCreateParamsWithContext(h.Ctx).WithBody(macros)
+		_, err := client.V1ProjectsUIDMacrosCreate(params)
+		if err != nil {
+			return err
+		}
+	case "tenant":
+		tenantUID, err := h.GetTenantUID()
+		if err != nil {
+			return err
+		}
+		params := userC.NewV1TenantsUIDMacrosCreateParams().WithBody(macros).WithTenantUID(tenantUID)
+		_, err = client.V1TenantsUIDMacrosCreate(params)
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.New("invalid scope")
+	}
 	return nil
 }
 

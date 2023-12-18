@@ -58,6 +58,21 @@ func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
 	return project.Payload, nil
 }
 
+func (h *V1Client) GetProjectByCtx() (*models.V1Project, error) {
+	client, err := h.GetUserClient()
+	if err != nil {
+		return nil, err
+	}
+
+	params := userC.NewV1ProjectsUIDGetParams().WithContext(h.Ctx)
+	project, err := client.V1ProjectsUIDGet(params)
+	if err != nil || project == nil {
+		return nil, err
+	}
+
+	return project.Payload, nil
+}
+
 func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
 	client, err := h.GetHashboardClient()
 	if err != nil {
