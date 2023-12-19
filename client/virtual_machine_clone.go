@@ -8,12 +8,6 @@ import (
 )
 
 func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
 		return err
@@ -37,7 +31,7 @@ func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmNam
 	}
 	params = params.WithUID(clusterUid).WithVMName(cloneVMFromName).WithNamespace(vmNamespace).WithBody(body)
 
-	_, err = client.V1SpectroClustersVMClone(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMClone(params)
 	if err != nil {
 		return err
 	}

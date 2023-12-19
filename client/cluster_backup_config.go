@@ -13,11 +13,6 @@ func (h *V1Client) GetClusterBackupConfig(uid, ClusterContext string) (*models.V
 	if h.GetClusterBackupConfigFn != nil {
 		return h.GetClusterBackupConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1ClusterFeatureBackupGetParams
 	switch ClusterContext {
 	case "project":
@@ -29,7 +24,7 @@ func (h *V1Client) GetClusterBackupConfig(uid, ClusterContext string) (*models.V
 
 	}
 
-	success, err := client.V1ClusterFeatureBackupGet(params)
+	success, err := h.GetClusterClient().V1ClusterFeatureBackupGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) || herr.IsBackupNotConfigured(err) {
 			return nil, nil
@@ -41,11 +36,6 @@ func (h *V1Client) GetClusterBackupConfig(uid, ClusterContext string) (*models.V
 }
 
 func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1ClusterFeatureBackupCreateParams
 	switch ClusterContext {
 	case "project":
@@ -54,15 +44,11 @@ func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1Cluste
 		params = clusterC.NewV1ClusterFeatureBackupCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err = client.V1ClusterFeatureBackupCreate(params)
+	_, err := h.GetClusterClient().V1ClusterFeatureBackupCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1ClusterBackupConfig, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1ClusterFeatureBackupUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -70,7 +56,7 @@ func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1Cluste
 	case "tenant":
 		params = clusterC.NewV1ClusterFeatureBackupUpdateParams().WithUID(uid).WithBody(config)
 	}
-	_, err = client.V1ClusterFeatureBackupUpdate(params)
+	_, err := h.GetClusterClient().V1ClusterFeatureBackupUpdate(params)
 	return err
 }
 

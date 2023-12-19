@@ -15,14 +15,8 @@ func toV1OverlordsUIDMaasAccountValidateBody(account *models.V1MaasAccount) clus
 }
 
 func (h *V1Client) CreateCloudAccountMaas(account *models.V1MaasAccount, AccountContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	// validate account
-	err = validateCloudAccountMaas(account, h)
-	if err != nil {
+	if err := validateCloudAccountMaas(account, h); err != nil {
 		return "", err
 	}
 
@@ -34,7 +28,7 @@ func (h *V1Client) CreateCloudAccountMaas(account *models.V1MaasAccount, Account
 		params = clusterC.NewV1CloudAccountsMaasCreateParams().WithBody(account)
 	}
 
-	success, err := client.V1CloudAccountsMaasCreate(params)
+	success, err := h.GetClusterClient().V1CloudAccountsMaasCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -43,22 +37,16 @@ func (h *V1Client) CreateCloudAccountMaas(account *models.V1MaasAccount, Account
 }
 
 func validateCloudAccountMaas(account *models.V1MaasAccount, h *V1Client) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	PcgId := account.Metadata.Annotations[OverlordUID]
 	// check PCG
-	err = h.CheckPCG(PcgId)
-	if err != nil {
+	if err := h.CheckPCG(PcgId); err != nil {
 		return err
 	}
 
 	// validate account
 	paramsValidate := clusterC.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDMaasAccountValidateBody(account))
-	_, err = client.V1OverlordsUIDMaasAccountValidate(paramsValidate)
+	_, err := h.GetClusterClient().V1OverlordsUIDMaasAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -67,29 +55,18 @@ func validateCloudAccountMaas(account *models.V1MaasAccount, h *V1Client) error 
 }
 
 func (h *V1Client) UpdateCloudAccountMaas(account *models.V1MaasAccount) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// validate account
-	err = validateCloudAccountMaas(account, h)
-	if err != nil {
+	if err := validateCloudAccountMaas(account, h); err != nil {
 		return err
 	}
 
 	uid := account.Metadata.UID
 	params := clusterC.NewV1CloudAccountsMaasUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsMaasUpdate(params)
+	_, err := h.GetClusterClient().V1CloudAccountsMaasUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountMaas(uid, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudAccountsMaasDeleteParams
 	switch AccountContext {
 	case "project":
@@ -98,16 +75,11 @@ func (h *V1Client) DeleteCloudAccountMaas(uid, AccountContext string) error {
 		params = clusterC.NewV1CloudAccountsMaasDeleteParams().WithUID(uid)
 	}
 
-	_, err = client.V1CloudAccountsMaasDelete(params)
+	_, err := h.GetClusterClient().V1CloudAccountsMaasDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1MaasAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsMaasGetParams
 	switch AccountContext {
 	case "project":
@@ -116,7 +88,7 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 		params = clusterC.NewV1CloudAccountsMaasGetParams().WithUID(uid)
 	}
 
-	success, err := client.V1CloudAccountsMaasGet(params)
+	success, err := h.GetClusterClient().V1CloudAccountsMaasGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -129,14 +101,9 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 }
 
 func (h *V1Client) GetCloudAccountsMaas() ([]*models.V1MaasAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsMaasListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := client.V1CloudAccountsMaasList(params)
+	response, err := h.GetClusterClient().V1CloudAccountsMaasList(params)
 	if err != nil {
 		return nil, err
 	}

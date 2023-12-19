@@ -9,13 +9,8 @@ import (
 )
 
 func (h *V1Client) GetOrganizationByName(name string) (*models.V1LoginResponse, error) {
-	client, err := h.GetAuthClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := authC.NewV1AuthOrgParams().WithOrgName(&name)
-	resp, err := client.V1AuthOrg(params)
+	resp, err := h.GetAuthClient().V1AuthOrg(params)
 	if err != nil || resp == nil {
 		return nil, err
 	}
@@ -24,11 +19,6 @@ func (h *V1Client) GetOrganizationByName(name string) (*models.V1LoginResponse, 
 }
 
 func (h *V1Client) ListOrganizations(scope string) ([]*models.V1Organization, error) {
-	client, err := h.GetAuthClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *authC.V1AuthOrgsParams
 	switch scope {
 	case "project":
@@ -37,7 +27,7 @@ func (h *V1Client) ListOrganizations(scope string) ([]*models.V1Organization, er
 		params = authC.NewV1AuthOrgsParams()
 	}
 
-	resp, err := client.V1AuthOrgs(params)
+	resp, err := h.GetAuthClient().V1AuthOrgs(params)
 	if err != nil || resp == nil {
 		return nil, err
 	} else if len(resp.Payload.Organizations) == 0 {
@@ -48,11 +38,6 @@ func (h *V1Client) ListOrganizations(scope string) ([]*models.V1Organization, er
 }
 
 func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
-	client, err := h.GetAuthClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *authC.V1AuthOrgSwitchParams
 	switch scope {
 	case "project":
@@ -61,7 +46,7 @@ func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
 		params = authC.NewV1AuthOrgSwitchParams().WithOrgName(orgName)
 	}
 
-	resp, err := client.V1AuthOrgSwitch(params)
+	resp, err := h.GetAuthClient().V1AuthOrgSwitch(params)
 	if err != nil || resp == nil {
 		return "", err
 	}
@@ -70,13 +55,8 @@ func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
 }
 
 func (h *V1Client) GetOrgLoginBanner(orgName string) (*models.V1LoginBannerSettings, error) {
-	client, err := h.GetNoAuthClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := authC.NewV1AuthOrgLoginBannerGetParams().WithOrgName(orgName)
-	resp, err := client.V1AuthOrgLoginBannerGet(params)
+	resp, err := h.GetAuthClient().V1AuthOrgLoginBannerGet(params)
 	if err != nil || resp == nil {
 		if herr.IsNotFound(err) {
 			return nil, fmt.Errorf("invalid Organization: %s", orgName)
@@ -90,13 +70,8 @@ func (h *V1Client) GetOrgLoginBanner(orgName string) (*models.V1LoginBannerSetti
 }
 
 func (h *V1Client) GetSystemLoginBanner() (*models.V1LoginBannerSettings, error) {
-	client, err := h.GetNoAuthClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := authC.NewV1AuthSystemLoginBannerGetParams()
-	resp, err := client.V1AuthSystemLoginBannerGet(params)
+	resp, err := h.GetAuthClient().V1AuthSystemLoginBannerGet(params)
 	if err != nil || resp == nil {
 		return nil, err
 	} else if !resp.Payload.IsEnabled {

@@ -11,11 +11,6 @@ func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1C
 	if h.GetClusterRbacConfigFn != nil {
 		return h.GetClusterRbacConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1SpectroClustersUIDConfigRbacsGetParams
 	switch ClusterContext {
 	case "project":
@@ -24,7 +19,7 @@ func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1C
 		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
 	}
 
-	success, err := client.V1SpectroClustersUIDConfigRbacsGet(params)
+	success, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -36,11 +31,6 @@ func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1C
 }
 
 func (h *V1Client) CreateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbac) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1WorkspacesClusterRbacCreateParams
 	switch ClusterContext {
 	case "project":
@@ -49,16 +39,11 @@ func (h *V1Client) CreateClusterRbacConfig(uid, ClusterContext string, config *m
 		params = clusterC.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err = client.V1WorkspacesClusterRbacCreate(params)
+	_, err := h.GetClusterClient().V1WorkspacesClusterRbacCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1SpectroClustersUIDConfigRbacsUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -67,7 +52,7 @@ func (h *V1Client) UpdateClusterRbacConfig(uid, ClusterContext string, config *m
 		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err = client.V1SpectroClustersUIDConfigRbacsUpdate(params)
+	_, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsUpdate(params)
 	return err
 }
 

@@ -10,10 +10,7 @@ func (h *V1Client) GetClusterNamespaceConfig(uid, clusterContext string) (*model
 	if h.GetClusterNamespaceConfigFn != nil {
 		return h.GetClusterNamespaceConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
+
 	var params *clusterC.V1SpectroClustersUIDConfigNamespacesGetParams
 	switch clusterContext {
 	case "project":
@@ -21,7 +18,8 @@ func (h *V1Client) GetClusterNamespaceConfig(uid, clusterContext string) (*model
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesGetParams().WithUID(uid)
 	}
-	success, err := client.V1SpectroClustersUIDConfigNamespacesGet(params)
+
+	success, err := h.GetClusterClient().V1SpectroClustersUIDConfigNamespacesGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -34,10 +32,6 @@ func (h *V1Client) GetClusterNamespaceConfig(uid, clusterContext string) (*model
 
 // UpdateClusterNamespaceConfig no create for namespaces, there is only update.
 func (h *V1Client) UpdateClusterNamespaceConfig(uid, clusterContext string, config *models.V1ClusterNamespaceResourcesUpdateEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1SpectroClustersUIDConfigNamespacesUpdateParams
 	switch clusterContext {
 	case "project":
@@ -45,7 +39,8 @@ func (h *V1Client) UpdateClusterNamespaceConfig(uid, clusterContext string, conf
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesUpdateParams().WithUID(uid).WithBody(config)
 	}
-	_, err = client.V1SpectroClustersUIDConfigNamespacesUpdate(params)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUIDConfigNamespacesUpdate(params)
 	return err
 }
 

@@ -23,10 +23,6 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace st
 	if h.GetVirtualMachineWithoutStatusFn != nil {
 		return h.GetVirtualMachineWithoutStatusFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
 
 	var params *clusterC.V1SpectroClustersVMGetParams
 	switch scope {
@@ -38,7 +34,7 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace st
 		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
 
-	success, err := client.V1SpectroClustersVMGet(params)
+	success, err := h.GetClusterClient().V1SpectroClustersVMGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -48,27 +44,17 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace st
 }
 
 func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
-	uid := cluster.Metadata.UID
 	var params *clusterC.V1SpectroClustersVMListParams
-
-	// switch cluster scope
 	switch cluster.Metadata.Annotations["scope"] {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx)
+		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx).WithUID(cluster.Metadata.UID)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMListParams().WithUID(uid)
+		params = clusterC.NewV1SpectroClustersVMListParams().WithUID(cluster.Metadata.UID)
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}
 
-	params = params.WithUID(uid)
-
-	vms, err := client.V1SpectroClustersVMList(params)
+	vms, err := h.GetClusterClient().V1SpectroClustersVMList(params)
 	if err != nil {
 		return nil, err
 	}

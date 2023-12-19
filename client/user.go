@@ -8,14 +8,9 @@ import (
 )
 
 func (h *V1Client) GetUsers() (*models.V1Users, error) {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := userC.NewV1UsersListParams().WithLimit(&limit)
-	users, err := client.V1UsersList(params)
+	users, err := h.GetUserClient().V1UsersList(params)
 	if err != nil {
 		return nil, err
 	}

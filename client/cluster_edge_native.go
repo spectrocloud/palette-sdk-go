@@ -9,11 +9,6 @@ import (
 )
 
 func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity, ClusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *clusterC.V1SpectroClustersEdgeNativeCreateParams
 	switch ClusterContext {
 	case "project":
@@ -22,7 +17,7 @@ func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeCl
 		params = clusterC.NewV1SpectroClustersEdgeNativeCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersEdgeNativeCreate(params)
+	success, err := h.GetClusterClient().V1SpectroClustersEdgeNativeCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -31,11 +26,6 @@ func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeCl
 }
 
 func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigId, ClusterContext string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolCreateParams
 	switch ClusterContext {
 	case "project":
@@ -44,16 +34,11 @@ func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigId, ClusterContext str
 		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsEdgeNativeMachinePoolCreate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigId, ClusterContext string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -68,16 +53,11 @@ func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigId, ClusterContext str
 			WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsEdgeNativeMachinePoolUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId, machinePoolName, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolDeleteParams
 	switch ClusterContext {
 	case "project":
@@ -86,7 +66,7 @@ func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId, machinePoolName, C
 		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err = client.V1CloudConfigsEdgeNativeMachinePoolDelete(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolDelete(params)
 	return err
 }
 
@@ -94,11 +74,6 @@ func (h *V1Client) GetCloudConfigEdgeNative(configUID, ClusterContext string) (*
 	if h.GetCloudConfigEdgeNativeFn != nil {
 		return h.GetCloudConfigEdgeNativeFn(configUID, ClusterContext)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativeGetParams
 	switch ClusterContext {
 	case "project":
@@ -107,7 +82,7 @@ func (h *V1Client) GetCloudConfigEdgeNative(configUID, ClusterContext string) (*
 		params = clusterC.NewV1CloudConfigsEdgeNativeGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := client.V1CloudConfigsEdgeNativeGet(params)
+	success, err := h.GetClusterClient().V1CloudConfigsEdgeNativeGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -119,11 +94,6 @@ func (h *V1Client) GetCloudConfigEdgeNative(configUID, ClusterContext string) (*
 }
 
 func (h *V1Client) GetNodeStatusMapEdgeNative(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativePoolMachinesListParams
 	switch ClusterContext {
 	case "project":
@@ -132,7 +102,7 @@ func (h *V1Client) GetNodeStatusMapEdgeNative(configUID, machinePoolName, Cluste
 		params = clusterC.NewV1CloudConfigsEdgeNativePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := client.V1CloudConfigsEdgeNativePoolMachinesList(params)
+	mpList, err := h.GetClusterClient().V1CloudConfigsEdgeNativePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

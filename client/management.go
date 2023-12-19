@@ -8,19 +8,13 @@ import (
 )
 
 func (h *V1Client) GetMgmtAppVersion() (*models.V1MgmtAppVersionVersion, error) {
-	client, err := h.GetMgmtClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := mgmtC.NewV1MgmtAppVersionGetParams().WithContext(h.Ctx)
-	resp, err := client.V1MgmtAppVersionGet(params)
+	resp, err := h.GetMgmtClient().V1MgmtAppVersionGet(params)
 	if err != nil || resp == nil {
 		return nil, err
 	}
 	if resp.Payload == nil || (resp.Payload != nil && resp.Payload.Version == nil) {
 		return nil, errors.New("failed to detect mgmt app version")
 	}
-
 	return resp.Payload.Version, nil
 }

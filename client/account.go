@@ -10,11 +10,6 @@ import (
 )
 
 func (h *V1Client) ListCloudAccounts(scope string) ([]*models.V1CloudAccountSummary, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsListSummaryParams
 	switch scope {
 	case "project":
@@ -25,7 +20,7 @@ func (h *V1Client) ListCloudAccounts(scope string) ([]*models.V1CloudAccountSumm
 	}
 	var limit int64 = 0
 	params.Limit = &limit
-	resp, err := client.V1CloudAccountsListSummary(params)
+	resp, err := h.GetClusterClient().V1CloudAccountsListSummary(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {

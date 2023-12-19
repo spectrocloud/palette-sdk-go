@@ -9,11 +9,6 @@ import (
 )
 
 func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
@@ -38,7 +33,7 @@ func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1Cluste
 
 	params = params.WithUID(uid).WithBody(body).WithNamespace(params.Body.Metadata.Namespace)
 
-	vm, err := client.V1SpectroClustersVMCreate(params)
+	vm, err := h.GetClusterClient().V1SpectroClustersVMCreate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -57,11 +52,6 @@ func (h *V1Client) GetVirtualMachine(scope, uid, namespace, name string) (*model
 }
 
 func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	clusterUid := cluster.Metadata.UID
 	scope := cluster.Metadata.Annotations["scope"]
 	// get cluster scope
@@ -89,7 +79,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 		return nil, errors.New("VM not exists")
 	}
 
-	vm, err := client.V1SpectroClustersVMUpdate(params)
+	vm, err := h.GetClusterClient().V1SpectroClustersVMUpdate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -99,11 +89,6 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 }
 
 func (h *V1Client) DeleteVirtualMachine(scope, uid, namespace, name string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, uid)
 	if err != nil {
@@ -125,6 +110,6 @@ func (h *V1Client) DeleteVirtualMachine(scope, uid, namespace, name string) erro
 	}
 	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace)
 
-	_, err = client.V1SpectroClustersVMDelete(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMDelete(params)
 	return err
 }

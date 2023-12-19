@@ -21,14 +21,8 @@ func toV1AzureCloudAccount(account *models.V1AzureAccount) *models.V1AzureCloudA
 }
 
 func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount, AccountContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	// validate account
-	err = validateCloudAccountAzure(account, h)
-	if err != nil {
+	if err := validateCloudAccountAzure(account, h); err != nil {
 		return "", err
 	}
 
@@ -39,7 +33,7 @@ func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount, Accou
 	case "tenant":
 		params = clusterC.NewV1CloudAccountsAzureCreateParams().WithBody(account)
 	}
-	success, err := client.V1CloudAccountsAzureCreate(params)
+	success, err := h.GetClusterClient().V1CloudAccountsAzureCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -48,22 +42,16 @@ func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount, Accou
 }
 
 func validateCloudAccountAzure(account *models.V1AzureAccount, h *V1Client) error {
-	client, err := h.GetCloudClient()
-	if err != nil {
-		return err
-	}
-
-	PcgId := account.Metadata.Annotations[OverlordUID]
 	// check PCG
-	err = h.CheckPCG(PcgId)
-	if err != nil {
+	if err := h.CheckPCG(account.Metadata.Annotations[OverlordUID]); err != nil {
 		return err
 	}
 
 	// validate account
 	paramsValidate := cloudC.NewV1AzureAccountValidateParams()
 	paramsValidate = paramsValidate.WithAzureCloudAccount(toV1AzureCloudAccount(account))
-	_, err = client.V1AzureAccountValidate(paramsValidate)
+
+	_, err := h.GetCloudClient().V1AzureAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -72,29 +60,18 @@ func validateCloudAccountAzure(account *models.V1AzureAccount, h *V1Client) erro
 }
 
 func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	// validate account
-	err = validateCloudAccountAzure(account, h)
-	if err != nil {
+	if err := validateCloudAccountAzure(account, h); err != nil {
 		return err
 	}
 
 	uid := account.Metadata.UID
 	params := clusterC.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsAzureUpdate(params)
+	_, err := h.GetClusterClient().V1CloudAccountsAzureUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountAzure(uid, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudAccountsAzureDeleteParams
 	switch AccountContext {
 	case "project":
@@ -102,16 +79,11 @@ func (h *V1Client) DeleteCloudAccountAzure(uid, AccountContext string) error {
 	case "tenant":
 		params = clusterC.NewV1CloudAccountsAzureDeleteParams().WithUID(uid)
 	}
-	_, err = client.V1CloudAccountsAzureDelete(params)
+	_, err := h.GetClusterClient().V1CloudAccountsAzureDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1AzureAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsAzureGetParams
 	switch AccountContext {
 	case "project":
@@ -120,7 +92,7 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 		params = clusterC.NewV1CloudAccountsAzureGetParams().WithUID(uid)
 	}
 
-	success, err := client.V1CloudAccountsAzureGet(params)
+	success, err := h.GetClusterClient().V1CloudAccountsAzureGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -133,14 +105,9 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 }
 
 func (h *V1Client) GetCloudAccountsAzure() ([]*models.V1AzureAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsAzureListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := client.V1CloudAccountsAzureList(params)
+	response, err := h.GetClusterClient().V1CloudAccountsAzureList(params)
 	if err != nil {
 		return nil, err
 	}
