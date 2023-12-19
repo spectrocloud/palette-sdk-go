@@ -22,7 +22,7 @@ fmt: ## Run go fmt against code
 vet: ## Run go vet against code
 	go vet ./...
 lint: golangci-lint ## Run golangci-lint against code
-	$(GOLANGCI_LINT) run
+	$(GOLANGCI_LINT) run ./...
 
 ##@ Test Targets
 .PHONY: test
