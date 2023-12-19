@@ -102,10 +102,9 @@ type V1Client struct {
 	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
 }
 
-func New(hubbleHost string, options ...func(*V1Client)) *V1Client {
+func New(options ...func(*V1Client)) *V1Client {
 	client := &V1Client{
 		Ctx:           context.Background(),
-		hubbleUri:     hubbleHost,
 		RetryAttempts: 0,
 		schemes:       []string{"https"},
 	}
@@ -118,6 +117,12 @@ func New(hubbleHost string, options ...func(*V1Client)) *V1Client {
 func WithAPIKey(apiKey string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.apikey = apiKey
+	}
+}
+
+func WithHubbleURI(hubbleUri string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.hubbleUri = hubbleUri
 	}
 }
 
