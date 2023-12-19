@@ -105,13 +105,15 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		Filter: filter,
 		Sort:   sortBy,
 	}
+
 	var appProfile []*models.V1AppProfileSummary
 	var resp *hashboardC.V1DashboardAppProfilesOK
+	var err error
 	for {
 		if resp != nil {
 			params.Offset = &resp.Payload.Listmeta.Offset
 		}
-		resp, err := h.GetHashboardClient().V1DashboardAppProfiles(params)
+		resp, err = h.GetHashboardClient().V1DashboardAppProfiles(params)
 		var e *transport.TransportError
 		if errors.As(err, &e) && e.HttpCode == 404 {
 			return nil, nil
