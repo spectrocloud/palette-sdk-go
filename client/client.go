@@ -127,7 +127,7 @@ func WithProjectUID(projectUid string) func(*V1Client) {
 	}
 }
 
-func WithRetryAttempts(retries int) func(*V1Client) {
+func WithRetries(retries int) func(*V1Client) {
 	return func(v *V1Client) {
 		v.RetryAttempts = retries
 	}
