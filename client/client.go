@@ -12,6 +12,7 @@ import (
 	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
 	eventC "github.com/spectrocloud/hapi/event/client/v1"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
+	mgmtC "github.com/spectrocloud/hapi/mgmt/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	userC "github.com/spectrocloud/hapi/user/client/v1"
@@ -183,6 +184,15 @@ func (h *V1Client) GetHashboardClient() (hashboardC.ClientService, error) {
 	}
 
 	return hashboardC.New(httpTransport, strfmt.Default), nil
+}
+
+func (h *V1Client) GetMgmtClient() (mgmtC.ClientService, error) {
+	httpTransport, err := h.getTransport()
+	if err != nil {
+		return nil, err
+	}
+
+	return mgmtC.New(httpTransport, strfmt.Default), nil
 }
 
 func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
