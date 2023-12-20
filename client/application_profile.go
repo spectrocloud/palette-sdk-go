@@ -14,14 +14,9 @@ import (
 )
 
 func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version string) (*models.V1AppProfileSummary, string, string, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, "", "", err
-	}
-
 	limit := int64(0)
 	params := hashboardC.NewV1DashboardAppProfilesParamsWithContext(h.Ctx).WithLimit(&limit)
-	profiles, err := client.V1DashboardAppProfiles(params)
+	profiles, err := h.GetHashboardClient().V1DashboardAppProfiles(params)
 	if err != nil {
 		return nil, "", "", err
 	}
@@ -43,14 +38,9 @@ func (h *V1Client) GetApplicationProfile(uid string) (*models.V1AppProfile, erro
 	if h.GetApplicationProfileFn != nil {
 		return h.GetApplicationProfileFn(uid)
 	}
-	//
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
 
 	params := clusterC.NewV1AppProfilesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := client.V1AppProfilesUIDGet(params)
+	response, err := h.GetClusterClient().V1AppProfilesUIDGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -66,13 +56,8 @@ func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*
 		return h.GetApplicationProfileTiersFn(applicationProfileUID)
 	}
 
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := clusterC.NewV1AppProfilesUIDTiersGetParamsWithContext(h.Ctx).WithUID(applicationProfileUID)
-	success, err := client.V1AppProfilesUIDTiersGet(params)
+	success, err := h.GetClusterClient().V1AppProfilesUIDTiersGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -89,10 +74,6 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		return h.GetApplicationProfileTierManifestContentFn(applicationProfileUID, tierUID, manifestUID)
 	}
 
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
 	params := &clusterC.V1AppProfilesUIDTiersUIDManifestsUIDGetParams{
 		UID:         applicationProfileUID,
 		TierUID:     tierUID,
@@ -100,7 +81,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		Context:     h.Ctx,
 	}
 
-	success, err := client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
+	success, err := h.GetClusterClient().V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -113,11 +94,6 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 }
 
 func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec) ([]*models.V1AppProfileSummary, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *hashboardC.V1DashboardAppProfilesParams
 	switch scope {
 	case "project":
@@ -129,13 +105,15 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		Filter: filter,
 		Sort:   sortBy,
 	}
+
 	var appProfile []*models.V1AppProfileSummary
 	var resp *hashboardC.V1DashboardAppProfilesOK
+	var err error
 	for {
 		if resp != nil {
 			params.Offset = &resp.Payload.Listmeta.Offset
 		}
-		resp, err = client.V1DashboardAppProfiles(params)
+		resp, err = h.GetHashboardClient().V1DashboardAppProfiles(params)
 		var e *transport.TransportError
 		if errors.As(err, &e) && e.HttpCode == 404 {
 			return nil, nil
@@ -157,10 +135,6 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 }
 
 func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *models.V1AppProfileMetaEntity, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1AppProfilesUIDMetadataUpdateParams
 	switch ProfileContext {
 	case "project":
@@ -169,16 +143,12 @@ func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *model
 		params = clusterC.NewV1AppProfilesUIDMetadataUpdateParams().WithUID(appProfileUID).WithBody(metadata)
 	}
 
-	_, err = client.V1AppProfilesUIDMetadataUpdate(params)
+	_, err := h.GetClusterClient().V1AppProfilesUIDMetadataUpdate(params)
 	return err
 }
 
 func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers []*models.V1AppTierEntity, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+	var err error
 	for _, appTier := range appTiers {
 		var params *clusterC.V1AppProfilesUIDTiersCreateParams
 		switch ProfileContext {
@@ -188,20 +158,15 @@ func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers 
 			params = clusterC.NewV1AppProfilesUIDTiersCreateParams().WithUID(appProfileUID).WithBody(appTier)
 		}
 
-		_, tmp_err := client.V1AppProfilesUIDTiersCreate(params)
-		if tmp_err != nil {
-			err = errors.Wrap(err, tmp_err.Error())
+		_, tmpErr := h.GetClusterClient().V1AppProfilesUIDTiersCreate(params)
+		if tmpErr != nil {
+			err = errors.Wrap(err, tmpErr.Error())
 		}
 	}
 	return err
 }
 
 func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, appTier *models.V1AppTierUpdateEntity, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1AppProfilesUIDTiersUIDUpdateParams
 	switch ProfileContext {
 	case "project":
@@ -210,7 +175,7 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 		params = clusterC.NewV1AppProfilesUIDTiersUIDUpdateParams().WithUID(appProfileUID).WithTierUID(tierUID).WithBody(appTier)
 	}
 
-	_, err = client.V1AppProfilesUIDTiersUIDUpdate(params)
+	_, err := h.GetClusterClient().V1AppProfilesUIDTiersUIDUpdate(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil
@@ -222,11 +187,7 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 }
 
 func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers []string, ProfileContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
+	var err error
 	for _, appTierUID := range appTiers {
 		var params *clusterC.V1AppProfilesUIDTiersUIDDeleteParams
 		switch ProfileContext {
@@ -236,9 +197,9 @@ func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers 
 			params = clusterC.NewV1AppProfilesUIDTiersUIDDeleteParams().WithUID(appProfileUID).WithTierUID(appTierUID)
 		}
 
-		_, tmp_err := client.V1AppProfilesUIDTiersUIDDelete(params)
-		if tmp_err != nil {
-			err = errors.Wrap(err, tmp_err.Error())
+		_, tmpErr := h.GetClusterClient().V1AppProfilesUIDTiersUIDDelete(params)
+		if tmpErr != nil {
+			err = errors.Wrap(err, tmpErr.Error())
 		}
 	}
 	return err
@@ -249,12 +210,6 @@ func (h *V1Client) CreateApplicationProfile(appProfile *models.V1AppProfileEntit
 	if h.CreateApplicationProfileFn != nil {
 		return h.CreateApplicationProfileFn(appProfile, ProfileContext)
 	}
-	//
-
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
 
 	var params *clusterC.V1AppProfilesCreateParams
 	switch ProfileContext {
@@ -264,7 +219,7 @@ func (h *V1Client) CreateApplicationProfile(appProfile *models.V1AppProfileEntit
 		params = clusterC.NewV1AppProfilesCreateParams().WithBody(appProfile)
 	}
 
-	success, err := client.V1AppProfilesCreate(params)
+	success, err := h.GetClusterClient().V1AppProfilesCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -276,11 +231,6 @@ func (h *V1Client) DeleteApplicationProfile(uid string) error {
 	// Unit test mock handler
 	if h.DeleteApplicationProfileFn != nil {
 		return h.DeleteApplicationProfileFn(uid)
-	}
-	//
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
 	}
 
 	profile, err := h.GetApplicationProfile(uid)
@@ -296,6 +246,6 @@ func (h *V1Client) DeleteApplicationProfile(uid string) error {
 		params = clusterC.NewV1AppProfilesUIDDeleteParams().WithUID(uid)
 	}
 
-	_, err = client.V1AppProfilesUIDDelete(params)
+	_, err = h.GetClusterClient().V1AppProfilesUIDDelete(params)
 	return err
 }

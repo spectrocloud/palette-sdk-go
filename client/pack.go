@@ -11,16 +11,13 @@ import (
 )
 
 func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models.V1PackSortSpec) ([]*models.V1PackMetadata, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
 	body := &models.V1PacksFilterSpec{
 		Filter: filter,
 		Sort:   sortBy,
 	}
 	params := clusterC.NewV1PacksSearchParams().WithContext(h.Ctx).WithBody(body)
-	resp, err := client.V1PacksSearch(params)
+
+	resp, err := h.GetClusterClient().V1PacksSearch(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -32,15 +29,11 @@ func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models
 }
 
 func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName string) ([]*models.V1ManifestEntity, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	//params := clusterC.NewV1ClusterProfilesGetParamsWithContext(h.ctx).WithUID(uid)
 	params := clusterC.NewV1ClusterProfilesUIDPacksUIDManifestsParamsWithContext(h.Ctx).
 		WithUID(clusterProfileUID).WithPackName(packName)
-	success, err := client.V1ClusterProfilesUIDPacksUIDManifests(params)
+
+	success, err := h.GetClusterClient().V1ClusterProfilesUIDPacksUIDManifests(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -52,18 +45,13 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName str
 }
 
 func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1PackSummary, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := clusterC.NewV1PacksSummaryListParamsWithContext(h.Ctx)
 	if filters != nil {
 		filterString := Ptr(strings.Join(filters, "AND"))
 		params = params.WithFilters(filterString)
 	}
 
-	response, err := client.V1PacksSummaryList(params)
+	response, err := h.GetClusterClient().V1PacksSummaryList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -79,11 +67,6 @@ func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1P
 }
 
 func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext string) (*models.V1PackTagEntity, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1PacksNameRegistryUIDListParams
 	switch packContext {
 	case "project":
@@ -95,7 +78,7 @@ func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext stri
 
 	}
 
-	response, err := client.V1PacksNameRegistryUIDList(params)
+	response, err := h.GetClusterClient().V1PacksNameRegistryUIDList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -104,13 +87,8 @@ func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext stri
 }
 
 func (h *V1Client) GetPack(uid string) (*models.V1PackTagEntity, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := clusterC.NewV1PacksUIDParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := client.V1PacksUID(params)
+	response, err := h.GetClusterClient().V1PacksUID(params)
 	if err != nil {
 		return nil, err
 	}

@@ -18,10 +18,6 @@ func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1Cluste
 }
 
 func (h *V1Client) UpdateClusterLocationConfig(uid, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1SpectroClustersUIDLocationPutParams
 	switch clusterContext {
 	case "project":
@@ -29,7 +25,8 @@ func (h *V1Client) UpdateClusterLocationConfig(uid, clusterContext string, confi
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
 	}
-	_, err = client.V1SpectroClustersUIDLocationPut(params)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUIDLocationPut(params)
 	return err
 }
 

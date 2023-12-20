@@ -3,13 +3,13 @@ package client
 import (
 	"errors"
 	"fmt"
+
 	"github.com/spectrocloud/hapi/models"
 	userC "github.com/spectrocloud/hapi/user/client/v1"
 )
 
-func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext string) (string, error) {
-	client, err := h.GetUserClient()
-	SSHEntity := &models.V1UserAssetSSHEntity{
+func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, scope string) (string, error) {
+	sshEntity := &models.V1UserAssetSSHEntity{
 		Metadata: &models.V1ObjectMetaInputEntity{
 			Annotations: nil,
 			Labels:      nil,
@@ -17,20 +17,18 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext strin
 		},
 		Spec: &models.V1UserAssetSSHSpec{PublicKey: body.Spec.PublicKey},
 	}
-	if err != nil {
-		return "", err
-	}
+
 	var params *userC.V1UserAssetsSSHCreateParams
-	switch SSHKeyContext {
+	switch scope {
 	case "project":
-		params = userC.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(SSHEntity)
+		params = userC.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(sshEntity)
 	case "tenant":
-		params = userC.NewV1UserAssetsSSHCreateParams().WithBody(SSHEntity)
+		params = userC.NewV1UserAssetsSSHCreateParams().WithBody(sshEntity)
 	default:
 		return "", errors.New("invalid scope")
 	}
 
-	success, err := client.V1UserAssetsSSHCreate(params)
+	success, err := h.GetUserClient().V1UserAssetsSSHCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -38,13 +36,9 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, SSHKeyContext strin
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetSSHKeyByName(SSHKeyName, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return nil, err
-	}
+func (h *V1Client) GetSSHKeyByName(name, scope string) (*models.V1UserAssetSSH, error) {
 	var params *userC.V1UsersAssetsSSHGetParams
-	switch SSHKeyContext {
+	switch scope {
 	case "project":
 		params = userC.NewV1UsersAssetsSSHGetParamsWithContext(h.Ctx)
 	case "tenant":
@@ -52,25 +46,22 @@ func (h *V1Client) GetSSHKeyByName(SSHKeyName, SSHKeyContext string) (*models.V1
 	default:
 		return nil, errors.New("invalid scope")
 	}
-	SSHKeys, err := client.V1UsersAssetsSSHGet(params)
+
+	sshKeys, err := h.GetUserClient().V1UsersAssetsSSHGet(params)
 	if err != nil {
 		return nil, err
 	}
-	for _, key := range SSHKeys.Payload.Items {
-		if key.Metadata.Name == SSHKeyName {
+	for _, key := range sshKeys.Payload.Items {
+		if key.Metadata.Name == name {
 			return key, nil
 		}
 	}
-	return nil, fmt.Errorf("project '%s' not found", SSHKeyName)
+	return nil, fmt.Errorf("project '%s' not found", name)
 }
 
-func (h *V1Client) GetSSHKeyByUID(uid, SSHKeyContext string) (*models.V1UserAssetSSH, error) {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return nil, err
-	}
+func (h *V1Client) GetSSHKeyByUID(uid, scope string) (*models.V1UserAssetSSH, error) {
 	var params *userC.V1UsersAssetSSHGetUIDParams
-	switch SSHKeyContext {
+	switch scope {
 	case "project":
 		params = userC.NewV1UsersAssetSSHGetUIDParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
@@ -78,21 +69,18 @@ func (h *V1Client) GetSSHKeyByUID(uid, SSHKeyContext string) (*models.V1UserAsse
 	default:
 		return nil, errors.New("invalid scope")
 	}
-	SSHKey, err := client.V1UsersAssetSSHGetUID(params)
-	if err != nil || SSHKey == nil {
+
+	sshKey, err := h.GetUserClient().V1UsersAssetSSHGetUID(params)
+	if err != nil || sshKey == nil {
 		return nil, err
 	}
 
-	return SSHKey.Payload, nil
+	return sshKey.Payload, nil
 }
 
-func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyContext string) error {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return err
-	}
+func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, scope string) error {
 	var params *userC.V1UsersAssetSSHUpdateParams
-	switch SSHKeyContext {
+	switch scope {
 	case "project":
 		params = userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
 	case "tenant":
@@ -100,7 +88,8 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyC
 	default:
 		return errors.New("invalid scope")
 	}
-	_, err = client.V1UsersAssetSSHUpdate(params)
+
+	_, err := h.GetUserClient().V1UsersAssetSSHUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -108,13 +97,9 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, SSHKeyC
 	return nil
 }
 
-func (h *V1Client) DeleteSSHKey(uid, SSHKeyContext string) error {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return err
-	}
+func (h *V1Client) DeleteSSHKey(uid, scope string) error {
 	var params *userC.V1UsersAssetSSHDeleteParams
-	switch SSHKeyContext {
+	switch scope {
 	case "project":
 		params = userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
@@ -122,7 +107,8 @@ func (h *V1Client) DeleteSSHKey(uid, SSHKeyContext string) error {
 	default:
 		return errors.New("invalid scope")
 	}
-	_, err = client.V1UsersAssetSSHDelete(params)
+
+	_, err := h.GetUserClient().V1UsersAssetSSHDelete(params)
 	if err != nil {
 		return err
 	}

@@ -10,11 +10,6 @@ import (
 )
 
 func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, ClusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *clusterC.V1SpectroClustersEksCreateParams
 	switch ClusterContext {
 	case "project":
@@ -23,7 +18,7 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, C
 		params = clusterC.NewV1SpectroClustersEksCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersEksCreate(params.WithTimeout(90 * time.Second))
+	success, err := h.GetClusterClient().V1SpectroClustersEksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err
 	}
@@ -32,11 +27,6 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, C
 }
 
 func (h *V1Client) CreateMachinePoolEks(cloudConfigId, ClusterContext string, machinePool *models.V1EksMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEksMachinePoolCreateParams
 	switch ClusterContext {
 	case "project":
@@ -45,16 +35,11 @@ func (h *V1Client) CreateMachinePoolEks(cloudConfigId, ClusterContext string, ma
 		params = clusterC.NewV1CloudConfigsEksMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsEksMachinePoolCreate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEksMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolEks(cloudConfigId, ClusterContext string, machinePool *models.V1EksMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEksMachinePoolUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -69,16 +54,11 @@ func (h *V1Client) UpdateMachinePoolEks(cloudConfigId, ClusterContext string, ma
 			WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsEksMachinePoolUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEksMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolEks(cloudConfigId, machinePoolName, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEksMachinePoolDeleteParams
 	switch ClusterContext {
 	case "project":
@@ -87,16 +67,11 @@ func (h *V1Client) DeleteMachinePoolEks(cloudConfigId, machinePoolName, ClusterC
 		params = clusterC.NewV1CloudConfigsEksMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err = client.V1CloudConfigsEksMachinePoolDelete(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEksMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) UpdateFargateProfilesEks(cloudConfigId, ClusterContext string, fargateProfiles *models.V1EksFargateProfiles) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsEksUIDFargateProfilesUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -109,16 +84,11 @@ func (h *V1Client) UpdateFargateProfilesEks(cloudConfigId, ClusterContext string
 			WithBody(fargateProfiles)
 	}
 
-	_, err = client.V1CloudConfigsEksUIDFargateProfilesUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsEksUIDFargateProfilesUpdate(params)
 	return err
 }
 
 func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.V1EksCloudConfig, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEksGetParams
 	switch ClusterContext {
 	case "project":
@@ -127,7 +97,7 @@ func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.
 		params = clusterC.NewV1CloudConfigsEksGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := client.V1CloudConfigsEksGet(params)
+	success, err := h.GetClusterClient().V1CloudConfigsEksGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -139,11 +109,6 @@ func (h *V1Client) GetCloudConfigEks(configUID, ClusterContext string) (*models.
 }
 
 func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEksPoolMachinesListParams
 	switch ClusterContext {
 	case "project":
@@ -152,7 +117,7 @@ func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName, ClusterContex
 		params = clusterC.NewV1CloudConfigsEksPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := client.V1CloudConfigsEksPoolMachinesList(params)
+	mpList, err := h.GetClusterClient().V1CloudConfigsEksPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

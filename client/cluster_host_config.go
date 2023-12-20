@@ -6,10 +6,6 @@ import (
 )
 
 func (h *V1Client) UpdateClusterHostConfig(uid, clusterContext string, config *models.V1HostClusterConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1HostClusterConfigUpdateParams
 	switch clusterContext {
 	case "project":
@@ -17,7 +13,8 @@ func (h *V1Client) UpdateClusterHostConfig(uid, clusterContext string, config *m
 	case "tenant":
 		params = clusterC.NewV1HostClusterConfigUpdateParams().WithUID(uid).WithBody(config)
 	}
-	_, err = client.V1HostClusterConfigUpdate(params)
+
+	_, err := h.GetClusterClient().V1HostClusterConfigUpdate(params)
 	return err
 }
 

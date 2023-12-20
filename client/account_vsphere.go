@@ -18,14 +18,8 @@ func toV1OverlordsUIDVsphereAccountValidateBody(account *models.V1VsphereAccount
 }
 
 func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, AccountContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	// validate account
-	err = validateCloudAccountVsphere(account, h)
-	if err != nil {
+	if err := validateCloudAccountVsphere(account, h); err != nil {
 		return "", err
 	}
 
@@ -39,7 +33,7 @@ func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, A
 	}
 
 	params = params.WithBody(account)
-	success, err := client.V1CloudAccountsVsphereCreate(params)
+	success, err := h.GetClusterClient().V1CloudAccountsVsphereCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -48,22 +42,16 @@ func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, A
 }
 
 func validateCloudAccountVsphere(account *models.V1VsphereAccount, h *V1Client) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	PcgId := account.Metadata.Annotations[OverlordUID]
 	// check PCG
-	err = h.CheckPCG(PcgId)
-	if err != nil {
+	if err := h.CheckPCG(PcgId); err != nil {
 		return err
 	}
 
 	// validate account
 	paramsValidate := clusterC.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDVsphereAccountValidateBody(account))
-	_, err = client.V1OverlordsUIDVsphereAccountValidate(paramsValidate)
+	_, err := h.GetClusterClient().V1OverlordsUIDVsphereAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -72,29 +60,18 @@ func validateCloudAccountVsphere(account *models.V1VsphereAccount, h *V1Client) 
 }
 
 func (h *V1Client) UpdateCloudAccountVsphere(account *models.V1VsphereAccount, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// validate account
-	err = validateCloudAccountVsphere(account, h)
-	if err != nil {
+	if err := validateCloudAccountVsphere(account, h); err != nil {
 		return err
 	}
 
 	uid := account.Metadata.UID
 	params := clusterC.NewV1CloudAccountsVsphereUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsVsphereUpdate(params)
+	_, err := h.GetClusterClient().V1CloudAccountsVsphereUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountVsphere(uid, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudAccountsVsphereDeleteParams
 	switch AccountContext {
 	case "project":
@@ -103,16 +80,11 @@ func (h *V1Client) DeleteCloudAccountVsphere(uid, AccountContext string) error {
 		params = clusterC.NewV1CloudAccountsVsphereDeleteParams().WithUID(uid)
 	}
 
-	_, err = client.V1CloudAccountsVsphereDelete(params)
+	_, err := h.GetClusterClient().V1CloudAccountsVsphereDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V1VsphereAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsVsphereGetParams
 	switch AccountContext {
 	case "project":
@@ -121,7 +93,7 @@ func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V
 		params = clusterC.NewV1CloudAccountsVsphereGetParams().WithUID(uid)
 	}
 
-	success, err := client.V1CloudAccountsVsphereGet(params)
+	success, err := h.GetClusterClient().V1CloudAccountsVsphereGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -134,14 +106,9 @@ func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V
 }
 
 func (h *V1Client) GetCloudAccountsVsphere() ([]*models.V1VsphereAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := client.V1CloudAccountsVsphereList(params)
+	response, err := h.GetClusterClient().V1CloudAccountsVsphereList(params)
 	if err != nil {
 		return nil, err
 	}

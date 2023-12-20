@@ -12,10 +12,6 @@ func (h *V1Client) CreateDataVolume(scope, uid, name string, body *models.V1VMAd
 	if h.CreateDataVolumeFn != nil {
 		return h.CreateDataVolumeFn(uid, name, body)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
 
 	// get cluster
 	cluster, err := h.GetCluster(scope, uid)
@@ -41,7 +37,7 @@ func (h *V1Client) CreateDataVolume(scope, uid, name string, body *models.V1VMAd
 
 	params = params.WithUID(uid).WithBody(body).WithVMName(name).WithNamespace(body.DataVolumeTemplate.Metadata.Namespace)
 
-	volume, err := client.V1SpectroClustersVMAddVolume(params)
+	volume, err := h.GetClusterClient().V1SpectroClustersVMAddVolume(params)
 	if err != nil {
 		return "", err
 	}
@@ -51,10 +47,6 @@ func (h *V1Client) CreateDataVolume(scope, uid, name string, body *models.V1VMAd
 func (h *V1Client) DeleteDataVolume(scope, uid, namespace, name string, body *models.V1VMRemoveVolumeEntity) error {
 	if h.DeleteDataVolumeFn != nil {
 		return h.DeleteDataVolumeFn(uid, namespace, name, body)
-	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
 	}
 
 	// get cluster
@@ -78,6 +70,6 @@ func (h *V1Client) DeleteDataVolume(scope, uid, namespace, name string, body *mo
 	}
 	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace).WithBody(body)
 
-	_, err = client.V1SpectroClustersVMRemoveVolume(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMRemoveVolume(params)
 	return err
 }

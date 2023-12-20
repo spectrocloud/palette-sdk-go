@@ -14,11 +14,6 @@ import (
 )
 
 func (h *V1Client) DeleteCluster(scope, uid string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	cluster, err := h.GetCluster(scope, uid)
 	if err != nil || cluster == nil {
 		return err
@@ -32,16 +27,11 @@ func (h *V1Client) DeleteCluster(scope, uid string) error {
 		params = clusterC.NewV1SpectroClustersDeleteParams().WithUID(uid)
 	}
 
-	_, err = client.V1SpectroClustersDelete(params)
+	_, err = h.GetClusterClient().V1SpectroClustersDelete(params)
 	return err
 }
 
 func (h *V1Client) ForceDeleteCluster(scope, uid string, forceDelete bool) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	cluster, err := h.GetCluster(scope, uid)
 	if err != nil || cluster == nil {
 		return err
@@ -55,7 +45,7 @@ func (h *V1Client) ForceDeleteCluster(scope, uid string, forceDelete bool) error
 		params = clusterC.NewV1SpectroClustersDeleteParams().WithUID(uid).WithForceDelete(&forceDelete)
 	}
 
-	_, err = client.V1SpectroClustersDelete(params)
+	_, err = h.GetClusterClient().V1SpectroClustersDelete(params)
 	return err
 }
 
@@ -76,11 +66,6 @@ func (h *V1Client) GetCluster(scope, uid string) (*models.V1SpectroCluster, erro
 }
 
 func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *hashboardC.V1SpectroClustersSearchFilterSummaryParams
 	switch clusterContext {
 	case "project":
@@ -93,7 +78,7 @@ func (h *V1Client) SearchClusterSummaries(clusterContext string, filter *models.
 		Sort:   sort,
 	}
 
-	resp, err := client.V1SpectroClustersSearchFilterSummary(params)
+	resp, err := h.GetHashboardClient().V1SpectroClustersSearchFilterSummary(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -108,13 +93,8 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 	if h.GetClusterWithoutStatusFn != nil {
 		return h.GetClusterWithoutStatusFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
 
 	var params *clusterC.V1SpectroClustersGetParams
-
 	switch scope {
 	case "project":
 		params = clusterC.NewV1SpectroClustersGetParamsWithContext(h.Ctx).WithUID(uid)
@@ -124,7 +104,7 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
 
-	success, err := client.V1SpectroClustersGet(params)
+	success, err := h.GetClusterClient().V1SpectroClustersGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -138,10 +118,6 @@ func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, err
 	if h.GetClusterKubeConfigFn != nil {
 		return h.GetClusterKubeConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
 
 	var params *clusterC.V1SpectroClustersUIDKubeConfigParams
 	switch ClusterContext {
@@ -154,7 +130,7 @@ func (h *V1Client) GetClusterKubeConfig(uid, ClusterContext string) (string, err
 	}
 
 	builder := new(strings.Builder)
-	_, err = client.V1SpectroClustersUIDKubeConfig(params, builder)
+	_, err := h.GetClusterClient().V1SpectroClustersUIDKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
@@ -169,10 +145,6 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 	if h.GetClusterAdminConfigFn != nil {
 		return h.GetClusterAdminConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
 
 	var params *clusterC.V1SpectroClustersUIDAdminKubeConfigParams
 	switch ClusterContext {
@@ -185,7 +157,7 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 	}
 
 	builder := new(strings.Builder)
-	_, err = client.V1SpectroClustersUIDAdminKubeConfig(params, builder)
+	_, err := h.GetClusterClient().V1SpectroClustersUIDAdminKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
@@ -197,11 +169,6 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, ClusterContext string) (string
 }
 
 func (h *V1Client) GetClusterImportManifest(uid, clusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	builder := new(strings.Builder)
 	var params *clusterC.V1SpectroClustersUIDImportManifestParams
 	switch clusterContext {
@@ -210,7 +177,8 @@ func (h *V1Client) GetClusterImportManifest(uid, clusterContext string) (string,
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDImportManifestParams().WithUID(uid)
 	}
-	_, err = client.V1SpectroClustersUIDImportManifest(params, builder)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUIDImportManifest(params, builder)
 	if err != nil {
 		return "", err
 	}
@@ -219,37 +187,27 @@ func (h *V1Client) GetClusterImportManifest(uid, clusterContext string) (string,
 }
 
 func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *models.V1SpectroClusterProfiles) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
-	resolveNotification := true
 	var params *clusterC.V1SpectroClustersUpdateProfilesParams
 	switch context {
 	case "project":
 		params = clusterC.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.Ctx).WithUID(uid).
-			WithBody(profiles).WithResolveNotification(&resolveNotification)
+			WithBody(profiles).WithResolveNotification(Ptr(true))
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUpdateProfilesParams().WithUID(uid).
-			WithBody(profiles).WithResolveNotification(&resolveNotification)
+			WithBody(profiles).WithResolveNotification(Ptr(true))
 	}
-	_, err = client.V1SpectroClustersUpdateProfiles(params)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUpdateProfiles(params)
 	return err
 }
 
 func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	params := clusterC.NewV1SpectroClustersGenericImportParamsWithContext(h.Ctx).WithBody(
 		&models.V1SpectroGenericClusterImportEntity{
 			Metadata: meta,
 		},
 	)
-	success, err := client.V1SpectroClustersGenericImport(params)
+	success, err := h.GetClusterClient().V1SpectroClustersGenericImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -262,10 +220,6 @@ func (h *V1Client) ApproveClusterRepave(context, clusterUID string) error {
 		return h.ApproveClusterRepaveFn(clusterUID, context)
 	}
 
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1SpectroClustersUIDRepaveApproveUpdateParams
 	switch context {
 	case "project":
@@ -273,10 +227,10 @@ func (h *V1Client) ApproveClusterRepave(context, clusterUID string) error {
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDRepaveApproveUpdateParams().WithUID(clusterUID)
 	default:
-		err = fmt.Errorf("invalid Context set - %s", context)
-		return err
+		return fmt.Errorf("invalid context: %s", context)
 	}
-	_, err = client.V1SpectroClustersUIDRepaveApproveUpdate(params)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
 }
 
@@ -285,10 +239,6 @@ func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error
 		return h.GetRepaveReasonsFn(context, clusterUID)
 	}
 
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
 	var params *clusterC.V1SpectroClustersUIDRepaveGetParams
 	switch context {
 	case "project":
@@ -296,10 +246,10 @@ func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDRepaveGetParams().WithUID(clusterUID)
 	default:
-		err = fmt.Errorf("invalid Context set - %s", context)
-		return nil, err
+		return nil, fmt.Errorf("invalid context: %s", context)
 	}
-	res, err := client.V1SpectroClustersUIDRepaveGet(params)
+
+	res, err := h.GetClusterClient().V1SpectroClustersUIDRepaveGet(params)
 	if err != nil {
 		return nil, err
 	}

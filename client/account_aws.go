@@ -21,14 +21,8 @@ func toV1AwsCloudAccount(account *models.V1AwsAccount) *models.V1AwsCloudAccount
 }
 
 func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	// validate account
-	err = validateCloudAccountAws(account, h)
-	if err != nil {
+	if err := validateCloudAccountAws(account, h); err != nil {
 		return "", err
 	}
 
@@ -40,7 +34,7 @@ func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountCo
 		params = clusterC.NewV1CloudAccountsAwsCreateParams().WithBody(account)
 	}
 
-	success, err := client.V1CloudAccountsAwsCreate(params)
+	success, err := h.GetClusterClient().V1CloudAccountsAwsCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -49,22 +43,15 @@ func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountCo
 }
 
 func validateCloudAccountAws(account *models.V1AwsAccount, h *V1Client) error {
-	client, err := h.GetCloudClient()
-	if err != nil {
-		return err
-	}
-
-	PcgId := account.Metadata.Annotations[OverlordUID]
 	// check PCG
-	err = h.CheckPCG(PcgId)
-	if err != nil {
+	if err := h.CheckPCG(account.Metadata.Annotations[OverlordUID]); err != nil {
 		return err
 	}
 
 	// validate account
 	paramsValidate := cloudC.NewV1AwsAccountValidateParams()
 	paramsValidate = paramsValidate.WithAwsCloudAccount(toV1AwsCloudAccount(account))
-	_, err = client.V1AwsAccountValidate(paramsValidate)
+	_, err := h.GetCloudClient().V1AwsAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -73,29 +60,18 @@ func validateCloudAccountAws(account *models.V1AwsAccount, h *V1Client) error {
 }
 
 func (h *V1Client) UpdateCloudAccountAws(account *models.V1AwsAccount) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// validate account
-	err = validateCloudAccountAws(account, h)
-	if err != nil {
+	if err := validateCloudAccountAws(account, h); err != nil {
 		return err
 	}
 
 	uid := account.Metadata.UID
 	params := clusterC.NewV1CloudAccountsAwsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsAwsUpdate(params)
+	_, err := h.GetClusterClient().V1CloudAccountsAwsUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountAws(uid, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudAccountsAwsDeleteParams
 	switch AccountContext {
 	case "project":
@@ -103,16 +79,11 @@ func (h *V1Client) DeleteCloudAccountAws(uid, AccountContext string) error {
 	case "tenant":
 		params = clusterC.NewV1CloudAccountsAwsDeleteParams().WithUID(uid)
 	}
-	_, err = client.V1CloudAccountsAwsDelete(params)
+	_, err := h.GetClusterClient().V1CloudAccountsAwsDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1AwsAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsAwsGetParams
 	switch AccountContext {
 	case "project":
@@ -120,7 +91,7 @@ func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1Aws
 	case "tenant":
 		params = clusterC.NewV1CloudAccountsAwsGetParams().WithUID(uid)
 	}
-	success, err := client.V1CloudAccountsAwsGet(params)
+	success, err := h.GetClusterClient().V1CloudAccountsAwsGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -133,14 +104,9 @@ func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1Aws
 }
 
 func (h *V1Client) GetCloudAccountsAws() ([]*models.V1AwsAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsAwsListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := client.V1CloudAccountsAwsList(params)
+	response, err := h.GetClusterClient().V1CloudAccountsAwsList(params)
 	if err != nil {
 		return nil, err
 	}
