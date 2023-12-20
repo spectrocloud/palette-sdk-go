@@ -3,7 +3,7 @@
 
 .DEFAULT_GOAL:=help
 
-GOLANGCI_VERSION ?= 1.51.1
+GOLANGCI_VERSION ?= 1.54.2
 
 BIN_DIR ?= ./bin
 GOOS ?= $(shell go env GOOS)
@@ -22,7 +22,7 @@ fmt: ## Run go fmt against code
 vet: ## Run go vet against code
 	go vet ./...
 lint: golangci-lint ## Run golangci-lint against code
-	$(GOLANGCI_LINT) run ./...
+	$(GOLANGCI_LINT) run
 
 ##@ Test Targets
 .PHONY: test
