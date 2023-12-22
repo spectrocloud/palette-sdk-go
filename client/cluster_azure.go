@@ -47,7 +47,7 @@ func (h *V1Client) UpdateMachinePoolAzure(cloudConfigId, ClusterContext string, 
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.Ctx).
+		params = clusterC.NewV1CloudConfigsAzureMachinePoolUpdateParams().
 			WithConfigUID(cloudConfigId).
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
