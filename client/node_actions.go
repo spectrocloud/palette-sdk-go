@@ -8,11 +8,6 @@ import (
 type GetMaintenanceStatus func(string, string, string, string) (*models.V1MachineMaintenanceStatus, error)
 
 func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, CloudType, ClusterContext, ConfigUID, MachineName, NodeId string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -24,7 +19,8 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	_, err = client.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
+
+	_, err := h.GetClusterClient().V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -44,11 +40,6 @@ func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ClusterCont
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -59,7 +50,8 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsAwsPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsAwsPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -69,11 +61,6 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsMaasPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -84,7 +71,8 @@ func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext, ConfigUID, Machi
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsMaasPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsMaasPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -94,11 +82,6 @@ func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext, ConfigUID, Machi
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAksPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -109,7 +92,8 @@ func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsAksPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsAksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -119,11 +103,6 @@ func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAzurePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -134,7 +113,8 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext, ConfigUID, Mach
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsAzurePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsAzurePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -144,11 +124,6 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext, ConfigUID, Mach
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsCoxEdgePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -159,7 +134,8 @@ func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext, ConfigUID, Ma
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -169,11 +145,6 @@ func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext, ConfigUID, Ma
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEdgeNativePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -184,7 +155,8 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext, ConfigUID,
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -194,11 +166,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext, ConfigUID,
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEdgePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -209,7 +176,8 @@ func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext, ConfigUID, Machi
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -219,11 +187,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext, ConfigUID, Machi
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsVspherePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -234,7 +197,8 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext, ConfigUID
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsVspherePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -244,11 +208,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext, ConfigUID
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsEksPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -259,7 +218,8 @@ func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsEksPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsEksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -269,11 +229,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsGcpPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -284,7 +239,8 @@ func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsGcpPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsGcpPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -294,11 +250,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsGenericPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -309,7 +260,8 @@ func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext, ConfigUID, Ma
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsGenericPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsGenericPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -319,11 +271,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext, ConfigUID, Ma
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsGkePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -334,7 +281,8 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsGkePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsGkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -344,11 +292,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsLibvirtPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -359,7 +302,8 @@ func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext, ConfigUID, Ma
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -369,11 +313,6 @@ func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext, ConfigUID, Ma
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsOpenStackPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -384,7 +323,8 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext, ConfigUID, 
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -394,11 +334,6 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext, ConfigUID, 
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsTkePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -409,7 +344,8 @@ func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext, ConfigUID, Machin
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsTkePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsTkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -419,11 +355,6 @@ func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext, ConfigUID, Machin
 }
 
 func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsVirtualPoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -434,7 +365,8 @@ func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext, Config
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsVirtualPoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsVirtualPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -444,11 +376,6 @@ func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext, Config
 }
 
 func (h *V1Client) GetNodeMaintenanceStatusVsphere(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsVspherePoolMachinesUIDGetParams
 	switch ClusterContext {
 	case "project":
@@ -459,7 +386,8 @@ func (h *V1Client) GetNodeMaintenanceStatusVsphere(ClusterContext, ConfigUID, Ma
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
-	s, err := client.V1CloudConfigsVspherePoolMachinesUIDGet(params)
+
+	s, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err

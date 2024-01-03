@@ -8,11 +8,6 @@ import (
 )
 
 func (h *V1Client) MigrateVirtualMachineNodeToNode(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -33,7 +28,7 @@ func (h *V1Client) MigrateVirtualMachineNodeToNode(scope, clusterUid, vmName, vm
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMMigrate(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMMigrate(params)
 	if err != nil {
 		return err
 	}

@@ -10,11 +10,6 @@ import (
 )
 
 func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity, ClusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *clusterC.V1SpectroClustersAksCreateParams
 	switch ClusterContext {
 	case "project":
@@ -23,7 +18,7 @@ func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity,
 		params = clusterC.NewV1SpectroClustersAksCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersAksCreate(params.WithTimeout(90 * time.Second))
+	success, err := h.GetClusterClient().V1SpectroClustersAksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err
 	}
@@ -32,11 +27,6 @@ func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity,
 }
 
 func (h *V1Client) CreateMachinePoolAks(cloudConfigId string, machinePool *models.V1AzureMachinePoolConfigEntity, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsAksMachinePoolCreateParams
 	switch ClusterContext {
 	case "project":
@@ -45,16 +35,11 @@ func (h *V1Client) CreateMachinePoolAks(cloudConfigId string, machinePool *model
 		params = clusterC.NewV1CloudConfigsAksMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsAksMachinePoolCreate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAksMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolAks(cloudConfigId string, machinePool *models.V1AzureMachinePoolConfigEntity, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsAksMachinePoolUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -69,16 +54,11 @@ func (h *V1Client) UpdateMachinePoolAks(cloudConfigId string, machinePool *model
 			WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsAksMachinePoolUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAksMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolAks(cloudConfigId, machinePoolName, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsAksMachinePoolDeleteParams
 	switch ClusterContext {
 	case "project":
@@ -87,16 +67,11 @@ func (h *V1Client) DeleteMachinePoolAks(cloudConfigId, machinePoolName, ClusterC
 		params = clusterC.NewV1CloudConfigsAksMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err = client.V1CloudConfigsAksMachinePoolDelete(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAksMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudConfigAks(configUID, ClusterContext string) (*models.V1AzureCloudConfig, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAksGetParams
 	switch ClusterContext {
 	case "project":
@@ -105,7 +80,7 @@ func (h *V1Client) GetCloudConfigAks(configUID, ClusterContext string) (*models.
 		params = clusterC.NewV1CloudConfigsAksGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := client.V1CloudConfigsAksGet(params)
+	success, err := h.GetClusterClient().V1CloudConfigsAksGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -117,11 +92,6 @@ func (h *V1Client) GetCloudConfigAks(configUID, ClusterContext string) (*models.
 }
 
 func (h *V1Client) GetNodeStatusMapAks(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAksPoolMachinesListParams
 	switch ClusterContext {
 	case "project":
@@ -130,7 +100,7 @@ func (h *V1Client) GetNodeStatusMapAks(configUID, machinePoolName, ClusterContex
 		params = clusterC.NewV1CloudConfigsAksPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := client.V1CloudConfigsAksPoolMachinesList(params)
+	mpList, err := h.GetClusterClient().V1CloudConfigsAksPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

@@ -3,7 +3,7 @@
 
 .DEFAULT_GOAL:=help
 
-GOLANGCI_VERSION ?= 1.51.1
+GOLANGCI_VERSION ?= 1.54.2
 
 BIN_DIR ?= ./bin
 GOOS ?= $(shell go env GOOS)

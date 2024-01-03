@@ -10,13 +10,8 @@ import (
 )
 
 func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	params := clusterC.NewV1WorkspacesCreateParamsWithContext(h.Ctx).WithBody(workspace)
-	success, err := client.V1WorkspacesCreate(params)
+	success, err := h.GetClusterClient().V1WorkspacesCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -25,13 +20,8 @@ func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string,
 }
 
 func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := clusterC.NewV1WorkspacesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	success, err := client.V1WorkspacesUIDGet(params)
+	success, err := h.GetClusterClient().V1WorkspacesUIDGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -45,13 +35,8 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 }
 
 func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := hashboardC.NewV1DashboardWorkspacesListParamsWithContext(h.Ctx)
-	success, err := client.V1DashboardWorkspacesList(params)
+	success, err := h.GetHashboardClient().V1DashboardWorkspacesList(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -69,63 +54,38 @@ func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace
 }
 
 func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, wo *models.V1WorkspaceResourceAllocationsEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	params := clusterC.NewV1WorkspacesUIDResourceAllocationsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(wo)
-	if _, err := client.V1WorkspacesUIDResourceAllocationsUpdate(params); err != nil {
+	if _, err := h.GetClusterClient().V1WorkspacesUIDResourceAllocationsUpdate(params); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, wo *models.V1ClusterRbac) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	params := clusterC.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.Ctx).WithUID(uid).WithClusterRbacUID(rbac_uid).WithBody(wo)
-	if _, err := client.V1WorkspacesUIDClusterRbacUpdate(params); err != nil {
+	if _, err := h.GetClusterClient().V1WorkspacesUIDClusterRbacUpdate(params); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (h *V1Client) UpdateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	params := clusterC.NewV1WorkspaceOpsBackupUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
-	_, err = client.V1WorkspaceOpsBackupUpdate(params)
+	_, err := h.GetClusterClient().V1WorkspaceOpsBackupUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteWorkspace(uid string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	params := clusterC.NewV1WorkspacesUIDDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	if _, err := client.V1WorkspacesUIDDelete(params); err != nil {
+	if _, err := h.GetClusterClient().V1WorkspacesUIDDelete(params); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := clusterC.NewV1WorkspaceOpsBackupGetParams().WithContext(h.Ctx).WithUID(uid)
-	success, err := client.V1WorkspaceOpsBackupGet(params)
+	success, err := h.GetClusterClient().V1WorkspaceOpsBackupGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

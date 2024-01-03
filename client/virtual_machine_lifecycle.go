@@ -8,11 +8,6 @@ import (
 )
 
 func (h *V1Client) StartVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -34,7 +29,7 @@ func (h *V1Client) StartVirtualMachine(scope, clusterUid, vmName, vmNamespace st
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMStart(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMStart(params)
 	if err != nil {
 		return err
 	}
@@ -42,11 +37,6 @@ func (h *V1Client) StartVirtualMachine(scope, clusterUid, vmName, vmNamespace st
 }
 
 func (h *V1Client) StopVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -67,7 +57,7 @@ func (h *V1Client) StopVirtualMachine(scope, clusterUid, vmName, vmNamespace str
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMStop(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMStop(params)
 	if err != nil {
 		return err
 	}
@@ -75,11 +65,6 @@ func (h *V1Client) StopVirtualMachine(scope, clusterUid, vmName, vmNamespace str
 }
 
 func (h *V1Client) PauseVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -100,7 +85,7 @@ func (h *V1Client) PauseVirtualMachine(scope, clusterUid, vmName, vmNamespace st
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMPause(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMPause(params)
 	if err != nil {
 		return err
 	}
@@ -108,11 +93,6 @@ func (h *V1Client) PauseVirtualMachine(scope, clusterUid, vmName, vmNamespace st
 }
 
 func (h *V1Client) ResumeVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -133,7 +113,7 @@ func (h *V1Client) ResumeVirtualMachine(scope, clusterUid, vmName, vmNamespace s
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMResume(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMResume(params)
 	if err != nil {
 		return err
 	}
@@ -141,11 +121,6 @@ func (h *V1Client) ResumeVirtualMachine(scope, clusterUid, vmName, vmNamespace s
 }
 
 func (h *V1Client) RestartVirtualMachine(scope, clusterUid, vmName, vmNamespace string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	// get cluster
 	cluster, err := h.GetCluster(scope, clusterUid)
 	if err != nil {
@@ -166,7 +141,7 @@ func (h *V1Client) RestartVirtualMachine(scope, clusterUid, vmName, vmNamespace 
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = client.V1SpectroClustersVMRestart(params)
+	_, err = h.GetClusterClient().V1SpectroClustersVMRestart(params)
 	if err != nil {
 		return err
 	}

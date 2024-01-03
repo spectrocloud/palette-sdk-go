@@ -9,11 +9,6 @@ import (
 )
 
 func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, ClusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *clusterC.V1SpectroClustersAwsCreateParams
 	switch ClusterContext {
 	case "project":
@@ -22,7 +17,7 @@ func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, C
 		params = clusterC.NewV1SpectroClustersAwsCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersAwsCreate(params)
+	success, err := h.GetClusterClient().V1SpectroClustersAwsCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -31,11 +26,6 @@ func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, C
 }
 
 func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsMachinePoolCreateParams
 	switch ClusterContext {
 	case "project":
@@ -44,16 +34,11 @@ func (h *V1Client) CreateMachinePoolAws(cloudConfigId string, machinePool *model
 		params = clusterC.NewV1CloudConfigsAwsMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsAwsMachinePoolCreate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAwsMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsMachinePoolUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -66,16 +51,11 @@ func (h *V1Client) UpdateMachinePoolAws(cloudConfigId string, machinePool *model
 			WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsAwsMachinePoolUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAwsMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolAws(cloudConfigId, machinePoolName, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsMachinePoolDeleteParams
 	switch ClusterContext {
 	case "project":
@@ -84,16 +64,11 @@ func (h *V1Client) DeleteMachinePoolAws(cloudConfigId, machinePoolName, ClusterC
 		params = clusterC.NewV1CloudConfigsAwsMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err = client.V1CloudConfigsAwsMachinePoolDelete(params)
+	_, err := h.GetClusterClient().V1CloudConfigsAwsMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudConfigAws(configUID, ClusterContext string) (*models.V1AwsCloudConfig, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsGetParams
 	switch ClusterContext {
 	case "project":
@@ -102,7 +77,7 @@ func (h *V1Client) GetCloudConfigAws(configUID, ClusterContext string) (*models.
 		params = clusterC.NewV1CloudConfigsAwsGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := client.V1CloudConfigsAwsGet(params)
+	success, err := h.GetClusterClient().V1CloudConfigsAwsGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -114,17 +89,12 @@ func (h *V1Client) GetCloudConfigAws(configUID, ClusterContext string) (*models.
 }
 
 func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	params := clusterC.NewV1SpectroClustersAwsImportParamsWithContext(h.Ctx).WithBody(
 		&models.V1SpectroAwsClusterImportEntity{
 			Metadata: meta,
 		},
 	)
-	success, err := client.V1SpectroClustersAwsImport(params)
+	success, err := h.GetClusterClient().V1SpectroClustersAwsImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -133,11 +103,6 @@ func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (strin
 }
 
 func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsAwsPoolMachinesListParams
 	switch ClusterContext {
 	case "project":
@@ -146,7 +111,7 @@ func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, ClusterContex
 		params = clusterC.NewV1CloudConfigsAwsPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := client.V1CloudConfigsAwsPoolMachinesList(params)
+	mpList, err := h.GetClusterClient().V1CloudConfigsAwsPoolMachinesList(params)
 	if err != nil {
 		return nil, err
 	}

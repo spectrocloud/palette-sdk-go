@@ -8,13 +8,8 @@ import (
 )
 
 func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := hashboardC.NewV1TagFiltersCreateParams().WithBody(body)
-	tag, err := client.V1TagFiltersCreate(params)
+	tag, err := h.GetHashboardClient().V1TagFiltersCreate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -23,13 +18,8 @@ func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, err
 }
 
 func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return err
-	}
-
 	params := hashboardC.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
-	_, err = client.V1TagFilterUIDUpdate(params)
+	_, err := h.GetHashboardClient().V1TagFilterUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -38,13 +28,8 @@ func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
 }
 
 func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := hashboardC.NewV1TagFilterUIDGetParams().WithUID(uid)
-	success, err := client.V1TagFilterUIDGet(params)
+	success, err := h.GetHashboardClient().V1TagFilterUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -53,14 +38,9 @@ func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) 
 }
 
 func (h *V1Client) ListTagFilters() (*models.V1FiltersSummary, error) {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := hashboardC.NewV1FiltersListParams().WithLimit(&limit)
-	success, err := client.V1FiltersList(params)
+	success, err := h.GetHashboardClient().V1FiltersList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -84,13 +64,8 @@ func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, err
 }
 
 func (h *V1Client) DeleteTag(uid string) error {
-	client, err := h.GetHashboardClient()
-	if err != nil {
-		return err
-	}
-
 	params := hashboardC.NewV1TagFilterUIDDeleteParams().WithUID(uid)
-	_, err = client.V1TagFilterUIDDelete(params)
+	_, err := h.GetHashboardClient().V1TagFilterUIDDelete(params)
 	if err != nil {
 		return err
 	}

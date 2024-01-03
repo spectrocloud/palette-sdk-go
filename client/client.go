@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"errors"
 
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -12,6 +11,7 @@ import (
 	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
 	eventC "github.com/spectrocloud/hapi/event/client/v1"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
+	mgmtC "github.com/spectrocloud/hapi/mgmt/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 	userC "github.com/spectrocloud/hapi/user/client/v1"
@@ -19,19 +19,14 @@ import (
 
 const (
 	authTokenInput string = "header"
-	authTokenKey   string = "Authorization"
 	authApiKey     string = "ApiKey"
-)
-
-var (
-	hubbleUri string
-
-	schemes []string
 )
 
 type V1Client struct {
 	Ctx            context.Context
 	apikey         string
+	hubbleUri      string
+	schemes        []string
 	transportDebug bool
 	RetryAttempts  int
 
@@ -107,133 +102,132 @@ type V1Client struct {
 	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
 }
 
-func New(hubbleHost, projectUID, apikey string, transportDebug bool, retryAttempts int) *V1Client {
-	ctx := context.Background()
-	if projectUID != "" {
-		ctx = GetProjectContextWithCtx(ctx, projectUID)
+func New(options ...func(*V1Client)) *V1Client {
+	client := &V1Client{
+		Ctx:           context.Background(),
+		RetryAttempts: 0,
+		schemes:       []string{"https"},
 	}
+	for _, o := range options {
+		o(client)
+	}
+	return client
+}
 
-	hubbleUri = hubbleHost
-	schemes = []string{"https"}
-	authHttpTransport := transport.New(hubbleUri, "", schemes)
-	authHttpTransport.RetryAttempts = 0
-	//authHttpTransport.Debug = true
-	return &V1Client{
-		Ctx:            ctx,
-		apikey:         apikey,
-		transportDebug: transportDebug,
-		RetryAttempts:  retryAttempts,
+func WithAPIKey(apiKey string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.apikey = apiKey
 	}
 }
 
-func (h *V1Client) getTransport() (*transport.Runtime, error) {
-	httpTransport := h.baseTransport()
-	if h.apikey != "" {
-		httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
-	} else {
-		return nil, errors.New("api_key is required")
+func WithHubbleURI(hubbleUri string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.hubbleUri = hubbleUri
 	}
-	return httpTransport, nil
+}
+
+func WithProjectUID(projectUid string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.Ctx = ContextWithProject(v.Ctx, projectUid)
+	}
+}
+
+func WithRetries(retries int) func(*V1Client) {
+	return func(v *V1Client) {
+		v.RetryAttempts = retries
+	}
+}
+
+func WithSchemes(schemes []string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.schemes = schemes
+	}
+}
+
+func WithTransportDebug() func(*V1Client) {
+	return func(v *V1Client) {
+		v.transportDebug = true
+	}
+}
+
+func (h *V1Client) getTransport() *transport.Runtime {
+	var httpTransport *transport.Runtime
+	if h.apikey != "" {
+		httpTransport = h.getAuthenticatedTransport()
+	} else {
+		httpTransport = h.baseTransport()
+	}
+	return httpTransport
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
-	httpTransport := transport.New(hubbleUri, "", schemes)
+	httpTransport := transport.New(h.hubbleUri, "", h.schemes)
 	httpTransport.RetryAttempts = h.RetryAttempts
 	httpTransport.Debug = h.transportDebug
 	return httpTransport
 }
 
-// Clients
-func (h *V1Client) GetAuthClient() (authC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
-
-	return authC.New(httpTransport, strfmt.Default), nil
-}
-
-func (h *V1Client) GetNoAuthClient() (authC.ClientService, error) {
+func (h *V1Client) getAuthenticatedTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
-	return authC.New(httpTransport, strfmt.Default), nil
+	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
+	return httpTransport
 }
 
-func (h *V1Client) GetClusterClient() (clusterC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
+// Clients
 
-	return clusterC.New(httpTransport, strfmt.Default), nil
+func (h *V1Client) GetAuthClient() authC.ClientService {
+	return authC.New(h.getTransport(), strfmt.Default)
 }
 
-func (h *V1Client) GetUserClient() (userC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
-
-	return userC.New(httpTransport, strfmt.Default), nil
+func (h *V1Client) GetClusterClient() clusterC.ClientService {
+	return clusterC.New(h.getTransport(), strfmt.Default)
 }
 
-func (h *V1Client) GetHashboardClient() (hashboardC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
-
-	return hashboardC.New(httpTransport, strfmt.Default), nil
+func (h *V1Client) GetUserClient() userC.ClientService {
+	return userC.New(h.getTransport(), strfmt.Default)
 }
 
-func (h *V1Client) GetCloudClient() (cloudC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
-
-	return cloudC.New(httpTransport, strfmt.Default), nil
+func (h *V1Client) GetHashboardClient() hashboardC.ClientService {
+	return hashboardC.New(h.getTransport(), strfmt.Default)
 }
 
-func (h *V1Client) GetEventClient() (eventC.ClientService, error) {
-	httpTransport, err := h.getTransport()
-	if err != nil {
-		return nil, err
-	}
+func (h *V1Client) GetMgmtClient() mgmtC.ClientService {
+	return mgmtC.New(h.getTransport(), strfmt.Default)
+}
 
-	return eventC.New(httpTransport, strfmt.Default), nil
+func (h *V1Client) GetCloudClient() cloudC.ClientService {
+	return cloudC.New(h.getTransport(), strfmt.Default)
+}
+
+func (h *V1Client) GetEventClient() eventC.ClientService {
+	return eventC.New(h.getTransport(), strfmt.Default)
 }
 
 func (h *V1Client) Validate() error {
-	_, err := h.getTransport()
-
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
-		c, _ := h.GetUserClient()
+		c := h.GetUserClient()
 		_, err := c.V1ProjectsList(nil)
 		if err != nil {
 			return err
 		}
 	}
-
-	return err
+	return nil
 }
 
 func (h *V1Client) ValidateTenantAdmin() error {
-	_, err := h.getTransport()
-
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
-		c, _ := h.GetUserClient()
+		c := h.GetUserClient()
 		_, err := c.V1UsersList(nil)
 		if err != nil {
 			return err
 		}
 	}
-
-	return err
+	return nil
 }
 
-func GetProjectContextWithCtx(c context.Context, projectUid string) context.Context {
+func ContextWithProject(c context.Context, projectUid string) context.Context {
 	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
 		HeaderMap: map[string]string{
 			"ProjectUid": projectUid,

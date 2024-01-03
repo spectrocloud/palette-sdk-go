@@ -9,14 +9,9 @@ func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID, component str
 	if h.CreateAlertFn != nil {
 		return h.CreateAlertFn(body, projectUID, component)
 	}
-	client, err := h.GetUserClient()
-
-	if err != nil {
-		return "", err
-	}
 
 	params := v1.NewV1ProjectsUIDAlertCreateParams().WithBody(body).WithUID(projectUID).WithComponent(component)
-	success, err := client.V1ProjectsUIDAlertCreate(params)
+	success, err := h.GetUserClient().V1ProjectsUIDAlertCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -27,12 +22,9 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, al
 	if h.UpdateAlertFn != nil {
 		return h.UpdateAlertFn(body, projectUID, component, alertUID)
 	}
-	client, err := h.GetUserClient()
-	if err != nil {
-		return "", err
-	}
+
 	params := v1.NewV1ProjectsUIDAlertsUIDUpdateParams().WithBody(body).WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
-	_, err = client.V1ProjectsUIDAlertsUIDUpdate(params)
+	_, err := h.GetUserClient().V1ProjectsUIDAlertsUIDUpdate(params)
 	if err != nil {
 		return "", err
 	}
@@ -44,13 +36,9 @@ func (h *V1Client) ReadAlert(projectUID, component, alertUID string) (*models.V1
 	if h.ReadAlertFn != nil {
 		return h.ReadAlertFn(projectUID, component, alertUID)
 	}
-	client, err := h.GetUserClient()
-	channel := &models.V1Channel{}
-	if err != nil {
-		return channel, err
-	}
+
 	params := v1.NewV1ProjectsUIDAlertsUIDGetParams().WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
-	success, err := client.V1ProjectsUIDAlertsUIDGet(params)
+	success, err := h.GetUserClient().V1ProjectsUIDAlertsUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -62,12 +50,9 @@ func (h *V1Client) DeleteAlerts(projectUID, component, alertUID string) error {
 	if h.DeleteAlertsFn != nil {
 		return h.DeleteAlertsFn(projectUID, component, alertUID)
 	}
-	client, err := h.GetUserClient()
-	if err != nil {
-		return err
-	}
+
 	params := v1.NewV1ProjectsUIDAlertsUIDDeleteParams().WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
-	_, err = client.V1ProjectsUIDAlertsUIDDelete(params)
+	_, err := h.GetUserClient().V1ProjectsUIDAlertsUIDDelete(params)
 	if err != nil {
 		return err
 	}

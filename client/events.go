@@ -8,11 +8,6 @@ import (
 )
 
 func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, orderBy *string, limit, offset *int64, timeout *time.Duration) ([]*models.V1Event, error) {
-	client, err := h.GetEventClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := event.NewV1EventsComponentsObjTypeUIDListParamsWithContext(h.Ctx).WithObjectKind(kind).WithObjectUID(uid)
 	if continueVar != nil {
 		params = params.WithContinue(continueVar)
@@ -36,7 +31,7 @@ func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, ord
 		params = params.WithTimeout(*timeout)
 	}
 
-	resp, err := client.V1EventsComponentsObjTypeUIDList(params)
+	resp, err := h.GetEventClient().V1EventsComponentsObjTypeUIDList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -45,11 +40,6 @@ func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, ord
 }
 
 func (h *V1Client) GetNotifications(kind, uid string, continueVar, fields, filters, isDone, orderBy *string, limit, offset *int64, timeout *time.Duration) ([]*models.V1Notification, error) {
-	client, err := h.GetEventClient()
-	if err != nil {
-		return nil, err
-	}
-
 	params := event.NewV1NotificationsObjTypeUIDListParamsWithContext(h.Ctx).WithObjectKind(kind).WithObjectUID(uid)
 	if continueVar != nil {
 		params = params.WithContinue(continueVar)
@@ -76,7 +66,7 @@ func (h *V1Client) GetNotifications(kind, uid string, continueVar, fields, filte
 		params = params.WithTimeout(*timeout)
 	}
 
-	resp, err := client.V1NotificationsObjTypeUIDList(params)
+	resp, err := h.GetEventClient().V1NotificationsObjTypeUIDList(params)
 	if err != nil {
 		return nil, err
 	}

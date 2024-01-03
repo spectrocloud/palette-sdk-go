@@ -9,11 +9,6 @@ import (
 )
 
 func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClusterEntity, ClusterContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	var params *clusterC.V1SpectroClustersVsphereCreateParams
 	switch ClusterContext {
 	case "project":
@@ -22,7 +17,7 @@ func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClus
 		params = clusterC.NewV1SpectroClustersVsphereCreateParams().WithBody(cluster)
 	}
 
-	success, err := client.V1SpectroClustersVsphereCreate(params)
+	success, err := h.GetClusterClient().V1SpectroClustersVsphereCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -31,11 +26,6 @@ func (h *V1Client) CreateClusterEdgeVsphere(cluster *models.V1SpectroVsphereClus
 }
 
 func (h *V1Client) CreateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsVsphereMachinePoolCreateParams
 	switch ClusterContext {
 	case "project":
@@ -44,16 +34,11 @@ func (h *V1Client) CreateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext st
 		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsVsphereMachinePoolCreate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsVsphereMachinePoolUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -68,16 +53,11 @@ func (h *V1Client) UpdateMachinePoolEdgeVsphere(cloudConfigId, ClusterContext st
 			WithBody(machinePool)
 	}
 
-	_, err = client.V1CloudConfigsVsphereMachinePoolUpdate(params)
+	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId, machinePoolName, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudConfigsVsphereMachinePoolDeleteParams
 	switch ClusterContext {
 	case "project":
@@ -86,16 +66,11 @@ func (h *V1Client) DeleteMachinePoolEdgeVsphere(cloudConfigId, machinePoolName, 
 		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err = client.V1CloudConfigsVsphereMachinePoolDelete(params)
+	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudConfigEdgeVsphere(configUID, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsVsphereGetParams
 	switch ClusterContext {
 	case "project":
@@ -104,7 +79,7 @@ func (h *V1Client) GetCloudConfigEdgeVsphere(configUID, ClusterContext string) (
 		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := client.V1CloudConfigsVsphereGet(params)
+	success, err := h.GetClusterClient().V1CloudConfigsVsphereGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -116,17 +91,12 @@ func (h *V1Client) GetCloudConfigEdgeVsphere(configUID, ClusterContext string) (
 }
 
 func (h *V1Client) ImportClusterEdgeVsphere(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	params := clusterC.NewV1SpectroClustersVsphereImportParamsWithContext(h.Ctx).WithBody(
 		&models.V1SpectroVsphereClusterImportEntity{
 			Metadata: meta,
 		},
 	)
-	success, err := client.V1SpectroClustersVsphereImport(params)
+	success, err := h.GetClusterClient().V1SpectroClustersVsphereImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -135,11 +105,6 @@ func (h *V1Client) ImportClusterEdgeVsphere(meta *models.V1ObjectMetaInputEntity
 }
 
 func (h *V1Client) GetNodeStatusMapEdgeVsphere(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudConfigsVspherePoolMachinesListParams
 	switch ClusterContext {
 	case "project":
@@ -148,7 +113,7 @@ func (h *V1Client) GetNodeStatusMapEdgeVsphere(configUID, machinePoolName, Clust
 		params = clusterC.NewV1CloudConfigsVspherePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := client.V1CloudConfigsVspherePoolMachinesList(params)
+	mpList, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

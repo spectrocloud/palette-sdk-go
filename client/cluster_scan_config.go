@@ -11,10 +11,7 @@ func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1C
 	if h.GetClusterScanConfigFn != nil {
 		return h.GetClusterScanConfigFn(uid)
 	}
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
+
 	var params *clusterC.V1ClusterFeatureComplianceScanGetParams
 	switch clusterContext {
 	case "project":
@@ -22,7 +19,8 @@ func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1C
 	case "tenant":
 		params = clusterC.NewV1ClusterFeatureComplianceScanGetParams().WithUID(uid)
 	}
-	success, err := client.V1ClusterFeatureComplianceScanGet(params)
+
+	success, err := h.GetClusterClient().V1ClusterFeatureComplianceScanGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -34,11 +32,6 @@ func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1C
 }
 
 func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1ClusterFeatureComplianceScanCreateParams
 	switch ClusterContext {
 	case "project":
@@ -47,16 +40,11 @@ func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterC
 		params = clusterC.NewV1ClusterFeatureComplianceScanCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err = client.V1ClusterFeatureComplianceScanCreate(params)
+	_, err := h.GetClusterClient().V1ClusterFeatureComplianceScanCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	var params *clusterC.V1ClusterFeatureComplianceScanUpdateParams
 	switch ClusterContext {
 	case "project":
@@ -65,7 +53,7 @@ func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterC
 		params = clusterC.NewV1ClusterFeatureComplianceScanUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err = client.V1ClusterFeatureComplianceScanUpdate(params)
+	_, err := h.GetClusterClient().V1ClusterFeatureComplianceScanUpdate(params)
 	return err
 }
 

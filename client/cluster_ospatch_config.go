@@ -6,10 +6,6 @@ import (
 )
 
 func (h *V1Client) UpdateClusterOsPatchConfig(uid, clusterContext string, config *models.V1OsPatchEntity) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
 	var params *clusterC.V1SpectroClustersUIDOsPatchUpdateParams
 	switch clusterContext {
 	case "project":
@@ -17,6 +13,7 @@ func (h *V1Client) UpdateClusterOsPatchConfig(uid, clusterContext string, config
 	case "tenant":
 		params = clusterC.NewV1SpectroClustersUIDOsPatchUpdateParams().WithUID(uid).WithBody(config)
 	}
-	_, err = client.V1SpectroClustersUIDOsPatchUpdate(params)
+
+	_, err := h.GetClusterClient().V1SpectroClustersUIDOsPatchUpdate(params)
 	return err
 }

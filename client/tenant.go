@@ -5,16 +5,10 @@ import (
 )
 
 func (h *V1Client) GetTenantUID() (string, error) {
-	client, err := h.GetUserClient()
-	if err != nil {
-		return "", err
-	}
-
 	params := userC.NewV1UsersMeGetParams()
-	me, err := client.V1UsersMeGet(params)
+	me, err := h.GetUserClient().V1UsersMeGet(params)
 	if err != nil || me == nil {
 		return "", err
 	}
 	return me.Payload.Status.Tenant.TenantUID, nil
-
 }

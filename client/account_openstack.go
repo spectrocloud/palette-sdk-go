@@ -15,14 +15,8 @@ func toV1OverlordsUIDOpenStackAccountValidateBody(account *models.V1OpenStackAcc
 }
 
 func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccount, AccountContext string) (string, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return "", err
-	}
-
 	// validate account
-	err = validateCloudAccountOpenStack(account, h)
-	if err != nil {
+	if err := validateCloudAccountOpenStack(account, h); err != nil {
 		return "", err
 	}
 
@@ -34,7 +28,7 @@ func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccoun
 		params = clusterC.NewV1CloudAccountsOpenStackCreateParams().WithBody(account)
 	}
 
-	success, err := client.V1CloudAccountsOpenStackCreate(params)
+	success, err := h.GetClusterClient().V1CloudAccountsOpenStackCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -43,22 +37,16 @@ func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccoun
 }
 
 func validateCloudAccountOpenStack(account *models.V1OpenStackAccount, h *V1Client) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return err
-	}
-
 	PcgId := account.Metadata.Annotations[OverlordUID]
 	// check PCG
-	err = h.CheckPCG(PcgId)
-	if err != nil {
+	if err := h.CheckPCG(PcgId); err != nil {
 		return err
 	}
 
 	// validate account
 	paramsValidate := clusterC.NewV1OverlordsUIDOpenStackAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDOpenStackAccountValidateBody(account))
-	_, err = client.V1OverlordsUIDOpenStackAccountValidate(paramsValidate)
+	_, err := h.GetClusterClient().V1OverlordsUIDOpenStackAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -67,28 +55,17 @@ func validateCloudAccountOpenStack(account *models.V1OpenStackAccount, h *V1Clie
 }
 
 func (h *V1Client) UpdateCloudAccountOpenStack(account *models.V1OpenStackAccount) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
-	err = validateCloudAccountOpenStack(account, h)
-	if err != nil {
+	if err := validateCloudAccountOpenStack(account, h); err != nil {
 		return err
 	}
 
 	uid := account.Metadata.UID
 	params := clusterC.NewV1CloudAccountsOpenStackUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err = client.V1CloudAccountsOpenStackUpdate(params)
+	_, err := h.GetClusterClient().V1CloudAccountsOpenStackUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountOpenStack(uid, AccountContext string) error {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil
-	}
-
 	var params *clusterC.V1CloudAccountsOpenStackDeleteParams
 	switch AccountContext {
 	case "project":
@@ -97,16 +74,11 @@ func (h *V1Client) DeleteCloudAccountOpenStack(uid, AccountContext string) error
 		params = clusterC.NewV1CloudAccountsOpenStackDeleteParams().WithUID(uid)
 	}
 
-	_, err = client.V1CloudAccountsOpenStackDelete(params)
+	_, err := h.GetClusterClient().V1CloudAccountsOpenStackDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models.V1OpenStackAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	var params *clusterC.V1CloudAccountsOpenStackGetParams
 	switch AccountContext {
 	case "project":
@@ -115,7 +87,7 @@ func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models
 		params = clusterC.NewV1CloudAccountsOpenStackGetParams().WithUID(uid)
 	}
 
-	success, err := client.V1CloudAccountsOpenStackGet(params)
+	success, err := h.GetClusterClient().V1CloudAccountsOpenStackGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -128,14 +100,9 @@ func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models
 }
 
 func (h *V1Client) GetCloudAccountsOpenStack() ([]*models.V1OpenStackAccount, error) {
-	client, err := h.GetClusterClient()
-	if err != nil {
-		return nil, err
-	}
-
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsOpenStackListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := client.V1CloudAccountsOpenStackList(params)
+	response, err := h.GetClusterClient().V1CloudAccountsOpenStackList(params)
 	if err != nil {
 		return nil, err
 	}
