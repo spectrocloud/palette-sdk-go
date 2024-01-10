@@ -1,9 +1,6 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/hapi/apiutil/transport"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -25,10 +22,7 @@ func (h *V1Client) SearchApplianceSummaries(applianceContext string, filter *mod
 	}
 
 	resp, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	if err != nil {
 		return nil, err
 	}
 
