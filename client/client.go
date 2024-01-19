@@ -100,6 +100,14 @@ type V1Client struct {
 
 	// Edge Native
 	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
+
+	// Macros
+	CreateMacrosFn   func(uid string, macros *models.V1Macros) (string, error)
+	GetTFMacrosV2Fn  func(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error)
+	GetExistMacrosFn func(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error)
+	UpdateMacrosFn   func(uid string, macros *models.V1Macros) error
+	DeleteMacrosFn   func(uid string, body *models.V1Macros) error
+	GetMacrosIdFn    func(uid string) (string, error)
 }
 
 func New(options ...func(*V1Client)) *V1Client {

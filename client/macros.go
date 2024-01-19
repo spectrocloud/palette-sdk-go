@@ -7,7 +7,9 @@ import (
 )
 
 func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, error) {
-
+	if h.CreateMacrosFn != nil {
+		return h.CreateMacrosFn(uid, macros)
+	}
 	if uid != "" {
 		params := userC.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
 		_, err := h.GetUserClient().V1ProjectsUIDMacrosCreate(params)
@@ -33,6 +35,9 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, er
 }
 
 func (h *V1Client) GetTFMacrosV2(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error) {
+	if h.GetTFMacrosV2Fn != nil {
+		return h.GetTFMacrosV2Fn(tfMacrosMap, projectUID)
+	}
 	allMacros, err := h.GetMacrosV2(projectUID)
 
 	if err != nil {
@@ -53,6 +58,9 @@ func (h *V1Client) GetTFMacrosV2(tfMacrosMap map[string]interface{}, projectUID 
 }
 
 func (h *V1Client) GetExistMacros(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error) {
+	if h.GetExistMacrosFn != nil {
+		return h.GetExistMacrosFn(tfMacrosMap, projectUID)
+	}
 	allMacros, err := h.GetMacrosV2(projectUID)
 	var existMacros []*models.V1Macro
 	if err != nil {
@@ -101,6 +109,9 @@ func (h *V1Client) GetMacrosV2(projectUID string) ([]*models.V1Macro, error) {
 }
 
 func (h *V1Client) UpdateMacros(uid string, macros *models.V1Macros) error {
+	if h.UpdateMacrosFn != nil {
+		return h.UpdateMacrosFn(uid, macros)
+	}
 	if uid != "" {
 		params := userC.NewV1ProjectsUIDMacrosUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
 		_, err := h.GetUserClient().V1ProjectsUIDMacrosUpdate(params)
@@ -118,6 +129,9 @@ func (h *V1Client) UpdateMacros(uid string, macros *models.V1Macros) error {
 }
 
 func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
+	if h.DeleteMacrosFn != nil {
+		return h.DeleteMacrosFn(uid, body)
+	}
 	if uid != "" {
 		params := userC.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
 		_, err := h.GetUserClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
@@ -140,6 +154,9 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 }
 
 func (h *V1Client) GetMacrosId(uid string) (string, error) {
+	if h.GetMacrosIdFn != nil {
+		return h.GetMacrosIdFn(uid)
+	}
 	hashId := ""
 	if uid != "" {
 		hashId = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)
