@@ -1,8 +1,6 @@
 package client
 
 import (
-	"fmt"
-
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -10,32 +8,35 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetApplianceByName(deviceName string) (*models.V1EdgeHostDevice, error) {
-	appliances, err := h.GetAppliances(nil)
+func (h *V1Client) SearchApplianceSummaries(applianceContext string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
+	var params *hashboardC.V1DashboardEdgehostsSearchParams
+	switch applianceContext {
+	case "project":
+		params = hashboardC.NewV1DashboardEdgehostsSearchParamsWithContext(h.Ctx)
+	case "tenant":
+		params = hashboardC.NewV1DashboardEdgehostsSearchParams()
+	}
+	params.Body = &models.V1SearchFilterSummarySpec{
+		Filter: filter,
+		Sort:   sort,
+	}
+
+	resp, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, appliance := range appliances.Payload.Items {
-		if appliance.Metadata.Name == deviceName {
-			appliance, err := h.GetAppliance(appliance.Metadata.UID)
-			if err != nil {
-				return nil, err
-			}
-			return appliance, nil
-		}
-	}
-
-	return nil, fmt.Errorf("appliance '%s' not found", deviceName)
+	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) GetAppliances(filter *models.V1SearchFilterSummarySpec) (*hashboardC.V1DashboardEdgehostsSearchOK, error) {
-	limit := int64(0)
-	params := hashboardC.NewV1DashboardEdgehostsSearchParamsWithContext(h.Ctx).WithBody(filter).WithLimit(&limit)
-	appliances, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
+func (h *V1Client) GetAppliances(applianceContext string, tags map[string]string, status, health, architecture string) ([]*models.V1EdgeHostsMetadata, error) {
+	filter := getApplianceFilter(nil, tags, status, health, architecture)
+
+	appliances, err := h.SearchApplianceSummaries(applianceContext, filter, nil)
 	if err != nil {
 		return nil, err
 	}
+
 	return appliances, nil
 }
 
