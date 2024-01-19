@@ -25,8 +25,11 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, er
 			return "", err
 		}
 	}
-
-	return h.GetMacrosId(uid), nil
+	macrosId, err := h.GetMacrosId(uid)
+	if err != nil {
+		return "", err
+	}
+	return macrosId, nil
 }
 
 func (h *V1Client) GetTFMacrosV2(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error) {
@@ -136,16 +139,16 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 	return nil
 }
 
-func (h *V1Client) GetMacrosId(uid string) string {
-	var hash string
+func (h *V1Client) GetMacrosId(uid string) (string, error) {
+	hashId := ""
 	if uid != "" {
-		hash = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)
+		hashId = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)
 	} else {
 		tenantID, err := h.GetTenantUID()
 		if err != nil {
-			return ""
+			return "", err
 		}
-		hash = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantID)
+		hashId = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantID)
 	}
-	return hash
+	return hashId, nil
 }
