@@ -1,15 +1,15 @@
 module github.com/spectrocloud/palette-sdk-go
 
-go 1.21
+go 1.22
 
-toolchain go1.21.1
+toolchain go1.22rc2
 
 require (
 	github.com/go-openapi/runtime v0.19.24
 	github.com/go-openapi/strfmt v0.20.0
 	github.com/pkg/errors v0.9.1
-	github.com/spectrocloud/hapi v1.14.1-0.20231204203717-cd5b7889ff97
-	github.com/stretchr/testify v1.7.0
+	github.com/spectrocloud/hapi v1.14.1-0.20240127163812-35944b564715
+	github.com/stretchr/testify v1.8.4
 )
 
 require (
@@ -33,13 +33,13 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.6.0 // indirect
-	github.com/spectrocloud/gomi v1.14.1-0.20230412095143-b0595c6c6f08 // indirect
+	github.com/spectrocloud/gomi v1.14.1-0.20231206064212-951160f8c919 // indirect
 	go.mongodb.org/mongo-driver v1.4.6 // indirect
-	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 //replace github.com/spectrocloud/hapi => ../hapi
