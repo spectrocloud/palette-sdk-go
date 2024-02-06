@@ -1,26 +1,26 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 type GetMaintenanceStatus func(string, string, string, string) (*models.V1MachineMaintenanceStatus, error)
 
-func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, CloudType, ClusterContext, ConfigUID, MachineName, NodeId string) error {
-	var params *clusterC.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams
-	switch ClusterContext {
+func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, CloudType, scope, ConfigUID, MachineName, NodeId string) error {
+	var params *clientV1.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.Ctx).WithBody(nodeMaintenance)
+		params = clientV1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.Ctx).WithBody(nodeMaintenance)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams().WithBody(nodeMaintenance)
+		params = clientV1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams().WithBody(nodeMaintenance)
 	}
 	params.WithCloudType(CloudType)
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	_, err := h.GetClusterClient().V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
+	_, err := h.GetClient().V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -35,23 +35,23 @@ func (h *V1Client) GetNodeValue(nodeId, action string) map[string]interface{} {
 	}
 }
 
-func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	return fn(ClusterContext, ConfigUID, MachineName, NodeId)
+func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	return fn(scope, ConfigUID, MachineName, NodeId)
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsAwsPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusAws(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsAwsPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsAwsPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsAwsPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsAwsPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsAwsPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsAwsPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsAwsPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -60,19 +60,19 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsMaasPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusMaas(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsMaasPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsMaasPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsMaasPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsMaasPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsMaasPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -81,19 +81,19 @@ func (h *V1Client) GetNodeMaintenanceStatusMaas(ClusterContext, ConfigUID, Machi
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsAksPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusAks(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsAksPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsAksPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsAksPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsAksPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsAksPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsAksPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsAksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -102,19 +102,19 @@ func (h *V1Client) GetNodeMaintenanceStatusAks(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsAzurePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusAzure(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsAzurePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsAzurePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsAzurePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsAzurePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsAzurePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsAzurePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsAzurePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -123,19 +123,19 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(ClusterContext, ConfigUID, Mach
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsCoxEdgePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsCoxEdgePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -144,19 +144,19 @@ func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(ClusterContext, ConfigUID, Ma
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsEdgeNativePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsEdgeNativePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -165,19 +165,19 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(ClusterContext, ConfigUID,
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsEdgePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusEdge(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsEdgePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsEdgePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsEdgePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -186,19 +186,19 @@ func (h *V1Client) GetNodeMaintenanceStatusEdge(ClusterContext, ConfigUID, Machi
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsVspherePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsVspherePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -207,19 +207,19 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(ClusterContext, ConfigUID
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsEksPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusEks(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsEksPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsEksPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsEksPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsEksPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsEksPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsEksPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsEksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -228,19 +228,19 @@ func (h *V1Client) GetNodeMaintenanceStatusEks(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsGcpPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusGcp(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsGcpPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsGcpPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsGcpPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsGcpPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsGcpPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsGcpPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsGcpPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -249,19 +249,19 @@ func (h *V1Client) GetNodeMaintenanceStatusGcp(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsGenericPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusGeneric(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsGenericPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsGenericPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsGenericPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsGenericPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsGenericPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsGenericPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsGenericPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -270,19 +270,19 @@ func (h *V1Client) GetNodeMaintenanceStatusGeneric(ClusterContext, ConfigUID, Ma
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsGkePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusGke(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsGkePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsGkePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsGkePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsGkePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsGkePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsGkePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsGkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -291,19 +291,19 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsLibvirtPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusLibvirt(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsLibvirtPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -312,19 +312,19 @@ func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ClusterContext, ConfigUID, Ma
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsOpenStackPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusOpenStack(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsOpenStackPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -333,19 +333,19 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(ClusterContext, ConfigUID, 
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsTkePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusTke(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsTkePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsTkePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsTkePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsTkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -354,19 +354,19 @@ func (h *V1Client) GetNodeMaintenanceStatusTke(ClusterContext, ConfigUID, Machin
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsVirtualPoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsVirtualPoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsVirtualPoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsVirtualPoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsVirtualPoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsVirtualPoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsVirtualPoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsVirtualPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -375,19 +375,19 @@ func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(ClusterContext, Config
 	return s.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusVsphere(ClusterContext, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	var params *clusterC.V1CloudConfigsVspherePoolMachinesUIDGetParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeMaintenanceStatusVsphere(scope, ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	var params *clientV1.V1CloudConfigsVspherePoolMachinesUIDGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesUIDGetParams()
+		params = clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParams()
 	}
 	params.WithConfigUID(ConfigUID)
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
+	s, err := h.GetClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err

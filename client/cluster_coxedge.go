@@ -3,21 +3,21 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) CreateClusterCoxEdge(cluster *models.V1SpectroCoxEdgeClusterEntity, ClusterContext string) (string, error) {
-	var params *clusterC.V1SpectroClustersCoxEdgeCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateclientV1oxEdge(cluster *models.V1SpectroCoxEdgeClusterEntity, scope string) (string, error) {
+	var params *clientV1.V1SpectroClustersCoxEdgeCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersCoxEdgeCreateParamsWithContext(h.Ctx).WithBody(cluster)
+		params = clientV1.NewV1SpectroClustersCoxEdgeCreateParamsWithContext(h.Ctx).WithBody(cluster)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersCoxEdgeCreateParams().WithBody(cluster)
+		params = clientV1.NewV1SpectroClustersCoxEdgeCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClusterClient().V1SpectroClustersCoxEdgeCreate(params)
+	success, err := h.GetClient().V1SpectroClustersCoxEdgeCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -25,61 +25,61 @@ func (h *V1Client) CreateClusterCoxEdge(cluster *models.V1SpectroCoxEdgeClusterE
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateMachinePoolCoxEdge(CloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, scope string) error {
+	var params *clientV1.V1CloudConfigsCoxEdgeMachinePoolCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsCoxEdgeMachinePoolCreate(params)
+	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolCoxEdge(cloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolUpdateParams
-	switch ClusterContext {
+func (h *V1Client) UpdateMachinePoolCoxEdge(CloudConfigId string, machinePool *models.V1CoxEdgeMachinePoolConfigEntity, scope string) error {
+	var params *clientV1.V1CloudConfigsCoxEdgeMachinePoolUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(cloudConfigId).
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(CloudConfigId).
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParams().
-			WithConfigUID(cloudConfigId).
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolUpdateParams().
+			WithConfigUID(CloudConfigId).
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsCoxEdgeMachinePoolUpdate(params)
+	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolCoxEdge(cloudConfigId, machinePoolName, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsCoxEdgeMachinePoolDeleteParams
-	switch ClusterContext {
+func (h *V1Client) DeleteMachinePoolCoxEdge(CloudConfigId, machinePoolName, scope string) error {
+	var params *clientV1.V1CloudConfigsCoxEdgeMachinePoolDeleteParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsCoxEdgeMachinePoolDelete(params)
+	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*models.V1CoxEdgeCloudConfig, error) {
-	var params *clusterC.V1CloudConfigsCoxEdgeGetParams
-	switch ClusterContext {
+func (h *V1Client) GetCloudConfigCoxEdge(configUID, scope string) (*models.V1CoxEdgeCloudConfig, error) {
+	var params *clientV1.V1CloudConfigsCoxEdgeGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+		params = clientV1.NewV1CloudConfigsCoxEdgeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgeGetParams().WithConfigUID(configUID)
+		params = clientV1.NewV1CloudConfigsCoxEdgeGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClusterClient().V1CloudConfigsCoxEdgeGet(params)
+	success, err := h.GetClient().V1CloudConfigsCoxEdgeGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -90,16 +90,16 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, ClusterContext string) (*mod
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapCoxEdge(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clusterC.V1CloudConfigsCoxEdgePoolMachinesListParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeStatusMapCoxEdge(configUID, machinePoolName, scope string) (map[string]models.V1CloudMachineStatus, error) {
+	var params *clientV1.V1CloudConfigsCoxEdgePoolMachinesListParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsCoxEdgePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsCoxEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsCoxEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClusterClient().V1CloudConfigsCoxEdgePoolMachinesList(params)
+	mpList, err := h.GetClient().V1CloudConfigsCoxEdgePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

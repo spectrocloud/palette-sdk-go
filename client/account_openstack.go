@@ -3,13 +3,13 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func toV1OverlordsUIDOpenStackAccountValidateBody(account *models.V1OpenStackAccount) clusterC.V1OverlordsUIDOpenStackAccountValidateBody {
-	return clusterC.V1OverlordsUIDOpenStackAccountValidateBody{
+func toV1OverlordsUIDOpenStackAccountValidateBody(account *models.V1OpenStackAccount) clientV1.V1OverlordsUIDOpenStackAccountValidateBody {
+	return clientV1.V1OverlordsUIDOpenStackAccountValidateBody{
 		Account: account.Spec,
 	}
 }
@@ -20,15 +20,15 @@ func (h *V1Client) CreateCloudAccountOpenStack(account *models.V1OpenStackAccoun
 		return "", err
 	}
 
-	var params *clusterC.V1CloudAccountsOpenStackCreateParams
+	var params *clientV1.V1CloudAccountsOpenStackCreateParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsOpenStackCreateParamsWithContext(h.Ctx).WithBody(account)
+		params = clientV1.NewV1CloudAccountsOpenStackCreateParamsWithContext(h.Ctx).WithBody(account)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsOpenStackCreateParams().WithBody(account)
+		params = clientV1.NewV1CloudAccountsOpenStackCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsOpenStackCreate(params)
+	success, err := h.GetClient().V1CloudAccountsOpenStackCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -44,9 +44,9 @@ func validateCloudAccountOpenStack(account *models.V1OpenStackAccount, h *V1Clie
 	}
 
 	// validate account
-	paramsValidate := clusterC.NewV1OverlordsUIDOpenStackAccountValidateParams().WithUID(PcgId)
+	paramsValidate := clientV1.NewV1OverlordsUIDOpenStackAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDOpenStackAccountValidateBody(account))
-	_, err := h.GetClusterClient().V1OverlordsUIDOpenStackAccountValidate(paramsValidate)
+	_, err := h.GetClient().V1OverlordsUIDOpenStackAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -60,34 +60,34 @@ func (h *V1Client) UpdateCloudAccountOpenStack(account *models.V1OpenStackAccoun
 	}
 
 	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsOpenStackUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClusterClient().V1CloudAccountsOpenStackUpdate(params)
+	params := clientV1.NewV1CloudAccountsOpenStackUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	_, err := h.GetClient().V1CloudAccountsOpenStackUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountOpenStack(uid, AccountContext string) error {
-	var params *clusterC.V1CloudAccountsOpenStackDeleteParams
+	var params *clientV1.V1CloudAccountsOpenStackDeleteParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsOpenStackDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsOpenStackDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsOpenStackDeleteParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsOpenStackDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClusterClient().V1CloudAccountsOpenStackDelete(params)
+	_, err := h.GetClient().V1CloudAccountsOpenStackDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models.V1OpenStackAccount, error) {
-	var params *clusterC.V1CloudAccountsOpenStackGetParams
+	var params *clientV1.V1CloudAccountsOpenStackGetParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsOpenStackGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsOpenStackGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsOpenStackGetParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsOpenStackGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsOpenStackGet(params)
+	success, err := h.GetClient().V1CloudAccountsOpenStackGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -101,8 +101,8 @@ func (h *V1Client) GetCloudAccountOpenStack(uid, AccountContext string) (*models
 
 func (h *V1Client) GetCloudAccountsOpenStack() ([]*models.V1OpenStackAccount, error) {
 	limit := int64(0)
-	params := clusterC.NewV1CloudAccountsOpenStackListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClusterClient().V1CloudAccountsOpenStackList(params)
+	params := clientV1.NewV1CloudAccountsOpenStackListParamsWithContext(h.Ctx).WithLimit(&limit)
+	response, err := h.GetClient().V1CloudAccountsOpenStackList(params)
 	if err != nil {
 		return nil, err
 	}

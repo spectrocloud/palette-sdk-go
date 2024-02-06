@@ -1,25 +1,21 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1ClusterRbacs, error) {
-	if h.GetClusterRbacConfigFn != nil {
-		return h.GetClusterRbacConfigFn(uid)
-	}
-	var params *clusterC.V1SpectroClustersUIDConfigRbacsGetParams
-	switch ClusterContext {
+func (h *V1Client) GetClusterRbacConfig(uid, scope string) (*models.V1ClusterRbacs, error) {
+	var params *clientV1.V1SpectroClustersUIDConfigRbacsGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
+		params = clientV1.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsGet(params)
+	success, err := h.GetClient().V1SpectroClustersUIDConfigRbacsGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -30,39 +26,39 @@ func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1C
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbac) error {
-	var params *clusterC.V1WorkspacesClusterRbacCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateClusterRbacConfig(uid, scope string, config *models.V1ClusterRbac) error {
+	var params *clientV1.V1WorkspacesClusterRbacCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClusterClient().V1WorkspacesClusterRbacCreate(params)
+	_, err := h.GetClient().V1WorkspacesClusterRbacCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
-	var params *clusterC.V1SpectroClustersUIDConfigRbacsUpdateParams
-	switch ClusterContext {
+func (h *V1Client) UpdateClusterRbacConfig(uid, scope string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
+	var params *clientV1.V1SpectroClustersUIDConfigRbacsUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsUpdate(params)
+	_, err := h.GetClient().V1SpectroClustersUIDConfigRbacsUpdate(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterRbacConfig(uid, ClusterContext string, config []*models.V1ClusterRbacInputEntity) error {
-	if rbac, err := h.GetClusterRbacConfig(uid, ClusterContext); err != nil {
+func (h *V1Client) ApplyClusterRbacConfig(uid, scope string, config []*models.V1ClusterRbacInputEntity) error {
+	if rbac, err := h.GetClusterRbacConfig(uid, scope); err != nil {
 		return err
 	} else if rbac == nil {
-		return h.CreateClusterRbacConfig(uid, ClusterContext, toCreateClusterRbac(config))
+		return h.CreateClusterRbacConfig(uid, scope, toCreateClusterRbac(config))
 	} else {
-		return h.UpdateClusterRbacConfig(uid, ClusterContext, &models.V1ClusterRbacResourcesUpdateEntity{
+		return h.UpdateClusterRbacConfig(uid, scope, &models.V1ClusterRbacResourcesUpdateEntity{
 			Rbacs: config,
 		})
 	}

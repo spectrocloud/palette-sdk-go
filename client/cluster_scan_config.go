@@ -1,26 +1,21 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1ClusterComplianceScan, error) {
-	if h.GetClusterScanConfigFn != nil {
-		return h.GetClusterScanConfigFn(uid)
-	}
-
-	var params *clusterC.V1ClusterFeatureComplianceScanGetParams
-	switch clusterContext {
+func (h *V1Client) GetClusterScanConfig(uid, scope string) (*models.V1ClusterComplianceScan, error) {
+	var params *clientV1.V1ClusterFeatureComplianceScanGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1ClusterFeatureComplianceScanGetParams().WithUID(uid)
+		params = clientV1.NewV1ClusterFeatureComplianceScanGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1ClusterFeatureComplianceScanGet(params)
+	success, err := h.GetClient().V1ClusterFeatureComplianceScanGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -31,38 +26,38 @@ func (h *V1Client) GetClusterScanConfig(uid, clusterContext string) (*models.V1C
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	var params *clusterC.V1ClusterFeatureComplianceScanCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, scope string) error {
+	var params *clientV1.V1ClusterFeatureComplianceScanCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1ClusterFeatureComplianceScanCreateParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1ClusterFeatureComplianceScanCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClusterClient().V1ClusterFeatureComplianceScanCreate(params)
+	_, err := h.GetClient().V1ClusterFeatureComplianceScanCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	var params *clusterC.V1ClusterFeatureComplianceScanUpdateParams
-	switch ClusterContext {
+func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, scope string) error {
+	var params *clientV1.V1ClusterFeatureComplianceScanUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1ClusterFeatureComplianceScanUpdateParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1ClusterFeatureComplianceScanUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClusterClient().V1ClusterFeatureComplianceScanUpdate(params)
+	_, err := h.GetClient().V1ClusterFeatureComplianceScanUpdate(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, ClusterContext string) error {
-	if policy, err := h.GetClusterScanConfig(uid, ClusterContext); err != nil {
+func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig, scope string) error {
+	if policy, err := h.GetClusterScanConfig(uid, scope); err != nil {
 		return err
 	} else if policy == nil {
-		return h.CreateClusterScanConfig(uid, config, ClusterContext)
+		return h.CreateClusterScanConfig(uid, config, scope)
 	} else {
-		return h.UpdateClusterScanConfig(uid, config, ClusterContext)
+		return h.UpdateClusterScanConfig(uid, config, scope)
 	}
 }

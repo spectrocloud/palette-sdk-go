@@ -3,10 +3,9 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	cloudC "github.com/spectrocloud/hapi/cloud/client/v1"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func toV1AzureCloudAccount(account *models.V1AzureAccount) *models.V1AzureCloudAccount {
@@ -26,14 +25,14 @@ func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount, Accou
 		return "", err
 	}
 
-	var params *clusterC.V1CloudAccountsAzureCreateParams
+	var params *clientV1.V1CloudAccountsAzureCreateParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsAzureCreateParamsWithContext(h.Ctx).WithBody(account)
+		params = clientV1.NewV1CloudAccountsAzureCreateParamsWithContext(h.Ctx).WithBody(account)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsAzureCreateParams().WithBody(account)
+		params = clientV1.NewV1CloudAccountsAzureCreateParams().WithBody(account)
 	}
-	success, err := h.GetClusterClient().V1CloudAccountsAzureCreate(params)
+	success, err := h.GetClient().V1CloudAccountsAzureCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -48,10 +47,10 @@ func validateCloudAccountAzure(account *models.V1AzureAccount, h *V1Client) erro
 	}
 
 	// validate account
-	paramsValidate := cloudC.NewV1AzureAccountValidateParams()
+	paramsValidate := clientV1.NewV1AzureAccountValidateParams()
 	paramsValidate = paramsValidate.WithAzureCloudAccount(toV1AzureCloudAccount(account))
 
-	_, err := h.GetCloudClient().V1AzureAccountValidate(paramsValidate)
+	_, err := h.GetClient().V1AzureAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -66,33 +65,33 @@ func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error
 	}
 
 	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClusterClient().V1CloudAccountsAzureUpdate(params)
+	params := clientV1.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	_, err := h.GetClient().V1CloudAccountsAzureUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountAzure(uid, AccountContext string) error {
-	var params *clusterC.V1CloudAccountsAzureDeleteParams
+	var params *clientV1.V1CloudAccountsAzureDeleteParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsAzureDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsAzureDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsAzureDeleteParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsAzureDeleteParams().WithUID(uid)
 	}
-	_, err := h.GetClusterClient().V1CloudAccountsAzureDelete(params)
+	_, err := h.GetClient().V1CloudAccountsAzureDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1AzureAccount, error) {
-	var params *clusterC.V1CloudAccountsAzureGetParams
+	var params *clientV1.V1CloudAccountsAzureGetParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsAzureGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsAzureGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsAzureGetParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsAzureGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsAzureGet(params)
+	success, err := h.GetClient().V1CloudAccountsAzureGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -106,8 +105,8 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 
 func (h *V1Client) GetCloudAccountsAzure() ([]*models.V1AzureAccount, error) {
 	limit := int64(0)
-	params := clusterC.NewV1CloudAccountsAzureListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClusterClient().V1CloudAccountsAzureList(params)
+	params := clientV1.NewV1CloudAccountsAzureListParamsWithContext(h.Ctx).WithLimit(&limit)
+	response, err := h.GetClient().V1CloudAccountsAzureList(params)
 	if err != nil {
 		return nil, err
 	}

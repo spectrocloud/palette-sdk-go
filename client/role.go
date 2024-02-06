@@ -3,13 +3,13 @@ package client
 import (
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) GetRole(roleName string) (*models.V1Role, error) {
-	params := userC.NewV1RolesListParams()
-	roles, err := h.GetUserClient().V1RolesList(params)
+	params := clientV1.NewV1RolesListParams()
+	roles, err := h.GetClient().V1RolesList(params)
 	if err != nil {
 		return nil, err
 	}

@@ -3,16 +3,16 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 const OverlordUID = "overlordUid"
 
 // convert V1VsphereAccount to V1OverlordVsphereAccountEntity
-func toV1OverlordsUIDVsphereAccountValidateBody(account *models.V1VsphereAccount) clusterC.V1OverlordsUIDVsphereAccountValidateBody {
-	return clusterC.V1OverlordsUIDVsphereAccountValidateBody{
+func toV1OverlordsUIDVsphereAccountValidateBody(account *models.V1VsphereAccount) clientV1.V1OverlordsUIDVsphereAccountValidateBody {
+	return clientV1.V1OverlordsUIDVsphereAccountValidateBody{
 		Account: account.Spec,
 	}
 }
@@ -24,16 +24,16 @@ func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, A
 	}
 
 	// create account
-	var params *clusterC.V1CloudAccountsVsphereCreateParams
+	var params *clientV1.V1CloudAccountsVsphereCreateParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsVsphereCreateParamsWithContext(h.Ctx)
+		params = clientV1.NewV1CloudAccountsVsphereCreateParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsVsphereCreateParams()
+		params = clientV1.NewV1CloudAccountsVsphereCreateParams()
 	}
 
 	params = params.WithBody(account)
-	success, err := h.GetClusterClient().V1CloudAccountsVsphereCreate(params)
+	success, err := h.GetClient().V1CloudAccountsVsphereCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -49,9 +49,9 @@ func validateCloudAccountVsphere(account *models.V1VsphereAccount, h *V1Client) 
 	}
 
 	// validate account
-	paramsValidate := clusterC.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(PcgId)
+	paramsValidate := clientV1.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDVsphereAccountValidateBody(account))
-	_, err := h.GetClusterClient().V1OverlordsUIDVsphereAccountValidate(paramsValidate)
+	_, err := h.GetClient().V1OverlordsUIDVsphereAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -66,34 +66,34 @@ func (h *V1Client) UpdateCloudAccountVsphere(account *models.V1VsphereAccount, A
 	}
 
 	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsVsphereUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClusterClient().V1CloudAccountsVsphereUpdate(params)
+	params := clientV1.NewV1CloudAccountsVsphereUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	_, err := h.GetClient().V1CloudAccountsVsphereUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountVsphere(uid, AccountContext string) error {
-	var params *clusterC.V1CloudAccountsVsphereDeleteParams
+	var params *clientV1.V1CloudAccountsVsphereDeleteParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsVsphereDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsVsphereDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsVsphereDeleteParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsVsphereDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClusterClient().V1CloudAccountsVsphereDelete(params)
+	_, err := h.GetClient().V1CloudAccountsVsphereDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V1VsphereAccount, error) {
-	var params *clusterC.V1CloudAccountsVsphereGetParams
+	var params *clientV1.V1CloudAccountsVsphereGetParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsVsphereGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsVsphereGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsVsphereGetParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsVsphereGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsVsphereGet(params)
+	success, err := h.GetClient().V1CloudAccountsVsphereGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -107,8 +107,8 @@ func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V
 
 func (h *V1Client) GetCloudAccountsVsphere() ([]*models.V1VsphereAccount, error) {
 	limit := int64(0)
-	params := clusterC.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClusterClient().V1CloudAccountsVsphereList(params)
+	params := clientV1.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx).WithLimit(&limit)
+	response, err := h.GetClient().V1CloudAccountsVsphereList(params)
 	if err != nil {
 		return nil, err
 	}

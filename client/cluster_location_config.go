@@ -3,8 +3,8 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1ClusterLocation, error) {
@@ -17,16 +17,16 @@ func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1Cluste
 	return nil, errors.New("failed to read cluster location")
 }
 
-func (h *V1Client) UpdateClusterLocationConfig(uid, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
-	var params *clusterC.V1SpectroClustersUIDLocationPutParams
-	switch clusterContext {
+func (h *V1Client) UpdateClusterLocationConfig(uid, scope string, config *models.V1SpectroClusterLocationInputEntity) error {
+	var params *clientV1.V1SpectroClustersUIDLocationPutParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClusterClient().V1SpectroClustersUIDLocationPut(params)
+	_, err := h.GetClient().V1SpectroClustersUIDLocationPut(params)
 	return err
 }
 

@@ -1,33 +1,33 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) UpdateClusterMetadata(uid, clusterContext string, config *models.V1ObjectMetaInputEntitySchema) error {
-	var params *clusterC.V1SpectroClustersUIDMetadataUpdateParams
-	switch clusterContext {
+func (h *V1Client) UpdateClusterMetadata(uid, scope string, config *models.V1ObjectMetaInputEntitySchema) error {
+	var params *clientV1.V1SpectroClustersUIDMetadataUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersUIDMetadataUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDMetadataUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDMetadataUpdateParams().WithUID(uid).WithBody(config)
+		params = clientV1.NewV1SpectroClustersUIDMetadataUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	//params := clusterC.NewV1SpectroClustersUIDMetadataUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
-	_, err := h.GetClusterClient().V1SpectroClustersUIDMetadataUpdate(params)
+	//params := clientV1.NewV1SpectroClustersUIDMetadataUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
+	_, err := h.GetClient().V1SpectroClustersUIDMetadataUpdate(params)
 	return err
 }
 
-func (h *V1Client) UpdateAdditionalClusterMetadata(uid, clusterContext string, additionalMeta *models.V1ClusterMetaAttributeEntity) error {
-	var params *clusterC.V1SpectroClustersUIDClusterMetaAttributeUpdateParams
-	switch clusterContext {
+func (h *V1Client) UpdateAdditionalClusterMetadata(uid, scope string, additionalMeta *models.V1ClusterMetaAttributeEntity) error {
+	var params *clientV1.V1SpectroClustersUIDClusterMetaAttributeUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(additionalMeta)
+		params = clientV1.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(additionalMeta)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParams().WithUID(uid).WithBody(additionalMeta)
+		params = clientV1.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParams().WithUID(uid).WithBody(additionalMeta)
 	}
 
-	_, err := h.GetClusterClient().V1SpectroClustersUIDClusterMetaAttributeUpdate(params)
+	_, err := h.GetClient().V1SpectroClustersUIDClusterMetaAttributeUpdate(params)
 	return err
 }

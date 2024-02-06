@@ -3,21 +3,21 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount, AccountContext string) (string, error) {
-	var params *clusterC.V1CloudAccountsTencentCreateParams
+	var params *clientV1.V1CloudAccountsTencentCreateParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsTencentCreateParamsWithContext(h.Ctx).WithBody(account)
+		params = clientV1.NewV1CloudAccountsTencentCreateParamsWithContext(h.Ctx).WithBody(account)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsTencentCreateParams().WithBody(account)
+		params = clientV1.NewV1CloudAccountsTencentCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsTencentCreate(params)
+	success, err := h.GetClient().V1CloudAccountsTencentCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -27,34 +27,34 @@ func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount, Accou
 
 func (h *V1Client) UpdateCloudAccountTencent(account *models.V1TencentAccount) error {
 	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsTencentUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClusterClient().V1CloudAccountsTencentUpdate(params)
+	params := clientV1.NewV1CloudAccountsTencentUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	_, err := h.GetClient().V1CloudAccountsTencentUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountTke(uid, AccountContext string) error {
-	var params *clusterC.V1CloudAccountsTencentDeleteParams
+	var params *clientV1.V1CloudAccountsTencentDeleteParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsTencentDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsTencentDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsTencentDeleteParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsTencentDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClusterClient().V1CloudAccountsTencentDelete(params)
+	_, err := h.GetClient().V1CloudAccountsTencentDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1TencentAccount, error) {
-	var params *clusterC.V1CloudAccountsTencentGetParams
+	var params *clientV1.V1CloudAccountsTencentGetParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsTencentGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsTencentGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsTencentGetParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsTencentGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsTencentGet(params)
+	success, err := h.GetClient().V1CloudAccountsTencentGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -68,8 +68,8 @@ func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1Ten
 
 func (h *V1Client) GetCloudAccountsTke() ([]*models.V1TencentAccount, error) {
 	limit := int64(0)
-	params := clusterC.NewV1CloudAccountsTencentListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClusterClient().V1CloudAccountsTencentList(params)
+	params := clientV1.NewV1CloudAccountsTencentListParamsWithContext(h.Ctx).WithLimit(&limit)
+	response, err := h.GetClient().V1CloudAccountsTencentList(params)
 	if err != nil {
 		return nil, err
 	}

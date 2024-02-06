@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) IsVMExists(scope, clusterUid, vmName, vmNamespace string) (bool, error) {
@@ -20,21 +20,17 @@ func (h *V1Client) IsVMExists(scope, clusterUid, vmName, vmNamespace string) (bo
 }
 
 func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace string) (*models.V1ClusterVirtualMachine, error) {
-	if h.GetVirtualMachineWithoutStatusFn != nil {
-		return h.GetVirtualMachineWithoutStatusFn(uid)
-	}
-
-	var params *clusterC.V1SpectroClustersVMGetParams
+	var params *clientV1.V1SpectroClustersVMGetParams
 	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
+		params = clientV1.NewV1SpectroClustersVMGetParamsWithContext(h.Ctx).WithUID(uid).WithVMName(name).WithNamespace(namespace)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
+		params = clientV1.NewV1SpectroClustersVMGetParams().WithUID(uid).WithVMName(name).WithNamespace(namespace)
 	default:
 		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
 
-	success, err := h.GetClusterClient().V1SpectroClustersVMGet(params)
+	success, err := h.GetClient().V1SpectroClustersVMGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -44,17 +40,17 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace st
 }
 
 func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
-	var params *clusterC.V1SpectroClustersVMListParams
+	var params *clientV1.V1SpectroClustersVMListParams
 	switch cluster.Metadata.Annotations["scope"] {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMListParamsWithContext(h.Ctx).WithUID(cluster.Metadata.UID)
+		params = clientV1.NewV1SpectroClustersVMListParamsWithContext(h.Ctx).WithUID(cluster.Metadata.UID)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMListParams().WithUID(cluster.Metadata.UID)
+		params = clientV1.NewV1SpectroClustersVMListParams().WithUID(cluster.Metadata.UID)
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}
 
-	vms, err := h.GetClusterClient().V1SpectroClustersVMList(params)
+	vms, err := h.GetClient().V1SpectroClustersVMList(params)
 	if err != nil {
 		return nil, err
 	}

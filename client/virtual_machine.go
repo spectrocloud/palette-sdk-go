@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
@@ -21,19 +21,19 @@ func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1Cluste
 	}
 
 	// get cluster scope
-	var params *clusterC.V1SpectroClustersVMCreateParams
+	var params *clientV1.V1SpectroClustersVMCreateParams
 	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMCreateParamsWithContext(h.Ctx)
+		params = clientV1.NewV1SpectroClustersVMCreateParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMCreateParams()
+		params = clientV1.NewV1SpectroClustersVMCreateParams()
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}
 
 	params = params.WithUID(uid).WithBody(body).WithNamespace(params.Body.Metadata.Namespace)
 
-	vm, err := h.GetClusterClient().V1SpectroClustersVMCreate(params)
+	vm, err := h.GetClient().V1SpectroClustersVMCreate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -41,9 +41,6 @@ func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1Cluste
 }
 
 func (h *V1Client) GetVirtualMachine(scope, uid, namespace, name string) (*models.V1ClusterVirtualMachine, error) {
-	if h.GetVirtualMachineFn != nil {
-		return h.GetVirtualMachineFn(uid)
-	}
 	vm, err := h.GetVirtualMachineWithoutStatus(scope, uid, name, namespace)
 	if err != nil {
 		return nil, err
@@ -55,14 +52,14 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	clusterUid := cluster.Metadata.UID
 	scope := cluster.Metadata.Annotations["scope"]
 	// get cluster scope
-	var params *clusterC.V1SpectroClustersVMUpdateParams
+	var params *clientV1.V1SpectroClustersVMUpdateParams
 
 	// switch cluster scope
 	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
+		params = clientV1.NewV1SpectroClustersVMUpdateParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMUpdateParams()
+		params = clientV1.NewV1SpectroClustersVMUpdateParams()
 	default:
 		return nil, errors.New("invalid cluster scope specified")
 	}
@@ -79,7 +76,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 		return nil, errors.New("VM not exists")
 	}
 
-	vm, err := h.GetClusterClient().V1SpectroClustersVMUpdate(params)
+	vm, err := h.GetClient().V1SpectroClustersVMUpdate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -99,17 +96,17 @@ func (h *V1Client) DeleteVirtualMachine(scope, uid, namespace, name string) erro
 	}
 
 	// get cluster scope
-	var params *clusterC.V1SpectroClustersVMDeleteParams
+	var params *clientV1.V1SpectroClustersVMDeleteParams
 	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMDeleteParamsWithContext(h.Ctx)
+		params = clientV1.NewV1SpectroClustersVMDeleteParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMDeleteParams()
+		params = clientV1.NewV1SpectroClustersVMDeleteParams()
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
 	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace)
 
-	_, err = h.GetClusterClient().V1SpectroClustersVMDelete(params)
+	_, err = h.GetClient().V1SpectroClustersVMDelete(params)
 	return err
 }

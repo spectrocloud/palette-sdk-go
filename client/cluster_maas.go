@@ -3,23 +3,23 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 // Cluster
 
-func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity, ClusterContext string) (string, error) {
-	var params *clusterC.V1SpectroClustersMaasCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity, scope string) (string, error) {
+	var params *clientV1.V1SpectroClustersMaasCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersMaasCreateParamsWithContext(h.Ctx).WithBody(cluster)
+		params = clientV1.NewV1SpectroClustersMaasCreateParamsWithContext(h.Ctx).WithBody(cluster)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersMaasCreateParams().WithBody(cluster)
+		params = clientV1.NewV1SpectroClustersMaasCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClusterClient().V1SpectroClustersMaasCreate(params)
+	success, err := h.GetClient().V1SpectroClustersMaasCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -29,63 +29,63 @@ func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity,
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolMaas(cloudConfigId, ClusterContext string, machinePool *models.V1MaasMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsMaasMachinePoolCreateParams
-	switch ClusterContext {
+func (h *V1Client) CreateMachinePoolMaas(CloudConfigId, scope string, machinePool *models.V1MaasMachinePoolConfigEntity) error {
+	var params *clientV1.V1CloudConfigsMaasMachinePoolCreateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsMaasMachinePoolCreate(params)
+	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolMaas(cloudConfigId, ClusterContext string, machinePool *models.V1MaasMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsMaasMachinePoolUpdateParams
-	switch ClusterContext {
+func (h *V1Client) UpdateMachinePoolMaas(CloudConfigId, scope string, machinePool *models.V1MaasMachinePoolConfigEntity) error {
+	var params *clientV1.V1CloudConfigsMaasMachinePoolUpdateParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(cloudConfigId).
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolUpdateParamsWithContext(h.Ctx).
+			WithConfigUID(CloudConfigId).
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolUpdateParams().
-			WithConfigUID(cloudConfigId).
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolUpdateParams().
+			WithConfigUID(CloudConfigId).
 			WithMachinePoolName(*machinePool.PoolConfig.Name).
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsMaasMachinePoolUpdate(params)
+	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolMaas(cloudConfigId, machinePoolName, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsMaasMachinePoolDeleteParams
-	switch ClusterContext {
+func (h *V1Client) DeleteMachinePoolMaas(CloudConfigId, machinePoolName, scope string) error {
+	var params *clientV1.V1CloudConfigsMaasMachinePoolDeleteParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsMaasMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClusterClient().V1CloudConfigsMaasMachinePoolDelete(params)
+	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolDelete(params)
 	return err
 }
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigMaas(configUID, ClusterContext string) (*models.V1MaasCloudConfig, error) {
-	var params *clusterC.V1CloudConfigsMaasGetParams
-	switch ClusterContext {
+func (h *V1Client) GetCloudConfigMaas(configUID, scope string) (*models.V1MaasCloudConfig, error) {
+	var params *clientV1.V1CloudConfigsMaasGetParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
+		params = clientV1.NewV1CloudConfigsMaasGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasGetParams().WithConfigUID(configUID)
+		params = clientV1.NewV1CloudConfigsMaasGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClusterClient().V1CloudConfigsMaasGet(params)
+	success, err := h.GetClient().V1CloudConfigsMaasGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -99,28 +99,28 @@ func (h *V1Client) GetCloudConfigMaas(configUID, ClusterContext string) (*models
 // Import
 
 func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clusterC.NewV1SpectroClustersMaasImportParamsWithContext(h.Ctx).WithBody(
+	params := clientV1.NewV1SpectroClustersMaasImportParamsWithContext(h.Ctx).WithBody(
 		&models.V1SpectroMaasClusterImportEntity{
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClusterClient().V1SpectroClustersMaasImport(params)
+	success, err := h.GetClient().V1SpectroClustersMaasImport(params)
 	if err != nil {
 		return "", err
 	}
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapMaas(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clusterC.V1CloudConfigsMaasPoolMachinesListParams
-	switch ClusterContext {
+func (h *V1Client) GetNodeStatusMapMaas(configUID, machinePoolName, scope string) (map[string]models.V1CloudMachineStatus, error) {
+	var params *clientV1.V1CloudConfigsMaasPoolMachinesListParams
+	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudConfigsMaasPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsMaasPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	case "tenant":
-		params = clusterC.NewV1CloudConfigsMaasPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+		params = clientV1.NewV1CloudConfigsMaasPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClusterClient().V1CloudConfigsMaasPoolMachinesList(params)
+	mpList, err := h.GetClient().V1CloudConfigsMaasPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

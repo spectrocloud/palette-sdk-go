@@ -3,8 +3,8 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmName, vmNamespace string) error {
@@ -20,18 +20,18 @@ func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmNam
 		CloneName: &vmName,
 	}
 
-	var params *clusterC.V1SpectroClustersVMCloneParams
+	var params *clientV1.V1SpectroClustersVMCloneParams
 	switch scope {
 	case "project":
-		params = clusterC.NewV1SpectroClustersVMCloneParamsWithContext(h.Ctx)
+		params = clientV1.NewV1SpectroClustersVMCloneParamsWithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1SpectroClustersVMCloneParams()
+		params = clientV1.NewV1SpectroClustersVMCloneParams()
 	default:
 		return errors.New("invalid cluster scope specified")
 	}
 	params = params.WithUID(clusterUid).WithVMName(cloneVMFromName).WithNamespace(vmNamespace).WithBody(body)
 
-	_, err = h.GetClusterClient().V1SpectroClustersVMClone(params)
+	_, err = h.GetClient().V1SpectroClustersVMClone(params)
 	if err != nil {
 		return err
 	}

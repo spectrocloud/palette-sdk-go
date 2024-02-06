@@ -4,14 +4,14 @@ import (
 	"hash/fnv"
 	"strconv"
 
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateMacro(uid string, macros *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosCreate(params)
+		params := clientV1.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
+		_, err := h.GetClient().V1ProjectsUIDMacrosCreate(params)
 		if err != nil {
 			return err
 		}
@@ -21,8 +21,8 @@ func (h *V1Client) CreateMacro(uid string, macros *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosCreateParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosCreate(params)
+		params := clientV1.NewV1TenantsUIDMacrosCreateParams().WithTenantUID(tenantUID).WithBody(macros)
+		_, err = h.GetClient().V1TenantsUIDMacrosCreate(params)
 		if err != nil {
 			return err
 		}
@@ -51,8 +51,8 @@ func (h *V1Client) GetMacros(projectUID string) ([]*models.V1Macro, error) {
 	var macros []*models.V1Macro
 
 	if projectUID != "" {
-		params := userC.NewV1ProjectsUIDMacrosListParams().WithContext(h.Ctx).WithUID(projectUID)
-		macrosListOk, err := h.GetUserClient().V1ProjectsUIDMacrosList(params)
+		params := clientV1.NewV1ProjectsUIDMacrosListParams().WithContext(h.Ctx).WithUID(projectUID)
+		macrosListOk, err := h.GetClient().V1ProjectsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
@@ -64,8 +64,8 @@ func (h *V1Client) GetMacros(projectUID string) ([]*models.V1Macro, error) {
 			return nil, err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosListParams().WithTenantUID(tenantUID)
-		macrosListOk, err := h.GetUserClient().V1TenantsUIDMacrosList(params)
+		params := clientV1.NewV1TenantsUIDMacrosListParams().WithTenantUID(tenantUID)
+		macrosListOk, err := h.GetClient().V1TenantsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
@@ -88,8 +88,8 @@ func hash(s string) uint32 {
 
 func (h *V1Client) UpdateMacro(uid string, macros *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosUpdateByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosUpdateByMacroName(params)
+		params := clientV1.NewV1ProjectsUIDMacrosUpdateByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
+		_, err := h.GetClient().V1ProjectsUIDMacrosUpdateByMacroName(params)
 		return err
 	} else {
 		tenantUID, err := h.GetTenantUID()
@@ -97,16 +97,16 @@ func (h *V1Client) UpdateMacro(uid string, macros *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosUpdateByMacroNameParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosUpdateByMacroName(params)
+		params := clientV1.NewV1TenantsUIDMacrosUpdateByMacroNameParams().WithTenantUID(tenantUID).WithBody(macros)
+		_, err = h.GetClient().V1TenantsUIDMacrosUpdateByMacroName(params)
 		return err
 	}
 }
 
 func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
+		_, err := h.GetClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}
@@ -116,8 +116,8 @@ func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosDeleteByMacroNameParams().WithTenantUID(tenantUID).WithBody(body)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1TenantsUIDMacrosDeleteByMacroNameParams().WithTenantUID(tenantUID).WithBody(body)
+		_, err = h.GetClient().V1TenantsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}

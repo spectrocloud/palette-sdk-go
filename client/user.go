@@ -3,14 +3,14 @@ package client
 import (
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) GetUsers() (*models.V1Users, error) {
 	limit := int64(0)
-	params := userC.NewV1UsersListParams().WithLimit(&limit)
-	users, err := h.GetUserClient().V1UsersList(params)
+	params := clientV1.NewV1UsersListParams().WithLimit(&limit)
+	users, err := h.GetClient().V1UsersList(params)
 	if err != nil {
 		return nil, err
 	}

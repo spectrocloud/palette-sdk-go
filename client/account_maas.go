@@ -3,13 +3,13 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func toV1OverlordsUIDMaasAccountValidateBody(account *models.V1MaasAccount) clusterC.V1OverlordsUIDMaasAccountValidateBody {
-	return clusterC.V1OverlordsUIDMaasAccountValidateBody{
+func toV1OverlordsUIDMaasAccountValidateBody(account *models.V1MaasAccount) clientV1.V1OverlordsUIDMaasAccountValidateBody {
+	return clientV1.V1OverlordsUIDMaasAccountValidateBody{
 		Account: account.Spec,
 	}
 }
@@ -20,15 +20,15 @@ func (h *V1Client) CreateCloudAccountMaas(account *models.V1MaasAccount, Account
 		return "", err
 	}
 
-	var params *clusterC.V1CloudAccountsMaasCreateParams
+	var params *clientV1.V1CloudAccountsMaasCreateParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsMaasCreateParamsWithContext(h.Ctx).WithBody(account)
+		params = clientV1.NewV1CloudAccountsMaasCreateParamsWithContext(h.Ctx).WithBody(account)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsMaasCreateParams().WithBody(account)
+		params = clientV1.NewV1CloudAccountsMaasCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsMaasCreate(params)
+	success, err := h.GetClient().V1CloudAccountsMaasCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -44,9 +44,9 @@ func validateCloudAccountMaas(account *models.V1MaasAccount, h *V1Client) error 
 	}
 
 	// validate account
-	paramsValidate := clusterC.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(PcgId)
+	paramsValidate := clientV1.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDMaasAccountValidateBody(account))
-	_, err := h.GetClusterClient().V1OverlordsUIDMaasAccountValidate(paramsValidate)
+	_, err := h.GetClient().V1OverlordsUIDMaasAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -61,34 +61,34 @@ func (h *V1Client) UpdateCloudAccountMaas(account *models.V1MaasAccount) error {
 	}
 
 	uid := account.Metadata.UID
-	params := clusterC.NewV1CloudAccountsMaasUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClusterClient().V1CloudAccountsMaasUpdate(params)
+	params := clientV1.NewV1CloudAccountsMaasUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	_, err := h.GetClient().V1CloudAccountsMaasUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteCloudAccountMaas(uid, AccountContext string) error {
-	var params *clusterC.V1CloudAccountsMaasDeleteParams
+	var params *clientV1.V1CloudAccountsMaasDeleteParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsMaasDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsMaasDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsMaasDeleteParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsMaasDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClusterClient().V1CloudAccountsMaasDelete(params)
+	_, err := h.GetClient().V1CloudAccountsMaasDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1MaasAccount, error) {
-	var params *clusterC.V1CloudAccountsMaasGetParams
+	var params *clientV1.V1CloudAccountsMaasGetParams
 	switch AccountContext {
 	case "project":
-		params = clusterC.NewV1CloudAccountsMaasGetParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1CloudAccountsMaasGetParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsMaasGetParams().WithUID(uid)
+		params = clientV1.NewV1CloudAccountsMaasGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClusterClient().V1CloudAccountsMaasGet(params)
+	success, err := h.GetClient().V1CloudAccountsMaasGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -102,8 +102,8 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 
 func (h *V1Client) GetCloudAccountsMaas() ([]*models.V1MaasAccount, error) {
 	limit := int64(0)
-	params := clusterC.NewV1CloudAccountsMaasListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClusterClient().V1CloudAccountsMaasList(params)
+	params := clientV1.NewV1CloudAccountsMaasListParamsWithContext(h.Ctx).WithLimit(&limit)
+	response, err := h.GetClient().V1CloudAccountsMaasList(params)
 	if err != nil {
 		return nil, err
 	}

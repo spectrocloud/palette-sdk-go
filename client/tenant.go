@@ -1,12 +1,10 @@
 package client
 
-import (
-	userC "github.com/spectrocloud/hapi/user/client/v1"
-)
+import clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 
 func (h *V1Client) GetTenantUID() (string, error) {
-	params := userC.NewV1UsersMeGetParams()
-	me, err := h.GetUserClient().V1UsersMeGet(params)
+	params := clientV1.NewV1UsersMeGetParams()
+	me, err := h.GetClient().V1UsersMeGet(params)
 	if err != nil || me == nil {
 		return "", err
 	}

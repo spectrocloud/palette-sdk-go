@@ -2,17 +2,15 @@ package client
 
 import (
 	"fmt"
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, error) {
-	if h.CreateMacrosFn != nil {
-		return h.CreateMacrosFn(uid, macros)
-	}
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosCreate(params)
+		params := clientV1.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
+		_, err := h.GetClient().V1ProjectsUIDMacrosCreate(params)
 		if err != nil {
 			return "", err
 		}
@@ -21,8 +19,8 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, er
 		if err != nil {
 			return "", err
 		}
-		params := userC.NewV1TenantsUIDMacrosCreateParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosCreate(params)
+		params := clientV1.NewV1TenantsUIDMacrosCreateParams().WithTenantUID(tenantUID).WithBody(macros)
+		_, err = h.GetClient().V1TenantsUIDMacrosCreate(params)
 		if err != nil {
 			return "", err
 		}
@@ -35,16 +33,12 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, er
 }
 
 func (h *V1Client) GetTFMacrosV2(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error) {
-	if h.GetTFMacrosV2Fn != nil {
-		return h.GetTFMacrosV2Fn(tfMacrosMap, projectUID)
-	}
 	allMacros, err := h.GetMacrosV2(projectUID)
-
 	if err != nil {
 		return nil, err
 	}
-	var tfMacros []*models.V1Macro
 
+	var tfMacros []*models.V1Macro
 	for _, v := range allMacros {
 		if value, ok := tfMacrosMap[v.Name]; ok && value != nil {
 			tfMacros = append(tfMacros, &models.V1Macro{
@@ -58,14 +52,12 @@ func (h *V1Client) GetTFMacrosV2(tfMacrosMap map[string]interface{}, projectUID 
 }
 
 func (h *V1Client) GetExistMacros(tfMacrosMap map[string]interface{}, projectUID string) ([]*models.V1Macro, error) {
-	if h.GetExistMacrosFn != nil {
-		return h.GetExistMacrosFn(tfMacrosMap, projectUID)
-	}
 	allMacros, err := h.GetMacrosV2(projectUID)
-	var existMacros []*models.V1Macro
 	if err != nil {
 		return nil, err
 	}
+
+	var existMacros []*models.V1Macro
 	for _, v := range allMacros {
 		if _, ok := tfMacrosMap[v.Name]; !ok {
 			existMacros = append(existMacros, &models.V1Macro{
@@ -83,8 +75,8 @@ func (h *V1Client) GetMacrosV2(projectUID string) ([]*models.V1Macro, error) {
 	var macros []*models.V1Macro
 
 	if projectUID != "" {
-		params := userC.NewV1ProjectsUIDMacrosListParams().WithContext(h.Ctx).WithUID(projectUID)
-		macrosListOk, err := h.GetUserClient().V1ProjectsUIDMacrosList(params)
+		params := clientV1.NewV1ProjectsUIDMacrosListParams().WithContext(h.Ctx).WithUID(projectUID)
+		macrosListOk, err := h.GetClient().V1ProjectsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
@@ -96,8 +88,8 @@ func (h *V1Client) GetMacrosV2(projectUID string) ([]*models.V1Macro, error) {
 			return nil, err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosListParams().WithTenantUID(tenantUID)
-		macrosListOk, err := h.GetUserClient().V1TenantsUIDMacrosList(params)
+		params := clientV1.NewV1TenantsUIDMacrosListParams().WithTenantUID(tenantUID)
+		macrosListOk, err := h.GetClient().V1TenantsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
@@ -109,12 +101,9 @@ func (h *V1Client) GetMacrosV2(projectUID string) ([]*models.V1Macro, error) {
 }
 
 func (h *V1Client) UpdateMacros(uid string, macros *models.V1Macros) error {
-	if h.UpdateMacrosFn != nil {
-		return h.UpdateMacrosFn(uid, macros)
-	}
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosUpdate(params)
+		params := clientV1.NewV1ProjectsUIDMacrosUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
+		_, err := h.GetClient().V1ProjectsUIDMacrosUpdate(params)
 		return err
 	} else {
 		tenantUID, err := h.GetTenantUID()
@@ -122,19 +111,16 @@ func (h *V1Client) UpdateMacros(uid string, macros *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosUpdateParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosUpdate(params)
+		params := clientV1.NewV1TenantsUIDMacrosUpdateParams().WithTenantUID(tenantUID).WithBody(macros)
+		_, err = h.GetClient().V1TenantsUIDMacrosUpdate(params)
 		return err
 	}
 }
 
 func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
-	if h.DeleteMacrosFn != nil {
-		return h.DeleteMacrosFn(uid, body)
-	}
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
+		_, err := h.GetClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}
@@ -144,8 +130,8 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosDeleteByMacroNameParams().WithTenantUID(tenantUID).WithBody(body)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1TenantsUIDMacrosDeleteByMacroNameParams().WithTenantUID(tenantUID).WithBody(body)
+		_, err = h.GetClient().V1TenantsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}
@@ -154,9 +140,6 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 }
 
 func (h *V1Client) GetMacrosId(uid string) (string, error) {
-	if h.GetMacrosIdFn != nil {
-		return h.GetMacrosIdFn(uid)
-	}
 	hashId := ""
 	if uid != "" {
 		hashId = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)

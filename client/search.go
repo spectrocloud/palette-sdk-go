@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func and() *models.V1SearchFilterConjunctionOperator {
@@ -74,12 +74,12 @@ func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 	}
 }
 
-func (h *V1Client) GetClusterByName(name, clusterContext string, virtual bool) (*models.V1SpectroCluster, error) {
+func (h *V1Client) GetClusterByName(name, scope string, virtual bool) (*models.V1SpectroCluster, error) {
 	filters := []*models.V1SearchFilterItem{clusterNameEqFilter(name)}
 	var clusterSummaries []*models.V1SpectroClusterSummary
 	var err error
 	if virtual {
-		clusterSummaries, err = h.SearchClusterSummaries(clusterContext, getClusterFilter(filters, virtual), nil)
+		clusterSummaries, err = h.SearchClusterSummaries(scope, getClusterFilter(filters, virtual), nil)
 	} else {
 		clusterSummaries, err = h.SearchClusterSummaries("tenant", getClusterFilter(filters, virtual), nil) // regular clusters search is working only in tenant context.
 	}
@@ -87,7 +87,7 @@ func (h *V1Client) GetClusterByName(name, clusterContext string, virtual bool) (
 		return nil, err
 	}
 	if len(clusterSummaries) != 1 {
-		return nil, fmt.Errorf("expected 1 cluster: %v in %v, got %d", name, clusterContext, len(clusterSummaries))
+		return nil, fmt.Errorf("expected 1 cluster: %v in %v, got %d", name, scope, len(clusterSummaries))
 	}
 
 	cluster, err := h.GetCluster(clusterSummaries[0].Metadata.Annotations["scope"], clusterSummaries[0].Metadata.UID)

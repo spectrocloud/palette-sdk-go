@@ -3,24 +3,23 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) DeleteClusterProfile(client clusterC.ClientService, uid string) error {
+func (h *V1Client) DeleteClusterProfile(client clientV1.ClientService, uid string) error {
 	profile, err := h.GetClusterProfile(client, uid)
 	if err != nil || profile == nil {
 		return err
 	}
 
-	var params *clusterC.V1ClusterProfilesDeleteParams
+	var params *clientV1.V1ClusterProfilesDeleteParams
 	switch profile.Metadata.Annotations["scope"] {
 	case "project":
-		params = clusterC.NewV1ClusterProfilesDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1ClusterProfilesDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1ClusterProfilesDeleteParams().WithUID(uid)
+		params = clientV1.NewV1ClusterProfilesDeleteParams().WithUID(uid)
 	default:
 		return errors.New("invalid scope")
 	}
@@ -29,9 +28,9 @@ func (h *V1Client) DeleteClusterProfile(client clusterC.ClientService, uid strin
 	return err
 }
 
-func (h *V1Client) GetClusterProfile(client clusterC.ClientService, uid string) (*models.V1ClusterProfile, error) {
+func (h *V1Client) GetClusterProfile(client clientV1.ClientService, uid string) (*models.V1ClusterProfile, error) {
 	// no need to switch request context here as /v1/clusterprofiles/{uid} works for profile in any scope.
-	params := clusterC.NewV1ClusterProfilesGetParamsWithContext(h.Ctx).WithUID(uid)
+	params := clientV1.NewV1ClusterProfilesGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1ClusterProfilesGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -42,8 +41,8 @@ func (h *V1Client) GetClusterProfile(client clusterC.ClientService, uid string) 
 	return success.Payload, nil
 }
 
-func (h *V1Client) GetClusterProfiles(client hashboardC.ClientService) ([]*models.V1ClusterProfileMetadata, error) {
-	params := hashboardC.NewV1ClusterProfilesMetadataParamsWithContext(h.Ctx)
+func (h *V1Client) GetClusterProfiles(client clientV1.ClientService) ([]*models.V1ClusterProfileMetadata, error) {
+	params := clientV1.NewV1ClusterProfilesMetadataParamsWithContext(h.Ctx)
 	response, err := client.V1ClusterProfilesMetadata(params)
 	if err != nil {
 		return nil, err
@@ -51,14 +50,14 @@ func (h *V1Client) GetClusterProfiles(client hashboardC.ClientService) ([]*model
 	return response.Payload.Items, nil
 }
 
-func (h *V1Client) PatchClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity, ProfileContext string) error {
+func (h *V1Client) PatchClusterProfile(client clientV1.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity, ProfileContext string) error {
 	uid := clusterProfile.Metadata.UID
-	var params *clusterC.V1ClusterProfilesUIDMetadataUpdateParams
+	var params *clientV1.V1ClusterProfilesUIDMetadataUpdateParams
 	switch ProfileContext {
 	case "project":
-		params = clusterC.NewV1ClusterProfilesUIDMetadataUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(metadata)
+		params = clientV1.NewV1ClusterProfilesUIDMetadataUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(metadata)
 	case "tenant":
-		params = clusterC.NewV1ClusterProfilesUIDMetadataUpdateParams().WithUID(uid).WithBody(metadata)
+		params = clientV1.NewV1ClusterProfilesUIDMetadataUpdateParams().WithUID(uid).WithBody(metadata)
 	default:
 		return errors.New("invalid scope")
 	}
@@ -67,14 +66,14 @@ func (h *V1Client) PatchClusterProfile(client clusterC.ClientService, clusterPro
 	return err
 }
 
-func (h *V1Client) UpdateClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, ProfileContext string) error {
+func (h *V1Client) UpdateClusterProfile(client clientV1.ClientService, clusterProfile *models.V1ClusterProfileUpdateEntity, ProfileContext string) error {
 	uid := clusterProfile.Metadata.UID
-	var params *clusterC.V1ClusterProfilesUpdateParams
+	var params *clientV1.V1ClusterProfilesUpdateParams
 	switch ProfileContext {
 	case "project":
-		params = clusterC.NewV1ClusterProfilesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(clusterProfile)
+		params = clientV1.NewV1ClusterProfilesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(clusterProfile)
 	case "tenant":
-		params = clusterC.NewV1ClusterProfilesUpdateParams().WithUID(uid).WithBody(clusterProfile)
+		params = clientV1.NewV1ClusterProfilesUpdateParams().WithUID(uid).WithBody(clusterProfile)
 	default:
 		return errors.New("invalid scope")
 	}
@@ -83,13 +82,13 @@ func (h *V1Client) UpdateClusterProfile(client clusterC.ClientService, clusterPr
 	return err
 }
 
-func (h *V1Client) CreateClusterProfile(client clusterC.ClientService, clusterProfile *models.V1ClusterProfileEntity, ProfileContext string) (string, error) {
-	var params *clusterC.V1ClusterProfilesCreateParams
+func (h *V1Client) CreateClusterProfile(client clientV1.ClientService, clusterProfile *models.V1ClusterProfileEntity, ProfileContext string) (string, error) {
+	var params *clientV1.V1ClusterProfilesCreateParams
 	switch ProfileContext {
 	case "project":
-		params = clusterC.NewV1ClusterProfilesCreateParamsWithContext(h.Ctx).WithBody(clusterProfile)
+		params = clientV1.NewV1ClusterProfilesCreateParamsWithContext(h.Ctx).WithBody(clusterProfile)
 	case "tenant":
-		params = clusterC.NewV1ClusterProfilesCreateParams().WithBody(clusterProfile)
+		params = clientV1.NewV1ClusterProfilesCreateParams().WithBody(clusterProfile)
 	default:
 		return "", errors.New("invalid scope")
 	}
@@ -101,13 +100,13 @@ func (h *V1Client) CreateClusterProfile(client clusterC.ClientService, clusterPr
 	return *success.Payload.UID, nil
 }
 
-func (h *V1Client) PublishClusterProfile(client clusterC.ClientService, uid, ProfileContext string) error {
-	var params *clusterC.V1ClusterProfilesPublishParams
+func (h *V1Client) PublishClusterProfile(client clientV1.ClientService, uid, ProfileContext string) error {
+	var params *clientV1.V1ClusterProfilesPublishParams
 	switch ProfileContext {
 	case "project":
-		params = clusterC.NewV1ClusterProfilesPublishParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1ClusterProfilesPublishParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = clusterC.NewV1ClusterProfilesPublishParams().WithUID(uid)
+		params = clientV1.NewV1ClusterProfilesPublishParams().WithUID(uid)
 	default:
 		return errors.New("invalid scope")
 	}

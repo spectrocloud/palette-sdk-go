@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func TestIsNotFound(t *testing.T) {

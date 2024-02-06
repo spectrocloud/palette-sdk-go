@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, scope string) (string, error) {
@@ -18,17 +18,17 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, scope string) (stri
 		Spec: &models.V1UserAssetSSHSpec{PublicKey: body.Spec.PublicKey},
 	}
 
-	var params *userC.V1UserAssetsSSHCreateParams
+	var params *clientV1.V1UserAssetsSSHCreateParams
 	switch scope {
 	case "project":
-		params = userC.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(sshEntity)
+		params = clientV1.NewV1UserAssetsSSHCreateParamsWithContext(h.Ctx).WithBody(sshEntity)
 	case "tenant":
-		params = userC.NewV1UserAssetsSSHCreateParams().WithBody(sshEntity)
+		params = clientV1.NewV1UserAssetsSSHCreateParams().WithBody(sshEntity)
 	default:
 		return "", errors.New("invalid scope")
 	}
 
-	success, err := h.GetUserClient().V1UserAssetsSSHCreate(params)
+	success, err := h.GetClient().V1UserAssetsSSHCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -37,17 +37,17 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, scope string) (stri
 }
 
 func (h *V1Client) GetSSHKeyByName(name, scope string) (*models.V1UserAssetSSH, error) {
-	var params *userC.V1UsersAssetsSSHGetParams
+	var params *clientV1.V1UsersAssetsSSHGetParams
 	switch scope {
 	case "project":
-		params = userC.NewV1UsersAssetsSSHGetParamsWithContext(h.Ctx)
+		params = clientV1.NewV1UsersAssetsSSHGetParamsWithContext(h.Ctx)
 	case "tenant":
-		params = userC.NewV1UsersAssetsSSHGetParams()
+		params = clientV1.NewV1UsersAssetsSSHGetParams()
 	default:
 		return nil, errors.New("invalid scope")
 	}
 
-	sshKeys, err := h.GetUserClient().V1UsersAssetsSSHGet(params)
+	sshKeys, err := h.GetClient().V1UsersAssetsSSHGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -60,17 +60,17 @@ func (h *V1Client) GetSSHKeyByName(name, scope string) (*models.V1UserAssetSSH, 
 }
 
 func (h *V1Client) GetSSHKeyByUID(uid, scope string) (*models.V1UserAssetSSH, error) {
-	var params *userC.V1UsersAssetSSHGetUIDParams
+	var params *clientV1.V1UsersAssetSSHGetUIDParams
 	switch scope {
 	case "project":
-		params = userC.NewV1UsersAssetSSHGetUIDParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1UsersAssetSSHGetUIDParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = userC.NewV1UsersAssetSSHGetUIDParams().WithUID(uid)
+		params = clientV1.NewV1UsersAssetSSHGetUIDParams().WithUID(uid)
 	default:
 		return nil, errors.New("invalid scope")
 	}
 
-	sshKey, err := h.GetUserClient().V1UsersAssetSSHGetUID(params)
+	sshKey, err := h.GetClient().V1UsersAssetSSHGetUID(params)
 	if err != nil || sshKey == nil {
 		return nil, err
 	}
@@ -79,17 +79,17 @@ func (h *V1Client) GetSSHKeyByUID(uid, scope string) (*models.V1UserAssetSSH, er
 }
 
 func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, scope string) error {
-	var params *userC.V1UsersAssetSSHUpdateParams
+	var params *clientV1.V1UsersAssetSSHUpdateParams
 	switch scope {
 	case "project":
-		params = userC.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
+		params = clientV1.NewV1UsersAssetSSHUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
 	case "tenant":
-		params = userC.NewV1UsersAssetSSHUpdateParams().WithUID(uid).WithBody(body)
+		params = clientV1.NewV1UsersAssetSSHUpdateParams().WithUID(uid).WithBody(body)
 	default:
 		return errors.New("invalid scope")
 	}
 
-	_, err := h.GetUserClient().V1UsersAssetSSHUpdate(params)
+	_, err := h.GetClient().V1UsersAssetSSHUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -98,17 +98,17 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, scope s
 }
 
 func (h *V1Client) DeleteSSHKey(uid, scope string) error {
-	var params *userC.V1UsersAssetSSHDeleteParams
+	var params *clientV1.V1UsersAssetSSHDeleteParams
 	switch scope {
 	case "project":
-		params = userC.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
+		params = clientV1.NewV1UsersAssetSSHDeleteParamsWithContext(h.Ctx).WithUID(uid)
 	case "tenant":
-		params = userC.NewV1UsersAssetSSHDeleteParams().WithUID(uid)
+		params = clientV1.NewV1UsersAssetSSHDeleteParams().WithUID(uid)
 	default:
 		return errors.New("invalid scope")
 	}
 
-	_, err := h.GetUserClient().V1UsersAssetSSHDelete(params)
+	_, err := h.GetClient().V1UsersAssetSSHDelete(params)
 	if err != nil {
 		return err
 	}

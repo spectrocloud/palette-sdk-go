@@ -3,13 +3,13 @@ package client
 import (
 	"fmt"
 
-	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
-	"github.com/spectrocloud/hapi/models"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, error) {
-	params := hashboardC.NewV1TagFiltersCreateParams().WithBody(body)
-	tag, err := h.GetHashboardClient().V1TagFiltersCreate(params)
+	params := clientV1.NewV1TagFiltersCreateParams().WithBody(body)
+	tag, err := h.GetClient().V1TagFiltersCreate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -18,8 +18,8 @@ func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, err
 }
 
 func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
-	params := hashboardC.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
-	_, err := h.GetHashboardClient().V1TagFilterUIDUpdate(params)
+	params := clientV1.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
+	_, err := h.GetClient().V1TagFilterUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -28,8 +28,8 @@ func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
 }
 
 func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) {
-	params := hashboardC.NewV1TagFilterUIDGetParams().WithUID(uid)
-	success, err := h.GetHashboardClient().V1TagFilterUIDGet(params)
+	params := clientV1.NewV1TagFilterUIDGetParams().WithUID(uid)
+	success, err := h.GetClient().V1TagFilterUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -39,8 +39,8 @@ func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) 
 
 func (h *V1Client) ListTagFilters() (*models.V1FiltersSummary, error) {
 	limit := int64(0)
-	params := hashboardC.NewV1FiltersListParams().WithLimit(&limit)
-	success, err := h.GetHashboardClient().V1FiltersList(params)
+	params := clientV1.NewV1FiltersListParams().WithLimit(&limit)
+	success, err := h.GetClient().V1FiltersList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +64,8 @@ func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, err
 }
 
 func (h *V1Client) DeleteTag(uid string) error {
-	params := hashboardC.NewV1TagFilterUIDDeleteParams().WithUID(uid)
-	_, err := h.GetHashboardClient().V1TagFilterUIDDelete(params)
+	params := clientV1.NewV1TagFilterUIDDeleteParams().WithUID(uid)
+	_, err := h.GetClient().V1TagFilterUIDDelete(params)
 	if err != nil {
 		return err
 	}

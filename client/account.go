@@ -4,23 +4,23 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	"github.com/spectrocloud/palette-api-go/apiutil/transport"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) ListCloudAccounts(scope string) ([]*models.V1CloudAccountSummary, error) {
-	var params *clusterC.V1CloudAccountsListSummaryParams
+	var params *clientV1.V1CloudAccountsListSummaryParams
 	switch scope {
 	case "project":
-		params = clusterC.NewV1CloudAccountsListSummaryParams().WithContext(h.Ctx)
+		params = clientV1.NewV1CloudAccountsListSummaryParams().WithContext(h.Ctx)
 	case "tenant":
-		params = clusterC.NewV1CloudAccountsListSummaryParams()
+		params = clientV1.NewV1CloudAccountsListSummaryParams()
 
 	}
 	var limit int64 = 0
 	params.Limit = &limit
-	resp, err := h.GetClusterClient().V1CloudAccountsListSummary(params)
+	resp, err := h.GetClient().V1CloudAccountsListSummary(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {

@@ -1,27 +1,25 @@
 package client
 
 import (
-	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
 func (h *V1Client) SearchApplianceSummaries(applianceContext string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
-	var params *hashboardC.V1DashboardEdgehostsSearchParams
+	var params *clientV1.V1DashboardEdgehostsSearchParams
 	switch applianceContext {
 	case "project":
-		params = hashboardC.NewV1DashboardEdgehostsSearchParamsWithContext(h.Ctx)
+		params = clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.Ctx)
 	case "tenant":
-		params = hashboardC.NewV1DashboardEdgehostsSearchParams()
+		params = clientV1.NewV1DashboardEdgehostsSearchParams()
 	}
 	params.Body = &models.V1SearchFilterSummarySpec{
 		Filter: filter,
 		Sort:   sort,
 	}
 
-	resp, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
+	resp, err := h.GetClient().V1DashboardEdgehostsSearch(params)
 	if err != nil {
 		return nil, err
 	}
@@ -41,8 +39,8 @@ func (h *V1Client) GetAppliances(applianceContext string, tags map[string]string
 }
 
 func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
-	params := clusterC.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.GetClusterClient().V1EdgeHostDevicesUIDGet(params)
+	params := clientV1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
+	response, err := h.GetClient().V1EdgeHostDevicesUIDGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -54,8 +52,8 @@ func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
 }
 
 func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEntity) (string, error) {
-	params := clusterC.NewV1EdgeHostDevicesCreateParams().WithContext(h.Ctx).WithBody(createHostDevice)
-	if resp, err := h.GetClusterClient().V1EdgeHostDevicesCreate(params); err != nil {
+	params := clientV1.NewV1EdgeHostDevicesCreateParams().WithContext(h.Ctx).WithBody(createHostDevice)
+	if resp, err := h.GetClient().V1EdgeHostDevicesCreate(params); err != nil {
 		return "", err
 	} else {
 		return *resp.Payload.UID, nil
@@ -63,8 +61,8 @@ func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEnti
 }
 
 func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevice) error {
-	params := clusterC.NewV1EdgeHostDevicesUIDUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
-	_, err := h.GetClusterClient().V1EdgeHostDevicesUIDUpdate(params)
+	params := clientV1.NewV1EdgeHostDevicesUIDUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
+	_, err := h.GetClient().V1EdgeHostDevicesUIDUpdate(params)
 	if err != nil && !herr.IsEdgeHostDeviceNotRegistered(err) {
 		return err
 	}
@@ -73,8 +71,8 @@ func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevic
 }
 
 func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostDeviceMetaUpdateEntity) error {
-	params := clusterC.NewV1EdgeHostDevicesUIDMetaUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
-	_, err := h.GetClusterClient().V1EdgeHostDevicesUIDMetaUpdate(params)
+	params := clientV1.NewV1EdgeHostDevicesUIDMetaUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
+	_, err := h.GetClient().V1EdgeHostDevicesUIDMetaUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -83,8 +81,8 @@ func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostD
 }
 
 func (h *V1Client) DeleteAppliance(uid string) error {
-	params := clusterC.NewV1EdgeHostDevicesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
-	_, err := h.GetClusterClient().V1EdgeHostDevicesUIDDelete(params)
+	params := clientV1.NewV1EdgeHostDevicesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
+	_, err := h.GetClient().V1EdgeHostDevicesUIDDelete(params)
 	if err != nil {
 		return err
 	}

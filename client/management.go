@@ -3,13 +3,13 @@ package client
 import (
 	"errors"
 
-	mgmtC "github.com/spectrocloud/hapi/mgmt/client/v1"
-	"github.com/spectrocloud/hapi/models"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 func (h *V1Client) GetMgmtAppVersion() (*models.V1MgmtAppVersionVersion, error) {
-	params := mgmtC.NewV1MgmtAppVersionGetParams().WithContext(h.Ctx)
-	resp, err := h.GetMgmtClient().V1MgmtAppVersionGet(params)
+	params := clientV1.NewV1MgmtAppVersionGetParams().WithContext(h.Ctx)
+	resp, err := h.GetClient().V1MgmtAppVersionGet(params)
 	if err != nil || resp == nil {
 		return nil, err
 	}
