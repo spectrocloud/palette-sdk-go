@@ -52,16 +52,16 @@ func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace
 	return nil, nil
 }
 
-func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, wo *models.V1WorkspaceResourceAllocationsEntity) error {
-	params := clientV1.NewV1WorkspacesUIDResourceAllocationsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(wo)
-	if _, err := h.GetClient().V1WorkspacesUIDResourceAllocationsUpdate(params); err != nil {
+func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, we *models.V1WorkspaceClusterNamespacesEntity) error {
+	params := clientV1.NewV1WorkspacesUIDClusterNamespacesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(we)
+	if _, err := h.GetClient().V1WorkspacesUIDClusterNamespacesUpdate(params); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, wo *models.V1ClusterRbac) error {
-	params := clientV1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.Ctx).WithUID(uid).WithClusterRbacUID(rbac_uid).WithBody(wo)
+func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, r *models.V1ClusterRbac) error {
+	params := clientV1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.Ctx).WithUID(uid).WithClusterRbacUID(rbac_uid).WithBody(r)
 	if _, err := h.GetClient().V1WorkspacesUIDClusterRbacUpdate(params); err != nil {
 		return err
 	}
