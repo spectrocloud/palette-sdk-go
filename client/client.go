@@ -103,7 +103,7 @@ func (h *V1Client) Validate() error {
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
 		c := h.GetClient()
-		_, err := c.V1PacksSummaryList(nil)
+		_, err := c.V1ProjectsMetadata(nil)
 		if err != nil {
 			return err
 		}
