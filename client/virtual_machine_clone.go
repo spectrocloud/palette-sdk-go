@@ -31,7 +31,7 @@ func (h *V1Client) CloneVirtualMachine(scope, clusterUid, cloneVMFromName, vmNam
 	}
 	params = params.WithUID(clusterUid).WithVMName(cloneVMFromName).WithNamespace(vmNamespace).WithBody(body)
 
-	_, err = h.GetClient().V1SpectroClustersVMClone(params)
+	_, err = h.Client.V1SpectroClustersVMClone(params)
 	if err != nil {
 		return err
 	}

@@ -10,7 +10,7 @@ import (
 
 func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterEntity) (string, error) {
 	params := clientV1.NewV1SpectroClustersVirtualCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	success, err := h.GetClient().V1SpectroClustersVirtualCreate(params)
+	success, err := h.Client.V1SpectroClustersVirtualCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -20,7 +20,7 @@ func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterE
 
 func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1VirtualClusterResize) error {
 	params := clientV1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.Ctx).WithConfigUID(configUID).WithBody(body)
-	_, err := h.GetClient().V1CloudConfigsVirtualUIDUpdate(params)
+	_, err := h.Client.V1CloudConfigsVirtualUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -29,7 +29,7 @@ func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1Virtual
 
 func (h *V1Client) CreateMachinePoolVirtual(CloudConfigId string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
-	_, err := h.GetClient().V1CloudConfigsVirtualMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsVirtualMachinePoolCreate(params)
 	return err
 }
 
@@ -37,19 +37,19 @@ func (h *V1Client) UpdateMachinePoolVirtual(CloudConfigId string, machinePool *m
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.Ctx).
 		WithConfigUID(CloudConfigId).
 		WithBody(machinePool)
-	_, err := h.GetClient().V1CloudConfigsVirtualMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsVirtualMachinePoolUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteMachinePoolVirtual(CloudConfigId, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
-	_, err := h.GetClient().V1CloudConfigsVirtualMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsVirtualMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsVirtualGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	success, err := h.GetClient().V1CloudConfigsVirtualGet(params)
+	success, err := h.Client.V1CloudConfigsVirtualGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -62,7 +62,7 @@ func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualClo
 
 func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.V1LifecycleConfigEntity) (string, error) {
 	params := clientV1.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
-	_, err := h.GetClient().V1SpectroClustersUIDLifecycleConfigUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDLifecycleConfigUpdate(params)
 	if err != nil {
 		return "Fail", err
 	}
@@ -78,7 +78,7 @@ func (h *V1Client) GetNodeStatusMapVirtual(configUID, machinePoolName, scope str
 		params = clientV1.NewV1CloudConfigsVirtualPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsVirtualPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsVirtualPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

@@ -20,7 +20,7 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	_, err := h.GetClient().V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
+	_, err := h.Client.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsAwsPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsAwsPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func (h *V1Client) GetNodeMaintenanceStatusMaas(scope, ConfigUID, MachineName, N
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsMaasPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsMaasPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (h *V1Client) GetNodeMaintenanceStatusAks(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsAksPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsAksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(scope, ConfigUID, MachineName, 
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsAzurePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsAzurePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(scope, ConfigUID, MachineName
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(scope, ConfigUID, MachineN
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -177,7 +177,7 @@ func (h *V1Client) GetNodeMaintenanceStatusEdge(scope, ConfigUID, MachineName, N
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsEdgePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -198,7 +198,7 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(scope, ConfigUID, Machine
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -219,7 +219,7 @@ func (h *V1Client) GetNodeMaintenanceStatusEks(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsEksPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsEksPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -240,7 +240,7 @@ func (h *V1Client) GetNodeMaintenanceStatusGcp(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsGcpPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsGcpPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -261,7 +261,7 @@ func (h *V1Client) GetNodeMaintenanceStatusGeneric(scope, ConfigUID, MachineName
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsGenericPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsGenericPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -282,7 +282,7 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsGkePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsGkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -303,7 +303,7 @@ func (h *V1Client) GetNodeMaintenanceStatusLibvirt(scope, ConfigUID, MachineName
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -324,7 +324,7 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(scope, ConfigUID, MachineNa
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -345,7 +345,7 @@ func (h *V1Client) GetNodeMaintenanceStatusTke(scope, ConfigUID, MachineName, No
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsTkePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsTkePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -366,7 +366,7 @@ func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(scope, ConfigUID, Mach
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsVirtualPoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsVirtualPoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err
@@ -387,7 +387,7 @@ func (h *V1Client) GetNodeMaintenanceStatusVsphere(scope, ConfigUID, MachineName
 	params.WithMachinePoolName(MachineName)
 	params.WithMachineUID(NodeId)
 
-	s, err := h.GetClient().V1CloudConfigsVspherePoolMachinesUIDGet(params)
+	s, err := h.Client.V1CloudConfigsVspherePoolMachinesUIDGet(params)
 	print(s)
 	if err != nil {
 		return nil, err

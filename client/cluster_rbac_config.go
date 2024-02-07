@@ -15,7 +15,7 @@ func (h *V1Client) GetClusterRbacConfig(uid, scope string) (*models.V1ClusterRba
 		params = clientV1.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersUIDConfigRbacsGet(params)
+	success, err := h.Client.V1SpectroClustersUIDConfigRbacsGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -35,7 +35,7 @@ func (h *V1Client) CreateClusterRbacConfig(uid, scope string, config *models.V1C
 		params = clientV1.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1WorkspacesClusterRbacCreate(params)
+	_, err := h.Client.V1WorkspacesClusterRbacCreate(params)
 	return err
 }
 
@@ -48,7 +48,7 @@ func (h *V1Client) UpdateClusterRbacConfig(uid, scope string, config *models.V1C
 		params = clientV1.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDConfigRbacsUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDConfigRbacsUpdate(params)
 	return err
 }
 

@@ -32,7 +32,7 @@ func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount, Accou
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsAzureCreateParams().WithBody(account)
 	}
-	success, err := h.GetClient().V1CloudAccountsAzureCreate(params)
+	success, err := h.Client.V1CloudAccountsAzureCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +50,7 @@ func validateCloudAccountAzure(account *models.V1AzureAccount, h *V1Client) erro
 	paramsValidate := clientV1.NewV1AzureAccountValidateParams()
 	paramsValidate = paramsValidate.WithAzureCloudAccount(toV1AzureCloudAccount(account))
 
-	_, err := h.GetClient().V1AzureAccountValidate(paramsValidate)
+	_, err := h.Client.V1AzureAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -66,7 +66,7 @@ func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error
 
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsAzureUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsAzureUpdate(params)
+	_, err := h.Client.V1CloudAccountsAzureUpdate(params)
 	return err
 }
 
@@ -78,7 +78,7 @@ func (h *V1Client) DeleteCloudAccountAzure(uid, AccountContext string) error {
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsAzureDeleteParams().WithUID(uid)
 	}
-	_, err := h.GetClient().V1CloudAccountsAzureDelete(params)
+	_, err := h.Client.V1CloudAccountsAzureDelete(params)
 	return err
 }
 
@@ -91,7 +91,7 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 		params = clientV1.NewV1CloudAccountsAzureGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsAzureGet(params)
+	success, err := h.Client.V1CloudAccountsAzureGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -106,7 +106,7 @@ func (h *V1Client) GetCloudAccountAzure(uid, AccountContext string) (*models.V1A
 func (h *V1Client) GetCloudAccountsAzure() ([]*models.V1AzureAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsAzureListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsAzureList(params)
+	response, err := h.Client.V1CloudAccountsAzureList(params)
 	if err != nil {
 		return nil, err
 	}

@@ -28,7 +28,7 @@ func (h *V1Client) CreateCloudAccountMaas(account *models.V1MaasAccount, Account
 		params = clientV1.NewV1CloudAccountsMaasCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsMaasCreate(params)
+	success, err := h.Client.V1CloudAccountsMaasCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -46,7 +46,7 @@ func validateCloudAccountMaas(account *models.V1MaasAccount, h *V1Client) error 
 	// validate account
 	paramsValidate := clientV1.NewV1OverlordsUIDMaasAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDMaasAccountValidateBody(account))
-	_, err := h.GetClient().V1OverlordsUIDMaasAccountValidate(paramsValidate)
+	_, err := h.Client.V1OverlordsUIDMaasAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func (h *V1Client) UpdateCloudAccountMaas(account *models.V1MaasAccount) error {
 
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsMaasUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsMaasUpdate(params)
+	_, err := h.Client.V1CloudAccountsMaasUpdate(params)
 	return err
 }
 
@@ -75,7 +75,7 @@ func (h *V1Client) DeleteCloudAccountMaas(uid, AccountContext string) error {
 		params = clientV1.NewV1CloudAccountsMaasDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClient().V1CloudAccountsMaasDelete(params)
+	_, err := h.Client.V1CloudAccountsMaasDelete(params)
 	return err
 }
 
@@ -88,7 +88,7 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 		params = clientV1.NewV1CloudAccountsMaasGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsMaasGet(params)
+	success, err := h.Client.V1CloudAccountsMaasGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -103,7 +103,7 @@ func (h *V1Client) GetCloudAccountMaas(uid, AccountContext string) (*models.V1Ma
 func (h *V1Client) GetCloudAccountsMaas() ([]*models.V1MaasAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsMaasListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsMaasList(params)
+	response, err := h.Client.V1CloudAccountsMaasList(params)
 	if err != nil {
 		return nil, err
 	}

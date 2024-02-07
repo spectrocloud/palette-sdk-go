@@ -15,7 +15,7 @@ func (h *V1Client) GetClusterNamespaceConfig(uid, scope string) (*models.V1Clust
 		params = clientV1.NewV1SpectroClustersUIDConfigNamespacesGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersUIDConfigNamespacesGet(params)
+	success, err := h.Client.V1SpectroClustersUIDConfigNamespacesGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -36,7 +36,7 @@ func (h *V1Client) UpdateClusterNamespaceConfig(uid, scope string, config *model
 		params = clientV1.NewV1SpectroClustersUIDConfigNamespacesUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDConfigNamespacesUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDConfigNamespacesUpdate(params)
 	return err
 }
 

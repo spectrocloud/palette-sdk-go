@@ -19,7 +19,7 @@ func (h *V1Client) SearchApplianceSummaries(applianceContext string, filter *mod
 		Sort:   sort,
 	}
 
-	resp, err := h.GetClient().V1DashboardEdgehostsSearch(params)
+	resp, err := h.Client.V1DashboardEdgehostsSearch(params)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (h *V1Client) GetAppliances(applianceContext string, tags map[string]string
 
 func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
 	params := clientV1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.GetClient().V1EdgeHostDevicesUIDGet(params)
+	response, err := h.Client.V1EdgeHostDevicesUIDGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -53,7 +53,7 @@ func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
 
 func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEntity) (string, error) {
 	params := clientV1.NewV1EdgeHostDevicesCreateParams().WithContext(h.Ctx).WithBody(createHostDevice)
-	if resp, err := h.GetClient().V1EdgeHostDevicesCreate(params); err != nil {
+	if resp, err := h.Client.V1EdgeHostDevicesCreate(params); err != nil {
 		return "", err
 	} else {
 		return *resp.Payload.UID, nil
@@ -62,7 +62,7 @@ func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEnti
 
 func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevice) error {
 	params := clientV1.NewV1EdgeHostDevicesUIDUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
-	_, err := h.GetClient().V1EdgeHostDevicesUIDUpdate(params)
+	_, err := h.Client.V1EdgeHostDevicesUIDUpdate(params)
 	if err != nil && !herr.IsEdgeHostDeviceNotRegistered(err) {
 		return err
 	}
@@ -72,7 +72,7 @@ func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevic
 
 func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostDeviceMetaUpdateEntity) error {
 	params := clientV1.NewV1EdgeHostDevicesUIDMetaUpdateParams().WithContext(h.Ctx).WithBody(appliance).WithUID(uid)
-	_, err := h.GetClient().V1EdgeHostDevicesUIDMetaUpdate(params)
+	_, err := h.Client.V1EdgeHostDevicesUIDMetaUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -82,7 +82,7 @@ func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostD
 
 func (h *V1Client) DeleteAppliance(uid string) error {
 	params := clientV1.NewV1EdgeHostDevicesUIDDeleteParams().WithContext(h.Ctx).WithUID(uid)
-	_, err := h.GetClient().V1EdgeHostDevicesUIDDelete(params)
+	_, err := h.Client.V1EdgeHostDevicesUIDDelete(params)
 	if err != nil {
 		return err
 	}

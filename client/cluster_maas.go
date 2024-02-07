@@ -19,7 +19,7 @@ func (h *V1Client) CreateClusterMaas(cluster *models.V1SpectroMaasClusterEntity,
 		params = clientV1.NewV1SpectroClustersMaasCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersMaasCreate(params)
+	success, err := h.Client.V1SpectroClustersMaasCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -38,7 +38,7 @@ func (h *V1Client) CreateMachinePoolMaas(CloudConfigId, scope string, machinePoo
 		params = clientV1.NewV1CloudConfigsMaasMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsMaasMachinePoolCreate(params)
 	return err
 }
 
@@ -57,7 +57,7 @@ func (h *V1Client) UpdateMachinePoolMaas(CloudConfigId, scope string, machinePoo
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsMaasMachinePoolUpdate(params)
 	return err
 }
 
@@ -70,7 +70,7 @@ func (h *V1Client) DeleteMachinePoolMaas(CloudConfigId, machinePoolName, scope s
 		params = clientV1.NewV1CloudConfigsMaasMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsMaasMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsMaasMachinePoolDelete(params)
 	return err
 }
 
@@ -85,7 +85,7 @@ func (h *V1Client) GetCloudConfigMaas(configUID, scope string) (*models.V1MaasCl
 		params = clientV1.NewV1CloudConfigsMaasGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsMaasGet(params)
+	success, err := h.Client.V1CloudConfigsMaasGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -104,7 +104,7 @@ func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (stri
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClient().V1SpectroClustersMaasImport(params)
+	success, err := h.Client.V1SpectroClustersMaasImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -120,7 +120,7 @@ func (h *V1Client) GetNodeStatusMapMaas(configUID, machinePoolName, scope string
 		params = clientV1.NewV1CloudConfigsMaasPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsMaasPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsMaasPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

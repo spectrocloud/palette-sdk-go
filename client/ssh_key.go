@@ -28,7 +28,7 @@ func (h *V1Client) CreateSSHKey(body *models.V1UserAssetSSH, scope string) (stri
 		return "", errors.New("invalid scope")
 	}
 
-	success, err := h.GetClient().V1UserAssetsSSHCreate(params)
+	success, err := h.Client.V1UserAssetsSSHCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -47,7 +47,7 @@ func (h *V1Client) GetSSHKeyByName(name, scope string) (*models.V1UserAssetSSH, 
 		return nil, errors.New("invalid scope")
 	}
 
-	sshKeys, err := h.GetClient().V1UsersAssetsSSHGet(params)
+	sshKeys, err := h.Client.V1UsersAssetsSSHGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (h *V1Client) GetSSHKeyByUID(uid, scope string) (*models.V1UserAssetSSH, er
 		return nil, errors.New("invalid scope")
 	}
 
-	sshKey, err := h.GetClient().V1UsersAssetSSHGetUID(params)
+	sshKey, err := h.Client.V1UsersAssetSSHGetUID(params)
 	if err != nil || sshKey == nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (h *V1Client) UpdateSSHKey(uid string, body *models.V1UserAssetSSH, scope s
 		return errors.New("invalid scope")
 	}
 
-	_, err := h.GetClient().V1UsersAssetSSHUpdate(params)
+	_, err := h.Client.V1UsersAssetSSHUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -108,7 +108,7 @@ func (h *V1Client) DeleteSSHKey(uid, scope string) error {
 		return errors.New("invalid scope")
 	}
 
-	_, err := h.GetClient().V1UsersAssetSSHDelete(params)
+	_, err := h.Client.V1UsersAssetSSHDelete(params)
 	if err != nil {
 		return err
 	}

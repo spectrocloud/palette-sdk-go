@@ -18,7 +18,7 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity, s
 		params = clientV1.NewV1SpectroClustersEksCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersEksCreate(params.WithTimeout(90 * time.Second))
+	success, err := h.Client.V1SpectroClustersEksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err
 	}
@@ -35,7 +35,7 @@ func (h *V1Client) CreateMachinePoolEks(CloudConfigId, scope string, machinePool
 		params = clientV1.NewV1CloudConfigsEksMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsEksMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsEksMachinePoolCreate(params)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (h *V1Client) UpdateMachinePoolEks(CloudConfigId, scope string, machinePool
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsEksMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsEksMachinePoolUpdate(params)
 	return err
 }
 
@@ -67,7 +67,7 @@ func (h *V1Client) DeleteMachinePoolEks(CloudConfigId, machinePoolName, scope st
 		params = clientV1.NewV1CloudConfigsEksMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsEksMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsEksMachinePoolDelete(params)
 	return err
 }
 
@@ -84,7 +84,7 @@ func (h *V1Client) UpdateFargateProfilesEks(CloudConfigId, scope string, fargate
 			WithBody(fargateProfiles)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsEksUIDFargateProfilesUpdate(params)
+	_, err := h.Client.V1CloudConfigsEksUIDFargateProfilesUpdate(params)
 	return err
 }
 
@@ -97,7 +97,7 @@ func (h *V1Client) GetCloudConfigEks(configUID, scope string) (*models.V1EksClou
 		params = clientV1.NewV1CloudConfigsEksGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsEksGet(params)
+	success, err := h.Client.V1CloudConfigsEksGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -117,7 +117,7 @@ func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName, scope string)
 		params = clientV1.NewV1CloudConfigsEksPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsEksPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsEksPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

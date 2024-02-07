@@ -14,7 +14,7 @@ import (
 func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version string) (*models.V1AppProfileSummary, string, string, error) {
 	limit := int64(0)
 	params := clientV1.NewV1DashboardAppProfilesParamsWithContext(h.Ctx).WithLimit(&limit)
-	profiles, err := h.GetClient().V1DashboardAppProfiles(params)
+	profiles, err := h.Client.V1DashboardAppProfiles(params)
 	if err != nil {
 		return nil, "", "", err
 	}
@@ -33,7 +33,7 @@ func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version st
 
 func (h *V1Client) GetApplicationProfile(uid string) (*models.V1AppProfile, error) {
 	params := clientV1.NewV1AppProfilesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.GetClient().V1AppProfilesUIDGet(params)
+	response, err := h.Client.V1AppProfilesUIDGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -46,7 +46,7 @@ func (h *V1Client) GetApplicationProfile(uid string) (*models.V1AppProfile, erro
 
 func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*models.V1AppTier, error) {
 	params := clientV1.NewV1AppProfilesUIDTiersGetParamsWithContext(h.Ctx).WithUID(applicationProfileUID)
-	success, err := h.GetClient().V1AppProfilesUIDTiersGet(params)
+	success, err := h.Client.V1AppProfilesUIDTiersGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -66,7 +66,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		Context:     h.Ctx,
 	}
 
-	success, err := h.GetClient().V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
+	success, err := h.Client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -98,7 +98,7 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		if resp != nil {
 			params.Offset = &resp.Payload.Listmeta.Offset
 		}
-		resp, err = h.GetClient().V1DashboardAppProfiles(params)
+		resp, err = h.Client.V1DashboardAppProfiles(params)
 		var e *transport.TransportError
 		if errors.As(err, &e) && e.HttpCode == 404 {
 			return nil, nil
@@ -128,7 +128,7 @@ func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *model
 		params = clientV1.NewV1AppProfilesUIDMetadataUpdateParams().WithUID(appProfileUID).WithBody(metadata)
 	}
 
-	_, err := h.GetClient().V1AppProfilesUIDMetadataUpdate(params)
+	_, err := h.Client.V1AppProfilesUIDMetadataUpdate(params)
 	return err
 }
 
@@ -143,7 +143,7 @@ func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers 
 			params = clientV1.NewV1AppProfilesUIDTiersCreateParams().WithUID(appProfileUID).WithBody(appTier)
 		}
 
-		_, tmpErr := h.GetClient().V1AppProfilesUIDTiersCreate(params)
+		_, tmpErr := h.Client.V1AppProfilesUIDTiersCreate(params)
 		if tmpErr != nil {
 			err = errors.Wrap(err, tmpErr.Error())
 		}
@@ -160,7 +160,7 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 		params = clientV1.NewV1AppProfilesUIDTiersUIDUpdateParams().WithUID(appProfileUID).WithTierUID(tierUID).WithBody(appTier)
 	}
 
-	_, err := h.GetClient().V1AppProfilesUIDTiersUIDUpdate(params)
+	_, err := h.Client.V1AppProfilesUIDTiersUIDUpdate(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil
@@ -182,7 +182,7 @@ func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers 
 			params = clientV1.NewV1AppProfilesUIDTiersUIDDeleteParams().WithUID(appProfileUID).WithTierUID(appTierUID)
 		}
 
-		_, tmpErr := h.GetClient().V1AppProfilesUIDTiersUIDDelete(params)
+		_, tmpErr := h.Client.V1AppProfilesUIDTiersUIDDelete(params)
 		if tmpErr != nil {
 			err = errors.Wrap(err, tmpErr.Error())
 		}
@@ -199,7 +199,7 @@ func (h *V1Client) CreateApplicationProfile(appProfile *models.V1AppProfileEntit
 		params = clientV1.NewV1AppProfilesCreateParams().WithBody(appProfile)
 	}
 
-	success, err := h.GetClient().V1AppProfilesCreate(params)
+	success, err := h.Client.V1AppProfilesCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -221,6 +221,6 @@ func (h *V1Client) DeleteApplicationProfile(uid string) error {
 		params = clientV1.NewV1AppProfilesUIDDeleteParams().WithUID(uid)
 	}
 
-	_, err = h.GetClient().V1AppProfilesUIDDelete(params)
+	_, err = h.Client.V1AppProfilesUIDDelete(params)
 	return err
 }

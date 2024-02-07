@@ -8,6 +8,7 @@ import (
 	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
@@ -25,7 +26,7 @@ func (h *V1Client) DeleteCluster(scope, uid string) error {
 		params = clientV1.NewV1SpectroClustersDeleteParams().WithUID(uid)
 	}
 
-	_, err = h.GetClient().V1SpectroClustersDelete(params)
+	_, err = h.Client.V1SpectroClustersDelete(params)
 	return err
 }
 
@@ -43,7 +44,7 @@ func (h *V1Client) ForceDeleteCluster(scope, uid string, forceDelete bool) error
 		params = clientV1.NewV1SpectroClustersDeleteParams().WithUID(uid).WithForceDelete(&forceDelete)
 	}
 
-	_, err = h.GetClient().V1SpectroClustersDelete(params)
+	_, err = h.Client.V1SpectroClustersDelete(params)
 	return err
 }
 
@@ -60,6 +61,25 @@ func (h *V1Client) GetCluster(scope, uid string) (*models.V1SpectroCluster, erro
 	return cluster, nil
 }
 
+func (h *V1Client) GetClusterSummary(scope, clusterId string) (*models.V1SpectroClusterUIDSummary, error) {
+	var params *clientV1.V1SpectroClustersSummaryUIDParams
+	switch scope {
+	case "project":
+		params = clientV1.NewV1SpectroClustersSummaryUIDParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clientV1.NewV1SpectroClustersSummaryUIDParams()
+	default:
+		return nil, fmt.Errorf("invalid scope %s", scope)
+	}
+	params = params.WithUID(clusterId)
+
+	resp, err := h.Client.V1SpectroClustersSummaryUID(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 func (h *V1Client) SearchClusterSummaries(scope string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
 	var params *clientV1.V1SpectroClustersSearchFilterSummaryParams
 	switch scope {
@@ -73,7 +93,7 @@ func (h *V1Client) SearchClusterSummaries(scope string, filter *models.V1SearchF
 		Sort:   sort,
 	}
 
-	resp, err := h.GetClient().V1SpectroClustersSearchFilterSummary(params)
+	resp, err := h.Client.V1SpectroClustersSearchFilterSummary(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -95,7 +115,7 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersGet(params)
+	success, err := h.Client.V1SpectroClustersGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -117,15 +137,24 @@ func (h *V1Client) GetClusterKubeConfig(uid, scope string) (string, error) {
 	}
 
 	builder := new(strings.Builder)
-	_, err := h.GetClient().V1SpectroClustersUIDKubeConfig(params, builder)
+	_, err := h.Client.V1SpectroClustersUIDKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
 		}
 		return "", err
 	}
+	kubeconfig := builder.String()
 
-	return builder.String(), nil
+	if apiutil.IsBase64(kubeconfig) {
+		if bytes, err := apiutil.Base64DecodeString(kubeconfig); err != nil {
+			return "", err
+		} else {
+			return string(bytes), nil
+		}
+	} else {
+		return kubeconfig, nil
+	}
 }
 
 func (h *V1Client) GetClusterAdminKubeConfig(uid, scope string) (string, error) {
@@ -140,7 +169,7 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, scope string) (string, error) 
 	}
 
 	builder := new(strings.Builder)
-	_, err := h.GetClient().V1SpectroClustersUIDAdminKubeConfig(params, builder)
+	_, err := h.Client.V1SpectroClustersUIDAdminKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
@@ -161,7 +190,7 @@ func (h *V1Client) GetClusterImportManifest(uid, scope string) (string, error) {
 		params = clientV1.NewV1SpectroClustersUIDImportManifestParams().WithUID(uid)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDImportManifest(params, builder)
+	_, err := h.Client.V1SpectroClustersUIDImportManifest(params, builder)
 	if err != nil {
 		return "", err
 	}
@@ -180,7 +209,7 @@ func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *mod
 			WithBody(profiles).WithResolveNotification(Ptr(true))
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUpdateProfiles(params)
+	_, err := h.Client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
 
@@ -190,7 +219,7 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClient().V1SpectroClustersGenericImport(params)
+	success, err := h.Client.V1SpectroClustersGenericImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -209,7 +238,7 @@ func (h *V1Client) ApproveClusterRepave(context, clusterUID string) error {
 		return fmt.Errorf("invalid context: %s", context)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDRepaveApproveUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
 }
 
@@ -224,7 +253,7 @@ func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error
 		return nil, fmt.Errorf("invalid context: %s", context)
 	}
 
-	res, err := h.GetClient().V1SpectroClustersUIDRepaveGet(params)
+	res, err := h.Client.V1SpectroClustersUIDRepaveGet(params)
 	if err != nil {
 		return nil, err
 	}

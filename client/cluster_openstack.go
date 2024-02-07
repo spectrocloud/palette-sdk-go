@@ -17,7 +17,7 @@ func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClus
 		params = clientV1.NewV1SpectroClustersOpenStackCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersOpenStackCreate(params)
+	success, err := h.Client.V1SpectroClustersOpenStackCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -36,7 +36,7 @@ func (h *V1Client) CreateMachinePoolOpenStack(CloudConfigId, scope string, machi
 		params = clientV1.NewV1CloudConfigsOpenStackMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsOpenStackMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolCreate(params)
 	return err
 }
 
@@ -55,7 +55,7 @@ func (h *V1Client) UpdateMachinePoolOpenStack(CloudConfigId, scope string, machi
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsOpenStackMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolUpdate(params)
 	return err
 }
 
@@ -68,7 +68,7 @@ func (h *V1Client) DeleteMachinePoolOpenStack(CloudConfigId, machinePoolName, sc
 		params = clientV1.NewV1CloudConfigsOpenStackMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsOpenStackMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolDelete(params)
 	return err
 }
 
@@ -83,7 +83,7 @@ func (h *V1Client) GetCloudConfigOpenStack(configUID, scope string) (*models.V1O
 		params = clientV1.NewV1CloudConfigsOpenStackGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsOpenStackGet(params)
+	success, err := h.Client.V1CloudConfigsOpenStackGet(params)
 
 	if herr.IsNotFound(err) {
 		return nil, nil
@@ -102,7 +102,7 @@ func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) 
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClient().V1SpectroClustersOpenStackImport(params)
+	success, err := h.Client.V1SpectroClustersOpenStackImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -118,7 +118,7 @@ func (h *V1Client) GetNodeStatusMapOpenStack(configUID, machinePoolName, scope s
 		params = clientV1.NewV1CloudConfigsOpenStackPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsOpenStackPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsOpenStackPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

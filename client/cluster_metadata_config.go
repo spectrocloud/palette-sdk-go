@@ -15,7 +15,7 @@ func (h *V1Client) UpdateClusterMetadata(uid, scope string, config *models.V1Obj
 	}
 
 	//params := clientV1.NewV1SpectroClustersUIDMetadataUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
-	_, err := h.GetClient().V1SpectroClustersUIDMetadataUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDMetadataUpdate(params)
 	return err
 }
 
@@ -28,6 +28,6 @@ func (h *V1Client) UpdateAdditionalClusterMetadata(uid, scope string, additional
 		params = clientV1.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParams().WithUID(uid).WithBody(additionalMeta)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDClusterMetaAttributeUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDClusterMetaAttributeUpdate(params)
 	return err
 }

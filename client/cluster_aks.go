@@ -18,7 +18,7 @@ func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity,
 		params = clientV1.NewV1SpectroClustersAksCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersAksCreate(params.WithTimeout(90 * time.Second))
+	success, err := h.Client.V1SpectroClustersAksCreate(params.WithTimeout(90 * time.Second))
 	if err != nil {
 		return "", err
 	}
@@ -35,7 +35,7 @@ func (h *V1Client) CreateMachinePoolAks(CloudConfigId string, machinePool *model
 		params = clientV1.NewV1CloudConfigsAksMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAksMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsAksMachinePoolCreate(params)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (h *V1Client) UpdateMachinePoolAks(CloudConfigId string, machinePool *model
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAksMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsAksMachinePoolUpdate(params)
 	return err
 }
 
@@ -67,7 +67,7 @@ func (h *V1Client) DeleteMachinePoolAks(CloudConfigId, machinePoolName, scope st
 		params = clientV1.NewV1CloudConfigsAksMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAksMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsAksMachinePoolDelete(params)
 	return err
 }
 
@@ -80,7 +80,7 @@ func (h *V1Client) GetCloudConfigAks(configUID, scope string) (*models.V1AzureCl
 		params = clientV1.NewV1CloudConfigsAksGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsAksGet(params)
+	success, err := h.Client.V1CloudConfigsAksGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -100,7 +100,7 @@ func (h *V1Client) GetNodeStatusMapAks(configUID, machinePoolName, scope string)
 		params = clientV1.NewV1CloudConfigsAksPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsAksPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsAksPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

@@ -10,7 +10,7 @@ import (
 func (h *V1Client) GetUsers() (*models.V1Users, error) {
 	limit := int64(0)
 	params := clientV1.NewV1UsersListParams().WithLimit(&limit)
-	users, err := h.GetClient().V1UsersList(params)
+	users, err := h.Client.V1UsersList(params)
 	if err != nil {
 		return nil, err
 	}

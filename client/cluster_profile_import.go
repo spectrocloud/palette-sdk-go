@@ -20,7 +20,7 @@ func (h *V1Client) CreateClusterProfileImport(importFile runtime.NamedReadCloser
 	}
 
 	params = params.WithPublish(Ptr(true)).WithImportFile(importFile)
-	success, err := h.GetClient().V1ClusterProfilesImportFile(params)
+	success, err := h.Client.V1ClusterProfilesImportFile(params)
 	if err != nil {
 		return "", err
 	}
@@ -31,7 +31,7 @@ func (h *V1Client) CreateClusterProfileImport(importFile runtime.NamedReadCloser
 func (h *V1Client) ClusterProfileExport(uid string) (*models.V1ClusterProfile, error) {
 	// no need to switch request context here as /v1/clusterprofiles/{uid} works for profile in any scope.
 	params := clientV1.NewV1ClusterProfilesGetParamsWithContext(h.Ctx).WithUID(uid)
-	success, err := h.GetClient().V1ClusterProfilesGet(params)
+	success, err := h.Client.V1ClusterProfilesGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

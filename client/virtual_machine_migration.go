@@ -28,7 +28,7 @@ func (h *V1Client) MigrateVirtualMachineNodeToNode(scope, clusterUid, vmName, vm
 	}
 	params = params.WithUID(clusterUid).WithVMName(vmName).WithNamespace(vmNamespace)
 
-	_, err = h.GetClient().V1SpectroClustersVMMigrate(params)
+	_, err = h.Client.V1SpectroClustersVMMigrate(params)
 	if err != nil {
 		return err
 	}

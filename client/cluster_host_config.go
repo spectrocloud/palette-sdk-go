@@ -14,7 +14,7 @@ func (h *V1Client) UpdateClusterHostConfig(uid, scope string, config *models.V1H
 		params = clientV1.NewV1HostClusterConfigUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1HostClusterConfigUpdate(params)
+	_, err := h.Client.V1HostClusterConfigUpdate(params)
 	return err
 }
 

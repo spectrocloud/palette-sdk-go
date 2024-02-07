@@ -17,7 +17,7 @@ func (h *V1Client) CreateClusterLibvirt(cluster *models.V1SpectroLibvirtClusterE
 		params = clientV1.NewV1SpectroClustersLibvirtCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersLibvirtCreate(params)
+	success, err := h.Client.V1SpectroClustersLibvirtCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) CreateMachinePoolLibvirt(CloudConfigId, scope string, machine
 		params = clientV1.NewV1CloudConfigsLibvirtMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsLibvirtMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolCreate(params)
 	return err
 }
 
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolLibvirt(CloudConfigId, scope string, machine
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsLibvirtMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolUpdate(params)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (h *V1Client) DeleteMachinePoolLibvirt(CloudConfigId, machinePoolName, scop
 		params = clientV1.NewV1CloudConfigsLibvirtMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsLibvirtMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolDelete(params)
 	return err
 }
 
@@ -79,7 +79,7 @@ func (h *V1Client) GetCloudConfigLibvirt(configUID, scope string) (*models.V1Lib
 		params = clientV1.NewV1CloudConfigsLibvirtGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsLibvirtGet(params)
+	success, err := h.Client.V1CloudConfigsLibvirtGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -100,7 +100,7 @@ func (h *V1Client) GetNodeStatusMapLibvirt(configUID, machinePoolName, scope str
 		params = clientV1.NewV1CloudConfigsLibvirtPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsLibvirtPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsLibvirtPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

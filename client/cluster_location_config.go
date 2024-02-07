@@ -26,7 +26,7 @@ func (h *V1Client) UpdateClusterLocationConfig(uid, scope string, config *models
 		params = clientV1.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDLocationPut(params)
+	_, err := h.Client.V1SpectroClustersUIDLocationPut(params)
 	return err
 }
 

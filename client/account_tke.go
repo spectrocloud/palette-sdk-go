@@ -17,7 +17,7 @@ func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount, Accou
 		params = clientV1.NewV1CloudAccountsTencentCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsTencentCreate(params)
+	success, err := h.Client.V1CloudAccountsTencentCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -28,7 +28,7 @@ func (h *V1Client) CreateCloudAccountTke(account *models.V1TencentAccount, Accou
 func (h *V1Client) UpdateCloudAccountTencent(account *models.V1TencentAccount) error {
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsTencentUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsTencentUpdate(params)
+	_, err := h.Client.V1CloudAccountsTencentUpdate(params)
 	return err
 }
 
@@ -41,7 +41,7 @@ func (h *V1Client) DeleteCloudAccountTke(uid, AccountContext string) error {
 		params = clientV1.NewV1CloudAccountsTencentDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClient().V1CloudAccountsTencentDelete(params)
+	_, err := h.Client.V1CloudAccountsTencentDelete(params)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1Ten
 		params = clientV1.NewV1CloudAccountsTencentGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsTencentGet(params)
+	success, err := h.Client.V1CloudAccountsTencentGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -69,7 +69,7 @@ func (h *V1Client) GetCloudAccountTke(uid, AccountContext string) (*models.V1Ten
 func (h *V1Client) GetCloudAccountsTke() ([]*models.V1TencentAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsTencentListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsTencentList(params)
+	response, err := h.Client.V1CloudAccountsTencentList(params)
 	if err != nil {
 		return nil, err
 	}

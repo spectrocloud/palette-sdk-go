@@ -31,7 +31,7 @@ func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, ord
 		params = params.WithTimeout(*timeout)
 	}
 
-	resp, err := h.GetClient().V1EventsComponentsObjTypeUIDList(params)
+	resp, err := h.Client.V1EventsComponentsObjTypeUIDList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (h *V1Client) GetNotifications(kind, uid string, continueVar, fields, filte
 		params = params.WithTimeout(*timeout)
 	}
 
-	resp, err := h.GetClient().V1NotificationsObjTypeUIDList(params)
+	resp, err := h.Client.V1NotificationsObjTypeUIDList(params)
 	if err != nil {
 		return nil, err
 	}

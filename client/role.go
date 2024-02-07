@@ -9,7 +9,7 @@ import (
 
 func (h *V1Client) GetRole(roleName string) (*models.V1Role, error) {
 	params := clientV1.NewV1RolesListParams()
-	roles, err := h.GetClient().V1RolesList(params)
+	roles, err := h.Client.V1RolesList(params)
 	if err != nil {
 		return nil, err
 	}

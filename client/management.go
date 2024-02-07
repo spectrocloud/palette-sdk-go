@@ -9,7 +9,7 @@ import (
 
 func (h *V1Client) GetMgmtAppVersion() (*models.V1MgmtAppVersionVersion, error) {
 	params := clientV1.NewV1MgmtAppVersionGetParams().WithContext(h.Ctx)
-	resp, err := h.GetClient().V1MgmtAppVersionGet(params)
+	resp, err := h.Client.V1MgmtAppVersionGet(params)
 	if err != nil || resp == nil {
 		return nil, err
 	}

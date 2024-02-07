@@ -17,7 +17,7 @@ func (h *V1Client) CreateClusterGcp(cluster *models.V1SpectroGcpClusterEntity, s
 		params = clientV1.NewV1SpectroClustersGcpCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersGcpCreate(params)
+	success, err := h.Client.V1SpectroClustersGcpCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) CreateMachinePoolGcp(CloudConfigId, scope string, machinePool
 		params = clientV1.NewV1CloudConfigsGcpMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsGcpMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsGcpMachinePoolCreate(params)
 	return err
 }
 
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolGcp(CloudConfigId, scope string, machinePool
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsGcpMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsGcpMachinePoolUpdate(params)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (h *V1Client) DeleteMachinePoolGcp(CloudConfigId, machinePoolName, scope st
 		params = clientV1.NewV1CloudConfigsGcpMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsGcpMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsGcpMachinePoolDelete(params)
 	return err
 }
 
@@ -79,7 +79,7 @@ func (h *V1Client) GetCloudConfigGcp(configUID, scope string) (*models.V1GcpClou
 		params = clientV1.NewV1CloudConfigsGcpGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsGcpGet(params)
+	success, err := h.Client.V1CloudConfigsGcpGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -96,7 +96,7 @@ func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (strin
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClient().V1SpectroClustersGcpImport(params)
+	success, err := h.Client.V1SpectroClustersGcpImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -113,7 +113,7 @@ func (h *V1Client) GetNodeStatusMapGcp(configUID, machinePoolName, scope string)
 		params = clientV1.NewV1CloudConfigsGcpPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsGcpPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsGcpPoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

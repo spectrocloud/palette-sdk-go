@@ -60,9 +60,9 @@ func (h *V1Client) PatchWithRetry(client clientV1.ClientService, params *clientV
 	var err error
 
 	rand.NewSource(time.Now().UnixNano())
-	for attempt := 0; attempt < h.RetryAttempts; attempt++ {
+	for attempt := 0; attempt < h.retryAttempts; attempt++ {
 		// small jitter to prevent simultaneous retries
-		s := rand.Intn(h.RetryAttempts) // n will be between 0 and number of retries
+		s := rand.Intn(h.retryAttempts) // n will be between 0 and number of retries
 		log.Printf("Sleeping %d seconds, retry: %d, cluster:%s, profile:%s, ", s, attempt, params.UID, params.Body.Profiles[0].UID)
 		time.Sleep(time.Duration(s) * time.Second)
 		err = h.ClustersPatchProfiles(client, params)

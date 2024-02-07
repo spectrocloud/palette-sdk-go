@@ -14,6 +14,6 @@ func (h *V1Client) UpdateClusterOsPatchConfig(uid, scope string, config *models.
 		params = clientV1.NewV1SpectroClustersUIDOsPatchUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1SpectroClustersUIDOsPatchUpdate(params)
+	_, err := h.Client.V1SpectroClustersUIDOsPatchUpdate(params)
 	return err
 }

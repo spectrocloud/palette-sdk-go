@@ -2,6 +2,8 @@ package client
 
 import (
 	"context"
+	"crypto/tls"
+	"net/http"
 
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -16,23 +18,26 @@ const (
 )
 
 type V1Client struct {
-	Ctx            context.Context
-	apikey         string
-	hubbleUri      string
-	schemes        []string
-	transportDebug bool
-	RetryAttempts  int
+	Client             clientV1.ClientService
+	Ctx                context.Context
+	apikey             string
+	hubbleUri          string
+	schemes            []string
+	insecureSkipVerify bool
+	transportDebug     bool
+	retryAttempts      int
 }
 
 func New(options ...func(*V1Client)) *V1Client {
 	client := &V1Client{
 		Ctx:           context.Background(),
-		RetryAttempts: 0,
+		retryAttempts: 0,
 		schemes:       []string{"https"},
 	}
 	for _, o := range options {
 		o(client)
 	}
+	client.Client = clientV1.New(client.getTransport(), strfmt.Default)
 	return client
 }
 
@@ -48,6 +53,12 @@ func WithHubbleURI(hubbleUri string) func(*V1Client) {
 	}
 }
 
+func WithInsecureSkipVerify(insecureSkipVerify bool) func(*V1Client) {
+	return func(v *V1Client) {
+		v.insecureSkipVerify = insecureSkipVerify
+	}
+}
+
 func WithProjectUID(projectUid string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.Ctx = ContextWithProject(v.Ctx, projectUid)
@@ -56,7 +67,7 @@ func WithProjectUID(projectUid string) func(*V1Client) {
 
 func WithRetries(retries int) func(*V1Client) {
 	return func(v *V1Client) {
-		v.RetryAttempts = retries
+		v.retryAttempts = retries
 	}
 }
 
@@ -89,21 +100,28 @@ func (h *V1Client) authenticatedTransport() *transport.Runtime {
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
-	httpTransport := transport.New(h.hubbleUri, "", h.schemes)
-	httpTransport.RetryAttempts = h.RetryAttempts
+	httpTransport := transport.NewWithClient(h.hubbleUri, "", h.schemes, h.httpClient())
+	httpTransport.RetryAttempts = h.retryAttempts
 	httpTransport.Debug = h.transportDebug
 	return httpTransport
 }
 
-func (h *V1Client) GetClient() clientV1.ClientService {
-	return clientV1.New(h.getTransport(), strfmt.Default)
+func (h *V1Client) httpClient() *http.Client {
+	return &http.Client{
+		Transport: &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+			TLSClientConfig: &tls.Config{
+				Certificates:       []tls.Certificate{},
+				InsecureSkipVerify: h.insecureSkipVerify,
+			},
+		},
+	}
 }
 
 func (h *V1Client) Validate() error {
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
-		c := h.GetClient()
-		_, err := c.V1ProjectsMetadata(nil)
+		_, err := h.Client.V1ProjectsMetadata(nil)
 		if err != nil {
 			return err
 		}
@@ -114,8 +132,7 @@ func (h *V1Client) Validate() error {
 func (h *V1Client) ValidateTenantAdmin() error {
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
-		c := h.GetClient()
-		_, err := c.V1UsersList(nil)
+		_, err := h.Client.V1UsersList(nil)
 		if err != nil {
 			return err
 		}

@@ -33,7 +33,7 @@ func (h *V1Client) CreateCloudAccountVsphere(account *models.V1VsphereAccount, A
 	}
 
 	params = params.WithBody(account)
-	success, err := h.GetClient().V1CloudAccountsVsphereCreate(params)
+	success, err := h.Client.V1CloudAccountsVsphereCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -51,7 +51,7 @@ func validateCloudAccountVsphere(account *models.V1VsphereAccount, h *V1Client) 
 	// validate account
 	paramsValidate := clientV1.NewV1OverlordsUIDVsphereAccountValidateParams().WithUID(PcgId)
 	paramsValidate = paramsValidate.WithBody(toV1OverlordsUIDVsphereAccountValidateBody(account))
-	_, err := h.GetClient().V1OverlordsUIDVsphereAccountValidate(paramsValidate)
+	_, err := h.Client.V1OverlordsUIDVsphereAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func (h *V1Client) UpdateCloudAccountVsphere(account *models.V1VsphereAccount, A
 
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsVsphereUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsVsphereUpdate(params)
+	_, err := h.Client.V1CloudAccountsVsphereUpdate(params)
 	return err
 }
 
@@ -80,7 +80,7 @@ func (h *V1Client) DeleteCloudAccountVsphere(uid, AccountContext string) error {
 		params = clientV1.NewV1CloudAccountsVsphereDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClient().V1CloudAccountsVsphereDelete(params)
+	_, err := h.Client.V1CloudAccountsVsphereDelete(params)
 	return err
 }
 
@@ -93,7 +93,7 @@ func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V
 		params = clientV1.NewV1CloudAccountsVsphereGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsVsphereGet(params)
+	success, err := h.Client.V1CloudAccountsVsphereGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -108,7 +108,7 @@ func (h *V1Client) GetCloudAccountVsphere(uid, AccountContext string) (*models.V
 func (h *V1Client) GetCloudAccountsVsphere() ([]*models.V1VsphereAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsVsphereListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsVsphereList(params)
+	response, err := h.Client.V1CloudAccountsVsphereList(params)
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity, Acc
 		params = clientV1.NewV1CloudAccountsGcpCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsGcpCreate(params)
+	success, err := h.Client.V1CloudAccountsGcpCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -28,7 +28,7 @@ func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity, Acc
 func (h *V1Client) UpdateCloudAccountGcp(account *models.V1GcpAccountEntity) error {
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsGcpUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsGcpUpdate(params)
+	_, err := h.Client.V1CloudAccountsGcpUpdate(params)
 	return err
 }
 
@@ -41,7 +41,7 @@ func (h *V1Client) DeleteCloudAccountGcp(uid, AccountContext string) error {
 		params = clientV1.NewV1CloudAccountsGcpDeleteParams().WithUID(uid)
 	}
 
-	_, err := h.GetClient().V1CloudAccountsGcpDelete(params)
+	_, err := h.Client.V1CloudAccountsGcpDelete(params)
 	return err
 }
 
@@ -54,7 +54,7 @@ func (h *V1Client) GetCloudAccountGcp(uid, AccountContext string) (*models.V1Gcp
 		params = clientV1.NewV1CloudAccountsGcpGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsGcpGet(params)
+	success, err := h.Client.V1CloudAccountsGcpGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -69,7 +69,7 @@ func (h *V1Client) GetCloudAccountGcp(uid, AccountContext string) (*models.V1Gcp
 func (h *V1Client) GetCloudAccountsGcp() ([]*models.V1GcpAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsGcpListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsGcpList(params)
+	response, err := h.Client.V1CloudAccountsGcpList(params)
 	if err != nil {
 		return nil, err
 	}

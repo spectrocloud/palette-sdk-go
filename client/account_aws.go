@@ -33,7 +33,7 @@ func (h *V1Client) CreateCloudAccountAws(account *models.V1AwsAccount, AccountCo
 		params = clientV1.NewV1CloudAccountsAwsCreateParams().WithBody(account)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsAwsCreate(params)
+	success, err := h.Client.V1CloudAccountsAwsCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +50,7 @@ func validateCloudAccountAws(account *models.V1AwsAccount, h *V1Client) error {
 	// validate account
 	paramsValidate := clientV1.NewV1AwsAccountValidateParams()
 	paramsValidate = paramsValidate.WithAwsCloudAccount(toV1AwsCloudAccount(account))
-	_, err := h.GetClient().V1AwsAccountValidate(paramsValidate)
+	_, err := h.Client.V1AwsAccountValidate(paramsValidate)
 	if err != nil {
 		return err
 	}
@@ -66,7 +66,7 @@ func (h *V1Client) UpdateCloudAccountAws(account *models.V1AwsAccount) error {
 
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsAwsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsAwsUpdate(params)
+	_, err := h.Client.V1CloudAccountsAwsUpdate(params)
 	return err
 }
 
@@ -78,7 +78,7 @@ func (h *V1Client) DeleteCloudAccountAws(uid, AccountContext string) error {
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsAwsDeleteParams().WithUID(uid)
 	}
-	_, err := h.GetClient().V1CloudAccountsAwsDelete(params)
+	_, err := h.Client.V1CloudAccountsAwsDelete(params)
 	return err
 }
 
@@ -90,7 +90,7 @@ func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1Aws
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsAwsGetParams().WithUID(uid)
 	}
-	success, err := h.GetClient().V1CloudAccountsAwsGet(params)
+	success, err := h.Client.V1CloudAccountsAwsGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -105,7 +105,7 @@ func (h *V1Client) GetCloudAccountAws(uid, AccountContext string) (*models.V1Aws
 func (h *V1Client) GetCloudAccountsAws() ([]*models.V1AwsAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsAwsListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsAwsList(params)
+	response, err := h.Client.V1CloudAccountsAwsList(params)
 	if err != nil {
 		return nil, err
 	}

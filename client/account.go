@@ -20,7 +20,7 @@ func (h *V1Client) ListCloudAccounts(scope string) ([]*models.V1CloudAccountSumm
 	}
 	var limit int64 = 0
 	params.Limit = &limit
-	resp, err := h.GetClient().V1CloudAccountsListSummary(params)
+	resp, err := h.Client.V1CloudAccountsListSummary(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {

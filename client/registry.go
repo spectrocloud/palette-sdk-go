@@ -27,7 +27,7 @@ func (h *V1Client) GetPackRegistryCommonByName(registryName string) (*models.V1R
 
 func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
 	params := clientV1.NewV1RegistriesMetadataParams().WithScope(Ptr(""))
-	registries, err := h.GetClient().V1RegistriesMetadata(params)
+	registries, err := h.Client.V1RegistriesMetadata(params)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
 
 func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackRegistry, error) {
 	params := clientV1.NewV1RegistriesPackListParams()
-	registries, err := h.GetClient().V1RegistriesPackList(params)
+	registries, err := h.Client.V1RegistriesPackList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackReg
 
 func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySummary, error) {
 	params := clientV1.NewV1RegistriesHelmSummaryListParams().WithScope(&scope)
-	helmRegistries, err := h.GetClient().V1RegistriesHelmSummaryList(params)
+	helmRegistries, err := h.Client.V1RegistriesHelmSummaryList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySum
 
 func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmRegistry, error) {
 	params := clientV1.NewV1RegistriesHelmListParams()
-	registries, err := h.GetClient().V1RegistriesHelmList(params)
+	registries, err := h.Client.V1RegistriesHelmList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmReg
 
 func (h *V1Client) GetHelmRegistry(uid string) (*models.V1HelmRegistry, error) {
 	params := clientV1.NewV1RegistriesHelmUIDGetParams().WithUID(uid)
-	response, err := h.GetClient().V1RegistriesHelmUIDGet(params)
+	response, err := h.Client.V1RegistriesHelmUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (h *V1Client) GetHelmRegistry(uid string) (*models.V1HelmRegistry, error) {
 
 func (h *V1Client) CreateHelmRegistry(registry *models.V1HelmRegistryEntity) (string, error) {
 	params := clientV1.NewV1RegistriesHelmCreateParams().WithBody(registry)
-	if resp, err := h.GetClient().V1RegistriesHelmCreate(params); err != nil {
+	if resp, err := h.Client.V1RegistriesHelmCreate(params); err != nil {
 		return "", err
 	} else {
 		return *resp.Payload.UID, nil
@@ -95,7 +95,7 @@ func (h *V1Client) CreateHelmRegistry(registry *models.V1HelmRegistryEntity) (st
 
 func (h *V1Client) UpdateHelmRegistry(uid string, registry *models.V1HelmRegistry) error {
 	params := clientV1.NewV1RegistriesHelmUIDUpdateParams().WithBody(registry).WithUID(uid)
-	if _, err := h.GetClient().V1RegistriesHelmUIDUpdate(params); err != nil {
+	if _, err := h.Client.V1RegistriesHelmUIDUpdate(params); err != nil {
 		return err
 	} else {
 		return nil
@@ -104,7 +104,7 @@ func (h *V1Client) UpdateHelmRegistry(uid string, registry *models.V1HelmRegistr
 
 func (h *V1Client) DeleteHelmRegistry(uid string) error {
 	params := clientV1.NewV1RegistriesHelmUIDDeleteParams().WithUID(uid)
-	if _, err := h.GetClient().V1RegistriesHelmUIDDelete(params); err != nil {
+	if _, err := h.Client.V1RegistriesHelmUIDDelete(params); err != nil {
 		return err
 	} else {
 		return nil
@@ -113,7 +113,7 @@ func (h *V1Client) DeleteHelmRegistry(uid string) error {
 
 func (h *V1Client) ListOCIRegistries() ([]*models.V1OciRegistry, error) {
 	params := clientV1.NewV1OciRegistriesSummaryParams()
-	ociRegistries, err := h.GetClient().V1OciRegistriesSummary(params)
+	ociRegistries, err := h.Client.V1OciRegistriesSummary(params)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func (h *V1Client) ListOCIRegistries() ([]*models.V1OciRegistry, error) {
 
 func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegistry, error) {
 	params := clientV1.NewV1OciRegistriesSummaryParams()
-	registries, err := h.GetClient().V1OciRegistriesSummary(params)
+	registries, err := h.Client.V1OciRegistriesSummary(params)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegis
 
 func (h *V1Client) GetOciBasicRegistry(uid string) (*models.V1BasicOciRegistry, error) {
 	params := clientV1.NewV1BasicOciRegistriesUIDGetParams().WithUID(uid)
-	response, err := h.GetClient().V1BasicOciRegistriesUIDGet(params)
+	response, err := h.Client.V1BasicOciRegistriesUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -147,7 +147,7 @@ func (h *V1Client) GetOciBasicRegistry(uid string) (*models.V1BasicOciRegistry, 
 
 func (h *V1Client) CreateOciBasicRegistry(registry *models.V1BasicOciRegistry) (string, error) {
 	params := clientV1.NewV1BasicOciRegistriesCreateParams().WithBody(registry)
-	if resp, err := h.GetClient().V1BasicOciRegistriesCreate(params); err != nil {
+	if resp, err := h.Client.V1BasicOciRegistriesCreate(params); err != nil {
 		return "", err
 	} else {
 		return *resp.Payload.UID, nil
@@ -156,7 +156,7 @@ func (h *V1Client) CreateOciBasicRegistry(registry *models.V1BasicOciRegistry) (
 
 func (h *V1Client) UpdateOciBasicRegistry(uid string, registry *models.V1BasicOciRegistry) error {
 	params := clientV1.NewV1BasicOciRegistriesUIDUpdateParams().WithBody(registry).WithUID(uid)
-	_, err := h.GetClient().V1BasicOciRegistriesUIDUpdate(params)
+	_, err := h.Client.V1BasicOciRegistriesUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -165,7 +165,7 @@ func (h *V1Client) UpdateOciBasicRegistry(uid string, registry *models.V1BasicOc
 
 func (h *V1Client) DeleteOciBasicRegistry(uid string) error {
 	params := clientV1.NewV1BasicOciRegistriesUIDDeleteParams().WithUID(uid)
-	_, err := h.GetClient().V1BasicOciRegistriesUIDDelete(params)
+	_, err := h.Client.V1BasicOciRegistriesUIDDelete(params)
 	if err != nil {
 		return err
 	}
@@ -174,7 +174,7 @@ func (h *V1Client) DeleteOciBasicRegistry(uid string) error {
 
 func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) {
 	params := clientV1.NewV1EcrRegistriesUIDGetParams().WithUID(uid)
-	response, err := h.GetClient().V1EcrRegistriesUIDGet(params)
+	response, err := h.Client.V1EcrRegistriesUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -183,7 +183,7 @@ func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) 
 
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
 	params := clientV1.NewV1EcrRegistriesCreateParams().WithBody(registry)
-	if resp, err := h.GetClient().V1EcrRegistriesCreate(params); err != nil {
+	if resp, err := h.Client.V1EcrRegistriesCreate(params); err != nil {
 		return "", err
 	} else {
 		return *resp.Payload.UID, nil
@@ -192,7 +192,7 @@ func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string,
 
 func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry) error {
 	params := clientV1.NewV1EcrRegistriesUIDUpdateParams().WithBody(registry).WithUID(uid)
-	_, err := h.GetClient().V1EcrRegistriesUIDUpdate(params)
+	_, err := h.Client.V1EcrRegistriesUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -201,6 +201,6 @@ func (h *V1Client) UpdateEcrRegistry(uid string, registry *models.V1EcrRegistry)
 
 func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 	params := clientV1.NewV1EcrRegistriesUIDDeleteParams().WithUID(uid)
-	_, err := h.GetClient().V1EcrRegistriesUIDDelete(params)
+	_, err := h.Client.V1EcrRegistriesUIDDelete(params)
 	return err
 }

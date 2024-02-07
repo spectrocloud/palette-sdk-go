@@ -20,7 +20,7 @@ func (h *V1Client) GetClusterBackupConfig(uid, scope string) (*models.V1ClusterB
 
 	}
 
-	success, err := h.GetClient().V1ClusterFeatureBackupGet(params)
+	success, err := h.Client.V1ClusterFeatureBackupGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) || herr.IsBackupNotConfigured(err) {
 			return nil, nil
@@ -40,7 +40,7 @@ func (h *V1Client) CreateClusterBackupConfig(uid string, config *models.V1Cluste
 		params = clientV1.NewV1ClusterFeatureBackupCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1ClusterFeatureBackupCreate(params)
+	_, err := h.Client.V1ClusterFeatureBackupCreate(params)
 	return err
 }
 
@@ -52,7 +52,7 @@ func (h *V1Client) UpdateClusterBackupConfig(uid string, config *models.V1Cluste
 	case "tenant":
 		params = clientV1.NewV1ClusterFeatureBackupUpdateParams().WithUID(uid).WithBody(config)
 	}
-	_, err := h.GetClient().V1ClusterFeatureBackupUpdate(params)
+	_, err := h.Client.V1ClusterFeatureBackupUpdate(params)
 	return err
 }
 

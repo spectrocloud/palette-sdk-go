@@ -33,7 +33,7 @@ func (h *V1Client) CreateVirtualMachine(scope, uid string, body *models.V1Cluste
 
 	params = params.WithUID(uid).WithBody(body).WithNamespace(params.Body.Metadata.Namespace)
 
-	vm, err := h.GetClient().V1SpectroClustersVMCreate(params)
+	vm, err := h.Client.V1SpectroClustersVMCreate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 		return nil, errors.New("VM not exists")
 	}
 
-	vm, err := h.GetClient().V1SpectroClustersVMUpdate(params)
+	vm, err := h.Client.V1SpectroClustersVMUpdate(params)
 	if err != nil {
 		return nil, err
 	}
@@ -107,6 +107,6 @@ func (h *V1Client) DeleteVirtualMachine(scope, uid, namespace, name string) erro
 	}
 	params = params.WithUID(uid).WithVMName(name).WithNamespace(namespace)
 
-	_, err = h.GetClient().V1SpectroClustersVMDelete(params)
+	_, err = h.Client.V1SpectroClustersVMDelete(params)
 	return err
 }

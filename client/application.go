@@ -10,7 +10,7 @@ import (
 
 func (h *V1Client) GetApplication(uid string) (*models.V1AppDeployment, error) {
 	params := clientV1.NewV1AppDeploymentsUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	success, err := h.GetClient().V1AppDeploymentsUIDGet(params)
+	success, err := h.Client.V1AppDeploymentsUIDGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -37,7 +37,7 @@ func (h *V1Client) SearchAppDeploymentSummaries(scope string, filter *models.V1A
 		Sort:   sortBy,
 	}
 
-	resp, err := h.GetClient().V1DashboardAppDeployments(params)
+	resp, err := h.Client.V1DashboardAppDeployments(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -50,7 +50,7 @@ func (h *V1Client) SearchAppDeploymentSummaries(scope string, filter *models.V1A
 
 func (h *V1Client) CreateApplicationWithNewSandboxCluster(body *models.V1AppDeploymentClusterGroupEntity) (string, error) {
 	params := clientV1.NewV1AppDeploymentsClusterGroupCreateParams().WithContext(h.Ctx).WithBody(body)
-	success, err := h.GetClient().V1AppDeploymentsClusterGroupCreate(params)
+	success, err := h.Client.V1AppDeploymentsClusterGroupCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -60,7 +60,7 @@ func (h *V1Client) CreateApplicationWithNewSandboxCluster(body *models.V1AppDepl
 
 func (h *V1Client) CreateApplicationWithExistingSandboxCluster(body *models.V1AppDeploymentVirtualClusterEntity) (string, error) {
 	params := clientV1.NewV1AppDeploymentsVirtualClusterCreateParams().WithContext(h.Ctx).WithBody(body)
-	success, err := h.GetClient().V1AppDeploymentsVirtualClusterCreate(params)
+	success, err := h.Client.V1AppDeploymentsVirtualClusterCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -70,12 +70,12 @@ func (h *V1Client) CreateApplicationWithExistingSandboxCluster(body *models.V1Ap
 
 func (h *V1Client) DeleteApplication(uid string) error {
 	params := clientV1.NewV1AppDeploymentsUIDDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	_, err := h.GetClient().V1AppDeploymentsUIDDelete(params)
+	_, err := h.Client.V1AppDeploymentsUIDDelete(params)
 	return err
 }
 
 func (h *V1Client) ApplyApplicationUpdate(uid, notificationUid string) error {
 	params := clientV1.NewV1AppDeploymentsUIDProfileApplyParamsWithContext(h.Ctx).WithUID(uid).WithNotify(&notificationUid)
-	_, err := h.GetClient().V1AppDeploymentsUIDProfileApply(params)
+	_, err := h.Client.V1AppDeploymentsUIDProfileApply(params)
 	return err
 }

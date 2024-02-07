@@ -15,7 +15,7 @@ func (h *V1Client) GetClusterScanConfig(uid, scope string) (*models.V1ClusterCom
 		params = clientV1.NewV1ClusterFeatureComplianceScanGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1ClusterFeatureComplianceScanGet(params)
+	success, err := h.Client.V1ClusterFeatureComplianceScanGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
@@ -35,7 +35,7 @@ func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterC
 		params = clientV1.NewV1ClusterFeatureComplianceScanCreateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1ClusterFeatureComplianceScanCreate(params)
+	_, err := h.Client.V1ClusterFeatureComplianceScanCreate(params)
 	return err
 }
 
@@ -48,7 +48,7 @@ func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterC
 		params = clientV1.NewV1ClusterFeatureComplianceScanUpdateParams().WithUID(uid).WithBody(config)
 	}
 
-	_, err := h.GetClient().V1ClusterFeatureComplianceScanUpdate(params)
+	_, err := h.Client.V1ClusterFeatureComplianceScanUpdate(params)
 	return err
 }
 

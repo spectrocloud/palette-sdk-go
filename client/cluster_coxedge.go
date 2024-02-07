@@ -17,7 +17,7 @@ func (h *V1Client) CreateclientV1oxEdge(cluster *models.V1SpectroCoxEdgeClusterE
 		params = clientV1.NewV1SpectroClustersCoxEdgeCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersCoxEdgeCreate(params)
+	success, err := h.Client.V1SpectroClustersCoxEdgeCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) CreateMachinePoolCoxEdge(CloudConfigId string, machinePool *m
 		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsCoxEdgeMachinePoolCreate(params)
 	return err
 }
 
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolCoxEdge(CloudConfigId string, machinePool *m
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsCoxEdgeMachinePoolUpdate(params)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (h *V1Client) DeleteMachinePoolCoxEdge(CloudConfigId, machinePoolName, scop
 		params = clientV1.NewV1CloudConfigsCoxEdgeMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsCoxEdgeMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsCoxEdgeMachinePoolDelete(params)
 	return err
 }
 
@@ -79,7 +79,7 @@ func (h *V1Client) GetCloudConfigCoxEdge(configUID, scope string) (*models.V1Cox
 		params = clientV1.NewV1CloudConfigsCoxEdgeGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsCoxEdgeGet(params)
+	success, err := h.Client.V1CloudConfigsCoxEdgeGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -99,7 +99,7 @@ func (h *V1Client) GetNodeStatusMapCoxEdge(configUID, machinePoolName, scope str
 		params = clientV1.NewV1CloudConfigsCoxEdgePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsCoxEdgePoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsCoxEdgePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

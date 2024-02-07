@@ -16,7 +16,7 @@ func (h *V1Client) CreateCloudAccountCoxEdge(account *models.V1CoxEdgeAccount, A
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsCoxEdgeCreateParams().WithBody(account)
 	}
-	success, err := h.GetClient().V1CloudAccountsCoxEdgeCreate(params)
+	success, err := h.Client.V1CloudAccountsCoxEdgeCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -27,7 +27,7 @@ func (h *V1Client) CreateCloudAccountCoxEdge(account *models.V1CoxEdgeAccount, A
 func (h *V1Client) UpdateCloudAccountCoxEdge(account *models.V1CoxEdgeAccount) error {
 	uid := account.Metadata.UID
 	params := clientV1.NewV1CloudAccountsCoxEdgeUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
-	_, err := h.GetClient().V1CloudAccountsCoxEdgeUpdate(params)
+	_, err := h.Client.V1CloudAccountsCoxEdgeUpdate(params)
 	return err
 }
 
@@ -39,7 +39,7 @@ func (h *V1Client) DeleteCloudAccountCoxEdge(uid, AccountContext string) error {
 	case "tenant":
 		params = clientV1.NewV1CloudAccountsCoxEdgeDeleteParams().WithUID(uid)
 	}
-	_, err := h.GetClient().V1CloudAccountsCoxEdgeDelete(params)
+	_, err := h.Client.V1CloudAccountsCoxEdgeDelete(params)
 	return err
 }
 
@@ -52,7 +52,7 @@ func (h *V1Client) GetCloudAccountCoxEdge(uid, AccountContext string) (*models.V
 		params = clientV1.NewV1CloudAccountsCoxEdgeGetParams().WithUID(uid)
 	}
 
-	success, err := h.GetClient().V1CloudAccountsCoxEdgeGet(params)
+	success, err := h.Client.V1CloudAccountsCoxEdgeGet(params)
 
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -67,7 +67,7 @@ func (h *V1Client) GetCloudAccountCoxEdge(uid, AccountContext string) (*models.V
 func (h *V1Client) GetCloudAccountsCoxEdge() ([]*models.V1CoxEdgeAccount, error) {
 	limit := int64(0)
 	params := clientV1.NewV1CloudAccountsCoxEdgeListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.GetClient().V1CloudAccountsCoxEdgeList(params)
+	response, err := h.Client.V1CloudAccountsCoxEdgeList(params)
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, s
 		params = clientV1.NewV1SpectroClustersAwsCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersAwsCreate(params)
+	success, err := h.Client.V1SpectroClustersAwsCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) CreateMachinePoolAws(CloudConfigId string, machinePool *model
 		params = clientV1.NewV1CloudConfigsAwsMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAwsMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsAwsMachinePoolCreate(params)
 	return err
 }
 
@@ -51,7 +51,7 @@ func (h *V1Client) UpdateMachinePoolAws(CloudConfigId string, machinePool *model
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAwsMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsAwsMachinePoolUpdate(params)
 	return err
 }
 
@@ -64,7 +64,7 @@ func (h *V1Client) DeleteMachinePoolAws(CloudConfigId, machinePoolName, scope st
 		params = clientV1.NewV1CloudConfigsAwsMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsAwsMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsAwsMachinePoolDelete(params)
 	return err
 }
 
@@ -77,7 +77,7 @@ func (h *V1Client) GetCloudConfigAws(configUID, scope string) (*models.V1AwsClou
 		params = clientV1.NewV1CloudConfigsAwsGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsAwsGet(params)
+	success, err := h.Client.V1CloudConfigsAwsGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -94,7 +94,7 @@ func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (strin
 			Metadata: meta,
 		},
 	)
-	success, err := h.GetClient().V1SpectroClustersAwsImport(params)
+	success, err := h.Client.V1SpectroClustersAwsImport(params)
 	if err != nil {
 		return "", err
 	}
@@ -111,7 +111,7 @@ func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, scope string)
 		params = clientV1.NewV1CloudConfigsAwsPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsAwsPoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsAwsPoolMachinesList(params)
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ func (h *V1Client) CreateClusterTke(cluster *models.V1SpectroTencentClusterEntit
 		params = clientV1.NewV1SpectroClustersTkeCreateParams().WithBody(cluster)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersTkeCreate(params)
+	success, err := h.Client.V1SpectroClustersTkeCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) CreateMachinePoolTke(CloudConfigId, scope string, machinePool
 		params = clientV1.NewV1CloudConfigsTkeMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsTkeMachinePoolCreate(params)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolCreate(params)
 	return err
 }
 
@@ -53,7 +53,7 @@ func (h *V1Client) UpdateMachinePoolTke(CloudConfigId, scope string, machinePool
 			WithBody(machinePool)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsTkeMachinePoolUpdate(params)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolUpdate(params)
 	return err
 }
 
@@ -66,7 +66,7 @@ func (h *V1Client) DeleteMachinePoolTke(CloudConfigId, machinePoolName, scope st
 		params = clientV1.NewV1CloudConfigsTkeMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
 	}
 
-	_, err := h.GetClient().V1CloudConfigsTkeMachinePoolDelete(params)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolDelete(params)
 	return err
 }
 
@@ -79,7 +79,7 @@ func (h *V1Client) GetCloudConfigTke(configUID, scope string) (*models.V1Tencent
 		params = clientV1.NewV1CloudConfigsTkeGetParams().WithConfigUID(configUID)
 	}
 
-	success, err := h.GetClient().V1CloudConfigsTkeGet(params)
+	success, err := h.Client.V1CloudConfigsTkeGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -99,7 +99,7 @@ func (h *V1Client) GetNodeStatusMapTke(configUID, machinePoolName, scope string)
 		params = clientV1.NewV1CloudConfigsTkePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	}
 
-	mpList, err := h.GetClient().V1CloudConfigsTkePoolMachinesList(params)
+	mpList, err := h.Client.V1CloudConfigsTkePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {

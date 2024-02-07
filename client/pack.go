@@ -17,7 +17,7 @@ func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models
 	}
 	params := clientV1.NewV1PacksSearchParams().WithContext(h.Ctx).WithBody(body)
 
-	resp, err := h.GetClient().V1PacksSearch(params)
+	resp, err := h.Client.V1PacksSearch(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -33,7 +33,7 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName str
 	params := clientV1.NewV1ClusterProfilesUIDPacksUIDManifestsParamsWithContext(h.Ctx).
 		WithUID(clusterProfileUID).WithPackName(packName)
 
-	success, err := h.GetClient().V1ClusterProfilesUIDPacksUIDManifests(params)
+	success, err := h.Client.V1ClusterProfilesUIDPacksUIDManifests(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -51,7 +51,7 @@ func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1P
 		params = params.WithFilters(filterString)
 	}
 
-	response, err := h.GetClient().V1PacksSummaryList(params)
+	response, err := h.Client.V1PacksSummaryList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -66,6 +66,27 @@ func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1P
 	return packs, nil
 }
 
+func (h *V1Client) GetPacksByProfile(scope, profileUid string) ([]*models.V1ClusterProfilePacksEntity, error) {
+	var params *clientV1.V1ClusterProfilesUIDPacksGetParams
+	switch scope {
+	case "project":
+		params = clientV1.NewV1ClusterProfilesUIDPacksGetParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clientV1.NewV1ClusterProfilesUIDPacksGetParams()
+	default:
+		return nil, fmt.Errorf("invalid scope: %s", scope)
+	}
+	params = params.WithUID(profileUid)
+
+	resp, err := h.Client.V1ClusterProfilesUIDPacksGet(params)
+	if err != nil {
+		return nil, err
+	} else if resp.Payload == nil {
+		return nil, fmt.Errorf("no packs found for profile %s", profileUid)
+	}
+	return resp.Payload.Items, nil
+}
+
 func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext string) (*models.V1PackTagEntity, error) {
 	var params *clientV1.V1PacksNameRegistryUIDListParams
 	switch packContext {
@@ -78,7 +99,7 @@ func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext stri
 
 	}
 
-	response, err := h.GetClient().V1PacksNameRegistryUIDList(params)
+	response, err := h.Client.V1PacksNameRegistryUIDList(params)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +109,7 @@ func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext stri
 
 func (h *V1Client) GetPack(uid string) (*models.V1PackTagEntity, error) {
 	params := clientV1.NewV1PacksUIDParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.GetClient().V1PacksUID(params)
+	response, err := h.Client.V1PacksUID(params)
 	if err != nil {
 		return nil, err
 	}

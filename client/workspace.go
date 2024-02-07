@@ -10,7 +10,7 @@ import (
 
 func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string, error) {
 	params := clientV1.NewV1WorkspacesCreateParamsWithContext(h.Ctx).WithBody(workspace)
-	success, err := h.GetClient().V1WorkspacesCreate(params)
+	success, err := h.Client.V1WorkspacesCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -20,7 +20,7 @@ func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string,
 
 func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 	params := clientV1.NewV1WorkspacesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	success, err := h.GetClient().V1WorkspacesUIDGet(params)
+	success, err := h.Client.V1WorkspacesUIDGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -35,7 +35,7 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 
 func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace, error) {
 	params := clientV1.NewV1DashboardWorkspacesListParamsWithContext(h.Ctx)
-	success, err := h.GetClient().V1DashboardWorkspacesList(params)
+	success, err := h.Client.V1DashboardWorkspacesList(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil
@@ -54,7 +54,7 @@ func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace
 
 func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, we *models.V1WorkspaceClusterNamespacesEntity) error {
 	params := clientV1.NewV1WorkspacesUIDClusterNamespacesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(we)
-	if _, err := h.GetClient().V1WorkspacesUIDClusterNamespacesUpdate(params); err != nil {
+	if _, err := h.Client.V1WorkspacesUIDClusterNamespacesUpdate(params); err != nil {
 		return err
 	}
 	return nil
@@ -62,7 +62,7 @@ func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, we *models.V1Wo
 
 func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, r *models.V1ClusterRbac) error {
 	params := clientV1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.Ctx).WithUID(uid).WithClusterRbacUID(rbac_uid).WithBody(r)
-	if _, err := h.GetClient().V1WorkspacesUIDClusterRbacUpdate(params); err != nil {
+	if _, err := h.Client.V1WorkspacesUIDClusterRbacUpdate(params); err != nil {
 		return err
 	}
 	return nil
@@ -70,13 +70,13 @@ func (h *V1Client) UpdateWorkspaceRBACS(uid, rbac_uid string, r *models.V1Cluste
 
 func (h *V1Client) UpdateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
 	params := clientV1.NewV1WorkspaceOpsBackupUpdateParams().WithContext(h.Ctx).WithUID(uid).WithBody(config)
-	_, err := h.GetClient().V1WorkspaceOpsBackupUpdate(params)
+	_, err := h.Client.V1WorkspaceOpsBackupUpdate(params)
 	return err
 }
 
 func (h *V1Client) DeleteWorkspace(uid string) error {
 	params := clientV1.NewV1WorkspacesUIDDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	if _, err := h.GetClient().V1WorkspacesUIDDelete(params); err != nil {
+	if _, err := h.Client.V1WorkspacesUIDDelete(params); err != nil {
 		return err
 	}
 	return nil
@@ -84,7 +84,7 @@ func (h *V1Client) DeleteWorkspace(uid string) error {
 
 func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, error) {
 	params := clientV1.NewV1WorkspaceOpsBackupGetParams().WithContext(h.Ctx).WithUID(uid)
-	success, err := h.GetClient().V1WorkspaceOpsBackupGet(params)
+	success, err := h.Client.V1WorkspaceOpsBackupGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return nil, nil

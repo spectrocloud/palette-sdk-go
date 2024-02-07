@@ -10,7 +10,7 @@ import (
 
 func (h *V1Client) CreateProject(body *models.V1ProjectEntity) (string, error) {
 	params := clientV1.NewV1ProjectsCreateParams().WithBody(body)
-	success, err := h.GetClient().V1ProjectsCreate(params)
+	success, err := h.Client.V1ProjectsCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -34,7 +34,7 @@ func (h *V1Client) GetProjectUID(projectName string) (string, error) {
 
 func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
 	params := clientV1.NewV1ProjectsUIDGetParams().WithUID(uid)
-	project, err := h.GetClient().V1ProjectsUIDGet(params)
+	project, err := h.Client.V1ProjectsUIDGet(params)
 	if err != nil {
 		return nil, err
 	} else if project == nil {
@@ -45,7 +45,7 @@ func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
 
 func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
 	params := clientV1.NewV1ProjectsMetadataParams()
-	projects, err := h.GetClient().V1ProjectsMetadata(params)
+	projects, err := h.Client.V1ProjectsMetadata(params)
 	if err != nil {
 		return nil, err
 	} else if projects == nil {
@@ -56,7 +56,7 @@ func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
 
 func (h *V1Client) UpdateProject(uid string, body *models.V1ProjectEntity) error {
 	params := clientV1.NewV1ProjectsUIDUpdateParams().WithBody(body).WithUID(uid)
-	_, err := h.GetClient().V1ProjectsUIDUpdate(params)
+	_, err := h.Client.V1ProjectsUIDUpdate(params)
 	if err != nil {
 		return err
 	}
@@ -65,7 +65,7 @@ func (h *V1Client) UpdateProject(uid string, body *models.V1ProjectEntity) error
 
 func (h *V1Client) DeleteProject(uid string) error {
 	params := clientV1.NewV1ProjectsUIDDeleteParams().WithUID(uid)
-	_, err := h.GetClient().V1ProjectsUIDDelete(params)
+	_, err := h.Client.V1ProjectsUIDDelete(params)
 	if err != nil {
 		return err
 	}

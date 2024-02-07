@@ -30,7 +30,7 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(scope, uid, name, namespace st
 		return nil, fmt.Errorf("invalid scope %s", scope)
 	}
 
-	success, err := h.GetClient().V1SpectroClustersVMGet(params)
+	success, err := h.Client.V1SpectroClustersVMGet(params)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*mode
 		return nil, errors.New("invalid cluster scope specified")
 	}
 
-	vms, err := h.GetClient().V1SpectroClustersVMList(params)
+	vms, err := h.Client.V1SpectroClustersVMList(params)
 	if err != nil {
 		return nil, err
 	}
