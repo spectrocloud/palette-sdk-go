@@ -1,125 +1,82 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntity, scope string) (string, error) {
-	var params *clientV1.V1SpectroClustersAzureCreateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersAzureCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersAzureCreateParams().WithBody(cluster)
-	}
-
-	success, err := h.Client.V1SpectroClustersAzureCreate(params)
+func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntity) (string, error) {
+	params := clientV1.NewV1SpectroClustersAzureCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersAzureCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAzure(CloudConfigId, scope string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
-	var params *clientV1.V1CloudConfigsAzureMachinePoolCreateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
-	}
-
+func (h *V1Client) CreateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsAzureMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAzure(CloudConfigId, scope string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
-	var params *clientV1.V1CloudConfigsAzureMachinePoolUpdateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(CloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolUpdateParams().
-			WithConfigUID(CloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	}
-
+func (h *V1Client) UpdateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(*machinePool.PoolConfig.Name).
+		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAzure(CloudConfigId, machinePoolName, scope string) error {
-	var params *clientV1.V1CloudConfigsAzureMachinePoolDeleteParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAzureMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
-	}
-
+func (h *V1Client) DeleteMachinePoolAzure(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAzure(configUID, scope string) (*models.V1AzureCloudConfig, error) {
-	var params *clientV1.V1CloudConfigsAzureGetParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAzureGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAzureGetParams().WithConfigUID(configUID)
-	}
-
-	success, err := h.Client.V1CloudConfigsAzureGet(params)
-
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetCloudConfigAzure(configUid string) (*models.V1AzureCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsAzureGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsAzureGet(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersAzureImportParamsWithContext(h.Ctx).WithBody(
-		&models.V1SpectroAzureClusterImportEntity{
+	params := clientV1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
+		WithBody(&models.V1SpectroAzureClusterImportEntity{
 			Metadata: meta,
 		},
-	)
-	success, err := h.Client.V1SpectroClustersAzureImport(params)
+		)
+	resp, err := h.Client.V1SpectroClustersAzureImport(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName, scope string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clientV1.V1CloudConfigsAzurePoolMachinesListParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAzurePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	}
-
+func (h *V1Client) GetNodeStatusMapAzure(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAzurePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {
 			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }

@@ -5,47 +5,45 @@ import (
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, error) {
-	params := clientV1.NewV1TagFiltersCreateParams().WithBody(body)
-	tag, err := h.Client.V1TagFiltersCreate(params)
+	params := clientV1.NewV1TagFiltersCreateParamsWithContext(h.ctx).
+		WithBody(body)
+	resp, err := h.Client.V1TagFiltersCreate(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return tag.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
-	params := clientV1.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
+	params := clientV1.NewV1TagFilterUIDUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TagFilterUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) {
-	params := clientV1.NewV1TagFilterUIDGetParams().WithUID(uid)
-	success, err := h.Client.V1TagFilterUIDGet(params)
+	params := clientV1.NewV1TagFilterUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1TagFilterUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) ListTagFilters() (*models.V1FiltersSummary, error) {
-	limit := int64(0)
-	params := clientV1.NewV1FiltersListParams().WithLimit(&limit)
-	success, err := h.Client.V1FiltersList(params)
+	params := clientV1.NewV1FiltersListParamsWithContext(h.ctx).
+		WithLimit(apiutil.Ptr(int64(0)))
+	resp, err := h.Client.V1FiltersList(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, error) {
@@ -53,22 +51,17 @@ func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, err
 	if err != nil {
 		return nil, err
 	}
-
 	for _, filter := range filters.Items {
 		if filter.Metadata.Name == name {
 			return filter, nil
 		}
 	}
-
 	return nil, fmt.Errorf("filter not found for name %s", name)
 }
 
 func (h *V1Client) DeleteTag(uid string) error {
-	params := clientV1.NewV1TagFilterUIDDeleteParams().WithUID(uid)
+	params := clientV1.NewV1TagFilterUIDDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1TagFilterUIDDelete(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }

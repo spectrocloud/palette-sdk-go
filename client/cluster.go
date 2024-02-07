@@ -1,78 +1,68 @@
 package client
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) DeleteCluster(scope, uid string) error {
-	cluster, err := h.GetCluster(scope, uid)
+func (h *V1Client) DeleteCluster(uid string) error {
+	cluster, err := h.GetCluster(uid)
 	if err != nil || cluster == nil {
 		return err
 	}
-
-	var params *clientV1.V1SpectroClustersDeleteParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersDeleteParams().WithUID(uid)
-	}
-
+	params := clientV1.NewV1SpectroClustersDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err = h.Client.V1SpectroClustersDelete(params)
 	return err
 }
 
-func (h *V1Client) ForceDeleteCluster(scope, uid string, forceDelete bool) error {
-	cluster, err := h.GetCluster(scope, uid)
+func (h *V1Client) ForceDeleteCluster(uid string, forceDelete bool) error {
+	cluster, err := h.GetCluster(uid)
 	if err != nil || cluster == nil {
 		return err
 	}
-
-	var params *clientV1.V1SpectroClustersDeleteParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersDeleteParamsWithContext(h.Ctx).WithUID(uid).WithForceDelete(&forceDelete)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersDeleteParams().WithUID(uid).WithForceDelete(&forceDelete)
-	}
-
+	params := clientV1.NewV1SpectroClustersDeleteParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithForceDelete(&forceDelete)
 	_, err = h.Client.V1SpectroClustersDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCluster(scope, uid string) (*models.V1SpectroCluster, error) {
-	cluster, err := h.GetClusterWithoutStatus(scope, uid)
+func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
+	cluster, err := h.GetClusterWithoutStatus(uid)
 	if err != nil {
 		return nil, err
 	}
-
 	if cluster == nil || cluster.Status.State == "Deleted" {
 		return nil, nil
 	}
-
 	return cluster, nil
 }
 
-func (h *V1Client) GetClusterSummary(scope, clusterId string) (*models.V1SpectroClusterUIDSummary, error) {
-	var params *clientV1.V1SpectroClustersSummaryUIDParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersSummaryUIDParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersSummaryUIDParams()
-	default:
-		return nil, fmt.Errorf("invalid scope %s", scope)
+func (h *V1Client) GetClusterByName(name string, virtual bool) (*models.V1SpectroCluster, error) {
+	filters := []*models.V1SearchFilterItem{clusterNameEqFilter(name)}
+	clusterSummaries, err := h.SearchClusterSummaries(getClusterFilter(filters, virtual), nil)
+	if err != nil {
+		return nil, err
 	}
-	params = params.WithUID(clusterId)
+	if len(clusterSummaries) != 1 {
+		return nil, fmt.Errorf("expected 1 cluster: got %d", len(clusterSummaries))
+	}
+	cluster, err := h.GetCluster(clusterSummaries[0].Metadata.UID)
+	if err != nil {
+		return nil, err
+	}
+	return cluster, nil
+}
 
+func (h *V1Client) GetClusterSummary(clusterId string) (*models.V1SpectroClusterUIDSummary, error) {
+	params := clientV1.NewV1SpectroClustersSummaryUIDParamsWithContext(h.ctx).
+		WithUID(clusterId)
 	resp, err := h.Client.V1SpectroClustersSummaryUID(params)
 	if err != nil {
 		return nil, err
@@ -80,63 +70,33 @@ func (h *V1Client) GetClusterSummary(scope, clusterId string) (*models.V1Spectro
 	return resp.Payload, nil
 }
 
-func (h *V1Client) SearchClusterSummaries(scope string, filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
-	var params *clientV1.V1SpectroClustersSearchFilterSummaryParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersSearchFilterSummaryParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersSearchFilterSummaryParams()
-	}
-	params.Body = &models.V1SearchFilterSummarySpec{
-		Filter: filter,
-		Sort:   sort,
-	}
-
+func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
+	params := clientV1.NewV1SpectroClustersSearchFilterSummaryParamsWithContext(h.ctx).
+		WithBody(&models.V1SearchFilterSummarySpec{
+			Filter: filter,
+			Sort:   sort,
+		})
 	resp, err := h.Client.V1SpectroClustersSearchFilterSummary(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1SpectroCluster, error) {
-	var params *clientV1.V1SpectroClustersGetParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersGetParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersGetParams().WithUID(uid)
-	default:
-		return nil, fmt.Errorf("invalid scope %s", scope)
-	}
-
-	success, err := h.Client.V1SpectroClustersGet(params)
+func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster, error) {
+	params := clientV1.NewV1SpectroClustersGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1SpectroClustersGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	// special check if the cluster is marked deleted
-	cluster := success.Payload
-	return cluster, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetClusterKubeConfig(uid, scope string) (string, error) {
-	var params *clientV1.V1SpectroClustersUIDKubeConfigParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUIDKubeConfigParams().WithUID(uid)
-	default:
-		return "", errors.New("invalid cluster scope specified")
-	}
-
-	builder := new(strings.Builder)
+func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
+	builder := &strings.Builder{}
+	params := clientV1.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1SpectroClustersUIDKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
@@ -144,31 +104,13 @@ func (h *V1Client) GetClusterKubeConfig(uid, scope string) (string, error) {
 		}
 		return "", err
 	}
-	kubeconfig := builder.String()
-
-	if apiutil.IsBase64(kubeconfig) {
-		if bytes, err := apiutil.Base64DecodeString(kubeconfig); err != nil {
-			return "", err
-		} else {
-			return string(bytes), nil
-		}
-	} else {
-		return kubeconfig, nil
-	}
+	return parseKubeconfig(builder)
 }
 
-func (h *V1Client) GetClusterAdminKubeConfig(uid, scope string) (string, error) {
-	var params *clientV1.V1SpectroClustersUIDAdminKubeConfigParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUIDAdminKubeConfigParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUIDAdminKubeConfigParams().WithUID(uid)
-	default:
-		return "", errors.New("invalid cluster scope specified")
-	}
-
-	builder := new(strings.Builder)
+func (h *V1Client) GetClusterAdminKubeConfig(uid string) (string, error) {
+	builder := &strings.Builder{}
+	params := clientV1.NewV1SpectroClustersUIDAdminKubeConfigParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1SpectroClustersUIDAdminKubeConfig(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
@@ -176,90 +118,128 @@ func (h *V1Client) GetClusterAdminKubeConfig(uid, scope string) (string, error) 
 		}
 		return "", err
 	}
-
-	return builder.String(), nil
+	return parseKubeconfig(builder)
 }
 
-func (h *V1Client) GetClusterImportManifest(uid, scope string) (string, error) {
-	builder := new(strings.Builder)
-	var params *clientV1.V1SpectroClustersUIDImportManifestParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUIDImportManifestParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUIDImportManifestParams().WithUID(uid)
+func parseKubeconfig(builder *strings.Builder) (string, error) {
+	kubeconfig := builder.String()
+	if apiutil.IsBase64(kubeconfig) {
+		bytes, err := apiutil.Base64DecodeString(kubeconfig)
+		if err != nil {
+			return "", err
+		}
+		return string(bytes), nil
 	}
+	return kubeconfig, nil
+}
 
+func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
+	builder := &strings.Builder{}
+	params := clientV1.NewV1SpectroClustersUIDImportManifestParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1SpectroClustersUIDImportManifest(params, builder)
 	if err != nil {
 		return "", err
 	}
-
 	return builder.String(), nil
 }
 
 func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *models.V1SpectroClusterProfiles) error {
-	var params *clientV1.V1SpectroClustersUpdateProfilesParams
-	switch context {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.Ctx).WithUID(uid).
-			WithBody(profiles).WithResolveNotification(Ptr(true))
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUpdateProfilesParams().WithUID(uid).
-			WithBody(profiles).WithResolveNotification(Ptr(true))
-	}
-
+	params := clientV1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(profiles).
+		WithResolveNotification(apiutil.Ptr(true))
 	_, err := h.Client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
 
 func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersGenericImportParamsWithContext(h.Ctx).WithBody(
-		&models.V1SpectroGenericClusterImportEntity{
+	params := clientV1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
+		WithBody(&models.V1SpectroGenericClusterImportEntity{
 			Metadata: meta,
-		},
-	)
-	success, err := h.Client.V1SpectroClustersGenericImport(params)
+		})
+	resp, err := h.Client.V1SpectroClustersGenericImport(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) ApproveClusterRepave(context, clusterUID string) error {
-	var params *clientV1.V1SpectroClustersUIDRepaveApproveUpdateParams
-	switch context {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.Ctx).WithUID(clusterUID)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUIDRepaveApproveUpdateParams().WithUID(clusterUID)
-	default:
-		return fmt.Errorf("invalid context: %s", context)
-	}
-
+func (h *V1Client) ApproveClusterRepave(clusterUid string) error {
+	params := clientV1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
+		WithUID(clusterUid)
 	_, err := h.Client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
 }
 
-func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error) {
-	var params *clientV1.V1SpectroClustersUIDRepaveGetParams
-	switch context {
-	case "project":
-		params = clientV1.NewV1SpectroClustersUIDRepaveGetParamsWithContext(h.Ctx).WithUID(clusterUID)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersUIDRepaveGetParams().WithUID(clusterUID)
-	default:
-		return nil, fmt.Errorf("invalid context: %s", context)
-	}
-
-	res, err := h.Client.V1SpectroClustersUIDRepaveGet(params)
+func (h *V1Client) GetRepaveReasons(clusterUid string) ([]string, error) {
+	params := clientV1.NewV1SpectroClustersUIDRepaveGetParamsWithContext(h.ctx).
+		WithUID(clusterUid)
+	resp, err := h.Client.V1SpectroClustersUIDRepaveGet(params)
 	if err != nil {
 		return nil, err
 	}
 	var reasons []string
-	for _, r := range res.Payload.Spec.Reasons {
-		reasons = append(reasons, fmt.Sprintf("Repave Reason Code -  %s , Reason - %s.", r.Code, r.Message))
+	for _, r := range resp.Payload.Spec.Reasons {
+		reasons = append(reasons, fmt.Sprintf("Repave - Code: %s, Reason: %s", r.Code, r.Message))
 	}
-	return reasons, err
+	return reasons, nil
+}
+
+func getClusterFilter(extraFilters []*models.V1SearchFilterItem, virtual bool) *models.V1SearchFilterSpec {
+	filter := &models.V1SearchFilterSpec{
+		Conjunction: and(),
+		FilterGroups: []*models.V1SearchFilterGroup{
+			{
+				Conjunction: and(),
+				Filters: []*models.V1SearchFilterItem{
+					{
+						Condition: &models.V1SearchFilterCondition{
+							String: &models.V1SearchFilterStringCondition{
+								Match: &models.V1SearchFilterStringConditionMatch{
+									Conjunction: or(),
+									Values:      []string{"nested"},
+								},
+								Negation: !virtual,
+								Operator: models.V1SearchFilterStringOperatorEq,
+							},
+						},
+						Property: "environment",
+						Type:     models.V1SearchFilterPropertyTypeString,
+					},
+					{
+						Condition: &models.V1SearchFilterCondition{
+							Bool: &models.V1SearchFilterBoolCondition{
+								Value: false,
+							},
+						},
+						Property: "isDeleted",
+						Type:     models.V1SearchFilterPropertyTypeBool,
+					},
+				},
+			},
+		},
+	}
+
+	filter.FilterGroups = append(filter.FilterGroups, &models.V1SearchFilterGroup{Conjunction: and(), Filters: extraFilters})
+
+	return filter
+}
+
+func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
+	return &models.V1SearchFilterItem{
+		Condition: &models.V1SearchFilterCondition{
+			String: &models.V1SearchFilterStringCondition{
+				Match: &models.V1SearchFilterStringConditionMatch{
+					Conjunction: or(),
+					Values:      []string{name},
+				},
+				Operator:   models.V1SearchFilterStringOperatorEq,
+				Negation:   false,
+				IgnoreCase: false,
+			},
+		},
+		Property: "clusterName",
+		Type:     models.V1SearchFilterPropertyTypeString,
+	}
 }

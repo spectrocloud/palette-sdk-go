@@ -12,16 +12,13 @@ import (
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 )
 
-const (
-	authTokenInput string = "header"
-	authApiKey     string = "ApiKey"
-)
-
 type V1Client struct {
-	Client             clientV1.ClientService
-	Ctx                context.Context
+	Client clientV1.ClientService
+
+	ctx                context.Context
 	apikey             string
 	hubbleUri          string
+	projectUid         string
 	schemes            []string
 	insecureSkipVerify bool
 	transportDebug     bool
@@ -30,7 +27,7 @@ type V1Client struct {
 
 func New(options ...func(*V1Client)) *V1Client {
 	client := &V1Client{
-		Ctx:           context.Background(),
+		ctx:           context.Background(),
 		retryAttempts: 0,
 		schemes:       []string{"https"},
 	}
@@ -59,9 +56,16 @@ func WithInsecureSkipVerify(insecureSkipVerify bool) func(*V1Client) {
 	}
 }
 
-func WithProjectUID(projectUid string) func(*V1Client) {
+func WithScopeProject(projectUid string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.Ctx = ContextWithProject(v.Ctx, projectUid)
+		v.projectUid = projectUid
+		v.ctx = ContextForScope("project", projectUid)
+	}
+}
+
+func WithScopeTenant() func(*V1Client) {
+	return func(v *V1Client) {
+		v.ctx = ContextForScope("tenant", "")
 	}
 }
 
@@ -81,6 +85,18 @@ func WithTransportDebug() func(*V1Client) {
 	return func(v *V1Client) {
 		v.transportDebug = true
 	}
+}
+
+func ContextForScope(scope, projectUid string) context.Context {
+	ctx := context.Background()
+	if scope == "project" {
+		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
+			HeaderMap: map[string]string{
+				"ProjectUid": projectUid,
+			}},
+		)
+	}
+	return ctx
 }
 
 func (h *V1Client) getTransport() *transport.Runtime {
@@ -138,11 +154,4 @@ func (h *V1Client) ValidateTenantAdmin() error {
 		}
 	}
 	return nil
-}
-
-func ContextWithProject(c context.Context, projectUid string) context.Context {
-	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
-		HeaderMap: map[string]string{
-			"ProjectUid": projectUid,
-		}})
 }

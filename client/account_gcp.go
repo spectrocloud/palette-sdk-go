@@ -1,81 +1,52 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity, AccountContext string) (string, error) {
-	var params *clientV1.V1CloudAccountsGcpCreateParams
-	switch AccountContext {
-	case "project":
-		params = clientV1.NewV1CloudAccountsGcpCreateParamsWithContext(h.Ctx).WithBody(account)
-	case "tenant":
-		params = clientV1.NewV1CloudAccountsGcpCreateParams().WithBody(account)
-	}
-
-	success, err := h.Client.V1CloudAccountsGcpCreate(params)
+func (h *V1Client) CreateCloudAccountGcp(account *models.V1GcpAccountEntity) (string, error) {
+	params := clientV1.NewV1CloudAccountsGcpCreateParamsWithContext(h.ctx).
+		WithBody(account)
+	resp, err := h.Client.V1CloudAccountsGcpCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) UpdateCloudAccountGcp(account *models.V1GcpAccountEntity) error {
-	uid := account.Metadata.UID
-	params := clientV1.NewV1CloudAccountsGcpUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(account)
+	params := clientV1.NewV1CloudAccountsGcpUpdateParamsWithContext(h.ctx).
+		WithUID(account.Metadata.UID).
+		WithBody(account)
 	_, err := h.Client.V1CloudAccountsGcpUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteCloudAccountGcp(uid, AccountContext string) error {
-	var params *clientV1.V1CloudAccountsGcpDeleteParams
-	switch AccountContext {
-	case "project":
-		params = clientV1.NewV1CloudAccountsGcpDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1CloudAccountsGcpDeleteParams().WithUID(uid)
-	}
-
+func (h *V1Client) DeleteCloudAccountGcp(uid string) error {
+	params := clientV1.NewV1CloudAccountsGcpDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1CloudAccountsGcpDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudAccountGcp(uid, AccountContext string) (*models.V1GcpAccount, error) {
-	var params *clientV1.V1CloudAccountsGcpGetParams
-	switch AccountContext {
-	case "project":
-		params = clientV1.NewV1CloudAccountsGcpGetParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1CloudAccountsGcpGetParams().WithUID(uid)
-	}
-
-	success, err := h.Client.V1CloudAccountsGcpGet(params)
-
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetCloudAccountGcp(uid string) (*models.V1GcpAccount, error) {
+	params := clientV1.NewV1CloudAccountsGcpGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1CloudAccountsGcpGet(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetCloudAccountsGcp() ([]*models.V1GcpAccount, error) {
-	limit := int64(0)
-	params := clientV1.NewV1CloudAccountsGcpListParamsWithContext(h.Ctx).WithLimit(&limit)
-	response, err := h.Client.V1CloudAccountsGcpList(params)
+	params := clientV1.NewV1CloudAccountsGcpListParamsWithContext(h.ctx).
+		WithLimit(apiutil.Ptr(int64(0)))
+	resp, err := h.Client.V1CloudAccountsGcpList(params)
 	if err != nil {
 		return nil, err
 	}
-
-	accounts := make([]*models.V1GcpAccount, len(response.Payload.Items))
-	copy(accounts, response.Payload.Items)
-
-	return accounts, nil
+	return resp.Payload.Items, nil
 }

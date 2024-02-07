@@ -1,7 +1,6 @@
 package client
 
 import (
-	"errors"
 	"fmt"
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
@@ -9,12 +8,13 @@ import (
 )
 
 func (h *V1Client) CreateProject(body *models.V1ProjectEntity) (string, error) {
-	params := clientV1.NewV1ProjectsCreateParams().WithBody(body)
-	success, err := h.Client.V1ProjectsCreate(params)
+	params := clientV1.NewV1ProjectsCreateParamsWithContext(h.ctx).
+		WithBody(body)
+	resp, err := h.Client.V1ProjectsCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) GetProjectUID(projectName string) (string, error) {
@@ -33,41 +33,35 @@ func (h *V1Client) GetProjectUID(projectName string) (string, error) {
 }
 
 func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
-	params := clientV1.NewV1ProjectsUIDGetParams().WithUID(uid)
-	project, err := h.Client.V1ProjectsUIDGet(params)
+	params := clientV1.NewV1ProjectsUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1ProjectsUIDGet(params)
 	if err != nil {
 		return nil, err
-	} else if project == nil {
-		return nil, errors.New("project not found")
 	}
-	return project.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
-	params := clientV1.NewV1ProjectsMetadataParams()
-	projects, err := h.Client.V1ProjectsMetadata(params)
+	params := clientV1.NewV1ProjectsMetadataParamsWithContext(h.ctx)
+	resp, err := h.Client.V1ProjectsMetadata(params)
 	if err != nil {
 		return nil, err
-	} else if projects == nil {
-		return nil, errors.New("projects not found")
 	}
-	return projects.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) UpdateProject(uid string, body *models.V1ProjectEntity) error {
-	params := clientV1.NewV1ProjectsUIDUpdateParams().WithBody(body).WithUID(uid)
+	params := clientV1.NewV1ProjectsUIDUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1ProjectsUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (h *V1Client) DeleteProject(uid string) error {
-	params := clientV1.NewV1ProjectsUIDDeleteParams().WithUID(uid)
+	params := clientV1.NewV1ProjectsUIDDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1ProjectsUIDDelete(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }

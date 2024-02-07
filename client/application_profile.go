@@ -8,17 +8,17 @@ import (
 	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
 func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version string) (*models.V1AppProfileSummary, string, string, error) {
-	limit := int64(0)
-	params := clientV1.NewV1DashboardAppProfilesParamsWithContext(h.Ctx).WithLimit(&limit)
+	params := clientV1.NewV1DashboardAppProfilesParamsWithContext(h.ctx).
+		WithLimit(apiutil.Ptr(int64(0)))
 	profiles, err := h.Client.V1DashboardAppProfiles(params)
 	if err != nil {
 		return nil, "", "", err
 	}
-
 	for _, profile := range profiles.Payload.AppProfiles {
 		if profile.Metadata.Name == profileName {
 			for i := range profile.Spec.Versions {
@@ -32,66 +32,50 @@ func (h *V1Client) GetApplicationProfileByNameAndVersion(profileName, version st
 }
 
 func (h *V1Client) GetApplicationProfile(uid string) (*models.V1AppProfile, error) {
-	params := clientV1.NewV1AppProfilesUIDGetParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.Client.V1AppProfilesUIDGet(params)
+	params := clientV1.NewV1AppProfilesUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1AppProfilesUIDGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return response.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*models.V1AppTier, error) {
-	params := clientV1.NewV1AppProfilesUIDTiersGetParamsWithContext(h.Ctx).WithUID(applicationProfileUID)
-	success, err := h.Client.V1AppProfilesUIDTiersGet(params)
-
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	params := clientV1.NewV1AppProfilesUIDTiersGetParamsWithContext(h.ctx).
+		WithUID(applicationProfileUID)
+	resp, err := h.Client.V1AppProfilesUIDTiersGet(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload.Spec.AppTiers, nil
+	return resp.Payload.Spec.AppTiers, nil
 }
 
 func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUID, tierUID, manifestUID string) (string, error) {
-	params := &clientV1.V1AppProfilesUIDTiersUIDManifestsUIDGetParams{
-		UID:         applicationProfileUID,
-		TierUID:     tierUID,
-		ManifestUID: manifestUID,
-		Context:     h.Ctx,
-	}
-
-	success, err := h.Client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
-
+	params := clientV1.NewV1AppProfilesUIDTiersUIDManifestsUIDGetParamsWithContext(h.ctx).
+		WithUID(applicationProfileUID).
+		WithTierUID(tierUID).
+		WithManifestUID(manifestUID)
+	resp, err := h.Client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
 		return "", nil
 	} else if err != nil {
 		return "", err
 	}
-
-	return success.Payload.Spec.Published.Content, nil
+	return resp.Payload.Spec.Published.Content, nil
 }
 
-func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec) ([]*models.V1AppProfileSummary, error) {
-	var params *clientV1.V1DashboardAppProfilesParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1DashboardAppProfilesParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clientV1.NewV1DashboardAppProfilesParams()
-	}
-	params.Body = &models.V1AppProfilesFilterSpec{
-		Filter: filter,
-		Sort:   sortBy,
-	}
-
-	var appProfile []*models.V1AppProfileSummary
+func (h *V1Client) SearchAppProfileSummaries(filter *models.V1AppProfileFilterSpec, sortBy []*models.V1AppProfileSortSpec) ([]*models.V1AppProfileSummary, error) {
+	params := clientV1.NewV1DashboardAppProfilesParamsWithContext(h.ctx).
+		WithBody(&models.V1AppProfilesFilterSpec{
+			Filter: filter,
+			Sort:   sortBy,
+		})
+	var appProfiles []*models.V1AppProfileSummary
 	var resp *clientV1.V1DashboardAppProfilesOK
 	var err error
 	for {
@@ -107,7 +91,7 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 		}
 		if resp != nil && resp.Payload != nil {
 			if resp.Payload.AppProfiles != nil {
-				appProfile = append(appProfile, resp.Payload.AppProfiles...)
+				appProfiles = append(appProfiles, resp.Payload.AppProfiles...)
 			}
 			if resp.Payload.Listmeta == nil || len(resp.Payload.Listmeta.Continue) == 0 {
 				break
@@ -116,33 +100,23 @@ func (h *V1Client) SearchAppProfileSummaries(scope string, filter *models.V1AppP
 			break
 		}
 	}
-	return appProfile, nil
+	return appProfiles, nil
 }
 
-func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *models.V1AppProfileMetaEntity, ProfileContext string) error {
-	var params *clientV1.V1AppProfilesUIDMetadataUpdateParams
-	switch ProfileContext {
-	case "project":
-		params = clientV1.NewV1AppProfilesUIDMetadataUpdateParamsWithContext(h.Ctx).WithUID(appProfileUID).WithBody(metadata)
-	case "tenant":
-		params = clientV1.NewV1AppProfilesUIDMetadataUpdateParams().WithUID(appProfileUID).WithBody(metadata)
-	}
-
+func (h *V1Client) PatchApplicationProfile(appProfileUID string, metadata *models.V1AppProfileMetaEntity) error {
+	params := clientV1.NewV1AppProfilesUIDMetadataUpdateParamsWithContext(h.ctx).
+		WithUID(appProfileUID).
+		WithBody(metadata)
 	_, err := h.Client.V1AppProfilesUIDMetadataUpdate(params)
 	return err
 }
 
-func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers []*models.V1AppTierEntity, ProfileContext string) error {
+func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers []*models.V1AppTierEntity) error {
 	var err error
 	for _, appTier := range appTiers {
-		var params *clientV1.V1AppProfilesUIDTiersCreateParams
-		switch ProfileContext {
-		case "project":
-			params = clientV1.NewV1AppProfilesUIDTiersCreateParamsWithContext(h.Ctx).WithUID(appProfileUID).WithBody(appTier)
-		case "tenant":
-			params = clientV1.NewV1AppProfilesUIDTiersCreateParams().WithUID(appProfileUID).WithBody(appTier)
-		}
-
+		params := clientV1.NewV1AppProfilesUIDTiersCreateParamsWithContext(h.ctx).
+			WithUID(appProfileUID).
+			WithBody(appTier)
 		_, tmpErr := h.Client.V1AppProfilesUIDTiersCreate(params)
 		if tmpErr != nil {
 			err = errors.Wrap(err, tmpErr.Error())
@@ -151,15 +125,11 @@ func (h *V1Client) CreateApplicationProfileTiers(appProfileUID string, appTiers 
 	return err
 }
 
-func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, appTier *models.V1AppTierUpdateEntity, ProfileContext string) error {
-	var params *clientV1.V1AppProfilesUIDTiersUIDUpdateParams
-	switch ProfileContext {
-	case "project":
-		params = clientV1.NewV1AppProfilesUIDTiersUIDUpdateParamsWithContext(h.Ctx).WithUID(appProfileUID).WithTierUID(tierUID).WithBody(appTier)
-	case "tenant":
-		params = clientV1.NewV1AppProfilesUIDTiersUIDUpdateParams().WithUID(appProfileUID).WithTierUID(tierUID).WithBody(appTier)
-	}
-
+func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, appTier *models.V1AppTierUpdateEntity) error {
+	params := clientV1.NewV1AppProfilesUIDTiersUIDUpdateParamsWithContext(h.ctx).
+		WithUID(appProfileUID).
+		WithTierUID(tierUID).
+		WithBody(appTier)
 	_, err := h.Client.V1AppProfilesUIDTiersUIDUpdate(params)
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
@@ -167,21 +137,15 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 	} else if err != nil {
 		return err
 	}
-
 	return err
 }
 
-func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers []string, ProfileContext string) error {
+func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers []string) error {
 	var err error
 	for _, appTierUID := range appTiers {
-		var params *clientV1.V1AppProfilesUIDTiersUIDDeleteParams
-		switch ProfileContext {
-		case "project":
-			params = clientV1.NewV1AppProfilesUIDTiersUIDDeleteParamsWithContext(h.Ctx).WithUID(appProfileUID).WithTierUID(appTierUID)
-		case "tenant":
-			params = clientV1.NewV1AppProfilesUIDTiersUIDDeleteParams().WithUID(appProfileUID).WithTierUID(appTierUID)
-		}
-
+		params := clientV1.NewV1AppProfilesUIDTiersUIDDeleteParamsWithContext(h.ctx).
+			WithUID(appProfileUID).
+			WithTierUID(appTierUID)
 		_, tmpErr := h.Client.V1AppProfilesUIDTiersUIDDelete(params)
 		if tmpErr != nil {
 			err = errors.Wrap(err, tmpErr.Error())
@@ -190,21 +154,14 @@ func (h *V1Client) DeleteApplicationProfileTiers(appProfileUID string, appTiers 
 	return err
 }
 
-func (h *V1Client) CreateApplicationProfile(appProfile *models.V1AppProfileEntity, ProfileContext string) (string, error) {
-	var params *clientV1.V1AppProfilesCreateParams
-	switch ProfileContext {
-	case "project":
-		params = clientV1.NewV1AppProfilesCreateParams().WithContext(h.Ctx).WithBody(appProfile)
-	case "tenant":
-		params = clientV1.NewV1AppProfilesCreateParams().WithBody(appProfile)
-	}
-
-	success, err := h.Client.V1AppProfilesCreate(params)
+func (h *V1Client) CreateApplicationProfile(appProfile *models.V1AppProfileEntity) (string, error) {
+	params := clientV1.NewV1AppProfilesCreateParamsWithContext(h.ctx).
+		WithBody(appProfile)
+	resp, err := h.Client.V1AppProfilesCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) DeleteApplicationProfile(uid string) error {
@@ -212,15 +169,9 @@ func (h *V1Client) DeleteApplicationProfile(uid string) error {
 	if err != nil {
 		return err
 	}
-
-	var params *clientV1.V1AppProfilesUIDDeleteParams
-	switch profile.Metadata.Annotations["scope"] {
-	case "project":
-		params = clientV1.NewV1AppProfilesUIDDeleteParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clientV1.NewV1AppProfilesUIDDeleteParams().WithUID(uid)
-	}
-
+	params := clientV1.NewV1AppProfilesUIDDeleteParams().
+		WithContext(ContextForScope(profile.Metadata.Annotations[Scope], h.projectUid)).
+		WithUID(uid)
 	_, err = h.Client.V1AppProfilesUIDDelete(params)
 	return err
 }

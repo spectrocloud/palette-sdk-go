@@ -6,139 +6,123 @@ import (
 )
 
 func (h *V1Client) CreateTeam(team *models.V1Team) (string, error) {
-	params := clientV1.NewV1TeamsCreateParams().WithBody(team)
-	success, err := h.Client.V1TeamsCreate(params)
+	params := clientV1.NewV1TeamsCreateParamsWithContext(h.ctx).
+		WithBody(team)
+	resp, err := h.Client.V1TeamsCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) UpdateTeam(uid string, team *models.V1Team) error {
-	params := clientV1.NewV1TeamsUIDUpdateParams().WithBody(team).WithUID(uid)
+	params := clientV1.NewV1TeamsUIDUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(team)
 	_, err := h.Client.V1TeamsUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
-	params := clientV1.NewV1TeamsUIDGetParams().WithUID(uid)
-	success, err := h.Client.V1TeamsUIDGet(params)
+	params := clientV1.NewV1TeamsUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1TeamsUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) DeleteTeam(uid string) error {
-	params := clientV1.NewV1TeamsUIDDeleteParams().WithUID(uid)
+	params := clientV1.NewV1TeamsUIDDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
 	_, err := h.Client.V1TeamsUIDDelete(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) AssociateTeamProjectRole(uid string, body *models.V1ProjectRolesPatch) error {
-	params := clientV1.NewV1TeamsProjectRolesPutParams().WithUID(uid).WithBody(body)
+	params := clientV1.NewV1TeamsProjectRolesPutParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TeamsProjectRolesPut(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTeamProjectRoleAssociation(uid string) (*models.V1ProjectRolesEntity, error) {
-	params := clientV1.NewV1TeamsProjectRolesParams().WithUID(uid)
-	success, err := h.Client.V1TeamsProjectRoles(params)
+	params := clientV1.NewV1TeamsProjectRolesParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1TeamsProjectRoles(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) AssociateTeamTenantRole(uid string, body *models.V1TeamTenantRolesUpdate) error {
-	params := clientV1.NewV1TeamsUIDTenantRolesUpdateParams().WithUID(uid).WithBody(body)
+	params := clientV1.NewV1TeamsUIDTenantRolesUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TeamsUIDTenantRolesUpdate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTeamTenantRoleAssociation(uid string) (*models.V1TeamTenantRolesEntity, error) {
-	params := clientV1.NewV1TeamsUIDTenantRolesGetParams().WithUID(uid)
-	success, err := h.Client.V1TeamsUIDTenantRolesGet(params)
+	params := clientV1.NewV1TeamsUIDTenantRolesGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1TeamsUIDTenantRolesGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) AssociateTeamWorkspaceRole(uid string, body *models.V1WorkspacesRolesPatch) error {
-	params := clientV1.NewV1TeamsWorkspaceRolesPutParams().WithTeamUID(uid).WithBody(body)
+	params := clientV1.NewV1TeamsWorkspaceRolesPutParamsWithContext(h.ctx).
+		WithTeamUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TeamsWorkspaceRolesPut(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTeamWorkspaceRoleAssociation(uid string) (*models.V1WorkspaceScopeRoles, error) {
-	params := clientV1.NewV1TeamsWorkspaceGetRolesParams().WithTeamUID(uid)
-	success, err := h.Client.V1TeamsWorkspaceGetRoles(params)
+	params := clientV1.NewV1TeamsWorkspaceGetRolesParamsWithContext(h.ctx).
+		WithTeamUID(uid)
+	resp, err := h.Client.V1TeamsWorkspaceGetRoles(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) AssociateTeamResourceRole(uid string, body *models.V1ResourceRolesUpdateEntity) error {
-	params := clientV1.NewV1TeamsUIDResourceRolesCreateParams().WithUID(uid).WithBody(body)
+	params := clientV1.NewV1TeamsUIDResourceRolesCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TeamsUIDResourceRolesCreate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) UpdateTeamResourceRole(uid string, body *models.V1ResourceRolesUpdateEntity) error {
-	params := clientV1.NewV1TeamsResourceRolesUIDUpdateParams().WithUID(uid).WithBody(body)
+	params := clientV1.NewV1TeamsResourceRolesUIDUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1TeamsResourceRolesUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 func (h *V1Client) GetTeamResourceRole(uid, name string) (*models.V1UIDSummary, error) {
-	params := clientV1.NewV1TeamsUIDResourceRolesParams().WithUID(uid)
-	success, err := h.Client.V1TeamsUIDResourceRoles(params)
+	params := clientV1.NewV1TeamsUIDResourceRolesParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1TeamsUIDResourceRoles(params)
 	if err != nil {
 		return nil, err
 	}
-
-	for _, roles := range success.Payload.ResourceRoles {
+	for _, roles := range resp.Payload.ResourceRoles {
 		for _, role := range roles.Roles {
 			if role.Name == name {
 				return role, nil
 			}
 		}
 	}
-
 	return nil, nil
 }

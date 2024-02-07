@@ -1,116 +1,73 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity, scope string) (string, error) {
-	var params *clientV1.V1SpectroClustersAwsCreateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1SpectroClustersAwsCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	case "tenant":
-		params = clientV1.NewV1SpectroClustersAwsCreateParams().WithBody(cluster)
-	}
-
-	success, err := h.Client.V1SpectroClustersAwsCreate(params)
+func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity) (string, error) {
+	params := clientV1.NewV1SpectroClustersAwsCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersAwsCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAws(CloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, scope string) error {
-	var params *clientV1.V1CloudConfigsAwsMachinePoolCreateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolCreateParams().WithConfigUID(CloudConfigId).WithBody(machinePool)
-	}
-
+func (h *V1Client) CreateMachinePoolAws(cloudConfigUid string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsAwsMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAws(CloudConfigId string, machinePool *models.V1AwsMachinePoolConfigEntity, scope string) error {
-	var params *clientV1.V1CloudConfigsAwsMachinePoolUpdateParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolUpdateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolUpdateParams().WithConfigUID(CloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	}
-
+func (h *V1Client) UpdateMachinePoolAws(cloudConfigUid string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsAwsMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(*machinePool.PoolConfig.Name).
+		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAws(CloudConfigId, machinePoolName, scope string) error {
-	var params *clientV1.V1CloudConfigsAwsMachinePoolDeleteParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAwsMachinePoolDeleteParams().WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
-	}
-
+func (h *V1Client) DeleteMachinePoolAws(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsAwsMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAws(configUID, scope string) (*models.V1AwsCloudConfig, error) {
-	var params *clientV1.V1CloudConfigsAwsGetParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAwsGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAwsGetParams().WithConfigUID(configUID)
-	}
-
-	success, err := h.Client.V1CloudConfigsAwsGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetCloudConfigAws(configUid string) (*models.V1AwsCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsAwsGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsAwsGet(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersAwsImportParamsWithContext(h.Ctx).WithBody(
-		&models.V1SpectroAwsClusterImportEntity{
+	params := clientV1.NewV1SpectroClustersAwsImportParamsWithContext(h.ctx).
+		WithBody(&models.V1SpectroAwsClusterImportEntity{
 			Metadata: meta,
 		},
-	)
-	success, err := h.Client.V1SpectroClustersAwsImport(params)
+		)
+	resp, err := h.Client.V1SpectroClustersAwsImport(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, scope string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clientV1.V1CloudConfigsAwsPoolMachinesListParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsAwsPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsAwsPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	}
-
+func (h *V1Client) GetNodeStatusMapAws(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsAwsPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAwsPoolMachinesList(params)
 	if err != nil {
 		return nil, err
@@ -123,5 +80,5 @@ func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName, scope string)
 			}
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }

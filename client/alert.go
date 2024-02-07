@@ -6,16 +6,23 @@ import (
 )
 
 func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID, component string) (string, error) {
-	params := clientV1.NewV1ProjectsUIDAlertCreateParams().WithBody(body).WithUID(projectUID).WithComponent(component)
-	success, err := h.Client.V1ProjectsUIDAlertCreate(params)
+	params := clientV1.NewV1ProjectsUIDAlertCreateParamsWithContext(h.ctx).
+		WithBody(body).
+		WithUID(projectUID).
+		WithComponent(component)
+	resp, err := h.Client.V1ProjectsUIDAlertCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, alertUID string) (string, error) {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDUpdateParams().WithBody(body).WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
+	params := clientV1.NewV1ProjectsUIDAlertsUIDUpdateParamsWithContext(h.ctx).
+		WithBody(body).
+		WithUID(projectUID).
+		WithComponent(component).
+		WithAlertUID(alertUID)
 	_, err := h.Client.V1ProjectsUIDAlertsUIDUpdate(params)
 	if err != nil {
 		return "", err
@@ -25,20 +32,23 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, al
 }
 
 func (h *V1Client) ReadAlert(projectUID, component, alertUID string) (*models.V1Channel, error) {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDGetParams().WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
-	success, err := h.Client.V1ProjectsUIDAlertsUIDGet(params)
+	params := clientV1.NewV1ProjectsUIDAlertsUIDGetParamsWithContext(h.ctx).
+		WithUID(projectUID).
+		WithComponent(component).
+		WithAlertUID(alertUID)
+	resp, err := h.Client.V1ProjectsUIDAlertsUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
-	return success.Payload, nil
+	return resp.Payload, nil
 
 }
 
 func (h *V1Client) DeleteAlerts(projectUID, component, alertUID string) error {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDDeleteParams().WithUID(projectUID).WithComponent(component).WithAlertUID(alertUID)
+	params := clientV1.NewV1ProjectsUIDAlertsUIDDeleteParamsWithContext(h.ctx).
+		WithUID(projectUID).
+		WithComponent(component).
+		WithAlertUID(alertUID)
 	_, err := h.Client.V1ProjectsUIDAlertsUIDDelete(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }

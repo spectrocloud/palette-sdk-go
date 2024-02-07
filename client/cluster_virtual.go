@@ -1,67 +1,67 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersVirtualCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	success, err := h.Client.V1SpectroClustersVirtualCreate(params)
+	params := clientV1.NewV1SpectroClustersVirtualCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersVirtualCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1VirtualClusterResize) error {
-	params := clientV1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.Ctx).WithConfigUID(configUID).WithBody(body)
+func (h *V1Client) ResizeClusterVirtual(configUid string, body *models.V1VirtualClusterResize) error {
+	params := clientV1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithBody(body)
 	_, err := h.Client.V1CloudConfigsVirtualUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
-func (h *V1Client) CreateMachinePoolVirtual(CloudConfigId string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithBody(machinePool)
+func (h *V1Client) CreateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVirtual(CloudConfigId string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.Ctx).
-		WithConfigUID(CloudConfigId).
+func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVirtual(CloudConfigId, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(CloudConfigId).WithMachinePoolName(machinePoolName)
+func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsVirtualGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	success, err := h.Client.V1CloudConfigsVirtualGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetCloudConfigVirtual(configUid string) (*models.V1VirtualCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsVirtualGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsVirtualGet(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.V1LifecycleConfigEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(body)
+	params := clientV1.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
 	_, err := h.Client.V1SpectroClustersUIDLifecycleConfigUpdate(params)
 	if err != nil {
 		return "Fail", err
@@ -69,21 +69,19 @@ func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.
 	return "Success", nil
 }
 
-func (h *V1Client) GetNodeStatusMapVirtual(configUID, machinePoolName, scope string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clientV1.V1CloudConfigsVirtualPoolMachinesListParams
-	switch scope {
-	case "project":
-		params = clientV1.NewV1CloudConfigsVirtualPoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clientV1.NewV1CloudConfigsVirtualPoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	}
-
+func (h *V1Client) GetNodeStatusMapVirtual(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsVirtualPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsVirtualPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {
 			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }
