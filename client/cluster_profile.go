@@ -140,7 +140,7 @@ func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, erro
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterProfilesGet(params)
 	if err := apiutil.Handle404(err); err != nil {
-		return err
+		return nil, err
 	}
 	return resp.Payload, nil
 }
