@@ -99,6 +99,24 @@ func ContextForScope(scope, projectUid string) context.Context {
 	return ctx
 }
 
+func (h *V1Client) Clone() *V1Client {
+	c := New(
+		WithAPIKey(h.apikey),
+		WithHubbleURI(h.hubbleUri),
+		WithInsecureSkipVerify(h.insecureSkipVerify),
+		WithRetries(h.retryAttempts),
+		WithSchemes(h.schemes),
+		WithScopeTenant(),
+	)
+	if h.projectUid != "" {
+		WithScopeProject(h.projectUid)(c)
+	}
+	if h.transportDebug {
+		WithTransportDebug()(c)
+	}
+	return c
+}
+
 func (h *V1Client) getTransport() *transport.Runtime {
 	var httpTransport *transport.Runtime
 	if h.apikey != "" {
