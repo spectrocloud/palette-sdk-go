@@ -17,6 +17,7 @@ type V1Client struct {
 
 	ctx                context.Context
 	apikey             string
+	jwt                string
 	hubbleUri          string
 	projectUid         string
 	schemes            []string
@@ -41,6 +42,12 @@ func New(options ...func(*V1Client)) *V1Client {
 func WithAPIKey(apiKey string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.apikey = apiKey
+	}
+}
+
+func WithJWTToken(jwt string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.jwt = jwt
 	}
 }
 
@@ -100,36 +107,49 @@ func ContextForScope(scope, projectUid string) context.Context {
 }
 
 func (h *V1Client) Clone() *V1Client {
-	c := New(
-		WithAPIKey(h.apikey),
+	opts := []func(*V1Client){
 		WithHubbleURI(h.hubbleUri),
 		WithInsecureSkipVerify(h.insecureSkipVerify),
 		WithRetries(h.retryAttempts),
 		WithSchemes(h.schemes),
 		WithScopeTenant(),
-	)
+	}
+	if h.apikey != "" {
+		opts = append(opts, WithAPIKey(h.apikey))
+	}
+	if h.jwt != "" {
+		opts = append(opts, WithJWTToken(h.jwt))
+	}
 	if h.projectUid != "" {
-		WithScopeProject(h.projectUid)(c)
+		opts = append(opts, WithScopeProject(h.projectUid))
 	}
 	if h.transportDebug {
-		WithTransportDebug()(c)
+		opts = append(opts, WithTransportDebug())
 	}
-	return c
+	return New(opts...)
 }
 
 func (h *V1Client) getTransport() *transport.Runtime {
 	var httpTransport *transport.Runtime
 	if h.apikey != "" {
-		httpTransport = h.authenticatedTransport()
+		httpTransport = h.apiKeyTransport()
+	} else if h.jwt != "" {
+		httpTransport = h.jwtTransport()
 	} else {
 		httpTransport = h.baseTransport()
 	}
 	return httpTransport
 }
 
-func (h *V1Client) authenticatedTransport() *transport.Runtime {
+func (h *V1Client) apiKeyTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
 	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
+	return httpTransport
+}
+
+func (h *V1Client) jwtTransport() *transport.Runtime {
+	httpTransport := h.baseTransport()
+	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authJwt, authTokenInput, h.jwt)
 	return httpTransport
 }
 
@@ -145,7 +165,6 @@ func (h *V1Client) httpClient() *http.Client {
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			TLSClientConfig: &tls.Config{
-				Certificates:       []tls.Certificate{},
 				InsecureSkipVerify: h.insecureSkipVerify,
 			},
 		},
