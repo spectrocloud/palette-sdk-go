@@ -24,7 +24,7 @@ func (h *V1Client) ListOrganizations() ([]*models.V1Organization, error) {
 	return resp.Payload.Organizations, nil
 }
 
-func (h *V1Client) SwitchOrganization(scope, orgName string) (string, error) {
+func (h *V1Client) SwitchOrganization(orgName string) (string, error) {
 	params := clientV1.NewV1AuthOrgSwitchParamsWithContext(h.ctx).
 		WithOrgName(orgName)
 	resp, err := h.Client.V1AuthOrgSwitch(params)
