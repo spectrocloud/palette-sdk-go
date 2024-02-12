@@ -108,6 +108,13 @@ type V1Client struct {
 	UpdateMacrosFn   func(uid string, macros *models.V1Macros) error
 	DeleteMacrosFn   func(uid string, body *models.V1Macros) error
 	GetMacrosIdFn    func(uid string) (string, error)
+
+	// Cloud Accounts
+	CreateCustomCloudAccountFn func(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error)
+	GetCustomCloudAccountFn    func(uid, cloudType string, accountContext string) (*models.V1CustomAccount, error)
+	UpdateCustomCloudAccountFn func(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error
+	DeleteCustomCloudAccountFn func(uid, cloudType string, accountContext string) error
+	ValidateCustomCloudTypeFn  func(cloudType string, cloudContext string) error
 }
 
 func New(options ...func(*V1Client)) *V1Client {
