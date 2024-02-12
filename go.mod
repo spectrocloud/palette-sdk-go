@@ -8,7 +8,7 @@ require (
 	github.com/go-openapi/runtime v0.19.26
 	github.com/go-openapi/strfmt v0.21.3
 	github.com/pkg/errors v0.9.1
-	github.com/spectrocloud/hapi v1.14.1-0.20240208063009-bb174d446fcc
+	github.com/spectrocloud/hapi v1.14.1-0.20240208170048-8ee28d936fb6
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -32,12 +32,10 @@ require (
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/sirupsen/logrus v1.6.0 // indirect
-	github.com/spectrocloud/gomi v1.14.1-0.20231206064212-951160f8c919 // indirect
-	go.mongodb.org/mongo-driver v1.4.6 // indirect
-	golang.org/x/net v0.10.0 // indirect
+	github.com/sirupsen/logrus v1.9.3 // indirect
+	github.com/spectrocloud/gomi v1.14.1-0.20240131155846-7276c4a27819 // indirect
+	go.mongodb.org/mongo-driver v1.10.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
