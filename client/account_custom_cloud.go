@@ -7,7 +7,7 @@ import (
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
 )
 
-func (h *V1Client) CreateCustomCloudAccount(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error) {
+func (h *V1Client) CreateAccountCustomCloud(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error) {
 	if h.CreateCustomCloudAccountFn != nil {
 		return h.CreateCustomCloudAccountFn(account, cloudType, accountContext)
 	}
@@ -53,7 +53,7 @@ func (h *V1Client) GetCustomCloudAccount(uid, cloudType string, accountContext s
 	return success.Payload, nil
 }
 
-func (h *V1Client) UpdateCustomCloudAccount(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error {
+func (h *V1Client) UpdateAccountCustomCloud(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error {
 	if h.UpdateCustomCloudAccountFn != nil {
 		return h.UpdateCustomCloudAccountFn(uid, account, cloudType, accountContext)
 	}
@@ -74,7 +74,7 @@ func (h *V1Client) UpdateCustomCloudAccount(uid string, account *models.V1Custom
 	return nil
 }
 
-func (h *V1Client) DeleteCustomCloudAccount(uid, cloudType string, accountContext string) error {
+func (h *V1Client) DeleteCloudAccountCustomCloud(uid, cloudType string, accountContext string) error {
 	if h.DeleteCustomCloudAccountFn != nil {
 		return h.DeleteCustomCloudAccountFn(uid, cloudType, accountContext)
 	}
