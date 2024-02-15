@@ -8,7 +8,7 @@ require (
 	github.com/go-openapi/runtime v0.19.26
 	github.com/go-openapi/strfmt v0.21.3
 	github.com/pkg/errors v0.9.1
-	github.com/spectrocloud/hapi v1.14.1-0.20240208170048-8ee28d936fb6
+	github.com/spectrocloud/hapi v1.14.1-0.20240213074743-ad09fdebcffb
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -34,6 +34,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spectrocloud/gomi v1.14.1-0.20240131155846-7276c4a27819 // indirect
+	github.com/spectrocloud/hubble v1.14.2-0.20240213163044-bc42a72def6e // indirect
 	go.mongodb.org/mongo-driver v1.10.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

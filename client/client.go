@@ -109,12 +109,20 @@ type V1Client struct {
 	DeleteMacrosFn   func(uid string, body *models.V1Macros) error
 	GetMacrosIdFn    func(uid string) (string, error)
 
-	// Cloud Accounts
+	// Custom Cloud Accounts
 	CreateCustomCloudAccountFn func(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error)
 	GetCustomCloudAccountFn    func(uid, cloudType string, accountContext string) (*models.V1CustomAccount, error)
 	UpdateCustomCloudAccountFn func(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error
 	DeleteCustomCloudAccountFn func(uid, cloudType string, accountContext string) error
 	ValidateCustomCloudTypeFn  func(cloudType string, cloudContext string) error
+
+	// Custom Cloud Cluster
+	GetCloudConfigCustomCloudFn    func(configUID string, cloudType string, clusterContext string) (*models.V1CustomCloudConfig, error)
+	CreateClusterCustomCloudFn     func(cluster *models.V1SpectroCustomClusterEntity, cloudType string, clusterContext string) (string, error)
+	UpdateCloudConfigCustomCloudFn func(updatedConfig *models.V1CustomCloudClusterConfigEntity, configUID string, cloudType string, clusterContext string) error
+	CreateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error
+	UpdateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error
+	DeleteMachinePoolCustomCloudFn func(mpName string, configUID string, cloudType string, clusterContext string) error
 }
 
 func New(options ...func(*V1Client)) *V1Client {
