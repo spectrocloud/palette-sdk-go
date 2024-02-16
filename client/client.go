@@ -113,12 +113,12 @@ type V1Client struct {
 	GetMacrosIdFn    func(uid string) (string, error)
 
 	// Custom Cloud Accounts
-	CreateCustomCloudAccountFn func(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error)
-	GetCustomCloudAccountFn    func(uid, cloudType string, accountContext string) (*models.V1CustomAccount, error)
-	UpdateCustomCloudAccountFn func(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error
-	DeleteCustomCloudAccountFn func(uid, cloudType string, accountContext string) error
-	ValidateCustomCloudTypeFn  func(cloudType string, cloudContext string) error
-	GetCloudAccountCustomFn    func(cloudType string) ([]*models.V1CustomAccount, error)
+	CreateCustomCloudAccountFn  func(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error)
+	GetCustomCloudAccountFn     func(uid, cloudType string, accountContext string) (*models.V1CustomAccount, error)
+	UpdateCustomCloudAccountFn  func(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error
+	DeleteCustomCloudAccountFn  func(uid, cloudType string, accountContext string) error
+	ValidateCustomCloudTypeFn   func(cloudType string, cloudContext string) error
+	GetCustomCloudAccountListFn func(cloudType string) ([]*models.V1CustomAccount, error)
 
 	// Custom Cloud Cluster
 	GetCloudConfigCustomCloudFn    func(configUID string, cloudType string, clusterContext string) (*models.V1CustomCloudConfig, error)

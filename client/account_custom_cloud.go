@@ -119,9 +119,9 @@ func (h *V1Client) ValidateCustomCloudType(cloudType string, cloudContext string
 	return fmt.Errorf("cloud - `%s` is not a valid cloud", cloudType)
 }
 
-func (h *V1Client) GetCloudAccountCustom(cloudType string) ([]*models.V1CustomAccount, error) {
-	if h.GetCloudAccountCustomFn != nil {
-		return h.GetCloudAccountCustomFn(cloudType)
+func (h *V1Client) GetCustomCloudAccountList(cloudType string) ([]*models.V1CustomAccount, error) {
+	if h.GetCustomCloudAccountListFn != nil {
+		return h.GetCustomCloudAccountListFn(cloudType)
 	}
 	limit := int64(0)
 	params := clusterC.NewV1CloudAccountsCustomListParamsWithContext(h.Ctx).WithLimit(&limit).WithCloudType(cloudType)
