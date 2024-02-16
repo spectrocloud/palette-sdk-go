@@ -259,3 +259,68 @@ func (h *V1Client) GetRepaveReasons(context, clusterUID string) ([]string, error
 	}
 	return reasons, err
 }
+
+func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string, context string) error {
+	if h.UpdatePauseAgentUpgradeSettingClusterFn != nil {
+		return h.UpdatePauseAgentUpgradeSettingClusterFn(upgradeSetting, clusterUID, context)
+	}
+	var params *clusterC.V1SpectroClustersUIDUpgradeSettingsParams
+
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUIDUpgradeSettingsParams()
+	default:
+		return fmt.Errorf("invalid context: %s", context)
+	}
+	params = params.WithUID(clusterUID).WithBody(upgradeSetting)
+	_, err := h.GetClusterClient().V1SpectroClustersUIDUpgradeSettings(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) UpdatePauseAgentUpgradeSettingContext(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, context string) error {
+	if h.UpdatePauseAgentUpgradeSettingContextFn != nil {
+		return h.UpdatePauseAgentUpgradeSettingContextFn(upgradeSetting, context)
+	}
+	var params *clusterC.V1SpectroClustersUpgradeSettingsParams
+
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUpgradeSettingsParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUpgradeSettingsParams()
+	default:
+		return fmt.Errorf("invalid context: %s", context)
+	}
+	params = params.WithBody(upgradeSetting)
+	_, err := h.GetClusterClient().V1SpectroClustersUpgradeSettings(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) GetPauseAgentUpgradeSettingContext(context string) (string, error) {
+	if h.GetPauseAgentUpgradeSettingContextFn != nil {
+		return h.GetPauseAgentUpgradeSettingContextFn(context)
+	}
+	var params *clusterC.V1SpectroClustersUpgradeSettingsGetParams
+
+	switch context {
+	case "project":
+		params = clusterC.NewV1SpectroClustersUpgradeSettingsGetParamsWithContext(h.Ctx)
+	case "tenant":
+		params = clusterC.NewV1SpectroClustersUpgradeSettingsGetParams()
+	default:
+		return "", fmt.Errorf("invalid context: %s", context)
+	}
+	resp, err := h.GetClusterClient().V1SpectroClustersUpgradeSettingsGet(params)
+	if err != nil {
+		return "", err
+	}
+	return resp.Payload.SpectroComponents, nil
+}

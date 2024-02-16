@@ -33,16 +33,19 @@ type V1Client struct {
 	ClusterC clusterC.ClientService
 
 	// Cluster generic
-	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
-	GetClusterFn                func(scope, uid string) (*models.V1SpectroCluster, error)
-	GetClusterAdminConfigFn     func(uid string) (string, error)
-	GetClusterKubeConfigFn      func(uid string) (string, error)
-	GetClusterBackupConfigFn    func(uid string) (*models.V1ClusterBackup, error)
-	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
-	GetClusterRbacConfigFn      func(uid string) (*models.V1ClusterRbacs, error)
-	GetClusterNamespaceConfigFn func(uid string) (*models.V1ClusterNamespaceResources, error)
-	ApproveClusterRepaveFn      func(context, clusterUID string) error
-	GetRepaveReasonsFn          func(context, clusterUID string) ([]string, error)
+	GetClusterWithoutStatusFn               func(string) (*models.V1SpectroCluster, error)
+	GetClusterFn                            func(scope, uid string) (*models.V1SpectroCluster, error)
+	GetClusterAdminConfigFn                 func(uid string) (string, error)
+	GetClusterKubeConfigFn                  func(uid string) (string, error)
+	GetClusterBackupConfigFn                func(uid string) (*models.V1ClusterBackup, error)
+	GetClusterScanConfigFn                  func(uid string) (*models.V1ClusterComplianceScan, error)
+	GetClusterRbacConfigFn                  func(uid string) (*models.V1ClusterRbacs, error)
+	GetClusterNamespaceConfigFn             func(uid string) (*models.V1ClusterNamespaceResources, error)
+	ApproveClusterRepaveFn                  func(context, clusterUID string) error
+	GetRepaveReasonsFn                      func(context, clusterUID string) ([]string, error)
+	UpdatePauseAgentUpgradeSettingClusterFn func(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string, context string) error
+	UpdatePauseAgentUpgradeSettingContextFn func(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, context string) error
+	GetPauseAgentUpgradeSettingContextFn    func(context string) (string, error)
 
 	// Cluster Groups
 	CreateClusterGroupFn func(*models.V1ClusterGroupEntity) (string, error)
