@@ -93,9 +93,9 @@ func (h *V1Client) CreateMachinePoolCustomCloud(mpEntity *models.V1CustomMachine
 	return nil
 }
 
-func (h *V1Client) UpdateMachinePoolCustomCloud(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error {
+func (h *V1Client) UpdateMachinePoolCustomCloud(mpEntity *models.V1CustomMachinePoolConfigEntity, machinePoolName, configUID string, cloudType string, clusterContext string) error {
 	if h.UpdateMachinePoolCustomCloudFn != nil {
-		return h.UpdateMachinePoolCustomCloudFn(mpEntity, configUID, cloudType, clusterContext)
+		return h.UpdateMachinePoolCustomCloudFn(mpEntity, machinePoolName, configUID, cloudType, clusterContext)
 	}
 
 	var params *clusterC.V1CloudConfigsCustomMachinePoolUpdateParams
@@ -105,7 +105,7 @@ func (h *V1Client) UpdateMachinePoolCustomCloud(mpEntity *models.V1CustomMachine
 	case "tenant":
 		params = clusterC.NewV1CloudConfigsCustomMachinePoolUpdateParams()
 	}
-	params = params.WithCloudType(cloudType).WithBody(mpEntity).WithConfigUID(configUID)
+	params = params.WithCloudType(cloudType).WithBody(mpEntity).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 	_, err := h.GetClusterClient().V1CloudConfigsCustomMachinePoolUpdate(params)
 	if err != nil {
 		return err

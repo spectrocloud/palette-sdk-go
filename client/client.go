@@ -125,7 +125,7 @@ type V1Client struct {
 	CreateClusterCustomCloudFn     func(cluster *models.V1SpectroCustomClusterEntity, cloudType string, clusterContext string) (string, error)
 	UpdateCloudConfigCustomCloudFn func(updatedConfig *models.V1CustomCloudClusterConfigEntity, configUID string, cloudType string, clusterContext string) error
 	CreateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error
-	UpdateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error
+	UpdateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, machinePoolName string, configUID string, cloudType string, clusterContext string) error
 	DeleteMachinePoolCustomCloudFn func(mpName string, configUID string, cloudType string, clusterContext string) error
 }
 
