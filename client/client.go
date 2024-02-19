@@ -33,16 +33,19 @@ type V1Client struct {
 	ClusterC clusterC.ClientService
 
 	// Cluster generic
-	GetClusterWithoutStatusFn   func(string) (*models.V1SpectroCluster, error)
-	GetClusterFn                func(scope, uid string) (*models.V1SpectroCluster, error)
-	GetClusterAdminConfigFn     func(uid string) (string, error)
-	GetClusterKubeConfigFn      func(uid string) (string, error)
-	GetClusterBackupConfigFn    func(uid string) (*models.V1ClusterBackup, error)
-	GetClusterScanConfigFn      func(uid string) (*models.V1ClusterComplianceScan, error)
-	GetClusterRbacConfigFn      func(uid string) (*models.V1ClusterRbacs, error)
-	GetClusterNamespaceConfigFn func(uid string) (*models.V1ClusterNamespaceResources, error)
-	ApproveClusterRepaveFn      func(context, clusterUID string) error
-	GetRepaveReasonsFn          func(context, clusterUID string) ([]string, error)
+	GetClusterWithoutStatusFn               func(string) (*models.V1SpectroCluster, error)
+	GetClusterFn                            func(scope, uid string) (*models.V1SpectroCluster, error)
+	GetClusterAdminConfigFn                 func(uid string) (string, error)
+	GetClusterKubeConfigFn                  func(uid string) (string, error)
+	GetClusterBackupConfigFn                func(uid string) (*models.V1ClusterBackup, error)
+	GetClusterScanConfigFn                  func(uid string) (*models.V1ClusterComplianceScan, error)
+	GetClusterRbacConfigFn                  func(uid string) (*models.V1ClusterRbacs, error)
+	GetClusterNamespaceConfigFn             func(uid string) (*models.V1ClusterNamespaceResources, error)
+	ApproveClusterRepaveFn                  func(context, clusterUID string) error
+	GetRepaveReasonsFn                      func(context, clusterUID string) ([]string, error)
+	UpdatePauseAgentUpgradeSettingClusterFn func(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string, context string) error
+	UpdatePauseAgentUpgradeSettingContextFn func(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, context string) error
+	GetPauseAgentUpgradeSettingContextFn    func(context string) (string, error)
 
 	// Cluster Groups
 	CreateClusterGroupFn func(*models.V1ClusterGroupEntity) (string, error)
@@ -108,6 +111,22 @@ type V1Client struct {
 	UpdateMacrosFn   func(uid string, macros *models.V1Macros) error
 	DeleteMacrosFn   func(uid string, body *models.V1Macros) error
 	GetMacrosIdFn    func(uid string) (string, error)
+
+	// Custom Cloud Accounts
+	CreateCustomCloudAccountFn  func(account *models.V1CustomAccountEntity, cloudType string, accountContext string) (string, error)
+	GetCustomCloudAccountFn     func(uid, cloudType string, accountContext string) (*models.V1CustomAccount, error)
+	UpdateCustomCloudAccountFn  func(uid string, account *models.V1CustomAccountEntity, cloudType string, accountContext string) error
+	DeleteCustomCloudAccountFn  func(uid, cloudType string, accountContext string) error
+	ValidateCustomCloudTypeFn   func(cloudType string, cloudContext string) error
+	GetCustomCloudAccountListFn func(cloudType string) ([]*models.V1CustomAccount, error)
+
+	// Custom Cloud Cluster
+	GetCloudConfigCustomCloudFn    func(configUID string, cloudType string, clusterContext string) (*models.V1CustomCloudConfig, error)
+	CreateClusterCustomCloudFn     func(cluster *models.V1SpectroCustomClusterEntity, cloudType string, clusterContext string) (string, error)
+	UpdateCloudConfigCustomCloudFn func(updatedConfig *models.V1CustomCloudClusterConfigEntity, configUID string, cloudType string, clusterContext string) error
+	CreateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, configUID string, cloudType string, clusterContext string) error
+	UpdateMachinePoolCustomCloudFn func(mpEntity *models.V1CustomMachinePoolConfigEntity, machinePoolName string, configUID string, cloudType string, clusterContext string) error
+	DeleteMachinePoolCustomCloudFn func(mpName string, configUID string, cloudType string, clusterContext string) error
 }
 
 func New(options ...func(*V1Client)) *V1Client {
