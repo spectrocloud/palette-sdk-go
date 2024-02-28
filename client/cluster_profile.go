@@ -119,10 +119,7 @@ func (h *V1Client) PublishClusterProfile(client clusterC.ClientService, uid, Pro
 func (h *V1Client) GetProfileVariables(client clusterC.ClientService, uid string) ([]*models.V1Variable, error) {
 	params := clusterC.NewV1ClusterProfilesUIDVariablesGetParamsWithContext(h.Ctx).WithUID(uid)
 	success, err := client.V1ClusterProfilesUIDVariablesGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	return success.Payload.Variables, nil
@@ -131,10 +128,7 @@ func (h *V1Client) GetProfileVariables(client clusterC.ClientService, uid string
 func (h *V1Client) UpdateProfileVariables(client clusterC.ClientService, variables *models.V1Variables, uid string) error {
 	params := clusterC.NewV1ClusterProfilesUIDVariablesPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(variables)
 	_, err := client.V1ClusterProfilesUIDVariablesPut(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil
-	} else if err != nil {
+	if err != nil {
 		return err
 	}
 	return nil
