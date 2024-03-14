@@ -88,3 +88,22 @@ func (h *V1Client) DeleteMachinePoolGke(cloudConfigId, machinePoolName, ClusterC
 	_, err := h.GetClusterClient().V1CloudConfigsGkeMachinePoolDelete(params)
 	return err
 }
+
+func (h *V1Client) GetNodeStatusMapGke(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
+	var params *clusterC.V1CloudConfigsGkePoolMachinesListParams
+	switch ClusterContext {
+	case "project":
+		params = clusterC.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	case "tenant":
+		params = clusterC.NewV1CloudConfigsGkePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	}
+
+	mpList, err := h.GetClusterClient().V1CloudConfigsGkePoolMachinesList(params)
+	nMap := map[string]models.V1CloudMachineStatus{}
+	if len(mpList.Payload.Items) > 0 {
+		for _, node := range mpList.Payload.Items {
+			nMap[node.Metadata.UID] = *node.Status
+		}
+	}
+	return nMap, err
+}
