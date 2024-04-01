@@ -186,3 +186,20 @@ func (h *V1Client) PublishClusterProfile(uid string) error {
 	_, err := h.Client.V1ClusterProfilesPublish(params)
 	return err
 }
+
+func (h *V1Client) GetProfileVariables(uid string) ([]*models.V1Variable, error) {
+	params := clientV1.NewV1ClusterProfilesUIDVariablesGetParamsWithContext(h.ctx).WithUID(uid)
+	resp, err := h.Client.V1ClusterProfilesUIDVariablesGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Variables, nil
+}
+
+func (h *V1Client) UpdateProfileVariables(variables *models.V1Variables, uid string) error {
+	params := clientV1.NewV1ClusterProfilesUIDVariablesPutParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(variables)
+	_, err := h.Client.V1ClusterProfilesUIDVariablesPut(params)
+	return err
+}
