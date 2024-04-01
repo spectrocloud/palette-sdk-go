@@ -3,111 +3,149 @@ package client
 import (
 	"errors"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity, ClusterContext string) (string, error) {
-	var params *clusterC.V1SpectroClustersEdgeNativeCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersEdgeNativeCreateParams().WithBody(cluster)
-	}
-
-	success, err := h.GetClusterClient().V1SpectroClustersEdgeNativeCreate(params)
+func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
+	params := clientV1.NewV1EdgeTokensListParamsWithContext(h.ctx)
+	resp, err := h.Client.V1EdgeTokensList(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	tokens := resp.GetPayload()
+	if tokens == nil {
+		return "", errors.New("failed to list registration tokens")
+	}
+	for _, token := range tokens.Items {
+		if token.Status.IsActive && token.Metadata.Name == tokenName {
+			return token.Spec.Token, nil
+		}
+	}
+	return "", nil
 }
 
-func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigId, ClusterContext string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
+func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1EdgeTokenEntity) (string, error) {
+	params := clientV1.NewV1EdgeTokensCreateParamsWithContext(h.ctx).
+		WithBody(body)
+	_, err := h.Client.V1EdgeTokensCreate(params)
+	if err != nil {
+		return "", err
 	}
+	return h.GetRegistrationToken(tokenName)
 
-	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolCreate(params)
-	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigId, ClusterContext string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolUpdateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolUpdateParams().
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolUpdate(params)
-	return err
-}
-
-func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigId, machinePoolName, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsEdgeNativeMachinePoolDeleteParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsEdgeNativeMachinePoolDelete(params)
-	return err
-}
-
-func (h *V1Client) GetCloudConfigEdgeNative(configUID, ClusterContext string) (*models.V1EdgeNativeCloudConfig, error) {
-	if h.GetCloudConfigEdgeNativeFn != nil {
-		return h.GetCloudConfigEdgeNativeFn(configUID, ClusterContext)
-	}
-	var params *clusterC.V1CloudConfigsEdgeNativeGetParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativeGetParams().WithConfigUID(configUID)
-	}
-
-	success, err := h.GetClusterClient().V1CloudConfigsEdgeNativeGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetEdgeHost(edgeHostId string) (*models.V1EdgeHostDevice, error) {
+	params := clientV1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx).
+		WithUID(edgeHostId)
+	resp, err := h.Client.V1EdgeHostDevicesUIDGet(params)
+	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEdgeNative(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clusterC.V1CloudConfigsEdgeNativePoolMachinesListParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsEdgeNativePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
+	params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx)
+	resp, err := h.Client.V1DashboardEdgehostsSearch(params)
+	if err != nil {
+		return nil, err
 	}
+	return resp.Payload.Items, nil
+}
 
-	mpList, err := h.GetClusterClient().V1CloudConfigsEdgeNativePoolMachinesList(params)
+func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) (string, error) {
+	params := clientV1.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersEdgeNativeCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigUid string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolCreate(params)
+	return err
+}
+
+func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigUid string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(*machinePool.PoolConfig.Name).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolUpdate(params)
+	return err
+}
+
+func (h *V1Client) GetMachineEdgeNative(machineUid, machinePoolName, cloudConfigUid string) (*models.V1EdgeNativeMachine, error) {
+	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName).
+		WithMachineUID(machineUid)
+	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+func (h *V1Client) DeleteMachineEdgeNative(clusterUid, edgeHostUid, machinePool, cloudConfigUid string) error {
+	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePool).
+		WithMachineUID(edgeHostUid)
+	_, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDDelete(params)
+	return err
+}
+
+func (h *V1Client) ListMachinesInPoolEdgeNative(machinePoolName, cloudConfigUid string) ([]*models.V1EdgeNativeMachine, error) {
+	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
+	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
+func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
+	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolDelete(params)
+	return err
+}
+
+func (h *V1Client) GetCloudConfigEdgeNative(configUid string) (*models.V1EdgeNativeCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsEdgeNativeGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsEdgeNativeGet(params)
+	if err := apiutil.Handle404(err); err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+func (h *V1Client) GetNodeStatusMapEdgeNative(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {
 			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }

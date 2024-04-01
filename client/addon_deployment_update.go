@@ -5,11 +5,11 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) UpdateAddonDeployment(client clusterC.ClientService, cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles, newProfile *models.V1ClusterProfile) error {
+func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles, newProfile *models.V1ClusterProfile) error {
 	uid := cluster.Metadata.UID
 
 	// check if profile id is the same - update, otherwise, delete and create
@@ -18,18 +18,14 @@ func (h *V1Client) UpdateAddonDeployment(client clusterC.ClientService, cluster 
 		body.Profiles[0].ReplaceWithProfile = replaceUID
 	}
 
-	resolveNotification := true
-	var params *clusterC.V1SpectroClustersPatchProfilesParams
-	scope := cluster.Metadata.Annotations["scope"]
-	switch scope {
-	case "project":
-		params = clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersPatchProfilesParams()
-	}
-	params = params.WithUID(uid).WithBody(body).WithResolveNotification(&resolveNotification)
-	err := h.PatchWithRetry(client, params)
-	return err
+	resolveNotifications := true
+	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
+		WithUID(uid).
+		WithBody(body).
+		WithResolveNotification(&resolveNotifications)
+
+	return h.PatchWithRetry(params)
 }
 
 func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *models.V1ClusterProfile) (bool, string) {
@@ -41,31 +37,26 @@ func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *model
 	return false, ""
 }
 
-func (h *V1Client) CreateAddonDeployment(client clusterC.ClientService, cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles) error {
-	resolveNotification := false // during initial creation we never need to resolve packs.
-	var params *clusterC.V1SpectroClustersPatchProfilesParams
-	scope := cluster.Metadata.Annotations["scope"]
-	switch scope {
-	case "project":
-		params = clusterC.NewV1SpectroClustersPatchProfilesParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersPatchProfilesParams()
-	}
-	params = params.WithUID(cluster.Metadata.UID).WithBody(body).WithResolveNotification(&resolveNotification)
-	err := h.PatchWithRetry(client, params)
-	return err
+func (h *V1Client) CreateAddonDeployment(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles) error {
+	resolveNotifications := false // during initial creation we never need to resolve packs
+	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
+		WithUID(cluster.Metadata.UID).
+		WithBody(body).
+		WithResolveNotification(&resolveNotifications)
+
+	return h.PatchWithRetry(params)
 }
 
-func (h *V1Client) PatchWithRetry(client clusterC.ClientService, params *clusterC.V1SpectroClustersPatchProfilesParams) error {
+func (h *V1Client) PatchWithRetry(params *clientV1.V1SpectroClustersPatchProfilesParams) error {
 	var err error
-
 	rand.NewSource(time.Now().UnixNano())
-	for attempt := 0; attempt < h.RetryAttempts; attempt++ {
+	for attempt := 0; attempt < h.retryAttempts; attempt++ {
 		// small jitter to prevent simultaneous retries
-		s := rand.Intn(h.RetryAttempts) // n will be between 0 and number of retries
+		s := rand.Intn(h.retryAttempts) // n will be between 0 and number of retries
 		log.Printf("Sleeping %d seconds, retry: %d, cluster:%s, profile:%s, ", s, attempt, params.UID, params.Body.Profiles[0].UID)
 		time.Sleep(time.Duration(s) * time.Second)
-		err = h.ClustersPatchProfiles(client, params)
+		err = h.ClustersPatchProfiles(params)
 		if err == nil {
 			break
 		}
@@ -73,20 +64,15 @@ func (h *V1Client) PatchWithRetry(client clusterC.ClientService, params *cluster
 	return err
 }
 
-func (h *V1Client) ClustersPatchProfiles(client clusterC.ClientService, params *clusterC.V1SpectroClustersPatchProfilesParams) error {
-	_, err := client.V1SpectroClustersPatchProfiles(params)
+func (h *V1Client) ClustersPatchProfiles(params *clientV1.V1SpectroClustersPatchProfilesParams) error {
+	_, err := h.Client.V1SpectroClustersPatchProfiles(params)
 	return err
 }
 
-func (h *V1Client) DeleteAddonDeployment(client clusterC.ClientService, uid, scope string, body *models.V1SpectroClusterProfilesDeleteEntity) error {
-	var params *clusterC.V1SpectroClustersDeleteProfilesParams
-	switch scope {
-	case "project":
-		params = clusterC.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.Ctx)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersDeleteProfilesParams()
-	}
-	params = params.WithUID(uid).WithBody(body)
-	_, err := client.V1SpectroClustersDeleteProfiles(params)
+func (h *V1Client) DeleteAddonDeployment(uid string, body *models.V1SpectroClusterProfilesDeleteEntity) error {
+	params := clientV1.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1SpectroClustersDeleteProfiles(params)
 	return err
 }

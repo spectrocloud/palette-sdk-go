@@ -1,114 +1,98 @@
 package client
 
 import (
-	"errors"
-	"fmt"
 	"strings"
 
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models.V1PackSortSpec) ([]*models.V1PackMetadata, error) {
-	body := &models.V1PacksFilterSpec{
-		Filter: filter,
-		Sort:   sortBy,
-	}
-	params := clusterC.NewV1PacksSearchParams().WithContext(h.Ctx).WithBody(body)
-
-	resp, err := h.GetClusterClient().V1PacksSearch(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	params := clientV1.NewV1PacksSearchParamsWithContext(h.ctx).
+		WithBody(&models.V1PacksFilterSpec{
+			Filter: filter,
+			Sort:   sortBy,
+		})
+	resp, err := h.Client.V1PacksSearch(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName string) ([]*models.V1ManifestEntity, error) {
-	//params := clusterC.NewV1ClusterProfilesGetParamsWithContext(h.ctx).WithUID(uid)
-	params := clusterC.NewV1ClusterProfilesUIDPacksUIDManifestsParamsWithContext(h.Ctx).
-		WithUID(clusterProfileUID).WithPackName(packName)
-
-	success, err := h.GetClusterClient().V1ClusterProfilesUIDPacksUIDManifests(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUid, packName string) ([]*models.V1ManifestEntity, error) {
+	params := clientV1.NewV1ClusterProfilesUIDPacksUIDManifestsParamsWithContext(h.ctx).
+		WithUID(clusterProfileUid).
+		WithPackName(packName)
+	resp, err := h.Client.V1ClusterProfilesUIDPacksUIDManifests(params)
+	if err := apiutil.Handle404(err); err != nil {
 		return nil, err
 	}
-
-	return success.Payload.Items, nil
+	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1PackSummary, error) {
-	params := clusterC.NewV1PacksSummaryListParamsWithContext(h.Ctx)
+func (h *V1Client) GetPacks(filters []string, registryUid string) ([]*models.V1PackSummary, error) {
+	params := clientV1.NewV1PacksSummaryListParamsWithContext(h.ctx)
 	if filters != nil {
-		filterString := Ptr(strings.Join(filters, "AND"))
+		filterString := apiutil.Ptr(strings.Join(filters, "AND"))
 		params = params.WithFilters(filterString)
 	}
-
-	response, err := h.GetClusterClient().V1PacksSummaryList(params)
+	resp, err := h.Client.V1PacksSummaryList(params)
 	if err != nil {
 		return nil, err
 	}
-
 	packs := make([]*models.V1PackSummary, 0)
-	for _, pack := range response.Payload.Items {
-		if registryUID == "" || pack.Spec.RegistryUID == registryUID {
+	for _, pack := range resp.Payload.Items {
+		if registryUid == "" || pack.Spec.RegistryUID == registryUid {
 			packs = append(packs, pack)
 		}
 	}
-
 	return packs, nil
 }
 
-func (h *V1Client) GetPacksByNameAndRegistry(name, registryUID, packContext string) (*models.V1PackTagEntity, error) {
-	var params *clusterC.V1PacksNameRegistryUIDListParams
-	switch packContext {
-	case "project":
-		params = clusterC.NewV1PacksNameRegistryUIDListParamsWithContext(h.Ctx).WithPackName(name).WithRegistryUID(registryUID)
-	case "tenant":
-		params = clusterC.NewV1PacksNameRegistryUIDListParams().WithPackName(name).WithRegistryUID(registryUID)
-	default:
-		return nil, fmt.Errorf("invalid pack context %s", packContext)
-
-	}
-
-	response, err := h.GetClusterClient().V1PacksNameRegistryUIDList(params)
+func (h *V1Client) GetPacksByProfile(profileUid string) ([]*models.V1ClusterProfilePacksEntity, error) {
+	params := clientV1.NewV1ClusterProfilesUIDPacksGetParamsWithContext(h.ctx).
+		WithUID(profileUid)
+	resp, err := h.Client.V1ClusterProfilesUIDPacksGet(params)
 	if err != nil {
 		return nil, err
 	}
+	return resp.Payload.Items, nil
+}
 
-	return response.Payload, nil
+func (h *V1Client) GetPacksByNameAndRegistry(name, registryUid string) (*models.V1PackTagEntity, error) {
+	params := clientV1.NewV1PacksNameRegistryUIDListParamsWithContext(h.ctx).
+		WithPackName(name).
+		WithRegistryUID(registryUid)
+	resp, err := h.Client.V1PacksNameRegistryUIDList(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetPack(uid string) (*models.V1PackTagEntity, error) {
-	params := clusterC.NewV1PacksUIDParamsWithContext(h.Ctx).WithUID(uid)
-	response, err := h.GetClusterClient().V1PacksUID(params)
+	params := clientV1.NewV1PacksUIDParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1PacksUID(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return response.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetPackRegistry(packUID, packType string) string {
-	if packUID == "uid" || packType == "manifest" {
+func (h *V1Client) GetPackRegistry(packUid, packType string) string {
+	if packUid == "uid" || packType == "manifest" {
 		registry, err := h.GetPackRegistryCommonByName("Public Repo")
 		if err != nil {
 			return ""
 		}
 		return registry.UID
 	}
-
-	PackTagEntity, err := h.GetPack(packUID)
+	packTagEntity, err := h.GetPack(packUid)
 	if err != nil {
 		return ""
 	}
-
-	return PackTagEntity.RegistryUID
+	return packTagEntity.RegistryUID
 }

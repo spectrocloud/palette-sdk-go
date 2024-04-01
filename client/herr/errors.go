@@ -1,6 +1,6 @@
 package herr
 
-import "github.com/spectrocloud/hapi/apiutil"
+import "github.com/spectrocloud/palette-sdk-go/client/apiutil"
 
 func IsNotFound(err error) bool {
 	return apiutil.ToV1ErrorObj(err).Code == "ResourceNotFound"

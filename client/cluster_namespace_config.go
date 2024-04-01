@@ -1,55 +1,39 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterNamespaceConfig(uid, clusterContext string) (*models.V1ClusterNamespaceResources, error) {
-	if h.GetClusterNamespaceConfigFn != nil {
-		return h.GetClusterNamespaceConfigFn(uid)
-	}
-
-	var params *clusterC.V1SpectroClustersUIDConfigNamespacesGetParams
-	switch clusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesGetParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesGetParams().WithUID(uid)
-	}
-
-	success, err := h.GetClusterClient().V1SpectroClustersUIDConfigNamespacesGet(params)
+func (h *V1Client) GetClusterNamespaceConfig(uid string) (*models.V1ClusterNamespaceResources, error) {
+	params := clientV1.NewV1SpectroClustersUIDConfigNamespacesGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1SpectroClustersUIDConfigNamespacesGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 // UpdateClusterNamespaceConfig no create for namespaces, there is only update.
-func (h *V1Client) UpdateClusterNamespaceConfig(uid, clusterContext string, config *models.V1ClusterNamespaceResourcesUpdateEntity) error {
-	var params *clusterC.V1SpectroClustersUIDConfigNamespacesUpdateParams
-	switch clusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigNamespacesUpdateParams().WithUID(uid).WithBody(config)
-	}
-
-	_, err := h.GetClusterClient().V1SpectroClustersUIDConfigNamespacesUpdate(params)
+func (h *V1Client) UpdateClusterNamespaceConfig(uid string, config *models.V1ClusterNamespaceResourcesUpdateEntity) error {
+	params := clientV1.NewV1SpectroClustersUIDConfigNamespacesUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1SpectroClustersUIDConfigNamespacesUpdate(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterNamespaceConfig(uid, clusterContext string, config []*models.V1ClusterNamespaceResourceInputEntity) error {
-	if _, err := h.GetClusterNamespaceConfig(uid, clusterContext); err != nil {
+func (h *V1Client) ApplyClusterNamespaceConfig(uid string, config []*models.V1ClusterNamespaceResourceInputEntity) error {
+	_, err := h.GetClusterNamespaceConfig(uid)
+	if err != nil {
 		return err
-	} else {
-		return h.UpdateClusterNamespaceConfig(uid, clusterContext, toUpdateNamespace(config)) // update method is same as create
 	}
+	return h.UpdateClusterNamespaceConfig(uid, toUpdateNamespace(config)) // update method is same as create
 }
 
 func toUpdateNamespace(config []*models.V1ClusterNamespaceResourceInputEntity) *models.V1ClusterNamespaceResourcesUpdateEntity {
