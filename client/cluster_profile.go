@@ -1,7 +1,9 @@
 package client
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"os"
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
@@ -202,4 +204,26 @@ func (h *V1Client) UpdateProfileVariables(variables *models.V1Variables, uid str
 		WithBody(variables)
 	_, err := h.Client.V1ClusterProfilesUIDVariablesPut(params)
 	return err
+}
+
+func (h *V1Client) ExportClusterProfile(uid, format string) (bytes.Buffer, error) {
+	var buf bytes.Buffer
+	writer := io.Writer(&buf)
+	params := clientV1.NewV1ClusterProfilesUIDExportParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithFormat(&format)
+	_, err := h.Client.V1ClusterProfilesUIDExport(params, writer)
+	return buf, err
+}
+
+func (h *V1Client) BulkDeleteClusterProfiles(uids []string) (*models.V1BulkDeleteResponse, error) {
+	params := clientV1.NewV1ClusterProfilesBulkDeleteParamsWithContext(h.ctx).
+		WithBody(&models.V1BulkDeleteRequest{
+			Uids: uids,
+		})
+	resp, err := h.Client.V1ClusterProfilesBulkDelete(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.GetPayload(), nil
 }
