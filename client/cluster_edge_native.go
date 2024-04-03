@@ -8,8 +8,12 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CRUDL operations on edge registration tokens are all tenant scoped.
+// See: hubble/services/svccore/perms/edgetoken_acl.go
+
 func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
-	params := clientV1.NewV1EdgeTokensListParamsWithContext(h.ctx)
+	// ACL scoped to tenant only
+	params := clientV1.NewV1EdgeTokensListParams()
 	resp, err := h.Client.V1EdgeTokensList(params)
 	if err != nil {
 		return "", err
@@ -27,7 +31,8 @@ func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
 }
 
 func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1EdgeTokenEntity) (string, error) {
-	params := clientV1.NewV1EdgeTokensCreateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1EdgeTokensCreateParams().
 		WithBody(body)
 	_, err := h.Client.V1EdgeTokensCreate(params)
 	if err != nil {

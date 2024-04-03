@@ -8,8 +8,12 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CRUDL operations on tag filters are all tenant scoped.
+// See: hubble/services/svccore/perms/filter_acl.go
+
 func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, error) {
-	params := clientV1.NewV1TagFiltersCreateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFiltersCreateParams().
 		WithBody(body)
 	resp, err := h.Client.V1TagFiltersCreate(params)
 	if err != nil {
@@ -19,7 +23,8 @@ func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, err
 }
 
 func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
-	params := clientV1.NewV1TagFilterUIDUpdateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDUpdateParams().
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TagFilterUIDUpdate(params)
@@ -27,7 +32,8 @@ func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
 }
 
 func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) {
-	params := clientV1.NewV1TagFilterUIDGetParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDGetParams().
 		WithUID(uid)
 	resp, err := h.Client.V1TagFilterUIDGet(params)
 	if err != nil {
@@ -37,7 +43,8 @@ func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) 
 }
 
 func (h *V1Client) ListTagFilters() (*models.V1FiltersSummary, error) {
-	params := clientV1.NewV1FiltersListParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1FiltersListParams().
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1FiltersList(params)
 	if err != nil {
@@ -60,7 +67,8 @@ func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, err
 }
 
 func (h *V1Client) DeleteTag(uid string) error {
-	params := clientV1.NewV1TagFilterUIDDeleteParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDDeleteParams().
 		WithUID(uid)
 	_, err := h.Client.V1TagFilterUIDDelete(params)
 	return err

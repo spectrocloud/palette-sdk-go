@@ -8,8 +8,12 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CRUDL operations on users are all tenant scoped.
+// See: hubble/services/svccore/perms/user_acl.go
+
 func (h *V1Client) GetUsers() (*models.V1Users, error) {
-	params := clientV1.NewV1UsersListParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1UsersListParams().
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1UsersList(params)
 	if err != nil {

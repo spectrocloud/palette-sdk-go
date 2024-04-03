@@ -7,8 +7,12 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CRUDL operations on projects are all tenant scoped.
+// See: hubble/services/svccore/perms/user_acl.go
+
 func (h *V1Client) CreateProject(body *models.V1ProjectEntity) (string, error) {
-	params := clientV1.NewV1ProjectsCreateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1ProjectsCreateParams().
 		WithBody(body)
 	resp, err := h.Client.V1ProjectsCreate(params)
 	if err != nil {
@@ -33,7 +37,8 @@ func (h *V1Client) GetProjectUID(projectName string) (string, error) {
 }
 
 func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
-	params := clientV1.NewV1ProjectsUIDGetParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1ProjectsUIDGetParams().
 		WithUID(uid)
 	resp, err := h.Client.V1ProjectsUIDGet(params)
 	if err != nil {
@@ -43,7 +48,8 @@ func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
 }
 
 func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
-	params := clientV1.NewV1ProjectsMetadataParamsWithContext(h.ctx)
+	// ACL scoped to tenant only
+	params := clientV1.NewV1ProjectsMetadataParams()
 	resp, err := h.Client.V1ProjectsMetadata(params)
 	if err != nil {
 		return nil, err
@@ -52,7 +58,8 @@ func (h *V1Client) GetProjects() (*models.V1ProjectsMetadata, error) {
 }
 
 func (h *V1Client) UpdateProject(uid string, body *models.V1ProjectEntity) error {
-	params := clientV1.NewV1ProjectsUIDUpdateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1ProjectsUIDUpdateParams().
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1ProjectsUIDUpdate(params)
@@ -60,7 +67,8 @@ func (h *V1Client) UpdateProject(uid string, body *models.V1ProjectEntity) error
 }
 
 func (h *V1Client) DeleteProject(uid string) error {
-	params := clientV1.NewV1ProjectsUIDDeleteParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1ProjectsUIDDeleteParams().
 		WithUID(uid)
 	_, err := h.Client.V1ProjectsUIDDelete(params)
 	return err

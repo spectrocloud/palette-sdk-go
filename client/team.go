@@ -5,8 +5,12 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CRUDL operations on teams are all tenant scoped.
+// See: hubble/services/svccore/perms/user_acl.go
+
 func (h *V1Client) CreateTeam(team *models.V1Team) (string, error) {
-	params := clientV1.NewV1TeamsCreateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TeamsCreateParams().
 		WithBody(team)
 	resp, err := h.Client.V1TeamsCreate(params)
 	if err != nil {
@@ -16,7 +20,8 @@ func (h *V1Client) CreateTeam(team *models.V1Team) (string, error) {
 }
 
 func (h *V1Client) UpdateTeam(uid string, team *models.V1Team) error {
-	params := clientV1.NewV1TeamsUIDUpdateParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TeamsUIDUpdateParams().
 		WithUID(uid).
 		WithBody(team)
 	_, err := h.Client.V1TeamsUIDUpdate(params)
@@ -24,7 +29,8 @@ func (h *V1Client) UpdateTeam(uid string, team *models.V1Team) error {
 }
 
 func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
-	params := clientV1.NewV1TeamsUIDGetParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TeamsUIDGetParams().
 		WithUID(uid)
 	resp, err := h.Client.V1TeamsUIDGet(params)
 	if err != nil {
@@ -34,7 +40,8 @@ func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
 }
 
 func (h *V1Client) DeleteTeam(uid string) error {
-	params := clientV1.NewV1TeamsUIDDeleteParamsWithContext(h.ctx).
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TeamsUIDDeleteParams().
 		WithUID(uid)
 	_, err := h.Client.V1TeamsUIDDelete(params)
 	return err
