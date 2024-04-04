@@ -38,7 +38,7 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 	if err != nil {
 		return nil, err
 	}
-	if cluster == nil || cluster.Status.State == "Deleted" {
+	if cluster == nil || cluster.Status == nil || cluster.Status.State == "Deleted" {
 		return nil, nil
 	}
 	return cluster, nil
