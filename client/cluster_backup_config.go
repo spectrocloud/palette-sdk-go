@@ -60,3 +60,17 @@ func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.
 
 	return response.Payload, nil
 }
+
+func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string) error {
+
+	params := clientV1.NewV1ClusterFeatureBackupDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
+
+	_, errMsg := h.Client.V1ClusterFeatureBackupDelete(params)
+	if errMsg != nil {
+		fmt.Println("Failed to get the Backup %s", errMsg.Error())
+		return errMsg
+	}
+
+	return nil
+}
