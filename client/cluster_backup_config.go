@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
@@ -44,4 +45,18 @@ func (h *V1Client) ApplyClusterBackupConfig(uid string, config *models.V1Cluster
 		return h.CreateClusterBackupConfig(uid, config)
 	}
 	return h.UpdateClusterBackupConfig(uid, config)
+}
+
+func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.V1ClusterBackupConfig) (*models.V1UID, error) {
+
+	params := clientV1.NewV1ClusterFeatureBackupOnDemandCreateParamsWithContext(h.ctx).
+		WithBody(config).WithUID(uid)
+
+	response, errMsg := h.Client.V1ClusterFeatureBackupOnDemandCreate(params)
+	if errMsg != nil {
+		fmt.Println("Failed to get the Backup %s", errMsg.Error())
+		return nil, errMsg
+	}
+
+	return response.Payload, nil
 }
