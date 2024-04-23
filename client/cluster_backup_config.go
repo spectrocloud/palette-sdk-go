@@ -61,10 +61,10 @@ func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.
 	return response.Payload, nil
 }
 
-func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string) error {
+func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string, config *models.V1ClusterBackupConfig) error {
 
 	params := clientV1.NewV1ClusterFeatureBackupDeleteParamsWithContext(h.ctx).
-		WithUID(uid)
+		WithUID(uid).WithRequestUID(config.BackupLocationUID).WithBackupName(config.BackupName)
 
 	_, errMsg := h.Client.V1ClusterFeatureBackupDelete(params)
 	if errMsg != nil {
