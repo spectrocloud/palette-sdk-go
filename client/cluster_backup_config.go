@@ -54,7 +54,7 @@ func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.
 
 	response, errMsg := h.Client.V1ClusterFeatureBackupOnDemandCreate(params)
 	if errMsg != nil {
-		fmt.Println("Failed to get the Backup %s", errMsg.Error())
+		fmt.Println("Failed to create the Backup %s", errMsg.Error())
 		return nil, errMsg
 	}
 
@@ -68,9 +68,37 @@ func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string, config *models.
 
 	_, errMsg := h.Client.V1ClusterFeatureBackupDelete(params)
 	if errMsg != nil {
-		fmt.Println("Failed to get the Backup %s", errMsg.Error())
+		fmt.Println("Failed to delete the Backup %s", errMsg.Error())
 		return errMsg
 	}
 
 	return nil
+}
+
+func (h *V1Client) CreateClusterRestoreConfigOnDemand(uid string, config *models.V1ClusterRestoreConfig) (*models.V1UID, error) {
+
+	params := clientV1.NewV1ClusterFeatureRestoreOnDemandCreateParamsWithContext(h.ctx).
+		WithBody(config).WithUID(uid)
+
+	response, errMsg := h.Client.V1ClusterFeatureRestoreOnDemandCreate(params)
+	if errMsg != nil {
+		fmt.Println("Failed to get the Backup %s", errMsg.Error())
+		return nil, errMsg
+	}
+
+	return response.Payload, nil
+}
+
+func (h *V1Client) getClusterRestoreConfigOnDemand(uid string) (*models.V1ClusterRestore, error) {
+
+	params := clientV1.NewV1ClusterFeatureRestoreGetParamsWithContext(h.ctx).
+		WithUID(uid)
+
+	response, errMsg := h.Client.V1ClusterFeatureRestoreGet(params)
+	if errMsg != nil {
+		fmt.Println("Failed to get the restore %s", errMsg.Error())
+		return nil, errMsg
+	}
+
+	return response.Payload, nil
 }
