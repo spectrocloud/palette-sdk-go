@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
@@ -54,7 +53,6 @@ func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.
 
 	response, errMsg := h.Client.V1ClusterFeatureBackupOnDemandCreate(params)
 	if errMsg != nil {
-		fmt.Println("Failed to create the Backup %s", errMsg.Error())
 		return nil, errMsg
 	}
 
@@ -68,7 +66,6 @@ func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string, config *models.
 
 	_, errMsg := h.Client.V1ClusterFeatureBackupDelete(params)
 	if errMsg != nil {
-		fmt.Println("Failed to delete the Backup %s", errMsg.Error())
 		return errMsg
 	}
 
@@ -82,7 +79,6 @@ func (h *V1Client) CreateClusterRestoreConfigOnDemand(uid string, config *models
 
 	response, errMsg := h.Client.V1ClusterFeatureRestoreOnDemandCreate(params)
 	if errMsg != nil {
-		fmt.Println("Failed to get the Backup %s", errMsg.Error())
 		return nil, errMsg
 	}
 
@@ -96,7 +92,6 @@ func (h *V1Client) GetClusterRestoreConfigOnDemand(uid string) (*models.V1Cluste
 
 	response, errMsg := h.Client.V1ClusterFeatureRestoreGet(params)
 	if errMsg != nil {
-		fmt.Println("Failed to get the restore %s", errMsg.Error())
 		return nil, errMsg
 	}
 
