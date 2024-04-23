@@ -89,7 +89,7 @@ func (h *V1Client) CreateClusterRestoreConfigOnDemand(uid string, config *models
 	return response.Payload, nil
 }
 
-func (h *V1Client) getClusterRestoreConfigOnDemand(uid string) (*models.V1ClusterRestore, error) {
+func (h *V1Client) GetClusterRestoreConfigOnDemand(uid string) (*models.V1ClusterRestore, error) {
 
 	params := clientV1.NewV1ClusterFeatureRestoreGetParamsWithContext(h.ctx).
 		WithUID(uid)
