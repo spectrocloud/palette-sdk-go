@@ -8,6 +8,15 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+func (h *V1Client) GetMe() (*models.V1UserMe, error) {
+	params := clientV1.NewV1UsersMeGetParams()
+	resp, err := h.Client.V1UsersMeGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // CRUDL operations on users are all tenant scoped.
 // See: hubble/services/svccore/perms/user_acl.go
 
@@ -46,4 +55,26 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 		}
 	}
 	return nil, fmt.Errorf("user with email '%s' not found", email)
+}
+
+func (h *V1Client) DeleteUserByUID(uid string) error {
+	params := clientV1.NewV1UsersUIDDeleteParams().WithUID(uid)
+	_, err := h.Client.V1UsersUIDDelete(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *V1Client) DeleteUserByName(name string) error {
+	users, err := h.GetUsers()
+	if err != nil {
+		return err
+	}
+	for _, user := range users.Items {
+		if user.Metadata.Name == name {
+			return h.DeleteUserByUID(user.Metadata.UID)
+		}
+	}
+	return fmt.Errorf("user with name '%s' not found", name)
 }
