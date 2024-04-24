@@ -47,53 +47,42 @@ func (h *V1Client) ApplyClusterBackupConfig(uid string, config *models.V1Cluster
 }
 
 func (h *V1Client) CreateClusterBackupConfigOnDemand(uid string, config *models.V1ClusterBackupConfig) (*models.V1UID, error) {
-
 	params := clientV1.NewV1ClusterFeatureBackupOnDemandCreateParamsWithContext(h.ctx).
-		WithBody(config).WithUID(uid)
-
-	response, errMsg := h.Client.V1ClusterFeatureBackupOnDemandCreate(params)
-	if errMsg != nil {
-		return nil, errMsg
+		WithBody(config).
+		WithUID(uid)
+	resp, err := h.Client.V1ClusterFeatureBackupOnDemandCreate(params)
+	if err != nil {
+		return nil, err
 	}
-
-	return response.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) DeleteClusterBackupConfigOnDemand(uid string, config *models.V1ClusterBackupConfig) error {
-
 	params := clientV1.NewV1ClusterFeatureBackupDeleteParamsWithContext(h.ctx).
-		WithUID(uid).WithRequestUID(config.BackupLocationUID).WithBackupName(config.BackupName)
-
-	_, errMsg := h.Client.V1ClusterFeatureBackupDelete(params)
-	if errMsg != nil {
-		return errMsg
-	}
-
-	return nil
+		WithUID(uid).
+		WithRequestUID(config.BackupLocationUID).
+		WithBackupName(config.BackupName)
+	_, err := h.Client.V1ClusterFeatureBackupDelete(params)
+	return err
 }
 
 func (h *V1Client) CreateClusterRestoreConfigOnDemand(uid string, config *models.V1ClusterRestoreConfig) (*models.V1UID, error) {
-
 	params := clientV1.NewV1ClusterFeatureRestoreOnDemandCreateParamsWithContext(h.ctx).
-		WithBody(config).WithUID(uid)
-
-	response, errMsg := h.Client.V1ClusterFeatureRestoreOnDemandCreate(params)
-	if errMsg != nil {
-		return nil, errMsg
+		WithBody(config).
+		WithUID(uid)
+	resp, err := h.Client.V1ClusterFeatureRestoreOnDemandCreate(params)
+	if err != nil {
+		return nil, err
 	}
-
-	return response.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetClusterRestoreConfigOnDemand(uid string) (*models.V1ClusterRestore, error) {
-
 	params := clientV1.NewV1ClusterFeatureRestoreGetParamsWithContext(h.ctx).
 		WithUID(uid)
-
-	response, errMsg := h.Client.V1ClusterFeatureRestoreGet(params)
-	if errMsg != nil {
-		return nil, errMsg
+	resp, err := h.Client.V1ClusterFeatureRestoreGet(params)
+	if err != nil {
+		return nil, err
 	}
-
-	return response.Payload, nil
+	return resp.Payload, nil
 }
