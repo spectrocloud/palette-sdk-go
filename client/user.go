@@ -9,7 +9,7 @@ import (
 )
 
 func (h *V1Client) GetMe() (*models.V1UserMe, error) {
-	params := clientV1.NewV1UsersMeGetParams()
+	params := clientV1.NewV1UsersMeGetParamsWithContext(h.ctx)
 	resp, err := h.Client.V1UsersMeGet(params)
 	if err != nil {
 		return nil, err
