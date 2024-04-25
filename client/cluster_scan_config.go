@@ -45,3 +45,18 @@ func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterCo
 	}
 	return h.UpdateClusterScanConfig(uid, config)
 }
+
+func (h *V1Client) GetComplianceScanOnDemandScanLogs(uid string) (*models.V1ClusterComplianceScanLogs, error) {
+	params := clientV1.NewV1ClusterFeatureComplianceScanLogsGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	res, err := h.Client.V1ClusterFeatureComplianceScanLogsGet(params)
+	return res.Payload, err
+}
+
+func (h *V1Client) CreateComplianceScanOnDemandCreateClusterScanConfig(uid string, config *models.V1ClusterComplianceOnDemandConfig) error {
+	params := clientV1.NewV1ClusterFeatureComplianceScanOnDemandCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1ClusterFeatureComplianceScanOnDemandCreate(params)
+	return err
+}
