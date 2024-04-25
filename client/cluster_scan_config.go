@@ -49,8 +49,11 @@ func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterCo
 func (h *V1Client) GetComplianceScanOnDemandScanLogs(uid string) (*models.V1ClusterComplianceScanLogs, error) {
 	params := clientV1.NewV1ClusterFeatureComplianceScanLogsGetParamsWithContext(h.ctx).
 		WithUID(uid)
-	res, err := h.Client.V1ClusterFeatureComplianceScanLogsGet(params)
-	return res.Payload, err
+	resp, err := h.Client.V1ClusterFeatureComplianceScanLogsGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
 
 func (h *V1Client) CreateComplianceScanOnDemandCreateClusterScanConfig(uid string, config *models.V1ClusterComplianceOnDemandConfig) error {
