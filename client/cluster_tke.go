@@ -45,7 +45,9 @@ func (h *V1Client) GetCloudConfigTke(configUid string) (*models.V1TencentCloudCo
 	params := clientV1.NewV1CloudConfigsTkeGetParamsWithContext(h.ctx).
 		WithConfigUID(configUid)
 	resp, err := h.Client.V1CloudConfigsTkeGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil
