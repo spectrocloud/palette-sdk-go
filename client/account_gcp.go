@@ -35,7 +35,9 @@ func (h *V1Client) GetCloudAccountGcp(uid string) (*models.V1GcpAccount, error) 
 	params := clientV1.NewV1CloudAccountsGcpGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1CloudAccountsGcpGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

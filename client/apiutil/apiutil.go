@@ -34,14 +34,13 @@ func Ptr[T any](v T) *T {
 	return &v
 }
 
-func Handle404(err error) error {
+// Is404 returns a boolean indicating whether an error is a 404 error.
+func Is404(err error) bool {
 	var e *transport.TransportError
 	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil
-	} else if err != nil {
-		return err
+		return true
 	}
-	return nil
+	return false
 }
 
 func ToV1ErrorObj(err interface{}) *models.V1Error {

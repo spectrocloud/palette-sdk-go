@@ -45,7 +45,9 @@ func (h *V1Client) GetCloudConfigAzure(configUid string) (*models.V1AzureCloudCo
 	params := clientV1.NewV1CloudConfigsAzureGetParamsWithContext(h.ctx).
 		WithConfigUID(configUid)
 	resp, err := h.Client.V1CloudConfigsAzureGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

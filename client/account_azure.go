@@ -71,7 +71,9 @@ func (h *V1Client) GetCloudAccountAzure(uid string) (*models.V1AzureAccount, err
 	params := clientV1.NewV1CloudAccountsAzureGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1CloudAccountsAzureGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

@@ -44,6 +44,18 @@ func (h *V1Client) GetCluster(uid string) (*models.V1SpectroCluster, error) {
 	return cluster, nil
 }
 
+func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster, error) {
+	params := clientV1.NewV1SpectroClustersGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1SpectroClustersGet(params)
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 func (h *V1Client) GetClusterByName(name string, virtual bool) (*models.V1SpectroCluster, error) {
 	filters := []*models.V1SearchFilterItem{clusterNameEqFilter(name)}
 	clusterSummaries, err := h.SearchClusterSummaries(getClusterFilter(filters, virtual), nil)
@@ -77,20 +89,12 @@ func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sor
 			Sort:   sort,
 		})
 	resp, err := h.Client.V1SpectroClustersSearchFilterSummary(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Items, nil
-}
-
-func (h *V1Client) GetClusterWithoutStatus(uid string) (*models.V1SpectroCluster, error) {
-	params := clientV1.NewV1SpectroClustersGetParamsWithContext(h.ctx).
-		WithUID(uid)
-	resp, err := h.Client.V1SpectroClustersGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload, nil
 }
 
 func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {

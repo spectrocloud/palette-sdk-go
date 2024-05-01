@@ -5,7 +5,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
@@ -48,7 +47,9 @@ func (h *V1Client) GetApplicationProfileTiers(applicationProfileUID string) ([]*
 	params := clientV1.NewV1AppProfilesUIDTiersGetParamsWithContext(h.ctx).
 		WithUID(applicationProfileUID)
 	resp, err := h.Client.V1AppProfilesUIDTiersGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Spec.AppTiers, nil
@@ -60,8 +61,7 @@ func (h *V1Client) GetApplicationProfileTierManifestContent(applicationProfileUI
 		WithTierUID(tierUID).
 		WithManifestUID(manifestUID)
 	resp, err := h.Client.V1AppProfilesUIDTiersUIDManifestsUIDGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
+	if apiutil.Is404(err) {
 		return "", nil
 	} else if err != nil {
 		return "", err
@@ -83,8 +83,7 @@ func (h *V1Client) SearchAppProfileSummaries(filter *models.V1AppProfileFilterSp
 			params.Offset = &resp.Payload.Listmeta.Offset
 		}
 		resp, err = h.Client.V1DashboardAppProfiles(params)
-		var e *transport.TransportError
-		if errors.As(err, &e) && e.HttpCode == 404 {
+		if apiutil.Is404(err) {
 			return nil, nil
 		} else if err != nil {
 			return nil, err
@@ -131,11 +130,8 @@ func (h *V1Client) UpdateApplicationProfileTiers(appProfileUID, tierUID string, 
 		WithTierUID(tierUID).
 		WithBody(appTier)
 	_, err := h.Client.V1AppProfilesUIDTiersUIDUpdate(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
+	if apiutil.Is404(err) {
 		return nil
-	} else if err != nil {
-		return err
 	}
 	return err
 }

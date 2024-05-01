@@ -45,7 +45,9 @@ func (h *V1Client) GetCloudConfigEdgeVsphere(configUid string) (*models.V1Vspher
 	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
 		WithConfigUID(configUid)
 	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

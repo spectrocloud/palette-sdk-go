@@ -15,7 +15,9 @@ func (h *V1Client) SearchPacks(filter *models.V1PackFilterSpec, sortBy []*models
 			Sort:   sortBy,
 		})
 	resp, err := h.Client.V1PacksSearch(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Items, nil
@@ -26,7 +28,9 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUid, packName str
 		WithUID(clusterProfileUid).
 		WithPackName(packName)
 	resp, err := h.Client.V1ClusterProfilesUIDPacksUIDManifests(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Items, nil

@@ -12,7 +12,9 @@ func (h *V1Client) ListCloudAccounts() ([]*models.V1CloudAccountSummary, error) 
 	params := clientV1.NewV1CloudAccountsListSummaryParamsWithContext(h.ctx).
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1CloudAccountsListSummary(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Items, nil

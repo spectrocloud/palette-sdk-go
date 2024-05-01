@@ -66,7 +66,9 @@ func (h *V1Client) GetCloudAccountOpenStack(uid string) (*models.V1OpenStackAcco
 	params := clientV1.NewV1CloudAccountsOpenStackGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1CloudAccountsOpenStackGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

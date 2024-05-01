@@ -22,7 +22,9 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 	params := clientV1.NewV1WorkspacesUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1WorkspacesUIDGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil
@@ -31,7 +33,9 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace, error) {
 	params := clientV1.NewV1DashboardWorkspacesListParamsWithContext(h.ctx)
 	resp, err := h.Client.V1DashboardWorkspacesList(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	for _, workspace := range resp.Payload.Items {
@@ -78,7 +82,9 @@ func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, er
 	params := clientV1.NewV1WorkspaceOpsBackupGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1WorkspaceOpsBackupGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil

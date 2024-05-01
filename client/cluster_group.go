@@ -38,7 +38,9 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string) (*models.V1ClusterGr
 	params := clientV1.NewV1ClusterGroupsUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterGroupsUIDGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil
@@ -81,7 +83,9 @@ func (h *V1Client) GetClusterGroupMetadata() ([]*models.V1ObjectScopeEntity, err
 func (h *V1Client) GetClusterGroupSummaries() ([]*models.V1ClusterGroupSummary, error) {
 	params := clientV1.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterGroupsHostClusterSummary(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Summaries, nil
@@ -120,7 +124,9 @@ func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupUid string, cl
 func (h *V1Client) getClusterGroupMetadata() ([]*models.V1ObjectScopeEntity, error) {
 	params := clientV1.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterGroupsHostClusterMetadata(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload.Items, nil

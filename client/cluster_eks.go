@@ -56,7 +56,9 @@ func (h *V1Client) GetCloudConfigEks(configUid string) (*models.V1EksCloudConfig
 	params := clientV1.NewV1CloudConfigsEksGetParamsWithContext(h.ctx).
 		WithConfigUID(configUid)
 	resp, err := h.Client.V1CloudConfigsEksGet(params)
-	if err := apiutil.Handle404(err); err != nil {
+	if apiutil.Is404(err) {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 	return resp.Payload, nil
