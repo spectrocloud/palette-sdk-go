@@ -78,3 +78,12 @@ func (h *V1Client) DeleteUserByName(name string) error {
 	}
 	return fmt.Errorf("user with name '%s' not found", name)
 }
+
+func (h *V1Client) CreateUser(user *models.V1UserEntity) (string, error) {
+	param := clientV1.NewV1UsersCreateParams().WithBody(user)
+	resp, err := h.Client.V1UsersCreate(param)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
