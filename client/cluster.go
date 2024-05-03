@@ -105,7 +105,10 @@ func (h *V1Client) GetClusterWithoutStatus(scope, uid string) (*models.V1Spectro
 	}
 
 	success, err := h.GetClusterClient().V1SpectroClustersGet(params)
-	if err != nil {
+	var e *transport.TransportError
+	if errors.As(err, &e) && e.HttpCode == 404 {
+		return nil, nil
+	} else if err != nil {
 		return nil, err
 	}
 
