@@ -20,6 +20,7 @@ jobs:
       - name: set-github-access
         run: |
           /usr/bin/git config --global --add url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github".insteadOf https://github
+          /usr/bin/git config --global --add url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github".insteadOf git@github
 
       - name: go-licenses-scan
-        run: go-licenses check --ignore github.com/spectrocloud ./...
+        run: go-licenses check --ignore github.com/spectrocloud ./... --ignore github.com/spectrocloud/
