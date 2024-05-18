@@ -10,6 +10,7 @@ import (
 
 	"github.com/spectrocloud/palette-api-go/apiutil/transport"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
 type V1Client struct {
@@ -18,6 +19,8 @@ type V1Client struct {
 	ctx                context.Context
 	apikey             string
 	jwt                string
+	username           string
+	password           string
 	hubbleUri          string
 	projectUid         string
 	schemes            []string
@@ -45,9 +48,21 @@ func WithAPIKey(apiKey string) func(*V1Client) {
 	}
 }
 
-func WithJWTToken(jwt string) func(*V1Client) {
+func WithJWT(jwt string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.jwt = jwt
+	}
+}
+
+func WithUsername(username string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.username = username
+	}
+}
+
+func WithPassword(password string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.password = password
 	}
 }
 
@@ -118,7 +133,10 @@ func (h *V1Client) Clone() *V1Client {
 		opts = append(opts, WithAPIKey(h.apikey))
 	}
 	if h.jwt != "" {
-		opts = append(opts, WithJWTToken(h.jwt))
+		opts = append(opts, WithJWT(h.jwt))
+	}
+	if h.username != "" && h.password != "" {
+		opts = append(opts, WithUsername(h.username), WithPassword(h.password))
 	}
 	if h.projectUid != "" {
 		opts = append(opts, WithScopeProject(h.projectUid))
@@ -129,16 +147,20 @@ func (h *V1Client) Clone() *V1Client {
 	return New(opts...)
 }
 
-func (h *V1Client) getTransport() *transport.Runtime {
-	var httpTransport *transport.Runtime
-	if h.apikey != "" {
-		httpTransport = h.apiKeyTransport()
-	} else if h.jwt != "" {
-		httpTransport = h.jwtTransport()
-	} else {
-		httpTransport = h.baseTransport()
+func (h *V1Client) getTransport() (t *transport.Runtime) {
+	if h.username != "" && h.password != "" {
+		if err := h.authenticate(); err != nil {
+			return nil
+		}
 	}
-	return httpTransport
+	if h.apikey != "" {
+		t = h.apiKeyTransport()
+	} else if h.jwt != "" {
+		t = h.jwtTransport()
+	} else {
+		t = h.baseTransport()
+	}
+	return
 }
 
 func (h *V1Client) apiKeyTransport() *transport.Runtime {
@@ -151,6 +173,25 @@ func (h *V1Client) jwtTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
 	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authJwt, authTokenInput, h.jwt)
 	return httpTransport
+}
+
+func (h *V1Client) authenticate() error {
+	httpTransport := h.baseTransport()
+	c := clientV1.New(httpTransport, strfmt.Default)
+
+	params := &clientV1.V1AuthenticateParams{
+		Body: &models.V1AuthLogin{
+			EmailID:  h.username,
+			Password: strfmt.Password(h.password),
+		},
+	}
+	resp, err := c.V1Authenticate(params)
+	if err != nil {
+		return err
+	}
+	h.jwt = resp.Payload.Authorization
+
+	return nil
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
