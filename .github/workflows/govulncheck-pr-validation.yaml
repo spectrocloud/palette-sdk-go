@@ -19,8 +19,8 @@ jobs:
 
       - name: set-github-access
         run: |
-          /usr/bin/git config --global --add url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github".insteadOf https://github
-          /usr/bin/git config --global --add url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github".insteadOf git@github
+          /usr/bin/git config --global --add url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github".insteadOf https://github
+          /usr/bin/git config --global --add url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github".insteadOf git@github
 
       - name: govulncheck-scan
         run: |
