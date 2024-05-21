@@ -23,4 +23,4 @@ jobs:
           /usr/bin/git config --global --add url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github".insteadOf git@github
 
       - name: go-licenses-scan
-        run: go-licenses check --ignore github.com/spectrocloud --ignore github.com/spectrocloud/palette-api-go ./...
+        run: go-licenses check --ignore github.com/spectrocloud
