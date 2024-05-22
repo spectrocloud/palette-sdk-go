@@ -81,6 +81,10 @@ func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmReg
 }
 
 func (h *V1Client) GetHelmRegistry(uid string) (*models.V1HelmRegistry, error) {
+	if h.GetHelmRegistryFn != nil {
+		return h.GetHelmRegistryFn(uid)
+	}
+
 	params := clusterC.NewV1RegistriesHelmUIDGetParams().WithUID(uid)
 	response, err := h.GetClusterClient().V1RegistriesHelmUIDGet(params)
 	if err != nil {
