@@ -45,6 +45,10 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUID, packName str
 }
 
 func (h *V1Client) GetPacks(filters []string, registryUID string) ([]*models.V1PackSummary, error) {
+	if h.GetPacksFn != nil {
+		return h.GetPacksFn(filters, registryUID)
+	}
+
 	params := clusterC.NewV1PacksSummaryListParamsWithContext(h.Ctx)
 	if filters != nil {
 		filterString := Ptr(strings.Join(filters, "AND"))

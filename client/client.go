@@ -72,6 +72,7 @@ type V1Client struct {
 
 	// Registry
 	GetPackRegistryCommonByNameFn func(string) (*models.V1RegistryMetadata, error)
+	GetHelmRegistryFn             func(string) (*models.V1HelmRegistry, error)
 
 	// VSphere Cluster
 	CreateClusterVsphereFn        func(*models.V1SpectroVsphereClusterEntity) (string, error)
@@ -100,6 +101,9 @@ type V1Client struct {
 	UpdateEcrRegistryFn    func(uid string, registry *models.V1EcrRegistry) error
 	GetOciRegistryFn       func(uid string) (*models.V1EcrRegistry, error)
 	DeleteOciEcrRegistryFn func(uid string) error
+
+	// Packs
+	GetPacksFn func(filters []string, regUid string) ([]*models.V1PackSummary, error)
 
 	// Edge Native
 	GetCloudConfigEdgeNativeFn func(uid, clusterContext string) (*models.V1EdgeNativeCloudConfig, error)
