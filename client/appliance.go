@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/spectrocloud/gomi/pkg/ptr"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
 	"github.com/spectrocloud/hapi/models"
 	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
@@ -20,13 +21,21 @@ func (h *V1Client) SearchApplianceSummaries(applianceContext string, filter *mod
 		Filter: filter,
 		Sort:   sort,
 	}
-
-	resp, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
-	if err != nil {
-		return nil, err
+	isContinue := true
+	var hosts []*models.V1EdgeHostsMetadata
+	for isContinue {
+		resp, err := h.GetHashboardClient().V1DashboardEdgehostsSearch(params)
+		if err != nil {
+			return nil, err
+		}
+		hosts = append(hosts, resp.Payload.Items...)
+		if resp.Payload.Listmeta.Continue == "" {
+			isContinue = false
+		}
+		params.WithContinue(ptr.StringPtr(resp.Payload.Listmeta.Continue))
 	}
 
-	return resp.Payload.Items, nil
+	return hosts, nil
 }
 
 func (h *V1Client) GetAppliances(applianceContext string, tags map[string]string, status, health, architecture string) ([]*models.V1EdgeHostsMetadata, error) {
