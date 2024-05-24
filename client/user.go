@@ -8,6 +8,16 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+func (h *V1Client) Authenticate(body *models.V1AuthLogin) (*models.V1UserToken, error) {
+	params := clientV1.NewV1AuthenticateParams().
+		WithBody(body)
+	resp, err := h.Client.V1Authenticate(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 func (h *V1Client) GetMe() (*models.V1UserMe, error) {
 	params := clientV1.NewV1UsersMeGetParamsWithContext(h.ctx)
 	resp, err := h.Client.V1UsersMeGet(params)
