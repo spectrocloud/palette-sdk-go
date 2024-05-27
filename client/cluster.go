@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spectrocloud/hapi/apiutil/transport"
 	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
@@ -199,7 +200,7 @@ func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *mod
 		params = clusterC.NewV1SpectroClustersUpdateProfilesParams().WithUID(uid).
 			WithBody(profiles).WithResolveNotification(Ptr(true))
 	}
-
+	params = params.WithTimeout(60 * time.Second)
 	_, err := h.GetClusterClient().V1SpectroClustersUpdateProfiles(params)
 	return err
 }
