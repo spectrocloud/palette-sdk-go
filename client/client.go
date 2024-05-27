@@ -206,7 +206,7 @@ func (h *V1Client) httpClient() *http.Client {
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: h.insecureSkipVerify,
+				InsecureSkipVerify: h.insecureSkipVerify, // #nosec G402 - InsecureSkipVerify is enabled via user input
 			},
 		},
 	}
