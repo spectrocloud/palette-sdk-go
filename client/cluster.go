@@ -1,7 +1,10 @@
 package client
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"os"
 	"strings"
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
@@ -246,4 +249,43 @@ func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 		Property: "clusterName",
 		Type:     models.V1SearchFilterPropertyTypeString,
 	}
+}
+
+func (h *V1Client) GetLogFetcherStatus(uid string,logFetcherUid *string) (*models.V1ClusterLogFetcher,error) {
+	params2 := clientV1.NewV1ClusterFeatureLogFetcherGetParamsWithContext(h.ctx).WithUID(uid).WithRequestID(logFetcherUid)
+	resp2, err := h.Client.V1ClusterFeatureLogFetcherGet(params2)
+	if err != nil {
+		return nil, err
+	}
+	return resp2.Payload, nil
+}
+
+func (h *V1Client) InitiateDownloadOfClusterLogs(uid string,V1ClusterLogFetcherRequestObj *models.V1ClusterLogFetcherRequest) (*string, error) {
+	//param := clientV1.V1ClusterFeatureLogFetcherCreateParams
+	fmt.Println("new console log test")
+	params := clientV1.NewV1ClusterFeatureLogFetcherCreateParamsWithContext(h.ctx).WithUID(uid).WithBody(V1ClusterLogFetcherRequestObj)
+	
+	resp, err := h.Client.V1ClusterFeatureLogFetcherCreate(params)
+	if err != nil {
+		return nil,err
+	}
+	return resp.GetPayload().UID,nil
+	
+}
+
+func (h *V1Client) DownloadLogs(uid string,logFetcherUid string) (io.Writer,error){
+
+	filename := "logs-"+uid+".zip"
+	params1 := clientV1.NewV1ClusterFeatureLogFetcherLogDownloadParamsWithContext(h.ctx).WithUID(logFetcherUid).WithFileName(&filename)
+	var buf bytes.Buffer
+	writer := io.Writer(&buf)
+	resp1,err1 := h.Client.V1ClusterFeatureLogFetcherLogDownload(params1,writer)
+	logfile := resp1.GetPayload()
+	if err1 != nil {
+		return nil,err1
+	}
+	file_location := "/tmp/"+filename
+	fo, _ := os.Create(file_location)
+	buf.WriteTo(fo)
+	return logfile,nil
 }
