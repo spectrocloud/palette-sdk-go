@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
@@ -280,10 +281,13 @@ func (h *V1Client) DownloadLogs(uid string,logFetcherUid string) (io.Writer,erro
 		return nil,err
 	}
 	file_location := "/tmp/"+filename
-	fo, err := os.Create(file_location)
+	fo, err := os.Create(filepath.Clean(file_location))
 	if err != nil {
-		return nil, fmt.Errorf("error while creting a file %v",err)
+		return nil, fmt.Errorf("error while creating a file %v",err)
 	}
-	buf.WriteTo(fo)
+	_, err = buf.WriteTo(fo)
+	if err != nil {
+		return nil, fmt.Errorf("error while writing log content to a file %v",err)
+	}
 	return logfile,nil
 }
