@@ -252,40 +252,38 @@ func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 }
 
 func (h *V1Client) GetLogFetcherStatus(uid string,logFetcherUid *string) (*models.V1ClusterLogFetcher,error) {
-	params2 := clientV1.NewV1ClusterFeatureLogFetcherGetParamsWithContext(h.ctx).WithUID(uid).WithRequestID(logFetcherUid)
-	resp2, err := h.Client.V1ClusterFeatureLogFetcherGet(params2)
+	params := clientV1.NewV1ClusterFeatureLogFetcherGetParamsWithContext(h.ctx).WithUID(uid).WithRequestID(logFetcherUid)
+	resp, err := h.Client.V1ClusterFeatureLogFetcherGet(params)
 	if err != nil {
 		return nil, err
 	}
-	return resp2.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) InitiateDownloadOfClusterLogs(uid string,V1ClusterLogFetcherRequestObj *models.V1ClusterLogFetcherRequest) (*string, error) {
-	//param := clientV1.V1ClusterFeatureLogFetcherCreateParams
-	fmt.Println("new console log test")
 	params := clientV1.NewV1ClusterFeatureLogFetcherCreateParamsWithContext(h.ctx).WithUID(uid).WithBody(V1ClusterLogFetcherRequestObj)
-	
 	resp, err := h.Client.V1ClusterFeatureLogFetcherCreate(params)
 	if err != nil {
 		return nil,err
 	}
 	return resp.GetPayload().UID,nil
-	
 }
 
 func (h *V1Client) DownloadLogs(uid string,logFetcherUid string) (io.Writer,error){
-
 	filename := "logs-"+uid+".zip"
-	params1 := clientV1.NewV1ClusterFeatureLogFetcherLogDownloadParamsWithContext(h.ctx).WithUID(logFetcherUid).WithFileName(&filename)
+	params := clientV1.NewV1ClusterFeatureLogFetcherLogDownloadParamsWithContext(h.ctx).WithUID(logFetcherUid).WithFileName(&filename)
 	var buf bytes.Buffer
 	writer := io.Writer(&buf)
-	resp1,err1 := h.Client.V1ClusterFeatureLogFetcherLogDownload(params1,writer)
-	logfile := resp1.GetPayload()
-	if err1 != nil {
-		return nil,err1
+	resp,err := h.Client.V1ClusterFeatureLogFetcherLogDownload(params,writer)
+	logfile := resp.GetPayload()
+	if err != nil {
+		return nil,err
 	}
 	file_location := "/tmp/"+filename
-	fo, _ := os.Create(file_location)
+	fo, err := os.Create(file_location)
+	if err != nil {
+		return nil, fmt.Errorf("error while creting a file %v",err)
+	}
 	buf.WriteTo(fo)
 	return logfile,nil
 }
