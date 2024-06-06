@@ -53,12 +53,19 @@ func (h *V1Client) GetEdgeHost(edgeHostId string) (*models.V1EdgeHostDevice, err
 }
 
 func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
-	params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx)
-	resp, err := h.Client.V1DashboardEdgehostsSearch(params)
-	if err != nil {
-		return nil, err
+	ContinueToken := ""
+	var Items []*models.V1EdgeHostsMetadata
+	for ok := true; ok; ok = (ContinueToken != "") {
+		params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx)
+		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
+		if err != nil {
+			return nil, err
+		}
+		ContinueToken = resp.Payload.Listmeta.Continue
+		Items = append(Items, resp.Payload.Items...)
 	}
-	return resp.Payload.Items, nil
+
+	return Items, nil
 }
 
 func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) (string, error) {
