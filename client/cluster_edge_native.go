@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"fmt"
 
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
@@ -66,6 +67,124 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 	}
 
 	return items, nil
+}
+
+func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeHostsMetadata, error) {
+	continueToken := ""
+	var items []*models.V1EdgeHostsMetadata
+	filter := getEdgeFilter(nil, tags)
+	for ok := true; ok; ok = (continueToken != "") {
+		params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
+		WithBody(&models.V1SearchFilterSummarySpec{
+			Filter: filter,
+			Sort:   nil,
+		})
+		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
+		if err != nil {
+			return nil, err
+		}
+		continueToken = resp.Payload.Listmeta.Continue
+		items = append(items, resp.Payload.Items...)
+	}
+
+	return items, nil
+}
+
+func getEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]string) *models.V1SearchFilterSpec {
+	filter := &models.V1SearchFilterSpec{
+		Conjunction: and(),
+		FilterGroups: []*models.V1SearchFilterGroup{
+			{
+				Conjunction: and(),
+				Filters:     []*models.V1SearchFilterItem{},
+			},
+		},
+	}
+
+	// Tags filter
+	if len(tags) > 0 {
+		var tagValues []string
+		for key, value := range tags {
+			tagValues = append(tagValues, fmt.Sprintf("%s:%s", key, value))
+		}
+		tagsFilter := &models.V1SearchFilterItem{
+			Condition: &models.V1SearchFilterCondition{
+				String: &models.V1SearchFilterStringCondition{
+					Match: &models.V1SearchFilterStringConditionMatch{
+						Conjunction: or(),
+						Values:      tagValues,
+					},
+					Operator:   models.V1SearchFilterStringOperatorEq,
+					Negation:   false,
+					IgnoreCase: false,
+				},
+			},
+			Property: "tags",
+			Type:     models.V1SearchFilterPropertyTypeString,
+		}
+		filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, tagsFilter)
+	}
+
+	// // State filter
+	// if state != "" {
+	// 	stateFilter := &models.V1SearchFilterItem{
+	// 		Condition: &models.V1SearchFilterCondition{
+	// 			String: &models.V1SearchFilterStringCondition{
+	// 				Match: &models.V1SearchFilterStringConditionMatch{
+	// 					Conjunction: or(),
+	// 					Values:      []string{state},
+	// 				},
+	// 				Operator: models.V1SearchFilterStringOperatorEq,
+	// 			},
+	// 		},
+	// 		Property: "state",
+	// 		Type:     models.V1SearchFilterPropertyTypeString,
+	// 	}
+	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, stateFilter)
+	// }
+
+	// // Health state filter
+	// if healthState != "" {
+	// 	healthStateFilter := &models.V1SearchFilterItem{
+	// 		Condition: &models.V1SearchFilterCondition{
+	// 			String: &models.V1SearchFilterStringCondition{
+	// 				Match: &models.V1SearchFilterStringConditionMatch{
+	// 					Conjunction: or(),
+	// 					Values:      []string{healthState},
+	// 				},
+	// 				Operator: models.V1SearchFilterStringOperatorEq,
+	// 			},
+	// 		},
+	// 		Property: "healthState",
+	// 		Type:     models.V1SearchFilterPropertyTypeString,
+	// 	}
+	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, healthStateFilter)
+	// }
+
+	// // Architecture filter
+	// if architecture != "" {
+	// 	architectureFilter := &models.V1SearchFilterItem{
+	// 		Condition: &models.V1SearchFilterCondition{
+	// 			String: &models.V1SearchFilterStringCondition{
+	// 				Match: &models.V1SearchFilterStringConditionMatch{
+	// 					Conjunction: or(),
+	// 					Values:      []string{architecture},
+	// 				},
+	// 				Operator: models.V1SearchFilterStringOperatorEq,
+	// 			},
+	// 		},
+	// 		Property: "architecture",
+	// 		Type:     models.V1SearchFilterPropertyTypeString,
+	// 	}
+	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, architectureFilter)
+	// }
+
+	// Append extra filters if provided
+	if extraFilters != nil {
+		filter.FilterGroups = append(filter.FilterGroups, &models.V1SearchFilterGroup{Conjunction: and(), Filters: extraFilters})
+	}
+
+	return filter
 }
 
 func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) (string, error) {
