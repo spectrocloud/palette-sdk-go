@@ -72,7 +72,7 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeHostsMetadata, error) {
 	continueToken := ""
 	var items []*models.V1EdgeHostsMetadata
-	filter := getEdgeFilter(nil, tags)
+	filter := GetEdgeFilter(nil, tags)
 	for ok := true; ok; ok = (continueToken != "") {
 		params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
 		WithBody(&models.V1SearchFilterSummarySpec{
@@ -90,7 +90,7 @@ func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeH
 	return items, nil
 }
 
-func getEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]string) *models.V1SearchFilterSpec {
+func GetEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]string) *models.V1SearchFilterSpec {
 	filter := &models.V1SearchFilterSpec{
 		Conjunction: and(),
 		FilterGroups: []*models.V1SearchFilterGroup{
