@@ -125,60 +125,6 @@ func GetEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]st
 		filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, tagsFilter)
 	}
 
-	// // State filter
-	// if state != "" {
-	// 	stateFilter := &models.V1SearchFilterItem{
-	// 		Condition: &models.V1SearchFilterCondition{
-	// 			String: &models.V1SearchFilterStringCondition{
-	// 				Match: &models.V1SearchFilterStringConditionMatch{
-	// 					Conjunction: or(),
-	// 					Values:      []string{state},
-	// 				},
-	// 				Operator: models.V1SearchFilterStringOperatorEq,
-	// 			},
-	// 		},
-	// 		Property: "state",
-	// 		Type:     models.V1SearchFilterPropertyTypeString,
-	// 	}
-	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, stateFilter)
-	// }
-
-	// // Health state filter
-	// if healthState != "" {
-	// 	healthStateFilter := &models.V1SearchFilterItem{
-	// 		Condition: &models.V1SearchFilterCondition{
-	// 			String: &models.V1SearchFilterStringCondition{
-	// 				Match: &models.V1SearchFilterStringConditionMatch{
-	// 					Conjunction: or(),
-	// 					Values:      []string{healthState},
-	// 				},
-	// 				Operator: models.V1SearchFilterStringOperatorEq,
-	// 			},
-	// 		},
-	// 		Property: "healthState",
-	// 		Type:     models.V1SearchFilterPropertyTypeString,
-	// 	}
-	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, healthStateFilter)
-	// }
-
-	// // Architecture filter
-	// if architecture != "" {
-	// 	architectureFilter := &models.V1SearchFilterItem{
-	// 		Condition: &models.V1SearchFilterCondition{
-	// 			String: &models.V1SearchFilterStringCondition{
-	// 				Match: &models.V1SearchFilterStringConditionMatch{
-	// 					Conjunction: or(),
-	// 					Values:      []string{architecture},
-	// 				},
-	// 				Operator: models.V1SearchFilterStringOperatorEq,
-	// 			},
-	// 		},
-	// 		Property: "architecture",
-	// 		Type:     models.V1SearchFilterPropertyTypeString,
-	// 	}
-	// 	filter.FilterGroups[0].Filters = append(filter.FilterGroups[0].Filters, architectureFilter)
-	// }
-
 	// Append extra filters if provided
 	if extraFilters != nil {
 		filter.FilterGroups = append(filter.FilterGroups, &models.V1SearchFilterGroup{Conjunction: and(), Filters: extraFilters})
