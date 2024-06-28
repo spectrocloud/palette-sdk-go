@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
@@ -26,6 +25,7 @@ type V1Client struct {
 	Ctx            context.Context
 	apikey         string
 	hubbleUri      string
+	projectUID     string
 	schemes        []string
 	transportDebug bool
 	RetryAttempts  int
@@ -163,6 +163,12 @@ func WithProjectUID(projectUid string) func(*V1Client) {
 	}
 }
 
+func SetProjectUID(projectUid string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.projectUID = projectUid
+	}
+}
+
 func WithRetries(retries int) func(*V1Client) {
 	return func(v *V1Client) {
 		v.RetryAttempts = retries
@@ -202,6 +208,11 @@ func (h *V1Client) getAuthenticatedTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
 	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
 	return httpTransport
+}
+
+func (h *V1Client) SetProjectContextForResource() *V1Client {
+	h.Ctx = ContextWithProject(h.Ctx, h.projectUID)
+	return h
 }
 
 // Clients
