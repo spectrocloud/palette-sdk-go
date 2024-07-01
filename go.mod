@@ -6,6 +6,8 @@ require (
 	github.com/go-openapi/runtime v0.26.0
 	github.com/go-openapi/strfmt v0.21.7
 	github.com/pkg/errors v0.9.1
+	github.com/spectrocloud/gomi v1.14.0
+	github.com/spectrocloud/hapi v1.14.0
 	github.com/spectrocloud/palette-api-go v0.2.3
 	github.com/stretchr/testify v1.8.4
 )
