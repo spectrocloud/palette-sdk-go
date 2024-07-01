@@ -26,7 +26,7 @@ func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateMachinePoolGke(cloudConfigId, ClusterContext string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolGke(cloudConfigId string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsGkeMachinePoolCreate(params)
 	return err
