@@ -70,10 +70,7 @@ func (h *V1Client) GetClusterByName(name string, virtual bool) (*models.V1Spectr
 		return nil, fmt.Errorf("expected 1 cluster: got %d", len(clusterSummaries))
 	}
 	cluster, err := h.GetCluster(clusterSummaries[0].Metadata.UID)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
-		return nil, nil
-	} else if err != nil {
+	if err != nil {
 		return nil, err
 	}
 	return cluster, nil
