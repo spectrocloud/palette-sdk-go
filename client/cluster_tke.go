@@ -1,110 +1,71 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-func (h *V1Client) CreateClusterTke(cluster *models.V1SpectroTencentClusterEntity, ClusterContext string) (string, error) {
-	var params *clusterC.V1SpectroClustersTkeCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersTkeCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersTkeCreateParams().WithBody(cluster)
-	}
-
-	success, err := h.GetClusterClient().V1SpectroClustersTkeCreate(params)
+func (h *V1Client) CreateClusterTke(cluster *models.V1SpectroTencentClusterEntity) (string, error) {
+	params := clientV1.NewV1SpectroClustersTkeCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersTkeCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolTke(cloudConfigId, ClusterContext string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsTkeMachinePoolCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsTkeMachinePoolCreate(params)
+func (h *V1Client) CreateMachinePoolTke(cloudConfigUid string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsTkeMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolTke(cloudConfigId, ClusterContext string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsTkeMachinePoolUpdateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolUpdateParams().
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsTkeMachinePoolUpdate(params)
+func (h *V1Client) UpdateMachinePoolTke(cloudConfigUid string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsTkeMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(*machinePool.PoolConfig.Name).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolTke(cloudConfigId, machinePoolName, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsTkeMachinePoolDeleteParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkeMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsTkeMachinePoolDelete(params)
+func (h *V1Client) DeleteMachinePoolTke(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsTkeMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
+	_, err := h.Client.V1CloudConfigsTkeMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigTke(configUID, ClusterContext string) (*models.V1TencentCloudConfig, error) {
-	var params *clusterC.V1CloudConfigsTkeGetParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsTkeGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkeGetParams().WithConfigUID(configUID)
-	}
-
-	success, err := h.GetClusterClient().V1CloudConfigsTkeGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
+func (h *V1Client) GetCloudConfigTke(configUid string) (*models.V1TencentCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsTkeGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsTkeGet(params)
+	if apiutil.Is404(err) {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapTke(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clusterC.V1CloudConfigsTkePoolMachinesListParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsTkePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsTkePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+func (h *V1Client) GetNodeStatusMapTke(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsTkePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsTkePoolMachinesList(params)
+	if err != nil {
+		return nil, err
 	}
-
-	mpList, err := h.GetClusterClient().V1CloudConfigsTkePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {
 			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }

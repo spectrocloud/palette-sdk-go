@@ -1,41 +1,30 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) GetClusterLocationConfig(scope, uid string) (*models.V1ClusterLocation, error) {
-	if clusterStatus, err := h.GetClusterWithoutStatus(scope, uid); err != nil {
+func (h *V1Client) GetClusterLocationConfig(uid string) (*models.V1ClusterLocation, error) {
+	clusterStatus, err := h.GetClusterWithoutStatus(uid)
+	if err != nil {
 		return nil, err
-	} else if clusterStatus != nil && clusterStatus.Status != nil && clusterStatus.Status.Location != nil {
-		return clusterStatus.Status.Location, nil
 	}
-
-	return nil, errors.New("failed to read cluster location")
+	return clusterStatus.Status.Location, nil
 }
 
-func (h *V1Client) UpdateClusterLocationConfig(uid, clusterContext string, config *models.V1SpectroClusterLocationInputEntity) error {
-	var params *clusterC.V1SpectroClustersUIDLocationPutParams
-	switch clusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDLocationPutParams().WithUID(uid).WithBody(config)
-	}
-
-	_, err := h.GetClusterClient().V1SpectroClustersUIDLocationPut(params)
+func (h *V1Client) UpdateClusterLocationConfig(uid string, config *models.V1SpectroClusterLocationInputEntity) error {
+	params := clientV1.NewV1SpectroClustersUIDLocationPutParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1SpectroClustersUIDLocationPut(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterLocationConfig(scope, uid string, config *models.V1SpectroClusterLocationInputEntity) error {
-	if curentConfig, err := h.GetClusterLocationConfig(scope, uid); err != nil {
+func (h *V1Client) ApplyClusterLocationConfig(uid string, config *models.V1SpectroClusterLocationInputEntity) error {
+	_, err := h.GetClusterLocationConfig(uid)
+	if err != nil {
 		return err
-	} else if curentConfig == nil {
-		return h.UpdateClusterLocationConfig(uid, scope, config)
-	} else {
-		return h.UpdateClusterLocationConfig(uid, scope, config)
 	}
+	return h.UpdateClusterLocationConfig(uid, config) // update method is same as create
 }

@@ -1,95 +1,81 @@
 package client
 
 import (
-	"hash/fnv"
-	"strconv"
-
-	"github.com/spectrocloud/hapi/models"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 func (h *V1Client) CreateMacro(uid string, macros *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosCreateParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosCreate(params)
-		if err != nil {
-			return err
-		}
-	} else {
-		tenantUID, err := h.GetTenantUID()
-		if err != nil {
-			return err
-		}
-		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosCreateParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosCreate(params)
-		if err != nil {
-			return err
-		}
+		params := clientV1.NewV1ProjectsUIDMacrosCreateParamsWithContext(h.ctx).
+			WithUID(uid).
+			WithBody(macros)
+		_, err := h.Client.V1ProjectsUIDMacrosCreate(params)
+		return err
 	}
-
-	return nil
+	tenantUID, err := h.GetTenantUID()
+	if err != nil {
+		return err
+	}
+	// As discussed with hubble team, we should not set context for tenant macros.
+	params := clientV1.NewV1TenantsUIDMacrosCreateParams().
+		WithTenantUID(tenantUID).
+		WithBody(macros)
+	_, err = h.Client.V1TenantsUIDMacrosCreate(params)
+	return err
 }
 
-func (h *V1Client) GetMacro(name, projectUID string) (*models.V1Macro, error) {
-	macros, err := h.GetMacros(projectUID)
+func (h *V1Client) GetMacro(name, projectUid string) (*models.V1Macro, error) {
+	macros, err := h.GetMacros(projectUid)
 	if err != nil {
 		return nil, err
 	}
-	id := h.GetMacroId(projectUID, name)
+	id := h.GetMacroId(projectUid, name)
 
 	for _, macro := range macros {
-		if h.GetMacroId(projectUID, macro.Name) == id {
+		if h.GetMacroId(projectUid, macro.Name) == id {
 			return macro, nil
 		}
 	}
-
 	return nil, nil
 }
 
-func (h *V1Client) GetMacros(projectUID string) ([]*models.V1Macro, error) {
+func (h *V1Client) GetMacros(projectUid string) ([]*models.V1Macro, error) {
 	var macros []*models.V1Macro
 
-	if projectUID != "" {
-		params := userC.NewV1ProjectsUIDMacrosListParams().WithContext(h.Ctx).WithUID(projectUID)
-		macrosListOk, err := h.GetUserClient().V1ProjectsUIDMacrosList(params)
+	if projectUid != "" {
+		params := clientV1.NewV1ProjectsUIDMacrosListParamsWithContext(h.ctx).
+			WithUID(projectUid)
+		resp, err := h.Client.V1ProjectsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
-		macros = macrosListOk.Payload.Macros
-
+		macros = resp.Payload.Macros
 	} else {
 		tenantUID, err := h.GetTenantUID()
 		if err != nil || tenantUID == "" {
 			return nil, err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosListParams().WithTenantUID(tenantUID)
-		macrosListOk, err := h.GetUserClient().V1TenantsUIDMacrosList(params)
+		params := clientV1.NewV1TenantsUIDMacrosListParams().
+			WithTenantUID(tenantUID)
+		resp, err := h.Client.V1TenantsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
 		}
-		macros = macrosListOk.Payload.Macros
-
+		macros = resp.Payload.Macros
 	}
 
 	return macros, nil
 }
 
-func (h *V1Client) StringHash(name string) string {
-	return strconv.FormatUint(uint64(hash(name)), 10)
-}
-
-func hash(s string) uint32 {
-	h := fnv.New32a()
-	_, _ = h.Write([]byte(s))
-	return h.Sum32()
-}
-
 func (h *V1Client) UpdateMacro(uid string, macros *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosUpdateByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(macros)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosUpdateByMacroName(params)
+		params := clientV1.NewV1ProjectsUIDMacrosUpdateByMacroNameParamsWithContext(h.ctx).
+			WithUID(uid).
+			WithBody(macros)
+		_, err := h.Client.V1ProjectsUIDMacrosUpdateByMacroName(params)
 		return err
 	} else {
 		tenantUID, err := h.GetTenantUID()
@@ -97,16 +83,20 @@ func (h *V1Client) UpdateMacro(uid string, macros *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosUpdateByMacroNameParams().WithTenantUID(tenantUID).WithBody(macros)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosUpdateByMacroName(params)
+		params := clientV1.NewV1TenantsUIDMacrosUpdateByMacroNameParams().
+			WithTenantUID(tenantUID).
+			WithBody(macros)
+		_, err = h.Client.V1TenantsUIDMacrosUpdateByMacroName(params)
 		return err
 	}
 }
 
 func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
 	if uid != "" {
-		params := userC.NewV1ProjectsUIDMacrosDeleteByMacroNameParams().WithContext(h.Ctx).WithUID(uid).WithBody(body)
-		_, err := h.GetUserClient().V1ProjectsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1ProjectsUIDMacrosDeleteByMacroNameParamsWithContext(h.ctx).
+			WithUID(uid).
+			WithBody(body)
+		_, err := h.Client.V1ProjectsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}
@@ -116,25 +106,24 @@ func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
 			return err
 		}
 		// As discussed with hubble team, we should not set context for tenant macros.
-		params := userC.NewV1TenantsUIDMacrosDeleteByMacroNameParams().WithTenantUID(tenantUID).WithBody(body)
-		_, err = h.GetUserClient().V1TenantsUIDMacrosDeleteByMacroName(params)
+		params := clientV1.NewV1TenantsUIDMacrosDeleteByMacroNameParams().
+			WithTenantUID(tenantUID).
+			WithBody(body)
+		_, err = h.Client.V1TenantsUIDMacrosDeleteByMacroName(params)
 		if err != nil {
 			return err
 		}
 	}
 	_, err := h.GetMacros(uid)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (h *V1Client) GetMacroId(uid, name string) string {
 	var hash string
 	if uid != "" {
-		hash = h.StringHash(name + uid)
+		hash = apiutil.StringHash(name + uid)
 	} else {
-		hash = h.StringHash(name + "%tenant")
+		hash = apiutil.StringHash(name + "%tenant")
 	}
 	return hash
 }

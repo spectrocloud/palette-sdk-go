@@ -1,80 +1,56 @@
 package client
 
 import (
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) GetClusterRbacConfig(uid, ClusterContext string) (*models.V1ClusterRbacs, error) {
-	if h.GetClusterRbacConfigFn != nil {
-		return h.GetClusterRbacConfigFn(uid)
-	}
-	var params *clusterC.V1SpectroClustersUIDConfigRbacsGetParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.Ctx).WithUID(uid)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsGetParams().WithUID(uid)
-	}
-
-	success, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsGet(params)
+func (h *V1Client) GetClusterRbacConfig(uid string) (*models.V1ClusterRbacs, error) {
+	params := clientV1.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1SpectroClustersUIDConfigRbacsGet(params)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return nil, nil
 		}
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) CreateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbac) error {
-	var params *clusterC.V1WorkspacesClusterRbacCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
-	case "tenant":
-		params = clusterC.NewV1WorkspacesClusterRbacCreateParams().WithUID(uid).WithBody(config)
-	}
-
-	_, err := h.GetClusterClient().V1WorkspacesClusterRbacCreate(params)
+func (h *V1Client) CreateClusterRbacConfig(uid string, config *models.V1ClusterRbac) error {
+	params := clientV1.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1WorkspacesClusterRbacCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterRbacConfig(uid, ClusterContext string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
-	var params *clusterC.V1SpectroClustersUIDConfigRbacsUpdateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.Ctx).WithUID(uid).WithBody(config)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersUIDConfigRbacsUpdateParams().WithUID(uid).WithBody(config)
-	}
-
-	_, err := h.GetClusterClient().V1SpectroClustersUIDConfigRbacsUpdate(params)
+func (h *V1Client) UpdateClusterRbacConfig(uid string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
+	params := clientV1.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1SpectroClustersUIDConfigRbacsUpdate(params)
 	return err
 }
 
-func (h *V1Client) ApplyClusterRbacConfig(uid, ClusterContext string, config []*models.V1ClusterRbacInputEntity) error {
-	if rbac, err := h.GetClusterRbacConfig(uid, ClusterContext); err != nil {
+func (h *V1Client) ApplyClusterRbacConfig(uid string, config []*models.V1ClusterRbacInputEntity) error {
+	rbac, err := h.GetClusterRbacConfig(uid)
+	if err != nil {
 		return err
-	} else if rbac == nil {
-		return h.CreateClusterRbacConfig(uid, ClusterContext, toCreateClusterRbac(config))
-	} else {
-		return h.UpdateClusterRbacConfig(uid, ClusterContext, &models.V1ClusterRbacResourcesUpdateEntity{
-			Rbacs: config,
-		})
 	}
+	if rbac == nil {
+		return h.CreateClusterRbacConfig(uid, toCreateClusterRbac(config))
+	}
+	return h.UpdateClusterRbacConfig(uid, &models.V1ClusterRbacResourcesUpdateEntity{Rbacs: config})
 }
 
 func toCreateClusterRbac(rbacs []*models.V1ClusterRbacInputEntity) *models.V1ClusterRbac {
 	bindings := make([]*models.V1ClusterRbacBinding, 0)
-
 	for _, rbac := range rbacs {
 		bindings = append(bindings, rbac.Spec.Bindings...)
 	}
-
 	return &models.V1ClusterRbac{
 		Spec: &models.V1ClusterRbacSpec{
 			Bindings: bindings,
