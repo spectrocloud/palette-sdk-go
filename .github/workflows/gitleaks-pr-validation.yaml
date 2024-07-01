@@ -1,22 +1,19 @@
-name: GitLeaks
+name: GitLeaksPRValidation
+on: [pull_request]
 
-on:
-  pull_request:
-    branches:
-    - main
-  workflow_dispatch: {}
+concurrency:
+  group: gitleaks-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  gitleaks-scan:
+  gitleaks-pr-scan:
     runs-on: ubuntu-latest
     container:
-      image: gcr.io/spectro-common-dev/fayasa/bulwark:latest
+      image: gcr.io/spectro-dev-public/bulwark/gitleaks:latest
       env:
         REPO: ${{ github.event.repository.name }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      credentials:
-        username: _json_key
-        password: ${{ secrets.GCR_SPCD_JSON_KEY }}
+        GITLEAKS_CONFIG: /workspace/config.toml
     steps:
 
       - name: run-bulwark-gitleaks-scan

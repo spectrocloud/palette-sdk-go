@@ -4,22 +4,20 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/spectrocloud/hapi/apiutil"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
-	userC "github.com/spectrocloud/hapi/user/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 // PCG - Generic
 
 func (h *V1Client) GetPCGId(name *string) (string, error) {
-	params := clusterC.NewV1OverlordsListParams()
-	listResp, err := h.GetClusterClient().V1OverlordsList(params)
+	params := clientV1.NewV1OverlordsListParamsWithContext(h.ctx)
+	resp, err := h.Client.V1OverlordsList(params)
 	if err != nil {
 		return "", err
 	}
-
-	for _, pcg := range listResp.Payload.Items {
+	for _, pcg := range resp.Payload.Items {
 		if pcg.Metadata.Name == *name {
 			return pcg.Metadata.UID, nil
 		}
@@ -28,92 +26,97 @@ func (h *V1Client) GetPCGId(name *string) (string, error) {
 }
 
 func (h *V1Client) GetPCGById(uid string) (*models.V1Overlord, error) {
-	params := clusterC.NewV1OverlordsUIDGetParams().WithUID(uid)
-	overlord, err := h.GetClusterClient().V1OverlordsUIDGet(params)
+	params := clientV1.NewV1OverlordsUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1OverlordsUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
-	return overlord.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetPCGByName(name *string) (*models.V1Overlord, error) {
-	params := clusterC.NewV1OverlordsListParamsWithContext(h.Ctx).WithName(name)
-	overlordList, err := h.GetClusterClient().V1OverlordsList(params)
+func (h *V1Client) GetPCGByName(name string) (*models.V1Overlord, error) {
+	params := clientV1.NewV1OverlordsListParamsWithContext(h.ctx).
+		WithName(&name)
+	resp, err := h.Client.V1OverlordsList(params)
 	if err != nil {
 		return nil, err
 	}
-
-	var overlord *models.V1Overlord
-	if len(overlordList.Payload.Items) > 0 {
-		overlord = overlordList.Payload.Items[0]
+	if len(resp.Payload.Items) > 0 {
+		return resp.Payload.Items[0], nil
 	}
-	return overlord, nil
+	return nil, nil
 }
 
 func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
-	codeParams := clusterC.NewV1OverlordsPairingCodeParams().WithContext(h.Ctx).WithCloudType(&cloudType)
-	ret, err := h.GetClusterClient().V1OverlordsPairingCode(codeParams)
+	params := clientV1.NewV1OverlordsPairingCodeParamsWithContext(h.ctx).
+		WithCloudType(&cloudType)
+	resp, err := h.Client.V1OverlordsPairingCode(params)
 	if err != nil {
 		return "", err
 	}
-
-	return ret.Payload.PairingCode, nil
+	return resp.Payload.PairingCode, nil
 }
 
-func (h *V1Client) CheckPCG(PcgId string) error {
-	if PcgId == "" {
+func (h *V1Client) CheckPCG(pcgId string) error {
+	if pcgId == "" {
 		return nil // no pcg to check
 	}
-	pcg, err := h.GetPCGById(PcgId)
+	pcg, err := h.GetPCGById(pcgId)
 	if err != nil {
 		return err
 	}
 	if pcg == nil {
-		return fmt.Errorf("Private Cloud Gateway not found: %s", PcgId)
+		return fmt.Errorf("private cloud gateway not found: %s", pcgId)
 	}
 	if pcg.Status == nil {
-		return fmt.Errorf("Private Cloud Gateway status not found: %s", PcgId)
+		return fmt.Errorf("private cloud gateway status not found: %s", pcgId)
 	}
 	if pcg.Status.State != "Running" {
-		return fmt.Errorf("Private Cloud Gateway is not running: %s", PcgId)
-	} else {
-		return nil // pcg is running
+		return fmt.Errorf("private cloud gateway is not running: %s", pcgId)
 	}
+	return nil // pcg is running
 }
 
 // PCG - vSphere
 
 func (h *V1Client) CreatePCGVsphere(uid string, cloudConfig *models.V1OverlordVsphereCloudConfig) (string, error) {
-	params := clusterC.NewV1OverlordsUIDVsphereCloudConfigCreateParamsWithContext(h.Ctx).WithBody(cloudConfig).WithUID(uid)
-	success, err := h.GetClusterClient().V1OverlordsUIDVsphereCloudConfigCreate(params)
+	params := clientV1.NewV1OverlordsUIDVsphereCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(cloudConfig)
+	resp, err := h.Client.V1OverlordsUIDVsphereCloudConfigCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 
 }
 
 func (h *V1Client) CreatePCGCloudAccountVsphere(uid string, account *models.V1OverlordVsphereAccountCreate) (string, error) {
-	params := clusterC.NewV1OverlordsUIDVsphereAccountCreateParamsWithContext(h.Ctx).WithBody(account).WithUID(uid)
-	success, err := h.GetClusterClient().V1OverlordsUIDVsphereAccountCreate(params)
+	params := clientV1.NewV1OverlordsUIDVsphereAccountCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(account)
+	resp, err := h.Client.V1OverlordsUIDVsphereAccountCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) GetPCGManifestVsphere(pairingCode string) (string, error) {
-	params := clusterC.NewV1OverlordsVsphereManifestParamsWithContext(h.Ctx).WithPairingCode(pairingCode)
-	success, err := h.GetClusterClient().V1OverlordsVsphereManifest(params)
+	params := clientV1.NewV1OverlordsVsphereManifestParamsWithContext(h.ctx).
+		WithPairingCode(pairingCode)
+	resp, err := h.Client.V1OverlordsVsphereManifest(params)
 	if err != nil {
 		return "", err
 	}
-	return success.Payload.Manifest, nil
+	return resp.Payload.Manifest, nil
 }
 
 func (h *V1Client) GetPCGClusterProfileVsphere(uid string) (*models.V1ClusterProfile, error) {
-	params := clusterC.NewV1OverlordsUIDVsphereClusterProfileParams().WithUID(uid)
-	resp, err := h.GetClusterClient().V1OverlordsUIDVsphereClusterProfile(params)
+	params := clientV1.NewV1OverlordsUIDVsphereClusterProfileParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1OverlordsUIDVsphereClusterProfile(params)
 	if err != nil {
 		return nil, err
 	}
@@ -121,49 +124,50 @@ func (h *V1Client) GetPCGClusterProfileVsphere(uid string) (*models.V1ClusterPro
 }
 
 func (h *V1Client) CreateDDNSSearchDomainVsphere(vsphereDnsMapping *models.V1VsphereDNSMapping) error {
-	params := userC.NewV1VsphereDNSMappingCreateParamsWithContext(h.Ctx).WithBody(vsphereDnsMapping)
-	if _, err := h.GetUserClient().V1VsphereDNSMappingCreate(params); err != nil {
-		return err
-	}
-	return nil
+	params := clientV1.NewV1VsphereDNSMappingCreateParamsWithContext(h.ctx).
+		WithBody(vsphereDnsMapping)
+	_, err := h.Client.V1VsphereDNSMappingCreate(params)
+	return err
 }
 
 // PCG - OpenStack
 
 func (h *V1Client) CreatePCGCloudAccountOpenStack(overlordUid string, account *models.V1OverlordOpenStackAccountCreate) (string, error) {
-	params := clusterC.NewV1OverlordsUIDOpenStackAccountCreateParamsWithContext(h.Ctx).
-		WithBody(account).
-		WithUID(overlordUid)
-	success, err := h.GetClusterClient().V1OverlordsUIDOpenStackAccountCreate(params)
+	params := clientV1.NewV1OverlordsUIDOpenStackAccountCreateParamsWithContext(h.ctx).
+		WithUID(overlordUid).
+		WithBody(account)
+	resp, err := h.Client.V1OverlordsUIDOpenStackAccountCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) CreatePCGOpenStack(overlordUid string, cloudConfig *models.V1OverlordOpenStackCloudConfig) (string, error) {
-	params := clusterC.NewV1OverlordsUIDOpenStackCloudConfigCreateParamsWithContext(h.Ctx).
-		WithBody(cloudConfig).
-		WithUID(overlordUid)
-	success, err := h.GetClusterClient().V1OverlordsUIDOpenStackCloudConfigCreate(params)
+	params := clientV1.NewV1OverlordsUIDOpenStackCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(overlordUid).
+		WithBody(cloudConfig)
+	resp, err := h.Client.V1OverlordsUIDOpenStackCloudConfigCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) GetPCGManifestOpenStack(pairingCode string) (string, error) {
-	params := clusterC.NewV1OverlordsOpenStackManifestParamsWithContext(h.Ctx).WithPairingCode(pairingCode)
-	success, err := h.GetClusterClient().V1OverlordsOpenStackManifest(params)
+	params := clientV1.NewV1OverlordsOpenStackManifestParamsWithContext(h.ctx).
+		WithPairingCode(pairingCode)
+	resp, err := h.Client.V1OverlordsOpenStackManifest(params)
 	if err != nil {
 		return "", err
 	}
-	return success.Payload.Manifest, nil
+	return resp.Payload.Manifest, nil
 }
 
 func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterProfile, error) {
-	params := clusterC.NewV1OverlordsUIDOpenStackClusterProfileParams().WithUID(uid)
-	resp, err := h.GetClusterClient().V1OverlordsUIDOpenStackClusterProfile(params)
+	params := clientV1.NewV1OverlordsUIDOpenStackClusterProfileParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1OverlordsUIDOpenStackClusterProfile(params)
 	if err != nil {
 		return nil, err
 	}
@@ -173,39 +177,41 @@ func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterP
 // PCG - MAAS
 
 func (h *V1Client) CreatePCGCloudAccountMaas(overlordUid string, account *models.V1OverlordMaasAccountCreate) (string, error) {
-	params := clusterC.NewV1OverlordsUIDMaasAccountCreateParamsWithContext(h.Ctx).
-		WithBody(account).
-		WithUID(overlordUid)
-	success, err := h.GetClusterClient().V1OverlordsUIDMaasAccountCreate(params)
+	params := clientV1.NewV1OverlordsUIDMaasAccountCreateParamsWithContext(h.ctx).
+		WithUID(overlordUid).
+		WithBody(account)
+	resp, err := h.Client.V1OverlordsUIDMaasAccountCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) CreatePCGMaas(overlordUid string, cloudConfig *models.V1OverlordMaasCloudConfig) (string, error) {
-	params := clusterC.NewV1OverlordsUIDMaasCloudConfigCreateParamsWithContext(h.Ctx).
-		WithBody(cloudConfig).
-		WithUID(overlordUid)
-	success, err := h.GetClusterClient().V1OverlordsUIDMaasCloudConfigCreate(params)
+	params := clientV1.NewV1OverlordsUIDMaasCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(overlordUid).
+		WithBody(cloudConfig)
+	resp, err := h.Client.V1OverlordsUIDMaasCloudConfigCreate(params)
 	if err != nil {
 		return "", err
 	}
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 func (h *V1Client) GetPCGManifestMaas(pairingCode string) (string, error) {
-	params := clusterC.NewV1OverlordsMaasManifestParamsWithContext(h.Ctx).WithPairingCode(pairingCode)
-	success, err := h.GetClusterClient().V1OverlordsMaasManifest(params)
+	params := clientV1.NewV1OverlordsMaasManifestParamsWithContext(h.ctx).
+		WithPairingCode(pairingCode)
+	resp, err := h.Client.V1OverlordsMaasManifest(params)
 	if err != nil {
 		return "", err
 	}
-	return success.Payload.Manifest, nil
+	return resp.Payload.Manifest, nil
 }
 
 func (h *V1Client) GetPCGClusterProfileMaas(uid string) (*models.V1ClusterProfile, error) {
-	params := clusterC.NewV1OverlordsUIDMaasClusterProfileParams().WithUID(uid)
-	resp, err := h.GetClusterClient().V1OverlordsUIDMaasClusterProfile(params)
+	params := clientV1.NewV1OverlordsUIDMaasClusterProfileParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1OverlordsUIDMaasClusterProfile(params)
 	if err != nil {
 		return nil, err
 	}
@@ -215,29 +221,31 @@ func (h *V1Client) GetPCGClusterProfileMaas(uid string) (*models.V1ClusterProfil
 // IP Pool
 
 func (h *V1Client) CreateIpPool(pcgUID string, pool *models.V1IPPoolInputEntity) (string, error) {
-	params := clusterC.NewV1OverlordsUIDPoolCreateParams().WithUID(pcgUID).WithBody(pool)
-	if resp, err := h.GetClusterClient().V1OverlordsUIDPoolCreate(params); err != nil {
+	params := clientV1.NewV1OverlordsUIDPoolCreateParamsWithContext(h.ctx).
+		WithUID(pcgUID).
+		WithBody(pool)
+	resp, err := h.Client.V1OverlordsUIDPoolCreate(params)
+	if err != nil {
 		return "", err
-	} else {
-		return *resp.Payload.UID, nil
 	}
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetIpPool(pcgUID, poolUID string) (*models.V1IPPoolEntity, error) {
-	pools, err := h.GetIpPools(pcgUID)
+func (h *V1Client) GetIpPool(pcgUid, poolUid string) (*models.V1IPPoolEntity, error) {
+	pools, err := h.GetIpPools(pcgUid)
 	if err != nil {
 		return nil, err
 	}
 	for _, pool := range pools {
-		if pool.Metadata.UID == poolUID {
+		if pool.Metadata.UID == poolUid {
 			return pool, nil
 		}
 	}
 	return nil, nil
 }
 
-func (h *V1Client) GetIpPoolByName(pcgUID, poolName string) (*models.V1IPPoolEntity, error) {
-	pools, err := h.GetIpPools(pcgUID)
+func (h *V1Client) GetIpPoolByName(pcgUid, poolName string) (*models.V1IPPoolEntity, error) {
+	pools, err := h.GetIpPools(pcgUid)
 	if err != nil {
 		return nil, err
 	}
@@ -249,29 +257,31 @@ func (h *V1Client) GetIpPoolByName(pcgUID, poolName string) (*models.V1IPPoolEnt
 	return nil, errors.New("ip pool not found: " + poolName)
 }
 
-func (h *V1Client) GetIpPools(pcgUID string) ([]*models.V1IPPoolEntity, error) {
-	params := clusterC.NewV1OverlordsUIDPoolsListParams().WithUID(pcgUID)
-	listResp, err := h.GetClusterClient().V1OverlordsUIDPoolsList(params)
+func (h *V1Client) GetIpPools(pcgUid string) ([]*models.V1IPPoolEntity, error) {
+	params := clientV1.NewV1OverlordsUIDPoolsListParamsWithContext(h.ctx).
+		WithUID(pcgUid)
+	resp, err := h.Client.V1OverlordsUIDPoolsList(params)
 	if err != nil {
 		if v1Err := apiutil.ToV1ErrorObj(err); v1Err.Code != "ResourceNotFound" {
 			return nil, err
 		}
 	}
-	return listResp.Payload.Items, nil
+	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) UpdateIpPool(pcgUID, poolUID string, pool *models.V1IPPoolInputEntity) error {
-	params := clusterC.NewV1OverlordsUIDPoolUpdateParams().
-		WithUID(pcgUID).
+func (h *V1Client) UpdateIpPool(pcgUid, poolUid string, pool *models.V1IPPoolInputEntity) error {
+	params := clientV1.NewV1OverlordsUIDPoolUpdateParamsWithContext(h.ctx).
+		WithUID(pcgUid).
 		WithBody(pool).
-		WithPoolUID(poolUID)
-
-	_, err := h.GetClusterClient().V1OverlordsUIDPoolUpdate(params)
+		WithPoolUID(poolUid)
+	_, err := h.Client.V1OverlordsUIDPoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteIpPool(pcgUID, poolUID string) error {
-	params := clusterC.NewV1OverlordsUIDPoolDeleteParams().WithUID(pcgUID).WithPoolUID(poolUID)
-	_, err := h.GetClusterClient().V1OverlordsUIDPoolDelete(params)
+func (h *V1Client) DeleteIpPool(pcgUid, poolUid string) error {
+	params := clientV1.NewV1OverlordsUIDPoolDeleteParamsWithContext(h.ctx).
+		WithUID(pcgUid).
+		WithPoolUID(poolUid)
+	_, err := h.Client.V1OverlordsUIDPoolDelete(params)
 	return err
 }

@@ -3,49 +3,54 @@ package client
 import (
 	"fmt"
 
-	hashboardC "github.com/spectrocloud/hapi/hashboard/client/v1"
-	"github.com/spectrocloud/hapi/models"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CRUDL operations on tag filters are all tenant scoped.
+// See: hubble/services/svccore/perms/filter_acl.go
+
 func (h *V1Client) CreateTagFilter(body *models.V1TagFilter) (*models.V1UID, error) {
-	params := hashboardC.NewV1TagFiltersCreateParams().WithBody(body)
-	tag, err := h.GetHashboardClient().V1TagFiltersCreate(params)
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFiltersCreateParams().
+		WithBody(body)
+	resp, err := h.Client.V1TagFiltersCreate(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return tag.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) UpdateTagFilter(uid string, body *models.V1TagFilter) error {
-	params := hashboardC.NewV1TagFilterUIDUpdateParams().WithUID(uid).WithBody(body)
-	_, err := h.GetHashboardClient().V1TagFilterUIDUpdate(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDUpdateParams().
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1TagFilterUIDUpdate(params)
+	return err
 }
 
 func (h *V1Client) GetTagFilter(uid string) (*models.V1TagFilterSummary, error) {
-	params := hashboardC.NewV1TagFilterUIDGetParams().WithUID(uid)
-	success, err := h.GetHashboardClient().V1TagFilterUIDGet(params)
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDGetParams().
+		WithUID(uid)
+	resp, err := h.Client.V1TagFilterUIDGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) ListTagFilters() (*models.V1FiltersSummary, error) {
-	limit := int64(0)
-	params := hashboardC.NewV1FiltersListParams().WithLimit(&limit)
-	success, err := h.GetHashboardClient().V1FiltersList(params)
+	// ACL scoped to tenant only
+	params := clientV1.NewV1FiltersListParams().
+		WithLimit(apiutil.Ptr(int64(0)))
+	resp, err := h.Client.V1FiltersList(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
 func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, error) {
@@ -53,22 +58,18 @@ func (h *V1Client) GetTagFilterByName(name string) (*models.V1FilterSummary, err
 	if err != nil {
 		return nil, err
 	}
-
 	for _, filter := range filters.Items {
 		if filter.Metadata.Name == name {
 			return filter, nil
 		}
 	}
-
 	return nil, fmt.Errorf("filter not found for name %s", name)
 }
 
 func (h *V1Client) DeleteTag(uid string) error {
-	params := hashboardC.NewV1TagFilterUIDDeleteParams().WithUID(uid)
-	_, err := h.GetHashboardClient().V1TagFilterUIDDelete(params)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	// ACL scoped to tenant only
+	params := clientV1.NewV1TagFilterUIDDeleteParams().
+		WithUID(uid)
+	_, err := h.Client.V1TagFilterUIDDelete(params)
+	return err
 }

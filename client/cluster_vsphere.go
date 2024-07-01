@@ -1,173 +1,110 @@
 package client
 
 import (
-	"errors"
-
-	"github.com/spectrocloud/hapi/apiutil/transport"
-	"github.com/spectrocloud/hapi/models"
-	clusterC "github.com/spectrocloud/hapi/spectrocluster/client/v1"
+	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 // Cluster
 
-func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity, ClusterContext string) (string, error) {
-	if h.CreateClusterVsphereFn != nil {
-		return h.CreateClusterVsphereFn(cluster)
-	}
-	var params *clusterC.V1SpectroClustersVsphereCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1SpectroClustersVsphereCreateParamsWithContext(h.Ctx).WithBody(cluster)
-	case "tenant":
-		params = clusterC.NewV1SpectroClustersVsphereCreateParams().WithBody(cluster)
-	}
-
-	success, err := h.GetClusterClient().V1SpectroClustersVsphereCreate(params)
+func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
+	params := clientV1.NewV1SpectroClustersVsphereCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	resp, err := h.Client.V1SpectroClustersVsphereCreate(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsVsphereMachinePoolCreateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolCreateParams().WithConfigUID(cloudConfigId).WithBody(machinePool)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolCreate(params)
+func (h *V1Client) CreateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigId, ClusterContext string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	var params *clusterC.V1CloudConfigsVsphereMachinePoolUpdateParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.Ctx).
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolUpdateParams().
-			WithConfigUID(cloudConfigId).
-			WithMachinePoolName(*machinePool.PoolConfig.Name).
-			WithBody(machinePool)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolUpdate(params)
+func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(*machinePool.PoolConfig.Name).
+		WithBody(machinePool)
+	_, err := h.Client.V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigId, machinePoolName, ClusterContext string) error {
-	var params *clusterC.V1CloudConfigsVsphereMachinePoolDeleteParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.Ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereMachinePoolDeleteParams().WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsVsphereMachinePoolDelete(params)
+func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUid, machinePoolName string) error {
+	params := clientV1.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUid).
+		WithMachinePoolName(machinePoolName)
+	_, err := h.Client.V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
 }
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigVsphere(configUID, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
-	if h.GetCloudConfigVsphereFn != nil {
-		return h.GetCloudConfigVsphereFn(configUID)
-	}
-	var params *clusterC.V1CloudConfigsVsphereGetParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(configUID)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(configUID)
-	}
-
-	success, err := h.GetClusterClient().V1CloudConfigsVsphereGet(params)
-	var e *transport.TransportError
-	if errors.As(err, &e) && e.HttpCode == 404 {
+func (h *V1Client) GetCloudConfigVsphere(configUid string) (*models.V1VsphereCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
+		WithConfigUID(configUid)
+	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
+	if apiutil.Is404(err) {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
 	}
-
-	return success.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) GetCloudConfigVsphereValues(uid, ClusterContext string) (*models.V1VsphereCloudConfig, error) {
-	if h.GetCloudConfigVsphereValuesFn != nil {
-		return h.GetCloudConfigVsphereValuesFn(uid)
-	}
-
-	var params *clusterC.V1CloudConfigsVsphereGetParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereGetParamsWithContext(h.Ctx).WithConfigUID(uid)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereGetParams().WithConfigUID(uid)
-	}
-
-	cloudConfig, err := h.GetClusterClient().V1CloudConfigsVsphereGet(params)
+func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereCloudConfig, error) {
+	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
+		WithConfigUID(uid)
+	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
 	if err != nil {
 		return nil, err
 	}
-
-	return cloudConfig.Payload, nil
+	return resp.Payload, nil
 }
 
-func (h *V1Client) UpdateCloudConfigVsphereValues(uid, ClusterContext string, clusterConfig *models.V1VsphereCloudClusterConfigEntity) error {
-	var params *clusterC.V1CloudConfigsVsphereUIDClusterConfigParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.Ctx).WithConfigUID(uid).WithBody(clusterConfig)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVsphereUIDClusterConfigParams().WithConfigUID(uid).WithBody(clusterConfig)
-	}
-
-	_, err := h.GetClusterClient().V1CloudConfigsVsphereUIDClusterConfig(params)
+func (h *V1Client) UpdateCloudConfigVsphereValues(uid string, cloudConfig *models.V1VsphereCloudClusterConfigEntity) error {
+	params := clientV1.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(uid).
+		WithBody(cloudConfig)
+	_, err := h.Client.V1CloudConfigsVsphereUIDClusterConfig(params)
 	return err
 }
 
 // Import
 
 func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clusterC.NewV1SpectroClustersVsphereImportParamsWithContext(h.Ctx).WithBody(
-		&models.V1SpectroVsphereClusterImportEntity{
+	params := clientV1.NewV1SpectroClustersVsphereImportParamsWithContext(h.ctx).
+		WithBody(&models.V1SpectroVsphereClusterImportEntity{
 			Metadata: meta,
 		},
-	)
-
-	success, err := h.GetClusterClient().V1SpectroClustersVsphereImport(params)
+		)
+	resp, err := h.Client.V1SpectroClustersVsphereImport(params)
 	if err != nil {
 		return "", err
 	}
-
-	return *success.Payload.UID, nil
+	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapVsphere(configUID, machinePoolName, ClusterContext string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clusterC.V1CloudConfigsVspherePoolMachinesListParams
-	switch ClusterContext {
-	case "project":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.Ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
-	case "tenant":
-		params = clusterC.NewV1CloudConfigsVspherePoolMachinesListParams().WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+func (h *V1Client) GetNodeStatusMapVsphere(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientV1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUid).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsVspherePoolMachinesList(params)
+	if err != nil {
+		return nil, err
 	}
-
-	mpList, err := h.GetClusterClient().V1CloudConfigsVspherePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
 	if len(mpList.Payload.Items) > 0 {
 		for _, node := range mpList.Payload.Items {
 			nMap[node.Metadata.UID] = *node.Status
 		}
 	}
-	return nMap, err
+	return nMap, nil
 }
