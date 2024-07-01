@@ -6,8 +6,7 @@ import (
 )
 
 func (h *V1Client) CreateClusterGke(cluster *models.V1SpectroGcpClusterEntity) (string, error) {
-	var params *clientV1.V1SpectroClustersGkeCreateParams
-	params = clientV1.NewV1SpectroClustersGkeCreateParamsWithContext(h.ctx).WithBody(cluster)
+	params := clientV1.NewV1SpectroClustersGkeCreateParamsWithContext(h.ctx).WithBody(cluster)
 	success, err := h.Client.V1SpectroClustersGkeCreate(params)
 	if err != nil {
 		return "", err
@@ -17,8 +16,7 @@ func (h *V1Client) CreateClusterGke(cluster *models.V1SpectroGcpClusterEntity) (
 }
 
 func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig, error) {
-	var params *clientV1.V1CloudConfigsGkeGetParams
-	params = clientV1.NewV1CloudConfigsGkeGetParamsWithContext(h.ctx).WithConfigUID(configUID)
+	params := clientV1.NewV1CloudConfigsGkeGetParamsWithContext(h.ctx).WithConfigUID(configUID)
 
 	success, err := h.Client.V1CloudConfigsGkeGet(params)
 	if err != nil {
@@ -29,15 +27,13 @@ func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig
 }
 
 func (h *V1Client) CreateMachinePoolGke(cloudConfigId, ClusterContext string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	var params *clientV1.V1CloudConfigsGkeMachinePoolCreateParams
-	params = clientV1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+	params := clientV1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsGkeMachinePoolCreate(params)
 	return err
 }
 
 func (h *V1Client) UpdateMachinePoolGke(cloudConfigId string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	var params *clientV1.V1CloudConfigsGkeMachinePoolUpdateParams
-	params = clientV1.NewV1CloudConfigsGkeMachinePoolUpdateParamsWithContext(h.ctx).
+	params := clientV1.NewV1CloudConfigsGkeMachinePoolUpdateParamsWithContext(h.ctx).
 		WithConfigUID(cloudConfigId).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
@@ -47,15 +43,13 @@ func (h *V1Client) UpdateMachinePoolGke(cloudConfigId string, machinePool *model
 }
 
 func (h *V1Client) DeleteMachinePoolGke(cloudConfigId string, machinePoolName string) error {
-	var params *clientV1.V1CloudConfigsGkeMachinePoolDeleteParams
-	params = clientV1.NewV1CloudConfigsGkeMachinePoolDeleteParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+	params := clientV1.NewV1CloudConfigsGkeMachinePoolDeleteParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsGkeMachinePoolDelete(params)
 	return err
 }
 
 func (h *V1Client) GetNodeStatusMapGke(configUID string, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	var params *clientV1.V1CloudConfigsGkePoolMachinesListParams
-	params = clientV1.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	params := clientV1.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 
 	mpList, err := h.Client.V1CloudConfigsGkePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}
