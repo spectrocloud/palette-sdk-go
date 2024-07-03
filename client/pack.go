@@ -36,6 +36,7 @@ func (h *V1Client) GetClusterProfileManifestPack(clusterProfileUid, packName str
 	return resp.Payload.Items, nil
 }
 
+
 func (h *V1Client) GetPacks(filters []string, registryUid string) ([]*models.V1PackSummary, error) {
 	params := clientV1.NewV1PacksSummaryListParamsWithContext(h.ctx)
 	if filters != nil {

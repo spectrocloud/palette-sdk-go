@@ -1,24 +1,36 @@
 package client
 
 import (
-	"fmt"
 
+	"github.com/spectrocloud/gomi/pkg/ptr"
+	"fmt"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
 func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
+
 	params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
 		WithBody(&models.V1SearchFilterSummarySpec{
 			Filter: filter,
 			Sort:   sort,
 		})
-	resp, err := h.Client.V1DashboardEdgehostsSearch(params)
-	if err != nil {
-		return nil, err
+	isContinue := true
+	var hosts []*models.V1EdgeHostsMetadata
+	for isContinue {
+		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
+		if err != nil {
+			return nil, err
+		}
+		hosts = append(hosts, resp.Payload.Items...)
+		if resp.Payload.Listmeta.Continue == "" {
+			isContinue = false
+		}
+		params.WithContinue(ptr.StringPtr(resp.Payload.Listmeta.Continue))
 	}
-	return resp.Payload.Items, nil
+
+	return hosts, nil
 }
 
 func (h *V1Client) GetAppliances(tags map[string]string, status, health, architecture string) ([]*models.V1EdgeHostsMetadata, error) {

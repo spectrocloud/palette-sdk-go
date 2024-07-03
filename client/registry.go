@@ -74,6 +74,7 @@ func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmReg
 }
 
 func (h *V1Client) GetHelmRegistry(uid string) (*models.V1HelmRegistry, error) {
+
 	params := clientV1.NewV1RegistriesHelmUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1RegistriesHelmUIDGet(params)

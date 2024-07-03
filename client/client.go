@@ -14,6 +14,7 @@ import (
 )
 
 type V1Client struct {
+
 	Client clientV1.ClientService
 
 	ctx                context.Context
