@@ -291,3 +291,25 @@ func (h *V1Client) DownloadLogs(uid string, logFetcherUid string) (io.Writer, er
 	}
 	return logfile, nil
 }
+
+func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string, context string) error {
+
+	//var params *V1Client.V1SpectroClustersUIDUpgradeSettingsParams
+	// params := clientV1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.Ctx)
+	//params := clientV1.NewV1ClusterUpgrad
+	////switch context {
+	////case "project":
+	////	params = clientV1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.Ctx)
+	////case "tenant":
+	////	params = clientV1.NewV1SpectroClustersUIDUpgradeSettingsParams()
+	////default:
+	////	return fmt.Errorf("invalid context: %s", context)
+	////}
+	//params = params.WithUID(clusterUID).WithBody(upgradeSetting)
+	//_, err := h.GetClusterClient().V1SpectroClustersUIDUpgradeSettings(params)
+	//if err != nil {
+	//	return err
+	//}
+
+	return nil
+}

@@ -14,7 +14,6 @@ import (
 )
 
 type V1Client struct {
-
 	Client clientV1.ClientService
 
 	ctx                context.Context
@@ -70,6 +69,12 @@ func WithPassword(password string) func(*V1Client) {
 func WithHubbleURI(hubbleUri string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.hubbleUri = hubbleUri
+	}
+}
+
+func SetProjectUID(projectUid string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.projectUid = projectUid
 	}
 }
 
@@ -202,6 +207,11 @@ func (h *V1Client) baseTransport() *transport.Runtime {
 	return httpTransport
 }
 
+func (h *V1Client) SetProjectContextForResource() *V1Client {
+	h.ctx = ContextWithProject(h.ctx, h.projectUid)
+	return h
+}
+
 func (h *V1Client) httpClient() *http.Client {
 	return &http.Client{
 		Transport: &http.Transport{
@@ -233,4 +243,11 @@ func (h *V1Client) ValidateTenantAdmin() error {
 		}
 	}
 	return nil
+}
+
+func ContextWithProject(c context.Context, projectUid string) context.Context {
+	return context.WithValue(c, transport.CUSTOM_HEADERS, transport.Values{
+		HeaderMap: map[string]string{
+			"ProjectUid": projectUid,
+		}})
 }
