@@ -30,7 +30,7 @@ func (h *V1Client) GetPackRegistryCommonByName(registryName string) (*models.V1R
 }
 
 func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
-	params := clusterC.NewV1RegistriesMetadataParams().WithScope(Ptr(""))
+	params := clusterC.NewV1RegistriesMetadataParamsWithContext(h.Ctx).WithScope(Ptr(""))
 	registries, err := h.GetClusterClient().V1RegistriesMetadata(params)
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
 }
 
 func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackRegistry, error) {
-	params := clusterC.NewV1RegistriesPackListParams()
+	params := clusterC.NewV1RegistriesPackListParamsWithContext(h.Ctx)
 	registries, err := h.GetClusterClient().V1RegistriesPackList(params)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySum
 }
 
 func (h *V1Client) GetHelmRegistryByName(registryName string) (*models.V1HelmRegistry, error) {
-	params := clusterC.NewV1RegistriesHelmListParams()
+	params := clusterC.NewV1RegistriesHelmListParamsWithContext(h.Ctx)
 	registries, err := h.GetClusterClient().V1RegistriesHelmList(params)
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (h *V1Client) ListOCIRegistries() ([]*models.V1OciRegistry, error) {
 }
 
 func (h *V1Client) GetOciRegistryByName(registryName string) (*models.V1OciRegistry, error) {
-	params := clusterC.NewV1OciRegistriesSummaryParams()
+	params := clusterC.NewV1OciRegistriesSummaryParamsWithContext(h.Ctx)
 	registries, err := h.GetClusterClient().V1OciRegistriesSummary(params)
 	if err != nil {
 		return nil, err
