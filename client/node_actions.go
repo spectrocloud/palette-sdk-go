@@ -75,19 +75,6 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(configUid, machineName, nodeId 
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-//func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
-//	params := clientV1.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
-//		WithConfigUID(configUid).
-//		WithMachinePoolName(machineName).
-//		WithMachineUID(nodeId)
-//
-//	resp, err := h.Client.V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return resp.Payload.Status.MaintenanceStatus, nil
-//}
-
 func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUid).
@@ -100,19 +87,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUid, machineName, no
 	}
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
-
-//func (h *V1Client) GetNodeMaintenanceStatusEdge(configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
-//	params := clientV1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
-//		WithConfigUID(configUid).
-//		WithMachinePoolName(machineName).
-//		WithMachineUID(nodeId)
-//
-//	resp, err := h.Client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return resp.Payload.Status.MaintenanceStatus, nil
-//}
 
 func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	params := clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.ctx).
