@@ -1,20 +1,23 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// UpdateClusterMetadata updates an existing cluster's metadata: annotations, labels, and name.
 func (h *V1Client) UpdateClusterMetadata(uid string, config *models.V1ObjectMetaInputEntitySchema) error {
-	params := clientV1.NewV1SpectroClustersUIDMetadataUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDMetadataUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1SpectroClustersUIDMetadataUpdate(params)
 	return err
 }
 
+// UpdateAdditionalClusterMetadata updates an existing cluster's additional metadata attributes.
+// TODO: what are additional metadata attributes?
 func (h *V1Client) UpdateAdditionalClusterMetadata(uid string, additionalMeta *models.V1ClusterMetaAttributeEntity) error {
-	params := clientV1.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDClusterMetaAttributeUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(additionalMeta)
 	_, err := h.Client.V1SpectroClustersUIDClusterMetaAttributeUpdate(params)

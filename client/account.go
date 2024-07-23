@@ -3,13 +3,14 @@ package client
 import (
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// ListCloudAccounts returns a list of all cloud account summaries.
 func (h *V1Client) ListCloudAccounts() ([]*models.V1CloudAccountSummary, error) {
-	params := clientV1.NewV1CloudAccountsListSummaryParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsListSummaryParamsWithContext(h.ctx).
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1CloudAccountsListSummary(params)
 	if apiutil.Is404(err) {
@@ -20,6 +21,7 @@ func (h *V1Client) ListCloudAccounts() ([]*models.V1CloudAccountSummary, error) 
 	return resp.Payload.Items, nil
 }
 
+// GetCloudAccount retrieves an existing cloud account summary.
 func (h *V1Client) GetCloudAccount(uid string) (*models.V1CloudAccountSummary, error) {
 	accounts, err := h.ListCloudAccounts()
 	if err != nil {

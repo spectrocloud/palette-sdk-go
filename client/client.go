@@ -1,3 +1,4 @@
+// Package client provides a client for the Spectro Cloud API.
 package client
 
 import (
@@ -9,27 +10,28 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/spectrocloud/palette-api-go/apiutil/transport"
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// V1Client is a client for the Spectro Cloud API.
 type V1Client struct {
-
-	Client clientV1.ClientService
+	Client clientv1.ClientService
 
 	ctx                context.Context
 	apikey             string
 	jwt                string
 	username           string
 	password           string
-	hubbleUri          string
-	projectUid         string
+	hubbleURI          string
+	projectUID         string
 	schemes            []string
 	insecureSkipVerify bool
 	transportDebug     bool
 	retryAttempts      int
 }
 
+// New creates a new V1Client.
 func New(options ...func(*V1Client)) *V1Client {
 	client := &V1Client{
 		ctx:           context.Background(),
@@ -39,92 +41,105 @@ func New(options ...func(*V1Client)) *V1Client {
 	for _, o := range options {
 		o(client)
 	}
-	client.Client = clientV1.New(client.getTransport(), strfmt.Default)
+	client.Client = clientv1.New(client.getTransport(), strfmt.Default)
 	return client
 }
 
+// WithAPIKey sets the API key for the client.
 func WithAPIKey(apiKey string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.apikey = apiKey
 	}
 }
 
+// WithJWT sets the JWT for the client.
 func WithJWT(jwt string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.jwt = jwt
 	}
 }
 
+// WithUsername sets the username for the client.
 func WithUsername(username string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.username = username
 	}
 }
 
+// WithPassword sets the password for the client.
 func WithPassword(password string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.password = password
 	}
 }
 
-func WithHubbleURI(hubbleUri string) func(*V1Client) {
+// WithHubbleURI sets the Hubble URI for the client.
+func WithHubbleURI(hubbleURI string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.hubbleUri = hubbleUri
+		v.hubbleURI = hubbleURI
 	}
 }
 
+// WithInsecureSkipVerify sets insecureSkipVerify for the client.
 func WithInsecureSkipVerify(insecureSkipVerify bool) func(*V1Client) {
 	return func(v *V1Client) {
 		v.insecureSkipVerify = insecureSkipVerify
 	}
 }
 
-func WithScopeProject(projectUid string) func(*V1Client) {
+// WithScopeProject sets the project UID for the client.
+func WithScopeProject(projectUID string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.projectUid = projectUid
-		v.ctx = ContextForScope("project", projectUid)
+		v.projectUID = projectUID
+		v.ctx = ContextForScope("project", projectUID)
 	}
 }
 
+// WithScopeTenant sets the tenant scope for the client.
 func WithScopeTenant() func(*V1Client) {
 	return func(v *V1Client) {
 		v.ctx = ContextForScope("tenant", "")
 	}
 }
 
+// WithRetries sets the number of retries for the client.
 func WithRetries(retries int) func(*V1Client) {
 	return func(v *V1Client) {
 		v.retryAttempts = retries
 	}
 }
 
+// WithSchemes sets the schemes for the client.
 func WithSchemes(schemes []string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.schemes = schemes
 	}
 }
 
+// WithTransportDebug sets the client's HTTP transport debug flag.
 func WithTransportDebug() func(*V1Client) {
 	return func(v *V1Client) {
 		v.transportDebug = true
 	}
 }
 
-func ContextForScope(scope, projectUid string) context.Context {
+// ContextForScope returns a context with the given scope and optional project UID.
+func ContextForScope(scope, projectUID string) context.Context {
 	ctx := context.Background()
 	if scope == "project" {
 		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
 			HeaderMap: map[string]string{
-				"ProjectUid": projectUid,
+				"ProjectUid": projectUID,
 			}},
 		)
 	}
 	return ctx
 }
 
+// Clone creates a new V1Client with the same configuration as the original.
 func (h *V1Client) Clone() *V1Client {
 	opts := []func(*V1Client){
-		WithHubbleURI(h.hubbleUri),
+		WithHubbleURI(h.hubbleURI),
 		WithInsecureSkipVerify(h.insecureSkipVerify),
 		WithRetries(h.retryAttempts),
 		WithSchemes(h.schemes),
@@ -139,8 +154,8 @@ func (h *V1Client) Clone() *V1Client {
 	if h.username != "" && h.password != "" {
 		opts = append(opts, WithUsername(h.username), WithPassword(h.password))
 	}
-	if h.projectUid != "" {
-		opts = append(opts, WithScopeProject(h.projectUid))
+	if h.projectUID != "" {
+		opts = append(opts, WithScopeProject(h.projectUID))
 	}
 	if h.transportDebug {
 		opts = append(opts, WithTransportDebug())
@@ -148,12 +163,13 @@ func (h *V1Client) Clone() *V1Client {
 	return New(opts...)
 }
 
-func (h *V1Client) getTransport() (t *transport.Runtime) {
+func (h *V1Client) getTransport() *transport.Runtime {
 	if h.username != "" && h.password != "" {
-		if err := h.authenticate(); err != nil {
+		if err := h.handleBasicAuth(); err != nil {
 			return nil
 		}
 	}
+	var t *transport.Runtime
 	if h.apikey != "" {
 		t = h.apiKeyTransport()
 	} else if h.jwt != "" {
@@ -161,12 +177,12 @@ func (h *V1Client) getTransport() (t *transport.Runtime) {
 	} else {
 		t = h.baseTransport()
 	}
-	return
+	return t
 }
 
 func (h *V1Client) apiKeyTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
-	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authApiKey, authTokenInput, h.apikey)
+	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authAPIKey, authTokenInput, h.apikey)
 	return httpTransport
 }
 
@@ -176,11 +192,11 @@ func (h *V1Client) jwtTransport() *transport.Runtime {
 	return httpTransport
 }
 
-func (h *V1Client) authenticate() error {
+func (h *V1Client) handleBasicAuth() error {
 	httpTransport := h.baseTransport()
-	c := clientV1.New(httpTransport, strfmt.Default)
+	c := clientv1.New(httpTransport, strfmt.Default)
 
-	params := &clientV1.V1AuthenticateParams{
+	params := &clientv1.V1AuthenticateParams{
 		Body: &models.V1AuthLogin{
 			EmailID:  h.username,
 			Password: strfmt.Password(h.password),
@@ -196,7 +212,7 @@ func (h *V1Client) authenticate() error {
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
-	httpTransport := transport.NewWithClient(h.hubbleUri, "", h.schemes, h.httpClient())
+	httpTransport := transport.NewWithClient(h.hubbleURI, "", h.schemes, h.httpClient())
 	httpTransport.RetryAttempts = h.retryAttempts
 	httpTransport.Debug = h.transportDebug
 	return httpTransport
@@ -213,6 +229,7 @@ func (h *V1Client) httpClient() *http.Client {
 	}
 }
 
+// Validate validates the configuration for a project-scoped client.
 func (h *V1Client) Validate() error {
 	// API key can only be validated by making an API call
 	if h.apikey != "" {
@@ -224,6 +241,7 @@ func (h *V1Client) Validate() error {
 	return nil
 }
 
+// ValidateTenantAdmin validates the configuration for a tenant-scoped client.
 func (h *V1Client) ValidateTenantAdmin() error {
 	// API key can only be validated by making an API call
 	if h.apikey != "" {

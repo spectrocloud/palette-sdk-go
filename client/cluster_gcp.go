@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CreateClusterGcp creates a new GCP IaaS cluster.
 func (h *V1Client) CreateClusterGcp(cluster *models.V1SpectroGcpClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersGcpCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersGcpCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersGcpCreate(params)
 	if err != nil {
@@ -16,34 +17,38 @@ func (h *V1Client) CreateClusterGcp(cluster *models.V1SpectroGcpClusterEntity) (
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolGcp(cloudConfigUid string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsGcpMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolGcp creates a new GCP IaaS machine pool.
+func (h *V1Client) CreateMachinePoolGcp(cloudConfigUID string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGcpMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsGcpMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolGcp(cloudConfigUid string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsGcpMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolGcp updates an existing GCP IaaS machine pool.
+func (h *V1Client) UpdateMachinePoolGcp(cloudConfigUID string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGcpMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsGcpMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolGcp(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsGcpMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolGcp deletes an existing GCP IaaS machine pool.
+func (h *V1Client) DeleteMachinePoolGcp(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsGcpMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsGcpMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigGcp(configUid string) (*models.V1GcpCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsGcpGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigGcp retrieves an existing GCP IaaS cluster's cloud config.
+func (h *V1Client) GetCloudConfigGcp(configUID string) (*models.V1GcpCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsGcpGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsGcpGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -53,8 +58,9 @@ func (h *V1Client) GetCloudConfigGcp(configUid string) (*models.V1GcpCloudConfig
 	return resp.Payload, nil
 }
 
+// ImportClusterGcp imports an existing GCP IaaS cluster.
 func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersGcpImportParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersGcpImportParamsWithContext(h.ctx).
 		WithBody(&models.V1SpectroGcpClusterImportEntity{
 			Metadata: meta,
 		},
@@ -66,9 +72,10 @@ func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (strin
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapGcp(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsGcpPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapGcp retrieves the status of all nodes in a GCP IaaS machine pool.
+func (h *V1Client) GetNodeStatusMapGcp(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsGcpPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsGcpPoolMachinesList(params)
 	if err != nil {

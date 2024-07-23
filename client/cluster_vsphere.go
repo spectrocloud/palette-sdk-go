@@ -1,15 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
-// Cluster
-
+// CreateClusterVsphere creates a new vSphere cluster.
 func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersVsphereCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVsphereCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersVsphereCreate(params)
 	if err != nil {
@@ -18,38 +17,38 @@ func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterE
 	return *resp.Payload.UID, nil
 }
 
-// Machine Pool
-
-func (h *V1Client) CreateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolVsphere creates a new vSphere machine pool.
+func (h *V1Client) CreateMachinePoolVsphere(cloudConfigUID string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolVsphere updates an existing vSphere machine pool.
+func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigUID string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolVsphere deletes an existing vSphere machine pool.
+func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
 }
 
-// Cloud Config
-
-func (h *V1Client) GetCloudConfigVsphere(configUid string) (*models.V1VsphereCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigVsphere retrieves an existing vSphere cluster's cloud config.
+func (h *V1Client) GetCloudConfigVsphere(uid string) (*models.V1VsphereCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
+		WithConfigUID(uid)
 	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -59,28 +58,18 @@ func (h *V1Client) GetCloudConfigVsphere(configUid string) (*models.V1VsphereClo
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetCloudConfigVsphereValues(uid string) (*models.V1VsphereCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
-		WithConfigUID(uid)
-	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload, nil
-}
-
-func (h *V1Client) UpdateCloudConfigVsphereValues(uid string, cloudConfig *models.V1VsphereCloudClusterConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.ctx).
+// UpdateCloudConfigVsphere updates an existing vSphere cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigVsphere(uid string, cloudConfig *models.V1VsphereCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsVsphereUIDClusterConfigParamsWithContext(h.ctx).
 		WithConfigUID(uid).
 		WithBody(cloudConfig)
 	_, err := h.Client.V1CloudConfigsVsphereUIDClusterConfig(params)
 	return err
 }
 
-// Import
-
+// ImportClusterVsphere imports an existing vSphere cluster.
 func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersVsphereImportParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVsphereImportParamsWithContext(h.ctx).
 		WithBody(&models.V1SpectroVsphereClusterImportEntity{
 			Metadata: meta,
 		},
@@ -92,9 +81,10 @@ func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (s
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapVsphere(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapVsphere retrieves the status of all nodes in a vSphere machine pool.
+func (h *V1Client) GetNodeStatusMapVsphere(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsVspherePoolMachinesList(params)
 	if err != nil {

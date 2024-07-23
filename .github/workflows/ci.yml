@@ -28,11 +28,8 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Vet
-        run: make vet
-
-      - name: Lint
-        run: make lint
+      - name: Ensure Reviewable
+        run: make check-diff
 
       - name: Test
         run: make test

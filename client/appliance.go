@@ -1,17 +1,19 @@
 package client
 
 import (
+	"fmt"
 
 	"github.com/spectrocloud/gomi/pkg/ptr"
-	"fmt"
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
+// TODO: edgev1 deprecation
 
-	params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
+// SearchApplianceSummaries retrieves a list of edge host summaries based on the provided filter and sort criteria.
+func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
+	params := clientv1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
 		WithBody(&models.V1SearchFilterSummarySpec{
 			Filter: filter,
 			Sort:   sort,
@@ -29,10 +31,10 @@ func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, s
 		}
 		params.WithContinue(ptr.StringPtr(resp.Payload.Listmeta.Continue))
 	}
-
 	return hosts, nil
 }
 
+// GetAppliances returns a list of edge host metadata, filtered by the provided tags, status, health, and architecture.
 func (h *V1Client) GetAppliances(tags map[string]string, status, health, architecture string) ([]*models.V1EdgeHostsMetadata, error) {
 	filter := getApplianceFilter(nil, tags, status, health, architecture)
 	appliances, err := h.SearchApplianceSummaries(filter, nil)
@@ -42,8 +44,9 @@ func (h *V1Client) GetAppliances(tags map[string]string, status, health, archite
 	return appliances, nil
 }
 
+// GetAppliance retrieves an existing edge host by UID.
 func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
-	params := clientV1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1EdgeHostDevicesUIDGet(params)
 	if err != nil {
@@ -55,6 +58,7 @@ func (h *V1Client) GetAppliance(uid string) (*models.V1EdgeHostDevice, error) {
 	return resp.Payload, nil
 }
 
+// GetApplianceByName retrieves an existing edge host by name.
 func (h *V1Client) GetApplianceByName(name string, tags map[string]string, status, health, architecture string) (*models.V1EdgeHostDevice, error) {
 	filters := []*models.V1SearchFilterItem{applianceNameEqFilter(name)}
 	applianceSummaries, err := h.SearchApplianceSummaries(getApplianceFilter(filters, tags, status, health, architecture), nil)
@@ -71,8 +75,9 @@ func (h *V1Client) GetApplianceByName(name string, tags map[string]string, statu
 	return appliance, nil
 }
 
+// CreateAppliance creates a new edge host.
 func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEntity) (string, error) {
-	params := clientV1.NewV1EdgeHostDevicesCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1EdgeHostDevicesCreateParamsWithContext(h.ctx).
 		WithBody(createHostDevice)
 	resp, err := h.Client.V1EdgeHostDevicesCreate(params)
 	if err != nil {
@@ -81,8 +86,9 @@ func (h *V1Client) CreateAppliance(createHostDevice *models.V1EdgeHostDeviceEnti
 	return *resp.Payload.UID, nil
 }
 
+// UpdateAppliance updates an existing edge host.
 func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevice) error {
-	params := clientV1.NewV1EdgeHostDevicesUIDUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1EdgeHostDevicesUIDUpdateParamsWithContext(h.ctx).
 		WithBody(appliance).
 		WithUID(uid)
 	_, err := h.Client.V1EdgeHostDevicesUIDUpdate(params)
@@ -92,16 +98,18 @@ func (h *V1Client) UpdateAppliance(uid string, appliance *models.V1EdgeHostDevic
 	return nil
 }
 
+// UpdateApplianceMeta updates the metadata of an existing edge host.
 func (h *V1Client) UpdateApplianceMeta(uid string, appliance *models.V1EdgeHostDeviceMetaUpdateEntity) error {
-	params := clientV1.NewV1EdgeHostDevicesUIDMetaUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1EdgeHostDevicesUIDMetaUpdateParamsWithContext(h.ctx).
 		WithBody(appliance).
 		WithUID(uid)
 	_, err := h.Client.V1EdgeHostDevicesUIDMetaUpdate(params)
 	return err
 }
 
+// DeleteAppliance deletes an existing edge host.
 func (h *V1Client) DeleteAppliance(uid string) error {
-	params := clientV1.NewV1EdgeHostDevicesUIDDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1EdgeHostDevicesUIDDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1EdgeHostDevicesUIDDelete(params)
 	return err

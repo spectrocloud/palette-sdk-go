@@ -1,49 +1,34 @@
 # References:
 # - https://golangci-lint.run/usage/linters/
-# - https://gist.github.com/maratori/47a4d00457a92aa426dbd48a18776322
 
 run:
-  timeout: 10m # default 1m
+  allow-parallel-runners: true
+  timeout: 10m
 
-linters-settings:
-  gosimple:
-    go: "1.18" # default 1.13
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment # too strict
-      - shadow # too strict
-  staticcheck:
-    go: "1.18" # default 1.13
-
-  # Non-default
-  cyclop:
-    max-complexity: 13 # maximal code complexity to report; default 10
-    package-average: 0.0 # maximal average package complexity to report; default 0.0
-  gocognit:
-    min-complexity: 30 # minimal code complexity to report; default: 30
+issues:
+  # don't skip warning about doc comments
+  # don't exclude the default set of lint
+  exclude-use-default: false
+  exclude-files:
+    - ".*_test\\.go"
 
 linters:
   disable-all: true
   enable:
-    - errcheck # Errcheck is a program for checking for unchecked errors in go programs. These unchecked errors can be critical bugs in some cases
-    - gosimple # Linter for Go source code that specializes in simplifying a code
-    - govet # Vet examines Go source code and reports suspicious constructs, such as Printf calls whose arguments do not align with the format string
-    - ineffassign # Detects when assignments to existing variables are not used
-    - staticcheck # Staticcheck is a go vet on steroids, applying a ton of static analysis checks
-    - typecheck # Like the front-end of a Go compiler, parses and type-checks Go code
-    - unused # Checks Go code for unused constants, variables, functions and types
-    - cyclop # checks function and package cyclomatic complexity
-    - gocognit # Computes and checks the cognitive complexity of functions
-
-issues:
-  max-issues-per-linter: 0
-  max-same-issues: 0
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - errcheck
-        - gosimple
-        - ineffassign
-        - staticcheck
-        - unused
+    - errcheck
+    - exportloopref
+    - goconst
+    - gofmt
+    - goimports
+    - gosimple
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - prealloc
+    - staticcheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - revive

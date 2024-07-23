@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CreateClusterAzure creates a new Azure IaaS cluster.
 func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersAzureCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersAzureCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersAzureCreate(params)
 	if err != nil {
@@ -16,34 +17,38 @@ func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntit
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsAzureMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolAzure creates a new Azure IaaS machine pool.
+func (h *V1Client) CreateMachinePoolAzure(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsAzureMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolAzure updates an existing Azure IaaS machine pool.
+func (h *V1Client) UpdateMachinePoolAzure(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAzure(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolAzure deletes an existing Azure IaaS machine pool.
+func (h *V1Client) DeleteMachinePoolAzure(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAzure(configUid string) (*models.V1AzureCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsAzureGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigAzure retrieves an existing Azure IaaS cluster's cloud config.
+func (h *V1Client) GetCloudConfigAzure(configUID string) (*models.V1AzureCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsAzureGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsAzureGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -53,8 +58,9 @@ func (h *V1Client) GetCloudConfigAzure(configUid string) (*models.V1AzureCloudCo
 	return resp.Payload, nil
 }
 
+// ImportClusterAzure imports an existing Azure IaaS cluster.
 func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
 		WithBody(&models.V1SpectroAzureClusterImportEntity{
 			Metadata: meta,
 		},
@@ -66,9 +72,10 @@ func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (str
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAzure(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapAzure retrieves the status of all nodes in an Azure IaaS machine pool.
+func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAzurePoolMachinesList(params)
 	if err != nil {

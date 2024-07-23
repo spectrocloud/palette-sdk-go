@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CreateClusterVirtual creates a new virtual cluster.
 func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersVirtualCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVirtualCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersVirtualCreate(params)
 	if err != nil {
@@ -16,41 +17,49 @@ func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterE
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) ResizeClusterVirtual(configUid string, body *models.V1VirtualClusterResize) error {
-	params := clientV1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// ResizeClusterVirtual resizes a virtual cluster's CPU, RAM, and storage configuration.
+func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1VirtualClusterResize) error {
+	params := clientv1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithBody(body)
 	_, err := h.Client.V1CloudConfigsVirtualUIDUpdate(params)
 	return err
 }
 
-func (h *V1Client) CreateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolVirtual creates a new virtual machine pool.
+// TODO: deprecate unused virtual cluster functions
+func (h *V1Client) CreateMachinePoolVirtual(cloudConfigUID string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolVirtual updates an existing virtual machine pool.
+// TODO: deprecate unused virtual cluster functions
+func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigUID string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolVirtual deletes an existing virtual machine pool.
+// TODO: deprecate unused virtual cluster functions
+func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigVirtual(configUid string) (*models.V1VirtualCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsVirtualGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigVirtual retrieves an existing virtual cluster's cloud config.
+func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsVirtualGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsVirtualGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -60,8 +69,9 @@ func (h *V1Client) GetCloudConfigVirtual(configUid string) (*models.V1VirtualClo
 	return resp.Payload, nil
 }
 
+// VirtualClusterLifecycleConfigChange pauses or unpauses an existing virtual cluster.
 func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.V1LifecycleConfigEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDLifecycleConfigUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1SpectroClustersUIDLifecycleConfigUpdate(params)
@@ -71,9 +81,10 @@ func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.
 	return "Success", nil
 }
 
-func (h *V1Client) GetNodeStatusMapVirtual(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsVirtualPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapVirtual retrieves the status of all nodes in a virtual machine pool.
+func (h *V1Client) GetNodeStatusMapVirtual(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsVirtualPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsVirtualPoolMachinesList(params)
 	if err != nil {

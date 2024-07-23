@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
@@ -12,9 +12,10 @@ import (
 // CRUDL operations on edge registration tokens are all tenant scoped.
 // See: hubble/services/svccore/perms/edgetoken_acl.go
 
+// GetRegistrationToken retrieves an existing registration token by name.
 func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1EdgeTokensListParams()
+	params := clientv1.NewV1EdgeTokensListParams()
 	resp, err := h.Client.V1EdgeTokensList(params)
 	if err != nil {
 		return "", err
@@ -31,21 +32,22 @@ func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
 	return "", nil
 }
 
+// CreateRegistrationToken creates a new registration token.
 func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1EdgeTokenEntity) (string, error) {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1EdgeTokensCreateParams().
+	params := clientv1.NewV1EdgeTokensCreateParams().
 		WithBody(body)
 	_, err := h.Client.V1EdgeTokensCreate(params)
 	if err != nil {
 		return "", err
 	}
 	return h.GetRegistrationToken(tokenName)
-
 }
 
-func (h *V1Client) GetEdgeHost(edgeHostId string) (*models.V1EdgeHostDevice, error) {
-	params := clientV1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx).
-		WithUID(edgeHostId)
+// GetEdgeHost retrieves an existing edge host by UID.
+func (h *V1Client) GetEdgeHost(edgeHostID string) (*models.V1EdgeHostDevice, error) {
+	params := clientv1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx).
+		WithUID(edgeHostID)
 	resp, err := h.Client.V1EdgeHostDevicesUIDGet(params)
 	if err != nil {
 		return nil, err
@@ -53,11 +55,13 @@ func (h *V1Client) GetEdgeHost(edgeHostId string) (*models.V1EdgeHostDevice, err
 	return resp.Payload, nil
 }
 
+// ListEdgeHosts returns a list of all edge hosts.
+// TODO: expose pagination params
 func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 	continueToken := ""
 	var items []*models.V1EdgeHostsMetadata
 	for ok := true; ok; ok = (continueToken != "") {
-		params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx)
+		params := clientv1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx)
 		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
 		if err != nil {
 			return nil, err
@@ -69,16 +73,18 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 	return items, nil
 }
 
+// GetEdgeHostsByTags returns a list of edge hosts filtered by the provided tags.
+// TODO: expose pagination params
 func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeHostsMetadata, error) {
 	continueToken := ""
 	var items []*models.V1EdgeHostsMetadata
 	filter := GetEdgeFilter(nil, tags)
 	for ok := true; ok; ok = (continueToken != "") {
-		params := clientV1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
-		WithBody(&models.V1SearchFilterSummarySpec{
-			Filter: filter,
-			Sort:   nil,
-		})
+		params := clientv1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
+			WithBody(&models.V1SearchFilterSummarySpec{
+				Filter: filter,
+				Sort:   nil,
+			})
 		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
 		if err != nil {
 			return nil, err
@@ -90,6 +96,7 @@ func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeH
 	return items, nil
 }
 
+// GetEdgeFilter returns a filter spec for listing edge hosts by tags and extra filters.
 func GetEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]string) *models.V1SearchFilterSpec {
 	filter := &models.V1SearchFilterSpec{
 		Conjunction: and(),
@@ -133,8 +140,9 @@ func GetEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]st
 	return filter
 }
 
+// CreateClusterEdgeNative creates a new edge native cluster.
 func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersEdgeNativeCreate(params)
 	if err != nil {
@@ -143,28 +151,31 @@ func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeCl
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigUid string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolEdgeNative creates a new edge native machine pool.
+func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigUID string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativeMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigUid string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolEdgeNative updates an existing edge native machine pool.
+func (h *V1Client) UpdateMachinePoolEdgeNative(cloudConfigUID string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativeMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) GetMachineEdgeNative(machineUid, machinePoolName, cloudConfigUid string) (*models.V1EdgeNativeMachine, error) {
-	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// GetMachineEdgeNative retrieves an existing edge native machine by UID.
+func (h *V1Client) GetMachineEdgeNative(machineUID, machinePoolName, cloudConfigUID string) (*models.V1EdgeNativeMachine, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName).
-		WithMachineUID(machineUid)
+		WithMachineUID(machineUID)
 	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
 	if err != nil {
 		return nil, err
@@ -172,18 +183,20 @@ func (h *V1Client) GetMachineEdgeNative(machineUid, machinePoolName, cloudConfig
 	return resp.Payload, nil
 }
 
-func (h *V1Client) DeleteMachineEdgeNative(clusterUid, edgeHostUid, machinePool, cloudConfigUid string) error {
-	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachineEdgeNative deletes an existing edge native machine.
+func (h *V1Client) DeleteMachineEdgeNative(edgeHostUID, machinePool, cloudConfigUID string) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesUIDDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePool).
-		WithMachineUID(edgeHostUid)
+		WithMachineUID(edgeHostUID)
 	_, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDDelete(params)
 	return err
 }
 
-func (h *V1Client) ListMachinesInPoolEdgeNative(machinePoolName, cloudConfigUid string) ([]*models.V1EdgeNativeMachine, error) {
-	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// ListMachinesInPoolEdgeNative returns a list of machines in an edge native machine pool.
+func (h *V1Client) ListMachinesInPoolEdgeNative(machinePoolName, cloudConfigUID string) ([]*models.V1EdgeNativeMachine, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
 	if err != nil {
@@ -192,17 +205,19 @@ func (h *V1Client) ListMachinesInPoolEdgeNative(machinePoolName, cloudConfigUid 
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolEdgeNative deletes an existing edge native machine pool.
+func (h *V1Client) DeleteMachinePoolEdgeNative(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsEdgeNativeMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigEdgeNative(configUid string) (*models.V1EdgeNativeCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsEdgeNativeGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigEdgeNative retrieves an existing edge native cluster's cloud config.
+func (h *V1Client) GetCloudConfigEdgeNative(configUID string) (*models.V1EdgeNativeCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativeGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsEdgeNativeGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -212,9 +227,10 @@ func (h *V1Client) GetCloudConfigEdgeNative(configUid string) (*models.V1EdgeNat
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEdgeNative(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapEdgeNative retrieves the status of all nodes in an edge native machine pool.
+func (h *V1Client) GetNodeStatusMapEdgeNative(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
 	if err != nil {

@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
+// GetClusterScanConfig retrieves the cluster scan configuration for a cluster.
 func (h *V1Client) GetClusterScanConfig(uid string) (*models.V1ClusterComplianceScan, error) {
-	params := clientV1.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterFeatureComplianceScanGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterFeatureComplianceScanGet(params)
 	if err != nil {
@@ -19,22 +20,25 @@ func (h *V1Client) GetClusterScanConfig(uid string) (*models.V1ClusterCompliance
 	return resp.Payload, nil
 }
 
+// CreateClusterScanConfig creates a new cluster scan configuration for a cluster.
 func (h *V1Client) CreateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
-	params := clientV1.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterFeatureComplianceScanCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1ClusterFeatureComplianceScanCreate(params)
 	return err
 }
 
+// UpdateClusterScanConfig updates an existing cluster scan configuration for a cluster.
 func (h *V1Client) UpdateClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
-	params := clientV1.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterFeatureComplianceScanUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1ClusterFeatureComplianceScanUpdate(params)
 	return err
 }
 
+// ApplyClusterScanConfig creates a new cluster scan configuration for a cluster or updates its cluster scan configuration if one exists.
 func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterComplianceScheduleConfig) error {
 	policy, err := h.GetClusterScanConfig(uid)
 	if err != nil {
@@ -46,8 +50,9 @@ func (h *V1Client) ApplyClusterScanConfig(uid string, config *models.V1ClusterCo
 	return h.UpdateClusterScanConfig(uid, config)
 }
 
+// GetComplianceScanOnDemandScanLogs retrieves the on-demand scan logs for a cluster.
 func (h *V1Client) GetComplianceScanOnDemandScanLogs(uid string) (*models.V1ClusterComplianceScanLogs, error) {
-	params := clientV1.NewV1ClusterFeatureComplianceScanLogsGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterFeatureComplianceScanLogsGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterFeatureComplianceScanLogsGet(params)
 	if err != nil {
@@ -56,8 +61,9 @@ func (h *V1Client) GetComplianceScanOnDemandScanLogs(uid string) (*models.V1Clus
 	return resp.Payload, nil
 }
 
+// CreateComplianceScanOnDemandCreateClusterScanConfig creates a new on-demand scan configuration for a cluster.
 func (h *V1Client) CreateComplianceScanOnDemandCreateClusterScanConfig(uid string, config *models.V1ClusterComplianceOnDemandConfig) error {
-	params := clientV1.NewV1ClusterFeatureComplianceScanOnDemandCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterFeatureComplianceScanOnDemandCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1ClusterFeatureComplianceScanOnDemandCreate(params)

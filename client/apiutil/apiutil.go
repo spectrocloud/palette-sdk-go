@@ -1,3 +1,4 @@
+// Package apiutil provides utilities for the Spectro Cloud API client.
 package apiutil
 
 import (
@@ -11,15 +12,18 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// IsBase64 returns a boolean indicating whether a string is base64 encoded.
 func IsBase64(s string) bool {
 	_, err := base64.StdEncoding.DecodeString(s)
 	return err == nil
 }
 
+// Base64DecodeString decodes a base64-encoded string.
 func Base64DecodeString(s string) ([]byte, error) {
 	return base64.StdEncoding.DecodeString(s)
 }
 
+// StringHash hashes a string using FNV-1a.
 func StringHash(name string) string {
 	return strconv.FormatUint(uint64(hash(name)), 10)
 }
@@ -30,6 +34,7 @@ func hash(s string) uint32 {
 	return h.Sum32()
 }
 
+// Ptr returns a pointer to any value.
 func Ptr[T any](v T) *T {
 	return &v
 }
@@ -43,7 +48,8 @@ func Is404(err error) bool {
 	return false
 }
 
-func ToV1ErrorObj(err interface{}) *models.V1Error {
+// ToV1ErrorObj converts an error to a V1Error object.
+func ToV1ErrorObj(err any) *models.V1Error {
 	if err != nil {
 		tErr, ok := err.(*transport.TransportError)
 		if ok {

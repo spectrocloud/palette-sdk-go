@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
+// GetClusterRbacConfig retrieves the RBAC configuration for a cluster.
 func (h *V1Client) GetClusterRbacConfig(uid string) (*models.V1ClusterRbacs, error) {
-	params := clientV1.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDConfigRbacsGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1SpectroClustersUIDConfigRbacsGet(params)
 	if err != nil {
@@ -19,22 +20,25 @@ func (h *V1Client) GetClusterRbacConfig(uid string) (*models.V1ClusterRbacs, err
 	return resp.Payload, nil
 }
 
+// CreateClusterRbacConfig creates a new RBAC configuration for a cluster.
 func (h *V1Client) CreateClusterRbacConfig(uid string, config *models.V1ClusterRbac) error {
-	params := clientV1.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1WorkspacesClusterRbacCreate(params)
 	return err
 }
 
+// UpdateClusterRbacConfig updates an existing RBAC configuration for a cluster.
 func (h *V1Client) UpdateClusterRbacConfig(uid string, config *models.V1ClusterRbacResourcesUpdateEntity) error {
-	params := clientV1.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1SpectroClustersUIDConfigRbacsUpdate(params)
 	return err
 }
 
+// ApplyClusterRbacConfig creates a new RBAC configuration for a cluster or updates its RBAC configuration if one exists.
 func (h *V1Client) ApplyClusterRbacConfig(uid string, config []*models.V1ClusterRbacInputEntity) error {
 	rbac, err := h.GetClusterRbacConfig(uid)
 	if err != nil {

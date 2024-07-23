@@ -1,15 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
-// Cluster
-
+// CreateClusterOpenStack creates a new OpenStack cluster.
 func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersOpenStackCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersOpenStackCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1SpectroClustersOpenStackCreate(params)
 	if err != nil {
@@ -18,38 +17,38 @@ func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClus
 	return *resp.Payload.UID, nil
 }
 
-// Machine Pool
-
-func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigUid string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// CreateMachinePoolOpenStack creates a new OpenStack machine pool.
+func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigUID string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsOpenStackMachinePoolCreateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigUid string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// UpdateMachinePoolOpenStack updates an existing OpenStack machine pool.
+func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigUID string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsOpenStackMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigUid, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+// DeleteMachinePoolOpenStack deletes an existing OpenStack machine pool.
+func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigUID, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolDelete(params)
 	return err
 }
 
-// Cloud Config
-
-func (h *V1Client) GetCloudConfigOpenStack(configUid string) (*models.V1OpenStackCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsOpenStackGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+// GetCloudConfigOpenStack retrieves an existing OpenStack cluster's cloud config.
+func (h *V1Client) GetCloudConfigOpenStack(configUID string) (*models.V1OpenStackCloudConfig, error) {
+	params := clientv1.NewV1CloudConfigsOpenStackGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsOpenStackGet(params)
 	if herr.IsNotFound(err) {
 		return nil, nil
@@ -59,10 +58,9 @@ func (h *V1Client) GetCloudConfigOpenStack(configUid string) (*models.V1OpenStac
 	return resp.Payload, nil
 }
 
-// Import
-
+// ImportClusterOpenStack imports an existing OpenStack cluster.
 func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersOpenStackImportParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersOpenStackImportParamsWithContext(h.ctx).
 		WithBody(&models.V1SpectroOpenStackClusterImportEntity{
 			Metadata: meta,
 		},
@@ -74,9 +72,10 @@ func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) 
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapOpenStack(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+// GetNodeStatusMapOpenStack retrieves the status of all nodes in an OpenStack machine pool.
+func (h *V1Client) GetNodeStatusMapOpenStack(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsOpenStackPoolMachinesList(params)
 	if err != nil {

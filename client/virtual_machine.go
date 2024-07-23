@@ -4,10 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CreateVirtualMachine creates a new virtual machine.
 func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	cluster, err := h.GetCluster(uid)
 	if err != nil {
@@ -16,7 +17,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	if cluster == nil {
 		return nil, fmt.Errorf("cluster with uid %s not found", uid)
 	}
-	params := clientV1.NewV1SpectroClustersVMCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body).
 		WithNamespace(body.Metadata.Namespace)
@@ -27,6 +28,7 @@ func (h *V1Client) CreateVirtualMachine(uid string, body *models.V1ClusterVirtua
 	return resp.Payload, nil
 }
 
+// GetVirtualMachine gets an existing virtual machine, regardless of its status.
 func (h *V1Client) GetVirtualMachine(uid, namespace, name string) (*models.V1ClusterVirtualMachine, error) {
 	vm, err := h.GetVirtualMachineWithoutStatus(uid, name, namespace)
 	if err != nil {
@@ -35,17 +37,18 @@ func (h *V1Client) GetVirtualMachine(uid, namespace, name string) (*models.V1Clu
 	return vm, nil
 }
 
+// UpdateVirtualMachine updates an existing virtual machine.
 func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
-	clusterUid := cluster.Metadata.UID
-	params := clientV1.NewV1SpectroClustersVMUpdateParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
-		WithUID(clusterUid).
+	clusterUID := cluster.Metadata.UID
+	params := clientv1.NewV1SpectroClustersVMUpdateParams().
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
+		WithUID(clusterUID).
 		WithBody(body).
 		WithNamespace(body.Metadata.Namespace).
 		WithVMName(vmName)
 
 	// check if vm exists
-	exists, err := h.IsVMExists(clusterUid, vmName, body.Metadata.Namespace)
+	exists, err := h.IsVMExists(clusterUID, vmName, body.Metadata.Namespace)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +63,7 @@ func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName
 	return resp.Payload, nil
 }
 
+// DeleteVirtualMachine deletes an existing virtual machine.
 func (h *V1Client) DeleteVirtualMachine(uid, namespace, name string) error {
 	cluster, err := h.GetCluster(uid)
 	if err != nil {
@@ -68,7 +72,7 @@ func (h *V1Client) DeleteVirtualMachine(uid, namespace, name string) error {
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", uid)
 	}
-	params := clientV1.NewV1SpectroClustersVMDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMDeleteParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithVMName(name).
 		WithNamespace(namespace)
