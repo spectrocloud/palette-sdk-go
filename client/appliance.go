@@ -1,9 +1,9 @@
 package client
 
 import (
+	"fmt"
 
 	"github.com/spectrocloud/gomi/pkg/ptr"
-	"fmt"
 	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"

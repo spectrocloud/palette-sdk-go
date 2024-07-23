@@ -16,34 +16,34 @@ func (h *V1Client) CreateClusterAws(cluster *models.V1SpectroAwsClusterEntity) (
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAws(cloudConfigUid string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolAws(cloudConfigUID string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAwsMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAws(cloudConfigUid string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolAws(cloudConfigUID string, machinePool *models.V1AwsMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAwsMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAws(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolAws(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsAwsMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAwsMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAws(configUid string) (*models.V1AwsCloudConfig, error) {
+func (h *V1Client) GetCloudConfigAws(configUID string) (*models.V1AwsCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsAwsGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsAwsGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -66,9 +66,9 @@ func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (strin
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAws(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapAws(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsAwsPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAwsPoolMachinesList(params)
 	if err != nil {

@@ -26,27 +26,27 @@ func (h *V1Client) CreateMacro(uid string, macros *models.V1Macros) error {
 	return err
 }
 
-func (h *V1Client) GetMacro(name, projectUid string) (*models.V1Macro, error) {
-	macros, err := h.GetMacros(projectUid)
+func (h *V1Client) GetMacro(name, projectUID string) (*models.V1Macro, error) {
+	macros, err := h.GetMacros(projectUID)
 	if err != nil {
 		return nil, err
 	}
-	id := h.GetMacroId(projectUid, name)
+	id := h.GetMacroID(projectUID, name)
 
 	for _, macro := range macros {
-		if h.GetMacroId(projectUid, macro.Name) == id {
+		if h.GetMacroID(projectUID, macro.Name) == id {
 			return macro, nil
 		}
 	}
 	return nil, nil
 }
 
-func (h *V1Client) GetMacros(projectUid string) ([]*models.V1Macro, error) {
+func (h *V1Client) GetMacros(projectUID string) ([]*models.V1Macro, error) {
 	var macros []*models.V1Macro
 
-	if projectUid != "" {
+	if projectUID != "" {
 		params := clientV1.NewV1ProjectsUIDMacrosListParamsWithContext(h.ctx).
-			WithUID(projectUid)
+			WithUID(projectUID)
 		resp, err := h.Client.V1ProjectsUIDMacrosList(params)
 		if err != nil {
 			return nil, err
@@ -77,18 +77,17 @@ func (h *V1Client) UpdateMacro(uid string, macros *models.V1Macros) error {
 			WithBody(macros)
 		_, err := h.Client.V1ProjectsUIDMacrosUpdateByMacroName(params)
 		return err
-	} else {
-		tenantUID, err := h.GetTenantUID()
-		if err != nil || tenantUID == "" {
-			return err
-		}
-		// As discussed with hubble team, we should not set context for tenant macros.
-		params := clientV1.NewV1TenantsUIDMacrosUpdateByMacroNameParams().
-			WithTenantUID(tenantUID).
-			WithBody(macros)
-		_, err = h.Client.V1TenantsUIDMacrosUpdateByMacroName(params)
+	}
+	tenantUID, err := h.GetTenantUID()
+	if err != nil || tenantUID == "" {
 		return err
 	}
+	// As discussed with hubble team, we should not set context for tenant macros.
+	params := clientV1.NewV1TenantsUIDMacrosUpdateByMacroNameParams().
+		WithTenantUID(tenantUID).
+		WithBody(macros)
+	_, err = h.Client.V1TenantsUIDMacrosUpdateByMacroName(params)
+	return err
 }
 
 func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
@@ -118,7 +117,7 @@ func (h *V1Client) DeleteMacro(uid string, body *models.V1Macros) error {
 	return err
 }
 
-func (h *V1Client) GetMacroId(uid, name string) string {
+func (h *V1Client) GetMacroID(uid, name string) string {
 	var hash string
 	if uid != "" {
 		hash = apiutil.StringHash(name + uid)

@@ -19,42 +19,42 @@ func (h *V1Client) CreateClusterEks(cluster *models.V1SpectroEksClusterEntity) (
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolEks(cloudConfigUid string, machinePool *models.V1EksMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolEks(cloudConfigUID string, machinePool *models.V1EksMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsEksMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEksMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEks(cloudConfigUid string, machinePool *models.V1EksMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolEks(cloudConfigUID string, machinePool *models.V1EksMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsEksMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEksMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEks(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEks(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsEksMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsEksMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) UpdateFargateProfilesEks(cloudConfigUid string, fargateProfiles *models.V1EksFargateProfiles) error {
+func (h *V1Client) UpdateFargateProfilesEks(cloudConfigUID string, fargateProfiles *models.V1EksFargateProfiles) error {
 	params := clientV1.NewV1CloudConfigsEksUIDFargateProfilesUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(fargateProfiles)
 	_, err := h.Client.V1CloudConfigsEksUIDFargateProfilesUpdate(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigEks(configUid string) (*models.V1EksCloudConfig, error) {
+func (h *V1Client) GetCloudConfigEks(configUID string) (*models.V1EksCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsEksGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsEksGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -64,9 +64,9 @@ func (h *V1Client) GetCloudConfigEks(configUid string) (*models.V1EksCloudConfig
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEks(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsEksPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsEksPoolMachinesList(params)
 	if err != nil {

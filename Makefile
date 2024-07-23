@@ -38,7 +38,7 @@ vet: ## Run go vet against code
 	go vet ./...
 
 lint: golangci-lint ## Run golangci-lint against code
-	$(GOLANGCI_LINT) run
+	$(GOLANGCI_LINT) run -v ./...
 
 pre-commit-install: pre-commit ## Install pre-commit hooks
 	@if [ "$(GITHUB_ACTIONS)" != "true" ]; then \

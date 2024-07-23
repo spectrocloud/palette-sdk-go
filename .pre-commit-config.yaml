@@ -12,7 +12,7 @@ repos:
     rev: v1.59.1
     hooks:
     - id: golangci-lint
-      entry: golangci-lint run --new-from-rev HEAD --whole-files
+      entry: golangci-lint run --new-from-rev HEAD --whole-files --fix
       types: [go]
       language: golang
       require_serial: true

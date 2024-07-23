@@ -21,7 +21,7 @@ func (h *V1Client) GetClusterProfileSummary(uid string) (*models.V1ClusterProfil
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetClusterProfileUid(profileName, profileVersion string) (string, error) {
+func (h *V1Client) GetClusterProfileUID(profileName, profileVersion string) (string, error) {
 	params := clientV1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterProfilesMetadata(params)
 	if err != nil {
@@ -59,22 +59,22 @@ func (h *V1Client) ImportClusterProfile(profileContent string) (string, error) {
 
 }
 
-func (h *V1Client) UpgradeClusterProfile(clusterUid string, body *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpgradeClusterProfile(clusterUID string, body *models.V1SpectroClusterProfiles) error {
 	params := clientV1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.ctx).
-		WithUID(clusterUid).
+		WithUID(clusterUID).
 		WithBody(body)
 	_, err := h.Client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
 
-func (h *V1Client) AttachAddonToCluster(clusterUid, profileUid string, profileUids []string) error {
+func (h *V1Client) AttachAddonToCluster(clusterUID, profileUID string, profileUIDs []string) error {
 	// get existing cluster profile uid list on the cluster
-	currentClusterInfo, err := h.GetCluster(clusterUid)
+	currentClusterInfo, err := h.GetCluster(clusterUID)
 	if err != nil {
 		return err
 	}
 
-	profileList := make([]*models.V1SpectroClusterProfileEntity, 0, len(profileUid))
+	profileList := make([]*models.V1SpectroClusterProfileEntity, 0, len(profileUID))
 	packList := make([]*models.V1PackValuesEntity, 0, len(currentClusterInfo.Spec.ClusterProfileTemplates))
 
 	for _, clusterProfile := range currentClusterInfo.Spec.ClusterProfileTemplates {
@@ -94,7 +94,7 @@ func (h *V1Client) AttachAddonToCluster(clusterUid, profileUid string, profileUi
 		})
 	}
 
-	for _, uid := range profileUids {
+	for _, uid := range profileUIDs {
 		packs, err := h.GetPacksByProfile(uid)
 		if err != nil {
 			return err
@@ -117,7 +117,7 @@ func (h *V1Client) AttachAddonToCluster(clusterUid, profileUid string, profileUi
 	profiles := &models.V1SpectroClusterProfiles{
 		Profiles: profileList,
 	}
-	if err := h.UpgradeClusterProfile(clusterUid, profiles); err != nil {
+	if err := h.UpgradeClusterProfile(clusterUID, profiles); err != nil {
 		return err
 	}
 

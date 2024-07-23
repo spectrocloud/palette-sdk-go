@@ -20,7 +20,7 @@ func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body 
 
 	resolveNotifications := true
 	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(uid).
 		WithBody(body).
 		WithResolveNotification(&resolveNotifications)
@@ -40,7 +40,7 @@ func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *model
 func (h *V1Client) CreateAddonDeployment(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles) error {
 	resolveNotifications := false // during initial creation we never need to resolve packs
 	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(cluster.Metadata.UID).
 		WithBody(body).
 		WithResolveNotification(&resolveNotifications)

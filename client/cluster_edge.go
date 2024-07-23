@@ -16,34 +16,34 @@ func (h *V1Client) CreateClusterEdge(cluster *models.V1SpectroEdgeClusterEntity)
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolEdge(cloudConfigUid string, machinePool *models.V1EdgeMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolEdge(cloudConfigUID string, machinePool *models.V1EdgeMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsEdgeMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEdgeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolEdge(cloudConfigUid string, machinePool *models.V1EdgeMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolEdge(cloudConfigUID string, machinePool *models.V1EdgeMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsEdgeMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsEdgeMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolEdge(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolEdge(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsEdgeMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsEdgeMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigEdge(configUid string) (*models.V1EdgeCloudConfig, error) {
+func (h *V1Client) GetCloudConfigEdge(configUID string) (*models.V1EdgeCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsEdgeGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsEdgeGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -53,9 +53,9 @@ func (h *V1Client) GetCloudConfigEdge(configUid string) (*models.V1EdgeCloudConf
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapEdge(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapEdge(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsEdgePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsEdgePoolMachinesList(params)
 	if err != nil {

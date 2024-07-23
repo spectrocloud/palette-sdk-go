@@ -14,7 +14,6 @@ import (
 )
 
 type V1Client struct {
-
 	Client clientV1.ClientService
 
 	ctx                context.Context
@@ -22,8 +21,8 @@ type V1Client struct {
 	jwt                string
 	username           string
 	password           string
-	hubbleUri          string
-	projectUid         string
+	hubbleURI          string
+	projectUID         string
 	schemes            []string
 	insecureSkipVerify bool
 	transportDebug     bool
@@ -67,9 +66,9 @@ func WithPassword(password string) func(*V1Client) {
 	}
 }
 
-func WithHubbleURI(hubbleUri string) func(*V1Client) {
+func WithHubbleURI(hubbleURI string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.hubbleUri = hubbleUri
+		v.hubbleURI = hubbleURI
 	}
 }
 
@@ -79,10 +78,10 @@ func WithInsecureSkipVerify(insecureSkipVerify bool) func(*V1Client) {
 	}
 }
 
-func WithScopeProject(projectUid string) func(*V1Client) {
+func WithScopeProject(projectUID string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.projectUid = projectUid
-		v.ctx = ContextForScope("project", projectUid)
+		v.projectUID = projectUID
+		v.ctx = ContextForScope("project", projectUID)
 	}
 }
 
@@ -110,12 +109,12 @@ func WithTransportDebug() func(*V1Client) {
 	}
 }
 
-func ContextForScope(scope, projectUid string) context.Context {
+func ContextForScope(scope, projectUID string) context.Context {
 	ctx := context.Background()
 	if scope == "project" {
 		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
 			HeaderMap: map[string]string{
-				"ProjectUid": projectUid,
+				"ProjectUid": projectUID,
 			}},
 		)
 	}
@@ -124,7 +123,7 @@ func ContextForScope(scope, projectUid string) context.Context {
 
 func (h *V1Client) Clone() *V1Client {
 	opts := []func(*V1Client){
-		WithHubbleURI(h.hubbleUri),
+		WithHubbleURI(h.hubbleURI),
 		WithInsecureSkipVerify(h.insecureSkipVerify),
 		WithRetries(h.retryAttempts),
 		WithSchemes(h.schemes),
@@ -139,8 +138,8 @@ func (h *V1Client) Clone() *V1Client {
 	if h.username != "" && h.password != "" {
 		opts = append(opts, WithUsername(h.username), WithPassword(h.password))
 	}
-	if h.projectUid != "" {
-		opts = append(opts, WithScopeProject(h.projectUid))
+	if h.projectUID != "" {
+		opts = append(opts, WithScopeProject(h.projectUID))
 	}
 	if h.transportDebug {
 		opts = append(opts, WithTransportDebug())
@@ -196,7 +195,7 @@ func (h *V1Client) authenticate() error {
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
-	httpTransport := transport.NewWithClient(h.hubbleUri, "", h.schemes, h.httpClient())
+	httpTransport := transport.NewWithClient(h.hubbleURI, "", h.schemes, h.httpClient())
 	httpTransport.RetryAttempts = h.retryAttempts
 	httpTransport.Debug = h.transportDebug
 	return httpTransport

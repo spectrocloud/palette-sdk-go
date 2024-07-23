@@ -36,16 +36,16 @@ func (h *V1Client) GetVirtualMachine(uid, namespace, name string) (*models.V1Clu
 }
 
 func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
-	clusterUid := cluster.Metadata.UID
+	clusterUID := cluster.Metadata.UID
 	params := clientV1.NewV1SpectroClustersVMUpdateParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
-		WithUID(clusterUid).
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
+		WithUID(clusterUID).
 		WithBody(body).
 		WithNamespace(body.Metadata.Namespace).
 		WithVMName(vmName)
 
 	// check if vm exists
-	exists, err := h.IsVMExists(clusterUid, vmName, body.Metadata.Namespace)
+	exists, err := h.IsVMExists(clusterUID, vmName, body.Metadata.Namespace)
 	if err != nil {
 		return nil, err
 	}

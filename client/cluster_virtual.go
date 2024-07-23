@@ -16,41 +16,41 @@ func (h *V1Client) CreateClusterVirtual(cluster *models.V1SpectroVirtualClusterE
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) ResizeClusterVirtual(configUid string, body *models.V1VirtualClusterResize) error {
+func (h *V1Client) ResizeClusterVirtual(configUID string, body *models.V1VirtualClusterResize) error {
 	params := clientV1.NewV1CloudConfigsVirtualUIDUpdateParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithBody(body)
 	_, err := h.Client.V1CloudConfigsVirtualUIDUpdate(params)
 	return err
 }
 
-func (h *V1Client) CreateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolVirtual(cloudConfigUID string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigUid string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolVirtual(cloudConfigUID string, machinePool *models.V1VirtualMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolVirtual(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsVirtualMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigVirtual(configUid string) (*models.V1VirtualCloudConfig, error) {
+func (h *V1Client) GetCloudConfigVirtual(configUID string) (*models.V1VirtualCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsVirtualGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsVirtualGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -71,9 +71,9 @@ func (h *V1Client) VirtualClusterLifecycleConfigChange(uid string, body *models.
 	return "Success", nil
 }
 
-func (h *V1Client) GetNodeStatusMapVirtual(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapVirtual(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsVirtualPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsVirtualPoolMachinesList(params)
 	if err != nil {

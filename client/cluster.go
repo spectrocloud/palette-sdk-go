@@ -76,9 +76,9 @@ func (h *V1Client) GetClusterByName(name string, virtual bool) (*models.V1Spectr
 	return cluster, nil
 }
 
-func (h *V1Client) GetClusterSummary(clusterId string) (*models.V1SpectroClusterUIDSummary, error) {
+func (h *V1Client) GetClusterSummary(clusterID string) (*models.V1SpectroClusterUIDSummary, error) {
 	params := clientV1.NewV1SpectroClustersSummaryUIDParamsWithContext(h.ctx).
-		WithUID(clusterId)
+		WithUID(clusterID)
 	resp, err := h.Client.V1SpectroClustersSummaryUID(params)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,7 @@ func (h *V1Client) GetClusterImportManifest(uid string) (string, error) {
 	return builder.String(), nil
 }
 
-func (h *V1Client) UpdateClusterProfileValues(uid, context string, profiles *models.V1SpectroClusterProfiles) error {
+func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1SpectroClusterProfiles) error {
 	params := clientV1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(profiles).
@@ -173,21 +173,21 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) ApproveClusterRepave(clusterUid string) error {
+func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 	params := clientV1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
-		WithUID(clusterUid)
+		WithUID(clusterUID)
 	_, err := h.Client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
 }
 
-func (h *V1Client) GetRepaveReasons(clusterUid string) ([]string, error) {
+func (h *V1Client) GetRepaveReasons(clusterUID string) ([]string, error) {
 	params := clientV1.NewV1SpectroClustersUIDRepaveGetParamsWithContext(h.ctx).
-		WithUID(clusterUid)
+		WithUID(clusterUID)
 	resp, err := h.Client.V1SpectroClustersUIDRepaveGet(params)
 	if err != nil {
 		return nil, err
 	}
-	var reasons []string
+	reasons := make([]string, 0, len(resp.Payload.Spec.Reasons))
 	for _, r := range resp.Payload.Spec.Reasons {
 		reasons = append(reasons, fmt.Sprintf("Repave - Code: %s, Reason: %s", r.Code, r.Message))
 	}
@@ -252,8 +252,8 @@ func clusterNameEqFilter(name string) *models.V1SearchFilterItem {
 	}
 }
 
-func (h *V1Client) GetLogFetcherStatus(uid string, logFetcherUid *string) (*models.V1ClusterLogFetcher, error) {
-	params := clientV1.NewV1ClusterFeatureLogFetcherGetParamsWithContext(h.ctx).WithUID(uid).WithRequestID(logFetcherUid)
+func (h *V1Client) GetLogFetcherStatus(uid string, logFetcherUID *string) (*models.V1ClusterLogFetcher, error) {
+	params := clientV1.NewV1ClusterFeatureLogFetcherGetParamsWithContext(h.ctx).WithUID(uid).WithRequestID(logFetcherUID)
 	resp, err := h.Client.V1ClusterFeatureLogFetcherGet(params)
 	if err != nil {
 		return nil, err
@@ -270,18 +270,20 @@ func (h *V1Client) InitiateDownloadOfClusterLogs(uid string, V1ClusterLogFetcher
 	return resp.GetPayload().UID, nil
 }
 
-func (h *V1Client) DownloadLogs(uid string, logFetcherUid string) (io.Writer, error) {
+func (h *V1Client) DownloadLogs(uid string, logFetcherUID string) (io.Writer, error) {
 	filename := "logs-" + uid + ".zip"
-	params := clientV1.NewV1ClusterFeatureLogFetcherLogDownloadParamsWithContext(h.ctx).WithUID(logFetcherUid).WithFileName(&filename)
 	var buf bytes.Buffer
 	writer := io.Writer(&buf)
+
+	params := clientV1.NewV1ClusterFeatureLogFetcherLogDownloadParamsWithContext(h.ctx).WithUID(logFetcherUID).WithFileName(&filename)
 	resp, err := h.Client.V1ClusterFeatureLogFetcherLogDownload(params, writer)
 	if err != nil {
 		return nil, err
 	}
 	logfile := resp.GetPayload()
-	file_location := "/tmp/" + filename
-	fo, err := os.Create(filepath.Clean(file_location))
+
+	fileLocation := filepath.Join(os.TempDir(), filename)
+	fo, err := os.Create(filepath.Clean(fileLocation))
 	if err != nil {
 		return nil, fmt.Errorf("error while creating a file %v", err)
 	}
@@ -289,5 +291,6 @@ func (h *V1Client) DownloadLogs(uid string, logFetcherUid string) (io.Writer, er
 	if err != nil {
 		return nil, fmt.Errorf("error while writing log content to a file %v", err)
 	}
+
 	return logfile, nil
 }

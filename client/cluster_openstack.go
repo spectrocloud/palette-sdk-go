@@ -20,26 +20,26 @@ func (h *V1Client) CreateClusterOpenStack(cluster *models.V1SpectroOpenStackClus
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigUid string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolOpenStack(cloudConfigUID string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigUid string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolOpenStack(cloudConfigUID string, machinePool *models.V1OpenStackMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsOpenStackMachinePoolDelete(params)
 	return err
@@ -47,9 +47,9 @@ func (h *V1Client) DeleteMachinePoolOpenStack(cloudConfigUid, machinePoolName st
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigOpenStack(configUid string) (*models.V1OpenStackCloudConfig, error) {
+func (h *V1Client) GetCloudConfigOpenStack(configUID string) (*models.V1OpenStackCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsOpenStackGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsOpenStackGet(params)
 	if herr.IsNotFound(err) {
 		return nil, nil
@@ -74,9 +74,9 @@ func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) 
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapOpenStack(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapOpenStack(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsOpenStackPoolMachinesList(params)
 	if err != nil {

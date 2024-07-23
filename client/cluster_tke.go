@@ -16,34 +16,34 @@ func (h *V1Client) CreateClusterTke(cluster *models.V1SpectroTencentClusterEntit
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolTke(cloudConfigUid string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolTke(cloudConfigUID string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsTkeMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsTkeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolTke(cloudConfigUid string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolTke(cloudConfigUID string, machinePool *models.V1TencentMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsTkeMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsTkeMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolTke(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolTke(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsTkeMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsTkeMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigTke(configUid string) (*models.V1TencentCloudConfig, error) {
+func (h *V1Client) GetCloudConfigTke(configUID string) (*models.V1TencentCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsTkeGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsTkeGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -53,9 +53,9 @@ func (h *V1Client) GetCloudConfigTke(configUid string) (*models.V1TencentCloudCo
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapTke(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapTke(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsTkePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsTkePoolMachinesList(params)
 	if err != nil {

@@ -16,34 +16,34 @@ func (h *V1Client) CreateClusterLibvirt(cluster *models.V1SpectroLibvirtClusterE
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolLibvirt(cloudConfigUid string, machinePool *models.V1LibvirtMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolLibvirt(cloudConfigUID string, machinePool *models.V1LibvirtMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsLibvirtMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolLibvirt(cloudConfigUid string, machinePool *models.V1LibvirtMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolLibvirt(cloudConfigUID string, machinePool *models.V1LibvirtMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsLibvirtMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolLibvirt(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolLibvirt(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsLibvirtMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsLibvirtMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigLibvirt(configUid string) (*models.V1LibvirtCloudConfig, error) {
+func (h *V1Client) GetCloudConfigLibvirt(configUID string) (*models.V1LibvirtCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsLibvirtGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsLibvirtGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -53,9 +53,9 @@ func (h *V1Client) GetCloudConfigLibvirt(configUid string) (*models.V1LibvirtClo
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapLibvirt(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapLibvirt(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsLibvirtPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsLibvirtPoolMachinesList(params)
 	if err != nil {

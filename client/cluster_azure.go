@@ -16,34 +16,34 @@ func (h *V1Client) CreateClusterAzure(cluster *models.V1SpectroAzureClusterEntit
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolAzure(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAzureMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAzure(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolAzure(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAzureMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAzure(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolAzure(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsAzureMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAzureMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAzure(configUid string) (*models.V1AzureCloudConfig, error) {
+func (h *V1Client) GetCloudConfigAzure(configUID string) (*models.V1AzureCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsAzureGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsAzureGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -66,9 +66,9 @@ func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (str
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAzure(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAzurePoolMachinesList(params)
 	if err != nil {

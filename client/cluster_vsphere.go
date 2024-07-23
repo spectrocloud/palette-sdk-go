@@ -20,26 +20,26 @@ func (h *V1Client) CreateClusterVsphere(cluster *models.V1SpectroVsphereClusterE
 
 // Machine Pool
 
-func (h *V1Client) CreateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolVsphere(cloudConfigUID string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsVsphereMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigUid string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolVsphere(cloudConfigUID string, machinePool *models.V1VsphereMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsVsphereMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsVsphereMachinePoolDelete(params)
 	return err
@@ -47,9 +47,9 @@ func (h *V1Client) DeleteMachinePoolVsphere(cloudConfigUid, machinePoolName stri
 
 // Cloud Config
 
-func (h *V1Client) GetCloudConfigVsphere(configUid string) (*models.V1VsphereCloudConfig, error) {
+func (h *V1Client) GetCloudConfigVsphere(configUID string) (*models.V1VsphereCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsVsphereGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsVsphereGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -92,9 +92,9 @@ func (h *V1Client) ImportClusterVsphere(meta *models.V1ObjectMetaInputEntity) (s
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetNodeStatusMapVsphere(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapVsphere(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsVspherePoolMachinesList(params)
 	if err != nil {

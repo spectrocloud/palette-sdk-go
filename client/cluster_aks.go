@@ -19,34 +19,34 @@ func (h *V1Client) CreateClusterAks(cluster *models.V1SpectroAzureClusterEntity)
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreateMachinePoolAks(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+func (h *V1Client) CreateMachinePoolAks(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAksMachinePoolCreateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAksMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolAks(cloudConfigUid string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
+func (h *V1Client) UpdateMachinePoolAks(cloudConfigUID string, machinePool *models.V1AzureMachinePoolConfigEntity) error {
 	params := clientV1.NewV1CloudConfigsAksMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsAksMachinePoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolAks(cloudConfigUid, machinePoolName string) error {
+func (h *V1Client) DeleteMachinePoolAks(cloudConfigUID, machinePoolName string) error {
 	params := clientV1.NewV1CloudConfigsAksMachinePoolDeleteParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigUid).
+		WithConfigUID(cloudConfigUID).
 		WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsAksMachinePoolDelete(params)
 	return err
 }
 
-func (h *V1Client) GetCloudConfigAks(configUid string) (*models.V1AzureCloudConfig, error) {
+func (h *V1Client) GetCloudConfigAks(configUID string) (*models.V1AzureCloudConfig, error) {
 	params := clientV1.NewV1CloudConfigsAksGetParamsWithContext(h.ctx).
-		WithConfigUID(configUid)
+		WithConfigUID(configUID)
 	resp, err := h.Client.V1CloudConfigsAksGet(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -56,9 +56,9 @@ func (h *V1Client) GetCloudConfigAks(configUid string) (*models.V1AzureCloudConf
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetNodeStatusMapAks(configUid, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
+func (h *V1Client) GetNodeStatusMapAks(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientV1.NewV1CloudConfigsAksPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUid).
+		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsAksPoolMachinesList(params)
 	if err != nil {

@@ -5,8 +5,8 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
-func (h *V1Client) IsVMExists(clusterUid, name, namespace string) (bool, error) {
-	vm, err := h.GetVirtualMachine(clusterUid, namespace, name)
+func (h *V1Client) IsVMExists(clusterUID, name, namespace string) (bool, error) {
+	vm, err := h.GetVirtualMachine(clusterUID, namespace, name)
 	if err != nil {
 		return false, err
 	}
@@ -30,7 +30,7 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid, name, namespace string) (
 
 func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
 	params := clientV1.NewV1SpectroClustersVMListParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUid)).
+		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(cluster.Metadata.UID)
 	resp, err := h.Client.V1SpectroClustersVMList(params)
 	if err != nil {
