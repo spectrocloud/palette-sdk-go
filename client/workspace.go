@@ -1,15 +1,14 @@
 package client
 
 import (
-	"errors"
-
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CreateWorkspace creates a new workspace.
 func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string, error) {
-	params := clientV1.NewV1WorkspacesCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspacesCreateParamsWithContext(h.ctx).
 		WithBody(workspace)
 	resp, err := h.Client.V1WorkspacesCreate(params)
 	if err != nil {
@@ -18,8 +17,9 @@ func (h *V1Client) CreateWorkspace(workspace *models.V1WorkspaceEntity) (string,
 	return *resp.Payload.UID, nil
 }
 
+// GetWorkspace retrieves an existing workspace by UID.
 func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
-	params := clientV1.NewV1WorkspacesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspacesUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1WorkspacesUIDGet(params)
 	if apiutil.Is404(err) {
@@ -30,8 +30,9 @@ func (h *V1Client) GetWorkspace(uid string) (*models.V1Workspace, error) {
 	return resp.Payload, nil
 }
 
+// GetWorkspaceByName retrieves an existing workspace by name.
 func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace, error) {
-	params := clientV1.NewV1DashboardWorkspacesListParamsWithContext(h.ctx)
+	params := clientv1.NewV1DashboardWorkspacesListParamsWithContext(h.ctx)
 	resp, err := h.Client.V1DashboardWorkspacesList(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -46,40 +47,45 @@ func (h *V1Client) GetWorkspaceByName(name string) (*models.V1DashboardWorkspace
 	return nil, nil
 }
 
+// UpdateWorkspaceResourceAllocation updates an existing workspace's resource allocation.
 func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, we *models.V1WorkspaceClusterNamespacesEntity) error {
-	params := clientV1.NewV1WorkspacesUIDClusterNamespacesUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspacesUIDClusterNamespacesUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(we)
 	_, err := h.Client.V1WorkspacesUIDClusterNamespacesUpdate(params)
 	return err
 }
 
-func (h *V1Client) UpdateWorkspaceRBACS(uid, rbacUid string, r *models.V1ClusterRbac) error {
-	params := clientV1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.ctx).
+// UpdateWorkspaceRBACS updates an existing workspace's RBAC configuration.
+func (h *V1Client) UpdateWorkspaceRBACS(uid, rbacUID string, r *models.V1ClusterRbac) error {
+	params := clientv1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
-		WithClusterRbacUID(rbacUid).
+		WithClusterRbacUID(rbacUID).
 		WithBody(r)
 	_, err := h.Client.V1WorkspacesUIDClusterRbacUpdate(params)
 	return err
 }
 
+// UpdateWorkspaceBackupConfig updates an existing workspace's backup configuration.
 func (h *V1Client) UpdateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
-	params := clientV1.NewV1WorkspaceOpsBackupUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspaceOpsBackupUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(config)
 	_, err := h.Client.V1WorkspaceOpsBackupUpdate(params)
 	return err
 }
 
+// DeleteWorkspace deletes an existing workspace.
 func (h *V1Client) DeleteWorkspace(uid string) error {
-	params := clientV1.NewV1WorkspacesUIDDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspacesUIDDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1WorkspacesUIDDelete(params)
 	return err
 }
 
+// GetWorkspaceBackup retrieves an existing workspace backup by UID.
 func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, error) {
-	params := clientV1.NewV1WorkspaceOpsBackupGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1WorkspaceOpsBackupGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1WorkspaceOpsBackupGet(params)
 	if apiutil.Is404(err) {
@@ -90,6 +96,6 @@ func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, er
 	return resp.Payload, nil
 }
 
-func (h *V1Client) WorkspaceBackupDelete() error {
-	return errors.New("not implemented")
-}
+// func (h *V1Client) WorkspaceBackupDelete() error {
+// 	return errors.New("not implemented")
+// }

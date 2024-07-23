@@ -1,12 +1,13 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CreateAlert creates a new alert.
 func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID, component string) (string, error) {
-	params := clientV1.NewV1ProjectsUIDAlertCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ProjectsUIDAlertCreateParamsWithContext(h.ctx).
 		WithBody(body).
 		WithUID(projectUID).
 		WithComponent(component)
@@ -17,8 +18,9 @@ func (h *V1Client) CreateAlert(body *models.V1Channel, projectUID, component str
 	return *resp.Payload.UID, nil
 }
 
+// UpdateAlert updates an existing alert.
 func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, alertUID string) (string, error) {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ProjectsUIDAlertsUIDUpdateParamsWithContext(h.ctx).
 		WithBody(body).
 		WithUID(projectUID).
 		WithComponent(component).
@@ -28,11 +30,11 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, al
 		return "", err
 	}
 	return "success", nil
-
 }
 
-func (h *V1Client) ReadAlert(projectUID, component, alertUID string) (*models.V1Channel, error) {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDGetParamsWithContext(h.ctx).
+// GetAlert retrieves an existing alert.
+func (h *V1Client) GetAlert(projectUID, component, alertUID string) (*models.V1Channel, error) {
+	params := clientv1.NewV1ProjectsUIDAlertsUIDGetParamsWithContext(h.ctx).
 		WithUID(projectUID).
 		WithComponent(component).
 		WithAlertUID(alertUID)
@@ -41,11 +43,11 @@ func (h *V1Client) ReadAlert(projectUID, component, alertUID string) (*models.V1
 		return nil, err
 	}
 	return resp.Payload, nil
-
 }
 
-func (h *V1Client) DeleteAlerts(projectUID, component, alertUID string) error {
-	params := clientV1.NewV1ProjectsUIDAlertsUIDDeleteParamsWithContext(h.ctx).
+// DeleteAlert deletes an existing alert.
+func (h *V1Client) DeleteAlert(projectUID, component, alertUID string) error {
+	params := clientv1.NewV1ProjectsUIDAlertsUIDDeleteParamsWithContext(h.ctx).
 		WithUID(projectUID).
 		WithComponent(component).
 		WithAlertUID(alertUID)

@@ -1,10 +1,11 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// IsVMExists checks if a virtual machine exists.
 func (h *V1Client) IsVMExists(clusterUID, name, namespace string) (bool, error) {
 	vm, err := h.GetVirtualMachine(clusterUID, namespace, name)
 	if err != nil {
@@ -16,8 +17,9 @@ func (h *V1Client) IsVMExists(clusterUID, name, namespace string) (bool, error) 
 	return false, nil
 }
 
+// GetVirtualMachineWithoutStatus retrieves a virtual machine, regardless of its status.
 func (h *V1Client) GetVirtualMachineWithoutStatus(uid, name, namespace string) (*models.V1ClusterVirtualMachine, error) {
-	params := clientV1.NewV1SpectroClustersVMGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMGetParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithVMName(name).
 		WithNamespace(namespace)
@@ -28,8 +30,9 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid, name, namespace string) (
 	return resp.Payload, nil
 }
 
+// GetVirtualMachines retrieves a list of virtual machines for a given cluster.
 func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
-	params := clientV1.NewV1SpectroClustersVMListParams().
+	params := clientv1.NewV1SpectroClustersVMListParams().
 		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(cluster.Metadata.UID)
 	resp, err := h.Client.V1SpectroClustersVMList(params)

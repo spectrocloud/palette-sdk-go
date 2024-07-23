@@ -6,13 +6,14 @@ import (
 	"io"
 	"os"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// GetClusterProfileSummary returns a summary for an existing cluster profile.
 func (h *V1Client) GetClusterProfileSummary(uid string) (*models.V1ClusterProfileSummary, error) {
-	params := clientV1.NewV1ClusterProfilesUIDSummaryParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesUIDSummaryParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterProfilesUIDSummary(params)
 	if err != nil {
@@ -21,8 +22,9 @@ func (h *V1Client) GetClusterProfileSummary(uid string) (*models.V1ClusterProfil
 	return resp.Payload, nil
 }
 
+// GetClusterProfileUID returns the UID of a cluster profile based on the profile name and version.
 func (h *V1Client) GetClusterProfileUID(profileName, profileVersion string) (string, error) {
-	params := clientV1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
+	params := clientv1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterProfilesMetadata(params)
 	if err != nil {
 		return "", err
@@ -35,12 +37,17 @@ func (h *V1Client) GetClusterProfileUID(profileName, profileVersion string) (str
 	return "", fmt.Errorf("cluster profile %s not found", profileName)
 }
 
+// ImportClusterProfile imports a cluster profile given the profile content as a string.
 func (h *V1Client) ImportClusterProfile(profileContent string) (string, error) {
 	tmpFile, err := os.CreateTemp(os.TempDir(), "profile-import")
 	if err != nil {
 		return "", err
 	}
-	defer os.Remove(tmpFile.Name())
+	defer func() {
+		if err := os.Remove(tmpFile.Name()); err != nil {
+			fmt.Printf("failed to remove tmp file %s: %v", tmpFile.Name(), err)
+		}
+	}()
 	if _, err = tmpFile.Write([]byte(profileContent)); err != nil {
 		return "", err
 	}
@@ -48,7 +55,7 @@ func (h *V1Client) ImportClusterProfile(profileContent string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	params := clientV1.NewV1ClusterProfilesImportFileParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesImportFileParamsWithContext(h.ctx).
 		WithPublish(apiutil.Ptr(true)).
 		WithImportFile(f)
 	resp, err := h.Client.V1ClusterProfilesImportFile(params)
@@ -56,25 +63,26 @@ func (h *V1Client) ImportClusterProfile(profileContent string) (string, error) {
 		return "", err
 	}
 	return *resp.Payload.UID, nil
-
 }
 
+// UpgradeClusterProfile upgrades a cluster profile with the given profile content.
 func (h *V1Client) UpgradeClusterProfile(clusterUID string, body *models.V1SpectroClusterProfiles) error {
-	params := clientV1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUpdateProfilesParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithBody(body)
 	_, err := h.Client.V1SpectroClustersUpdateProfiles(params)
 	return err
 }
 
-func (h *V1Client) AttachAddonToCluster(clusterUID, profileUID string, profileUIDs []string) error {
+// AttachAddonsToCluster attaches one or more addon profiles to a cluster.
+func (h *V1Client) AttachAddonsToCluster(clusterUID string, profileUIDs []string) error {
 	// get existing cluster profile uid list on the cluster
 	currentClusterInfo, err := h.GetCluster(clusterUID)
 	if err != nil {
 		return err
 	}
 
-	profileList := make([]*models.V1SpectroClusterProfileEntity, 0, len(profileUID))
+	profileList := make([]*models.V1SpectroClusterProfileEntity, 0, len(currentClusterInfo.Spec.ClusterProfileTemplates))
 	packList := make([]*models.V1PackValuesEntity, 0, len(currentClusterInfo.Spec.ClusterProfileTemplates))
 
 	for _, clusterProfile := range currentClusterInfo.Spec.ClusterProfileTemplates {
@@ -83,7 +91,7 @@ func (h *V1Client) AttachAddonToCluster(clusterUID, profileUID string, profileUI
 				Manifests: nil,
 				Name:      value.Name,
 				Tag:       value.Tag,
-				//Type:      models.NewV1PackType(models.V1PackType(value.Type)),
+				// Type:      models.NewV1PackType(models.V1PackType(value.Type)),
 				Type:   models.V1PackType(value.Type),
 				Values: value.Values,
 			})
@@ -117,13 +125,11 @@ func (h *V1Client) AttachAddonToCluster(clusterUID, profileUID string, profileUI
 	profiles := &models.V1SpectroClusterProfiles{
 		Profiles: profileList,
 	}
-	if err := h.UpgradeClusterProfile(clusterUID, profiles); err != nil {
-		return err
-	}
 
-	return nil
+	return h.UpgradeClusterProfile(clusterUID, profiles)
 }
 
+// DeleteClusterProfile deletes an existing cluster profile.
 func (h *V1Client) DeleteClusterProfile(uid string) error {
 	profile, err := h.GetClusterProfile(uid)
 	if err != nil {
@@ -131,14 +137,15 @@ func (h *V1Client) DeleteClusterProfile(uid string) error {
 	} else if profile == nil {
 		return fmt.Errorf("cluster profile %s not found", uid)
 	}
-	params := clientV1.NewV1ClusterProfilesDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err = h.Client.V1ClusterProfilesDelete(params)
 	return err
 }
 
+// GetClusterProfile retrieves an existing cluster profile by UID.
 func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, error) {
-	params := clientV1.NewV1ClusterProfilesGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterProfilesGet(params)
 	if apiutil.Is404(err) {
@@ -149,8 +156,9 @@ func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, erro
 	return resp.Payload, nil
 }
 
+// GetClusterProfiles retrieves all cluster profiles.
 func (h *V1Client) GetClusterProfiles() ([]*models.V1ClusterProfileMetadata, error) {
-	params := clientV1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
+	params := clientv1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterProfilesMetadata(params)
 	if err != nil {
 		return nil, err
@@ -158,24 +166,27 @@ func (h *V1Client) GetClusterProfiles() ([]*models.V1ClusterProfileMetadata, err
 	return resp.Payload.Items, nil
 }
 
+// PatchClusterProfile patches an existing cluster profile's metadata.
 func (h *V1Client) PatchClusterProfile(clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity) error {
-	params := clientV1.NewV1ClusterProfilesUIDMetadataUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesUIDMetadataUpdateParamsWithContext(h.ctx).
 		WithUID(clusterProfile.Metadata.UID).
 		WithBody(metadata)
 	_, err := h.Client.V1ClusterProfilesUIDMetadataUpdate(params)
 	return err
 }
 
+// UpdateClusterProfile updates an existing cluster profile.
 func (h *V1Client) UpdateClusterProfile(clusterProfile *models.V1ClusterProfileUpdateEntity) error {
-	params := clientV1.NewV1ClusterProfilesUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesUpdateParamsWithContext(h.ctx).
 		WithUID(clusterProfile.Metadata.UID).
 		WithBody(clusterProfile)
 	_, err := h.Client.V1ClusterProfilesUpdate(params)
 	return err
 }
 
+// CreateClusterProfile creates a new cluster profile.
 func (h *V1Client) CreateClusterProfile(clusterProfile *models.V1ClusterProfileEntity) (string, error) {
-	params := clientV1.NewV1ClusterProfilesCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesCreateParamsWithContext(h.ctx).
 		WithBody(clusterProfile)
 	resp, err := h.Client.V1ClusterProfilesCreate(params)
 	if err != nil {
@@ -184,15 +195,18 @@ func (h *V1Client) CreateClusterProfile(clusterProfile *models.V1ClusterProfileE
 	return *resp.Payload.UID, nil
 }
 
+// PublishClusterProfile publishes an existing cluster profile.
+// TODO: what does it mean to publish a cluster profile?
 func (h *V1Client) PublishClusterProfile(uid string) error {
-	params := clientV1.NewV1ClusterProfilesPublishParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesPublishParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1ClusterProfilesPublish(params)
 	return err
 }
 
+// GetProfileVariables retrieves all variables for a cluster profile.
 func (h *V1Client) GetProfileVariables(uid string) ([]*models.V1Variable, error) {
-	params := clientV1.NewV1ClusterProfilesUIDVariablesGetParamsWithContext(h.ctx).WithUID(uid)
+	params := clientv1.NewV1ClusterProfilesUIDVariablesGetParamsWithContext(h.ctx).WithUID(uid)
 	resp, err := h.Client.V1ClusterProfilesUIDVariablesGet(params)
 	if err != nil {
 		return nil, err
@@ -200,26 +214,30 @@ func (h *V1Client) GetProfileVariables(uid string) ([]*models.V1Variable, error)
 	return resp.Payload.Variables, nil
 }
 
+// UpdateProfileVariables updates variables for a cluster profile.
 func (h *V1Client) UpdateProfileVariables(variables *models.V1Variables, uid string) error {
-	params := clientV1.NewV1ClusterProfilesUIDVariablesPutParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesUIDVariablesPutParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(variables)
 	_, err := h.Client.V1ClusterProfilesUIDVariablesPut(params)
 	return err
 }
 
+// ExportClusterProfile exports a cluster profile in the specified format.
+// Supported formats are yaml and json.
 func (h *V1Client) ExportClusterProfile(uid, format string) (bytes.Buffer, error) {
 	var buf bytes.Buffer
 	writer := io.Writer(&buf)
-	params := clientV1.NewV1ClusterProfilesUIDExportParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesUIDExportParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithFormat(&format)
 	_, err := h.Client.V1ClusterProfilesUIDExport(params, writer)
 	return buf, err
 }
 
+// BulkDeleteClusterProfiles deletes multiple cluster profiles.
 func (h *V1Client) BulkDeleteClusterProfiles(uids []string) (*models.V1BulkDeleteResponse, error) {
-	params := clientV1.NewV1ClusterProfilesBulkDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterProfilesBulkDeleteParamsWithContext(h.ctx).
 		WithBody(&models.V1BulkDeleteRequest{
 			Uids: uids,
 		})

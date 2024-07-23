@@ -4,15 +4,16 @@ import (
 	"errors"
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
 // PCG - Generic
 
+// GetPCGId retrieves the UID of a Private Cloud Gateway by name.
 func (h *V1Client) GetPCGId(name *string) (string, error) {
-	params := clientV1.NewV1OverlordsListParamsWithContext(h.ctx)
+	params := clientv1.NewV1OverlordsListParamsWithContext(h.ctx)
 	resp, err := h.Client.V1OverlordsList(params)
 	if err != nil {
 		return "", err
@@ -25,8 +26,9 @@ func (h *V1Client) GetPCGId(name *string) (string, error) {
 	return "", errors.New("Private Cloud Gateway not found: " + *name)
 }
 
-func (h *V1Client) GetPCGById(uid string) (*models.V1Overlord, error) {
-	params := clientV1.NewV1OverlordsUIDGetParamsWithContext(h.ctx).
+// GetPCGByID retrieves a Private Cloud Gateway by UID.
+func (h *V1Client) GetPCGByID(uid string) (*models.V1Overlord, error) {
+	params := clientv1.NewV1OverlordsUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1OverlordsUIDGet(params)
 	if err != nil {
@@ -35,8 +37,9 @@ func (h *V1Client) GetPCGById(uid string) (*models.V1Overlord, error) {
 	return resp.Payload, nil
 }
 
+// GetPCGByName retrieves a Private Cloud Gateway by name.
 func (h *V1Client) GetPCGByName(name string) (*models.V1Overlord, error) {
-	params := clientV1.NewV1OverlordsListParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsListParamsWithContext(h.ctx).
 		WithName(&name)
 	resp, err := h.Client.V1OverlordsList(params)
 	if err != nil {
@@ -48,8 +51,9 @@ func (h *V1Client) GetPCGByName(name string) (*models.V1Overlord, error) {
 	return nil, nil
 }
 
+// GetPairingCode retrieves a pairing code for a Private Cloud Gateway by cloud type.
 func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
-	params := clientV1.NewV1OverlordsPairingCodeParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsPairingCodeParamsWithContext(h.ctx).
 		WithCloudType(&cloudType)
 	resp, err := h.Client.V1OverlordsPairingCode(params)
 	if err != nil {
@@ -58,30 +62,33 @@ func (h *V1Client) GetPairingCode(cloudType string) (string, error) {
 	return resp.Payload.PairingCode, nil
 }
 
-func (h *V1Client) CheckPCG(pcgId string) error {
-	if pcgId == "" {
+// CheckPCG checks if a Private Cloud Gateway is running.
+// Returns an error if the PCG is not found or is not running.
+func (h *V1Client) CheckPCG(pcgID string) error {
+	if pcgID == "" {
 		return nil // no pcg to check
 	}
-	pcg, err := h.GetPCGById(pcgId)
+	pcg, err := h.GetPCGByID(pcgID)
 	if err != nil {
 		return err
 	}
 	if pcg == nil {
-		return fmt.Errorf("private cloud gateway not found: %s", pcgId)
+		return fmt.Errorf("private cloud gateway not found: %s", pcgID)
 	}
 	if pcg.Status == nil {
-		return fmt.Errorf("private cloud gateway status not found: %s", pcgId)
+		return fmt.Errorf("private cloud gateway status not found: %s", pcgID)
 	}
 	if pcg.Status.State != "Running" {
-		return fmt.Errorf("private cloud gateway is not running: %s", pcgId)
+		return fmt.Errorf("private cloud gateway is not running: %s", pcgID)
 	}
 	return nil // pcg is running
 }
 
 // PCG - vSphere
 
+// CreatePCGVsphere creates a new vSphere Private Cloud Gateway.
 func (h *V1Client) CreatePCGVsphere(uid string, cloudConfig *models.V1OverlordVsphereCloudConfig) (string, error) {
-	params := clientV1.NewV1OverlordsUIDVsphereCloudConfigCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsUIDVsphereCloudConfigCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(cloudConfig)
 	resp, err := h.Client.V1OverlordsUIDVsphereCloudConfigCreate(params)
@@ -89,11 +96,11 @@ func (h *V1Client) CreatePCGVsphere(uid string, cloudConfig *models.V1OverlordVs
 		return "", err
 	}
 	return *resp.Payload.UID, nil
-
 }
 
+// CreatePCGCloudAccountVsphere creates a new vSphere PCG cloud account.
 func (h *V1Client) CreatePCGCloudAccountVsphere(uid string, account *models.V1OverlordVsphereAccountCreate) (string, error) {
-	params := clientV1.NewV1OverlordsUIDVsphereAccountCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsUIDVsphereAccountCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(account)
 	resp, err := h.Client.V1OverlordsUIDVsphereAccountCreate(params)
@@ -103,8 +110,9 @@ func (h *V1Client) CreatePCGCloudAccountVsphere(uid string, account *models.V1Ov
 	return *resp.Payload.UID, nil
 }
 
+// GetPCGManifestVsphere retrieves a vSphere PCG manifest by pairing code.
 func (h *V1Client) GetPCGManifestVsphere(pairingCode string) (string, error) {
-	params := clientV1.NewV1OverlordsVsphereManifestParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsVsphereManifestParamsWithContext(h.ctx).
 		WithPairingCode(pairingCode)
 	resp, err := h.Client.V1OverlordsVsphereManifest(params)
 	if err != nil {
@@ -113,8 +121,9 @@ func (h *V1Client) GetPCGManifestVsphere(pairingCode string) (string, error) {
 	return resp.Payload.Manifest, nil
 }
 
+// GetPCGClusterProfileVsphere retrieves a vSphere PCG cluster profile by PCG UID.
 func (h *V1Client) GetPCGClusterProfileVsphere(uid string) (*models.V1ClusterProfile, error) {
-	params := clientV1.NewV1OverlordsUIDVsphereClusterProfileParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsUIDVsphereClusterProfileParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1OverlordsUIDVsphereClusterProfile(params)
 	if err != nil {
@@ -123,18 +132,20 @@ func (h *V1Client) GetPCGClusterProfileVsphere(uid string) (*models.V1ClusterPro
 	return resp.Payload, nil
 }
 
-func (h *V1Client) CreateDDNSSearchDomainVsphere(vsphereDnsMapping *models.V1VsphereDNSMapping) error {
-	params := clientV1.NewV1VsphereDNSMappingCreateParamsWithContext(h.ctx).
-		WithBody(vsphereDnsMapping)
+// CreateDDNSSearchDomainVsphere creates a new vSphere DDNS search domain.
+func (h *V1Client) CreateDDNSSearchDomainVsphere(vsphereDNSMapping *models.V1VsphereDNSMapping) error {
+	params := clientv1.NewV1VsphereDNSMappingCreateParamsWithContext(h.ctx).
+		WithBody(vsphereDNSMapping)
 	_, err := h.Client.V1VsphereDNSMappingCreate(params)
 	return err
 }
 
 // PCG - OpenStack
 
-func (h *V1Client) CreatePCGCloudAccountOpenStack(overlordUid string, account *models.V1OverlordOpenStackAccountCreate) (string, error) {
-	params := clientV1.NewV1OverlordsUIDOpenStackAccountCreateParamsWithContext(h.ctx).
-		WithUID(overlordUid).
+// CreatePCGCloudAccountOpenStack creates a new OpenStack PCG cloud account.
+func (h *V1Client) CreatePCGCloudAccountOpenStack(overlordUID string, account *models.V1OverlordOpenStackAccountCreate) (string, error) {
+	params := clientv1.NewV1OverlordsUIDOpenStackAccountCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
 		WithBody(account)
 	resp, err := h.Client.V1OverlordsUIDOpenStackAccountCreate(params)
 	if err != nil {
@@ -143,9 +154,10 @@ func (h *V1Client) CreatePCGCloudAccountOpenStack(overlordUid string, account *m
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreatePCGOpenStack(overlordUid string, cloudConfig *models.V1OverlordOpenStackCloudConfig) (string, error) {
-	params := clientV1.NewV1OverlordsUIDOpenStackCloudConfigCreateParamsWithContext(h.ctx).
-		WithUID(overlordUid).
+// CreatePCGOpenStack creates a new OpenStack Private Cloud Gateway.
+func (h *V1Client) CreatePCGOpenStack(overlordUID string, cloudConfig *models.V1OverlordOpenStackCloudConfig) (string, error) {
+	params := clientv1.NewV1OverlordsUIDOpenStackCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
 		WithBody(cloudConfig)
 	resp, err := h.Client.V1OverlordsUIDOpenStackCloudConfigCreate(params)
 	if err != nil {
@@ -154,8 +166,9 @@ func (h *V1Client) CreatePCGOpenStack(overlordUid string, cloudConfig *models.V1
 	return *resp.Payload.UID, nil
 }
 
+// GetPCGManifestOpenStack retrieves an OpenStack PCG manifest by pairing code.
 func (h *V1Client) GetPCGManifestOpenStack(pairingCode string) (string, error) {
-	params := clientV1.NewV1OverlordsOpenStackManifestParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsOpenStackManifestParamsWithContext(h.ctx).
 		WithPairingCode(pairingCode)
 	resp, err := h.Client.V1OverlordsOpenStackManifest(params)
 	if err != nil {
@@ -164,8 +177,9 @@ func (h *V1Client) GetPCGManifestOpenStack(pairingCode string) (string, error) {
 	return resp.Payload.Manifest, nil
 }
 
+// GetPCGClusterProfileOpenStack retrieves an OpenStack PCG cluster profile by PCG UID.
 func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterProfile, error) {
-	params := clientV1.NewV1OverlordsUIDOpenStackClusterProfileParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsUIDOpenStackClusterProfileParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1OverlordsUIDOpenStackClusterProfile(params)
 	if err != nil {
@@ -176,9 +190,10 @@ func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterP
 
 // PCG - MAAS
 
-func (h *V1Client) CreatePCGCloudAccountMaas(overlordUid string, account *models.V1OverlordMaasAccountCreate) (string, error) {
-	params := clientV1.NewV1OverlordsUIDMaasAccountCreateParamsWithContext(h.ctx).
-		WithUID(overlordUid).
+// CreatePCGCloudAccountMaas creates a new MAAS PCG cloud account.
+func (h *V1Client) CreatePCGCloudAccountMaas(overlordUID string, account *models.V1OverlordMaasAccountCreate) (string, error) {
+	params := clientv1.NewV1OverlordsUIDMaasAccountCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
 		WithBody(account)
 	resp, err := h.Client.V1OverlordsUIDMaasAccountCreate(params)
 	if err != nil {
@@ -187,9 +202,10 @@ func (h *V1Client) CreatePCGCloudAccountMaas(overlordUid string, account *models
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) CreatePCGMaas(overlordUid string, cloudConfig *models.V1OverlordMaasCloudConfig) (string, error) {
-	params := clientV1.NewV1OverlordsUIDMaasCloudConfigCreateParamsWithContext(h.ctx).
-		WithUID(overlordUid).
+// CreatePCGMaas creates a new MAAS Private Cloud Gateway.
+func (h *V1Client) CreatePCGMaas(overlordUID string, cloudConfig *models.V1OverlordMaasCloudConfig) (string, error) {
+	params := clientv1.NewV1OverlordsUIDMaasCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
 		WithBody(cloudConfig)
 	resp, err := h.Client.V1OverlordsUIDMaasCloudConfigCreate(params)
 	if err != nil {
@@ -198,8 +214,9 @@ func (h *V1Client) CreatePCGMaas(overlordUid string, cloudConfig *models.V1Overl
 	return *resp.Payload.UID, nil
 }
 
+// GetPCGManifestMaas retrieves a MAAS PCG manifest by pairing code.
 func (h *V1Client) GetPCGManifestMaas(pairingCode string) (string, error) {
-	params := clientV1.NewV1OverlordsMaasManifestParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsMaasManifestParamsWithContext(h.ctx).
 		WithPairingCode(pairingCode)
 	resp, err := h.Client.V1OverlordsMaasManifest(params)
 	if err != nil {
@@ -208,8 +225,9 @@ func (h *V1Client) GetPCGManifestMaas(pairingCode string) (string, error) {
 	return resp.Payload.Manifest, nil
 }
 
+// GetPCGClusterProfileMaas retrieves a MAAS PCG cluster profile by PCG UID.
 func (h *V1Client) GetPCGClusterProfileMaas(uid string) (*models.V1ClusterProfile, error) {
-	params := clientV1.NewV1OverlordsUIDMaasClusterProfileParamsWithContext(h.ctx).
+	params := clientv1.NewV1OverlordsUIDMaasClusterProfileParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1OverlordsUIDMaasClusterProfile(params)
 	if err != nil {
@@ -220,8 +238,9 @@ func (h *V1Client) GetPCGClusterProfileMaas(uid string) (*models.V1ClusterProfil
 
 // IP Pool
 
-func (h *V1Client) CreateIpPool(pcgUID string, pool *models.V1IPPoolInputEntity) (string, error) {
-	params := clientV1.NewV1OverlordsUIDPoolCreateParamsWithContext(h.ctx).
+// CreateIPPool creates a new IP pool for a Private Cloud Gateway.
+func (h *V1Client) CreateIPPool(pcgUID string, pool *models.V1IPPoolInputEntity) (string, error) {
+	params := clientv1.NewV1OverlordsUIDPoolCreateParamsWithContext(h.ctx).
 		WithUID(pcgUID).
 		WithBody(pool)
 	resp, err := h.Client.V1OverlordsUIDPoolCreate(params)
@@ -231,21 +250,23 @@ func (h *V1Client) CreateIpPool(pcgUID string, pool *models.V1IPPoolInputEntity)
 	return *resp.Payload.UID, nil
 }
 
-func (h *V1Client) GetIpPool(pcgUid, poolUid string) (*models.V1IPPoolEntity, error) {
-	pools, err := h.GetIpPools(pcgUid)
+// GetIPPool retrieves a PCG's IP pool by pool UID.
+func (h *V1Client) GetIPPool(pcgUID, poolUID string) (*models.V1IPPoolEntity, error) {
+	pools, err := h.GetIPPools(pcgUID)
 	if err != nil {
 		return nil, err
 	}
 	for _, pool := range pools {
-		if pool.Metadata.UID == poolUid {
+		if pool.Metadata.UID == poolUID {
 			return pool, nil
 		}
 	}
 	return nil, nil
 }
 
-func (h *V1Client) GetIpPoolByName(pcgUid, poolName string) (*models.V1IPPoolEntity, error) {
-	pools, err := h.GetIpPools(pcgUid)
+// GetIPPoolByName retrieves a PCG's IP pool by pool name.
+func (h *V1Client) GetIPPoolByName(pcgUID, poolName string) (*models.V1IPPoolEntity, error) {
+	pools, err := h.GetIPPools(pcgUID)
 	if err != nil {
 		return nil, err
 	}
@@ -257,9 +278,10 @@ func (h *V1Client) GetIpPoolByName(pcgUid, poolName string) (*models.V1IPPoolEnt
 	return nil, errors.New("ip pool not found: " + poolName)
 }
 
-func (h *V1Client) GetIpPools(pcgUid string) ([]*models.V1IPPoolEntity, error) {
-	params := clientV1.NewV1OverlordsUIDPoolsListParamsWithContext(h.ctx).
-		WithUID(pcgUid)
+// GetIPPools retrieves all IP pools for a Private Cloud Gateway.
+func (h *V1Client) GetIPPools(pcgUID string) ([]*models.V1IPPoolEntity, error) {
+	params := clientv1.NewV1OverlordsUIDPoolsListParamsWithContext(h.ctx).
+		WithUID(pcgUID)
 	resp, err := h.Client.V1OverlordsUIDPoolsList(params)
 	if err != nil {
 		if v1Err := apiutil.ToV1ErrorObj(err); v1Err.Code != "ResourceNotFound" {
@@ -269,19 +291,21 @@ func (h *V1Client) GetIpPools(pcgUid string) ([]*models.V1IPPoolEntity, error) {
 	return resp.Payload.Items, nil
 }
 
-func (h *V1Client) UpdateIpPool(pcgUid, poolUid string, pool *models.V1IPPoolInputEntity) error {
-	params := clientV1.NewV1OverlordsUIDPoolUpdateParamsWithContext(h.ctx).
-		WithUID(pcgUid).
+// UpdateIPPool updates an existing Private Cloud Gateway IP pool.
+func (h *V1Client) UpdateIPPool(pcgUID, poolUID string, pool *models.V1IPPoolInputEntity) error {
+	params := clientv1.NewV1OverlordsUIDPoolUpdateParamsWithContext(h.ctx).
+		WithUID(pcgUID).
 		WithBody(pool).
-		WithPoolUID(poolUid)
+		WithPoolUID(poolUID)
 	_, err := h.Client.V1OverlordsUIDPoolUpdate(params)
 	return err
 }
 
-func (h *V1Client) DeleteIpPool(pcgUid, poolUid string) error {
-	params := clientV1.NewV1OverlordsUIDPoolDeleteParamsWithContext(h.ctx).
-		WithUID(pcgUid).
-		WithPoolUID(poolUid)
+// DeleteIPPool deletes an existing Private Cloud Gateway IP pool.
+func (h *V1Client) DeleteIPPool(pcgUID, poolUID string) error {
+	params := clientv1.NewV1OverlordsUIDPoolDeleteParamsWithContext(h.ctx).
+		WithUID(pcgUID).
+		WithPoolUID(poolUID)
 	_, err := h.Client.V1OverlordsUIDPoolDelete(params)
 	return err
 }

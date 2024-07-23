@@ -1,12 +1,13 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CreateClusterGke creates a GKE cluster.
 func (h *V1Client) CreateClusterGke(cluster *models.V1SpectroGcpClusterEntity) (string, error) {
-	params := clientV1.NewV1SpectroClustersGkeCreateParamsWithContext(h.ctx).WithBody(cluster)
+	params := clientv1.NewV1SpectroClustersGkeCreateParamsWithContext(h.ctx).WithBody(cluster)
 	success, err := h.Client.V1SpectroClustersGkeCreate(params)
 	if err != nil {
 		return "", err
@@ -15,8 +16,9 @@ func (h *V1Client) CreateClusterGke(cluster *models.V1SpectroGcpClusterEntity) (
 	return *success.Payload.UID, nil
 }
 
+// GetCloudConfigGke retrieves an existing GKE cluster's cloud config.
 func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig, error) {
-	params := clientV1.NewV1CloudConfigsGkeGetParamsWithContext(h.ctx).WithConfigUID(configUID)
+	params := clientv1.NewV1CloudConfigsGkeGetParamsWithContext(h.ctx).WithConfigUID(configUID)
 
 	success, err := h.Client.V1CloudConfigsGkeGet(params)
 	if err != nil {
@@ -26,15 +28,17 @@ func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig
 	return success.Payload, nil
 }
 
-func (h *V1Client) CreateMachinePoolGke(cloudConfigId string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithBody(machinePool)
+// CreateMachinePoolGke creates a new GKE machine pool.
+func (h *V1Client) CreateMachinePoolGke(cloudConfigID string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigID).WithBody(machinePool)
 	_, err := h.Client.V1CloudConfigsGkeMachinePoolCreate(params)
 	return err
 }
 
-func (h *V1Client) UpdateMachinePoolGke(cloudConfigId string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
-	params := clientV1.NewV1CloudConfigsGkeMachinePoolUpdateParamsWithContext(h.ctx).
-		WithConfigUID(cloudConfigId).
+// UpdateMachinePoolGke updates an existing GKE machine pool.
+func (h *V1Client) UpdateMachinePoolGke(cloudConfigID string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGkeMachinePoolUpdateParamsWithContext(h.ctx).
+		WithConfigUID(cloudConfigID).
 		WithMachinePoolName(*machinePool.PoolConfig.Name).
 		WithBody(machinePool)
 
@@ -42,14 +46,16 @@ func (h *V1Client) UpdateMachinePoolGke(cloudConfigId string, machinePool *model
 	return err
 }
 
-func (h *V1Client) DeleteMachinePoolGke(cloudConfigId string, machinePoolName string) error {
-	params := clientV1.NewV1CloudConfigsGkeMachinePoolDeleteParamsWithContext(h.ctx).WithConfigUID(cloudConfigId).WithMachinePoolName(machinePoolName)
+// DeleteMachinePoolGke deletes an existing GKE machine pool.
+func (h *V1Client) DeleteMachinePoolGke(cloudConfigID string, machinePoolName string) error {
+	params := clientv1.NewV1CloudConfigsGkeMachinePoolDeleteParamsWithContext(h.ctx).WithConfigUID(cloudConfigID).WithMachinePoolName(machinePoolName)
 	_, err := h.Client.V1CloudConfigsGkeMachinePoolDelete(params)
 	return err
 }
 
+// GetNodeStatusMapGke retrieves the status of all nodes in a GKE machine pool.
 func (h *V1Client) GetNodeStatusMapGke(configUID string, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
-	params := clientV1.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
+	params := clientv1.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.ctx).WithConfigUID(configUID).WithMachinePoolName(machinePoolName)
 
 	mpList, err := h.Client.V1CloudConfigsGkePoolMachinesList(params)
 	nMap := map[string]models.V1CloudMachineStatus{}

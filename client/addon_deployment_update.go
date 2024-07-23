@@ -5,10 +5,11 @@ import (
 	"math/rand"
 	"time"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// UpdateAddonDeployment updates the addon deployment for a cluster.
 func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles, newProfile *models.V1ClusterProfile) error {
 	uid := cluster.Metadata.UID
 
@@ -19,7 +20,7 @@ func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body 
 	}
 
 	resolveNotifications := true
-	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
+	params := clientv1.NewV1SpectroClustersPatchProfilesParams().
 		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(uid).
 		WithBody(body).
@@ -28,6 +29,7 @@ func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body 
 	return h.PatchWithRetry(params)
 }
 
+// IsProfileAttachedByName checks if a profile is already attached to a cluster.
 func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *models.V1ClusterProfile) (bool, string) {
 	for _, profile := range cluster.Spec.ClusterProfileTemplates {
 		if profile.Name == newProfile.Metadata.Name {
@@ -37,9 +39,10 @@ func IsProfileAttachedByName(cluster *models.V1SpectroCluster, newProfile *model
 	return false, ""
 }
 
+// CreateAddonDeployment creates an addon deployment for a cluster.
 func (h *V1Client) CreateAddonDeployment(cluster *models.V1SpectroCluster, body *models.V1SpectroClusterProfiles) error {
 	resolveNotifications := false // during initial creation we never need to resolve packs
-	params := clientV1.NewV1SpectroClustersPatchProfilesParams().
+	params := clientv1.NewV1SpectroClustersPatchProfilesParams().
 		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(cluster.Metadata.UID).
 		WithBody(body).
@@ -48,7 +51,8 @@ func (h *V1Client) CreateAddonDeployment(cluster *models.V1SpectroCluster, body 
 	return h.PatchWithRetry(params)
 }
 
-func (h *V1Client) PatchWithRetry(params *clientV1.V1SpectroClustersPatchProfilesParams) error {
+// PatchWithRetry patches cluster's profiles with with retry logic.
+func (h *V1Client) PatchWithRetry(params *clientv1.V1SpectroClustersPatchProfilesParams) error {
 	var err error
 	rand.NewSource(time.Now().UnixNano())
 	for attempt := 0; attempt < h.retryAttempts; attempt++ {
@@ -64,13 +68,15 @@ func (h *V1Client) PatchWithRetry(params *clientV1.V1SpectroClustersPatchProfile
 	return err
 }
 
-func (h *V1Client) ClustersPatchProfiles(params *clientV1.V1SpectroClustersPatchProfilesParams) error {
+// ClustersPatchProfiles patches a cluster's profiles.
+func (h *V1Client) ClustersPatchProfiles(params *clientv1.V1SpectroClustersPatchProfilesParams) error {
 	_, err := h.Client.V1SpectroClustersPatchProfiles(params)
 	return err
 }
 
+// DeleteAddonDeployment deletes an addon deployment for a cluster.
 func (h *V1Client) DeleteAddonDeployment(uid string, body *models.V1SpectroClusterProfilesDeleteEntity) error {
-	params := clientV1.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersDeleteProfilesParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1SpectroClustersDeleteProfiles(params)

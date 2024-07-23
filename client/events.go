@@ -3,12 +3,14 @@ package client
 import (
 	"time"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// GetEvents retrieves events for a given object.
+// TODO: which kinds are supported?
 func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, orderBy *string, limit, offset *int64, timeout *time.Duration) ([]*models.V1Event, error) {
-	params := clientV1.NewV1EventsComponentsObjTypeUIDListParamsWithContext(h.ctx).
+	params := clientv1.NewV1EventsComponentsObjTypeUIDListParamsWithContext(h.ctx).
 		WithObjectKind(kind).
 		WithObjectUID(uid)
 	if continueVar != nil {
@@ -39,8 +41,10 @@ func (h *V1Client) GetEvents(kind, uid string, continueVar, fields, filters, ord
 	return resp.Payload.Items, nil
 }
 
+// GetNotifications retrieves notifications for a given object.
+// TODO: which kinds are supported?
 func (h *V1Client) GetNotifications(kind, uid string, continueVar, fields, filters, isDone, orderBy *string, limit, offset *int64, timeout *time.Duration) ([]*models.V1Notification, error) {
-	params := clientV1.NewV1NotificationsObjTypeUIDListParamsWithContext(h.ctx).
+	params := clientv1.NewV1NotificationsObjTypeUIDListParamsWithContext(h.ctx).
 		WithObjectKind(kind).
 		WithObjectUID(uid)
 	if continueVar != nil {

@@ -3,9 +3,10 @@ package client
 import (
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 )
 
+// MigrateVirtualMachineNodeToNode migrates a virtual machine from one node to another.
 func (h *V1Client) MigrateVirtualMachineNodeToNode(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -14,7 +15,7 @@ func (h *V1Client) MigrateVirtualMachineNodeToNode(clusterUID, vmName, vmNamespa
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMMigrateParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMMigrateParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)

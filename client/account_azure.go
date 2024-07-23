@@ -1,7 +1,7 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
@@ -17,13 +17,14 @@ func toV1AzureCloudAccount(account *models.V1AzureAccount) *models.V1AzureCloudA
 	}
 }
 
+// CreateCloudAccountAzure creates a new Azure cloud account.
 func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount) (string, error) {
 	// validate account
 	if err := h.validateCloudAccountAzure(account); err != nil {
 		return "", err
 	}
 
-	params := clientV1.NewV1CloudAccountsAzureCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsAzureCreateParamsWithContext(h.ctx).
 		WithBody(account)
 	resp, err := h.Client.V1CloudAccountsAzureCreate(params)
 	if err != nil {
@@ -39,20 +40,21 @@ func (h *V1Client) validateCloudAccountAzure(account *models.V1AzureAccount) err
 	}
 
 	// validate account
-	params := clientV1.NewV1AzureAccountValidateParamsWithContext(h.ctx).
+	params := clientv1.NewV1AzureAccountValidateParamsWithContext(h.ctx).
 		WithAzureCloudAccount(toV1AzureCloudAccount(account))
 
 	_, err := h.Client.V1AzureAccountValidate(params)
 	return err
 }
 
+// UpdateCloudAccountAzure updates an existing Azure cloud account.
 func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error {
 	// validate account
 	if err := h.validateCloudAccountAzure(account); err != nil {
 		return err
 	}
 
-	params := clientV1.NewV1CloudAccountsAzureUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsAzureUpdateParamsWithContext(h.ctx).
 		WithUID(account.Metadata.UID).
 		WithBody(account)
 
@@ -60,15 +62,17 @@ func (h *V1Client) UpdateCloudAccountAzure(account *models.V1AzureAccount) error
 	return err
 }
 
+// DeleteCloudAccountAzure deletes an existing Azure cloud account.
 func (h *V1Client) DeleteCloudAccountAzure(uid string) error {
-	params := clientV1.NewV1CloudAccountsAzureDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsAzureDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1CloudAccountsAzureDelete(params)
 	return err
 }
 
+// GetCloudAccountAzure retrieves an existing Azure cloud account.
 func (h *V1Client) GetCloudAccountAzure(uid string) (*models.V1AzureAccount, error) {
-	params := clientV1.NewV1CloudAccountsAzureGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsAzureGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1CloudAccountsAzureGet(params)
 	if apiutil.Is404(err) {
@@ -79,8 +83,9 @@ func (h *V1Client) GetCloudAccountAzure(uid string) (*models.V1AzureAccount, err
 	return resp.Payload, nil
 }
 
+// GetCloudAccountsAzure retrieves all Azure cloud accounts.
 func (h *V1Client) GetCloudAccountsAzure() ([]*models.V1AzureAccount, error) {
-	params := clientV1.NewV1CloudAccountsAzureListParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudAccountsAzureListParamsWithContext(h.ctx).
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1CloudAccountsAzureList(params)
 	if err != nil {

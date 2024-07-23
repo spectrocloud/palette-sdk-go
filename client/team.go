@@ -1,16 +1,17 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
 // CRUDL operations on teams are all tenant scoped.
 // See: hubble/services/svccore/perms/user_acl.go
 
+// CreateTeam creates a new team.
 func (h *V1Client) CreateTeam(team *models.V1Team) (string, error) {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1TeamsCreateParams().
+	params := clientv1.NewV1TeamsCreateParams().
 		WithBody(team)
 	resp, err := h.Client.V1TeamsCreate(params)
 	if err != nil {
@@ -19,18 +20,20 @@ func (h *V1Client) CreateTeam(team *models.V1Team) (string, error) {
 	return *resp.Payload.UID, nil
 }
 
+// UpdateTeam updates an existing team.
 func (h *V1Client) UpdateTeam(uid string, team *models.V1Team) error {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1TeamsUIDUpdateParams().
+	params := clientv1.NewV1TeamsUIDUpdateParams().
 		WithUID(uid).
 		WithBody(team)
 	_, err := h.Client.V1TeamsUIDUpdate(params)
 	return err
 }
 
+// GetTeam retrieves an existing team by UID.
 func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1TeamsUIDGetParams().
+	params := clientv1.NewV1TeamsUIDGetParams().
 		WithUID(uid)
 	resp, err := h.Client.V1TeamsUIDGet(params)
 	if err != nil {
@@ -39,24 +42,27 @@ func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
 	return resp.Payload, nil
 }
 
+// DeleteTeam deletes an existing team by UID.
 func (h *V1Client) DeleteTeam(uid string) error {
 	// ACL scoped to tenant only
-	params := clientV1.NewV1TeamsUIDDeleteParams().
+	params := clientv1.NewV1TeamsUIDDeleteParams().
 		WithUID(uid)
 	_, err := h.Client.V1TeamsUIDDelete(params)
 	return err
 }
 
+// AssociateTeamProjectRole updates a team's project-role associations.
 func (h *V1Client) AssociateTeamProjectRole(uid string, body *models.V1ProjectRolesPatch) error {
-	params := clientV1.NewV1TeamsProjectRolesPutParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsProjectRolesPutParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TeamsProjectRolesPut(params)
 	return err
 }
 
+// GetTeamProjectRoleAssociation retrieves a team's project-role associations.
 func (h *V1Client) GetTeamProjectRoleAssociation(uid string) (*models.V1ProjectRolesEntity, error) {
-	params := clientV1.NewV1TeamsProjectRolesParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsProjectRolesParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1TeamsProjectRoles(params)
 	if err != nil {
@@ -65,16 +71,18 @@ func (h *V1Client) GetTeamProjectRoleAssociation(uid string) (*models.V1ProjectR
 	return resp.Payload, nil
 }
 
+// AssociateTeamTenantRole updates a team's tenant-role associations.
 func (h *V1Client) AssociateTeamTenantRole(uid string, body *models.V1TeamTenantRolesUpdate) error {
-	params := clientV1.NewV1TeamsUIDTenantRolesUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsUIDTenantRolesUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TeamsUIDTenantRolesUpdate(params)
 	return err
 }
 
+// GetTeamTenantRoleAssociation retrieves a team's tenant-role associations.
 func (h *V1Client) GetTeamTenantRoleAssociation(uid string) (*models.V1TeamTenantRolesEntity, error) {
-	params := clientV1.NewV1TeamsUIDTenantRolesGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsUIDTenantRolesGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1TeamsUIDTenantRolesGet(params)
 	if err != nil {
@@ -83,16 +91,18 @@ func (h *V1Client) GetTeamTenantRoleAssociation(uid string) (*models.V1TeamTenan
 	return resp.Payload, nil
 }
 
+// AssociateTeamWorkspaceRole updates a team's workspace-role associations.
 func (h *V1Client) AssociateTeamWorkspaceRole(uid string, body *models.V1WorkspacesRolesPatch) error {
-	params := clientV1.NewV1TeamsWorkspaceRolesPutParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsWorkspaceRolesPutParamsWithContext(h.ctx).
 		WithTeamUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TeamsWorkspaceRolesPut(params)
 	return err
 }
 
+// GetTeamWorkspaceRoleAssociation retrieves a team's workspace-role associations.
 func (h *V1Client) GetTeamWorkspaceRoleAssociation(uid string) (*models.V1WorkspaceScopeRoles, error) {
-	params := clientV1.NewV1TeamsWorkspaceGetRolesParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsWorkspaceGetRolesParamsWithContext(h.ctx).
 		WithTeamUID(uid)
 	resp, err := h.Client.V1TeamsWorkspaceGetRoles(params)
 	if err != nil {
@@ -101,24 +111,27 @@ func (h *V1Client) GetTeamWorkspaceRoleAssociation(uid string) (*models.V1Worksp
 	return resp.Payload, nil
 }
 
+// AssociateTeamResourceRole updates a team's resource-role associations.
 func (h *V1Client) AssociateTeamResourceRole(uid string, body *models.V1ResourceRolesUpdateEntity) error {
-	params := clientV1.NewV1TeamsUIDResourceRolesCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsUIDResourceRolesCreateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TeamsUIDResourceRolesCreate(params)
 	return err
 }
 
+// UpdateTeamResourceRole updates a team's resource-role associations.
 func (h *V1Client) UpdateTeamResourceRole(uid string, body *models.V1ResourceRolesUpdateEntity) error {
-	params := clientV1.NewV1TeamsResourceRolesUIDUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsResourceRolesUIDUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1TeamsResourceRolesUIDUpdate(params)
 	return err
 }
 
+// GetTeamResourceRole retrieves a resource-role by team UID and role name.
 func (h *V1Client) GetTeamResourceRole(uid, name string) (*models.V1UIDSummary, error) {
-	params := clientV1.NewV1TeamsUIDResourceRolesParamsWithContext(h.ctx).
+	params := clientv1.NewV1TeamsUIDResourceRolesParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1TeamsUIDResourceRoles(params)
 	if err != nil {

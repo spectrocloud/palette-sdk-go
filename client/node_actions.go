@@ -1,14 +1,13 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
-type GetMaintenanceStatus func(string, string, string) (*models.V1MachineMaintenanceStatus, error)
-
+// ToggleMaintenanceOnNode updates maintenance configuration for a node.
 func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, cloudType, configUID, machineName, nodeID string) error {
-	params := clientV1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.ctx).
 		WithBody(nodeMaintenance).
 		WithCloudType(cloudType).
 		WithConfigUID(configUID).
@@ -19,12 +18,9 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 	return err
 }
 
-func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	return fn(configUID, machineName, nodeID)
-}
-
+// GetNodeMaintenanceStatusAws retrieves maintenance status for an AWS IaaS node.
 func (h *V1Client) GetNodeMaintenanceStatusAws(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsAwsPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsAwsPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -36,8 +32,9 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusMaas retrieves maintenance status for a MAAS node.
 func (h *V1Client) GetNodeMaintenanceStatusMaas(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsMaasPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsMaasPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -49,8 +46,9 @@ func (h *V1Client) GetNodeMaintenanceStatusMaas(configUID, machineName, nodeID s
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusAks retrieves maintenance status for an AKS node.
 func (h *V1Client) GetNodeMaintenanceStatusAks(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsAksPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsAksPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -62,8 +60,9 @@ func (h *V1Client) GetNodeMaintenanceStatusAks(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusAzure retrieves maintenance status for an Azure IaaS node.
 func (h *V1Client) GetNodeMaintenanceStatusAzure(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsAzurePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsAzurePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -75,21 +74,9 @@ func (h *V1Client) GetNodeMaintenanceStatusAzure(configUID, machineName, nodeID 
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-func (h *V1Client) GetNodeMaintenanceStatusCoxEdge(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machineName).
-		WithMachineUID(nodeID)
-
-	resp, err := h.Client.V1CloudConfigsCoxEdgePoolMachinesUIDGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload.Status.MaintenanceStatus, nil
-}
-
+// GetNodeMaintenanceStatusEdgeNative retrieves maintenance status for an edge native node.
 func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -101,8 +88,10 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUID, machineName, no
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusEdge retrieves maintenance status for an edge node.
+// TODO: edgev1 deprecation
 func (h *V1Client) GetNodeMaintenanceStatusEdge(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -114,8 +103,10 @@ func (h *V1Client) GetNodeMaintenanceStatusEdge(configUID, machineName, nodeID s
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusEdgeVsphere retrieves maintenance status for a vSphere edge node.
+// TODO: edgev1 deprecation
 func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -127,8 +118,9 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(configUID, machineName, n
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusEks retrieves maintenance status for an EKS node.
 func (h *V1Client) GetNodeMaintenanceStatusEks(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsEksPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsEksPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -140,8 +132,9 @@ func (h *V1Client) GetNodeMaintenanceStatusEks(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusGcp retrieves maintenance status for a GCP IaaS node.
 func (h *V1Client) GetNodeMaintenanceStatusGcp(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsGcpPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsGcpPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -153,8 +146,9 @@ func (h *V1Client) GetNodeMaintenanceStatusGcp(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusGeneric retrieves maintenance status for a generic node.
 func (h *V1Client) GetNodeMaintenanceStatusGeneric(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsGenericPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsGenericPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -166,8 +160,9 @@ func (h *V1Client) GetNodeMaintenanceStatusGeneric(configUID, machineName, nodeI
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusGke retrieves maintenance status for a GKE node.
 func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsGkePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsGkePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -179,8 +174,10 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a libvirt node.
+// TODO: edgev1 deprecation
 func (h *V1Client) GetNodeMaintenanceStatusLibvirt(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -192,8 +189,9 @@ func (h *V1Client) GetNodeMaintenanceStatusLibvirt(configUID, machineName, nodeI
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusOpenStack retrieves maintenance status for an OpenStack node.
 func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -205,8 +203,9 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nod
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusTke retrieves maintenance status for a TKE node.
 func (h *V1Client) GetNodeMaintenanceStatusTke(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -218,8 +217,10 @@ func (h *V1Client) GetNodeMaintenanceStatusTke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeVirtualMaintenanceStatusVirtual retrieves maintenance status for a virtual node.
+// TODO: deprecate unused virtual cluster functions
 func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsVirtualPoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsVirtualPoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)
@@ -231,8 +232,9 @@ func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(configUID, machineName
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusVsphere retrieves maintenance status for a vSphere node.
 func (h *V1Client) GetNodeMaintenanceStatusVsphere(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientV1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1CloudConfigsVspherePoolMachinesUIDGetParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machineName).
 		WithMachineUID(nodeID)

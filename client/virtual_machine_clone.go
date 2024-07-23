@@ -3,10 +3,11 @@ package client
 import (
 	"errors"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CloneVirtualMachine clones a virtual machine.
 func (h *V1Client) CloneVirtualMachine(clusterUID, sourceVMName, cloneVMName, namespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -15,7 +16,7 @@ func (h *V1Client) CloneVirtualMachine(clusterUID, sourceVMName, cloneVMName, na
 	if cluster == nil {
 		return errors.New("cluster not found")
 	}
-	params := clientV1.NewV1SpectroClustersVMCloneParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMCloneParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(sourceVMName).
 		WithNamespace(namespace).

@@ -3,9 +3,10 @@ package client
 import (
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 )
 
+// StartVirtualMachine starts a virtual machine.
 func (h *V1Client) StartVirtualMachine(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -14,7 +15,7 @@ func (h *V1Client) StartVirtualMachine(clusterUID, vmName, vmNamespace string) e
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMStartParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMStartParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)
@@ -22,6 +23,7 @@ func (h *V1Client) StartVirtualMachine(clusterUID, vmName, vmNamespace string) e
 	return err
 }
 
+// StopVirtualMachine stops a virtual machine.
 func (h *V1Client) StopVirtualMachine(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -30,7 +32,7 @@ func (h *V1Client) StopVirtualMachine(clusterUID, vmName, vmNamespace string) er
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMStopParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMStopParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)
@@ -38,6 +40,7 @@ func (h *V1Client) StopVirtualMachine(clusterUID, vmName, vmNamespace string) er
 	return err
 }
 
+// PauseVirtualMachine pauses a virtual machine.
 func (h *V1Client) PauseVirtualMachine(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -46,7 +49,7 @@ func (h *V1Client) PauseVirtualMachine(clusterUID, vmName, vmNamespace string) e
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMPauseParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMPauseParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)
@@ -54,6 +57,7 @@ func (h *V1Client) PauseVirtualMachine(clusterUID, vmName, vmNamespace string) e
 	return err
 }
 
+// ResumeVirtualMachine resumes a virtual machine.
 func (h *V1Client) ResumeVirtualMachine(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -62,7 +66,7 @@ func (h *V1Client) ResumeVirtualMachine(clusterUID, vmName, vmNamespace string) 
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMResumeParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMResumeParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)
@@ -70,6 +74,7 @@ func (h *V1Client) ResumeVirtualMachine(clusterUID, vmName, vmNamespace string) 
 	return err
 }
 
+// RestartVirtualMachine restarts a virtual machine.
 func (h *V1Client) RestartVirtualMachine(clusterUID, vmName, vmNamespace string) error {
 	cluster, err := h.GetCluster(clusterUID)
 	if err != nil {
@@ -78,7 +83,7 @@ func (h *V1Client) RestartVirtualMachine(clusterUID, vmName, vmNamespace string)
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", clusterUID)
 	}
-	params := clientV1.NewV1SpectroClustersVMRestartParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMRestartParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithVMName(vmName).
 		WithNamespace(vmNamespace)

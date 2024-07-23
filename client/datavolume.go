@@ -3,10 +3,11 @@ package client
 import (
 	"fmt"
 
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// CreateDataVolume creates a new data volume.
 func (h *V1Client) CreateDataVolume(uid, name string, body *models.V1VMAddVolumeEntity) (string, error) {
 	cluster, err := h.GetCluster(uid)
 	if err != nil {
@@ -14,7 +15,7 @@ func (h *V1Client) CreateDataVolume(uid, name string, body *models.V1VMAddVolume
 	} else if cluster == nil {
 		return "", fmt.Errorf("cluster with uid %s not found", uid)
 	}
-	params := clientV1.NewV1SpectroClustersVMAddVolumeParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMAddVolumeParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body).
 		WithVMName(name).
@@ -26,6 +27,7 @@ func (h *V1Client) CreateDataVolume(uid, name string, body *models.V1VMAddVolume
 	return resp.AuditUID, nil
 }
 
+// DeleteDataVolume deletes an existing data volume.
 func (h *V1Client) DeleteDataVolume(uid, namespace, name string, body *models.V1VMRemoveVolumeEntity) error {
 	cluster, err := h.GetCluster(uid)
 	if err != nil {
@@ -34,7 +36,7 @@ func (h *V1Client) DeleteDataVolume(uid, namespace, name string, body *models.V1
 	if cluster == nil {
 		return fmt.Errorf("cluster with uid %s not found", uid)
 	}
-	params := clientV1.NewV1SpectroClustersVMRemoveVolumeParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersVMRemoveVolumeParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithVMName(name).
 		WithNamespace(namespace).

@@ -2,14 +2,15 @@
 # - https://golangci-lint.run/usage/linters/
 
 run:
+  allow-parallel-runners: true
   timeout: 10m
 
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment # too strict
-      - shadow # too strict
+issues:
+  # don't skip warning about doc comments
+  # don't exclude the default set of lint
+  exclude-use-default: false
+  exclude-files:
+    - ".*_test\\.go"
 
 linters:
   disable-all: true
@@ -17,7 +18,6 @@ linters:
     - errcheck
     - exportloopref
     - goconst
-    - gocyclo
     - gofmt
     - goimports
     - gosimple
@@ -32,16 +32,3 @@ linters:
     - unparam
     - unused
     - revive
-
-issues:
-  max-issues-per-linter: 0
-  max-same-issues: 0
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - errcheck
-        - gosimple
-        - ineffassign
-        - staticcheck
-        - unused
-        - revive

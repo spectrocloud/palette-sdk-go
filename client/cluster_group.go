@@ -1,13 +1,14 @@
 package client
 
 import (
-	clientV1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// CreateClusterGroup creates a new cluster group.
 func (h *V1Client) CreateClusterGroup(cluster *models.V1ClusterGroupEntity) (string, error) {
-	params := clientV1.NewV1ClusterGroupsCreateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterGroupsCreateParamsWithContext(h.ctx).
 		WithBody(cluster)
 	resp, err := h.Client.V1ClusterGroupsCreate(params)
 	if err != nil {
@@ -16,13 +17,15 @@ func (h *V1Client) CreateClusterGroup(cluster *models.V1ClusterGroupEntity) (str
 	return *resp.Payload.UID, nil
 }
 
+// DeleteClusterGroup deletes an existing cluster group.
 func (h *V1Client) DeleteClusterGroup(uid string) error {
-	params := clientV1.NewV1ClusterGroupsUIDDeleteParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterGroupsUIDDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1ClusterGroupsUIDDelete(params)
 	return err
 }
 
+// GetClusterGroup retrieves an existing cluster group whose status is active.
 func (h *V1Client) GetClusterGroup(uid string) (*models.V1ClusterGroup, error) {
 	group, err := h.GetClusterGroupWithoutStatus(uid)
 	if err != nil {
@@ -34,8 +37,9 @@ func (h *V1Client) GetClusterGroup(uid string) (*models.V1ClusterGroup, error) {
 	return group, nil
 }
 
+// GetClusterGroupWithoutStatus retrieves an existing cluster group, regardless of status.
 func (h *V1Client) GetClusterGroupWithoutStatus(uid string) (*models.V1ClusterGroup, error) {
-	params := clientV1.NewV1ClusterGroupsUIDGetParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterGroupsUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1ClusterGroupsUIDGet(params)
 	if apiutil.Is404(err) {
@@ -46,20 +50,8 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string) (*models.V1ClusterGr
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetClusterGroupByName(name string) (*models.V1ObjectScopeEntity, error) {
-	metadata, err := h.getClusterGroupMetadata()
-	if err != nil {
-		return nil, err
-	}
-	for _, groupMeta := range metadata {
-		if groupMeta.Name == name {
-			return groupMeta, nil
-		}
-	}
-	return nil, nil
-}
-
-func (h *V1Client) GetClusterGroupByNameForProject(name string) (*models.V1ClusterGroupSummary, error) {
+// GetClusterGroupSummaryByName retrieves a summary for an existing cluster group by name.
+func (h *V1Client) GetClusterGroupSummaryByName(name string) (*models.V1ClusterGroupSummary, error) {
 	summaries, err := h.GetClusterGroupSummaries()
 	if err != nil {
 		return nil, err
@@ -72,16 +64,32 @@ func (h *V1Client) GetClusterGroupByNameForProject(name string) (*models.V1Clust
 	return nil, nil
 }
 
-func (h *V1Client) GetClusterGroupMetadata() ([]*models.V1ObjectScopeEntity, error) {
-	metadata, err := h.getClusterGroupMetadata()
+// GetClusterGroupScopeMetadata retrieves scope metadata for all cluster groups.
+func (h *V1Client) GetClusterGroupScopeMetadata() ([]*models.V1ObjectScopeEntity, error) {
+	metadata, err := h.clusterGroupMetadata()
 	if err != nil {
 		return nil, err
 	}
 	return metadata, nil
 }
 
+// GetClusterGroupScopeMetadataByName retrieves scope metadata for an existing cluster group by name.
+func (h *V1Client) GetClusterGroupScopeMetadataByName(name string) (*models.V1ObjectScopeEntity, error) {
+	metadata, err := h.clusterGroupMetadata()
+	if err != nil {
+		return nil, err
+	}
+	for _, groupMeta := range metadata {
+		if groupMeta.Name == name {
+			return groupMeta, nil
+		}
+	}
+	return nil, nil
+}
+
+// GetClusterGroupSummaries retrieves summaries for all cluster groups.
 func (h *V1Client) GetClusterGroupSummaries() ([]*models.V1ClusterGroupSummary, error) {
-	params := clientV1.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.ctx)
+	params := clientv1.NewV1ClusterGroupsHostClusterSummaryParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterGroupsHostClusterSummary(params)
 	if apiutil.Is404(err) {
 		return nil, nil
@@ -91,9 +99,9 @@ func (h *V1Client) GetClusterGroupSummaries() ([]*models.V1ClusterGroupSummary, 
 	return resp.Payload.Summaries, nil
 }
 
-// Update cluster group metadata by invoking V1ClusterGroupsUIDMetaUpdate API
+// UpdateClusterGroupMeta updates an existing cluster group's metadata.
 func (h *V1Client) UpdateClusterGroupMeta(clusterGroup *models.V1ClusterGroupEntity) error {
-	params := clientV1.NewV1ClusterGroupsUIDMetaUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterGroupsUIDMetaUpdateParamsWithContext(h.ctx).
 		WithUID(clusterGroup.Metadata.UID).
 		WithBody(&models.V1ObjectMeta{
 			Name:        clusterGroup.Metadata.Name,
@@ -104,25 +112,26 @@ func (h *V1Client) UpdateClusterGroupMeta(clusterGroup *models.V1ClusterGroupEnt
 	return err
 }
 
-// Update cluster group by invoking V1ClusterGroupsUIDHostClusterUpdate API
+// UpdateClusterGroup updates an existing cluster group.
 func (h *V1Client) UpdateClusterGroup(uid string, clusterGroup *models.V1ClusterGroupHostClusterEntity) error {
-	params := clientV1.NewV1ClusterGroupsUIDHostClusterUpdateParamsWithContext(h.ctx).
+	params := clientv1.NewV1ClusterGroupsUIDHostClusterUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(clusterGroup)
 	_, err := h.Client.V1ClusterGroupsUIDHostClusterUpdate(params)
 	return err
 }
 
-func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupUid string, clusterProfiles *models.V1SpectroClusterProfiles) error {
-	params := clientV1.NewV1ClusterGroupsUIDProfilesUpdateParamsWithContext(h.ctx).
-		WithUID(clusterGroupUid).
+// UpdateClusterProfileInClusterGroup updates an existing cluster group's default cluster profiles.
+func (h *V1Client) UpdateClusterProfileInClusterGroup(clusterGroupUID string, clusterProfiles *models.V1SpectroClusterProfiles) error {
+	params := clientv1.NewV1ClusterGroupsUIDProfilesUpdateParamsWithContext(h.ctx).
+		WithUID(clusterGroupUID).
 		WithBody(clusterProfiles)
 	_, err := h.Client.V1ClusterGroupsUIDProfilesUpdate(params)
 	return err
 }
 
-func (h *V1Client) getClusterGroupMetadata() ([]*models.V1ObjectScopeEntity, error) {
-	params := clientV1.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.ctx)
+func (h *V1Client) clusterGroupMetadata() ([]*models.V1ObjectScopeEntity, error) {
+	params := clientv1.NewV1ClusterGroupsHostClusterMetadataParamsWithContext(h.ctx)
 	resp, err := h.Client.V1ClusterGroupsHostClusterMetadata(params)
 	if apiutil.Is404(err) {
 		return nil, nil

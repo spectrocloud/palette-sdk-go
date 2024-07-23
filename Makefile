@@ -38,7 +38,7 @@ vet: ## Run go vet against code
 	go vet ./...
 
 lint: golangci-lint ## Run golangci-lint against code
-	$(GOLANGCI_LINT) run -v ./...
+	GOPATH= GOROOT= $(GOLANGCI_LINT) run -v ./...
 
 pre-commit-install: pre-commit ## Install pre-commit hooks
 	@if [ "$(GITHUB_ACTIONS)" != "true" ]; then \
@@ -58,7 +58,7 @@ BIN_DIR ?= ./bin
 bin-dir:
 	test -d $(BIN_DIR) || mkdir $(BIN_DIR)
 
-GOLANGCI_VERSION ?= 1.59.1
+GOLANGCI_VERSION ?= 1.54.2
 .PHONY: golangci-lint
 golangci-lint: bin-dir
 	if ! test -f $(BIN_DIR)/golangci-lint-linux-amd64; then \

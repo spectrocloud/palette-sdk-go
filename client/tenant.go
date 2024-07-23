@@ -1,5 +1,6 @@
 package client
 
+// GetTenantUID retrieves the tenant UID of the authenticated user.
 func (h *V1Client) GetTenantUID() (string, error) {
 	resp, err := h.GetMe()
 	if err != nil {
