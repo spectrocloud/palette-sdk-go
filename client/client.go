@@ -23,7 +23,7 @@ type V1Client struct {
 	jwt                string
 	username           string
 	password           string
-	hubbleURI          string
+	paletteURI         string
 	projectUID         string
 	schemes            []string
 	insecureSkipVerify bool
@@ -73,10 +73,10 @@ func WithPassword(password string) func(*V1Client) {
 	}
 }
 
-// WithHubbleURI sets the Hubble URI for the client.
-func WithHubbleURI(hubbleURI string) func(*V1Client) {
+// WithPaletteURI sets the Palette URI for the client.
+func WithPaletteURI(paletteURI string) func(*V1Client) {
 	return func(v *V1Client) {
-		v.hubbleURI = hubbleURI
+		v.paletteURI = paletteURI
 	}
 }
 
@@ -139,7 +139,7 @@ func ContextForScope(scope, projectUID string) context.Context {
 // Clone creates a new V1Client with the same configuration as the original.
 func (h *V1Client) Clone() *V1Client {
 	opts := []func(*V1Client){
-		WithHubbleURI(h.hubbleURI),
+		WithPaletteURI(h.paletteURI),
 		WithInsecureSkipVerify(h.insecureSkipVerify),
 		WithRetries(h.retryAttempts),
 		WithSchemes(h.schemes),
@@ -212,7 +212,7 @@ func (h *V1Client) handleBasicAuth() error {
 }
 
 func (h *V1Client) baseTransport() *transport.Runtime {
-	httpTransport := transport.NewWithClient(h.hubbleURI, "", h.schemes, h.httpClient())
+	httpTransport := transport.NewWithClient(h.paletteURI, "", h.schemes, h.httpClient())
 	httpTransport.RetryAttempts = h.retryAttempts
 	httpTransport.Debug = h.transportDebug
 	return httpTransport
