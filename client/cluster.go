@@ -315,11 +315,11 @@ func (h *V1Client) DownloadLogs(uid string, logFetcherUID string) (io.Writer, er
 }
 
 func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string) error {
-	params := clientv1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.ctx)
-	params = params.WithUID(clusterUID).WithBody(upgradeSetting)
-	_, err := h.Client.V1SpectroClustersUIDUpgradeSettings(params)
-	if err != nil {
-		return err
-	}
+	//params := clientv1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.ctx)
+	//params = params.WithUID(clusterUID).WithBody(upgradeSetting)
+	//_, err := h.Client.V1SpectroClustersUIDUpgradeSettings(params)
+	//if err != nil {
+	//	return err
+	//}
 	return nil
 }
