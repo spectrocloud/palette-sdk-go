@@ -13,3 +13,14 @@ func (h *V1Client) UpdateClusterHostConfig(uid string, config *models.V1HostClus
 	_, err := h.Client.V1HostClusterConfigUpdate(params)
 	return err
 }
+
+func (h *V1Client) ApplyClusterHostConfig(uid string, config *models.V1HostClusterConfigEntity) error {
+	policy, err := h.GetClusterScanConfig(uid)
+	if err != nil {
+		return err
+	}
+	if policy == nil {
+		return h.UpdateClusterHostConfig(uid, config)
+	}
+	return h.UpdateClusterHostConfig(uid, config)
+}

@@ -5,6 +5,8 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+type GetMaintenanceStatus func(string, string, string) (*models.V1MachineMaintenanceStatus, error)
+
 // ToggleMaintenanceOnNode updates maintenance configuration for a node.
 func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, cloudType, configUID, machineName, nodeID string) error {
 	params := clientv1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.ctx).
@@ -16,6 +18,10 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 
 	_, err := h.Client.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
 	return err
+}
+
+func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
+	return fn(configUid, machineName, nodeId)
 }
 
 // GetNodeMaintenanceStatusAws retrieves maintenance status for an AWS IaaS node.
@@ -88,20 +94,20 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUID, machineName, no
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusEdge retrieves maintenance status for an edge node.
-// TODO: edgev1 deprecation
-func (h *V1Client) GetNodeMaintenanceStatusEdge(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientv1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machineName).
-		WithMachineUID(nodeID)
-
-	resp, err := h.Client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload.Status.MaintenanceStatus, nil
-}
+//// GetNodeMaintenanceStatusEdge retrieves maintenance status for an edge node.
+//// TODO: edgev1 deprecation
+//func (h *V1Client) GetNodeMaintenanceStatusEdge(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
+//	params := clientv1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
+//		WithConfigUID(configUID).
+//		WithMachinePoolName(machineName).
+//		WithMachineUID(nodeID)
+//
+//	resp, err := h.Client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return resp.Payload.Status.MaintenanceStatus, nil
+//}
 
 // GetNodeMaintenanceStatusEdgeVsphere retrieves maintenance status for a vSphere edge node.
 // TODO: edgev1 deprecation
@@ -174,20 +180,20 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a libvirt node.
-// TODO: edgev1 deprecation
-func (h *V1Client) GetNodeMaintenanceStatusLibvirt(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machineName).
-		WithMachineUID(nodeID)
-
-	resp, err := h.Client.V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload.Status.MaintenanceStatus, nil
-}
+//// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a libvirt node.
+//// TODO: edgev1 deprecation
+//func (h *V1Client) GetNodeMaintenanceStatusLibvirt(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
+//	params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
+//		WithConfigUID(configUID).
+//		WithMachinePoolName(machineName).
+//		WithMachineUID(nodeID)
+//
+//	resp, err := h.Client.V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return resp.Payload.Status.MaintenanceStatus, nil
+//}
 
 // GetNodeMaintenanceStatusOpenStack retrieves maintenance status for an OpenStack node.
 func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
