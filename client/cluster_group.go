@@ -50,32 +50,6 @@ func (h *V1Client) GetClusterGroupWithoutStatus(uid string) (*models.V1ClusterGr
 	return resp.Payload, nil
 }
 
-func (h *V1Client) GetClusterGroupByName(name string) (*models.V1ObjectScopeEntity, error) {
-	metadata, err := h.GetClusterGroupScopeMetadata()
-	if err != nil {
-		return nil, err
-	}
-	for _, groupMeta := range metadata {
-		if groupMeta.Name == name {
-			return groupMeta, nil
-		}
-	}
-	return nil, nil
-}
-
-func (h *V1Client) GetClusterGroupByNameForProject(name string) (*models.V1ClusterGroupSummary, error) {
-	summaries, err := h.GetClusterGroupSummaries()
-	if err != nil {
-		return nil, err
-	}
-	for _, groupSummary := range summaries {
-		if groupSummary.Metadata.Name == name {
-			return groupSummary, nil
-		}
-	}
-	return nil, nil
-}
-
 // GetClusterGroupSummaryByName retrieves a summary for an existing cluster group by name.
 func (h *V1Client) GetClusterGroupSummaryByName(name string) (*models.V1ClusterGroupSummary, error) {
 	summaries, err := h.GetClusterGroupSummaries()

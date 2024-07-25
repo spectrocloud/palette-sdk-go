@@ -94,21 +94,6 @@ func (h *V1Client) GetNodeMaintenanceStatusEdgeNative(configUID, machineName, no
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-//// GetNodeMaintenanceStatusEdge retrieves maintenance status for an edge node.
-//// TODO: edgev1 deprecation
-//func (h *V1Client) GetNodeMaintenanceStatusEdge(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-//	params := clientv1.NewV1CloudConfigsEdgePoolMachinesUIDGetParamsWithContext(h.ctx).
-//		WithConfigUID(configUID).
-//		WithMachinePoolName(machineName).
-//		WithMachineUID(nodeID)
-//
-//	resp, err := h.Client.V1CloudConfigsEdgePoolMachinesUIDGet(params)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return resp.Payload.Status.MaintenanceStatus, nil
-//}
-
 // GetNodeMaintenanceStatusEdgeVsphere retrieves maintenance status for a vSphere edge node.
 // TODO: edgev1 deprecation
 func (h *V1Client) GetNodeMaintenanceStatusEdgeVsphere(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
@@ -179,21 +164,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	}
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
-
-//// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a libvirt node.
-//// TODO: edgev1 deprecation
-//func (h *V1Client) GetNodeMaintenanceStatusLibvirt(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-//	params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
-//		WithConfigUID(configUID).
-//		WithMachinePoolName(machineName).
-//		WithMachineUID(nodeID)
-//
-//	resp, err := h.Client.V1CloudConfigsLibvirtPoolMachinesUIDGet(params)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return resp.Payload.Status.MaintenanceStatus, nil
-//}
 
 // GetNodeMaintenanceStatusOpenStack retrieves maintenance status for an OpenStack node.
 func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
