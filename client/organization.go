@@ -28,9 +28,8 @@ func (h *V1Client) ListOrganizations() ([]*models.V1Organization, error) {
 
 // SwitchOrganization switches the caller's active organization.
 // Returns an authorization token for the target organization.
-func (h *V1Client) SwitchOrganization(orgName string) (string, error) {
-
-	// Need to update this fix , currently HAPI restricted `V1AuthOrgSwitch`
+// TODO: Need to update this fix , currently HAPI restricted `V1AuthOrgSwitch`
+func (h *V1Client) SwitchOrganization(_ string) (string, error) {
 
 	//params:= clientv1.NewV1AuthOrgSwitchParamsWithContext(h.ctx).
 	//	WithOrgName(orgName)
