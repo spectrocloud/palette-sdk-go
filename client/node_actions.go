@@ -167,7 +167,7 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusGke retrieves maintenance status for a Libvirt node.
+// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a Libvirt node.
 // TODO: libevirt deprecation
 func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 
