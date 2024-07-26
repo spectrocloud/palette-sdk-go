@@ -167,25 +167,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusLibvirt retrieves maintenance status for a Libvirt node.
-// TODO: libevirt deprecation
-func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
-
-	//params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).
-	//	WithConfigUID(ConfigUID).
-	//	WithMachinePoolName(MachineName).
-	//	WithMachineUID(NodeId)
-	//
-	//s, err := h.Client.V1CloudConfigs(params)
-	//print(s)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//
-	//return s.Payload.Status.MaintenanceStatus, nil
-	return nil, nil
-}
-
 // GetNodeMaintenanceStatusOpenStack retrieves maintenance status for an OpenStack node.
 func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
 	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.ctx).
