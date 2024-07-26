@@ -5,6 +5,7 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// GetMaintenanceStatus defines a function type that retrieves the maintenance status of a machine.
 type GetMaintenanceStatus func(string, string, string) (*models.V1MachineMaintenanceStatus, error)
 
 // ToggleMaintenanceOnNode updates maintenance configuration for a node.
@@ -20,6 +21,7 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 	return err
 }
 
+// GetNodeMaintenanceStatus retrieves the maintenance status of a specific node.
 func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, configUid, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
 	return fn(configUid, machineName, nodeId)
 }
@@ -165,6 +167,8 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusGke retrieves maintenance status for a Libvirt node.
+// TODO: libevirt deprecation
 func (h *V1Client) GetNodeMaintenanceStatusLibvirt(ConfigUID, MachineName, NodeId string) (*models.V1MachineMaintenanceStatus, error) {
 
 	//params := clientv1.NewV1CloudConfigsLibvirtPoolMachinesUIDGetParamsWithContext(h.ctx).

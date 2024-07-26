@@ -14,6 +14,7 @@ func (h *V1Client) UpdateClusterHostConfig(uid string, config *models.V1HostClus
 	return err
 }
 
+// ApplyClusterHostConfig applies the specified host configuration to the cluster identified by the given UID.
 func (h *V1Client) ApplyClusterHostConfig(uid string, config *models.V1HostClusterConfigEntity) error {
 	policy, err := h.GetClusterScanConfig(uid)
 	if err != nil {
