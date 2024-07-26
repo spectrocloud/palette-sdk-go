@@ -7,7 +7,7 @@ require (
 	github.com/go-openapi/strfmt v0.23.0
 	github.com/pkg/errors v0.9.1
 	github.com/spectrocloud/gomi v1.14.0
-	github.com/spectrocloud/palette-api-go v0.2.3
+	github.com/spectrocloud/palette-api-go v0.2.6-0.20240725074130-1ff2dfd80370
 	github.com/stretchr/testify v1.9.0
 )
 
@@ -42,4 +42,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/spectrocloud/palette-api-go => ../palette-api-go
+//replace github.com/spectrocloud/palette-api-go => ../palette-api-go
