@@ -6,5 +6,5 @@ func (h *V1Client) GetTenantUID() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return resp.Status.Tenant.TenantUID, nil
+	return resp.TenantUID, nil
 }
