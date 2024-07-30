@@ -316,8 +316,7 @@ func (h *V1Client) DownloadLogs(uid string, logFetcherUID string) (io.Writer, er
 
 // UpdatePauseAgentUpgradeSettingCluster updates the upgrade settings of a specific cluster to pause the agent upgrade process.
 func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string) error {
-	params := clientv1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.ctx)
-	params = params.WithUID(clusterUID).WithBody(upgradeSetting)
+	params := clientv1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.ctx).WithUID(clusterUID).WithBody(upgradeSetting)
 	_, err := h.Client.V1SpectroClustersUIDUpgradeSettings(params)
 	if err != nil {
 		return err
