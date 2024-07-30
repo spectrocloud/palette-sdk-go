@@ -22,8 +22,8 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 }
 
 // GetNodeMaintenanceStatus retrieves the maintenance status of a specific node.
-func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ConfigUID, machineName, nodeId string) (*models.V1MachineMaintenanceStatus, error) {
-	return fn(ConfigUID, machineName, nodeId)
+func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ConfigUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
+	return fn(ConfigUID, machineName, nodeID)
 }
 
 // GetNodeMaintenanceStatusAws retrieves maintenance status for an AWS IaaS node.
