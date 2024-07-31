@@ -21,9 +21,9 @@ func (h *V1Client) Authenticate(body *models.V1AuthLogin) (*models.V1UserToken, 
 }
 
 // GetMe retrieves the authenticated user.
-func (h *V1Client) GetMe() (*models.V1UserMe, error) {
-	params := clientv1.NewV1UsersMeGetParamsWithContext(h.ctx)
-	resp, err := h.Client.V1UsersMeGet(params)
+func (h *V1Client) GetUsersInfo() (*models.V1UserInfo, error) {
+	params := clientv1.NewV1UsersInfoGetParamsWithContext(h.ctx)
+	resp, err := h.Client.V1UsersInfoGet(params)
 	if err != nil {
 		return nil, err
 	}
