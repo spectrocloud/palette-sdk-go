@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+
 	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"

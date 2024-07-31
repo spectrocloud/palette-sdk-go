@@ -20,7 +20,7 @@ func (h *V1Client) Authenticate(body *models.V1AuthLogin) (*models.V1UserToken, 
 	return resp.Payload, nil
 }
 
-// GetMe retrieves the authenticated user.
+// GetUsersInfo retrieves the authenticated user info.
 func (h *V1Client) GetUsersInfo() (*models.V1UserInfo, error) {
 	params := clientv1.NewV1UsersInfoGetParamsWithContext(h.ctx)
 	resp, err := h.Client.V1UsersInfoGet(params)
