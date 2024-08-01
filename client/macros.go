@@ -1,7 +1,6 @@
 package client
 
 import (
-	"errors"
 	"fmt"
 
 	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
@@ -19,14 +18,10 @@ func (h *V1Client) CreateMacros(uid string, macros *models.V1Macros) (string, er
 			return "", err
 		}
 	} else {
-		userInfo, err := h.GetUsersInfo()
+		tenantUID, err := h.GetTenantUID()
 		if err != nil {
 			return "", err
 		}
-		if userInfo == nil {
-			return "", errors.New("empty userinfo received from GetUsersInfo()")
-		}
-		tenantUID := userInfo.TenantUID
 		// As discussed with hubble team, we should not set context for tenant macros.
 		params := clientv1.NewV1TenantsUIDMacrosCreateParams().
 			WithTenantUID(tenantUID).
@@ -96,14 +91,10 @@ func (h *V1Client) GetMacrosV2(projectUID string) ([]*models.V1Macro, error) {
 		}
 		return macrosListOk.Payload.Macros, nil
 	}
-	userInfo, err := h.GetUsersInfo()
-	if err != nil {
+	tenantUID, err := h.GetTenantUID()
+	if err != nil || tenantUID == "" {
 		return nil, err
 	}
-	if userInfo == nil {
-		return nil, errors.New("empty userinfo received from GetUsersInfo()")
-	}
-	tenantUID := userInfo.TenantUID
 	// As discussed with hubble team, we should not set context for tenant macros.
 	params := clientv1.NewV1TenantsUIDMacrosListParams().
 		WithTenantUID(tenantUID)
@@ -123,14 +114,10 @@ func (h *V1Client) UpdateMacros(uid string, macros *models.V1Macros) error {
 		_, err := h.Client.V1ProjectsUIDMacrosUpdate(params)
 		return err
 	}
-	userInfo, err := h.GetUsersInfo()
-	if err != nil {
+	tenantUID, err := h.GetTenantUID()
+	if err != nil || tenantUID == "" {
 		return err
 	}
-	if userInfo == nil {
-		return errors.New("empty userinfo received from GetUsersInfo()")
-	}
-	tenantUID := userInfo.TenantUID
 	// As discussed with hubble team, we should not set context for tenant macros.
 	params := clientv1.NewV1TenantsUIDMacrosUpdateParams().
 		WithTenantUID(tenantUID).
@@ -148,14 +135,10 @@ func (h *V1Client) DeleteMacros(uid string, body *models.V1Macros) error {
 		_, err := h.Client.V1ProjectsUIDMacrosDeleteByMacroName(params)
 		return err
 	}
-	userInfo, err := h.GetUsersInfo()
+	tenantUID, err := h.GetTenantUID()
 	if err != nil {
 		return err
 	}
-	if userInfo == nil {
-		return errors.New("empty userinfo received from GetUsersInfo()")
-	}
-	tenantUID := userInfo.TenantUID
 	// As discussed with hubble team, we should not set context for tenant macros.
 	params := clientv1.NewV1TenantsUIDMacrosDeleteByMacroNameParams().
 		WithTenantUID(tenantUID).
@@ -171,15 +154,11 @@ func (h *V1Client) GetMacrosID(uid string) (string, error) {
 	if uid != "" {
 		hashID = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)
 	} else {
-		userInfo, err := h.GetUsersInfo()
+		tenantUID, err := h.GetTenantUID()
 		if err != nil {
 			return "", err
 		}
-		if userInfo == nil {
-			return "", errors.New("empty userinfo received from GetUsersInfo()")
-		}
-		tenantID := userInfo.TenantUID
-		hashID = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantID)
+		hashID = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantUID)
 	}
 	return hashID, nil
 }
