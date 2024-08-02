@@ -154,11 +154,11 @@ func (h *V1Client) GetMacrosID(uid string) (string, error) {
 	if uid != "" {
 		hashID = fmt.Sprintf("%s-%s-%s", "project", "macros", uid)
 	} else {
-		tenantID, err := h.GetTenantUID()
+		tenantUID, err := h.GetTenantUID()
 		if err != nil {
 			return "", err
 		}
-		hashID = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantID)
+		hashID = fmt.Sprintf("%s-%s-%s", "tenant", "macros", tenantUID)
 	}
 	return hashID, nil
 }
