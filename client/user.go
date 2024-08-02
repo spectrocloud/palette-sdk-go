@@ -20,6 +20,16 @@ func (h *V1Client) Authenticate(body *models.V1AuthLogin) (*models.V1UserToken, 
 	return resp.Payload, nil
 }
 
+// AuthRefreshToken refreshes jwt token.
+func (h *V1Client) AuthRefreshToken(token string) (*models.V1UserToken, error) {
+	params := clientv1.NewV1AuthRefreshParamsWithContext(h.ctx).WithToken(token)
+	resp, err := h.Client.V1AuthRefresh(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // GetUsersInfo retrieves the authenticated user info.
 func (h *V1Client) GetUsersInfo() (*models.V1UserInfo, error) {
 	params := clientv1.NewV1UsersInfoGetParamsWithContext(h.ctx)
