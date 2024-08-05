@@ -33,6 +33,7 @@ func (h *V1Client) AuthRefreshToken(token string) (*models.V1UserToken, error) {
 // GetUsersInfo retrieves the authenticated user info.
 func (h *V1Client) GetUsersInfo() (*models.V1UserInfo, error) {
 	params := clientv1.NewV1UsersInfoGetParamsWithContext(h.ctx)
+
 	resp, err := h.Client.V1UsersInfoGet(params)
 	if err != nil {
 		return nil, err

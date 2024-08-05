@@ -8,6 +8,7 @@ func (h *V1Client) GetTenantUID() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	if resp == nil {
 		return "", errors.New("empty response received from GetUsersInfo()")
 	}

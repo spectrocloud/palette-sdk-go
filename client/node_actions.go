@@ -5,6 +5,9 @@ import (
 	"github.com/spectrocloud/palette-api-go/models"
 )
 
+// GetMaintenanceStatus defines a function type that retrieves the maintenance status of a machine.
+type GetMaintenanceStatus func(string, string, string) (*models.V1MachineMaintenanceStatus, error)
+
 // ToggleMaintenanceOnNode updates maintenance configuration for a node.
 func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, cloudType, configUID, machineName, nodeID string) error {
 	params := clientv1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.ctx).
@@ -16,6 +19,11 @@ func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMain
 
 	_, err := h.Client.V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params)
 	return err
+}
+
+// GetNodeMaintenanceStatus retrieves the maintenance status of a specific node.
+func (h *V1Client) GetNodeMaintenanceStatus(fn GetMaintenanceStatus, ConfigUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
+	return fn(ConfigUID, machineName, nodeID)
 }
 
 // GetNodeMaintenanceStatusAws retrieves maintenance status for an AWS IaaS node.
