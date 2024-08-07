@@ -1,8 +1,8 @@
 package client
 
 import (
-	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
-	"github.com/spectrocloud/palette-api-go/models"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // ListBackupStorageLocation returns a list of all backup storage locations.

@@ -1,8 +1,11 @@
 # Editor and IDE paraphernalia
 .idea
 .vscode
+go.work.sum
 
+# Directories
 bin
+api/hapi
 
 # Lint/test output
 golangci-report.xml
