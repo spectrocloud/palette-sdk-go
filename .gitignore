@@ -5,7 +5,7 @@ go.work.sum
 
 # Directories
 bin
-palette-api-go/hapi
+api/hapi
 
 # Lint/test output
 golangci-report.xml
