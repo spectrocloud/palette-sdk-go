@@ -32,7 +32,7 @@ client.WithScopeProject(projectUid)(pc)
 - Refer to [client.go](client/client.go) for all possible client configuration options.
 - Refer to [terraform-provider-spectrocloud](https://github.com/spectrocloud/terraform-provider-spectrocloud) for additional usage examples.
 
-# Contributing
+## Contributing
 
 All contributions are welcome! Feel free to reach out on the [Spectro Cloud community Slack](https://spectrocloudcommunity.slack.com/join/shared_invite/zt-g8gfzrhf-cKavsGD_myOh30K24pImLA#/shared-invite/email).
 
