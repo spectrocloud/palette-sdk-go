@@ -8,8 +8,8 @@ import (
 	"hash/fnv"
 	"strconv"
 
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
-	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/api/apiutil/transport"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // IsBase64 returns a boolean indicating whether a string is base64 encoded.

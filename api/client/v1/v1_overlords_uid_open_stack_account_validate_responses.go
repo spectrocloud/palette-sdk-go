@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // V1OverlordsUIDOpenStackAccountValidateReader is a Reader for the V1OverlordsUIDOpenStackAccountValidate structure.

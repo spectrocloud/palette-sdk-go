@@ -34,7 +34,7 @@ swagger mixin spec/palette-apis-spec.json spec/error_v1.json -o spec/palette.jso
 swagger generate model -t $apiDir -f spec/palette.json
 swagger generate client \
     --skip-models \
-    --existing-models=github.com/spectrocloud/palette-api-go/models \
+    --existing-models=github.com/spectrocloud/palette-sdk-go/api/models \
     --template-dir="$templateDir" \
     -A "$service" -t "$serviceDir" \
     -f spec/palette.json

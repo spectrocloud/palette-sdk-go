@@ -10,7 +10,7 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	v1 "github.com/spectrocloud/palette-api-go/client/v1"
+	v1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 )
 
 // Default palette API HTTP client.

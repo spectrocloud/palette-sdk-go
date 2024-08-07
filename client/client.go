@@ -9,9 +9,9 @@ import (
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/spectrocloud/palette-api-go/apiutil/transport"
-	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
-	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/api/apiutil/transport"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // V1Client is a client for the Spectro Cloud API.

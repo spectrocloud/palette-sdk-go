@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // V1OverlordsUIDDeleteReader is a Reader for the V1OverlordsUIDDelete structure.

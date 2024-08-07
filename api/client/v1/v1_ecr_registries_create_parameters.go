@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // NewV1EcrRegistriesCreateParams creates a new V1EcrRegistriesCreateParams object

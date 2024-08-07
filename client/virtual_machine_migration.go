@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 
-	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 )
 
 // MigrateVirtualMachineNodeToNode migrates a virtual machine from one node to another.

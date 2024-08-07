@@ -3,13 +3,15 @@ package transport
 import (
 	"bytes"
 	"fmt"
-	"github.com/go-openapi/runtime"
-	"github.com/spectrocloud/palette-api-go/models"
 	"io"
 	"net"
 	"net/http"
 	"net/url"
 	"os"
+
+	"github.com/go-openapi/runtime"
+
+	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 func ReadTooManyRequestError(protocol, path string) (interface{}, error) {

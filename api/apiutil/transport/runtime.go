@@ -36,7 +36,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/spectrocloud/palette-api-go/apiutil/retry"
+	"github.com/spectrocloud/palette-sdk-go/api/apiutil/retry"
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/logger"

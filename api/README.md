@@ -1,6 +1,6 @@
-# palette-api-go
+# Palette API - client & models
 
-A swagger client for Palette.
+A swagger client and models for Palette.
 
 ## Update client & models
 ```
