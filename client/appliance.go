@@ -3,9 +3,9 @@ package client
 import (
 	"fmt"
 
-	"github.com/spectrocloud/gomi/pkg/ptr"
 	clientv1 "github.com/spectrocloud/palette-api-go/client/v1"
 	"github.com/spectrocloud/palette-api-go/models"
+	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 	"github.com/spectrocloud/palette-sdk-go/client/herr"
 )
 
@@ -29,7 +29,7 @@ func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, s
 		if resp.Payload.Listmeta.Continue == "" {
 			isContinue = false
 		}
-		params.WithContinue(ptr.StringPtr(resp.Payload.Listmeta.Continue))
+		params.WithContinue(apiutil.Ptr(resp.Payload.Listmeta.Continue))
 	}
 	return hosts, nil
 }
