@@ -37,7 +37,8 @@ func NewV1UsersSystemMacrosCreateNoContent() *V1UsersSystemMacrosCreateNoContent
 	return &V1UsersSystemMacrosCreateNoContent{}
 }
 
-/*V1UsersSystemMacrosCreateNoContent handles this case with default header values.
+/*
+V1UsersSystemMacrosCreateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,7 +40,8 @@ func NewV1CoxEdgeBaseUrlsOK() *V1CoxEdgeBaseUrlsOK {
 	return &V1CoxEdgeBaseUrlsOK{}
 }
 
-/*V1CoxEdgeBaseUrlsOK handles this case with default header values.
+/*
+V1CoxEdgeBaseUrlsOK handles this case with default header values.
 
 (empty)
 */

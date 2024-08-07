@@ -40,7 +40,8 @@ func NewV1TenantUIDSsoAuthProvidersGetOK() *V1TenantUIDSsoAuthProvidersGetOK {
 	return &V1TenantUIDSsoAuthProvidersGetOK{}
 }
 
-/*V1TenantUIDSsoAuthProvidersGetOK handles this case with default header values.
+/*
+V1TenantUIDSsoAuthProvidersGetOK handles this case with default header values.
 
 OK
 */

@@ -55,7 +55,8 @@ func NewV1LibvirtClustersHostsListParamsWithHTTPClient(client *http.Client) *V1L
 	}
 }
 
-/*V1LibvirtClustersHostsListParams contains all the parameters to send to the API endpoint
+/*
+V1LibvirtClustersHostsListParams contains all the parameters to send to the API endpoint
 for the v1 libvirt clusters hosts list operation typically these are written to a http.Request
 */
 type V1LibvirtClustersHostsListParams struct {

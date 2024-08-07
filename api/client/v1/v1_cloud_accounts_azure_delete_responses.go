@@ -37,7 +37,8 @@ func NewV1CloudAccountsAzureDeleteNoContent() *V1CloudAccountsAzureDeleteNoConte
 	return &V1CloudAccountsAzureDeleteNoContent{}
 }
 
-/*V1CloudAccountsAzureDeleteNoContent handles this case with default header values.
+/*
+V1CloudAccountsAzureDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

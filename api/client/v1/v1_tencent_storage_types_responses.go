@@ -40,7 +40,8 @@ func NewV1TencentStorageTypesOK() *V1TencentStorageTypesOK {
 	return &V1TencentStorageTypesOK{}
 }
 
-/*V1TencentStorageTypesOK handles this case with default header values.
+/*
+V1TencentStorageTypesOK handles this case with default header values.
 
 (empty)
 */

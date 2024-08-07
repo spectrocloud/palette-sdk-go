@@ -40,7 +40,8 @@ func NewV1SpectroClustersLibvirtCreateCreated() *V1SpectroClustersLibvirtCreateC
 	return &V1SpectroClustersLibvirtCreateCreated{}
 }
 
-/*V1SpectroClustersLibvirtCreateCreated handles this case with default header values.
+/*
+V1SpectroClustersLibvirtCreateCreated handles this case with default header values.
 
 Created successfully
 */

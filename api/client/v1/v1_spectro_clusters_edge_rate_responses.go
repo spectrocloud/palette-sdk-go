@@ -40,7 +40,8 @@ func NewV1SpectroClustersEdgeRateOK() *V1SpectroClustersEdgeRateOK {
 	return &V1SpectroClustersEdgeRateOK{}
 }
 
-/*V1SpectroClustersEdgeRateOK handles this case with default header values.
+/*
+V1SpectroClustersEdgeRateOK handles this case with default header values.
 
 Edge Cluster estimated rate response
 */

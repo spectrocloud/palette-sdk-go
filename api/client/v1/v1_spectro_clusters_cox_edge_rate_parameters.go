@@ -69,7 +69,8 @@ func NewV1SpectroClustersCoxEdgeRateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1SpectroClustersCoxEdgeRateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersCoxEdgeRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters cox edge rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersCoxEdgeRateParams struct {

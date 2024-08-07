@@ -40,7 +40,8 @@ func NewV1CloudConfigsEdgePoolMachinesUIDGetOK() *V1CloudConfigsEdgePoolMachines
 	return &V1CloudConfigsEdgePoolMachinesUIDGetOK{}
 }
 
-/*V1CloudConfigsEdgePoolMachinesUIDGetOK handles this case with default header values.
+/*
+V1CloudConfigsEdgePoolMachinesUIDGetOK handles this case with default header values.
 
 OK
 */

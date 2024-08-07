@@ -37,7 +37,8 @@ func NewV1CoxEdgeAccountValidateNoContent() *V1CoxEdgeAccountValidateNoContent {
 	return &V1CoxEdgeAccountValidateNoContent{}
 }
 
-/*V1CoxEdgeAccountValidateNoContent handles this case with default header values.
+/*
+V1CoxEdgeAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

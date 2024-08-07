@@ -57,7 +57,8 @@ func NewV1CloudConfigsEdgeNativeMachinePoolUpdateParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1CloudConfigsEdgeNativeMachinePoolUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeNativeMachinePoolUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge native machine pool update operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeNativeMachinePoolUpdateParams struct {

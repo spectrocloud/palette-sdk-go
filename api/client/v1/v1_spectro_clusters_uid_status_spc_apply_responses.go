@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDStatusSpcApplyAccepted() *V1SpectroClustersUIDStatus
 	return &V1SpectroClustersUIDStatusSpcApplyAccepted{}
 }
 
-/*V1SpectroClustersUIDStatusSpcApplyAccepted handles this case with default header values.
+/*
+V1SpectroClustersUIDStatusSpcApplyAccepted handles this case with default header values.
 
 Ok response without content
 */

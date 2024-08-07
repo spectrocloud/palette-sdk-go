@@ -40,7 +40,8 @@ func NewV1PacksSummaryDeleteOK() *V1PacksSummaryDeleteOK {
 	return &V1PacksSummaryDeleteOK{}
 }
 
-/*V1PacksSummaryDeleteOK handles this case with default header values.
+/*
+V1PacksSummaryDeleteOK handles this case with default header values.
 
 (empty)
 */

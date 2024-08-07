@@ -37,7 +37,8 @@ func NewV1CloudConfigsOpenStackUIDClusterConfigNoContent() *V1CloudConfigsOpenSt
 	return &V1CloudConfigsOpenStackUIDClusterConfigNoContent{}
 }
 
-/*V1CloudConfigsOpenStackUIDClusterConfigNoContent handles this case with default header values.
+/*
+V1CloudConfigsOpenStackUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

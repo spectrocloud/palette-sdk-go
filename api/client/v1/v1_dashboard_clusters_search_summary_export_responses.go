@@ -41,7 +41,8 @@ func NewV1DashboardClustersSearchSummaryExportOK(writer io.Writer) *V1DashboardC
 	}
 }
 
-/*V1DashboardClustersSearchSummaryExportOK handles this case with default header values.
+/*
+V1DashboardClustersSearchSummaryExportOK handles this case with default header values.
 
 download file
 */

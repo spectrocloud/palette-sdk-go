@@ -37,7 +37,8 @@ func NewV1APIKeysUIDActiveStateNoContent() *V1APIKeysUIDActiveStateNoContent {
 	return &V1APIKeysUIDActiveStateNoContent{}
 }
 
-/*V1APIKeysUIDActiveStateNoContent handles this case with default header values.
+/*
+V1APIKeysUIDActiveStateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

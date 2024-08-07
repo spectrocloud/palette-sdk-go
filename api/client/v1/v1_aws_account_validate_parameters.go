@@ -57,7 +57,8 @@ func NewV1AwsAccountValidateParamsWithHTTPClient(client *http.Client) *V1AwsAcco
 	}
 }
 
-/*V1AwsAccountValidateParams contains all the parameters to send to the API endpoint
+/*
+V1AwsAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 aws account validate operation typically these are written to a http.Request
 */
 type V1AwsAccountValidateParams struct {

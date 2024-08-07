@@ -40,7 +40,8 @@ func NewV1CloudConfigsCoxEdgeGetOK() *V1CloudConfigsCoxEdgeGetOK {
 	return &V1CloudConfigsCoxEdgeGetOK{}
 }
 
-/*V1CloudConfigsCoxEdgeGetOK handles this case with default header values.
+/*
+V1CloudConfigsCoxEdgeGetOK handles this case with default header values.
 
 OK
 */

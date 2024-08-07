@@ -55,7 +55,8 @@ func NewV1AuthUserOrgForgotParamsWithHTTPClient(client *http.Client) *V1AuthUser
 	}
 }
 
-/*V1AuthUserOrgForgotParams contains all the parameters to send to the API endpoint
+/*
+V1AuthUserOrgForgotParams contains all the parameters to send to the API endpoint
 for the v1 auth user org forgot operation typically these are written to a http.Request
 */
 type V1AuthUserOrgForgotParams struct {

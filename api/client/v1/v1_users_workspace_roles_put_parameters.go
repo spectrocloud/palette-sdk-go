@@ -57,7 +57,8 @@ func NewV1UsersWorkspaceRolesPutParamsWithHTTPClient(client *http.Client) *V1Use
 	}
 }
 
-/*V1UsersWorkspaceRolesPutParams contains all the parameters to send to the API endpoint
+/*
+V1UsersWorkspaceRolesPutParams contains all the parameters to send to the API endpoint
 for the v1 users workspace roles put operation typically these are written to a http.Request
 */
 type V1UsersWorkspaceRolesPutParams struct {

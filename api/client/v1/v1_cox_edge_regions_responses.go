@@ -40,7 +40,8 @@ func NewV1CoxEdgeRegionsOK() *V1CoxEdgeRegionsOK {
 	return &V1CoxEdgeRegionsOK{}
 }
 
-/*V1CoxEdgeRegionsOK handles this case with default header values.
+/*
+V1CoxEdgeRegionsOK handles this case with default header values.
 
 (empty)
 */

@@ -37,7 +37,8 @@ func NewV1SpectroClustersAgentsNotifyNoContent() *V1SpectroClustersAgentsNotifyN
 	return &V1SpectroClustersAgentsNotifyNoContent{}
 }
 
-/*V1SpectroClustersAgentsNotifyNoContent handles this case with default header values.
+/*
+V1SpectroClustersAgentsNotifyNoContent handles this case with default header values.
 
 Ok response without content
 */

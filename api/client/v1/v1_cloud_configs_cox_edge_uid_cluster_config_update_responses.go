@@ -37,7 +37,8 @@ func NewV1CloudConfigsCoxEdgeUIDClusterConfigUpdateNoContent() *V1CloudConfigsCo
 	return &V1CloudConfigsCoxEdgeUIDClusterConfigUpdateNoContent{}
 }
 
-/*V1CloudConfigsCoxEdgeUIDClusterConfigUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsCoxEdgeUIDClusterConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

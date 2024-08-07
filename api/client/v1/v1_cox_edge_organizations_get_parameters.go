@@ -55,7 +55,8 @@ func NewV1CoxEdgeOrganizationsGetParamsWithHTTPClient(client *http.Client) *V1Co
 	}
 }
 
-/*V1CoxEdgeOrganizationsGetParams contains all the parameters to send to the API endpoint
+/*
+V1CoxEdgeOrganizationsGetParams contains all the parameters to send to the API endpoint
 for the v1 cox edge organizations get operation typically these are written to a http.Request
 */
 type V1CoxEdgeOrganizationsGetParams struct {

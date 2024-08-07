@@ -40,7 +40,8 @@ func NewV1CloudAccountsVsphereGetOK() *V1CloudAccountsVsphereGetOK {
 	return &V1CloudAccountsVsphereGetOK{}
 }
 
-/*V1CloudAccountsVsphereGetOK handles this case with default header values.
+/*
+V1CloudAccountsVsphereGetOK handles this case with default header values.
 
 OK
 */

@@ -55,7 +55,8 @@ func NewV1UsersMeGetParamsWithHTTPClient(client *http.Client) *V1UsersMeGetParam
 	}
 }
 
-/*V1UsersMeGetParams contains all the parameters to send to the API endpoint
+/*
+V1UsersMeGetParams contains all the parameters to send to the API endpoint
 for the v1 users me get operation typically these are written to a http.Request
 */
 type V1UsersMeGetParams struct {

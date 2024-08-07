@@ -40,7 +40,8 @@ func NewV1AppDeploymentsUIDGetOK() *V1AppDeploymentsUIDGetOK {
 	return &V1AppDeploymentsUIDGetOK{}
 }
 
-/*V1AppDeploymentsUIDGetOK handles this case with default header values.
+/*
+V1AppDeploymentsUIDGetOK handles this case with default header values.
 
 OK
 */

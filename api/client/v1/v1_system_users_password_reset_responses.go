@@ -40,7 +40,8 @@ func NewV1SystemUsersPasswordResetNoContent() *V1SystemUsersPasswordResetNoConte
 	return &V1SystemUsersPasswordResetNoContent{}
 }
 
-/*V1SystemUsersPasswordResetNoContent handles this case with default header values.
+/*
+V1SystemUsersPasswordResetNoContent handles this case with default header values.
 
 The resource was updated successfully
 */
@@ -56,7 +57,8 @@ func (o *V1SystemUsersPasswordResetNoContent) readResponse(response runtime.Clie
 	return nil
 }
 
-/*V1SystemUsersPasswordResetBody v1 system users password reset body
+/*
+V1SystemUsersPasswordResetBody v1 system users password reset body
 swagger:model V1SystemUsersPasswordResetBody
 */
 type V1SystemUsersPasswordResetBody struct {

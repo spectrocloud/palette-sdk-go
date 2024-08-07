@@ -40,7 +40,8 @@ func NewV1SpectroClustersUpgradeSettingsGetOK() *V1SpectroClustersUpgradeSetting
 	return &V1SpectroClustersUpgradeSettingsGetOK{}
 }
 
-/*V1SpectroClustersUpgradeSettingsGetOK handles this case with default header values.
+/*
+V1SpectroClustersUpgradeSettingsGetOK handles this case with default header values.
 
 (empty)
 */

@@ -37,7 +37,8 @@ func NewV1CloudConfigsCoxEdgePoolMachinesUIDDeleteNoContent() *V1CloudConfigsCox
 	return &V1CloudConfigsCoxEdgePoolMachinesUIDDeleteNoContent{}
 }
 
-/*V1CloudConfigsCoxEdgePoolMachinesUIDDeleteNoContent handles this case with default header values.
+/*
+V1CloudConfigsCoxEdgePoolMachinesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

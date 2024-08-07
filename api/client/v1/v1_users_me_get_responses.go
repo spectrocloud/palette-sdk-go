@@ -40,7 +40,8 @@ func NewV1UsersMeGetOK() *V1UsersMeGetOK {
 	return &V1UsersMeGetOK{}
 }
 
-/*V1UsersMeGetOK handles this case with default header values.
+/*
+V1UsersMeGetOK handles this case with default header values.
 
 OK
 */

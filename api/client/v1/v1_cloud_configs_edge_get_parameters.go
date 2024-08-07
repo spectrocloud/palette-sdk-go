@@ -55,7 +55,8 @@ func NewV1CloudConfigsEdgeGetParamsWithHTTPClient(client *http.Client) *V1CloudC
 	}
 }
 
-/*V1CloudConfigsEdgeGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge get operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeGetParams struct {

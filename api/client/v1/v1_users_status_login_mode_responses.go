@@ -37,7 +37,8 @@ func NewV1UsersStatusLoginModeNoContent() *V1UsersStatusLoginModeNoContent {
 	return &V1UsersStatusLoginModeNoContent{}
 }
 
-/*V1UsersStatusLoginModeNoContent handles this case with default header values.
+/*
+V1UsersStatusLoginModeNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

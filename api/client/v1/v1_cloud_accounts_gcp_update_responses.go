@@ -37,7 +37,8 @@ func NewV1CloudAccountsGcpUpdateNoContent() *V1CloudAccountsGcpUpdateNoContent {
 	return &V1CloudAccountsGcpUpdateNoContent{}
 }
 
-/*V1CloudAccountsGcpUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsGcpUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

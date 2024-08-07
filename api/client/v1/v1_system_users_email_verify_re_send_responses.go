@@ -37,7 +37,8 @@ func NewV1SystemUsersEmailVerifyReSendNoContent() *V1SystemUsersEmailVerifyReSen
 	return &V1SystemUsersEmailVerifyReSendNoContent{}
 }
 
-/*V1SystemUsersEmailVerifyReSendNoContent handles this case with default header values.
+/*
+V1SystemUsersEmailVerifyReSendNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

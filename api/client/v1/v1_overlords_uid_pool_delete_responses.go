@@ -37,7 +37,8 @@ func NewV1OverlordsUIDPoolDeleteNoContent() *V1OverlordsUIDPoolDeleteNoContent {
 	return &V1OverlordsUIDPoolDeleteNoContent{}
 }
 
-/*V1OverlordsUIDPoolDeleteNoContent handles this case with default header values.
+/*
+V1OverlordsUIDPoolDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

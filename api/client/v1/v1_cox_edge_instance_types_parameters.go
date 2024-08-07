@@ -56,7 +56,8 @@ func NewV1CoxEdgeInstanceTypesParamsWithHTTPClient(client *http.Client) *V1CoxEd
 	}
 }
 
-/*V1CoxEdgeInstanceTypesParams contains all the parameters to send to the API endpoint
+/*
+V1CoxEdgeInstanceTypesParams contains all the parameters to send to the API endpoint
 for the v1 cox edge instance types operation typically these are written to a http.Request
 */
 type V1CoxEdgeInstanceTypesParams struct {

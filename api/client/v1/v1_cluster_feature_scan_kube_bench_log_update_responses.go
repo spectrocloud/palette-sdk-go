@@ -37,7 +37,8 @@ func NewV1ClusterFeatureScanKubeBenchLogUpdateNoContent() *V1ClusterFeatureScanK
 	return &V1ClusterFeatureScanKubeBenchLogUpdateNoContent{}
 }
 
-/*V1ClusterFeatureScanKubeBenchLogUpdateNoContent handles this case with default header values.
+/*
+V1ClusterFeatureScanKubeBenchLogUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

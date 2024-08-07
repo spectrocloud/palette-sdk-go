@@ -55,7 +55,8 @@ func NewV1CloudConfigsCoxEdgePoolMachinesUIDGetParamsWithHTTPClient(client *http
 	}
 }
 
-/*V1CloudConfigsCoxEdgePoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsCoxEdgePoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs cox edge pool machines Uid get operation typically these are written to a http.Request
 */
 type V1CloudConfigsCoxEdgePoolMachinesUIDGetParams struct {

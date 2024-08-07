@@ -40,7 +40,8 @@ func NewV1SystemUsersMeOK() *V1SystemUsersMeOK {
 	return &V1SystemUsersMeOK{}
 }
 
-/*V1SystemUsersMeOK handles this case with default header values.
+/*
+V1SystemUsersMeOK handles this case with default header values.
 
 (empty)
 */

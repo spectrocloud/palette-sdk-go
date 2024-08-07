@@ -40,7 +40,8 @@ func NewV1AuthOrgSwitchOK() *V1AuthOrgSwitchOK {
 	return &V1AuthOrgSwitchOK{}
 }
 
-/*V1AuthOrgSwitchOK handles this case with default header values.
+/*
+V1AuthOrgSwitchOK handles this case with default header values.
 
 OK
 */

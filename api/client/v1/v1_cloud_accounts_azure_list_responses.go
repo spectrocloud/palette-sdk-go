@@ -40,7 +40,8 @@ func NewV1CloudAccountsAzureListOK() *V1CloudAccountsAzureListOK {
 	return &V1CloudAccountsAzureListOK{}
 }
 
-/*V1CloudAccountsAzureListOK handles this case with default header values.
+/*
+V1CloudAccountsAzureListOK handles this case with default header values.
 
 An array of azure cloud account items
 */

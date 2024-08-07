@@ -40,7 +40,8 @@ func NewV1CoxEdgeInstanceTypesOK() *V1CoxEdgeInstanceTypesOK {
 	return &V1CoxEdgeInstanceTypesOK{}
 }
 
-/*V1CoxEdgeInstanceTypesOK handles this case with default header values.
+/*
+V1CoxEdgeInstanceTypesOK handles this case with default header values.
 
 (empty)
 */

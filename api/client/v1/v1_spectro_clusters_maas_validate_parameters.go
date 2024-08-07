@@ -57,7 +57,8 @@ func NewV1SpectroClustersMaasValidateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1SpectroClustersMaasValidateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersMaasValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters maas validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersMaasValidateParams struct {

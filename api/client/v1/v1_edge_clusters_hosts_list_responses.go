@@ -40,7 +40,8 @@ func NewV1EdgeClustersHostsListOK() *V1EdgeClustersHostsListOK {
 	return &V1EdgeClustersHostsListOK{}
 }
 
-/*V1EdgeClustersHostsListOK handles this case with default header values.
+/*
+V1EdgeClustersHostsListOK handles this case with default header values.
 
 List of edge host device
 */

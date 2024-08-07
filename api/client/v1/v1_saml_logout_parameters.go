@@ -55,7 +55,8 @@ func NewV1SamlLogoutParamsWithHTTPClient(client *http.Client) *V1SamlLogoutParam
 	}
 }
 
-/*V1SamlLogoutParams contains all the parameters to send to the API endpoint
+/*
+V1SamlLogoutParams contains all the parameters to send to the API endpoint
 for the v1 saml logout operation typically these are written to a http.Request
 */
 type V1SamlLogoutParams struct {

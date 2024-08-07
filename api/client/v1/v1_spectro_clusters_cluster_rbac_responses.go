@@ -40,7 +40,8 @@ func NewV1SpectroClustersClusterRbacOK() *V1SpectroClustersClusterRbacOK {
 	return &V1SpectroClustersClusterRbacOK{}
 }
 
-/*V1SpectroClustersClusterRbacOK handles this case with default header values.
+/*
+V1SpectroClustersClusterRbacOK handles this case with default header values.
 
 (empty)
 */

@@ -40,7 +40,8 @@ func NewV1SpectroClustersUIDRepaveGetOK() *V1SpectroClustersUIDRepaveGetOK {
 	return &V1SpectroClustersUIDRepaveGetOK{}
 }
 
-/*V1SpectroClustersUIDRepaveGetOK handles this case with default header values.
+/*
+V1SpectroClustersUIDRepaveGetOK handles this case with default header values.
 
 Returns cluster repave status
 */

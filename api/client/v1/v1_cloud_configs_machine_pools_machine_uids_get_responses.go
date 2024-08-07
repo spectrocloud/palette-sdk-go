@@ -40,7 +40,8 @@ func NewV1CloudConfigsMachinePoolsMachineUidsGetOK() *V1CloudConfigsMachinePools
 	return &V1CloudConfigsMachinePoolsMachineUidsGetOK{}
 }
 
-/*V1CloudConfigsMachinePoolsMachineUidsGetOK handles this case with default header values.
+/*
+V1CloudConfigsMachinePoolsMachineUidsGetOK handles this case with default header values.
 
 OK
 */

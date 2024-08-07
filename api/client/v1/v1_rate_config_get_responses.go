@@ -40,7 +40,8 @@ func NewV1RateConfigGetOK() *V1RateConfigGetOK {
 	return &V1RateConfigGetOK{}
 }
 
-/*V1RateConfigGetOK handles this case with default header values.
+/*
+V1RateConfigGetOK handles this case with default header values.
 
 OK
 */

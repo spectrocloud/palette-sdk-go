@@ -55,7 +55,8 @@ func NewV1CloudConfigsOpenStackPoolMachinesListParamsWithHTTPClient(client *http
 	}
 }
 
-/*V1CloudConfigsOpenStackPoolMachinesListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsOpenStackPoolMachinesListParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs open stack pool machines list operation typically these are written to a http.Request
 */
 type V1CloudConfigsOpenStackPoolMachinesListParams struct {

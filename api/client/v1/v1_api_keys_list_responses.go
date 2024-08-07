@@ -40,7 +40,8 @@ func NewV1APIKeysListOK() *V1APIKeysListOK {
 	return &V1APIKeysListOK{}
 }
 
-/*V1APIKeysListOK handles this case with default header values.
+/*
+V1APIKeysListOK handles this case with default header values.
 
 Retrieves a list of API keys
 */

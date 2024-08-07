@@ -57,7 +57,8 @@ func NewV1EdgeHostDevicesUIDPacksStatusPatchParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*V1EdgeHostDevicesUIDPacksStatusPatchParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesUIDPacksStatusPatchParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid packs status patch operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDPacksStatusPatchParams struct {

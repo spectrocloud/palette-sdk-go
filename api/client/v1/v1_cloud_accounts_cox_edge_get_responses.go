@@ -40,7 +40,8 @@ func NewV1CloudAccountsCoxEdgeGetOK() *V1CloudAccountsCoxEdgeGetOK {
 	return &V1CloudAccountsCoxEdgeGetOK{}
 }
 
-/*V1CloudAccountsCoxEdgeGetOK handles this case with default header values.
+/*
+V1CloudAccountsCoxEdgeGetOK handles this case with default header values.
 
 OK
 */

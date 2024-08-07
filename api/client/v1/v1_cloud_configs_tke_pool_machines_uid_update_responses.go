@@ -37,7 +37,8 @@ func NewV1CloudConfigsTkePoolMachinesUIDUpdateNoContent() *V1CloudConfigsTkePool
 	return &V1CloudConfigsTkePoolMachinesUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsTkePoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsTkePoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

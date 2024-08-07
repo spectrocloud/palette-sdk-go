@@ -40,7 +40,8 @@ func NewV1TencentRegionsOK() *V1TencentRegionsOK {
 	return &V1TencentRegionsOK{}
 }
 
-/*V1TencentRegionsOK handles this case with default header values.
+/*
+V1TencentRegionsOK handles this case with default header values.
 
 (empty)
 */

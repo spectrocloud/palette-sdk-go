@@ -57,7 +57,8 @@ func NewV1UsersSystemMacrosCreateParamsWithHTTPClient(client *http.Client) *V1Us
 	}
 }
 
-/*V1UsersSystemMacrosCreateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersSystemMacrosCreateParams contains all the parameters to send to the API endpoint
 for the v1 users system macros create operation typically these are written to a http.Request
 */
 type V1UsersSystemMacrosCreateParams struct {

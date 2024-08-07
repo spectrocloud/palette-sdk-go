@@ -70,7 +70,8 @@ func NewV1EcrRegistriesCreateParamsWithHTTPClient(client *http.Client) *V1EcrReg
 	}
 }
 
-/*V1EcrRegistriesCreateParams contains all the parameters to send to the API endpoint
+/*
+V1EcrRegistriesCreateParams contains all the parameters to send to the API endpoint
 for the v1 ecr registries create operation typically these are written to a http.Request
 */
 type V1EcrRegistriesCreateParams struct {

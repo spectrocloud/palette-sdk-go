@@ -40,7 +40,8 @@ func NewV1SpectroClustersUIDAssetsGetOK() *V1SpectroClustersUIDAssetsGetOK {
 	return &V1SpectroClustersUIDAssetsGetOK{}
 }
 
-/*V1SpectroClustersUIDAssetsGetOK handles this case with default header values.
+/*
+V1SpectroClustersUIDAssetsGetOK handles this case with default header values.
 
 OK
 */

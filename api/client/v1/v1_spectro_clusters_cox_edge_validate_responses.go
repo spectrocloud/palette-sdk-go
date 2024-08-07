@@ -40,7 +40,8 @@ func NewV1SpectroClustersCoxEdgeValidateOK() *V1SpectroClustersCoxEdgeValidateOK
 	return &V1SpectroClustersCoxEdgeValidateOK{}
 }
 
-/*V1SpectroClustersCoxEdgeValidateOK handles this case with default header values.
+/*
+V1SpectroClustersCoxEdgeValidateOK handles this case with default header values.
 
 Azure Cluster validation response
 */

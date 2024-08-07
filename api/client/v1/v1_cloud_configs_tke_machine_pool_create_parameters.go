@@ -57,7 +57,8 @@ func NewV1CloudConfigsTkeMachinePoolCreateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsTkeMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsTkeMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs tke machine pool create operation typically these are written to a http.Request
 */
 type V1CloudConfigsTkeMachinePoolCreateParams struct {

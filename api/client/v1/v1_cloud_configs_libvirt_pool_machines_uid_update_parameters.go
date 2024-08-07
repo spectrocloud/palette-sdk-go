@@ -57,7 +57,8 @@ func NewV1CloudConfigsLibvirtPoolMachinesUIDUpdateParamsWithHTTPClient(client *h
 	}
 }
 
-/*V1CloudConfigsLibvirtPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsLibvirtPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs libvirt pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsLibvirtPoolMachinesUIDUpdateParams struct {

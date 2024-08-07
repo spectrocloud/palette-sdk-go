@@ -40,7 +40,8 @@ func NewV1SpectroClustersLibvirtRateOK() *V1SpectroClustersLibvirtRateOK {
 	return &V1SpectroClustersLibvirtRateOK{}
 }
 
-/*V1SpectroClustersLibvirtRateOK handles this case with default header values.
+/*
+V1SpectroClustersLibvirtRateOK handles this case with default header values.
 
 Libvirt Cluster estimated rate response
 */

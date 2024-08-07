@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDClusterRbacUpdateNoContent() *V1SpectroClustersUIDCl
 	return &V1SpectroClustersUIDClusterRbacUpdateNoContent{}
 }
 
-/*V1SpectroClustersUIDClusterRbacUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDClusterRbacUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

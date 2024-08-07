@@ -40,7 +40,8 @@ func NewV1CoxEdgeServicesOK() *V1CoxEdgeServicesOK {
 	return &V1CoxEdgeServicesOK{}
 }
 
-/*V1CoxEdgeServicesOK handles this case with default header values.
+/*
+V1CoxEdgeServicesOK handles this case with default header values.
 
 (empty)
 */

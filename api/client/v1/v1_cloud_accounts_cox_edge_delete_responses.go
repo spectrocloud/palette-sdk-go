@@ -37,7 +37,8 @@ func NewV1CloudAccountsCoxEdgeDeleteNoContent() *V1CloudAccountsCoxEdgeDeleteNoC
 	return &V1CloudAccountsCoxEdgeDeleteNoContent{}
 }
 
-/*V1CloudAccountsCoxEdgeDeleteNoContent handles this case with default header values.
+/*
+V1CloudAccountsCoxEdgeDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

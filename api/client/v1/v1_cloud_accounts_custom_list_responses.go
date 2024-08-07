@@ -40,7 +40,8 @@ func NewV1CloudAccountsCustomListOK() *V1CloudAccountsCustomListOK {
 	return &V1CloudAccountsCustomListOK{}
 }
 
-/*V1CloudAccountsCustomListOK handles this case with default header values.
+/*
+V1CloudAccountsCustomListOK handles this case with default header values.
 
 An array of cloud account by specified cloud type items
 */

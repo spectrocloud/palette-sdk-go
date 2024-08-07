@@ -37,7 +37,8 @@ func NewV1CloudConfigsCoxEdgePoolMachinesUIDUpdateNoContent() *V1CloudConfigsCox
 	return &V1CloudConfigsCoxEdgePoolMachinesUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsCoxEdgePoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsCoxEdgePoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

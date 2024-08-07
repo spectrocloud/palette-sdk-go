@@ -55,7 +55,8 @@ func NewV1SystemUsersMeParamsWithHTTPClient(client *http.Client) *V1SystemUsersM
 	}
 }
 
-/*V1SystemUsersMeParams contains all the parameters to send to the API endpoint
+/*
+V1SystemUsersMeParams contains all the parameters to send to the API endpoint
 for the v1 system users me operation typically these are written to a http.Request
 */
 type V1SystemUsersMeParams struct {

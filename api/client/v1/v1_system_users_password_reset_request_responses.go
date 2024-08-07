@@ -40,7 +40,8 @@ func NewV1SystemUsersPasswordResetRequestNoContent() *V1SystemUsersPasswordReset
 	return &V1SystemUsersPasswordResetRequestNoContent{}
 }
 
-/*V1SystemUsersPasswordResetRequestNoContent handles this case with default header values.
+/*
+V1SystemUsersPasswordResetRequestNoContent handles this case with default header values.
 
 Ok response without content
 */
@@ -62,7 +63,8 @@ func (o *V1SystemUsersPasswordResetRequestNoContent) readResponse(response runti
 	return nil
 }
 
-/*V1SystemUsersPasswordResetRequestBody v1 system users password reset request body
+/*
+V1SystemUsersPasswordResetRequestBody v1 system users password reset request body
 swagger:model V1SystemUsersPasswordResetRequestBody
 */
 type V1SystemUsersPasswordResetRequestBody struct {

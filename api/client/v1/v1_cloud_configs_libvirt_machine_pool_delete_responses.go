@@ -37,7 +37,8 @@ func NewV1CloudConfigsLibvirtMachinePoolDeleteNoContent() *V1CloudConfigsLibvirt
 	return &V1CloudConfigsLibvirtMachinePoolDeleteNoContent{}
 }
 
-/*V1CloudConfigsLibvirtMachinePoolDeleteNoContent handles this case with default header values.
+/*
+V1CloudConfigsLibvirtMachinePoolDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

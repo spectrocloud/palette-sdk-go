@@ -40,7 +40,8 @@ func NewV1AwsIamPoliciesOK() *V1AwsIamPoliciesOK {
 	return &V1AwsIamPoliciesOK{}
 }
 
-/*V1AwsIamPoliciesOK handles this case with default header values.
+/*
+V1AwsIamPoliciesOK handles this case with default header values.
 
 (empty)
 */

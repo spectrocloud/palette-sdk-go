@@ -40,7 +40,8 @@ func NewV1EdgeHostsMetadataQuickFilterGetOK() *V1EdgeHostsMetadataQuickFilterGet
 	return &V1EdgeHostsMetadataQuickFilterGetOK{}
 }
 
-/*V1EdgeHostsMetadataQuickFilterGetOK handles this case with default header values.
+/*
+V1EdgeHostsMetadataQuickFilterGetOK handles this case with default header values.
 
 An array of edge host metadata
 */

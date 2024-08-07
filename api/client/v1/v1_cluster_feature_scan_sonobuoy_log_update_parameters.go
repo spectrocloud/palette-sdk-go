@@ -57,7 +57,8 @@ func NewV1ClusterFeatureScanSonobuoyLogUpdateParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1ClusterFeatureScanSonobuoyLogUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureScanSonobuoyLogUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature scan sonobuoy log update operation typically these are written to a http.Request
 */
 type V1ClusterFeatureScanSonobuoyLogUpdateParams struct {

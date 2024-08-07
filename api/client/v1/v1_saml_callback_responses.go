@@ -40,7 +40,8 @@ func NewV1SamlCallbackOK() *V1SamlCallbackOK {
 	return &V1SamlCallbackOK{}
 }
 
-/*V1SamlCallbackOK handles this case with default header values.
+/*
+V1SamlCallbackOK handles this case with default header values.
 
 OK
 */

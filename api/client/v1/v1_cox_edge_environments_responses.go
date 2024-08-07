@@ -40,7 +40,8 @@ func NewV1CoxEdgeEnvironmentsOK() *V1CoxEdgeEnvironmentsOK {
 	return &V1CoxEdgeEnvironmentsOK{}
 }
 
-/*V1CoxEdgeEnvironmentsOK handles this case with default header values.
+/*
+V1CoxEdgeEnvironmentsOK handles this case with default header values.
 
 List of CoxEdge environments
 */

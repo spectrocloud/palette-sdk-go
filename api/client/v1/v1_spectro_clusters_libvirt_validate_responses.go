@@ -40,7 +40,8 @@ func NewV1SpectroClustersLibvirtValidateOK() *V1SpectroClustersLibvirtValidateOK
 	return &V1SpectroClustersLibvirtValidateOK{}
 }
 
-/*V1SpectroClustersLibvirtValidateOK handles this case with default header values.
+/*
+V1SpectroClustersLibvirtValidateOK handles this case with default header values.
 
 Libvirt Cluster validation response
 */

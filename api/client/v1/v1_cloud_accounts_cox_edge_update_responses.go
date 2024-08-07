@@ -37,7 +37,8 @@ func NewV1CloudAccountsCoxEdgeUpdateNoContent() *V1CloudAccountsCoxEdgeUpdateNoC
 	return &V1CloudAccountsCoxEdgeUpdateNoContent{}
 }
 
-/*V1CloudAccountsCoxEdgeUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsCoxEdgeUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

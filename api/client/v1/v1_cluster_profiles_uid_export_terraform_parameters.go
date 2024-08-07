@@ -67,7 +67,8 @@ func NewV1ClusterProfilesUIDExportTerraformParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1ClusterProfilesUIDExportTerraformParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDExportTerraformParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid export terraform operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDExportTerraformParams struct {

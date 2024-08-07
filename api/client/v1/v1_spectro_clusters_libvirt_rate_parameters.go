@@ -69,7 +69,8 @@ func NewV1SpectroClustersLibvirtRateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1SpectroClustersLibvirtRateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersLibvirtRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters libvirt rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersLibvirtRateParams struct {

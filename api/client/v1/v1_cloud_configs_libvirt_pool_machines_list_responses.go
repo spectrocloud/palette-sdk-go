@@ -40,7 +40,8 @@ func NewV1CloudConfigsLibvirtPoolMachinesListOK() *V1CloudConfigsLibvirtPoolMach
 	return &V1CloudConfigsLibvirtPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsLibvirtPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsLibvirtPoolMachinesListOK handles this case with default header values.
 
 An array of Libvirt machine items
 */

@@ -37,7 +37,8 @@ func NewV1CloudConfigsEdgeMachinePoolUpdateNoContent() *V1CloudConfigsEdgeMachin
 	return &V1CloudConfigsEdgeMachinePoolUpdateNoContent{}
 }
 
-/*V1CloudConfigsEdgeMachinePoolUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsEdgeMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

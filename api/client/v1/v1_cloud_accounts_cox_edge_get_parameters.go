@@ -55,7 +55,8 @@ func NewV1CloudAccountsCoxEdgeGetParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*V1CloudAccountsCoxEdgeGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsCoxEdgeGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts cox edge get operation typically these are written to a http.Request
 */
 type V1CloudAccountsCoxEdgeGetParams struct {

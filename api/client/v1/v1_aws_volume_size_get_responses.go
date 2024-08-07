@@ -40,7 +40,8 @@ func NewV1AwsVolumeSizeGetOK() *V1AwsVolumeSizeGetOK {
 	return &V1AwsVolumeSizeGetOK{}
 }
 
-/*V1AwsVolumeSizeGetOK handles this case with default header values.
+/*
+V1AwsVolumeSizeGetOK handles this case with default header values.
 
 (empty)
 */

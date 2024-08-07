@@ -40,7 +40,8 @@ func NewV1LibvirtClustersHostsListOK() *V1LibvirtClustersHostsListOK {
 	return &V1LibvirtClustersHostsListOK{}
 }
 
-/*V1LibvirtClustersHostsListOK handles this case with default header values.
+/*
+V1LibvirtClustersHostsListOK handles this case with default header values.
 
 List of edge host devices
 */

@@ -55,7 +55,8 @@ func NewV1EdgeClustersHostsListParamsWithHTTPClient(client *http.Client) *V1Edge
 	}
 }
 
-/*V1EdgeClustersHostsListParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeClustersHostsListParams contains all the parameters to send to the API endpoint
 for the v1 edge clusters hosts list operation typically these are written to a http.Request
 */
 type V1EdgeClustersHostsListParams struct {

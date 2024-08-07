@@ -40,7 +40,8 @@ func NewV1CoxEdgeServicesGetOK() *V1CoxEdgeServicesGetOK {
 	return &V1CoxEdgeServicesGetOK{}
 }
 
-/*V1CoxEdgeServicesGetOK handles this case with default header values.
+/*
+V1CoxEdgeServicesGetOK handles this case with default header values.
 
 List of CoxEdge services
 */

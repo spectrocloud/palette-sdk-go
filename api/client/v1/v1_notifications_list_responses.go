@@ -40,7 +40,8 @@ func NewV1NotificationsListOK() *V1NotificationsListOK {
 	return &V1NotificationsListOK{}
 }
 
-/*V1NotificationsListOK handles this case with default header values.
+/*
+V1NotificationsListOK handles this case with default header values.
 
 An array of notification items
 */

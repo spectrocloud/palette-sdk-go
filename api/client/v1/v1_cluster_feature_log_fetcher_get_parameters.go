@@ -55,7 +55,8 @@ func NewV1ClusterFeatureLogFetcherGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1ClusterFeatureLogFetcherGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureLogFetcherGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature log fetcher get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureLogFetcherGetParams struct {

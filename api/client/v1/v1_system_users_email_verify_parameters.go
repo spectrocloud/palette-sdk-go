@@ -55,7 +55,8 @@ func NewV1SystemUsersEmailVerifyParamsWithHTTPClient(client *http.Client) *V1Sys
 	}
 }
 
-/*V1SystemUsersEmailVerifyParams contains all the parameters to send to the API endpoint
+/*
+V1SystemUsersEmailVerifyParams contains all the parameters to send to the API endpoint
 for the v1 system users email verify operation typically these are written to a http.Request
 */
 type V1SystemUsersEmailVerifyParams struct {

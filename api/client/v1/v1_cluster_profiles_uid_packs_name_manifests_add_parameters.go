@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUIDPacksNameManifestsAddParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1ClusterProfilesUIDPacksNameManifestsAddParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDPacksNameManifestsAddParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid packs name manifests add operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDPacksNameManifestsAddParams struct {

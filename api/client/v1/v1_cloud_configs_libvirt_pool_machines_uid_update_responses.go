@@ -37,7 +37,8 @@ func NewV1CloudConfigsLibvirtPoolMachinesUIDUpdateNoContent() *V1CloudConfigsLib
 	return &V1CloudConfigsLibvirtPoolMachinesUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsLibvirtPoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsLibvirtPoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

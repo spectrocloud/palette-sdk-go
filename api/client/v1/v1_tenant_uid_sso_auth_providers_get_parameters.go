@@ -55,7 +55,8 @@ func NewV1TenantUIDSsoAuthProvidersGetParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1TenantUIDSsoAuthProvidersGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDSsoAuthProvidersGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid sso auth providers get operation typically these are written to a http.Request
 */
 type V1TenantUIDSsoAuthProvidersGetParams struct {

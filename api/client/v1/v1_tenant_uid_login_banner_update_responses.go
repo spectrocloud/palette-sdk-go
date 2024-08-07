@@ -37,7 +37,8 @@ func NewV1TenantUIDLoginBannerUpdateNoContent() *V1TenantUIDLoginBannerUpdateNoC
 	return &V1TenantUIDLoginBannerUpdateNoContent{}
 }
 
-/*V1TenantUIDLoginBannerUpdateNoContent handles this case with default header values.
+/*
+V1TenantUIDLoginBannerUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

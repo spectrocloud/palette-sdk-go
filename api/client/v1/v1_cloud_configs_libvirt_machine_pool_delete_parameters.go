@@ -55,7 +55,8 @@ func NewV1CloudConfigsLibvirtMachinePoolDeleteParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1CloudConfigsLibvirtMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsLibvirtMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs libvirt machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsLibvirtMachinePoolDeleteParams struct {

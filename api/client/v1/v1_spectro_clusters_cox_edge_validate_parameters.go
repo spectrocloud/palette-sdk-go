@@ -57,7 +57,8 @@ func NewV1SpectroClustersCoxEdgeValidateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1SpectroClustersCoxEdgeValidateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersCoxEdgeValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters cox edge validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersCoxEdgeValidateParams struct {

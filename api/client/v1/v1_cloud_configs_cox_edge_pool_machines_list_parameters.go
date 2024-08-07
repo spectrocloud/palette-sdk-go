@@ -68,7 +68,8 @@ func NewV1CloudConfigsCoxEdgePoolMachinesListParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1CloudConfigsCoxEdgePoolMachinesListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsCoxEdgePoolMachinesListParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs cox edge pool machines list operation typically these are written to a http.Request
 */
 type V1CloudConfigsCoxEdgePoolMachinesListParams struct {

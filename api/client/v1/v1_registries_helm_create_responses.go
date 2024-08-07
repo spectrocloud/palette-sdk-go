@@ -40,7 +40,8 @@ func NewV1RegistriesHelmCreateCreated() *V1RegistriesHelmCreateCreated {
 	return &V1RegistriesHelmCreateCreated{}
 }
 
-/*V1RegistriesHelmCreateCreated handles this case with default header values.
+/*
+V1RegistriesHelmCreateCreated handles this case with default header values.
 
 Created successfully
 */

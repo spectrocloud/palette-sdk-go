@@ -55,7 +55,8 @@ func NewV1CloudAccountsCoxEdgeDeleteParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1CloudAccountsCoxEdgeDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsCoxEdgeDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts cox edge delete operation typically these are written to a http.Request
 */
 type V1CloudAccountsCoxEdgeDeleteParams struct {

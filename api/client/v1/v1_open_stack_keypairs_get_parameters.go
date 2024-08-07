@@ -55,7 +55,8 @@ func NewV1OpenStackKeypairsGetParamsWithHTTPClient(client *http.Client) *V1OpenS
 	}
 }
 
-/*V1OpenStackKeypairsGetParams contains all the parameters to send to the API endpoint
+/*
+V1OpenStackKeypairsGetParams contains all the parameters to send to the API endpoint
 for the v1 open stack keypairs get operation typically these are written to a http.Request
 */
 type V1OpenStackKeypairsGetParams struct {

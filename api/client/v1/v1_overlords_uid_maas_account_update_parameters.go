@@ -57,7 +57,8 @@ func NewV1OverlordsUIDMaasAccountUpdateParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1OverlordsUIDMaasAccountUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMaasAccountUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas account update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasAccountUpdateParams struct {

@@ -40,7 +40,8 @@ func NewV1CoxEdgeOrganizationsGetOK() *V1CoxEdgeOrganizationsGetOK {
 	return &V1CoxEdgeOrganizationsGetOK{}
 }
 
-/*V1CoxEdgeOrganizationsGetOK handles this case with default header values.
+/*
+V1CoxEdgeOrganizationsGetOK handles this case with default header values.
 
 List of CoxEdge organizations
 */

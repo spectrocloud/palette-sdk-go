@@ -40,7 +40,8 @@ func NewV1ClusterGroupsUIDProfilesGetOK() *V1ClusterGroupsUIDProfilesGetOK {
 	return &V1ClusterGroupsUIDProfilesGetOK{}
 }
 
-/*V1ClusterGroupsUIDProfilesGetOK handles this case with default header values.
+/*
+V1ClusterGroupsUIDProfilesGetOK handles this case with default header values.
 
 OK
 */

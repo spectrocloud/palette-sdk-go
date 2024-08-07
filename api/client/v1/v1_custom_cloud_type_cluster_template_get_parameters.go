@@ -55,7 +55,8 @@ func NewV1CustomCloudTypeClusterTemplateGetParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1CustomCloudTypeClusterTemplateGetParams contains all the parameters to send to the API endpoint
+/*
+V1CustomCloudTypeClusterTemplateGetParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type cluster template get operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeClusterTemplateGetParams struct {

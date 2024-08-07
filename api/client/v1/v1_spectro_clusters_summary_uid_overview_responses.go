@@ -40,7 +40,8 @@ func NewV1SpectroClustersSummaryUIDOverviewOK() *V1SpectroClustersSummaryUIDOver
 	return &V1SpectroClustersSummaryUIDOverviewOK{}
 }
 
-/*V1SpectroClustersSummaryUIDOverviewOK handles this case with default header values.
+/*
+V1SpectroClustersSummaryUIDOverviewOK handles this case with default header values.
 
 An spectro cluster summary overview
 */

@@ -37,7 +37,8 @@ func NewV1UsersAssetsLocationS3UpdateNoContent() *V1UsersAssetsLocationS3UpdateN
 	return &V1UsersAssetsLocationS3UpdateNoContent{}
 }
 
-/*V1UsersAssetsLocationS3UpdateNoContent handles this case with default header values.
+/*
+V1UsersAssetsLocationS3UpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

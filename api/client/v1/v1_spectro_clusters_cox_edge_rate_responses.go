@@ -40,7 +40,8 @@ func NewV1SpectroClustersCoxEdgeRateOK() *V1SpectroClustersCoxEdgeRateOK {
 	return &V1SpectroClustersCoxEdgeRateOK{}
 }
 
-/*V1SpectroClustersCoxEdgeRateOK handles this case with default header values.
+/*
+V1SpectroClustersCoxEdgeRateOK handles this case with default header values.
 
 Azure Cluster estimated rate response
 */

@@ -55,7 +55,8 @@ func NewV1SystemUsersEmailVerifyReSendParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1SystemUsersEmailVerifyReSendParams contains all the parameters to send to the API endpoint
+/*
+V1SystemUsersEmailVerifyReSendParams contains all the parameters to send to the API endpoint
 for the v1 system users email verify re send operation typically these are written to a http.Request
 */
 type V1SystemUsersEmailVerifyReSendParams struct {

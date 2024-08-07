@@ -40,7 +40,8 @@ func NewV1CloudConfigsCustomPoolMachinesListOK() *V1CloudConfigsCustomPoolMachin
 	return &V1CloudConfigsCustomPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsCustomPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsCustomPoolMachinesListOK handles this case with default header values.
 
 An array of Custom machine items
 */

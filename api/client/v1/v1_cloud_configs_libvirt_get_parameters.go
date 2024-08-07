@@ -55,7 +55,8 @@ func NewV1CloudConfigsLibvirtGetParamsWithHTTPClient(client *http.Client) *V1Clo
 	}
 }
 
-/*V1CloudConfigsLibvirtGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsLibvirtGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs libvirt get operation typically these are written to a http.Request
 */
 type V1CloudConfigsLibvirtGetParams struct {

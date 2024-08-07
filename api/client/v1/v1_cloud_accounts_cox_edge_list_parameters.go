@@ -68,7 +68,8 @@ func NewV1CloudAccountsCoxEdgeListParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*V1CloudAccountsCoxEdgeListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsCoxEdgeListParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts cox edge list operation typically these are written to a http.Request
 */
 type V1CloudAccountsCoxEdgeListParams struct {

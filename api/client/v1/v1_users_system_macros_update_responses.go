@@ -37,7 +37,8 @@ func NewV1UsersSystemMacrosUpdateNoContent() *V1UsersSystemMacrosUpdateNoContent
 	return &V1UsersSystemMacrosUpdateNoContent{}
 }
 
-/*V1UsersSystemMacrosUpdateNoContent handles this case with default header values.
+/*
+V1UsersSystemMacrosUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

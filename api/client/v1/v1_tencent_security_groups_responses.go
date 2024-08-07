@@ -40,7 +40,8 @@ func NewV1TencentSecurityGroupsOK() *V1TencentSecurityGroupsOK {
 	return &V1TencentSecurityGroupsOK{}
 }
 
-/*V1TencentSecurityGroupsOK handles this case with default header values.
+/*
+V1TencentSecurityGroupsOK handles this case with default header values.
 
 (empty)
 */

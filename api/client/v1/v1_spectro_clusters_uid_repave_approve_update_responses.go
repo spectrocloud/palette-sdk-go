@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDRepaveApproveUpdateNoContent() *V1SpectroClustersUID
 	return &V1SpectroClustersUIDRepaveApproveUpdateNoContent{}
 }
 
-/*V1SpectroClustersUIDRepaveApproveUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDRepaveApproveUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

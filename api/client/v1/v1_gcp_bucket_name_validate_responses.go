@@ -37,7 +37,8 @@ func NewV1GcpBucketNameValidateNoContent() *V1GcpBucketNameValidateNoContent {
 	return &V1GcpBucketNameValidateNoContent{}
 }
 
-/*V1GcpBucketNameValidateNoContent handles this case with default header values.
+/*
+V1GcpBucketNameValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

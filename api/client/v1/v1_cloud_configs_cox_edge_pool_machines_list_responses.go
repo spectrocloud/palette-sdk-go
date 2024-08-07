@@ -40,7 +40,8 @@ func NewV1CloudConfigsCoxEdgePoolMachinesListOK() *V1CloudConfigsCoxEdgePoolMach
 	return &V1CloudConfigsCoxEdgePoolMachinesListOK{}
 }
 
-/*V1CloudConfigsCoxEdgePoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsCoxEdgePoolMachinesListOK handles this case with default header values.
 
 An array of CoxEdge machine items
 */

@@ -55,7 +55,8 @@ func NewV1CloudConfigsTkeGetParamsWithHTTPClient(client *http.Client) *V1CloudCo
 	}
 }
 
-/*V1CloudConfigsTkeGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsTkeGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs tke get operation typically these are written to a http.Request
 */
 type V1CloudConfigsTkeGetParams struct {

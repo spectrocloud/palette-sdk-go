@@ -57,7 +57,8 @@ func NewV1OverlordsUIDPoolUpdateParamsWithHTTPClient(client *http.Client) *V1Ove
 	}
 }
 
-/*V1OverlordsUIDPoolUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDPoolUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid pool update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDPoolUpdateParams struct {

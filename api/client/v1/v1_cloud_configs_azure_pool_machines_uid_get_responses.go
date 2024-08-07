@@ -40,7 +40,8 @@ func NewV1CloudConfigsAzurePoolMachinesUIDGetOK() *V1CloudConfigsAzurePoolMachin
 	return &V1CloudConfigsAzurePoolMachinesUIDGetOK{}
 }
 
-/*V1CloudConfigsAzurePoolMachinesUIDGetOK handles this case with default header values.
+/*
+V1CloudConfigsAzurePoolMachinesUIDGetOK handles this case with default header values.
 
 OK
 */

@@ -55,7 +55,8 @@ func NewV1CloudAccountsOpenStackGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1CloudAccountsOpenStackGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsOpenStackGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts open stack get operation typically these are written to a http.Request
 */
 type V1CloudAccountsOpenStackGetParams struct {

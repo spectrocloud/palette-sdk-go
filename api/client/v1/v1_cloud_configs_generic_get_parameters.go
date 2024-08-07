@@ -55,7 +55,8 @@ func NewV1CloudConfigsGenericGetParamsWithHTTPClient(client *http.Client) *V1Clo
 	}
 }
 
-/*V1CloudConfigsGenericGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsGenericGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs generic get operation typically these are written to a http.Request
 */
 type V1CloudConfigsGenericGetParams struct {

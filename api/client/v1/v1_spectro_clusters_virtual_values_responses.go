@@ -38,7 +38,8 @@ func NewV1SpectroClustersVirtualValuesOK() *V1SpectroClustersVirtualValuesOK {
 	return &V1SpectroClustersVirtualValuesOK{}
 }
 
-/*V1SpectroClustersVirtualValuesOK handles this case with default header values.
+/*
+V1SpectroClustersVirtualValuesOK handles this case with default header values.
 
 OK
 */

@@ -40,7 +40,8 @@ func NewV1CloudAccountsCoxEdgeCreateCreated() *V1CloudAccountsCoxEdgeCreateCreat
 	return &V1CloudAccountsCoxEdgeCreateCreated{}
 }
 
-/*V1CloudAccountsCoxEdgeCreateCreated handles this case with default header values.
+/*
+V1CloudAccountsCoxEdgeCreateCreated handles this case with default header values.
 
 Created successfully
 */

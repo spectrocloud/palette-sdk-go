@@ -40,7 +40,8 @@ func NewV1CloudAccountsCoxEdgeListOK() *V1CloudAccountsCoxEdgeListOK {
 	return &V1CloudAccountsCoxEdgeListOK{}
 }
 
-/*V1CloudAccountsCoxEdgeListOK handles this case with default header values.
+/*
+V1CloudAccountsCoxEdgeListOK handles this case with default header values.
 
 An array of cloud account items
 */

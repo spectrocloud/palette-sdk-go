@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeMetaGetOK() *V1CustomCloudTypeMetaGetOK {
 	return &V1CustomCloudTypeMetaGetOK{}
 }
 
-/*V1CustomCloudTypeMetaGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeMetaGetOK handles this case with default header values.
 
 (empty)
 */

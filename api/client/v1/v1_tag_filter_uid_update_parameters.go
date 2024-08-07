@@ -57,7 +57,8 @@ func NewV1TagFilterUIDUpdateParamsWithHTTPClient(client *http.Client) *V1TagFilt
 	}
 }
 
-/*V1TagFilterUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1TagFilterUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tag filter Uid update operation typically these are written to a http.Request
 */
 type V1TagFilterUIDUpdateParams struct {

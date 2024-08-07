@@ -55,7 +55,8 @@ func NewV1CloudConfigsLibvirtPoolMachinesListParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1CloudConfigsLibvirtPoolMachinesListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsLibvirtPoolMachinesListParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs libvirt pool machines list operation typically these are written to a http.Request
 */
 type V1CloudConfigsLibvirtPoolMachinesListParams struct {

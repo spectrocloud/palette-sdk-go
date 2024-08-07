@@ -57,7 +57,8 @@ func NewV1UsersUIDResourceRolesCreateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1UsersUIDResourceRolesCreateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersUIDResourceRolesCreateParams contains all the parameters to send to the API endpoint
 for the v1 users Uid resource roles create operation typically these are written to a http.Request
 */
 type V1UsersUIDResourceRolesCreateParams struct {

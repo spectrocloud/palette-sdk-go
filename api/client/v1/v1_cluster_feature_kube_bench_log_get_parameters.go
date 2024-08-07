@@ -55,7 +55,8 @@ func NewV1ClusterFeatureKubeBenchLogGetParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1ClusterFeatureKubeBenchLogGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureKubeBenchLogGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature kube bench log get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureKubeBenchLogGetParams struct {

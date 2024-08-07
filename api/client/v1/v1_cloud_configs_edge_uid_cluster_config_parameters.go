@@ -57,7 +57,8 @@ func NewV1CloudConfigsEdgeUIDClusterConfigParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsEdgeUIDClusterConfigParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeUIDClusterConfigParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge Uid cluster config operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeUIDClusterConfigParams struct {

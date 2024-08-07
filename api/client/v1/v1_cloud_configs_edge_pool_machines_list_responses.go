@@ -40,7 +40,8 @@ func NewV1CloudConfigsEdgePoolMachinesListOK() *V1CloudConfigsEdgePoolMachinesLi
 	return &V1CloudConfigsEdgePoolMachinesListOK{}
 }
 
-/*V1CloudConfigsEdgePoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsEdgePoolMachinesListOK handles this case with default header values.
 
 An array of Edge machine items
 */

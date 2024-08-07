@@ -57,7 +57,8 @@ func NewV1CloudAccountsCoxEdgeCreateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1CloudAccountsCoxEdgeCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsCoxEdgeCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts cox edge create operation typically these are written to a http.Request
 */
 type V1CloudAccountsCoxEdgeCreateParams struct {

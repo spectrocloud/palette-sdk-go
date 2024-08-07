@@ -55,7 +55,8 @@ func NewV1SpectroClustersVirtualValuesParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1SpectroClustersVirtualValuesParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersVirtualValuesParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters virtual values operation typically these are written to a http.Request
 */
 type V1SpectroClustersVirtualValuesParams struct {

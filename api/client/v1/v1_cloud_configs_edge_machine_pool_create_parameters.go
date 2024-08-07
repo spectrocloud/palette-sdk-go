@@ -57,7 +57,8 @@ func NewV1CloudConfigsEdgeMachinePoolCreateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1CloudConfigsEdgeMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge machine pool create operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeMachinePoolCreateParams struct {

@@ -57,7 +57,8 @@ func NewV1SpectroClustersLibvirtImportParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1SpectroClustersLibvirtImportParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersLibvirtImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters libvirt import operation typically these are written to a http.Request
 */
 type V1SpectroClustersLibvirtImportParams struct {

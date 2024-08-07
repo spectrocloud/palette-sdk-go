@@ -40,7 +40,8 @@ func NewV1PacksSummaryListOK() *V1PacksSummaryListOK {
 	return &V1PacksSummaryListOK{}
 }
 
-/*V1PacksSummaryListOK handles this case with default header values.
+/*
+V1PacksSummaryListOK handles this case with default header values.
 
 An array of pack summary items
 */

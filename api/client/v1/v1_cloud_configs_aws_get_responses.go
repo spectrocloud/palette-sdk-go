@@ -40,7 +40,8 @@ func NewV1CloudConfigsAwsGetOK() *V1CloudConfigsAwsGetOK {
 	return &V1CloudConfigsAwsGetOK{}
 }
 
-/*V1CloudConfigsAwsGetOK handles this case with default header values.
+/*
+V1CloudConfigsAwsGetOK handles this case with default header values.
 
 OK
 */

@@ -68,7 +68,8 @@ func NewV1AuthOrgSwitchParamsWithHTTPClient(client *http.Client) *V1AuthOrgSwitc
 	}
 }
 
-/*V1AuthOrgSwitchParams contains all the parameters to send to the API endpoint
+/*
+V1AuthOrgSwitchParams contains all the parameters to send to the API endpoint
 for the v1 auth org switch operation typically these are written to a http.Request
 */
 type V1AuthOrgSwitchParams struct {

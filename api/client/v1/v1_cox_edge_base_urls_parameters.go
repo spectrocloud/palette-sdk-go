@@ -55,7 +55,8 @@ func NewV1CoxEdgeBaseUrlsParamsWithHTTPClient(client *http.Client) *V1CoxEdgeBas
 	}
 }
 
-/*V1CoxEdgeBaseUrlsParams contains all the parameters to send to the API endpoint
+/*
+V1CoxEdgeBaseUrlsParams contains all the parameters to send to the API endpoint
 for the v1 cox edge base urls operation typically these are written to a http.Request
 */
 type V1CoxEdgeBaseUrlsParams struct {

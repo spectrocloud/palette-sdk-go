@@ -40,7 +40,8 @@ func NewV1CoxEdgeOrganizationsOK() *V1CoxEdgeOrganizationsOK {
 	return &V1CoxEdgeOrganizationsOK{}
 }
 
-/*V1CoxEdgeOrganizationsOK handles this case with default header values.
+/*
+V1CoxEdgeOrganizationsOK handles this case with default header values.
 
 List of CoxEdge organizations
 */
