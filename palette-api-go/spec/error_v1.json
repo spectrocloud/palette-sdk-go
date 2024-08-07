@@ -1,0 +1,29 @@
+{
+  "consumes": ["application/json"],
+  "definitions": {
+    "V1Error": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object"
+        },
+        "message": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "info": {
+    "title": "Palette APIs - 4.0",
+    "version": "v1"
+  },
+  "produces": ["application/json"],
+  "schemes": ["http", "https"],
+  "swagger": "2.0"
+}
