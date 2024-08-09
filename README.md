@@ -1,3 +1,9 @@
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/spectrocloud/palette-sdk-go/issues)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Test](https://github.com/spectrocloud/palette-sdk-go/actions/workflows/ci.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/spectrocloud/palette-sdk-go)](https://goreportcard.com/report/github.com/spectrocloud/palette-sdk-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/spectrocloud/palette-sdk-go.svg)](https://pkg.go.dev/github.com/spectrocloud/palette-sdk-go)
+
 # palette-sdk-go
 
 Palette SDK for the Go programming language.
