@@ -9,21 +9,19 @@ import (
 )
 
 func main() {
-	var host, apiKey, projectUid, scope string
 
-	// Parse command line arguments
+	// Read environment variables
 
-	numArgs := len(os.Args)
-	if numArgs < 3 || numArgs > 4 {
-		fmt.Println("Usage: main <host> <apiKey> [projectUid]")
+	host := os.Getenv("PALETTE_HOST")
+	apiKey := os.Getenv("PALETTE_API_KEY")
+	projectUid := os.Getenv("PALETTE_PROJECT_UID")
+	scope := "tenant"
+
+	if host == "" || apiKey == "" {
+		fmt.Println("You must specify the PALETTE_HOST and PALETTE_API_KEY environment variables.")
 		os.Exit(1)
 	}
-	switch numArgs {
-	case 3:
-		host, apiKey = os.Args[1], os.Args[2]
-		scope = "tenant"
-	case 4:
-		host, apiKey, projectUid = os.Args[1], os.Args[2], os.Args[3]
+	if projectUid != "" {
 		scope = "project"
 	}
 
