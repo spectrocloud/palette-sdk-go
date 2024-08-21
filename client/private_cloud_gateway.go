@@ -98,6 +98,15 @@ func (h *V1Client) CreatePCGVsphere(uid string, cloudConfig *models.V1OverlordVs
 	return *resp.Payload.UID, nil
 }
 
+// UpdatePCGVsphere updates a vSphere Private Cloud Gateway VsphereCloudConfig.
+func (h *V1Client) UpdatePCGVsphere(uid string, cloudConfig *models.V1OverlordVsphereCloudConfig) error {
+	params := clientv1.NewV1OverlordsUIDVsphereCloudConfigUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(cloudConfig)
+	_, err := h.Client.V1OverlordsUIDVsphereCloudConfigUpdate(params)
+	return err
+}
+
 // CreatePCGCloudAccountVsphere creates a new vSphere PCG cloud account.
 func (h *V1Client) CreatePCGCloudAccountVsphere(uid string, account *models.V1OverlordVsphereAccountCreate) (string, error) {
 	params := clientv1.NewV1OverlordsUIDVsphereAccountCreateParamsWithContext(h.ctx).
