@@ -6,7 +6,7 @@ const (
 	authJwt        = "Authorization"
 
 	// OverlordUID is an annotation key used to link a cloud accounts with a private cloud gateway.
-	OverlordUID = "overlordUID"
+	OverlordUID = "overlordUid"
 
 	// Scope is the key for the scope in the Palette authorization context
 	// One of: "project", "system", "tenant"
