@@ -47,9 +47,9 @@ func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1Edge
 }
 
 // DeleteRegistrationToken deletes a registration token by name.
-func (h *V1Client) DeleteRegistrationToken(tokenUid string) error {
+func (h *V1Client) DeleteRegistrationToken(tokenUID string) error {
 	// ACL scoped to tenant only
-	params := clientv1.NewV1EdgeTokensUIDDeleteParams().WithUID(tokenUid)
+	params := clientv1.NewV1EdgeTokensUIDDeleteParams().WithUID(tokenUID)
 	_, err := h.Client.V1EdgeTokensUIDDelete(params)
 	if err != nil {
 		return fmt.Errorf("failed to delete registration token: %w", err)
