@@ -39,7 +39,7 @@ func (h *V1Client) GetProjectUID(projectName string) (string, error) {
 }
 
 // GetProjectByUID retrieves an existing project by UID.
-func (h *V1Client) GetProjectByUID(uid string) (*models.V1Project, error) {
+func (h *V1Client) GetProject(uid string) (*models.V1Project, error) {
 	// ACL scoped to tenant only
 	params := clientv1.NewV1ProjectsUIDGetParams().
 		WithUID(uid)

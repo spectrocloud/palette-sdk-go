@@ -43,7 +43,7 @@ func (h *V1Client) GetSSHKeyByName(name string) (*models.V1UserAssetSSH, error) 
 }
 
 // GetSSHKeyByUID retrieves an existing SSH key by UID.
-func (h *V1Client) GetSSHKeyByUID(uid string) (*models.V1UserAssetSSH, error) {
+func (h *V1Client) GetSSHKey(uid string) (*models.V1UserAssetSSH, error) {
 	params := clientv1.NewV1UsersAssetSSHGetUIDParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1UsersAssetSSHGetUID(params)

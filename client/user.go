@@ -85,7 +85,7 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 }
 
 // DeleteUserByUID deletes an existing user by UID.
-func (h *V1Client) DeleteUserByUID(uid string) error {
+func (h *V1Client) DeleteUser(uid string) error {
 	params := clientv1.NewV1UsersUIDDeleteParams().WithUID(uid)
 	_, err := h.Client.V1UsersUIDDelete(params)
 	if err != nil {
@@ -102,7 +102,7 @@ func (h *V1Client) DeleteUserByName(name string) error {
 	}
 	for _, user := range users.Items {
 		if user.Metadata.Name == name {
-			return h.DeleteUserByUID(user.Metadata.UID)
+			return h.DeleteUser(user.Metadata.UID)
 		}
 	}
 	return fmt.Errorf("user with name '%s' not found", name)
