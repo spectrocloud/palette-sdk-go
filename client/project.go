@@ -38,7 +38,7 @@ func (h *V1Client) GetProjectUID(projectName string) (string, error) {
 	return "", fmt.Errorf("project '%s' not found", projectName)
 }
 
-// GetProjectByUID retrieves an existing project by UID.
+// GetProject retrieves an existing project by UID.
 func (h *V1Client) GetProject(uid string) (*models.V1Project, error) {
 	// ACL scoped to tenant only
 	params := clientv1.NewV1ProjectsUIDGetParams().

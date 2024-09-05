@@ -10,6 +10,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
+// GetAPIKeys retrieves all API Keys.
 func (h *V1Client) GetAPIKeys() (*models.V1APIKeys, error) {
 	params := clientv1.NewV1APIKeysListParams()
 	resp, err := h.Client.V1APIKeysList(params)
@@ -20,6 +21,7 @@ func (h *V1Client) GetAPIKeys() (*models.V1APIKeys, error) {
 	return resp.Payload, nil
 }
 
+// DeleteAPIKeyByName deletes an existing API Key by name.
 func (h *V1Client) DeleteAPIKeyByName(name string) error {
 	keys, err := h.GetAPIKeys()
 	if err != nil {
@@ -33,6 +35,7 @@ func (h *V1Client) DeleteAPIKeyByName(name string) error {
 	return fmt.Errorf("api key with name '%s' not found", name)
 }
 
+// DeleteAPIKey deletes an existing API Key by UID.
 func (h *V1Client) DeleteAPIKey(uid string) error {
 	params := clientv1.NewV1APIKeysUIDDeleteParams().WithUID(uid)
 	_, err := h.Client.V1APIKeysUIDDelete(params)

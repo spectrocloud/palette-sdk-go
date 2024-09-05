@@ -42,7 +42,7 @@ func (h *V1Client) GetSSHKeyByName(name string) (*models.V1UserAssetSSH, error) 
 	return nil, fmt.Errorf("ssh key '%s' not found", name)
 }
 
-// GetSSHKeyByUID retrieves an existing SSH key by UID.
+// GetSSHKey retrieves an existing SSH key by UID.
 func (h *V1Client) GetSSHKey(uid string) (*models.V1UserAssetSSH, error) {
 	params := clientv1.NewV1UsersAssetSSHGetUIDParamsWithContext(h.ctx).
 		WithUID(uid)

@@ -84,7 +84,7 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 	return nil, fmt.Errorf("user with email '%s' not found", email)
 }
 
-// DeleteUserByUID deletes an existing user by UID.
+// DeleteUser deletes an existing user by UID.
 func (h *V1Client) DeleteUser(uid string) error {
 	params := clientv1.NewV1UsersUIDDeleteParams().WithUID(uid)
 	_, err := h.Client.V1UsersUIDDelete(params)
