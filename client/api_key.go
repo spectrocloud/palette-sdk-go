@@ -13,6 +13,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
+// CreateAPIKey creates a new API key for the specified tenant.
 func (h *V1Client) CreateAPIKey(name, TenantUID, emailID, org, password string) (string, error) {
 	annotations := map[string]string{
 		"Description": "Automation-Test"}
@@ -41,7 +42,7 @@ func (h *V1Client) CreateAPIKey(name, TenantUID, emailID, org, password string) 
 	if err != nil {
 		return "", fmt.Errorf("failed to create API key: %w", err)
 	}
-	return resp.Payload.UID, nil
+	return resp.Payload.APIKey, nil
 }
 
 // GetAPIKeys retrieves all API Keys.
@@ -79,6 +80,7 @@ func (h *V1Client) DeleteAPIKey(uid string) error {
 	return nil
 }
 
+// AuthLogin authenticates a user and returns a session token.
 func (h *V1Client) AuthLogin(emailID, org, password string) (string, error) {
 	loginRequest := &models.V1AuthLogin{
 		EmailID:  emailID,
