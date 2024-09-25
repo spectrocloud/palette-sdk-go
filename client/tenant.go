@@ -1,6 +1,8 @@
 package client
 
-import "errors"
+import (
+	"errors"
+)
 
 // GetTenantUID retrieves the tenant UID of the authenticated user.
 func (h *V1Client) GetTenantUID() (string, error) {
