@@ -11,6 +11,7 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
+// CreateAPIKey creates a new API key for the tenant
 func (h *V1Client) CreateAPIKey(name string, annotations map[string]string, expiry time.Duration) (string, error) {
 	tenantUID, err := h.GetTenantUID()
 	if err != nil {
