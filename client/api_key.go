@@ -5,38 +5,27 @@ package client
 
 import (
 	"fmt"
-	"github.com/go-openapi/strfmt"
-	log "github.com/sirupsen/logrus"
 	"time"
 
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
-// CreateAPIKey creates a new API key for the specified tenant.
-func (h *V1Client) CreateAPIKey(name, TenantUID, emailID, org, password string) (string, error) {
-	annotations := map[string]string{
-		"Description": "Automation-Test"}
+func (h *V1Client) CreateAPIKey(name string, annotations map[string]string, expiry time.Duration) (string, error) {
+	tenantUID, err := h.GetTenantUID()
+	if err != nil {
+		return "", fmt.Errorf("failed to get tenant UID: %w", err)
+	}
 	body := &models.V1APIKeyEntity{
 		Metadata: &models.V1ObjectMeta{
 			Name:        name,
 			Annotations: annotations,
 		},
 		Spec: &models.V1APIKeySpecEntity{
-			UserUID: TenantUID,
-			Expiry:  models.V1Time(time.Now().Add(5 * time.Hour)), // Set expiry time
+			UserUID: tenantUID,
+			Expiry:  models.V1Time(time.Now().Add(expiry)),
 		},
 	}
-	if _, err := h.AuthLogin(emailID, org, password); err != nil {
-		return "", fmt.Errorf("failed to login as sysadmin: %w", err)
-	}
-	// Check if the JWT is set
-	if h.jwt == "" {
-		return "", fmt.Errorf("JWT is not set after login")
-	}
-	log.Infof("JWT before creating API key: %s", h.jwt)
-	h.Client = clientv1.New(h.getTransport(), strfmt.Default)
-
 	params := clientv1.NewV1APIKeysCreateParams().WithBody(body)
 	resp, err := h.Client.V1APIKeysCreate(params)
 	if err != nil {
@@ -78,20 +67,4 @@ func (h *V1Client) DeleteAPIKey(uid string) error {
 		return err
 	}
 	return nil
-}
-
-// AuthLogin authenticates a user and returns a session token.
-func (h *V1Client) AuthLogin(emailID, org, password string) (string, error) {
-	loginRequest := &models.V1AuthLogin{
-		EmailID:  emailID,
-		Org:      org,
-		Password: strfmt.Password(password),
-	}
-	loginParams := clientv1.NewV1AuthenticateParams().WithBody(loginRequest)
-	resp, err := h.Client.V1Authenticate(loginParams)
-	if err != nil {
-		return "", fmt.Errorf("failed to login: %w", err)
-	}
-	h.jwt = resp.Payload.Authorization
-	return h.jwt, nil
 }
