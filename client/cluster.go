@@ -323,3 +323,29 @@ func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.
 	}
 	return nil
 }
+
+func (h *V1Client) InitiateTheCertRenewal(clusterUid string) error {
+	params := clientv1.NewV1SpectroClustersCertificatesRenewParamsWithContext(h.ctx).WithUID(clusterUid)
+	_, err := h.Client.V1SpectroClustersCertificatesRenew(params)
+	if err != nil {
+		return	fmt.Errorf("error while renewing the cluster certificates: %w", err)
+	}
+	return nil
+}
+
+func (h *V1Client) GetTheKubernetesCerts(clusterUid string) (*models.V1MachineCertificates,error) {
+	params := clientv1.NewV1SpectroClustersK8CertificateParamsWithContext(h.ctx).WithUID(clusterUid)
+	resp, err := h.Client.V1SpectroClustersK8Certificate(params)
+	if err != nil {
+		return	nil,fmt.Errorf("error while getting the cluster certificates: %w", err)
+	}
+	certList := resp.GetPayload()
+	// Check if the list contains any machine certificates
+	if len(certList.MachineCertificates) == 0 {
+		fmt.Println("No machine certificates found.")
+		return nil,nil
+	}
+	
+	return certList,nil
+}
+
