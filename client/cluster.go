@@ -324,6 +324,7 @@ func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.
 	return nil
 }
 
+// InitiateTheCertRenewal initiates the certificate renewal process for the specified cluster.
 func (h *V1Client) InitiateTheCertRenewal(clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersCertificatesRenewParamsWithContext(h.ctx).WithUID(clusterUID)
 	_, err := h.Client.V1SpectroClustersCertificatesRenew(params)
@@ -333,6 +334,7 @@ func (h *V1Client) InitiateTheCertRenewal(clusterUID string) error {
 	return nil
 }
 
+// GetTheKubernetesCerts retrieves the Kubernetes certificates for the specified cluster.
 func (h *V1Client) GetTheKubernetesCerts(clusterUID string) (*models.V1MachineCertificates,error) {
 	params := clientv1.NewV1SpectroClustersK8CertificateParamsWithContext(h.ctx).WithUID(clusterUID)
 	resp, err := h.Client.V1SpectroClustersK8Certificate(params)
