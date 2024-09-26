@@ -324,8 +324,8 @@ func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.
 	return nil
 }
 
-func (h *V1Client) InitiateTheCertRenewal(clusterUid string) error {
-	params := clientv1.NewV1SpectroClustersCertificatesRenewParamsWithContext(h.ctx).WithUID(clusterUid)
+func (h *V1Client) InitiateTheCertRenewal(clusterUID string) error {
+	params := clientv1.NewV1SpectroClustersCertificatesRenewParamsWithContext(h.ctx).WithUID(clusterUID)
 	_, err := h.Client.V1SpectroClustersCertificatesRenew(params)
 	if err != nil {
 		return	fmt.Errorf("error while renewing the cluster certificates: %w", err)
@@ -333,8 +333,8 @@ func (h *V1Client) InitiateTheCertRenewal(clusterUid string) error {
 	return nil
 }
 
-func (h *V1Client) GetTheKubernetesCerts(clusterUid string) (*models.V1MachineCertificates,error) {
-	params := clientv1.NewV1SpectroClustersK8CertificateParamsWithContext(h.ctx).WithUID(clusterUid)
+func (h *V1Client) GetTheKubernetesCerts(clusterUID string) (*models.V1MachineCertificates,error) {
+	params := clientv1.NewV1SpectroClustersK8CertificateParamsWithContext(h.ctx).WithUID(clusterUID)
 	resp, err := h.Client.V1SpectroClustersK8Certificate(params)
 	if err != nil {
 		return	nil,fmt.Errorf("error while getting the cluster certificates: %w", err)
