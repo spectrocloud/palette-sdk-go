@@ -129,6 +129,57 @@ func (h *V1Client) AttachAddonsToCluster(clusterUID string, profileUIDs []string
 	return h.UpgradeClusterProfile(clusterUID, profiles)
 }
 
+// RemoveAddonsFromCluster removes one or more addon profiles from the cluster.
+func (h *V1Client) RemoveAddonsFromCluster(clusterUID string, profileUIDs []string) error {
+	// Get existing cluster profile UID list on the cluster
+	currentClusterInfo, err := h.GetCluster(clusterUID)
+	if err != nil {
+		return err
+	}
+
+	// Create lists to store updated profiles and packs
+	profileList := make([]*models.V1SpectroClusterProfileEntity, 0, len(currentClusterInfo.Spec.ClusterProfileTemplates))
+
+	// Create a map for easier lookup of profileUIDs to be removed
+	removalMap := make(map[string]bool, len(profileUIDs))
+	for _, uid := range profileUIDs {
+		removalMap[uid] = true
+	}
+
+	// Iterate through current cluster profiles, excluding those in the profileUIDs list
+	for _, clusterProfile := range currentClusterInfo.Spec.ClusterProfileTemplates {
+		// If the current profile UID is in the removal map, skip this profile
+		if removalMap[clusterProfile.UID] {
+			continue
+		}
+
+		// Retain the profile and pack values if it is not in the removal list
+		packList := make([]*models.V1PackValuesEntity, 0, len(clusterProfile.Packs))
+		for _, value := range clusterProfile.Packs {
+			packList = append(packList, &models.V1PackValuesEntity{
+				Manifests: nil,
+				Name:      value.Name,
+				Tag:       value.Tag,
+				Type:      models.V1PackType(value.Type),
+				Values:    value.Values,
+			})
+		}
+
+		profileList = append(profileList, &models.V1SpectroClusterProfileEntity{
+			PackValues: packList,
+			UID:        clusterProfile.UID,
+		})
+	}
+
+	// Prepare the new profiles object for updating the cluster profile
+	profiles := &models.V1SpectroClusterProfiles{
+		Profiles: profileList,
+	}
+
+	// Call the update function to update the cluster profile with the remaining profiles
+	return h.UpgradeClusterProfile(clusterUID, profiles)
+}
+
 // DeleteClusterProfile deletes an existing cluster profile.
 func (h *V1Client) DeleteClusterProfile(uid string) error {
 	profile, err := h.GetClusterProfile(uid)
