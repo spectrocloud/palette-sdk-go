@@ -223,3 +223,40 @@ func (h *V1Client) GetNodeMaintenanceStatusVsphere(configUID, machineName, nodeI
 	}
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
+
+// GetNodeListInEdgeNativeMachinePool retrieves machine in the edge-native machine pool
+func (h *V1Client) GetNodeListInEdgeNativeMachinePool(configUID, machinePoolName string) (*models.V1EdgeNativeMachines, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetNodeInEdgeNativeMachinePool retrieves specific machine in the edge-native machine pool.
+func (h *V1Client) GetNodeInEdgeNativeMachinePool(configUID, machinePoolName, machineID string) (*models.V1EdgeNativeMachine, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesUIDGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName).WithMachineUID(machineID)
+	resp, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// DeleteNodeInEdgeNativeMachinePool delete the specific node in the edge-native machine pool
+func (h *V1Client) DeleteNodeInEdgeNativeMachinePool(configUID, machinePoolName, machineID string) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesUIDDeleteParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName).
+		WithMachineUID(machineID)
+	_, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesUIDDelete(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
