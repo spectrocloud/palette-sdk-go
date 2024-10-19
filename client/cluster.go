@@ -99,13 +99,25 @@ func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sor
 			Filter: filter,
 			Sort:   sort,
 		})
-	resp, err := h.Client.V1SpectroClustersSearchFilterSummary(params)
-	if apiutil.Is404(err) {
-		return nil, nil
-	} else if err != nil {
-		return nil, err
+
+	var clusters []*models.V1SpectroClusterSummary
+	for {
+		resp, err := h.Client.V1SpectroClustersSearchFilterSummary(params)
+		if apiutil.Is404(err) {
+			return nil, nil
+		} else if err != nil {
+			return nil, err
+		}
+
+		clusters = append(clusters, resp.Payload.Items...)
+		if resp.Payload.Listmeta.Continue == "" {
+			break
+		}
+
+		params = params.WithContinue(&resp.Payload.Listmeta.Continue)
 	}
-	return resp.Payload.Items, nil
+
+	return clusters, nil
 }
 
 // GetClusterKubeConfig retrieves a cluster's kubeconfig.
