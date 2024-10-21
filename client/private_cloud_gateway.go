@@ -3,7 +3,6 @@ package client
 import (
 	"errors"
 	"fmt"
-
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
@@ -317,4 +316,52 @@ func (h *V1Client) DeleteIPPool(pcgUID, poolUID string) error {
 		WithPoolUID(poolUID)
 	_, err := h.Client.V1OverlordsUIDPoolDelete(params)
 	return err
+}
+
+// CreateVsphereDNSMap creates a new DNS Mapping for a Private Cloud Gateway.
+func (h *V1Client) CreateVsphereDNSMap(dnsMapBody *models.V1VsphereDNSMapping) (string, error) {
+	params := clientv1.NewV1VsphereDNSMappingCreateParamsWithContext(h.ctx).WithBody(dnsMapBody)
+	resp, err := h.Client.V1VsphereDNSMappingCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// UpdateVsphereDNSMap update an existing DNS Mapping for a Private Cloud Gateway
+func (h *V1Client) UpdateVsphereDNSMap(dnsMapId string, dnsMapBody *models.V1VsphereDNSMapping) error {
+	params := clientv1.NewV1VsphereDNSMappingUpdateParamsWithContext(h.ctx).WithUID(dnsMapId).WithBody(dnsMapBody)
+	_, err := h.Client.V1VsphereDNSMappingUpdate(params)
+	return err
+}
+
+// DeleteVsphereDNSMap delete an existing DNS Mapping for a Private Cloud Gateway
+func (h *V1Client) DeleteVsphereDNSMap(dnsMapId string) error {
+	params := clientv1.NewV1VsphereDNSMappingDeleteParamsWithContext(h.ctx).WithUID(dnsMapId)
+	_, err := h.Client.V1VsphereDNSMappingDelete(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetVsphereDNSMap get an existing DNS Mapping for a Private Cloud Gateway
+func (h *V1Client) GetVsphereDNSMap(dnsMapId string) (*models.V1VsphereDNSMapping, error) {
+	params := clientv1.NewV1VsphereDNSMappingGetParamsWithContext(h.ctx).WithUID(dnsMapId)
+	resp, err := h.Client.V1VsphereDNSMappingGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetVsphereDNSMappingsByPCGId get an existing DNS Mappings for a Private Cloud Gateway with PCG-ID
+func (h *V1Client) GetVsphereDNSMappingsByPCGId(PCGId string) (*models.V1VsphereDNSMappings, error) {
+	filter := "spec.privateGatewayUid=" + PCGId
+	params := clientv1.NewV1VsphereDNSMappingsGetParamsWithContext(h.ctx).WithFilters(&filter)
+	resp, err := h.Client.V1VsphereDNSMappingsGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
