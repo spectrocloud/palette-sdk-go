@@ -329,15 +329,15 @@ func (h *V1Client) CreateVsphereDNSMap(dnsMapBody *models.V1VsphereDNSMapping) (
 }
 
 // UpdateVsphereDNSMap update an existing DNS Mapping for a Private Cloud Gateway
-func (h *V1Client) UpdateVsphereDNSMap(dnsMapId string, dnsMapBody *models.V1VsphereDNSMapping) error {
-	params := clientv1.NewV1VsphereDNSMappingUpdateParamsWithContext(h.ctx).WithUID(dnsMapId).WithBody(dnsMapBody)
+func (h *V1Client) UpdateVsphereDNSMap(dnsMapID string, dnsMapBody *models.V1VsphereDNSMapping) error {
+	params := clientv1.NewV1VsphereDNSMappingUpdateParamsWithContext(h.ctx).WithUID(dnsMapID).WithBody(dnsMapBody)
 	_, err := h.Client.V1VsphereDNSMappingUpdate(params)
 	return err
 }
 
 // DeleteVsphereDNSMap delete an existing DNS Mapping for a Private Cloud Gateway
-func (h *V1Client) DeleteVsphereDNSMap(dnsMapId string) error {
-	params := clientv1.NewV1VsphereDNSMappingDeleteParamsWithContext(h.ctx).WithUID(dnsMapId)
+func (h *V1Client) DeleteVsphereDNSMap(dnsMapID string) error {
+	params := clientv1.NewV1VsphereDNSMappingDeleteParamsWithContext(h.ctx).WithUID(dnsMapID)
 	_, err := h.Client.V1VsphereDNSMappingDelete(params)
 	if err != nil {
 		return err
@@ -346,8 +346,8 @@ func (h *V1Client) DeleteVsphereDNSMap(dnsMapId string) error {
 }
 
 // GetVsphereDNSMap get an existing DNS Mapping for a Private Cloud Gateway
-func (h *V1Client) GetVsphereDNSMap(dnsMapId string) (*models.V1VsphereDNSMapping, error) {
-	params := clientv1.NewV1VsphereDNSMappingGetParamsWithContext(h.ctx).WithUID(dnsMapId)
+func (h *V1Client) GetVsphereDNSMap(dnsMapID string) (*models.V1VsphereDNSMapping, error) {
+	params := clientv1.NewV1VsphereDNSMappingGetParamsWithContext(h.ctx).WithUID(dnsMapID)
 	resp, err := h.Client.V1VsphereDNSMappingGet(params)
 	if err != nil {
 		return nil, err
