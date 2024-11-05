@@ -40,8 +40,7 @@ func NewV1AppProfilesUIDTiersUIDManifestsUIDGetOK() *V1AppProfilesUIDTiersUIDMan
 	return &V1AppProfilesUIDTiersUIDManifestsUIDGetOK{}
 }
 
-/*
-V1AppProfilesUIDTiersUIDManifestsUIDGetOK handles this case with default header values.
+/*V1AppProfilesUIDTiersUIDManifestsUIDGetOK handles this case with default header values.
 
 OK
 */

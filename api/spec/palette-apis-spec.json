@@ -3917,6 +3917,184 @@
         }
       ]
     },
+    "/v1/cloudconfigs/aws/{configUid}/clusterConfig/hybridConfig": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the hybrid configuration information of AWS cluster",
+        "operationId": "v1AwsCloudConfigsUidHybridConfig",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1AwsCloudHybridConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "AWS Cluster's Hybrid Configuration",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates an Hybrid AWS cloud config's Edge-Native machine pool",
+        "operationId": "V1AwsCloudConfigsEdgeNativeUidMachinePoolCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Hybrid AWS cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified AWS Cluster's Edge-Native machine pool configuration",
+        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfig"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified Hybrid AWS cluster cloud config's Edge-Native machine pool",
+        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfigUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the specified Edge-Native machine pool of hybrid AWS cluster",
+        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "AWS Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Edge-native machine pool name",
+          "name": "machinePoolName",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}/clusterConfig": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the cluster configuration information of Edge-Native cluster deployed through Hybrid AWS cluster",
+        "operationId": "v1AwsCloudConfigsEdgeNativeUidClusterConfig",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1HybridEdgeNativeClusterConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Hybrid AWS Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Edge-Native machine pool name",
+          "name": "machinePoolName",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/cloudconfigs/aws/{configUid}/machinePools": {
       "post": {
         "tags": [
@@ -17613,29 +17791,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the packs",
-        "operationId": "v1PacksSummaryDelete",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
-            "name": "filters",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1DeleteMeta"
-            }
-          }
-        }
       }
     },
     "/v1/packs/search": {
@@ -21990,6 +22145,74 @@
         }
       ]
     },
+    "/v1/spectroclusters/{uid}/assets/adminTokenKubeconfig": {
+      "get": {
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified cluster's token kube config file",
+        "operationId": "v1SpectroClustersUidTokenKubeConfigGet",
+        "responses": {
+          "200": {
+            "description": "download file",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the cluster's token kube config data",
+        "operationId": "v1SpectroClustersUidTokenKubeConfigUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterAssetTokenKubeConfig"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the cluster's token kube config data",
+        "operationId": "v1SpectroClustersUidTokenKubeConfigDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/spectroclusters/{uid}/assets/frpKubeconfig": {
       "get": {
         "produces": [
@@ -23547,6 +23770,76 @@
       "parameters": [
         {
           "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/heartbeat": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update specific cluster heartbeat",
+        "operationId": "v1SpectroClustersUidHeartbeatUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterHeartbeat"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/hybridSettings": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update specific cluster hybrid settings",
+        "operationId": "v1SpectroClustersUidHybridSettings",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterHybridSettingsEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
           "name": "uid",
           "in": "path",
           "required": true
@@ -31648,6 +31941,12 @@
         "clusterConfig": {
           "$ref": "#/definitions/v1AwsClusterConfig"
         },
+        "hybridMachinePools": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EksHybridMachinePool"
+          }
+        },
         "machinePoolConfig": {
           "type": "array",
           "items": {
@@ -31779,6 +32078,15 @@
         }
       }
     },
+    "v1AwsCloudHybridConfigEntity": {
+      "description": "AWS cloud hybrid config entity",
+      "type": "object",
+      "properties": {
+        "hybridConfig": {
+          "$ref": "#/definitions/v1AwsHybridConfig"
+        }
+      }
+    },
     "v1AwsClusterConfig": {
       "description": "Cluster level configuration for aws cloud and applicable for all the machine pools",
       "type": "object",
@@ -31793,6 +32101,10 @@
         "controlPlaneLoadBalancer": {
           "description": "ControlPlaneLoadBalancer specifies how API server elb will be configured, this field is optional, not provided, \"\", default =\u003e \"Internet-facing\" \"Internet-facing\" =\u003e \"Internet-facing\" \"internal\" =\u003e \"internal\" For spectro saas setup we require to talk to the apiserver from our cluster so ControlPlaneLoadBalancer should be \"\", not provided or \"Internet-facing\"",
           "type": "string"
+        },
+        "hybridConfig": {
+          "description": "AWS hybrid cluster config",
+          "$ref": "#/definitions/v1AwsHybridConfig"
         },
         "region": {
           "type": "string"
@@ -31837,6 +32149,38 @@
         },
         "awsAccount": {
           "$ref": "#/definitions/v1AwsCloudAccount"
+        }
+      }
+    },
+    "v1AwsHybridConfig": {
+      "description": "AwsHybridConfig specifies the AWS Hybrid configuration for the cluster",
+      "type": "object",
+      "properties": {
+        "awsVpcCidr": {
+          "description": "AWS VPC CIDR is the CIDR of the AWS/EKS cluster's VPC",
+          "type": "string"
+        },
+        "iamRolesAnywhere": {
+          "description": "IamRolesAnywhere specifies the IAM Roles Anywhere configuration for the AWS/EKS cluster",
+          "$ref": "#/definitions/v1IamRolesAnywhere"
+        },
+        "remoteNodeCidrs": {
+          "description": "RemoteNodeCIDRs specifies the Node CIDRs of all remote nodes",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "remotePodCidrs": {
+          "description": "RemotePodCIDRs specifies the Pod CIDRs of all remote pods",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "systemsManager": {
+          "description": "SystemsManager specifies the Systems Manager configuration for the AWS/EKS cluster",
+          "$ref": "#/definitions/v1SystemsManager"
         }
       }
     },
@@ -33635,6 +33979,9 @@
         },
         "spec": {
           "$ref": "#/definitions/v1BasicOciRegistrySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1OciRegistryStatus"
         }
       }
     },
@@ -33657,9 +34004,16 @@
           "description": "OCI registry api base path",
           "type": "string"
         },
+        "containsSpectroManifest": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "endpoint": {
           "description": "OCI registry endpoint",
           "type": "string"
+        },
+        "isSyncSupported": {
+          "type": "boolean"
         },
         "providerType": {
           "type": "string",
@@ -34514,6 +34868,10 @@
           "description": "HostClusterConfiguration defines the configuration of host clusters, where virtual clusters be deployed",
           "$ref": "#/definitions/v1HostClusterConfig"
         },
+        "hybridClusterConfig": {
+          "description": "HybridClusterConfiguration defines the configuration of hybrid clusters and clusters deployed through hybrid clusters",
+          "$ref": "#/definitions/v1HybridClusterConfig"
+        },
         "lifecycleConfig": {
           "$ref": "#/definitions/v1LifecycleConfig"
         },
@@ -35014,6 +35372,14 @@
         },
         "uid": {
           "type": "string"
+        }
+      }
+    },
+    "v1ClusterHybridSettingsEntity": {
+      "properties": {
+        "enable": {
+          "description": "Property which is used to enable a cluster to perform hybrid operations",
+          "type": "boolean"
         }
       }
     },
@@ -38478,21 +38844,6 @@
         }
       }
     },
-    "v1DeleteMeta": {
-      "description": "Properties to send back after deletion operation",
-      "properties": {
-        "count": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "items": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "v1DeletedMsg": {
       "description": "Deleted response with message",
       "properties": {
@@ -38606,6 +38957,9 @@
         },
         "spec": {
           "$ref": "#/definitions/v1EcrRegistrySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1OciRegistryStatus"
         }
       }
     },
@@ -38621,6 +38975,10 @@
           "description": "OCI ecr registry content base path",
           "type": "string"
         },
+        "containsSpectroManifest": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "credentials": {
           "$ref": "#/definitions/v1AwsCloudAccount"
         },
@@ -38631,6 +38989,9 @@
           "type": "string"
         },
         "isPrivate": {
+          "type": "boolean"
+        },
+        "isSyncSupported": {
           "type": "boolean"
         },
         "providerType": {
@@ -39307,7 +39668,13 @@
         },
         "type": {
           "description": "Type indicates DDNS or VIP",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "VIP",
+            "External",
+            "DDNS",
+            "IP"
+          ]
         }
       }
     },
@@ -39363,6 +39730,105 @@
             "primary",
             "secondary"
           ]
+        }
+      }
+    },
+    "v1EdgeNativeHybridClusterConfig": {
+      "description": "EdgeNativeHybridClusterConfig defines Edge Native Cluster specific specification",
+      "type": "object",
+      "properties": {
+        "controlPlaneEndpoint": {
+          "description": "ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN",
+          "$ref": "#/definitions/v1EdgeNativeControlPlaneEndPoint"
+        },
+        "ntpServers": {
+          "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        },
+        "sshKeys": {
+          "description": "SSHKeys specifies a list of ssh authorized keys to access the vms as a 'spectro' user",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    },
+    "v1EdgeNativeHybridConfigEntity": {
+      "description": "EdgeNativeHybridMachineConfigEntity defines Edge Native machine configuration",
+      "properties": {
+        "clusterConfig": {
+          "description": "Edge-Native cluster configurations",
+          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
+        },
+        "machineCloudConfig": {
+          "description": "Edge-Native machine cluster configurations",
+          "$ref": "#/definitions/v1EdgeNativeHybridMachineConfigEntity"
+        },
+        "profiles": {
+          "description": "Cluster profile templates for edge-native machine pool",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SpectroClusterProfileEntity"
+          }
+        }
+      }
+    },
+    "v1EdgeNativeHybridMachineConfigEntity": {
+      "description": "EdgeNativeHybridMachineConfigEntity defines Edge Native machine configuration",
+      "required": [
+        "archType",
+        "edgeHosts"
+      ],
+      "properties": {
+        "archType": {
+          "description": "Architecture type of the edge hosts",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ArchType"
+        },
+        "edgeHosts": {
+          "description": "Edge hosts configurations",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EdgeNativeHybridMachinePoolHost"
+          }
+        }
+      }
+    },
+    "v1EdgeNativeHybridMachinePoolHost": {
+      "description": "v1EdgeNativeHybridMachinePoolHostEntity defines Edge Native machine pool's host configuration",
+      "required": [
+        "hostUid"
+      ],
+      "properties": {
+        "hostName": {
+          "description": "Edge host name",
+          "type": "string"
+        },
+        "hostUid": {
+          "description": "Edge host id",
+          "type": "string"
+        },
+        "nic": {
+          "description": "Edge native nic",
+          "$ref": "#/definitions/v1Nic"
+        },
+        "twoNodeCandidatePriority": {
+          "description": "Set the Edge Host candidate priority as primary or secondary, if the Edge Host is nominated as two node candidate",
+          "type": "string",
+          "enum": [
+            "primary",
+            "secondary"
+          ]
+        },
+        "vpnServerIp": {
+          "description": "Vpn server IP",
+          "type": "string"
         }
       }
     },
@@ -39923,6 +40389,23 @@
           "items": {
             "$ref": "#/definitions/v1FargateProfile"
           }
+        }
+      }
+    },
+    "v1EksHybridMachinePool": {
+      "description": "Machine pool reference of cloud config of cluster deployed by hybrid EKS cluster",
+      "type": "object",
+      "properties": {
+        "poolCloudType": {
+          "$ref": "#/definitions/v1HybridPoolClusterCloudType"
+        },
+        "poolName": {
+          "description": "Machine pool name",
+          "type": "string"
+        },
+        "poolUid": {
+          "description": "Machine pool uid",
+          "type": "string"
         }
       }
     },
@@ -41839,6 +42322,126 @@
         }
       }
     },
+    "v1HybridCluster": {
+      "properties": {
+        "cloudConfigUid": {
+          "description": "Cloud config uid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Cluster name",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Cluster uid",
+          "type": "string"
+        }
+      }
+    },
+    "v1HybridClusterConfig": {
+      "properties": {
+        "clusterUid": {
+          "description": "Parent cluster uid. Provided for hybrid (child) clusters only.",
+          "type": "string"
+        },
+        "enable": {
+          "description": "Flag differentiating if the cluster is an hybrid cluster or not. True for a cluster with hybrid mode enabled, false for the actual hybrid (child) clusters",
+          "type": "boolean"
+        },
+        "hybridMachinePoolClusterRefs": {
+          "description": "References to hybrid (child) clusters deployed within the hybrid cluster",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1HybridPoolClusterRef"
+          }
+        }
+      }
+    },
+    "v1HybridEdgeNativeClusterConfigEntity": {
+      "description": "Hybrid Edge-Native cluster's configuration request payload",
+      "properties": {
+        "clusterConfig": {
+          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
+        }
+      }
+    },
+    "v1HybridEdgeNativeMachineCloudConfig": {
+      "description": "HybridEdgeNativeMachineCloudConfig defines hybrid Edge-Native cluster's machine configurations",
+      "required": [
+        "archType",
+        "edgeHosts"
+      ],
+      "properties": {
+        "archType": {
+          "description": "Architecture type of the edge hosts",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ArchType"
+        },
+        "edgeHosts": {
+          "description": "Edge host's configuration",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EdgeNativeHybridMachinePoolHost"
+          }
+        },
+        "hybridCluster": {
+          "description": "Hybrid cluster reference",
+          "$ref": "#/definitions/v1HybridCluster"
+        }
+      }
+    },
+    "v1HybridEdgeNativeMachinePoolConfig": {
+      "description": "HybridEdgeNativeMachinePoolConfig defines hybrid Edge-Native cluster's machine-pool configurations",
+      "properties": {
+        "cloudConfig": {
+          "$ref": "#/definitions/v1HybridEdgeNativeMachineCloudConfig"
+        },
+        "poolConfig": {
+          "$ref": "#/definitions/v1MachinePoolConfigEntity"
+        }
+      }
+    },
+    "v1HybridEdgeNativeMachinePoolConfigEntity": {
+      "description": "Hybrid Edge-Native cluster's machine-pool configuration request payload",
+      "properties": {
+        "cloudConfig": {
+          "$ref": "#/definitions/v1EdgeNativeHybridConfigEntity"
+        },
+        "poolConfig": {
+          "$ref": "#/definitions/v1MachinePoolConfigEntity"
+        }
+      }
+    },
+    "v1HybridEdgeNativeMachinePoolConfigUpdateEntity": {
+      "description": "Hybrid Edge-Native cluster's machine-pool configuration update request payload",
+      "properties": {
+        "cloudConfig": {
+          "$ref": "#/definitions/v1EdgeNativeHybridMachineConfigEntity"
+        },
+        "poolConfig": {
+          "$ref": "#/definitions/v1MachinePoolConfigEntity"
+        }
+      }
+    },
+    "v1HybridPoolClusterCloudType": {
+      "description": "Flag to indicate whether the pool is deployed in any cloud or an edge environment",
+      "type": "string",
+      "default": "edge-native",
+      "enum": [
+        "edge-native"
+      ]
+    },
+    "v1HybridPoolClusterRef": {
+      "properties": {
+        "cloudType": {
+          "$ref": "#/definitions/v1HybridPoolClusterCloudType"
+        },
+        "uid": {
+          "description": "Cluster uid",
+          "type": "string"
+        }
+      }
+    },
     "v1IPPool": {
       "description": "IPPool defines static IPs available. Gateway, Prefix, Nameserver, if defined, will be default values for all Pools",
       "type": "object",
@@ -41865,6 +42468,36 @@
         },
         "uid": {
           "description": "UID is the UID of this IPPool, used by Hubble",
+          "type": "string"
+        }
+      }
+    },
+    "v1IamRolesAnywhere": {
+      "description": "IamRolesAnywhere specifies the IAM Roles Anywhere configuration for the AWS/EKS cluster",
+      "type": "object",
+      "properties": {
+        "assumeRoleArn": {
+          "description": "AssumeRoleARN specifies the IAM role ARN to assume",
+          "type": "string"
+        },
+        "profileArn": {
+          "description": "ProfileARN specifies the IAM profile ARN",
+          "type": "string"
+        },
+        "roleArn": {
+          "description": "RoleARN specifies the IAM role ARN to use",
+          "type": "string"
+        },
+        "rootCaCertificate": {
+          "description": "RootCACertificate specifies the root CA certificate",
+          "type": "string"
+        },
+        "rootCaPrivateKey": {
+          "description": "RootCAPrivateKey specifies the root CA private key",
+          "type": "string"
+        },
+        "trustAnchorArn": {
+          "description": "TrustAnchorARN specifies the trust anchor ARN",
           "type": "string"
         }
       }
@@ -44686,6 +45319,10 @@
       "description": "Image registry spec",
       "type": "object",
       "properties": {
+        "containsSpectroManifest": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "defaultRegion": {
           "type": "string"
         },
@@ -44706,6 +45343,15 @@
         }
       }
     },
+    "v1OciRegistryStatus": {
+      "description": "Status of the oci registry",
+      "type": "object",
+      "properties": {
+        "syncStatus": {
+          "$ref": "#/definitions/v1RegistrySyncStatus"
+        }
+      }
+    },
     "v1OciRegistryStatusSummary": {
       "description": "OCI registry status summary",
       "properties": {
@@ -44722,6 +45368,19 @@
           "x-omitempty": false
         },
         "insecureSkipVerify": {
+          "type": "boolean",
+          "default": false,
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1OidcUserInfo": {
+      "type": "object",
+      "properties": {
+        "claims": {
+          "$ref": "#/definitions/v1TenantOidcClaims"
+        },
+        "useUserInfo": {
           "type": "boolean",
           "default": false,
           "x-omitempty": false
@@ -46710,7 +47369,12 @@
       "type": "object",
       "properties": {
         "isPrivate": {
-          "description": "If true then pack registry is private and is not accessible for the pack sync",
+          "description": "If true then helm registry is private and is not accessible for the content sync",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isSyncSupported": {
+          "description": "If true the registry sync is supported",
           "type": "boolean",
           "x-omitempty": false
         },
@@ -48333,6 +48997,10 @@
       "description": "Status of the registry sync",
       "type": "object",
       "properties": {
+        "isSyncSupported": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "lastRunTime": {
           "$ref": "#/definitions/v1Time"
         },
@@ -50213,6 +50881,9 @@
             },
             "manifest": {
               "type": "string"
+            },
+            "tokenkubeconfig": {
+              "type": "string"
             }
           }
         }
@@ -50250,6 +50921,15 @@
       "type": "object",
       "properties": {
         "manifest": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterAssetTokenKubeConfig": {
+      "description": "Cluster asset admin token Kube Config",
+      "type": "object",
+      "properties": {
+        "tokenkubeconfig": {
           "type": "string"
         }
       }
@@ -50403,6 +51083,23 @@
           "$ref": "#/definitions/v1Time"
         },
         "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterHeartbeat": {
+      "description": "Cluster heartbeat message",
+      "type": "object",
+      "required": [
+        "agentVersion"
+      ],
+      "properties": {
+        "agentVersion": {
+          "description": "Version of the agent",
+          "type": "string"
+        },
+        "message": {
+          "description": "Heartbeat message",
           "type": "string"
         }
       }
@@ -52776,6 +53473,20 @@
         }
       }
     },
+    "v1SystemsManager": {
+      "description": "SystemsManager specifies the Systems Manager configuration for the AWS/EKS cluster",
+      "type": "object",
+      "properties": {
+        "activationCode": {
+          "description": "ActivationCode specifies the Systems Manager activation code",
+          "type": "string"
+        },
+        "activationId": {
+          "description": "ActivationID specifies the Systems Manager activation ID",
+          "type": "string"
+        }
+      }
+    },
     "v1TagFilter": {
       "description": "Tag Filter create spec",
       "type": "object",
@@ -53272,6 +53983,9 @@
         "syncSsoTeams": {
           "type": "boolean",
           "x-omitempty": false
+        },
+        "userInfo": {
+          "$ref": "#/definitions/v1OidcUserInfo"
         }
       }
     },

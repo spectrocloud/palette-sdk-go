@@ -55,8 +55,7 @@ func NewV1AzureZonesParamsWithHTTPClient(client *http.Client) *V1AzureZonesParam
 	}
 }
 
-/*
-V1AzureZonesParams contains all the parameters to send to the API endpoint
+/*V1AzureZonesParams contains all the parameters to send to the API endpoint
 for the v1 azure zones operation typically these are written to a http.Request
 */
 type V1AzureZonesParams struct {

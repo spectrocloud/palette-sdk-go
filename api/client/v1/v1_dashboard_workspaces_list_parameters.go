@@ -55,8 +55,7 @@ func NewV1DashboardWorkspacesListParamsWithHTTPClient(client *http.Client) *V1Da
 	}
 }
 
-/*
-V1DashboardWorkspacesListParams contains all the parameters to send to the API endpoint
+/*V1DashboardWorkspacesListParams contains all the parameters to send to the API endpoint
 for the v1 dashboard workspaces list operation typically these are written to a http.Request
 */
 type V1DashboardWorkspacesListParams struct {

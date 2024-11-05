@@ -55,8 +55,7 @@ func NewV1EdgeHostsMetadataQuickFilterGetParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1EdgeHostsMetadataQuickFilterGetParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostsMetadataQuickFilterGetParams contains all the parameters to send to the API endpoint
 for the v1 edge hosts metadata quick filter get operation typically these are written to a http.Request
 */
 type V1EdgeHostsMetadataQuickFilterGetParams struct {

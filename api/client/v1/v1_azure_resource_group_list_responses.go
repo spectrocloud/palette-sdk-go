@@ -40,8 +40,7 @@ func NewV1AzureResourceGroupListOK() *V1AzureResourceGroupListOK {
 	return &V1AzureResourceGroupListOK{}
 }
 
-/*
-V1AzureResourceGroupListOK handles this case with default header values.
+/*V1AzureResourceGroupListOK handles this case with default header values.
 
 (empty)
 */

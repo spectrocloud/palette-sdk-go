@@ -16,6 +16,9 @@ import (
 // swagger:model v1RegistrySyncStatus
 type V1RegistrySyncStatus struct {
 
+	// is sync supported
+	IsSyncSupported bool `json:"isSyncSupported"`
+
 	// last run time
 	// Format: date-time
 	LastRunTime V1Time `json:"lastRunTime,omitempty"`

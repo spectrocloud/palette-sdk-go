@@ -58,8 +58,7 @@ func NewV1SpectroClustersSearchFilterSummaryParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1SpectroClustersSearchFilterSummaryParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersSearchFilterSummaryParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters search filter summary operation typically these are written to a http.Request
 */
 type V1SpectroClustersSearchFilterSummaryParams struct {

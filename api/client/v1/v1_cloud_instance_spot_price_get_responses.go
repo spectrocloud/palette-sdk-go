@@ -40,8 +40,7 @@ func NewV1CloudInstanceSpotPriceGetOK() *V1CloudInstanceSpotPriceGetOK {
 	return &V1CloudInstanceSpotPriceGetOK{}
 }
 
-/*
-V1CloudInstanceSpotPriceGetOK handles this case with default header values.
+/*V1CloudInstanceSpotPriceGetOK handles this case with default header values.
 
 (empty)
 */

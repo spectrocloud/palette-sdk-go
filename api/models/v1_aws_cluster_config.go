@@ -23,6 +23,9 @@ type V1AwsClusterConfig struct {
 	// ControlPlaneLoadBalancer specifies how API server elb will be configured, this field is optional, not provided, "", default => "Internet-facing" "Internet-facing" => "Internet-facing" "internal" => "internal" For spectro saas setup we require to talk to the apiserver from our cluster so ControlPlaneLoadBalancer should be "", not provided or "Internet-facing"
 	ControlPlaneLoadBalancer string `json:"controlPlaneLoadBalancer,omitempty"`
 
+	// AWS hybrid cluster config
+	HybridConfig *V1AwsHybridConfig `json:"hybridConfig,omitempty"`
+
 	// region
 	// Required: true
 	Region *string `json:"region"`
@@ -38,6 +41,10 @@ type V1AwsClusterConfig struct {
 func (m *V1AwsClusterConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateHybridConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateRegion(formats); err != nil {
 		res = append(res, err)
 	}
@@ -45,6 +52,24 @@ func (m *V1AwsClusterConfig) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1AwsClusterConfig) validateHybridConfig(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.HybridConfig) { // not required
+		return nil
+	}
+
+	if m.HybridConfig != nil {
+		if err := m.HybridConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hybridConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

@@ -55,8 +55,7 @@ func NewV1APIKeysListParamsWithHTTPClient(client *http.Client) *V1APIKeysListPar
 	}
 }
 
-/*
-V1APIKeysListParams contains all the parameters to send to the API endpoint
+/*V1APIKeysListParams contains all the parameters to send to the API endpoint
 for the v1 Api keys list operation typically these are written to a http.Request
 */
 type V1APIKeysListParams struct {

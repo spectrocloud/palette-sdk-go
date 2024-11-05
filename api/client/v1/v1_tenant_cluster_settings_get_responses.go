@@ -40,8 +40,7 @@ func NewV1TenantClusterSettingsGetOK() *V1TenantClusterSettingsGetOK {
 	return &V1TenantClusterSettingsGetOK{}
 }
 
-/*
-V1TenantClusterSettingsGetOK handles this case with default header values.
+/*V1TenantClusterSettingsGetOK handles this case with default header values.
 
 (empty)
 */

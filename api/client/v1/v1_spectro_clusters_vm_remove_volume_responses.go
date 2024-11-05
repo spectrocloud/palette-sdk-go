@@ -37,8 +37,7 @@ func NewV1SpectroClustersVMRemoveVolumeNoContent() *V1SpectroClustersVMRemoveVol
 	return &V1SpectroClustersVMRemoveVolumeNoContent{}
 }
 
-/*
-V1SpectroClustersVMRemoveVolumeNoContent handles this case with default header values.
+/*V1SpectroClustersVMRemoveVolumeNoContent handles this case with default header values.
 
 Ok response without content
 */

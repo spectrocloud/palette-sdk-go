@@ -55,8 +55,7 @@ func NewV1AwsVolumeTypesGetParamsWithHTTPClient(client *http.Client) *V1AwsVolum
 	}
 }
 
-/*
-V1AwsVolumeTypesGetParams contains all the parameters to send to the API endpoint
+/*V1AwsVolumeTypesGetParams contains all the parameters to send to the API endpoint
 for the v1 aws volume types get operation typically these are written to a http.Request
 */
 type V1AwsVolumeTypesGetParams struct {

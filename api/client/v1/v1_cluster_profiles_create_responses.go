@@ -40,8 +40,7 @@ func NewV1ClusterProfilesCreateCreated() *V1ClusterProfilesCreateCreated {
 	return &V1ClusterProfilesCreateCreated{}
 }
 
-/*
-V1ClusterProfilesCreateCreated handles this case with default header values.
+/*V1ClusterProfilesCreateCreated handles this case with default header values.
 
 Created successfully
 */

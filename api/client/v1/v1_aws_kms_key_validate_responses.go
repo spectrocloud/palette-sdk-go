@@ -37,8 +37,7 @@ func NewV1AwsKmsKeyValidateNoContent() *V1AwsKmsKeyValidateNoContent {
 	return &V1AwsKmsKeyValidateNoContent{}
 }
 
-/*
-V1AwsKmsKeyValidateNoContent handles this case with default header values.
+/*V1AwsKmsKeyValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

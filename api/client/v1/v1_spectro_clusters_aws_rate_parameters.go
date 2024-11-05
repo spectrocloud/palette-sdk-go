@@ -69,8 +69,7 @@ func NewV1SpectroClustersAwsRateParamsWithHTTPClient(client *http.Client) *V1Spe
 	}
 }
 
-/*
-V1SpectroClustersAwsRateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersAwsRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters aws rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersAwsRateParams struct {

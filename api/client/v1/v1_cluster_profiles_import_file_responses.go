@@ -40,8 +40,7 @@ func NewV1ClusterProfilesImportFileCreated() *V1ClusterProfilesImportFileCreated
 	return &V1ClusterProfilesImportFileCreated{}
 }
 
-/*
-V1ClusterProfilesImportFileCreated handles this case with default header values.
+/*V1ClusterProfilesImportFileCreated handles this case with default header values.
 
 Created successfully
 */

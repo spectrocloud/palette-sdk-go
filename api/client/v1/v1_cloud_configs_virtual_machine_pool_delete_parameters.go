@@ -55,8 +55,7 @@ func NewV1CloudConfigsVirtualMachinePoolDeleteParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CloudConfigsVirtualMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsVirtualMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualMachinePoolDeleteParams struct {

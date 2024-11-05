@@ -40,8 +40,7 @@ func NewV1UsersListOK() *V1UsersListOK {
 	return &V1UsersListOK{}
 }
 
-/*
-V1UsersListOK handles this case with default header values.
+/*V1UsersListOK handles this case with default header values.
 
 OK
 */

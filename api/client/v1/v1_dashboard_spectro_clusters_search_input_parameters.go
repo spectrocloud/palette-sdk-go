@@ -55,8 +55,7 @@ func NewV1DashboardSpectroClustersSearchInputParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1DashboardSpectroClustersSearchInputParams contains all the parameters to send to the API endpoint
+/*V1DashboardSpectroClustersSearchInputParams contains all the parameters to send to the API endpoint
 for the v1 dashboard spectro clusters search input operation typically these are written to a http.Request
 */
 type V1DashboardSpectroClustersSearchInputParams struct {

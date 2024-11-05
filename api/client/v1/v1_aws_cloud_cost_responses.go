@@ -40,8 +40,7 @@ func NewV1AwsCloudCostOK() *V1AwsCloudCostOK {
 	return &V1AwsCloudCostOK{}
 }
 
-/*
-V1AwsCloudCostOK handles this case with default header values.
+/*V1AwsCloudCostOK handles this case with default header values.
 
 (empty)
 */

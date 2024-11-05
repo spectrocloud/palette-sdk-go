@@ -37,8 +37,7 @@ func NewV1EdgeHostDevicesUIDUpdateNoContent() *V1EdgeHostDevicesUIDUpdateNoConte
 	return &V1EdgeHostDevicesUIDUpdateNoContent{}
 }
 
-/*
-V1EdgeHostDevicesUIDUpdateNoContent handles this case with default header values.
+/*V1EdgeHostDevicesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,8 +57,7 @@ func NewV1CloudAccountsCustomUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1CloudAccountsCustomUpdateParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsCustomUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts custom update operation typically these are written to a http.Request
 */
 type V1CloudAccountsCustomUpdateParams struct {

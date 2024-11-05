@@ -37,8 +37,7 @@ func NewV1ClusterProfilesDeleteNoContent() *V1ClusterProfilesDeleteNoContent {
 	return &V1ClusterProfilesDeleteNoContent{}
 }
 
-/*
-V1ClusterProfilesDeleteNoContent handles this case with default header values.
+/*V1ClusterProfilesDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

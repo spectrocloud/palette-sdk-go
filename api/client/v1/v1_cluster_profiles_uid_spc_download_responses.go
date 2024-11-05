@@ -41,8 +41,7 @@ func NewV1ClusterProfilesUIDSpcDownloadOK(writer io.Writer) *V1ClusterProfilesUI
 	}
 }
 
-/*
-V1ClusterProfilesUIDSpcDownloadOK handles this case with default header values.
+/*V1ClusterProfilesUIDSpcDownloadOK handles this case with default header values.
 
 Download cluster profile archive file
 */

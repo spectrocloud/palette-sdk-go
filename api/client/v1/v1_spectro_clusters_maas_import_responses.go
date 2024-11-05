@@ -40,8 +40,7 @@ func NewV1SpectroClustersMaasImportCreated() *V1SpectroClustersMaasImportCreated
 	return &V1SpectroClustersMaasImportCreated{}
 }
 
-/*
-V1SpectroClustersMaasImportCreated handles this case with default header values.
+/*V1SpectroClustersMaasImportCreated handles this case with default header values.
 
 Created successfully
 */

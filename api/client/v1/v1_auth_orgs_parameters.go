@@ -55,8 +55,7 @@ func NewV1AuthOrgsParamsWithHTTPClient(client *http.Client) *V1AuthOrgsParams {
 	}
 }
 
-/*
-V1AuthOrgsParams contains all the parameters to send to the API endpoint
+/*V1AuthOrgsParams contains all the parameters to send to the API endpoint
 for the v1 auth orgs operation typically these are written to a http.Request
 */
 type V1AuthOrgsParams struct {

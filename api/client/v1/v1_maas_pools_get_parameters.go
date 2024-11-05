@@ -55,8 +55,7 @@ func NewV1MaasPoolsGetParamsWithHTTPClient(client *http.Client) *V1MaasPoolsGetP
 	}
 }
 
-/*
-V1MaasPoolsGetParams contains all the parameters to send to the API endpoint
+/*V1MaasPoolsGetParams contains all the parameters to send to the API endpoint
 for the v1 maas pools get operation typically these are written to a http.Request
 */
 type V1MaasPoolsGetParams struct {

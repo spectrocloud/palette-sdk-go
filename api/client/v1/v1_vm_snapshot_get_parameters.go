@@ -55,8 +55,7 @@ func NewV1VMSnapshotGetParamsWithHTTPClient(client *http.Client) *V1VMSnapshotGe
 	}
 }
 
-/*
-V1VMSnapshotGetParams contains all the parameters to send to the API endpoint
+/*V1VMSnapshotGetParams contains all the parameters to send to the API endpoint
 for the v1 VM snapshot get operation typically these are written to a http.Request
 */
 type V1VMSnapshotGetParams struct {

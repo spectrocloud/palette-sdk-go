@@ -37,8 +37,7 @@ func NewV1TenantUIDAssetsDataSinksUpdateNoContent() *V1TenantUIDAssetsDataSinksU
 	return &V1TenantUIDAssetsDataSinksUpdateNoContent{}
 }
 
-/*
-V1TenantUIDAssetsDataSinksUpdateNoContent handles this case with default header values.
+/*V1TenantUIDAssetsDataSinksUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

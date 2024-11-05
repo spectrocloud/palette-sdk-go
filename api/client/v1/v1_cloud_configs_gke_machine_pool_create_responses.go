@@ -40,8 +40,7 @@ func NewV1CloudConfigsGkeMachinePoolCreateCreated() *V1CloudConfigsGkeMachinePoo
 	return &V1CloudConfigsGkeMachinePoolCreateCreated{}
 }
 
-/*
-V1CloudConfigsGkeMachinePoolCreateCreated handles this case with default header values.
+/*V1CloudConfigsGkeMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

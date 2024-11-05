@@ -57,8 +57,7 @@ func NewV1SpectroClustersUpdateStatusConditionsParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1SpectroClustersUpdateStatusConditionsParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUpdateStatusConditionsParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters update status conditions operation typically these are written to a http.Request
 */
 type V1SpectroClustersUpdateStatusConditionsParams struct {

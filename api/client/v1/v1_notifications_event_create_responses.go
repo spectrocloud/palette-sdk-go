@@ -40,8 +40,7 @@ func NewV1NotificationsEventCreateCreated() *V1NotificationsEventCreateCreated {
 	return &V1NotificationsEventCreateCreated{}
 }
 
-/*
-V1NotificationsEventCreateCreated handles this case with default header values.
+/*V1NotificationsEventCreateCreated handles this case with default header values.
 
 Created successfully
 */

@@ -40,8 +40,7 @@ func NewV1SpectroClustersVsphereValidateOK() *V1SpectroClustersVsphereValidateOK
 	return &V1SpectroClustersVsphereValidateOK{}
 }
 
-/*
-V1SpectroClustersVsphereValidateOK handles this case with default header values.
+/*V1SpectroClustersVsphereValidateOK handles this case with default header values.
 
 vSphere Cluster validation response
 */

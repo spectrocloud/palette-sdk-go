@@ -55,8 +55,7 @@ func NewV1OpenstackAccountsUIDNetworksParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1OpenstackAccountsUIDNetworksParams contains all the parameters to send to the API endpoint
+/*V1OpenstackAccountsUIDNetworksParams contains all the parameters to send to the API endpoint
 for the v1 openstack accounts Uid networks operation typically these are written to a http.Request
 */
 type V1OpenstackAccountsUIDNetworksParams struct {

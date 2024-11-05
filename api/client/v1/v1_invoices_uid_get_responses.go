@@ -40,8 +40,7 @@ func NewV1InvoicesUIDGetOK() *V1InvoicesUIDGetOK {
 	return &V1InvoicesUIDGetOK{}
 }
 
-/*
-V1InvoicesUIDGetOK handles this case with default header values.
+/*V1InvoicesUIDGetOK handles this case with default header values.
 
 (empty)
 */

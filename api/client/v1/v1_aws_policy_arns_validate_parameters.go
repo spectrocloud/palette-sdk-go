@@ -57,8 +57,7 @@ func NewV1AwsPolicyArnsValidateParamsWithHTTPClient(client *http.Client) *V1AwsP
 	}
 }
 
-/*
-V1AwsPolicyArnsValidateParams contains all the parameters to send to the API endpoint
+/*V1AwsPolicyArnsValidateParams contains all the parameters to send to the API endpoint
 for the v1 aws policy arns validate operation typically these are written to a http.Request
 */
 type V1AwsPolicyArnsValidateParams struct {

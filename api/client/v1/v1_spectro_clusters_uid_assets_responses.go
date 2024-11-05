@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDAssetsNoContent() *V1SpectroClustersUIDAssetsNoConte
 	return &V1SpectroClustersUIDAssetsNoContent{}
 }
 
-/*
-V1SpectroClustersUIDAssetsNoContent handles this case with default header values.
+/*V1SpectroClustersUIDAssetsNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -29,9 +29,15 @@ type V1BasicOciRegistrySpec struct {
 	// OCI registry api base path
 	BasePath string `json:"basePath,omitempty"`
 
+	// contains spectro manifest
+	ContainsSpectroManifest bool `json:"containsSpectroManifest"`
+
 	// OCI registry endpoint
 	// Required: true
 	Endpoint *string `json:"endpoint"`
+
+	// is sync supported
+	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
 	// Enum: [helm zarf pack]

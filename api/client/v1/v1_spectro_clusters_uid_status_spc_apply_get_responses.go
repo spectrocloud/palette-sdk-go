@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDStatusSpcApplyGetOK() *V1SpectroClustersUIDStatusSpc
 	return &V1SpectroClustersUIDStatusSpcApplyGetOK{}
 }
 
-/*
-V1SpectroClustersUIDStatusSpcApplyGetOK handles this case with default header values.
+/*V1SpectroClustersUIDStatusSpcApplyGetOK handles this case with default header values.
 
 (empty)
 */

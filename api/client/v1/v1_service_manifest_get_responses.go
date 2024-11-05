@@ -40,8 +40,7 @@ func NewV1ServiceManifestGetOK() *V1ServiceManifestGetOK {
 	return &V1ServiceManifestGetOK{}
 }
 
-/*
-V1ServiceManifestGetOK handles this case with default header values.
+/*V1ServiceManifestGetOK handles this case with default header values.
 
 OK
 */

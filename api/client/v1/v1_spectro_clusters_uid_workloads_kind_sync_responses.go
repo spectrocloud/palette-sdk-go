@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDWorkloadsKindSyncAccepted() *V1SpectroClustersUIDWor
 	return &V1SpectroClustersUIDWorkloadsKindSyncAccepted{}
 }
 
-/*
-V1SpectroClustersUIDWorkloadsKindSyncAccepted handles this case with default header values.
+/*V1SpectroClustersUIDWorkloadsKindSyncAccepted handles this case with default header values.
 
 Ok response without content
 */

@@ -40,8 +40,7 @@ func NewV1ClusterFeatureRestoreOnDemandCreateCreated() *V1ClusterFeatureRestoreO
 	return &V1ClusterFeatureRestoreOnDemandCreateCreated{}
 }
 
-/*
-V1ClusterFeatureRestoreOnDemandCreateCreated handles this case with default header values.
+/*V1ClusterFeatureRestoreOnDemandCreateCreated handles this case with default header values.
 
 Created successfully
 */

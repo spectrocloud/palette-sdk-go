@@ -40,8 +40,7 @@ func NewV1AuditsListOK() *V1AuditsListOK {
 	return &V1AuditsListOK{}
 }
 
-/*
-V1AuditsListOK handles this case with default header values.
+/*V1AuditsListOK handles this case with default header values.
 
 (empty)
 */

@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDProfilesUIDPacksConfigGetParamsWithHTTPClient(client
 	}
 }
 
-/*
-V1SpectroClustersUIDProfilesUIDPacksConfigGetParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDProfilesUIDPacksConfigGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid profiles Uid packs config get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDProfilesUIDPacksConfigGetParams struct {

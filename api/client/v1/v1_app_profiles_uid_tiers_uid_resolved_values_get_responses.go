@@ -40,8 +40,7 @@ func NewV1AppProfilesUIDTiersUIDResolvedValuesGetOK() *V1AppProfilesUIDTiersUIDR
 	return &V1AppProfilesUIDTiersUIDResolvedValuesGetOK{}
 }
 
-/*
-V1AppProfilesUIDTiersUIDResolvedValuesGetOK handles this case with default header values.
+/*V1AppProfilesUIDTiersUIDResolvedValuesGetOK handles this case with default header values.
 
 OK
 */

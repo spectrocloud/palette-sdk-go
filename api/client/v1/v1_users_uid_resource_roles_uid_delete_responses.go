@@ -37,8 +37,7 @@ func NewV1UsersUIDResourceRolesUIDDeleteNoContent() *V1UsersUIDResourceRolesUIDD
 	return &V1UsersUIDResourceRolesUIDDeleteNoContent{}
 }
 
-/*
-V1UsersUIDResourceRolesUIDDeleteNoContent handles this case with default header values.
+/*V1UsersUIDResourceRolesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -37,8 +37,7 @@ func NewV1OidcLogoutNoContent() *V1OidcLogoutNoContent {
 	return &V1OidcLogoutNoContent{}
 }
 
-/*
-V1OidcLogoutNoContent handles this case with default header values.
+/*V1OidcLogoutNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDVariablesGetOK() *V1SpectroClustersUIDVariablesGetOK
 	return &V1SpectroClustersUIDVariablesGetOK{}
 }
 
-/*
-V1SpectroClustersUIDVariablesGetOK handles this case with default header values.
+/*V1SpectroClustersUIDVariablesGetOK handles this case with default header values.
 
 (empty)
 */

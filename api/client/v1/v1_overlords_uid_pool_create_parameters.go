@@ -57,8 +57,7 @@ func NewV1OverlordsUIDPoolCreateParamsWithHTTPClient(client *http.Client) *V1Ove
 	}
 }
 
-/*
-V1OverlordsUIDPoolCreateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDPoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid pool create operation typically these are written to a http.Request
 */
 type V1OverlordsUIDPoolCreateParams struct {

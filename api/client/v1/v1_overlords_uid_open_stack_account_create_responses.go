@@ -40,8 +40,7 @@ func NewV1OverlordsUIDOpenStackAccountCreateCreated() *V1OverlordsUIDOpenStackAc
 	return &V1OverlordsUIDOpenStackAccountCreateCreated{}
 }
 
-/*
-V1OverlordsUIDOpenStackAccountCreateCreated handles this case with default header values.
+/*V1OverlordsUIDOpenStackAccountCreateCreated handles this case with default header values.
 
 Created successfully
 */

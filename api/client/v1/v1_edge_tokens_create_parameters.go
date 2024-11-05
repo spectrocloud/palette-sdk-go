@@ -57,8 +57,7 @@ func NewV1EdgeTokensCreateParamsWithHTTPClient(client *http.Client) *V1EdgeToken
 	}
 }
 
-/*
-V1EdgeTokensCreateParams contains all the parameters to send to the API endpoint
+/*V1EdgeTokensCreateParams contains all the parameters to send to the API endpoint
 for the v1 edge tokens create operation typically these are written to a http.Request
 */
 type V1EdgeTokensCreateParams struct {

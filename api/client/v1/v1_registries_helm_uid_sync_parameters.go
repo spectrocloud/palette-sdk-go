@@ -68,8 +68,7 @@ func NewV1RegistriesHelmUIDSyncParamsWithHTTPClient(client *http.Client) *V1Regi
 	}
 }
 
-/*
-V1RegistriesHelmUIDSyncParams contains all the parameters to send to the API endpoint
+/*V1RegistriesHelmUIDSyncParams contains all the parameters to send to the API endpoint
 for the v1 registries helm Uid sync operation typically these are written to a http.Request
 */
 type V1RegistriesHelmUIDSyncParams struct {

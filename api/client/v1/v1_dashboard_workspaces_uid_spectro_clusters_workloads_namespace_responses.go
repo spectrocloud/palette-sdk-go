@@ -40,8 +40,7 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceOK() *V1Dashboa
 	return &V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceOK{}
 }
 
-/*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceOK handles this case with default header values.
+/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceOK handles this case with default header values.
 
 An array of clusters workload namespaces
 */

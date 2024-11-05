@@ -37,8 +37,7 @@ func NewV1ProjectsUIDMacrosDeleteByMacroNameNoContent() *V1ProjectsUIDMacrosDele
 	return &V1ProjectsUIDMacrosDeleteByMacroNameNoContent{}
 }
 
-/*
-V1ProjectsUIDMacrosDeleteByMacroNameNoContent handles this case with default header values.
+/*V1ProjectsUIDMacrosDeleteByMacroNameNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

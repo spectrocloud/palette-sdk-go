@@ -57,8 +57,7 @@ func NewV1ProjectsUIDTeamsUpdateParamsWithHTTPClient(client *http.Client) *V1Pro
 	}
 }
 
-/*
-V1ProjectsUIDTeamsUpdateParams contains all the parameters to send to the API endpoint
+/*V1ProjectsUIDTeamsUpdateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid teams update operation typically these are written to a http.Request
 */
 type V1ProjectsUIDTeamsUpdateParams struct {

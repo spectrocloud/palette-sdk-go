@@ -55,8 +55,7 @@ func NewV1CloudAccountsTencentDeleteParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1CloudAccountsTencentDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsTencentDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts tencent delete operation typically these are written to a http.Request
 */
 type V1CloudAccountsTencentDeleteParams struct {

@@ -57,8 +57,7 @@ func NewV1OverlordsUIDOpenStackCloudConfigUpdateParamsWithHTTPClient(client *htt
 	}
 }
 
-/*
-V1OverlordsUIDOpenStackCloudConfigUpdateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDOpenStackCloudConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid open stack cloud config update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDOpenStackCloudConfigUpdateParams struct {

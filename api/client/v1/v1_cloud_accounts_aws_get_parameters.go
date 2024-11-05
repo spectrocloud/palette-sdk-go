@@ -68,8 +68,7 @@ func NewV1CloudAccountsAwsGetParamsWithHTTPClient(client *http.Client) *V1CloudA
 	}
 }
 
-/*
-V1CloudAccountsAwsGetParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsAwsGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts aws get operation typically these are written to a http.Request
 */
 type V1CloudAccountsAwsGetParams struct {

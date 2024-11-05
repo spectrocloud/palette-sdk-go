@@ -40,8 +40,7 @@ func NewV1TencentInstanceTypesOK() *V1TencentInstanceTypesOK {
 	return &V1TencentInstanceTypesOK{}
 }
 
-/*
-V1TencentInstanceTypesOK handles this case with default header values.
+/*V1TencentInstanceTypesOK handles this case with default header values.
 
 (empty)
 */

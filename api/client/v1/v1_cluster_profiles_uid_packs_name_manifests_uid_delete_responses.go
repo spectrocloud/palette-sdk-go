@@ -37,8 +37,7 @@ func NewV1ClusterProfilesUIDPacksNameManifestsUIDDeleteNoContent() *V1ClusterPro
 	return &V1ClusterProfilesUIDPacksNameManifestsUIDDeleteNoContent{}
 }
 
-/*
-V1ClusterProfilesUIDPacksNameManifestsUIDDeleteNoContent handles this case with default header values.
+/*V1ClusterProfilesUIDPacksNameManifestsUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

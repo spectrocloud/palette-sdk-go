@@ -55,8 +55,7 @@ func NewV1AuthSsoProvidersParamsWithHTTPClient(client *http.Client) *V1AuthSsoPr
 	}
 }
 
-/*
-V1AuthSsoProvidersParams contains all the parameters to send to the API endpoint
+/*V1AuthSsoProvidersParams contains all the parameters to send to the API endpoint
 for the v1 auth sso providers operation typically these are written to a http.Request
 */
 type V1AuthSsoProvidersParams struct {

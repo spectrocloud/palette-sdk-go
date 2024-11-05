@@ -55,8 +55,7 @@ func NewV1AppDeploymentsUIDProfileVersionsGetParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1AppDeploymentsUIDProfileVersionsGetParams contains all the parameters to send to the API endpoint
+/*V1AppDeploymentsUIDProfileVersionsGetParams contains all the parameters to send to the API endpoint
 for the v1 app deployments Uid profile versions get operation typically these are written to a http.Request
 */
 type V1AppDeploymentsUIDProfileVersionsGetParams struct {

@@ -86,6 +86,9 @@ type V1SpectroClusterAssetEntitySpec struct {
 
 	// manifest
 	Manifest string `json:"manifest,omitempty"`
+
+	// tokenkubeconfig
+	Tokenkubeconfig string `json:"tokenkubeconfig,omitempty"`
 }
 
 // Validate validates this v1 spectro cluster asset entity spec

@@ -37,8 +37,7 @@ func NewV1UsersAssetsLocationDefaultUpdateNoContent() *V1UsersAssetsLocationDefa
 	return &V1UsersAssetsLocationDefaultUpdateNoContent{}
 }
 
-/*
-V1UsersAssetsLocationDefaultUpdateNoContent handles this case with default header values.
+/*V1UsersAssetsLocationDefaultUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

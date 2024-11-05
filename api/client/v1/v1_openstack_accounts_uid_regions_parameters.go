@@ -55,8 +55,7 @@ func NewV1OpenstackAccountsUIDRegionsParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1OpenstackAccountsUIDRegionsParams contains all the parameters to send to the API endpoint
+/*V1OpenstackAccountsUIDRegionsParams contains all the parameters to send to the API endpoint
 for the v1 openstack accounts Uid regions operation typically these are written to a http.Request
 */
 type V1OpenstackAccountsUIDRegionsParams struct {

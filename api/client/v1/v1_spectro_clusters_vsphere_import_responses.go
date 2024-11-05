@@ -40,8 +40,7 @@ func NewV1SpectroClustersVsphereImportCreated() *V1SpectroClustersVsphereImportC
 	return &V1SpectroClustersVsphereImportCreated{}
 }
 
-/*
-V1SpectroClustersVsphereImportCreated handles this case with default header values.
+/*V1SpectroClustersVsphereImportCreated handles this case with default header values.
 
 Created successfully
 */

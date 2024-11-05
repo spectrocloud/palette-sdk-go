@@ -37,8 +37,7 @@ func NewV1ClusterProfilesValidateNameVersionNoContent() *V1ClusterProfilesValida
 	return &V1ClusterProfilesValidateNameVersionNoContent{}
 }
 
-/*
-V1ClusterProfilesValidateNameVersionNoContent handles this case with default header values.
+/*V1ClusterProfilesValidateNameVersionNoContent handles this case with default header values.
 
 Ok response without content
 */

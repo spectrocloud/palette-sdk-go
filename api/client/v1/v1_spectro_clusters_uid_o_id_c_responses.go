@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDOIDCOK() *V1SpectroClustersUIDOIDCOK {
 	return &V1SpectroClustersUIDOIDCOK{}
 }
 
-/*
-V1SpectroClustersUIDOIDCOK handles this case with default header values.
+/*V1SpectroClustersUIDOIDCOK handles this case with default header values.
 
 OK
 */

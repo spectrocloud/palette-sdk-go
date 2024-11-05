@@ -55,8 +55,7 @@ func NewV1PacksUIDReadmeParamsWithHTTPClient(client *http.Client) *V1PacksUIDRea
 	}
 }
 
-/*
-V1PacksUIDReadmeParams contains all the parameters to send to the API endpoint
+/*V1PacksUIDReadmeParams contains all the parameters to send to the API endpoint
 for the v1 packs Uid readme operation typically these are written to a http.Request
 */
 type V1PacksUIDReadmeParams struct {

@@ -40,8 +40,7 @@ func NewV1DashboardEdgehostsSearchSchemaGetOK() *V1DashboardEdgehostsSearchSchem
 	return &V1DashboardEdgehostsSearchSchemaGetOK{}
 }
 
-/*
-V1DashboardEdgehostsSearchSchemaGetOK handles this case with default header values.
+/*V1DashboardEdgehostsSearchSchemaGetOK handles this case with default header values.
 
 An array of schema items
 */

@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeBootstrapUpdateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1CustomCloudTypeBootstrapUpdateParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeBootstrapUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type bootstrap update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeBootstrapUpdateParams struct {

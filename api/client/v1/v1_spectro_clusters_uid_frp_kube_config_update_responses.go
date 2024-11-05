@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDFrpKubeConfigUpdateNoContent() *V1SpectroClustersUID
 	return &V1SpectroClustersUIDFrpKubeConfigUpdateNoContent{}
 }
 
-/*
-V1SpectroClustersUIDFrpKubeConfigUpdateNoContent handles this case with default header values.
+/*V1SpectroClustersUIDFrpKubeConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

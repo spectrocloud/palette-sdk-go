@@ -37,8 +37,7 @@ func NewV1UsersUIDResourceRolesCreateNoContent() *V1UsersUIDResourceRolesCreateN
 	return &V1UsersUIDResourceRolesCreateNoContent{}
 }
 
-/*
-V1UsersUIDResourceRolesCreateNoContent handles this case with default header values.
+/*V1UsersUIDResourceRolesCreateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

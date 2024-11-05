@@ -40,8 +40,7 @@ func NewV1MacrosListOK() *V1MacrosListOK {
 	return &V1MacrosListOK{}
 }
 
-/*
-V1MacrosListOK handles this case with default header values.
+/*V1MacrosListOK handles this case with default header values.
 
 OK
 */

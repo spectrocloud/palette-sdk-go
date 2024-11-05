@@ -40,8 +40,7 @@ func NewV1TencentKeypairsOK() *V1TencentKeypairsOK {
 	return &V1TencentKeypairsOK{}
 }
 
-/*
-V1TencentKeypairsOK handles this case with default header values.
+/*V1TencentKeypairsOK handles this case with default header values.
 
 (empty)
 */

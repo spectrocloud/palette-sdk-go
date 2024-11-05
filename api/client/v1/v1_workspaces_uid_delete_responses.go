@@ -37,8 +37,7 @@ func NewV1WorkspacesUIDDeleteNoContent() *V1WorkspacesUIDDeleteNoContent {
 	return &V1WorkspacesUIDDeleteNoContent{}
 }
 
-/*
-V1WorkspacesUIDDeleteNoContent handles this case with default header values.
+/*V1WorkspacesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

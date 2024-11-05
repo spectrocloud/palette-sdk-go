@@ -40,8 +40,7 @@ func NewV1TenantFreemiumUsageGetOK() *V1TenantFreemiumUsageGetOK {
 	return &V1TenantFreemiumUsageGetOK{}
 }
 
-/*
-V1TenantFreemiumUsageGetOK handles this case with default header values.
+/*V1TenantFreemiumUsageGetOK handles this case with default header values.
 
 OK
 */

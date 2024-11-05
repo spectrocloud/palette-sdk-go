@@ -57,8 +57,7 @@ func NewV1SpectroClustersAwsValidateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1SpectroClustersAwsValidateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersAwsValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters aws validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersAwsValidateParams struct {

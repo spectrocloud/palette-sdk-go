@@ -41,8 +41,7 @@ func NewV1SpectroClustersSpcDownloadOK(writer io.Writer) *V1SpectroClustersSpcDo
 	}
 }
 
-/*
-V1SpectroClustersSpcDownloadOK handles this case with default header values.
+/*V1SpectroClustersSpcDownloadOK handles this case with default header values.
 
 Cluster definition archive file
 */

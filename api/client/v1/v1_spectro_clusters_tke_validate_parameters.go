@@ -57,8 +57,7 @@ func NewV1SpectroClustersTkeValidateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1SpectroClustersTkeValidateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersTkeValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters tke validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersTkeValidateParams struct {
