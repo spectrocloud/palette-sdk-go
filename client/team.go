@@ -42,6 +42,21 @@ func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
 	return resp.Payload, nil
 }
 
+// GetTeamWithName retrieves an existing team by Team name.
+func (h *V1Client) GetTeamWithName(teamName string) (*models.V1Team, error) {
+	// ACL scoped to tenant only
+	nameFilter := "metadata.name=" + teamName
+	params := clientv1.NewV1TeamsListParams().WithFilters(&nameFilter)
+	resp, err := h.Client.V1TeamsList(params)
+	if err != nil {
+		return nil, err
+	}
+	if len(resp.Payload.Items) == 1 {
+		return resp.Payload.Items[0], nil
+	}
+	return nil, nil
+}
+
 // DeleteTeam deletes an existing team by UID.
 func (h *V1Client) DeleteTeam(uid string) error {
 	// ACL scoped to tenant only
