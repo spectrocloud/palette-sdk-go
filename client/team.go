@@ -61,8 +61,6 @@ func (h *V1Client) GetTeamWithName(teamName string) (*models.V1Team, error) {
 	} else {
 		return nil, errors.New("Team not found for name: " + teamName)
 	}
-
-	return nil, nil
 }
 
 // DeleteTeam deletes an existing team by UID.
