@@ -1,6 +1,7 @@
 package client
 
 import (
+	"errors"
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
@@ -51,9 +52,16 @@ func (h *V1Client) GetTeamWithName(teamName string) (*models.V1Team, error) {
 	if err != nil {
 		return nil, err
 	}
-	if len(resp.Payload.Items) == 1 {
-		return resp.Payload.Items[0], nil
+	if resp.Payload.Items != nil {
+		if len(resp.Payload.Items) == 1 {
+			return resp.Payload.Items[0], nil
+		} else {
+			return nil, errors.New("More than one team found name: " + teamName)
+		}
+	} else {
+		return nil, errors.New("Team not found for name: " + teamName)
 	}
+
 	return nil, nil
 }
 
