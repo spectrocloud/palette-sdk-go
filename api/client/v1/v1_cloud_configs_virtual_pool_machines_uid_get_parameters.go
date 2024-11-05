@@ -55,7 +55,8 @@ func NewV1CloudConfigsVirtualPoolMachinesUIDGetParamsWithHTTPClient(client *http
 	}
 }
 
-/*V1CloudConfigsVirtualPoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVirtualPoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual pool machines Uid get operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualPoolMachinesUIDGetParams struct {

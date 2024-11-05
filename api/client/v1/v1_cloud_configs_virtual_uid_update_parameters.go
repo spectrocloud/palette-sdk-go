@@ -57,7 +57,8 @@ func NewV1CloudConfigsVirtualUIDUpdateParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1CloudConfigsVirtualUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVirtualUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualUIDUpdateParams struct {

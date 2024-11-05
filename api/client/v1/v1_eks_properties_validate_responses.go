@@ -37,7 +37,8 @@ func NewV1EksPropertiesValidateNoContent() *V1EksPropertiesValidateNoContent {
 	return &V1EksPropertiesValidateNoContent{}
 }
 
-/*V1EksPropertiesValidateNoContent handles this case with default header values.
+/*
+V1EksPropertiesValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

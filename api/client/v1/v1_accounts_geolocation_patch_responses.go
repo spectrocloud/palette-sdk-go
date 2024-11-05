@@ -37,7 +37,8 @@ func NewV1AccountsGeolocationPatchNoContent() *V1AccountsGeolocationPatchNoConte
 	return &V1AccountsGeolocationPatchNoContent{}
 }
 
-/*V1AccountsGeolocationPatchNoContent handles this case with default header values.
+/*
+V1AccountsGeolocationPatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

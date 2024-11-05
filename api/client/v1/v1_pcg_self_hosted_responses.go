@@ -40,7 +40,8 @@ func NewV1PcgSelfHostedOK() *V1PcgSelfHostedOK {
 	return &V1PcgSelfHostedOK{}
 }
 
-/*V1PcgSelfHostedOK handles this case with default header values.
+/*
+V1PcgSelfHostedOK handles this case with default header values.
 
 (empty)
 */

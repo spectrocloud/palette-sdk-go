@@ -37,7 +37,8 @@ func NewV1UsersUIDRolesUpdateNoContent() *V1UsersUIDRolesUpdateNoContent {
 	return &V1UsersUIDRolesUpdateNoContent{}
 }
 
-/*V1UsersUIDRolesUpdateNoContent handles this case with default header values.
+/*
+V1UsersUIDRolesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

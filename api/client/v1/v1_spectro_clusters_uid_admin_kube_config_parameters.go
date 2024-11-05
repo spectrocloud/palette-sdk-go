@@ -55,7 +55,8 @@ func NewV1SpectroClustersUIDAdminKubeConfigParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1SpectroClustersUIDAdminKubeConfigParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDAdminKubeConfigParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid admin kube config operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDAdminKubeConfigParams struct {

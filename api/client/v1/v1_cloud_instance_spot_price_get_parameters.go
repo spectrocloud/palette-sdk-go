@@ -55,7 +55,8 @@ func NewV1CloudInstanceSpotPriceGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1CloudInstanceSpotPriceGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudInstanceSpotPriceGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud instance spot price get operation typically these are written to a http.Request
 */
 type V1CloudInstanceSpotPriceGetParams struct {

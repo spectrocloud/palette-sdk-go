@@ -55,7 +55,8 @@ func NewV1CloudConfigsAksMachinePoolDeleteParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsAksMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsAksMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aks machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsAksMachinePoolDeleteParams struct {

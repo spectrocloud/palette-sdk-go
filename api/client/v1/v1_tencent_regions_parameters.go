@@ -55,7 +55,8 @@ func NewV1TencentRegionsParamsWithHTTPClient(client *http.Client) *V1TencentRegi
 	}
 }
 
-/*V1TencentRegionsParams contains all the parameters to send to the API endpoint
+/*
+V1TencentRegionsParams contains all the parameters to send to the API endpoint
 for the v1 tencent regions operation typically these are written to a http.Request
 */
 type V1TencentRegionsParams struct {

@@ -55,7 +55,8 @@ func NewV1SsoCallbackParamsWithHTTPClient(client *http.Client) *V1SsoCallbackPar
 	}
 }
 
-/*V1SsoCallbackParams contains all the parameters to send to the API endpoint
+/*
+V1SsoCallbackParams contains all the parameters to send to the API endpoint
 for the v1 sso callback operation typically these are written to a http.Request
 */
 type V1SsoCallbackParams struct {

@@ -40,7 +40,8 @@ func NewV1SpectroClustersVMListOK() *V1SpectroClustersVMListOK {
 	return &V1SpectroClustersVMListOK{}
 }
 
-/*V1SpectroClustersVMListOK handles this case with default header values.
+/*
+V1SpectroClustersVMListOK handles this case with default header values.
 
 OK
 */

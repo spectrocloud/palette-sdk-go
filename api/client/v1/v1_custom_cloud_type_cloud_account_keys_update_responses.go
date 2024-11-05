@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeCloudAccountKeysUpdateNoContent() *V1CustomCloudTypeClo
 	return &V1CustomCloudTypeCloudAccountKeysUpdateNoContent{}
 }
 
-/*V1CustomCloudTypeCloudAccountKeysUpdateNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeCloudAccountKeysUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

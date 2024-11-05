@@ -55,7 +55,8 @@ func NewV1CustomCloudTypeWorkerPoolTemplateUpdateParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1CustomCloudTypeWorkerPoolTemplateUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CustomCloudTypeWorkerPoolTemplateUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type worker pool template update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeWorkerPoolTemplateUpdateParams struct {

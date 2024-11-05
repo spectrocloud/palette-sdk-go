@@ -55,7 +55,8 @@ func NewV1CloudConfigsEksGetParamsWithHTTPClient(client *http.Client) *V1CloudCo
 	}
 }
 
-/*V1CloudConfigsEksGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEksGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs eks get operation typically these are written to a http.Request
 */
 type V1CloudConfigsEksGetParams struct {

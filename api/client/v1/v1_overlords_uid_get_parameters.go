@@ -55,7 +55,8 @@ func NewV1OverlordsUIDGetParamsWithHTTPClient(client *http.Client) *V1OverlordsU
 	}
 }
 
-/*V1OverlordsUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid get operation typically these are written to a http.Request
 */
 type V1OverlordsUIDGetParams struct {

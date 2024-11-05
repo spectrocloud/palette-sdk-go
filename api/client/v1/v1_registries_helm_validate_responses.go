@@ -37,7 +37,8 @@ func NewV1RegistriesHelmValidateNoContent() *V1RegistriesHelmValidateNoContent {
 	return &V1RegistriesHelmValidateNoContent{}
 }
 
-/*V1RegistriesHelmValidateNoContent handles this case with default header values.
+/*
+V1RegistriesHelmValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

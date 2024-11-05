@@ -37,7 +37,8 @@ func NewV1ClusterFeatureComplianceScanLogDeleteNoContent() *V1ClusterFeatureComp
 	return &V1ClusterFeatureComplianceScanLogDeleteNoContent{}
 }
 
-/*V1ClusterFeatureComplianceScanLogDeleteNoContent handles this case with default header values.
+/*
+V1ClusterFeatureComplianceScanLogDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

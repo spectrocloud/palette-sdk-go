@@ -40,7 +40,8 @@ func NewV1TeamsUIDTenantRolesGetOK() *V1TeamsUIDTenantRolesGetOK {
 	return &V1TeamsUIDTenantRolesGetOK{}
 }
 
-/*V1TeamsUIDTenantRolesGetOK handles this case with default header values.
+/*
+V1TeamsUIDTenantRolesGetOK handles this case with default header values.
 
 OK
 */

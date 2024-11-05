@@ -37,7 +37,8 @@ func NewV1CloudConfigsMaasUIDClusterConfigNoContent() *V1CloudConfigsMaasUIDClus
 	return &V1CloudConfigsMaasUIDClusterConfigNoContent{}
 }
 
-/*V1CloudConfigsMaasUIDClusterConfigNoContent handles this case with default header values.
+/*
+V1CloudConfigsMaasUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

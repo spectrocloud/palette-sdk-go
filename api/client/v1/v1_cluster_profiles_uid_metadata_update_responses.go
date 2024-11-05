@@ -37,7 +37,8 @@ func NewV1ClusterProfilesUIDMetadataUpdateNoContent() *V1ClusterProfilesUIDMetad
 	return &V1ClusterProfilesUIDMetadataUpdateNoContent{}
 }
 
-/*V1ClusterProfilesUIDMetadataUpdateNoContent handles this case with default header values.
+/*
+V1ClusterProfilesUIDMetadataUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

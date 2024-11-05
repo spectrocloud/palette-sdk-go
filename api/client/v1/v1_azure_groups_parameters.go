@@ -55,7 +55,8 @@ func NewV1AzureGroupsParamsWithHTTPClient(client *http.Client) *V1AzureGroupsPar
 	}
 }
 
-/*V1AzureGroupsParams contains all the parameters to send to the API endpoint
+/*
+V1AzureGroupsParams contains all the parameters to send to the API endpoint
 for the v1 azure groups operation typically these are written to a http.Request
 */
 type V1AzureGroupsParams struct {

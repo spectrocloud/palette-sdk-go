@@ -37,7 +37,8 @@ func NewV1AwsKeyPairValidateNoContent() *V1AwsKeyPairValidateNoContent {
 	return &V1AwsKeyPairValidateNoContent{}
 }
 
-/*V1AwsKeyPairValidateNoContent handles this case with default header values.
+/*
+V1AwsKeyPairValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

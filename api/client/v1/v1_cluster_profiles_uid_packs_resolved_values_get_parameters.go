@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUIDPacksResolvedValuesGetParamsWithHTTPClient(client *h
 	}
 }
 
-/*V1ClusterProfilesUIDPacksResolvedValuesGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDPacksResolvedValuesGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid packs resolved values get operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDPacksResolvedValuesGetParams struct {

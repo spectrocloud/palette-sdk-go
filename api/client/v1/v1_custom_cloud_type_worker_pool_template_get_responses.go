@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeWorkerPoolTemplateGetOK() *V1CustomCloudTypeWorkerPoolT
 	return &V1CustomCloudTypeWorkerPoolTemplateGetOK{}
 }
 
-/*V1CustomCloudTypeWorkerPoolTemplateGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeWorkerPoolTemplateGetOK handles this case with default header values.
 
 (empty)
 */

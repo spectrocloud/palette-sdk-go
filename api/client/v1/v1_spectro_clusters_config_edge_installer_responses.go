@@ -40,7 +40,8 @@ func NewV1SpectroClustersConfigEdgeInstallerOK() *V1SpectroClustersConfigEdgeIns
 	return &V1SpectroClustersConfigEdgeInstallerOK{}
 }
 
-/*V1SpectroClustersConfigEdgeInstallerOK handles this case with default header values.
+/*
+V1SpectroClustersConfigEdgeInstallerOK handles this case with default header values.
 
 (empty)
 */

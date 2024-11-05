@@ -57,7 +57,8 @@ func NewV1SpectroClustersTkeCreateParamsWithHTTPClient(client *http.Client) *V1S
 	}
 }
 
-/*V1SpectroClustersTkeCreateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersTkeCreateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters tke create operation typically these are written to a http.Request
 */
 type V1SpectroClustersTkeCreateParams struct {

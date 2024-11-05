@@ -40,7 +40,8 @@ func NewV1EdgeHostsMetadataOK() *V1EdgeHostsMetadataOK {
 	return &V1EdgeHostsMetadataOK{}
 }
 
-/*V1EdgeHostsMetadataOK handles this case with default header values.
+/*
+V1EdgeHostsMetadataOK handles this case with default header values.
 
 An array of edgehost summary items
 */

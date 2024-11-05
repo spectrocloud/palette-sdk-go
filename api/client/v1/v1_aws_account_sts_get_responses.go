@@ -40,7 +40,8 @@ func NewV1AwsAccountStsGetOK() *V1AwsAccountStsGetOK {
 	return &V1AwsAccountStsGetOK{}
 }
 
-/*V1AwsAccountStsGetOK handles this case with default header values.
+/*
+V1AwsAccountStsGetOK handles this case with default header values.
 
 (empty)
 */

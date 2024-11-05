@@ -55,7 +55,8 @@ func NewV1CloudAccountsTencentGetParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*V1CloudAccountsTencentGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsTencentGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts tencent get operation typically these are written to a http.Request
 */
 type V1CloudAccountsTencentGetParams struct {

@@ -55,7 +55,8 @@ func NewV1CustomCloudTypeBootstrapGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1CustomCloudTypeBootstrapGetParams contains all the parameters to send to the API endpoint
+/*
+V1CustomCloudTypeBootstrapGetParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type bootstrap get operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeBootstrapGetParams struct {

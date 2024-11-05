@@ -55,7 +55,8 @@ func NewV1TenantsCreditAccountGetParamsWithHTTPClient(client *http.Client) *V1Te
 	}
 }
 
-/*V1TenantsCreditAccountGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantsCreditAccountGetParams contains all the parameters to send to the API endpoint
 for the v1 tenants credit account get operation typically these are written to a http.Request
 */
 type V1TenantsCreditAccountGetParams struct {

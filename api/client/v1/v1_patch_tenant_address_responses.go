@@ -37,7 +37,8 @@ func NewV1PatchTenantAddressNoContent() *V1PatchTenantAddressNoContent {
 	return &V1PatchTenantAddressNoContent{}
 }
 
-/*V1PatchTenantAddressNoContent handles this case with default header values.
+/*
+V1PatchTenantAddressNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

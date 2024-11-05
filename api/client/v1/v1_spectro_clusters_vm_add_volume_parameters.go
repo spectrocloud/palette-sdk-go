@@ -57,7 +57,8 @@ func NewV1SpectroClustersVMAddVolumeParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1SpectroClustersVMAddVolumeParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersVMAddVolumeParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters VM add volume operation typically these are written to a http.Request
 */
 type V1SpectroClustersVMAddVolumeParams struct {

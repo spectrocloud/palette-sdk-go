@@ -55,7 +55,8 @@ func NewV1SpectroClustersUpgradeSettingsGetParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1SpectroClustersUpgradeSettingsGetParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUpgradeSettingsGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters upgrade settings get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUpgradeSettingsGetParams struct {

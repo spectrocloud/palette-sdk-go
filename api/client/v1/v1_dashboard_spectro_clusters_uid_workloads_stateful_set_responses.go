@@ -40,7 +40,8 @@ func NewV1DashboardSpectroClustersUIDWorkloadsStatefulSetOK() *V1DashboardSpectr
 	return &V1DashboardSpectroClustersUIDWorkloadsStatefulSetOK{}
 }
 
-/*V1DashboardSpectroClustersUIDWorkloadsStatefulSetOK handles this case with default header values.
+/*
+V1DashboardSpectroClustersUIDWorkloadsStatefulSetOK handles this case with default header values.
 
 An array of cluster workload statefulsets
 */

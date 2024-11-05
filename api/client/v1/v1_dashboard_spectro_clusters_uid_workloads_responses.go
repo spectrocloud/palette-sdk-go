@@ -40,7 +40,8 @@ func NewV1DashboardSpectroClustersUIDWorkloadsOK() *V1DashboardSpectroClustersUI
 	return &V1DashboardSpectroClustersUIDWorkloadsOK{}
 }
 
-/*V1DashboardSpectroClustersUIDWorkloadsOK handles this case with default header values.
+/*
+V1DashboardSpectroClustersUIDWorkloadsOK handles this case with default header values.
 
 An array of cluster workloads
 */

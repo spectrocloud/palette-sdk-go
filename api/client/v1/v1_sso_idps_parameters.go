@@ -55,7 +55,8 @@ func NewV1SsoIdpsParamsWithHTTPClient(client *http.Client) *V1SsoIdpsParams {
 	}
 }
 
-/*V1SsoIdpsParams contains all the parameters to send to the API endpoint
+/*
+V1SsoIdpsParams contains all the parameters to send to the API endpoint
 for the v1 sso idps operation typically these are written to a http.Request
 */
 type V1SsoIdpsParams struct {

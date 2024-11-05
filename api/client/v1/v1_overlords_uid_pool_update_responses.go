@@ -37,7 +37,8 @@ func NewV1OverlordsUIDPoolUpdateNoContent() *V1OverlordsUIDPoolUpdateNoContent {
 	return &V1OverlordsUIDPoolUpdateNoContent{}
 }
 
-/*V1OverlordsUIDPoolUpdateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDPoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

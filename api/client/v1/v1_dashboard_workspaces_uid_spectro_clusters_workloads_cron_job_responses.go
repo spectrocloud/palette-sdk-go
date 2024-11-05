@@ -40,7 +40,8 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobOK() *V1Dashboard
 	return &V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobOK{}
 }
 
-/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobOK handles this case with default header values.
+/*
+V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobOK handles this case with default header values.
 
 An array of clusters workload cronjobs
 */

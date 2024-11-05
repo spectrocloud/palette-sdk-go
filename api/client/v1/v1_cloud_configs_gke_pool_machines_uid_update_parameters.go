@@ -57,7 +57,8 @@ func NewV1CloudConfigsGkePoolMachinesUIDUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1CloudConfigsGkePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsGkePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs gke pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsGkePoolMachinesUIDUpdateParams struct {

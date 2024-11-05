@@ -57,7 +57,8 @@ func NewV1CloudConfigsAzurePoolMachinesUIDUpdateParamsWithHTTPClient(client *htt
 	}
 }
 
-/*V1CloudConfigsAzurePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsAzurePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs azure pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsAzurePoolMachinesUIDUpdateParams struct {

@@ -37,7 +37,8 @@ func NewV1EdgeHostsUIDResetNoContent() *V1EdgeHostsUIDResetNoContent {
 	return &V1EdgeHostsUIDResetNoContent{}
 }
 
-/*V1EdgeHostsUIDResetNoContent handles this case with default header values.
+/*
+V1EdgeHostsUIDResetNoContent handles this case with default header values.
 
 Ok response without content
 */

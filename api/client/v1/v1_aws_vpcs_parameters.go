@@ -55,7 +55,8 @@ func NewV1AwsVpcsParamsWithHTTPClient(client *http.Client) *V1AwsVpcsParams {
 	}
 }
 
-/*V1AwsVpcsParams contains all the parameters to send to the API endpoint
+/*
+V1AwsVpcsParams contains all the parameters to send to the API endpoint
 for the v1 aws vpcs operation typically these are written to a http.Request
 */
 type V1AwsVpcsParams struct {

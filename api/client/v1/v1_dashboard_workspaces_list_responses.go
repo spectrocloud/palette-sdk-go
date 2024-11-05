@@ -40,7 +40,8 @@ func NewV1DashboardWorkspacesListOK() *V1DashboardWorkspacesListOK {
 	return &V1DashboardWorkspacesListOK{}
 }
 
-/*V1DashboardWorkspacesListOK handles this case with default header values.
+/*
+V1DashboardWorkspacesListOK handles this case with default header values.
 
 An array of workspace
 */

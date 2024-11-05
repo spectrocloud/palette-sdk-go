@@ -55,7 +55,8 @@ func NewV1OverlordsListParamsWithHTTPClient(client *http.Client) *V1OverlordsLis
 	}
 }
 
-/*V1OverlordsListParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsListParams contains all the parameters to send to the API endpoint
 for the v1 overlords list operation typically these are written to a http.Request
 */
 type V1OverlordsListParams struct {

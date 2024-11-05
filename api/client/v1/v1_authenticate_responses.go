@@ -40,7 +40,8 @@ func NewV1AuthenticateOK() *V1AuthenticateOK {
 	return &V1AuthenticateOK{}
 }
 
-/*V1AuthenticateOK handles this case with default header values.
+/*
+V1AuthenticateOK handles this case with default header values.
 
 OK
 */

@@ -40,7 +40,8 @@ func NewV1SpectroClustersUIDConfigNamespacesGetOK() *V1SpectroClustersUIDConfigN
 	return &V1SpectroClustersUIDConfigNamespacesGetOK{}
 }
 
-/*V1SpectroClustersUIDConfigNamespacesGetOK handles this case with default header values.
+/*
+V1SpectroClustersUIDConfigNamespacesGetOK handles this case with default header values.
 
 OK
 */

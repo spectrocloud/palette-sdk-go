@@ -40,7 +40,8 @@ func NewV1ProjectsUIDMacrosListOK() *V1ProjectsUIDMacrosListOK {
 	return &V1ProjectsUIDMacrosListOK{}
 }
 
-/*V1ProjectsUIDMacrosListOK handles this case with default header values.
+/*
+V1ProjectsUIDMacrosListOK handles this case with default header values.
 
 OK
 */

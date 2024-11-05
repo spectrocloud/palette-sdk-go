@@ -57,7 +57,8 @@ func NewV1WorkspacesCreateParamsWithHTTPClient(client *http.Client) *V1Workspace
 	}
 }
 
-/*V1WorkspacesCreateParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesCreateParams contains all the parameters to send to the API endpoint
 for the v1 workspaces create operation typically these are written to a http.Request
 */
 type V1WorkspacesCreateParams struct {

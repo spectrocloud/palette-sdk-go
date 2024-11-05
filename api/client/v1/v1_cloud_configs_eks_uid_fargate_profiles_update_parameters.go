@@ -57,7 +57,8 @@ func NewV1CloudConfigsEksUIDFargateProfilesUpdateParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1CloudConfigsEksUIDFargateProfilesUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEksUIDFargateProfilesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs eks Uid fargate profiles update operation typically these are written to a http.Request
 */
 type V1CloudConfigsEksUIDFargateProfilesUpdateParams struct {

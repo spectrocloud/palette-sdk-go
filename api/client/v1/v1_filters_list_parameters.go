@@ -68,7 +68,8 @@ func NewV1FiltersListParamsWithHTTPClient(client *http.Client) *V1FiltersListPar
 	}
 }
 
-/*V1FiltersListParams contains all the parameters to send to the API endpoint
+/*
+V1FiltersListParams contains all the parameters to send to the API endpoint
 for the v1 filters list operation typically these are written to a http.Request
 */
 type V1FiltersListParams struct {

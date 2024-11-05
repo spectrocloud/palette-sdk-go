@@ -55,7 +55,8 @@ func NewV1GcpStorageTypesParamsWithHTTPClient(client *http.Client) *V1GcpStorage
 	}
 }
 
-/*V1GcpStorageTypesParams contains all the parameters to send to the API endpoint
+/*
+V1GcpStorageTypesParams contains all the parameters to send to the API endpoint
 for the v1 gcp storage types operation typically these are written to a http.Request
 */
 type V1GcpStorageTypesParams struct {

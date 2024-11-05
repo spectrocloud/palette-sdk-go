@@ -37,7 +37,8 @@ func NewV1TenantClustersNodesAutoRemediationSettingUpdateNoContent() *V1TenantCl
 	return &V1TenantClustersNodesAutoRemediationSettingUpdateNoContent{}
 }
 
-/*V1TenantClustersNodesAutoRemediationSettingUpdateNoContent handles this case with default header values.
+/*
+V1TenantClustersNodesAutoRemediationSettingUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

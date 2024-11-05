@@ -40,7 +40,8 @@ func NewV1CloudConfigsEdgeNativeGetOK() *V1CloudConfigsEdgeNativeGetOK {
 	return &V1CloudConfigsEdgeNativeGetOK{}
 }
 
-/*V1CloudConfigsEdgeNativeGetOK handles this case with default header values.
+/*
+V1CloudConfigsEdgeNativeGetOK handles this case with default header values.
 
 OK
 */

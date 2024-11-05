@@ -40,7 +40,8 @@ func NewV1OverlordsVsphereManifestOK() *V1OverlordsVsphereManifestOK {
 	return &V1OverlordsVsphereManifestOK{}
 }
 
-/*V1OverlordsVsphereManifestOK handles this case with default header values.
+/*
+V1OverlordsVsphereManifestOK handles this case with default header values.
 
 (empty)
 */

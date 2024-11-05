@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeRegisterCreated() *V1CustomCloudTypeRegisterCreated {
 	return &V1CustomCloudTypeRegisterCreated{}
 }
 
-/*V1CustomCloudTypeRegisterCreated handles this case with default header values.
+/*
+V1CustomCloudTypeRegisterCreated handles this case with default header values.
 
 Created successfully
 */

@@ -40,7 +40,8 @@ func NewV1CloudAccountsTencentListOK() *V1CloudAccountsTencentListOK {
 	return &V1CloudAccountsTencentListOK{}
 }
 
-/*V1CloudAccountsTencentListOK handles this case with default header values.
+/*
+V1CloudAccountsTencentListOK handles this case with default header values.
 
 An array of cloud account items
 */

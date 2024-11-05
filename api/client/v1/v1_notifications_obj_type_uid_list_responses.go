@@ -40,7 +40,8 @@ func NewV1NotificationsObjTypeUIDListOK() *V1NotificationsObjTypeUIDListOK {
 	return &V1NotificationsObjTypeUIDListOK{}
 }
 
-/*V1NotificationsObjTypeUIDListOK handles this case with default header values.
+/*
+V1NotificationsObjTypeUIDListOK handles this case with default header values.
 
 An array of component event items
 */

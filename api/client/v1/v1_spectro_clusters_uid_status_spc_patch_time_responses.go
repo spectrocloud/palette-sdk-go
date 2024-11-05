@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDStatusSpcPatchTimeNoContent() *V1SpectroClustersUIDS
 	return &V1SpectroClustersUIDStatusSpcPatchTimeNoContent{}
 }
 
-/*V1SpectroClustersUIDStatusSpcPatchTimeNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDStatusSpcPatchTimeNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

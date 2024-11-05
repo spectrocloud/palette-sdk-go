@@ -57,7 +57,8 @@ func NewV1CloudConfigsVirtualMachinePoolCreateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1CloudConfigsVirtualMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVirtualMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual machine pool create operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualMachinePoolCreateParams struct {

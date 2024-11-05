@@ -57,7 +57,8 @@ func NewV1AppProfilesUIDTiersCreateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1AppProfilesUIDTiersCreateParams contains all the parameters to send to the API endpoint
+/*
+V1AppProfilesUIDTiersCreateParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid tiers create operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDTiersCreateParams struct {

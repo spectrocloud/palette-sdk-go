@@ -37,7 +37,8 @@ func NewV1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent() *V1AwsCloudConfig
 	return &V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent{}
 }
 
-/*V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent handles this case with default header values.
+/*
+V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

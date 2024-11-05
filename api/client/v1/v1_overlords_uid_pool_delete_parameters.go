@@ -55,7 +55,8 @@ func NewV1OverlordsUIDPoolDeleteParamsWithHTTPClient(client *http.Client) *V1Ove
 	}
 }
 
-/*V1OverlordsUIDPoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDPoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid pool delete operation typically these are written to a http.Request
 */
 type V1OverlordsUIDPoolDeleteParams struct {
