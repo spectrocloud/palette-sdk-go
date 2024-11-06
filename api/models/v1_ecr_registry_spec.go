@@ -22,6 +22,9 @@ type V1EcrRegistrySpec struct {
 	// OCI ecr registry content base path
 	BaseContentPath string `json:"baseContentPath,omitempty"`
 
+	// contains spectro manifest
+	ContainsSpectroManifest bool `json:"containsSpectroManifest"`
+
 	// credentials
 	Credentials *V1AwsCloudAccount `json:"credentials,omitempty"`
 
@@ -35,6 +38,9 @@ type V1EcrRegistrySpec struct {
 	// is private
 	// Required: true
 	IsPrivate *bool `json:"isPrivate"`
+
+	// is sync supported
+	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
 	// Enum: [helm pack]

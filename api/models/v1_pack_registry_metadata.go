@@ -15,8 +15,11 @@ import (
 // swagger:model v1PackRegistryMetadata
 type V1PackRegistryMetadata struct {
 
-	// If true then pack registry is private and is not accessible for the pack sync
+	// If true then helm registry is private and is not accessible for the content sync
 	IsPrivate bool `json:"isPrivate"`
+
+	// If true the registry sync is supported
+	IsSyncSupported bool `json:"isSyncSupported"`
 
 	// Pack registry kind [ "pack", "helm", "oci" ]
 	Kind string `json:"kind,omitempty"`

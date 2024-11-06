@@ -33,6 +33,9 @@ type V1ClusterConfig struct {
 	// HostClusterConfiguration defines the configuration of host clusters, where virtual clusters be deployed
 	HostClusterConfig *V1HostClusterConfig `json:"hostClusterConfig,omitempty"`
 
+	// HybridClusterConfiguration defines the configuration of hybrid clusters and clusters deployed through hybrid clusters
+	HybridClusterConfig *V1HybridClusterConfig `json:"hybridClusterConfig,omitempty"`
+
 	// lifecycle config
 	LifecycleConfig *V1LifecycleConfig `json:"lifecycleConfig,omitempty"`
 
@@ -59,6 +62,10 @@ func (m *V1ClusterConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHostClusterConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHybridClusterConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -133,6 +140,24 @@ func (m *V1ClusterConfig) validateHostClusterConfig(formats strfmt.Registry) err
 		if err := m.HostClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostClusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterConfig) validateHybridClusterConfig(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.HybridClusterConfig) { // not required
+		return nil
+	}
+
+	if m.HybridClusterConfig != nil {
+		if err := m.HybridClusterConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hybridClusterConfig")
 			}
 			return err
 		}

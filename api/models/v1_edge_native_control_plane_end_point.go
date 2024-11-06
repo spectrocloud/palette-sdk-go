@@ -6,8 +6,12 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"encoding/json"
+
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1EdgeNativeControlPlaneEndPoint v1 edge native control plane end point
@@ -22,11 +26,70 @@ type V1EdgeNativeControlPlaneEndPoint struct {
 	Host string `json:"host,omitempty"`
 
 	// Type indicates DDNS or VIP
+	// Enum: [VIP External DDNS IP]
 	Type string `json:"type,omitempty"`
 }
 
 // Validate validates this v1 edge native control plane end point
 func (m *V1EdgeNativeControlPlaneEndPoint) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+var v1EdgeNativeControlPlaneEndPointTypeTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["VIP","External","DDNS","IP"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1EdgeNativeControlPlaneEndPointTypeTypePropEnum = append(v1EdgeNativeControlPlaneEndPointTypeTypePropEnum, v)
+	}
+}
+
+const (
+
+	// V1EdgeNativeControlPlaneEndPointTypeVIP captures enum value "VIP"
+	V1EdgeNativeControlPlaneEndPointTypeVIP string = "VIP"
+
+	// V1EdgeNativeControlPlaneEndPointTypeExternal captures enum value "External"
+	V1EdgeNativeControlPlaneEndPointTypeExternal string = "External"
+
+	// V1EdgeNativeControlPlaneEndPointTypeDDNS captures enum value "DDNS"
+	V1EdgeNativeControlPlaneEndPointTypeDDNS string = "DDNS"
+
+	// V1EdgeNativeControlPlaneEndPointTypeIP captures enum value "IP"
+	V1EdgeNativeControlPlaneEndPointTypeIP string = "IP"
+)
+
+// prop value enum
+func (m *V1EdgeNativeControlPlaneEndPoint) validateTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1EdgeNativeControlPlaneEndPointTypeTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1EdgeNativeControlPlaneEndPoint) validateType(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Type) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
+		return err
+	}
+
 	return nil
 }
 

@@ -51,6 +51,9 @@ type V1TenantOidcClientSpec struct {
 
 	// sync sso teams
 	SyncSsoTeams bool `json:"syncSsoTeams"`
+
+	// user info
+	UserInfo *V1OidcUserInfo `json:"userInfo,omitempty"`
 }
 
 // Validate validates this v1 tenant oidc client spec
@@ -62,6 +65,10 @@ func (m *V1TenantOidcClientSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateRequiredClaims(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUserInfo(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -99,6 +106,24 @@ func (m *V1TenantOidcClientSpec) validateRequiredClaims(formats strfmt.Registry)
 		if err := m.RequiredClaims.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("requiredClaims")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1TenantOidcClientSpec) validateUserInfo(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.UserInfo) { // not required
+		return nil
+	}
+
+	if m.UserInfo != nil {
+		if err := m.UserInfo.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("userInfo")
 			}
 			return err
 		}

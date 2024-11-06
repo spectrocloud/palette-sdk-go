@@ -24,6 +24,9 @@ type V1EcrRegistry struct {
 
 	// spec
 	Spec *V1EcrRegistrySpec `json:"spec,omitempty"`
+
+	// status
+	Status *V1OciRegistryStatus `json:"status,omitempty"`
 }
 
 // Validate validates this v1 ecr registry
@@ -35,6 +38,10 @@ func (m *V1EcrRegistry) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateSpec(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateStatus(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -72,6 +79,24 @@ func (m *V1EcrRegistry) validateSpec(formats strfmt.Registry) error {
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EcrRegistry) validateStatus(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Status) { // not required
+		return nil
+	}
+
+	if m.Status != nil {
+		if err := m.Status.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
 			}
 			return err
 		}

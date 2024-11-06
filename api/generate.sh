@@ -12,7 +12,7 @@ service="palette-api"
 serviceDir="${currentDir}"
 apiDir="${serviceDir}"
 commonDir="${apiDir}/common"
-templateDir="${apiDir}swagger/templates"
+templateDir="${apiDir}/swagger/templates"
 
 # Fetch the latest hapi spec
 rm -rf hapi && git clone https://github.com/spectrocloud/hapi
