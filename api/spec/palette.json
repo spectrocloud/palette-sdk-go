@@ -31961,7 +31961,7 @@
         "hybridMachinePools": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v1EksHybridMachinePool"
+            "$ref": "#/definitions/v1AwsHybridMachinePool"
           }
         },
         "machinePoolConfig": {
@@ -32198,6 +32198,23 @@
         "systemsManager": {
           "description": "SystemsManager specifies the Systems Manager configuration for the AWS/EKS cluster",
           "$ref": "#/definitions/v1SystemsManager"
+        }
+      }
+    },
+    "v1AwsHybridMachinePool": {
+      "description": "Machine pool reference of cloud config of cluster deployed by hybrid cluster",
+      "type": "object",
+      "properties": {
+        "poolCloudType": {
+          "$ref": "#/definitions/v1HybridPoolClusterCloudType"
+        },
+        "poolName": {
+          "description": "Machine pool name",
+          "type": "string"
+        },
+        "poolUid": {
+          "description": "Machine pool uid",
+          "type": "string"
         }
       }
     },
@@ -40406,23 +40423,6 @@
           "items": {
             "$ref": "#/definitions/v1FargateProfile"
           }
-        }
-      }
-    },
-    "v1EksHybridMachinePool": {
-      "description": "Machine pool reference of cloud config of cluster deployed by hybrid EKS cluster",
-      "type": "object",
-      "properties": {
-        "poolCloudType": {
-          "$ref": "#/definitions/v1HybridPoolClusterCloudType"
-        },
-        "poolName": {
-          "description": "Machine pool name",
-          "type": "string"
-        },
-        "poolUid": {
-          "description": "Machine pool uid",
-          "type": "string"
         }
       }
     },
