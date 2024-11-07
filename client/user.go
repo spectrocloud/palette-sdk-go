@@ -1,8 +1,8 @@
 package client
 
 import (
+	"errors"
 	"fmt"
-
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
@@ -54,6 +54,32 @@ func (h *V1Client) GetUsers() (*models.V1Users, error) {
 		return nil, err
 	}
 	return resp.Payload, nil
+}
+
+// GetUserSummaryByEmail retrieves user by email.
+func (h *V1Client) GetUserSummaryByEmail(userEmail string) (*models.V1UserSummary, error) {
+	// ACL scoped to tenant only
+	filterSummary := &models.V1UsersSummarySpec{
+		Filter: &models.V1UsersFilterSpec{
+			EmailID: &models.V1FilterString{
+				Eq: &userEmail,
+			},
+		},
+	}
+
+	summaryParams := clientv1.NewV1UsersSummaryGetParams().WithBody(filterSummary)
+	summaryResponse, err := h.Client.V1UsersSummaryGet(summaryParams)
+	if err != nil {
+		return nil, err
+	}
+	if summaryResponse.Payload.Items != nil {
+		if len(summaryResponse.Payload.Items) == 1 {
+			return summaryResponse.Payload.Items[0], nil
+		}
+		return nil, errors.New("More than one user found name: " + userEmail)
+	}
+	return nil, errors.New("user not found for email: " + userEmail)
+
 }
 
 // GetUserByName retrieves an existing user by name.
@@ -116,4 +142,24 @@ func (h *V1Client) CreateUser(user *models.V1UserEntity) (string, error) {
 		return "", err
 	}
 	return *resp.Payload.UID, nil
+}
+
+// UpdateUser update existing user.
+func (h *V1Client) UpdateUser(uid string, user *models.V1UserUpdateEntity) error {
+	param := clientv1.NewV1UsersUIDUpdateParams().WithUID(uid).WithBody(user)
+	_, err := h.Client.V1UsersUIDUpdate(param)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// AssociateUserProjectRole update project role to the user.
+func (h *V1Client) AssociateUserProjectRole(userUID string, body *models.V1ProjectRolesPatch) error {
+	param := clientv1.NewV1UsersProjectRolesPutParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersProjectRolesPut(param)
+	if err != nil {
+		return err
+	}
+	return nil
 }
