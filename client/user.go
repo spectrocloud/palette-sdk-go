@@ -154,7 +154,7 @@ func (h *V1Client) UpdateUser(uid string, user *models.V1UserUpdateEntity) error
 	return nil
 }
 
-// AssociateUserProjectRole update project role to the user.
+// AssociateUserProjectRole associate project role for the user.
 func (h *V1Client) AssociateUserProjectRole(userUID string, body *models.V1ProjectRolesPatch) error {
 	param := clientv1.NewV1UsersProjectRolesPutParams().WithUID(userUID).WithBody(body)
 	_, err := h.Client.V1UsersProjectRolesPut(param)
@@ -162,4 +162,84 @@ func (h *V1Client) AssociateUserProjectRole(userUID string, body *models.V1Proje
 		return err
 	}
 	return nil
+}
+
+// GetUserProjectRole get project role to the user.
+func (h *V1Client) GetUserProjectRole(userUID string) (*models.V1ProjectRolesEntity, error) {
+	param := clientv1.NewV1UsersProjectRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersProjectRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// AssociateUserWorkspaceRole associate workspace role to the user.
+func (h *V1Client) AssociateUserWorkspaceRole(userUID string, body *models.V1WorkspacesRolesPatch) error {
+	param := clientv1.NewV1UsersWorkspaceRolesPutParams().WithUserUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersWorkspaceRolesPut(param)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetUserWorkspaceRole get workspace role for the user.
+func (h *V1Client) GetUserWorkspaceRole(userUID string) (*models.V1WorkspaceScopeRoles, error) {
+	param := clientv1.NewV1UsersWorkspaceGetRolesParams().WithUserUID(userUID)
+	resp, err := h.Client.V1UsersWorkspaceGetRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// CreateUserResourceRole associate resource role for the user.
+func (h *V1Client) CreateUserResourceRole(userUID string, body *models.V1ResourceRolesUpdateEntity) error {
+	param := clientv1.NewV1UsersUIDResourceRolesCreateParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersUIDResourceRolesCreate(param)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetUserResourceRoles get resource role for the user.
+func (h *V1Client) GetUserResourceRoles(userUID string) ([]*models.V1ResourceRolesEntity, error) {
+	param := clientv1.NewV1UsersUIDResourceRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDResourceRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.ResourceRoles, nil
+}
+
+// DeleteUserResourceRoles delete resource role for the user.
+func (h *V1Client) DeleteUserResourceRoles(userUID string, roleUID string) error {
+	param := clientv1.NewV1UsersUIDResourceRolesUIDDeleteParams().WithUID(userUID).WithResourceRoleUID(roleUID)
+	_, err := h.Client.V1UsersUIDResourceRolesUIDDelete(param)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// AssociateUserTenantRole associate tenant role to the user.
+func (h *V1Client) AssociateUserTenantRole(userUID string, body *models.V1UserRoleUIDs) error {
+	param := clientv1.NewV1UsersUIDRolesUpdateParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersUIDRolesUpdate(param)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetUserTenantRole get tenant roles for the user.
+func (h *V1Client) GetUserTenantRole(userUID string) (*models.V1UserRolesEntity, error) {
+	param := clientv1.NewV1UsersUIDRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
