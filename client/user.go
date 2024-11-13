@@ -3,6 +3,7 @@ package client
 import (
 	"errors"
 	"fmt"
+
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
@@ -110,6 +111,7 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 	return nil, fmt.Errorf("user with email '%s' not found", email)
 }
 
+// GetUserByID retrieves an existing user by ID.
 func (h *V1Client) GetUserByID(userUID string) (*models.V1User, error) {
 	params := clientv1.NewV1UsersUIDGetParams().WithUID(userUID)
 	resp, err := h.Client.V1UsersUIDGet(params)
