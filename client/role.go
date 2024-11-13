@@ -39,3 +39,37 @@ func (h *V1Client) GetRoleByID(roleUID string) (*models.V1Role, error) {
 
 	return resp.Payload, nil
 }
+
+// CreateRole create new role.
+func (h *V1Client) CreateRole(role *models.V1Role) (string, error) {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1RolesCreateParams().WithBody(role)
+	resp, err := h.Client.V1RolesCreate(params)
+	if err != nil {
+		return "", err
+	}
+
+	return *resp.Payload.UID, nil
+}
+
+// UpdateRole Update existing role with ID
+func (h *V1Client) UpdateRole(role *models.V1Role, roleUID string) error {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1RolesUIDUpdateParams().WithBody(role).WithUID(roleUID)
+	_, err := h.Client.V1RolesUIDUpdate(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteRole Delete existing role with ID
+func (h *V1Client) DeleteRole(roleUID string) error {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1RolesUIDDeleteParams().WithUID(roleUID)
+	_, err := h.Client.V1RolesUIDDelete(params)
+	if err != nil {
+		return err
+	}
+	return nil
+}
