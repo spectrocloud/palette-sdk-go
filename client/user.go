@@ -125,10 +125,7 @@ func (h *V1Client) GetUserByID(userUID string) (*models.V1User, error) {
 func (h *V1Client) DeleteUser(uid string) error {
 	params := clientv1.NewV1UsersUIDDeleteParams().WithUID(uid)
 	_, err := h.Client.V1UsersUIDDelete(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // DeleteUserByName deletes an existing user by name.
@@ -159,20 +156,14 @@ func (h *V1Client) CreateUser(user *models.V1UserEntity) (string, error) {
 func (h *V1Client) UpdateUser(uid string, user *models.V1UserUpdateEntity) error {
 	param := clientv1.NewV1UsersUIDUpdateParams().WithUID(uid).WithBody(user)
 	_, err := h.Client.V1UsersUIDUpdate(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // AssociateUserProjectRole associate project role for the user.
 func (h *V1Client) AssociateUserProjectRole(userUID string, body *models.V1ProjectRolesPatch) error {
 	param := clientv1.NewV1UsersProjectRolesPutParams().WithUID(userUID).WithBody(body)
 	_, err := h.Client.V1UsersProjectRolesPut(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // GetUserProjectRole get project role to the user.
@@ -189,10 +180,7 @@ func (h *V1Client) GetUserProjectRole(userUID string) (*models.V1ProjectRolesEnt
 func (h *V1Client) AssociateUserWorkspaceRole(userUID string, body *models.V1WorkspacesRolesPatch) error {
 	param := clientv1.NewV1UsersWorkspaceRolesPutParams().WithUserUID(userUID).WithBody(body)
 	_, err := h.Client.V1UsersWorkspaceRolesPut(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // GetUserWorkspaceRole get workspace role for the user.
@@ -209,10 +197,7 @@ func (h *V1Client) GetUserWorkspaceRole(userUID string) (*models.V1WorkspaceScop
 func (h *V1Client) CreateUserResourceRole(userUID string, body *models.V1ResourceRolesUpdateEntity) error {
 	param := clientv1.NewV1UsersUIDResourceRolesCreateParams().WithUID(userUID).WithBody(body)
 	_, err := h.Client.V1UsersUIDResourceRolesCreate(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // GetUserResourceRoles get resource role for the user.
@@ -229,20 +214,14 @@ func (h *V1Client) GetUserResourceRoles(userUID string) ([]*models.V1ResourceRol
 func (h *V1Client) DeleteUserResourceRoles(userUID string, roleUID string) error {
 	param := clientv1.NewV1UsersUIDResourceRolesUIDDeleteParams().WithUID(userUID).WithResourceRoleUID(roleUID)
 	_, err := h.Client.V1UsersUIDResourceRolesUIDDelete(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // AssociateUserTenantRole associate tenant role to the user.
 func (h *V1Client) AssociateUserTenantRole(userUID string, body *models.V1UserRoleUIDs) error {
 	param := clientv1.NewV1UsersUIDRolesUpdateParams().WithUID(userUID).WithBody(body)
 	_, err := h.Client.V1UsersUIDRolesUpdate(param)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // GetUserTenantRole get tenant roles for the user.
