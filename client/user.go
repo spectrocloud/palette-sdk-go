@@ -110,6 +110,15 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 	return nil, fmt.Errorf("user with email '%s' not found", email)
 }
 
+func (h *V1Client) GetUserByID(userUID string) (*models.V1User, error) {
+	params := clientv1.NewV1UsersUIDGetParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // DeleteUser deletes an existing user by UID.
 func (h *V1Client) DeleteUser(uid string) error {
 	params := clientv1.NewV1UsersUIDDeleteParams().WithUID(uid)
