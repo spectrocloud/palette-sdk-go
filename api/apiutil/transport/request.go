@@ -21,7 +21,6 @@ import (
 	"container/list"
 	"context"
 	"fmt"
-	"github.com/go-errors/errors"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -33,6 +32,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/go-errors/errors"
 
 	log "github.com/sirupsen/logrus"
 

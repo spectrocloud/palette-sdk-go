@@ -1,6 +1,7 @@
 package client
 
 import (
+	"errors"
 	"fmt"
 
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
@@ -56,6 +57,32 @@ func (h *V1Client) GetUsers() (*models.V1Users, error) {
 	return resp.Payload, nil
 }
 
+// GetUserSummaryByEmail retrieves user by email.
+func (h *V1Client) GetUserSummaryByEmail(userEmail string) (*models.V1UserSummary, error) {
+	// ACL scoped to tenant only
+	filterSummary := &models.V1UsersSummarySpec{
+		Filter: &models.V1UsersFilterSpec{
+			EmailID: &models.V1FilterString{
+				Eq: &userEmail,
+			},
+		},
+	}
+
+	summaryParams := clientv1.NewV1UsersSummaryGetParams().WithBody(filterSummary)
+	summaryResponse, err := h.Client.V1UsersSummaryGet(summaryParams)
+	if err != nil {
+		return nil, err
+	}
+	if summaryResponse.Payload.Items != nil {
+		if len(summaryResponse.Payload.Items) == 1 {
+			return summaryResponse.Payload.Items[0], nil
+		}
+		return nil, errors.New("More than one user found with email: " + userEmail)
+	}
+	return nil, errors.New("user not found for email: " + userEmail)
+
+}
+
 // GetUserByName retrieves an existing user by name.
 func (h *V1Client) GetUserByName(name string) (*models.V1User, error) {
 	users, err := h.GetUsers()
@@ -84,14 +111,21 @@ func (h *V1Client) GetUserByEmail(email string) (*models.V1User, error) {
 	return nil, fmt.Errorf("user with email '%s' not found", email)
 }
 
+// GetUserByID retrieves an existing user by ID.
+func (h *V1Client) GetUserByID(userUID string) (*models.V1User, error) {
+	params := clientv1.NewV1UsersUIDGetParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // DeleteUser deletes an existing user by UID.
 func (h *V1Client) DeleteUser(uid string) error {
 	params := clientv1.NewV1UsersUIDDeleteParams().WithUID(uid)
 	_, err := h.Client.V1UsersUIDDelete(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // DeleteUserByName deletes an existing user by name.
@@ -116,4 +150,86 @@ func (h *V1Client) CreateUser(user *models.V1UserEntity) (string, error) {
 		return "", err
 	}
 	return *resp.Payload.UID, nil
+}
+
+// UpdateUser update existing user.
+func (h *V1Client) UpdateUser(uid string, user *models.V1UserUpdateEntity) error {
+	param := clientv1.NewV1UsersUIDUpdateParams().WithUID(uid).WithBody(user)
+	_, err := h.Client.V1UsersUIDUpdate(param)
+	return err
+}
+
+// AssociateUserProjectRole associate project role for the user.
+func (h *V1Client) AssociateUserProjectRole(userUID string, body *models.V1ProjectRolesPatch) error {
+	param := clientv1.NewV1UsersProjectRolesPutParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersProjectRolesPut(param)
+	return err
+}
+
+// GetUserProjectRole get project role to the user.
+func (h *V1Client) GetUserProjectRole(userUID string) (*models.V1ProjectRolesEntity, error) {
+	param := clientv1.NewV1UsersProjectRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersProjectRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// AssociateUserWorkspaceRole associate workspace role to the user.
+func (h *V1Client) AssociateUserWorkspaceRole(userUID string, body *models.V1WorkspacesRolesPatch) error {
+	param := clientv1.NewV1UsersWorkspaceRolesPutParams().WithUserUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersWorkspaceRolesPut(param)
+	return err
+}
+
+// GetUserWorkspaceRole get workspace role for the user.
+func (h *V1Client) GetUserWorkspaceRole(userUID string) (*models.V1WorkspaceScopeRoles, error) {
+	param := clientv1.NewV1UsersWorkspaceGetRolesParams().WithUserUID(userUID)
+	resp, err := h.Client.V1UsersWorkspaceGetRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// CreateUserResourceRole associate resource role for the user.
+func (h *V1Client) CreateUserResourceRole(userUID string, body *models.V1ResourceRolesUpdateEntity) error {
+	param := clientv1.NewV1UsersUIDResourceRolesCreateParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersUIDResourceRolesCreate(param)
+	return err
+}
+
+// GetUserResourceRoles get resource role for the user.
+func (h *V1Client) GetUserResourceRoles(userUID string) ([]*models.V1ResourceRolesEntity, error) {
+	param := clientv1.NewV1UsersUIDResourceRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDResourceRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.ResourceRoles, nil
+}
+
+// DeleteUserResourceRoles delete resource role for the user.
+func (h *V1Client) DeleteUserResourceRoles(userUID string, roleUID string) error {
+	param := clientv1.NewV1UsersUIDResourceRolesUIDDeleteParams().WithUID(userUID).WithResourceRoleUID(roleUID)
+	_, err := h.Client.V1UsersUIDResourceRolesUIDDelete(param)
+	return err
+}
+
+// AssociateUserTenantRole associate tenant role to the user.
+func (h *V1Client) AssociateUserTenantRole(userUID string, body *models.V1UserRoleUIDs) error {
+	param := clientv1.NewV1UsersUIDRolesUpdateParams().WithUID(userUID).WithBody(body)
+	_, err := h.Client.V1UsersUIDRolesUpdate(param)
+	return err
+}
+
+// GetUserTenantRole get tenant roles for the user.
+func (h *V1Client) GetUserTenantRole(userUID string) (*models.V1UserRolesEntity, error) {
+	param := clientv1.NewV1UsersUIDRolesParams().WithUID(userUID)
+	resp, err := h.Client.V1UsersUIDRoles(param)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
 }
