@@ -41,11 +41,77 @@ func (h *V1Client) GetS3BackupStorageLocation(uid string) (*models.V1UserAssetsL
 	return resp.Payload, nil
 }
 
+// GetMinioBackupStorageLocation retrieves an existing Minio backup storage location.
+func (h *V1Client) GetMinioBackupStorageLocation(uid string) (*models.V1UserAssetsLocationS3, error) {
+	params := clientv1.NewV1UsersAssetsLocationMinioGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1UsersAssetsLocationMinioGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetGCPBackupStorageLocation retrieves an existing GCP backup storage location.
+func (h *V1Client) GetGCPBackupStorageLocation(uid string) (*models.V1UserAssetsLocationGcp, error) {
+	params := clientv1.NewV1UsersAssetsLocationGcpGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1UsersAssetsLocationGcpGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetAzureBackupStorageLocation retrieves an existing Azure backup storage location.
+func (h *V1Client) GetAzureBackupStorageLocation(uid string) (*models.V1UserAssetsLocationAzure, error) {
+	params := clientv1.NewV1UsersAssetsLocationAzureGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1UsersAssetsLocationAzureGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // CreateS3BackupStorageLocation creates a new S3 backup storage location.
 func (h *V1Client) CreateS3BackupStorageLocation(bsl *models.V1UserAssetsLocationS3) (string, error) {
 	params := clientv1.NewV1UsersAssetsLocationS3CreateParamsWithContext(h.ctx).
 		WithBody(bsl)
 	resp, err := h.Client.V1UsersAssetsLocationS3Create(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// CreateMinioBackupStorageLocation creates a new Minio backup storage location.
+func (h *V1Client) CreateMinioBackupStorageLocation(bsl *models.V1UserAssetsLocationS3) (string, error) {
+	params := clientv1.NewV1UsersAssetsLocationMinioCreateParamsWithContext(h.ctx).
+		WithBody(bsl)
+	resp, err := h.Client.V1UsersAssetsLocationMinioCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// CreateGcpBackupStorageLocation creates a new GCP backup storage location.
+func (h *V1Client) CreateGcpBackupStorageLocation(bsl *models.V1UserAssetsLocationGcp) (string, error) {
+	params := clientv1.NewV1UsersAssetsLocationGcpCreateParamsWithContext(h.ctx).
+		WithBody(bsl)
+	resp, err := h.Client.V1UsersAssetsLocationGcpCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// CreateAzureBackupStorageLocation creates a new Azure backup storage location.
+func (h *V1Client) CreateAzureBackupStorageLocation(bsl *models.V1UserAssetsLocationAzure) (string, error) {
+	params := clientv1.NewV1UsersAssetsLocationAzureCreateParamsWithContext(h.ctx).
+		WithBody(bsl)
+	resp, err := h.Client.V1UsersAssetsLocationAzureCreate(params)
 	if err != nil {
 		return "", err
 	}
@@ -58,6 +124,33 @@ func (h *V1Client) UpdateS3BackupStorageLocation(uid string, bsl *models.V1UserA
 		WithUID(uid).
 		WithBody(bsl)
 	_, err := h.Client.V1UsersAssetsLocationS3Update(params)
+	return err
+}
+
+// UpdateMinioBackupStorageLocation updates an existing Minio backup storage location.
+func (h *V1Client) UpdateMinioBackupStorageLocation(uid string, bsl *models.V1UserAssetsLocationS3) error {
+	params := clientv1.NewV1UsersAssetsLocationMinioUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(bsl)
+	_, err := h.Client.V1UsersAssetsLocationMinioUpdate(params)
+	return err
+}
+
+// UpdateGcpBackupStorageLocation updates an existing Gcp backup storage location.
+func (h *V1Client) UpdateGcpBackupStorageLocation(uid string, bsl *models.V1UserAssetsLocationGcp) error {
+	params := clientv1.NewV1UsersAssetsLocationGcpUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(bsl)
+	_, err := h.Client.V1UsersAssetsLocationGcpUpdate(params)
+	return err
+}
+
+// UpdateAzureBackupStorageLocation updates an existing Azure backup storage location.
+func (h *V1Client) UpdateAzureBackupStorageLocation(uid string, bsl *models.V1UserAssetsLocationAzure) error {
+	params := clientv1.NewV1UsersAssetsLocationAzureUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(bsl)
+	_, err := h.Client.V1UsersAssetsLocationAzureUpdate(params)
 	return err
 }
 
