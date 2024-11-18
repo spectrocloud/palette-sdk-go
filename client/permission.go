@@ -6,11 +6,17 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
+// PermissionScope defines the scope of a permission.
 type PermissionScope string
 
 const (
-	PermissionScopeProject  PermissionScope = "project"
-	PermissionScopeTenant   PermissionScope = "tenant"
+	// PermissionScopeProject represents a project-level scope.
+	PermissionScopeProject PermissionScope = "project"
+
+	// PermissionScopeTenant represents a tenant-level scope.
+	PermissionScopeTenant PermissionScope = "tenant"
+
+	// PermissionScopeResource represents a resource-level scope.
 	PermissionScopeResource PermissionScope = "resource"
 )
 
