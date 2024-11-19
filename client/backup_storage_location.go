@@ -78,30 +78,21 @@ func (h *V1Client) GetAzureBackupStorageLocation(uid string) (*models.V1UserAsse
 func (h *V1Client) ValidateS3BackupStorageLocation(awsCred *models.V1AwsS3BucketCredentials) error {
 	params := clientv1.NewV1AwsS3ValidateParamsWithContext(h.ctx).WithAwsS3Credential(awsCred)
 	_, err := h.Client.V1AwsS3Validate(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // ValidateGcpBackupStorageLocation validate a gcp credential for backup storage location.
 func (h *V1Client) ValidateGcpBackupStorageLocation(gcpCred *models.V1GcpAccountNameValidateSpec) error {
 	params := clientv1.NewV1GcpBucketNameValidateParamsWithContext(h.ctx).WithBody(gcpCred)
 	_, err := h.Client.V1GcpBucketNameValidate(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // ValidateAzureBackupStorageLocation validate an azure credential for backup storage location.
 func (h *V1Client) ValidateAzureBackupStorageLocation(azureCred *models.V1AzureCloudAccount) error {
 	params := clientv1.NewV1AzureAccountValidateParamsWithContext(h.ctx).WithAzureCloudAccount(azureCred)
 	_, err := h.Client.V1AzureAccountValidate(params)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // CreateS3BackupStorageLocation creates a new S3 backup storage location.
