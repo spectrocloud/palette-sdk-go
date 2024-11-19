@@ -16,8 +16,8 @@ func (h *V1Client) EnableClusterHybridSettings(uid string) error {
 	return err
 }
 
-// PutHybridConfig updates the hybrid config with UID configUID for a cluster.
-func (h *V1Client) PutHybridConfig(configUID string, hybridConfig *models.V1AwsCloudHybridConfigEntity) error {
+// PutAwsHybridConfig updates the AWS hybrid config for a cluster.
+func (h *V1Client) PutAwsHybridConfig(configUID string, hybridConfig *models.V1AwsCloudHybridConfigEntity) error {
 	params := clientv1.NewV1AwsCloudConfigsUIDHybridConfigParamsWithContext(h.ctx).
 		WithBody(hybridConfig).
 		WithConfigUID(configUID)
