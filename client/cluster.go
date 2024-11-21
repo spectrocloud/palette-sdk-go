@@ -314,6 +314,39 @@ func (h *V1Client) DownloadLogs(uid string, logFetcherUID string) (io.Writer, er
 	return logfile, nil
 }
 
+// DownloadKubeBenchReport downloads the KubeBench report for the specified cluster.
+func (h *V1Client) DownloadKubeBenchReport(uid, logUID string, writer io.Writer) error {
+	params := clientv1.NewV1ClusterFeatureDriverLogDownloadParams().
+		WithUID(uid).
+		WithLogUID(logUID).
+		WithDriver("KubeBench")
+
+	_, err := h.Client.V1ClusterFeatureDriverLogDownload(params, writer)
+	return err
+}
+
+// DownloadKubeHunterReport downloads the KubeHunter report for the specified cluster.
+func (h *V1Client) DownloadKubeHunterReport(uid, logUID string, writer io.Writer) error {
+	params := clientv1.NewV1ClusterFeatureDriverLogDownloadParams().
+		WithUID(uid).
+		WithLogUID(logUID).
+		WithDriver("KubeHunter")
+
+	_, err := h.Client.V1ClusterFeatureDriverLogDownload(params, writer)
+	return err
+}
+
+// DownloadSonobuoyReport downloads the Sonobuoy report for the specified cluster.
+func (h *V1Client) DownloadSonobuoyReport(uid, logUID string, writer io.Writer) error {
+	params := clientv1.NewV1ClusterFeatureDriverLogDownloadParams().
+		WithUID(uid).
+		WithLogUID(logUID).
+		WithDriver("Sonobuoy")
+
+	_, err := h.Client.V1ClusterFeatureDriverLogDownload(params, writer)
+	return err
+}
+
 // UpdatePauseAgentUpgradeSettingCluster updates the upgrade settings of a specific cluster to pause the agent upgrade process.
 func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.V1ClusterUpgradeSettingsEntity, clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersUIDUpgradeSettingsParamsWithContext(h.ctx).WithUID(clusterUID).WithBody(upgradeSetting)
