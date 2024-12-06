@@ -26,6 +26,20 @@ func (h *V1Client) PutAwsHybridConfig(configUID string, hybridConfig *models.V1A
 	return err
 }
 
+// GetAwsHybridMachinePools returns the specified AWS Cluster's Edge-Native machine pool configuration
+func (h *V1Client) GetAwsHybridMachinePools(configUID, machinePoolName string) (*models.V1HybridEdgeNativeMachinePoolConfig, error) {
+	params := clientv1.NewV1AwsCloudConfigsEdgeNativeMachinePoolGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+
+	resp, err := h.Client.V1AwsCloudConfigsEdgeNativeMachinePoolGet(params)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.Payload, nil
+}
+
 // CreateAwsHybridMachinePool creates a Hybrid AWS cloud config's Edge-Native machine pool
 func (h *V1Client) CreateAwsHybridMachinePool(configUID string, machinePoolConfig *models.V1HybridEdgeNativeMachinePoolConfigEntity) error {
 	params := clientv1.NewV1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParamsWithContext(h.ctx).
