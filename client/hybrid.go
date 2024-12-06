@@ -27,11 +27,32 @@ func (h *V1Client) PutAwsHybridConfig(configUID string, hybridConfig *models.V1A
 }
 
 // CreateAwsHybridMachinePool creates a Hybrid AWS cloud config's Edge-Native machine pool
-func (h *V1Client) CreateAwsHybridMachinePool(configUID string, machinePool *models.V1HybridEdgeNativeMachinePoolConfigEntity) error {
+func (h *V1Client) CreateAwsHybridMachinePool(configUID string, machinePoolConfig *models.V1HybridEdgeNativeMachinePoolConfigEntity) error {
 	params := clientv1.NewV1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParamsWithContext(h.ctx).
-		WithBody(machinePool).
+		WithBody(machinePoolConfig).
 		WithConfigUID(configUID)
 
 	_, err := h.Client.V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params)
+	return err
+}
+
+// UpdateAwsHybridMachinePool updates the specified Hybrid AWS cluster cloud config's Edge-Native machine pool
+func (h *V1Client) UpdateAwsHybridMachinePool(configUID, machinePoolName string, machinePoolConfig *models.V1HybridEdgeNativeMachinePoolConfigUpdateEntity) error {
+	params := clientv1.NewV1AwsCloudConfigsEdgeNativeMachinePoolUpdateParamsWithContext(h.ctx).
+		WithBody(machinePoolConfig).
+		WithMachinePoolName(machinePoolName).
+		WithConfigUID(configUID)
+
+	_, err := h.Client.V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params)
+	return err
+}
+
+// DeleteAwsHybridMachinePool deletes the specified Edge-Native machine pool of hybrid AWS cluster
+func (h *V1Client) DeleteAwsHybridMachinePool(configUID, machinePoolName string) error {
+	params := clientv1.NewV1AwsCloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(h.ctx).
+		WithMachinePoolName(machinePoolName).
+		WithConfigUID(configUID)
+
+	_, err := h.Client.V1AwsCloudConfigsEdgeNativeMachinePoolDelete(params)
 	return err
 }
