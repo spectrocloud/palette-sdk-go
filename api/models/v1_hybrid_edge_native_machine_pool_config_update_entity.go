@@ -19,6 +19,9 @@ type V1HybridEdgeNativeMachinePoolConfigUpdateEntity struct {
 	// cloud config
 	CloudConfig *V1EdgeNativeHybridMachineConfigEntity `json:"cloudConfig,omitempty"`
 
+	// cluster config
+	ClusterConfig *V1EdgeNativeHybridClusterConfig `json:"clusterConfig,omitempty"`
+
 	// pool config
 	PoolConfig *V1MachinePoolConfigEntity `json:"poolConfig,omitempty"`
 }
@@ -28,6 +31,10 @@ func (m *V1HybridEdgeNativeMachinePoolConfigUpdateEntity) Validate(formats strfm
 	var res []error
 
 	if err := m.validateCloudConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateClusterConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -51,6 +58,24 @@ func (m *V1HybridEdgeNativeMachinePoolConfigUpdateEntity) validateCloudConfig(fo
 		if err := m.CloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1HybridEdgeNativeMachinePoolConfigUpdateEntity) validateClusterConfig(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ClusterConfig) { // not required
+		return nil
+	}
+
+	if m.ClusterConfig != nil {
+		if err := m.ClusterConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterConfig")
 			}
 			return err
 		}

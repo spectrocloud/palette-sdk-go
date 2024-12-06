@@ -21,7 +21,10 @@ type V1CloudConfigMeta struct {
 	// cloud type
 	CloudType string `json:"cloudType,omitempty"`
 
-	// Machine pool meta information
+	// Hybrid Machine pools meta information
+	HybridMachinePools []*V1MachinePoolMeta `json:"hybridMachinePools"`
+
+	// Machine pools meta information
 	MachinePools []*V1MachinePoolMeta `json:"machinePools"`
 
 	// Cluster's cloud config uid
@@ -32,6 +35,10 @@ type V1CloudConfigMeta struct {
 func (m *V1CloudConfigMeta) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateHybridMachinePools(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateMachinePools(formats); err != nil {
 		res = append(res, err)
 	}
@@ -39,6 +46,31 @@ func (m *V1CloudConfigMeta) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudConfigMeta) validateHybridMachinePools(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.HybridMachinePools) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.HybridMachinePools); i++ {
+		if swag.IsZero(m.HybridMachinePools[i]) { // not required
+			continue
+		}
+
+		if m.HybridMachinePools[i] != nil {
+			if err := m.HybridMachinePools[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

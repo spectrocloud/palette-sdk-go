@@ -23,8 +23,11 @@ type V1EdgeHostDeviceStatus struct {
 	// health
 	Health *V1EdgeHostHealth `json:"health,omitempty"`
 
-	// in use clusters
+	// Deprecated. Use inUseClustersRef
 	InUseClusters []*V1ObjectEntity `json:"inUseClusters"`
+
+	// in use clusters ref
+	InUseClustersRef []*V1EdgeClusterObjectEntity `json:"inUseClustersRef"`
 
 	// packs
 	Packs []*V1ClusterPackStatus `json:"packs"`
@@ -49,6 +52,10 @@ func (m *V1EdgeHostDeviceStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInUseClusters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInUseClustersRef(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -103,6 +110,31 @@ func (m *V1EdgeHostDeviceStatus) validateInUseClusters(formats strfmt.Registry) 
 			if err := m.InUseClusters[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("inUseClusters" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1EdgeHostDeviceStatus) validateInUseClustersRef(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.InUseClustersRef) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.InUseClustersRef); i++ {
+		if swag.IsZero(m.InUseClustersRef[i]) { // not required
+			continue
+		}
+
+		if m.InUseClustersRef[i] != nil {
+			if err := m.InUseClustersRef[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("inUseClustersRef" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

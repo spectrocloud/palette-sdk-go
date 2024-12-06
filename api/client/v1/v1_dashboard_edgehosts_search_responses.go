@@ -43,7 +43,7 @@ func NewV1DashboardEdgehostsSearchOK() *V1DashboardEdgehostsSearchOK {
 /*
 V1DashboardEdgehostsSearchOK handles this case with default header values.
 
-An array of edgehost summary items
+An array of edgenative pair summary items
 */
 type V1DashboardEdgehostsSearchOK struct {
 	Payload *models.V1EdgeHostsSearchSummary

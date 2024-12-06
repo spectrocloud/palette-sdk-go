@@ -25,7 +25,7 @@ type V1AwsCloudConfigSpec struct {
 	ClusterConfig *V1AwsClusterConfig `json:"clusterConfig,omitempty"`
 
 	// hybrid machine pools
-	HybridMachinePools []*V1EksHybridMachinePool `json:"hybridMachinePools"`
+	HybridMachinePools []*V1AwsHybridMachinePool `json:"hybridMachinePools"`
 
 	// machine pool config
 	MachinePoolConfig []*V1AwsMachinePoolConfig `json:"machinePoolConfig"`
