@@ -484,8 +484,6 @@ type ClientService interface {
 
 	V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent, error)
 
-	V1AwsCloudConfigsEdgeNativeUIDClusterConfig(params *V1AwsCloudConfigsEdgeNativeUIDClusterConfigParams) (*V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent, error)
-
 	V1AwsCloudConfigsUIDHybridConfig(params *V1AwsCloudConfigsUIDHybridConfigParams) (*V1AwsCloudConfigsUIDHybridConfigNoContent, error)
 
 	V1AwsCloudCost(params *V1AwsCloudCostParams) (*V1AwsCloudCostOK, error)
@@ -1496,6 +1494,8 @@ type ClientService interface {
 
 	V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1SpectroClustersGetOK, error)
 
+	V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroClustersGetHybridPoolsMetadataParams) (*V1SpectroClustersGetHybridPoolsMetadataOK, error)
+
 	V1SpectroClustersGetProfileUpdates(params *V1SpectroClustersGetProfileUpdatesParams) (*V1SpectroClustersGetProfileUpdatesOK, error)
 
 	V1SpectroClustersGetProfiles(params *V1SpectroClustersGetProfilesParams) (*V1SpectroClustersGetProfilesOK, error)
@@ -1559,6 +1559,8 @@ type ClientService interface {
 	V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUIDParams) (*V1SpectroClustersSummaryUIDOK, error)
 
 	V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSummaryUIDOverviewParams) (*V1SpectroClustersSummaryUIDOverviewOK, error)
+
+	V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error)
 
 	V1SpectroClustersTkeCreate(params *V1SpectroClustersTkeCreateParams) (*V1SpectroClustersTkeCreateCreated, error)
 
@@ -9794,40 +9796,6 @@ func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloud
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsEdgeNativeMachinePoolUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsEdgeNativeUIDClusterConfig updates the cluster configuration information of edge native cluster deployed through hybrid a w s cluster
-*/
-func (a *Client) V1AwsCloudConfigsEdgeNativeUIDClusterConfig(params *V1AwsCloudConfigsEdgeNativeUIDClusterConfigParams) (*V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsEdgeNativeUIDClusterConfigParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1AwsCloudConfigsEdgeNativeUidClusterConfig",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}/clusterConfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsEdgeNativeUIDClusterConfigReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsEdgeNativeUIDClusterConfigNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsEdgeNativeUidClusterConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -27062,6 +27030,40 @@ func (a *Client) V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1Sp
 }
 
 /*
+V1SpectroClustersGetHybridPoolsMetadata returns the metadata of all hybrid pools associated with the specified cluster
+*/
+func (a *Client) V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroClustersGetHybridPoolsMetadataParams) (*V1SpectroClustersGetHybridPoolsMetadataOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersGetHybridPoolsMetadataParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersGetHybridPoolsMetadata",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/{uid}/hybridPools/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersGetHybridPoolsMetadataReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersGetHybridPoolsMetadataOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersGetHybridPoolsMetadata: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersGetProfileUpdates returns the profile updates of a specified cluster
 */
 func (a *Client) V1SpectroClustersGetProfileUpdates(params *V1SpectroClustersGetProfileUpdatesParams) (*V1SpectroClustersGetProfileUpdatesOK, error) {
@@ -28146,6 +28148,40 @@ func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSu
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSummaryUidOverview: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersTagsGet retrieves a list of spectrocluster tags
+*/
+func (a *Client) V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersTagsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersTagsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/tags",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersTagsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersTagsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersTagsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

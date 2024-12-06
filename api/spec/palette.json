@@ -4056,45 +4056,6 @@
         }
       ]
     },
-    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}/clusterConfig": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the cluster configuration information of Edge-Native cluster deployed through Hybrid AWS cluster",
-        "operationId": "v1AwsCloudConfigsEdgeNativeUidClusterConfig",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1HybridEdgeNativeClusterConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Hybrid AWS Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Edge-Native machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/cloudconfigs/aws/{configUid}/machinePools": {
       "post": {
         "tags": [
@@ -13465,7 +13426,7 @@
         ],
         "responses": {
           "200": {
-            "description": "An array of edgehost summary items",
+            "description": "An array of edgenative pair summary items",
             "schema": {
               "$ref": "#/definitions/v1EdgeHostsMetadataSummary"
             }
@@ -13731,7 +13692,7 @@
         ],
         "responses": {
           "200": {
-            "description": "An array of edgehost summary items",
+            "description": "An array of edgenative pair summary items",
             "schema": {
               "$ref": "#/definitions/v1EdgeHostsSearchSummary"
             }
@@ -21570,6 +21531,23 @@
         }
       }
     },
+    "/v1/spectroclusters/tags": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of spectrocluster tags",
+        "operationId": "v1SpectroClustersTagsGet",
+        "responses": {
+          "200": {
+            "description": "An array of spectrocluster tags",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterTags"
+            }
+          }
+        }
+      }
+    },
     "/v1/spectroclusters/tke": {
       "post": {
         "tags": [
@@ -23795,6 +23773,32 @@
         "responses": {
           "204": {
             "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/hybridPools/metadata": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the metadata of all hybrid pools associated with the specified cluster",
+        "operationId": "v1SpectroClustersGetHybridPoolsMetadata",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterHybridPoolsMetadata"
+            }
           }
         }
       },
@@ -33968,7 +33972,11 @@
         "includeAllDisks": {
           "type": "boolean"
         },
+        "includeClusterResourceMode": {
+          "$ref": "#/definitions/v1IncludeClusterResourceMode"
+        },
         "includeClusterResources": {
+          "description": "Deprecated. Use includeClusterResourceMode",
           "type": "boolean"
         },
         "namespaces": {
@@ -34374,8 +34382,15 @@
         "cloudType": {
           "type": "string"
         },
+        "hybridMachinePools": {
+          "description": "Hybrid Machine pools meta information",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MachinePoolMeta"
+          }
+        },
         "machinePools": {
-          "description": "Machine pool meta information",
+          "description": "Machine pools meta information",
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1MachinePoolMeta"
@@ -34574,7 +34589,11 @@
         "includeAllDisks": {
           "type": "boolean"
         },
+        "includeClusterResourceMode": {
+          "$ref": "#/definitions/v1IncludeClusterResourceMode"
+        },
         "includeClusterResources": {
+          "description": "Deprecated. Use includeClusterResourceMode",
           "type": "boolean"
         },
         "locationType": {
@@ -36935,7 +36954,11 @@
         "destinationClusterUid": {
           "type": "string"
         },
+        "includeClusterResourceMode": {
+          "$ref": "#/definitions/v1IncludeClusterResourceMode"
+        },
         "includeClusterResources": {
+          "description": "Deprecated. Use includeClusterResourceMode",
           "type": "boolean"
         },
         "includeNamespaces": {
@@ -39048,6 +39071,24 @@
         }
       }
     },
+    "v1EdgeClusterObjectEntity": {
+      "description": "Object identity meta of the cluster",
+      "type": "object",
+      "properties": {
+        "hybridCluster": {
+          "description": "In case of hybrid edge clusters, it provides the object identity meta of hybrid cluster",
+          "$ref": "#/definitions/v1HybridClusterMeta"
+        },
+        "name": {
+          "description": "Name of the cluster",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Uid of the cluster",
+          "type": "string"
+        }
+      }
+    },
     "v1EdgeHost": {
       "description": "EdgeHost is the underlying appliance",
       "type": "object",
@@ -39232,9 +39273,16 @@
           "$ref": "#/definitions/v1EdgeHostHealth"
         },
         "inUseClusters": {
+          "description": "Deprecated. Use inUseClustersRef",
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1ObjectEntity"
+          }
+        },
+        "inUseClustersRef": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EdgeClusterObjectEntity"
           }
         },
         "packs": {
@@ -39539,9 +39587,16 @@
           "$ref": "#/definitions/v1EdgeHostHealth"
         },
         "inUseClusters": {
+          "description": "Deprecated. Use inUseClustersRef",
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1ObjectEntity"
+          }
+        },
+        "inUseClustersRef": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EdgeClusterObjectEntity"
           }
         },
         "state": {
@@ -42374,11 +42429,16 @@
         }
       }
     },
-    "v1HybridEdgeNativeClusterConfigEntity": {
-      "description": "Hybrid Edge-Native cluster's configuration request payload",
+    "v1HybridClusterMeta": {
+      "description": "Object identity meta of hybrid cluster",
       "properties": {
-        "clusterConfig": {
-          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
+        "name": {
+          "description": "Name of the hybrid cluster",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Uid of the hybrid cluster",
+          "type": "string"
         }
       }
     },
@@ -42435,8 +42495,65 @@
         "cloudConfig": {
           "$ref": "#/definitions/v1EdgeNativeHybridMachineConfigEntity"
         },
+        "clusterConfig": {
+          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
+        },
         "poolConfig": {
           "$ref": "#/definitions/v1MachinePoolConfigEntity"
+        }
+      }
+    },
+    "v1HybridMachinePool": {
+      "description": "Metadata information related to a hybrid machine pool launched as part of an hybrid cluster",
+      "properties": {
+        "cloudConfigUid": {
+          "description": "Cloud config uid associated with the hybrid machine pool",
+          "type": "string"
+        },
+        "cloudType": {
+          "description": "Cloud type of the hybrid machine pool",
+          "type": "string"
+        },
+        "clusterUid": {
+          "description": "Uid of the hybrid machine pool cluster",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the hybrid machine pool",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1HybridMachinePoolStatus"
+        },
+        "uid": {
+          "description": "Uid of the hybrid machine pool",
+          "type": "string"
+        }
+      }
+    },
+    "v1HybridMachinePoolClusterHealth": {
+      "description": "Machine pool cluster meta health information",
+      "type": "object",
+      "properties": {
+        "isHeartBeatFailed": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1HybridMachinePoolStatus": {
+      "description": "Get the hybrid machine pool's cluster status",
+      "properties": {
+        "health": {
+          "description": "Health of the hybrid machine pool",
+          "$ref": "#/definitions/v1HybridMachinePoolClusterHealth"
+        },
+        "state": {
+          "description": "State of the hybrid machine pool",
+          "type": "string"
         }
       }
     },
@@ -42569,6 +42686,15 @@
           }
         }
       }
+    },
+    "v1IncludeClusterResourceMode": {
+      "description": "Specifies the scope of cluster-wide resources to include in the backup based on the flag'--include-cluster-resources':\n- \"Always\": --include-cluster-resources=true, which includes all cluster-wide resources; restores only on the original cluster.\n- \"Auto\": don't specify --include-cluster-resources, which exclude general cluster-wide resources, but includes PersistentVolumes linked to selected namespaces.\n- \"Never\": --include-cluster-resources=false, exclude all cluster-wide resources, including PersistentVolumes.\n",
+      "type": "string",
+      "enum": [
+        "Always",
+        "Auto",
+        "Never"
+      ]
     },
     "v1InfraLBConfig": {
       "type": "object",
@@ -47231,7 +47357,8 @@
           "enum": [
             "spectro",
             "helm",
-            "manifest"
+            "manifest",
+            "oci"
           ]
         },
         "values": {
@@ -51121,6 +51248,33 @@
         }
       }
     },
+    "v1SpectroClusterHybridPoolsMetadata": {
+      "description": "Metadata of clusters launched as hybrid machine pools",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "cloudType": {
+              "description": "Cluster's cloud type",
+              "type": "string"
+            },
+            "hybridPools": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1HybridMachinePool"
+              }
+            }
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1SpectroClusterStatus"
+        }
+      }
+    },
     "v1SpectroClusterK8sCertificate": {
       "description": "K8 Certificates for all the cluster's control plane nodes",
       "type": "object",
@@ -51964,6 +52118,17 @@
             "virtual": {
               "$ref": "#/definitions/v1Virtual"
             }
+          }
+        }
+      }
+    },
+    "v1SpectroClusterTags": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -53068,6 +53233,14 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "networkSecurityGroup": {
+          "description": "Network security group of the subnet",
+          "type": "string"
+        },
+        "resourceGroup": {
+          "description": "Resource group associated with a subnet",
           "type": "string"
         },
         "securityGroupName": {
@@ -60414,7 +60587,11 @@
         "includeAllDisks": {
           "type": "boolean"
         },
+        "includeClusterResourceMode": {
+          "$ref": "#/definitions/v1IncludeClusterResourceMode"
+        },
         "includeClusterResources": {
+          "description": "Deprecated. Use includeClusterResourceMode",
           "type": "boolean"
         },
         "namespaces": {
@@ -60938,7 +61115,11 @@
         "backupName": {
           "type": "string"
         },
+        "includeClusterResourceMode": {
+          "$ref": "#/definitions/v1IncludeClusterResourceMode"
+        },
         "includeClusterResources": {
+          "description": "Deprecated. Use includeClusterResourceMode",
           "type": "boolean"
         },
         "includeNamespaces": {

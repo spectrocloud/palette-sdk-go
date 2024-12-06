@@ -35,7 +35,10 @@ type V1ClusterBackupConfig struct {
 	// include all disks
 	IncludeAllDisks bool `json:"includeAllDisks,omitempty"`
 
-	// include cluster resources
+	// include cluster resource mode
+	IncludeClusterResourceMode V1IncludeClusterResourceMode `json:"includeClusterResourceMode,omitempty"`
+
+	// Deprecated. Use includeClusterResourceMode
 	IncludeClusterResources bool `json:"includeClusterResources,omitempty"`
 
 	// location type
@@ -53,6 +56,10 @@ type V1ClusterBackupConfig struct {
 func (m *V1ClusterBackupConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateIncludeClusterResourceMode(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateNamespaces(formats); err != nil {
 		res = append(res, err)
 	}
@@ -64,6 +71,22 @@ func (m *V1ClusterBackupConfig) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1ClusterBackupConfig) validateIncludeClusterResourceMode(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
+		return nil
+	}
+
+	if err := m.IncludeClusterResourceMode.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("includeClusterResourceMode")
+		}
+		return err
+	}
+
 	return nil
 }
 

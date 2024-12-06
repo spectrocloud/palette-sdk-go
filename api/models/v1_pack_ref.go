@@ -69,7 +69,7 @@ type V1PackRef struct {
 	Tag string `json:"tag,omitempty"`
 
 	// type of the pack
-	// Enum: [spectro helm manifest]
+	// Enum: [spectro helm manifest oci]
 	Type string `json:"type,omitempty"`
 
 	// values represents the values.yaml used as input parameters either Params OR Values should be used, not both If both applied at the same time, will only use Values
@@ -256,7 +256,7 @@ var v1PackRefTypeTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["spectro","helm","manifest"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["spectro","helm","manifest","oci"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -274,6 +274,9 @@ const (
 
 	// V1PackRefTypeManifest captures enum value "manifest"
 	V1PackRefTypeManifest string = "manifest"
+
+	// V1PackRefTypeOci captures enum value "oci"
+	V1PackRefTypeOci string = "oci"
 )
 
 // prop value enum
