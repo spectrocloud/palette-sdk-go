@@ -25,3 +25,13 @@ func (h *V1Client) PutAwsHybridConfig(configUID string, hybridConfig *models.V1A
 	_, err := h.Client.V1AwsCloudConfigsUIDHybridConfig(params)
 	return err
 }
+
+// CreateAwsHybridMachinePool creates a Hybrid AWS cloud config's Edge-Native machine pool
+func (h *V1Client) CreateAwsHybridMachinePool(configUID string, machinePool *models.V1HybridEdgeNativeMachinePoolConfigEntity) error {
+	params := clientv1.NewV1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParamsWithContext(h.ctx).
+		WithBody(machinePool).
+		WithConfigUID(configUID)
+
+	_, err := h.Client.V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params)
+	return err
+}
