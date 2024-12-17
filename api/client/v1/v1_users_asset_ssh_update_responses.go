@@ -37,8 +37,7 @@ func NewV1UsersAssetSSHUpdateNoContent() *V1UsersAssetSSHUpdateNoContent {
 	return &V1UsersAssetSSHUpdateNoContent{}
 }
 
-/*
-V1UsersAssetSSHUpdateNoContent handles this case with default header values.
+/*V1UsersAssetSSHUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

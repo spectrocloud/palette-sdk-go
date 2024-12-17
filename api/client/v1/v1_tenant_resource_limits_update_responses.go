@@ -37,8 +37,7 @@ func NewV1TenantResourceLimitsUpdateNoContent() *V1TenantResourceLimitsUpdateNoC
 	return &V1TenantResourceLimitsUpdateNoContent{}
 }
 
-/*
-V1TenantResourceLimitsUpdateNoContent handles this case with default header values.
+/*V1TenantResourceLimitsUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

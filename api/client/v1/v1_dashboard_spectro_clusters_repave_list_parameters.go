@@ -68,8 +68,7 @@ func NewV1DashboardSpectroClustersRepaveListParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1DashboardSpectroClustersRepaveListParams contains all the parameters to send to the API endpoint
+/*V1DashboardSpectroClustersRepaveListParams contains all the parameters to send to the API endpoint
 for the v1 dashboard spectro clusters repave list operation typically these are written to a http.Request
 */
 type V1DashboardSpectroClustersRepaveListParams struct {

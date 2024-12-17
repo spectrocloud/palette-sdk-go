@@ -68,8 +68,7 @@ func NewV1SpectroClustersFiltersWorkspaceParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1SpectroClustersFiltersWorkspaceParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersFiltersWorkspaceParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters filters workspace operation typically these are written to a http.Request
 */
 type V1SpectroClustersFiltersWorkspaceParams struct {

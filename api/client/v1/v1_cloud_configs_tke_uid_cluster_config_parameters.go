@@ -57,8 +57,7 @@ func NewV1CloudConfigsTkeUIDClusterConfigParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1CloudConfigsTkeUIDClusterConfigParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsTkeUIDClusterConfigParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs tke Uid cluster config operation typically these are written to a http.Request
 */
 type V1CloudConfigsTkeUIDClusterConfigParams struct {

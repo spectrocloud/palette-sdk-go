@@ -55,8 +55,7 @@ func NewV1InvoiceUIDReportUsagePdfParamsWithHTTPClient(client *http.Client) *V1I
 	}
 }
 
-/*
-V1InvoiceUIDReportUsagePdfParams contains all the parameters to send to the API endpoint
+/*V1InvoiceUIDReportUsagePdfParams contains all the parameters to send to the API endpoint
 for the v1 invoice Uid report usage pdf operation typically these are written to a http.Request
 */
 type V1InvoiceUIDReportUsagePdfParams struct {

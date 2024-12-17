@@ -40,8 +40,7 @@ func NewV1UsersAssetsLocationGetOK() *V1UsersAssetsLocationGetOK {
 	return &V1UsersAssetsLocationGetOK{}
 }
 
-/*
-V1UsersAssetsLocationGetOK handles this case with default header values.
+/*V1UsersAssetsLocationGetOK handles this case with default header values.
 
 OK
 */

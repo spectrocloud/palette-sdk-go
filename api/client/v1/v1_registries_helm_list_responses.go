@@ -40,8 +40,7 @@ func NewV1RegistriesHelmListOK() *V1RegistriesHelmListOK {
 	return &V1RegistriesHelmListOK{}
 }
 
-/*
-V1RegistriesHelmListOK handles this case with default header values.
+/*V1RegistriesHelmListOK handles this case with default header values.
 
 An array of registry items
 */

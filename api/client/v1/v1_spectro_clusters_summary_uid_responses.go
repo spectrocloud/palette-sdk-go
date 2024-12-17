@@ -40,8 +40,7 @@ func NewV1SpectroClustersSummaryUIDOK() *V1SpectroClustersSummaryUIDOK {
 	return &V1SpectroClustersSummaryUIDOK{}
 }
 
-/*
-V1SpectroClustersSummaryUIDOK handles this case with default header values.
+/*V1SpectroClustersSummaryUIDOK handles this case with default header values.
 
 An spectro cluster summary
 */

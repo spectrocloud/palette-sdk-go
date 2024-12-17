@@ -40,8 +40,7 @@ func NewV1OverlordsListOK() *V1OverlordsListOK {
 	return &V1OverlordsListOK{}
 }
 
-/*
-V1OverlordsListOK handles this case with default header values.
+/*V1OverlordsListOK handles this case with default header values.
 
 (empty)
 */

@@ -40,8 +40,7 @@ func NewV1RegistriesHelmUIDGetOK() *V1RegistriesHelmUIDGetOK {
 	return &V1RegistriesHelmUIDGetOK{}
 }
 
-/*
-V1RegistriesHelmUIDGetOK handles this case with default header values.
+/*V1RegistriesHelmUIDGetOK handles this case with default header values.
 
 OK
 */

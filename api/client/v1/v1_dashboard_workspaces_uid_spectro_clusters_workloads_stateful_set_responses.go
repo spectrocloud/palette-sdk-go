@@ -40,8 +40,7 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetOK() *V1Dashb
 	return &V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetOK{}
 }
 
-/*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetOK handles this case with default header values.
+/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetOK handles this case with default header values.
 
 An array of clusters workload statefulsets
 */

@@ -57,8 +57,7 @@ func NewV1CloudConfigsOpenStackUIDClusterConfigParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1CloudConfigsOpenStackUIDClusterConfigParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsOpenStackUIDClusterConfigParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs open stack Uid cluster config operation typically these are written to a http.Request
 */
 type V1CloudConfigsOpenStackUIDClusterConfigParams struct {

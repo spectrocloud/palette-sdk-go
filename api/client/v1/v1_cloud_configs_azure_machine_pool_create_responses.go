@@ -40,8 +40,7 @@ func NewV1CloudConfigsAzureMachinePoolCreateCreated() *V1CloudConfigsAzureMachin
 	return &V1CloudConfigsAzureMachinePoolCreateCreated{}
 }
 
-/*
-V1CloudConfigsAzureMachinePoolCreateCreated handles this case with default header values.
+/*V1CloudConfigsAzureMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

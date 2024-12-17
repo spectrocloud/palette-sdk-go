@@ -68,8 +68,7 @@ func NewV1CloudConfigsGcpPoolMachinesListParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1CloudConfigsGcpPoolMachinesListParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsGcpPoolMachinesListParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs gcp pool machines list operation typically these are written to a http.Request
 */
 type V1CloudConfigsGcpPoolMachinesListParams struct {

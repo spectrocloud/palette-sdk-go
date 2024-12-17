@@ -37,8 +37,7 @@ func NewV1ClusterGroupsUIDMetaUpdateNoContent() *V1ClusterGroupsUIDMetaUpdateNoC
 	return &V1ClusterGroupsUIDMetaUpdateNoContent{}
 }
 
-/*
-V1ClusterGroupsUIDMetaUpdateNoContent handles this case with default header values.
+/*V1ClusterGroupsUIDMetaUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

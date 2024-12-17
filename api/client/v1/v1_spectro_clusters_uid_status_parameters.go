@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDStatusParamsWithHTTPClient(client *http.Client) *V1S
 	}
 }
 
-/*
-V1SpectroClustersUIDStatusParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDStatusParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid status operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDStatusParams struct {

@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeClusterTemplateDeleteParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CustomCloudTypeClusterTemplateDeleteParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeClusterTemplateDeleteParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type cluster template delete operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeClusterTemplateDeleteParams struct {

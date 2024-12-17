@@ -40,8 +40,7 @@ func NewV1EdgeTokensCreateCreated() *V1EdgeTokensCreateCreated {
 	return &V1EdgeTokensCreateCreated{}
 }
 
-/*
-V1EdgeTokensCreateCreated handles this case with default header values.
+/*V1EdgeTokensCreateCreated handles this case with default header values.
 
 Created successfully
 */

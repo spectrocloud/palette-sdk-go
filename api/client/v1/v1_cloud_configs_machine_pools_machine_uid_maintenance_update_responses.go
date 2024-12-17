@@ -37,8 +37,7 @@ func NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateNoContent() *V1Clou
 	return &V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateNoContent{}
 }
 
-/*
-V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateNoContent handles this case with default header values.
+/*V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

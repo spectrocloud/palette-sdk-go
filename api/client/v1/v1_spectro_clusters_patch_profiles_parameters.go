@@ -70,8 +70,7 @@ func NewV1SpectroClustersPatchProfilesParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1SpectroClustersPatchProfilesParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersPatchProfilesParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters patch profiles operation typically these are written to a http.Request
 */
 type V1SpectroClustersPatchProfilesParams struct {

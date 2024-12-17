@@ -55,8 +55,7 @@ func NewV1OpenStackAzsGetParamsWithHTTPClient(client *http.Client) *V1OpenStackA
 	}
 }
 
-/*
-V1OpenStackAzsGetParams contains all the parameters to send to the API endpoint
+/*V1OpenStackAzsGetParams contains all the parameters to send to the API endpoint
 for the v1 open stack azs get operation typically these are written to a http.Request
 */
 type V1OpenStackAzsGetParams struct {

@@ -57,8 +57,7 @@ func NewV1FeaturesUpdateParamsWithHTTPClient(client *http.Client) *V1FeaturesUpd
 	}
 }
 
-/*
-V1FeaturesUpdateParams contains all the parameters to send to the API endpoint
+/*V1FeaturesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 features update operation typically these are written to a http.Request
 */
 type V1FeaturesUpdateParams struct {

@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeLogoUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1CustomCloudTypeLogoUpdateParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeLogoUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type logo update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeLogoUpdateParams struct {

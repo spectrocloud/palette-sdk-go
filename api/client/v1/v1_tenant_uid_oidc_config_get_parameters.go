@@ -55,8 +55,7 @@ func NewV1TenantUIDOidcConfigGetParamsWithHTTPClient(client *http.Client) *V1Ten
 	}
 }
 
-/*
-V1TenantUIDOidcConfigGetParams contains all the parameters to send to the API endpoint
+/*V1TenantUIDOidcConfigGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid oidc config get operation typically these are written to a http.Request
 */
 type V1TenantUIDOidcConfigGetParams struct {

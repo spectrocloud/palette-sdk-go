@@ -40,8 +40,7 @@ func NewV1CloudConfigsGcpGetOK() *V1CloudConfigsGcpGetOK {
 	return &V1CloudConfigsGcpGetOK{}
 }
 
-/*
-V1CloudConfigsGcpGetOK handles this case with default header values.
+/*V1CloudConfigsGcpGetOK handles this case with default header values.
 
 OK
 */

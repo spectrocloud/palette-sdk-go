@@ -40,8 +40,7 @@ func NewV1ProjectClusterSettingsGetOK() *V1ProjectClusterSettingsGetOK {
 	return &V1ProjectClusterSettingsGetOK{}
 }
 
-/*
-V1ProjectClusterSettingsGetOK handles this case with default header values.
+/*V1ProjectClusterSettingsGetOK handles this case with default header values.
 
 (empty)
 */

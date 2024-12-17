@@ -40,8 +40,7 @@ func NewV1ClusterProfilesUIDPacksResolvedValuesGetOK() *V1ClusterProfilesUIDPack
 	return &V1ClusterProfilesUIDPacksResolvedValuesGetOK{}
 }
 
-/*
-V1ClusterProfilesUIDPacksResolvedValuesGetOK handles this case with default header values.
+/*V1ClusterProfilesUIDPacksResolvedValuesGetOK handles this case with default header values.
 
 OK
 */

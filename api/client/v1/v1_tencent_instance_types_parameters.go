@@ -56,8 +56,7 @@ func NewV1TencentInstanceTypesParamsWithHTTPClient(client *http.Client) *V1Tence
 	}
 }
 
-/*
-V1TencentInstanceTypesParams contains all the parameters to send to the API endpoint
+/*V1TencentInstanceTypesParams contains all the parameters to send to the API endpoint
 for the v1 tencent instance types operation typically these are written to a http.Request
 */
 type V1TencentInstanceTypesParams struct {

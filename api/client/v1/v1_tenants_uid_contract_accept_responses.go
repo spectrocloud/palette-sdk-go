@@ -37,8 +37,7 @@ func NewV1TenantsUIDContractAcceptNoContent() *V1TenantsUIDContractAcceptNoConte
 	return &V1TenantsUIDContractAcceptNoContent{}
 }
 
-/*
-V1TenantsUIDContractAcceptNoContent handles this case with default header values.
+/*V1TenantsUIDContractAcceptNoContent handles this case with default header values.
 
 Ok response without content
 */

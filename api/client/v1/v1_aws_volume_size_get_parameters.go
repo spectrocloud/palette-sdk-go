@@ -55,8 +55,7 @@ func NewV1AwsVolumeSizeGetParamsWithHTTPClient(client *http.Client) *V1AwsVolume
 	}
 }
 
-/*
-V1AwsVolumeSizeGetParams contains all the parameters to send to the API endpoint
+/*V1AwsVolumeSizeGetParams contains all the parameters to send to the API endpoint
 for the v1 aws volume size get operation typically these are written to a http.Request
 */
 type V1AwsVolumeSizeGetParams struct {

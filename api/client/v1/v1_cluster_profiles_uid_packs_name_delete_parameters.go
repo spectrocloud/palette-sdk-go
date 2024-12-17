@@ -55,8 +55,7 @@ func NewV1ClusterProfilesUIDPacksNameDeleteParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*
-V1ClusterProfilesUIDPacksNameDeleteParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesUIDPacksNameDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid packs name delete operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDPacksNameDeleteParams struct {

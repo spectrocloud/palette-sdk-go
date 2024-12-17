@@ -40,8 +40,7 @@ func NewV1OpenStackRegionsGetOK() *V1OpenStackRegionsGetOK {
 	return &V1OpenStackRegionsGetOK{}
 }
 
-/*
-V1OpenStackRegionsGetOK handles this case with default header values.
+/*V1OpenStackRegionsGetOK handles this case with default header values.
 
 (empty)
 */

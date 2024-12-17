@@ -40,8 +40,7 @@ func NewV1CloudAccountsGcpListOK() *V1CloudAccountsGcpListOK {
 	return &V1CloudAccountsGcpListOK{}
 }
 
-/*
-V1CloudAccountsGcpListOK handles this case with default header values.
+/*V1CloudAccountsGcpListOK handles this case with default header values.
 
 An array of gcp cloud account items
 */

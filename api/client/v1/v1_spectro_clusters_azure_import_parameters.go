@@ -57,8 +57,7 @@ func NewV1SpectroClustersAzureImportParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1SpectroClustersAzureImportParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersAzureImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters azure import operation typically these are written to a http.Request
 */
 type V1SpectroClustersAzureImportParams struct {

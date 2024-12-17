@@ -57,8 +57,7 @@ func NewV1CloudConfigsEksPoolMachinesUIDUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CloudConfigsEksPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsEksPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs eks pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsEksPoolMachinesUIDUpdateParams struct {

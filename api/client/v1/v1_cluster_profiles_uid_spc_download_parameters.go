@@ -55,8 +55,7 @@ func NewV1ClusterProfilesUIDSpcDownloadParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1ClusterProfilesUIDSpcDownloadParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesUIDSpcDownloadParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid spc download operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDSpcDownloadParams struct {

@@ -40,8 +40,7 @@ func NewV1OverlordsUIDVsphereClusterProfileOK() *V1OverlordsUIDVsphereClusterPro
 	return &V1OverlordsUIDVsphereClusterProfileOK{}
 }
 
-/*
-V1OverlordsUIDVsphereClusterProfileOK handles this case with default header values.
+/*V1OverlordsUIDVsphereClusterProfileOK handles this case with default header values.
 
 OK
 */

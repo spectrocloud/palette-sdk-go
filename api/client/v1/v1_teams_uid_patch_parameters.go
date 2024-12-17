@@ -57,8 +57,7 @@ func NewV1TeamsUIDPatchParamsWithHTTPClient(client *http.Client) *V1TeamsUIDPatc
 	}
 }
 
-/*
-V1TeamsUIDPatchParams contains all the parameters to send to the API endpoint
+/*V1TeamsUIDPatchParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid patch operation typically these are written to a http.Request
 */
 type V1TeamsUIDPatchParams struct {

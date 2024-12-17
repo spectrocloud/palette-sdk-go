@@ -40,8 +40,7 @@ func NewV1CloudConfigsVirtualGetOK() *V1CloudConfigsVirtualGetOK {
 	return &V1CloudConfigsVirtualGetOK{}
 }
 
-/*
-V1CloudConfigsVirtualGetOK handles this case with default header values.
+/*V1CloudConfigsVirtualGetOK handles this case with default header values.
 
 OK
 */

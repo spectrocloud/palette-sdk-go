@@ -57,8 +57,7 @@ func NewV1TencentAccountValidateParamsWithHTTPClient(client *http.Client) *V1Ten
 	}
 }
 
-/*
-V1TencentAccountValidateParams contains all the parameters to send to the API endpoint
+/*V1TencentAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 tencent account validate operation typically these are written to a http.Request
 */
 type V1TencentAccountValidateParams struct {

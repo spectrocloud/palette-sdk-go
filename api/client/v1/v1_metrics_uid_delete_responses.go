@@ -37,8 +37,7 @@ func NewV1MetricsUIDDeleteNoContent() *V1MetricsUIDDeleteNoContent {
 	return &V1MetricsUIDDeleteNoContent{}
 }
 
-/*
-V1MetricsUIDDeleteNoContent handles this case with default header values.
+/*V1MetricsUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

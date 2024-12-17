@@ -40,8 +40,7 @@ func NewV1CustomCloudTypeCloudAccountKeysGetOK() *V1CustomCloudTypeCloudAccountK
 	return &V1CustomCloudTypeCloudAccountKeysGetOK{}
 }
 
-/*
-V1CustomCloudTypeCloudAccountKeysGetOK handles this case with default header values.
+/*V1CustomCloudTypeCloudAccountKeysGetOK handles this case with default header values.
 
 (empty)
 */

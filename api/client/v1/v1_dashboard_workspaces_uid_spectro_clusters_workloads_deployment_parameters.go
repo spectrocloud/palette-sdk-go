@@ -57,8 +57,7 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentParamsWithHTTP
 	}
 }
 
-/*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentParams contains all the parameters to send to the API endpoint
+/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentParams contains all the parameters to send to the API endpoint
 for the v1 dashboard workspaces Uid spectro clusters workloads deployment operation typically these are written to a http.Request
 */
 type V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentParams struct {

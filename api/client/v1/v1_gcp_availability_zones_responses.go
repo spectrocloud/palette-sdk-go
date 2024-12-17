@@ -40,8 +40,7 @@ func NewV1GcpAvailabilityZonesOK() *V1GcpAvailabilityZonesOK {
 	return &V1GcpAvailabilityZonesOK{}
 }
 
-/*
-V1GcpAvailabilityZonesOK handles this case with default header values.
+/*V1GcpAvailabilityZonesOK handles this case with default header values.
 
 (empty)
 */

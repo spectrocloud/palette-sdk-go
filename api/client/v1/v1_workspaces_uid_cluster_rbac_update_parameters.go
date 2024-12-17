@@ -57,8 +57,7 @@ func NewV1WorkspacesUIDClusterRbacUpdateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1WorkspacesUIDClusterRbacUpdateParams contains all the parameters to send to the API endpoint
+/*V1WorkspacesUIDClusterRbacUpdateParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid cluster rbac update operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDClusterRbacUpdateParams struct {

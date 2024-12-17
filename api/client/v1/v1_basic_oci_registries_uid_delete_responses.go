@@ -37,8 +37,7 @@ func NewV1BasicOciRegistriesUIDDeleteNoContent() *V1BasicOciRegistriesUIDDeleteN
 	return &V1BasicOciRegistriesUIDDeleteNoContent{}
 }
 
-/*
-V1BasicOciRegistriesUIDDeleteNoContent handles this case with default header values.
+/*V1BasicOciRegistriesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

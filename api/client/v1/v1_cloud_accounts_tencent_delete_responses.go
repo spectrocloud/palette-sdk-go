@@ -37,8 +37,7 @@ func NewV1CloudAccountsTencentDeleteNoContent() *V1CloudAccountsTencentDeleteNoC
 	return &V1CloudAccountsTencentDeleteNoContent{}
 }
 
-/*
-V1CloudAccountsTencentDeleteNoContent handles this case with default header values.
+/*V1CloudAccountsTencentDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

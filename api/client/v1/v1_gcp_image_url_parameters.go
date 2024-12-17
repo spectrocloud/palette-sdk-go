@@ -55,8 +55,7 @@ func NewV1GcpImageURLParamsWithHTTPClient(client *http.Client) *V1GcpImageURLPar
 	}
 }
 
-/*
-V1GcpImageURLParams contains all the parameters to send to the API endpoint
+/*V1GcpImageURLParams contains all the parameters to send to the API endpoint
 for the v1 gcp image Url operation typically these are written to a http.Request
 */
 type V1GcpImageURLParams struct {

@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDOIDCDashboardURLOK() *V1SpectroClustersUIDOIDCDashbo
 	return &V1SpectroClustersUIDOIDCDashboardURLOK{}
 }
 
-/*
-V1SpectroClustersUIDOIDCDashboardURLOK handles this case with default header values.
+/*V1SpectroClustersUIDOIDCDashboardURLOK handles this case with default header values.
 
 OK
 */

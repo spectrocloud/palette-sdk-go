@@ -57,8 +57,7 @@ func NewV1TenantDeveloperCreditUpdateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1TenantDeveloperCreditUpdateParams contains all the parameters to send to the API endpoint
+/*V1TenantDeveloperCreditUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant developer credit update operation typically these are written to a http.Request
 */
 type V1TenantDeveloperCreditUpdateParams struct {

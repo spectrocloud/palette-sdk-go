@@ -67,8 +67,7 @@ func NewV1ClusterProfilesUIDExportParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*
-V1ClusterProfilesUIDExportParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesUIDExportParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid export operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDExportParams struct {

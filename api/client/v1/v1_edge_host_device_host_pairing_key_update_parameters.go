@@ -57,8 +57,7 @@ func NewV1EdgeHostDeviceHostPairingKeyUpdateParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1EdgeHostDeviceHostPairingKeyUpdateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDeviceHostPairingKeyUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host device host pairing key update operation typically these are written to a http.Request
 */
 type V1EdgeHostDeviceHostPairingKeyUpdateParams struct {

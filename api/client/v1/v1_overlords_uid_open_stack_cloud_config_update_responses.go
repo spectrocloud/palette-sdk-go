@@ -37,8 +37,7 @@ func NewV1OverlordsUIDOpenStackCloudConfigUpdateNoContent() *V1OverlordsUIDOpenS
 	return &V1OverlordsUIDOpenStackCloudConfigUpdateNoContent{}
 }
 
-/*
-V1OverlordsUIDOpenStackCloudConfigUpdateNoContent handles this case with default header values.
+/*V1OverlordsUIDOpenStackCloudConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

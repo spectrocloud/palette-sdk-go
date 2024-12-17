@@ -40,8 +40,7 @@ func NewV1UsersEmailPasswordResetNoContent() *V1UsersEmailPasswordResetNoContent
 	return &V1UsersEmailPasswordResetNoContent{}
 }
 
-/*
-V1UsersEmailPasswordResetNoContent handles this case with default header values.
+/*V1UsersEmailPasswordResetNoContent handles this case with default header values.
 
 Ok response without content
 */
@@ -63,8 +62,7 @@ func (o *V1UsersEmailPasswordResetNoContent) readResponse(response runtime.Clien
 	return nil
 }
 
-/*
-V1UsersEmailPasswordResetBody v1 users email password reset body
+/*V1UsersEmailPasswordResetBody v1 users email password reset body
 swagger:model V1UsersEmailPasswordResetBody
 */
 type V1UsersEmailPasswordResetBody struct {

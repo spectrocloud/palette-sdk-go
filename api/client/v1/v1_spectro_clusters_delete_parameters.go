@@ -56,8 +56,7 @@ func NewV1SpectroClustersDeleteParamsWithHTTPClient(client *http.Client) *V1Spec
 	}
 }
 
-/*
-V1SpectroClustersDeleteParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersDeleteParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters delete operation typically these are written to a http.Request
 */
 type V1SpectroClustersDeleteParams struct {

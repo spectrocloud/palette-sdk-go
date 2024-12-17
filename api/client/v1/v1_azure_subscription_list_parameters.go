@@ -55,8 +55,7 @@ func NewV1AzureSubscriptionListParamsWithHTTPClient(client *http.Client) *V1Azur
 	}
 }
 
-/*
-V1AzureSubscriptionListParams contains all the parameters to send to the API endpoint
+/*V1AzureSubscriptionListParams contains all the parameters to send to the API endpoint
 for the v1 azure subscription list operation typically these are written to a http.Request
 */
 type V1AzureSubscriptionListParams struct {

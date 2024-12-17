@@ -37,8 +37,7 @@ func NewV1TenantFipsSettingsUpdateNoContent() *V1TenantFipsSettingsUpdateNoConte
 	return &V1TenantFipsSettingsUpdateNoContent{}
 }
 
-/*
-V1TenantFipsSettingsUpdateNoContent handles this case with default header values.
+/*V1TenantFipsSettingsUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

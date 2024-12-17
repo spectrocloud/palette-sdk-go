@@ -55,8 +55,7 @@ func NewV1TencentZonesParamsWithHTTPClient(client *http.Client) *V1TencentZonesP
 	}
 }
 
-/*
-V1TencentZonesParams contains all the parameters to send to the API endpoint
+/*V1TencentZonesParams contains all the parameters to send to the API endpoint
 for the v1 tencent zones operation typically these are written to a http.Request
 */
 type V1TencentZonesParams struct {

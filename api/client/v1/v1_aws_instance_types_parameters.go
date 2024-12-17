@@ -56,8 +56,7 @@ func NewV1AwsInstanceTypesParamsWithHTTPClient(client *http.Client) *V1AwsInstan
 	}
 }
 
-/*
-V1AwsInstanceTypesParams contains all the parameters to send to the API endpoint
+/*V1AwsInstanceTypesParams contains all the parameters to send to the API endpoint
 for the v1 aws instance types operation typically these are written to a http.Request
 */
 type V1AwsInstanceTypesParams struct {

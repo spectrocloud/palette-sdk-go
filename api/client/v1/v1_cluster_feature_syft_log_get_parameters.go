@@ -55,8 +55,7 @@ func NewV1ClusterFeatureSyftLogGetParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*
-V1ClusterFeatureSyftLogGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureSyftLogGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature syft log get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureSyftLogGetParams struct {

@@ -55,8 +55,7 @@ func NewV1MaasSubnetsGetParamsWithHTTPClient(client *http.Client) *V1MaasSubnets
 	}
 }
 
-/*
-V1MaasSubnetsGetParams contains all the parameters to send to the API endpoint
+/*V1MaasSubnetsGetParams contains all the parameters to send to the API endpoint
 for the v1 maas subnets get operation typically these are written to a http.Request
 */
 type V1MaasSubnetsGetParams struct {

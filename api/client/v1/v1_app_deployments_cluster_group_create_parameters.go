@@ -57,8 +57,7 @@ func NewV1AppDeploymentsClusterGroupCreateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1AppDeploymentsClusterGroupCreateParams contains all the parameters to send to the API endpoint
+/*V1AppDeploymentsClusterGroupCreateParams contains all the parameters to send to the API endpoint
 for the v1 app deployments cluster group create operation typically these are written to a http.Request
 */
 type V1AppDeploymentsClusterGroupCreateParams struct {

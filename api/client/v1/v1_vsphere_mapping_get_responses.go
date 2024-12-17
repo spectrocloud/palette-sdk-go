@@ -40,8 +40,7 @@ func NewV1VsphereMappingGetOK() *V1VsphereMappingGetOK {
 	return &V1VsphereMappingGetOK{}
 }
 
-/*
-V1VsphereMappingGetOK handles this case with default header values.
+/*V1VsphereMappingGetOK handles this case with default header values.
 
 (empty)
 */

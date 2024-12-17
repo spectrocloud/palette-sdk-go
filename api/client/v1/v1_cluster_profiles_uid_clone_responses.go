@@ -40,8 +40,7 @@ func NewV1ClusterProfilesUIDCloneCreated() *V1ClusterProfilesUIDCloneCreated {
 	return &V1ClusterProfilesUIDCloneCreated{}
 }
 
-/*
-V1ClusterProfilesUIDCloneCreated handles this case with default header values.
+/*V1ClusterProfilesUIDCloneCreated handles this case with default header values.
 
 Created successfully
 */

@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDWorkloadsSyncParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1SpectroClustersUIDWorkloadsSyncParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDWorkloadsSyncParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid workloads sync operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDWorkloadsSyncParams struct {

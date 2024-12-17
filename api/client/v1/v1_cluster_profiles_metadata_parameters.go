@@ -55,8 +55,7 @@ func NewV1ClusterProfilesMetadataParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*
-V1ClusterProfilesMetadataParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesMetadataParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles metadata operation typically these are written to a http.Request
 */
 type V1ClusterProfilesMetadataParams struct {

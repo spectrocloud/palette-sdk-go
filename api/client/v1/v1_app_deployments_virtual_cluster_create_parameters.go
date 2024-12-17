@@ -57,8 +57,7 @@ func NewV1AppDeploymentsVirtualClusterCreateParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1AppDeploymentsVirtualClusterCreateParams contains all the parameters to send to the API endpoint
+/*V1AppDeploymentsVirtualClusterCreateParams contains all the parameters to send to the API endpoint
 for the v1 app deployments virtual cluster create operation typically these are written to a http.Request
 */
 type V1AppDeploymentsVirtualClusterCreateParams struct {

@@ -40,8 +40,7 @@ func NewV1ClusterFeatureManifestsGetOK() *V1ClusterFeatureManifestsGetOK {
 	return &V1ClusterFeatureManifestsGetOK{}
 }
 
-/*
-V1ClusterFeatureManifestsGetOK handles this case with default header values.
+/*V1ClusterFeatureManifestsGetOK handles this case with default header values.
 
 OK
 */

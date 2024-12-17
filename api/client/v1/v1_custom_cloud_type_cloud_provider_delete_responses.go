@@ -37,8 +37,7 @@ func NewV1CustomCloudTypeCloudProviderDeleteNoContent() *V1CustomCloudTypeCloudP
 	return &V1CustomCloudTypeCloudProviderDeleteNoContent{}
 }
 
-/*
-V1CustomCloudTypeCloudProviderDeleteNoContent handles this case with default header values.
+/*V1CustomCloudTypeCloudProviderDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

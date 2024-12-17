@@ -37,8 +37,7 @@ func NewV1WorkspaceOpsBackupDeleteNoContent() *V1WorkspaceOpsBackupDeleteNoConte
 	return &V1WorkspaceOpsBackupDeleteNoContent{}
 }
 
-/*
-V1WorkspaceOpsBackupDeleteNoContent handles this case with default header values.
+/*V1WorkspaceOpsBackupDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

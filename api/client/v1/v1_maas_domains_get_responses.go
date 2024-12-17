@@ -40,8 +40,7 @@ func NewV1MaasDomainsGetOK() *V1MaasDomainsGetOK {
 	return &V1MaasDomainsGetOK{}
 }
 
-/*
-V1MaasDomainsGetOK handles this case with default header values.
+/*V1MaasDomainsGetOK handles this case with default header values.
 
 (empty)
 */

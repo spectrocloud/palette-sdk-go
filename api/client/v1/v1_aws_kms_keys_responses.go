@@ -40,8 +40,7 @@ func NewV1AwsKmsKeysOK() *V1AwsKmsKeysOK {
 	return &V1AwsKmsKeysOK{}
 }
 
-/*
-V1AwsKmsKeysOK handles this case with default header values.
+/*V1AwsKmsKeysOK handles this case with default header values.
 
 (empty)
 */

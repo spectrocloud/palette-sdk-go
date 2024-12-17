@@ -55,8 +55,7 @@ func NewV1UsersKubectlSessionUIDParamsWithHTTPClient(client *http.Client) *V1Use
 	}
 }
 
-/*
-V1UsersKubectlSessionUIDParams contains all the parameters to send to the API endpoint
+/*V1UsersKubectlSessionUIDParams contains all the parameters to send to the API endpoint
 for the v1 users kubectl session Uid operation typically these are written to a http.Request
 */
 type V1UsersKubectlSessionUIDParams struct {

@@ -37,8 +37,7 @@ func NewV1NotificationsUIDAckNoContent() *V1NotificationsUIDAckNoContent {
 	return &V1NotificationsUIDAckNoContent{}
 }
 
-/*
-V1NotificationsUIDAckNoContent handles this case with default header values.
+/*V1NotificationsUIDAckNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

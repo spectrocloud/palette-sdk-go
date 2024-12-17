@@ -55,8 +55,7 @@ func NewV1UsersAssetsLocationDefaultUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1UsersAssetsLocationDefaultUpdateParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetsLocationDefaultUpdateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location default update operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationDefaultUpdateParams struct {

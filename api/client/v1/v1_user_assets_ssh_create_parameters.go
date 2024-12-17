@@ -57,8 +57,7 @@ func NewV1UserAssetsSSHCreateParamsWithHTTPClient(client *http.Client) *V1UserAs
 	}
 }
 
-/*
-V1UserAssetsSSHCreateParams contains all the parameters to send to the API endpoint
+/*V1UserAssetsSSHCreateParams contains all the parameters to send to the API endpoint
 for the v1 user assets Ssh create operation typically these are written to a http.Request
 */
 type V1UserAssetsSSHCreateParams struct {

@@ -40,8 +40,7 @@ func NewV1ProjectsUIDValidateOK() *V1ProjectsUIDValidateOK {
 	return &V1ProjectsUIDValidateOK{}
 }
 
-/*
-V1ProjectsUIDValidateOK handles this case with default header values.
+/*V1ProjectsUIDValidateOK handles this case with default header values.
 
 (empty)
 */

@@ -40,8 +40,7 @@ func NewV1OverlordsUIDVsphereDatacentersOK() *V1OverlordsUIDVsphereDatacentersOK
 	return &V1OverlordsUIDVsphereDatacentersOK{}
 }
 
-/*
-V1OverlordsUIDVsphereDatacentersOK handles this case with default header values.
+/*V1OverlordsUIDVsphereDatacentersOK handles this case with default header values.
 
 (empty)
 */

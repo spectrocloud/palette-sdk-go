@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDConfigNamespacesUIDGetOK() *V1SpectroClustersUIDConf
 	return &V1SpectroClustersUIDConfigNamespacesUIDGetOK{}
 }
 
-/*
-V1SpectroClustersUIDConfigNamespacesUIDGetOK handles this case with default header values.
+/*V1SpectroClustersUIDConfigNamespacesUIDGetOK handles this case with default header values.
 
 Cluster's namespace response
 */

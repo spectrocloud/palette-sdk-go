@@ -55,8 +55,7 @@ func NewV1TencentVpcsParamsWithHTTPClient(client *http.Client) *V1TencentVpcsPar
 	}
 }
 
-/*
-V1TencentVpcsParams contains all the parameters to send to the API endpoint
+/*V1TencentVpcsParams contains all the parameters to send to the API endpoint
 for the v1 tencent vpcs operation typically these are written to a http.Request
 */
 type V1TencentVpcsParams struct {

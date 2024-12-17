@@ -37,8 +37,7 @@ func NewV1SpectroClustersPatchProfilesNoContent() *V1SpectroClustersPatchProfile
 	return &V1SpectroClustersPatchProfilesNoContent{}
 }
 
-/*
-V1SpectroClustersPatchProfilesNoContent handles this case with default header values.
+/*V1SpectroClustersPatchProfilesNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

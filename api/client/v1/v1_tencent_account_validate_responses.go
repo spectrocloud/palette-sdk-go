@@ -37,8 +37,7 @@ func NewV1TencentAccountValidateNoContent() *V1TencentAccountValidateNoContent {
 	return &V1TencentAccountValidateNoContent{}
 }
 
-/*
-V1TencentAccountValidateNoContent handles this case with default header values.
+/*V1TencentAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

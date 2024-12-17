@@ -57,8 +57,7 @@ func NewV1UsersSummaryGetParamsWithHTTPClient(client *http.Client) *V1UsersSumma
 	}
 }
 
-/*
-V1UsersSummaryGetParams contains all the parameters to send to the API endpoint
+/*V1UsersSummaryGetParams contains all the parameters to send to the API endpoint
 for the v1 users summary get operation typically these are written to a http.Request
 */
 type V1UsersSummaryGetParams struct {

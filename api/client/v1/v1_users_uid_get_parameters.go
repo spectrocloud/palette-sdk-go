@@ -55,8 +55,7 @@ func NewV1UsersUIDGetParamsWithHTTPClient(client *http.Client) *V1UsersUIDGetPar
 	}
 }
 
-/*
-V1UsersUIDGetParams contains all the parameters to send to the API endpoint
+/*V1UsersUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 users Uid get operation typically these are written to a http.Request
 */
 type V1UsersUIDGetParams struct {

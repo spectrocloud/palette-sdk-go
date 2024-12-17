@@ -40,8 +40,7 @@ func NewV1SpectroClustersTkeValidateOK() *V1SpectroClustersTkeValidateOK {
 	return &V1SpectroClustersTkeValidateOK{}
 }
 
-/*
-V1SpectroClustersTkeValidateOK handles this case with default header values.
+/*V1SpectroClustersTkeValidateOK handles this case with default header values.
 
 Tke Cluster validation response
 */

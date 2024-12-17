@@ -20,6 +20,11 @@ ERR  = echo ${TIME} ${RED}[ ERR ]${CNone} "error:"
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[0m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
+##@ Build Targets
+
+generate: ## Generate models
+	(cd api && ./generate.sh ./)
+
 ##@ Static Analysis Targets
 
 check-diff: reviewable ## Execute branch is clean
@@ -58,7 +63,7 @@ BIN_DIR ?= ./bin
 bin-dir:
 	test -d $(BIN_DIR) || mkdir $(BIN_DIR)
 
-GOLANGCI_VERSION ?= 1.59.1
+GOLANGCI_VERSION ?= 1.62.2
 .PHONY: golangci-lint
 golangci-lint: bin-dir
 	if ! test -f $(BIN_DIR)/golangci-lint-linux-amd64; then \

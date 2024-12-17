@@ -55,8 +55,7 @@ func NewV1ClusterFeatureComplianceScanLogDeleteParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1ClusterFeatureComplianceScanLogDeleteParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureComplianceScanLogDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature compliance scan log delete operation typically these are written to a http.Request
 */
 type V1ClusterFeatureComplianceScanLogDeleteParams struct {

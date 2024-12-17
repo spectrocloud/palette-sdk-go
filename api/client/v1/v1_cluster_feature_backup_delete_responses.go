@@ -37,8 +37,7 @@ func NewV1ClusterFeatureBackupDeleteNoContent() *V1ClusterFeatureBackupDeleteNoC
 	return &V1ClusterFeatureBackupDeleteNoContent{}
 }
 
-/*
-V1ClusterFeatureBackupDeleteNoContent handles this case with default header values.
+/*V1ClusterFeatureBackupDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

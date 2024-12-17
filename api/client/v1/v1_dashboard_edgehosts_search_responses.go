@@ -40,8 +40,7 @@ func NewV1DashboardEdgehostsSearchOK() *V1DashboardEdgehostsSearchOK {
 	return &V1DashboardEdgehostsSearchOK{}
 }
 
-/*
-V1DashboardEdgehostsSearchOK handles this case with default header values.
+/*V1DashboardEdgehostsSearchOK handles this case with default header values.
 
 An array of edgenative pair summary items
 */

@@ -57,8 +57,7 @@ func NewV1TeamsUIDTenantRolesUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1TeamsUIDTenantRolesUpdateParams contains all the parameters to send to the API endpoint
+/*V1TeamsUIDTenantRolesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid tenant roles update operation typically these are written to a http.Request
 */
 type V1TeamsUIDTenantRolesUpdateParams struct {

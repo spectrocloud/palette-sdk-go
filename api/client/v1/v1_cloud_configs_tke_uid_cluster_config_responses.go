@@ -37,8 +37,7 @@ func NewV1CloudConfigsTkeUIDClusterConfigNoContent() *V1CloudConfigsTkeUIDCluste
 	return &V1CloudConfigsTkeUIDClusterConfigNoContent{}
 }
 
-/*
-V1CloudConfigsTkeUIDClusterConfigNoContent handles this case with default header values.
+/*V1CloudConfigsTkeUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

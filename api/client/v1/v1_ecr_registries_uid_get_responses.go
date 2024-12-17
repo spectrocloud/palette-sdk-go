@@ -40,8 +40,7 @@ func NewV1EcrRegistriesUIDGetOK() *V1EcrRegistriesUIDGetOK {
 	return &V1EcrRegistriesUIDGetOK{}
 }
 
-/*
-V1EcrRegistriesUIDGetOK handles this case with default header values.
+/*V1EcrRegistriesUIDGetOK handles this case with default header values.
 
 OK
 */

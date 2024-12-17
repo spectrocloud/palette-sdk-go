@@ -37,8 +37,7 @@ func NewV1WorkspacesUIDClusterRbacDeleteNoContent() *V1WorkspacesUIDClusterRbacD
 	return &V1WorkspacesUIDClusterRbacDeleteNoContent{}
 }
 
-/*
-V1WorkspacesUIDClusterRbacDeleteNoContent handles this case with default header values.
+/*V1WorkspacesUIDClusterRbacDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

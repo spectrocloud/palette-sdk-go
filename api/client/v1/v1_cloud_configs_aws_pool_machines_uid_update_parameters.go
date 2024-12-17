@@ -57,8 +57,7 @@ func NewV1CloudConfigsAwsPoolMachinesUIDUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CloudConfigsAwsPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsAwsPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aws pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsAwsPoolMachinesUIDUpdateParams struct {

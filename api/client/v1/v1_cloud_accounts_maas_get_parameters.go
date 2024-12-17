@@ -55,8 +55,7 @@ func NewV1CloudAccountsMaasGetParamsWithHTTPClient(client *http.Client) *V1Cloud
 	}
 }
 
-/*
-V1CloudAccountsMaasGetParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsMaasGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts maas get operation typically these are written to a http.Request
 */
 type V1CloudAccountsMaasGetParams struct {

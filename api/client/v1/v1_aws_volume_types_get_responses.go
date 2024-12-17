@@ -40,8 +40,7 @@ func NewV1AwsVolumeTypesGetOK() *V1AwsVolumeTypesGetOK {
 	return &V1AwsVolumeTypesGetOK{}
 }
 
-/*
-V1AwsVolumeTypesGetOK handles this case with default header values.
+/*V1AwsVolumeTypesGetOK handles this case with default header values.
 
 (empty)
 */

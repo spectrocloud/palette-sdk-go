@@ -40,8 +40,7 @@ func NewV1OpenstackAccountsUIDKeypairsOK() *V1OpenstackAccountsUIDKeypairsOK {
 	return &V1OpenstackAccountsUIDKeypairsOK{}
 }
 
-/*
-V1OpenstackAccountsUIDKeypairsOK handles this case with default header values.
+/*V1OpenstackAccountsUIDKeypairsOK handles this case with default header values.
 
 (empty)
 */

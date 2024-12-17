@@ -55,8 +55,7 @@ func NewV1UsersAssetsLocationGcpGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1UsersAssetsLocationGcpGetParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetsLocationGcpGetParams contains all the parameters to send to the API endpoint
 for the v1 users assets location gcp get operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationGcpGetParams struct {
