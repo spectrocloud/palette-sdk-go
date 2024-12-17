@@ -52,6 +52,16 @@ func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackReg
 	return nil, fmt.Errorf("registry '%s' not found", registryName)
 }
 
+// ListPackRegistries retries a list of all Pack registries.
+func (h *V1Client) ListPackRegistries() ([]*models.V1PackRegistrySummary, error) {
+	params := clientv1.NewV1RegistriesPackSummaryListParamsWithContext(h.ctx)
+	resp, err := h.Client.V1RegistriesPackSummaryList(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
 // ListHelmRegistries retrieves a list of all Helm registries, filtered by scope.
 func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySummary, error) {
 	params := clientv1.NewV1RegistriesHelmSummaryListParamsWithContext(h.ctx).
