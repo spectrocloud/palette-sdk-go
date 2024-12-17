@@ -40,7 +40,8 @@ func NewV1ClusterProfilesUIDVariablesGetOK() *V1ClusterProfilesUIDVariablesGetOK
 	return &V1ClusterProfilesUIDVariablesGetOK{}
 }
 
-/*V1ClusterProfilesUIDVariablesGetOK handles this case with default header values.
+/*
+V1ClusterProfilesUIDVariablesGetOK handles this case with default header values.
 
 OK
 */

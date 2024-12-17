@@ -55,7 +55,8 @@ func NewV1MaasDomainsGetParamsWithHTTPClient(client *http.Client) *V1MaasDomains
 	}
 }
 
-/*V1MaasDomainsGetParams contains all the parameters to send to the API endpoint
+/*
+V1MaasDomainsGetParams contains all the parameters to send to the API endpoint
 for the v1 maas domains get operation typically these are written to a http.Request
 */
 type V1MaasDomainsGetParams struct {

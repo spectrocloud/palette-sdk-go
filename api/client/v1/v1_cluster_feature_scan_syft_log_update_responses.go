@@ -37,7 +37,8 @@ func NewV1ClusterFeatureScanSyftLogUpdateNoContent() *V1ClusterFeatureScanSyftLo
 	return &V1ClusterFeatureScanSyftLogUpdateNoContent{}
 }
 
-/*V1ClusterFeatureScanSyftLogUpdateNoContent handles this case with default header values.
+/*
+V1ClusterFeatureScanSyftLogUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

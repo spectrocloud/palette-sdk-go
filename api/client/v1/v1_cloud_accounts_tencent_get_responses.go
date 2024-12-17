@@ -40,7 +40,8 @@ func NewV1CloudAccountsTencentGetOK() *V1CloudAccountsTencentGetOK {
 	return &V1CloudAccountsTencentGetOK{}
 }
 
-/*V1CloudAccountsTencentGetOK handles this case with default header values.
+/*
+V1CloudAccountsTencentGetOK handles this case with default header values.
 
 OK
 */

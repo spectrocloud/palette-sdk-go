@@ -40,7 +40,8 @@ func NewV1CloudConfigsTkeGetOK() *V1CloudConfigsTkeGetOK {
 	return &V1CloudConfigsTkeGetOK{}
 }
 
-/*V1CloudConfigsTkeGetOK handles this case with default header values.
+/*
+V1CloudConfigsTkeGetOK handles this case with default header values.
 
 OK
 */

@@ -55,7 +55,8 @@ func NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1CloudConfigsTkePoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsTkePoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs tke pool machines Uid get operation typically these are written to a http.Request
 */
 type V1CloudConfigsTkePoolMachinesUIDGetParams struct {

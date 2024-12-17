@@ -57,7 +57,8 @@ func NewV1TenantsUIDMacrosDeleteByMacroNameParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1TenantsUIDMacrosDeleteByMacroNameParams contains all the parameters to send to the API endpoint
+/*
+V1TenantsUIDMacrosDeleteByMacroNameParams contains all the parameters to send to the API endpoint
 for the v1 tenants Uid macros delete by macro name operation typically these are written to a http.Request
 */
 type V1TenantsUIDMacrosDeleteByMacroNameParams struct {

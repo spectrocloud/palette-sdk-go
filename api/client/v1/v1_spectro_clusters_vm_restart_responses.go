@@ -37,7 +37,8 @@ func NewV1SpectroClustersVMRestartNoContent() *V1SpectroClustersVMRestartNoConte
 	return &V1SpectroClustersVMRestartNoContent{}
 }
 
-/*V1SpectroClustersVMRestartNoContent handles this case with default header values.
+/*
+V1SpectroClustersVMRestartNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -40,7 +40,8 @@ func NewV1TencentVpcsOK() *V1TencentVpcsOK {
 	return &V1TencentVpcsOK{}
 }
 
-/*V1TencentVpcsOK handles this case with default header values.
+/*
+V1TencentVpcsOK handles this case with default header values.
 
 (empty)
 */

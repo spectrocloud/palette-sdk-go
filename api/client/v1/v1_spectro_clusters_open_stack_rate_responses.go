@@ -40,7 +40,8 @@ func NewV1SpectroClustersOpenStackRateOK() *V1SpectroClustersOpenStackRateOK {
 	return &V1SpectroClustersOpenStackRateOK{}
 }
 
-/*V1SpectroClustersOpenStackRateOK handles this case with default header values.
+/*
+V1SpectroClustersOpenStackRateOK handles this case with default header values.
 
 Openstack Cluster estimated rate response
 */

@@ -40,7 +40,8 @@ func NewV1TenantDeveloperCreditGetOK() *V1TenantDeveloperCreditGetOK {
 	return &V1TenantDeveloperCreditGetOK{}
 }
 
-/*V1TenantDeveloperCreditGetOK handles this case with default header values.
+/*
+V1TenantDeveloperCreditGetOK handles this case with default header values.
 
 (empty)
 */

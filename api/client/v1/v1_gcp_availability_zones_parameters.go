@@ -55,7 +55,8 @@ func NewV1GcpAvailabilityZonesParamsWithHTTPClient(client *http.Client) *V1GcpAv
 	}
 }
 
-/*V1GcpAvailabilityZonesParams contains all the parameters to send to the API endpoint
+/*
+V1GcpAvailabilityZonesParams contains all the parameters to send to the API endpoint
 for the v1 gcp availability zones operation typically these are written to a http.Request
 */
 type V1GcpAvailabilityZonesParams struct {

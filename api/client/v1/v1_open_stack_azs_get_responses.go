@@ -40,7 +40,8 @@ func NewV1OpenStackAzsGetOK() *V1OpenStackAzsGetOK {
 	return &V1OpenStackAzsGetOK{}
 }
 
-/*V1OpenStackAzsGetOK handles this case with default header values.
+/*
+V1OpenStackAzsGetOK handles this case with default header values.
 
 (empty)
 */

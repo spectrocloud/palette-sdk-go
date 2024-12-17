@@ -68,7 +68,8 @@ func NewV1SpectroClustersGetProfilesPacksManifestsParamsWithHTTPClient(client *h
 	}
 }
 
-/*V1SpectroClustersGetProfilesPacksManifestsParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersGetProfilesPacksManifestsParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters get profiles packs manifests operation typically these are written to a http.Request
 */
 type V1SpectroClustersGetProfilesPacksManifestsParams struct {

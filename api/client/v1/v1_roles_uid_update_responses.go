@@ -37,7 +37,8 @@ func NewV1RolesUIDUpdateNoContent() *V1RolesUIDUpdateNoContent {
 	return &V1RolesUIDUpdateNoContent{}
 }
 
-/*V1RolesUIDUpdateNoContent handles this case with default header values.
+/*
+V1RolesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

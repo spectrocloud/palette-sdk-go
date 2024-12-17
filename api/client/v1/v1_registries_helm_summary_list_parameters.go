@@ -76,7 +76,8 @@ func NewV1RegistriesHelmSummaryListParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1RegistriesHelmSummaryListParams contains all the parameters to send to the API endpoint
+/*
+V1RegistriesHelmSummaryListParams contains all the parameters to send to the API endpoint
 for the v1 registries helm summary list operation typically these are written to a http.Request
 */
 type V1RegistriesHelmSummaryListParams struct {

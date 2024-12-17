@@ -40,7 +40,8 @@ func NewV1OverlordsUIDPoolsListOK() *V1OverlordsUIDPoolsListOK {
 	return &V1OverlordsUIDPoolsListOK{}
 }
 
-/*V1OverlordsUIDPoolsListOK handles this case with default header values.
+/*
+V1OverlordsUIDPoolsListOK handles this case with default header values.
 
 (empty)
 */

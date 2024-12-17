@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeControlPlanePoolTemplateUpdateNoContent() *V1CustomClou
 	return &V1CustomCloudTypeControlPlanePoolTemplateUpdateNoContent{}
 }
 
-/*V1CustomCloudTypeControlPlanePoolTemplateUpdateNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeControlPlanePoolTemplateUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

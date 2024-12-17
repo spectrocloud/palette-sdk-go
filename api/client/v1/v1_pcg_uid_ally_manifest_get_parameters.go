@@ -55,7 +55,8 @@ func NewV1PcgUIDAllyManifestGetParamsWithHTTPClient(client *http.Client) *V1PcgU
 	}
 }
 
-/*V1PcgUIDAllyManifestGetParams contains all the parameters to send to the API endpoint
+/*
+V1PcgUIDAllyManifestGetParams contains all the parameters to send to the API endpoint
 for the v1 pcg Uid ally manifest get operation typically these are written to a http.Request
 */
 type V1PcgUIDAllyManifestGetParams struct {

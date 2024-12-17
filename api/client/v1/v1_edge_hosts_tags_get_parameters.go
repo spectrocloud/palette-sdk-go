@@ -55,7 +55,8 @@ func NewV1EdgeHostsTagsGetParamsWithHTTPClient(client *http.Client) *V1EdgeHosts
 	}
 }
 
-/*V1EdgeHostsTagsGetParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostsTagsGetParams contains all the parameters to send to the API endpoint
 for the v1 edge hosts tags get operation typically these are written to a http.Request
 */
 type V1EdgeHostsTagsGetParams struct {

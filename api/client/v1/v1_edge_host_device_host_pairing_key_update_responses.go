@@ -37,7 +37,8 @@ func NewV1EdgeHostDeviceHostPairingKeyUpdateNoContent() *V1EdgeHostDeviceHostPai
 	return &V1EdgeHostDeviceHostPairingKeyUpdateNoContent{}
 }
 
-/*V1EdgeHostDeviceHostPairingKeyUpdateNoContent handles this case with default header values.
+/*
+V1EdgeHostDeviceHostPairingKeyUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

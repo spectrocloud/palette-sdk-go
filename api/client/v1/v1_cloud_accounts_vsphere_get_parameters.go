@@ -55,7 +55,8 @@ func NewV1CloudAccountsVsphereGetParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*V1CloudAccountsVsphereGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsVsphereGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts vsphere get operation typically these are written to a http.Request
 */
 type V1CloudAccountsVsphereGetParams struct {

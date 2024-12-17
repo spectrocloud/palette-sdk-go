@@ -37,7 +37,8 @@ func NewV1ProjectsUIDTeamsUpdateNoContent() *V1ProjectsUIDTeamsUpdateNoContent {
 	return &V1ProjectsUIDTeamsUpdateNoContent{}
 }
 
-/*V1ProjectsUIDTeamsUpdateNoContent handles this case with default header values.
+/*
+V1ProjectsUIDTeamsUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

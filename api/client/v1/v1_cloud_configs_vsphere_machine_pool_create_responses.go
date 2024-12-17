@@ -40,7 +40,8 @@ func NewV1CloudConfigsVsphereMachinePoolCreateCreated() *V1CloudConfigsVsphereMa
 	return &V1CloudConfigsVsphereMachinePoolCreateCreated{}
 }
 
-/*V1CloudConfigsVsphereMachinePoolCreateCreated handles this case with default header values.
+/*
+V1CloudConfigsVsphereMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

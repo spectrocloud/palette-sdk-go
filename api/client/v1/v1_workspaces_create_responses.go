@@ -40,7 +40,8 @@ func NewV1WorkspacesCreateCreated() *V1WorkspacesCreateCreated {
 	return &V1WorkspacesCreateCreated{}
 }
 
-/*V1WorkspacesCreateCreated handles this case with default header values.
+/*
+V1WorkspacesCreateCreated handles this case with default header values.
 
 Created successfully
 */

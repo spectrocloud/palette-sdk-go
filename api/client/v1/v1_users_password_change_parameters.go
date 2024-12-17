@@ -55,7 +55,8 @@ func NewV1UsersPasswordChangeParamsWithHTTPClient(client *http.Client) *V1UsersP
 	}
 }
 
-/*V1UsersPasswordChangeParams contains all the parameters to send to the API endpoint
+/*
+V1UsersPasswordChangeParams contains all the parameters to send to the API endpoint
 for the v1 users password change operation typically these are written to a http.Request
 */
 type V1UsersPasswordChangeParams struct {

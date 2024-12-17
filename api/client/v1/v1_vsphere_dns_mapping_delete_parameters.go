@@ -55,7 +55,8 @@ func NewV1VsphereDNSMappingDeleteParamsWithHTTPClient(client *http.Client) *V1Vs
 	}
 }
 
-/*V1VsphereDNSMappingDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1VsphereDNSMappingDeleteParams contains all the parameters to send to the API endpoint
 for the v1 vsphere Dns mapping delete operation typically these are written to a http.Request
 */
 type V1VsphereDNSMappingDeleteParams struct {

@@ -55,7 +55,8 @@ func NewV1AwsZonesParamsWithHTTPClient(client *http.Client) *V1AwsZonesParams {
 	}
 }
 
-/*V1AwsZonesParams contains all the parameters to send to the API endpoint
+/*
+V1AwsZonesParams contains all the parameters to send to the API endpoint
 for the v1 aws zones operation typically these are written to a http.Request
 */
 type V1AwsZonesParams struct {

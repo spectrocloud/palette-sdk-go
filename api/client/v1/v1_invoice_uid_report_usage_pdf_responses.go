@@ -41,7 +41,8 @@ func NewV1InvoiceUIDReportUsagePdfOK(writer io.Writer) *V1InvoiceUIDReportUsageP
 	}
 }
 
-/*V1InvoiceUIDReportUsagePdfOK handles this case with default header values.
+/*
+V1InvoiceUIDReportUsagePdfOK handles this case with default header values.
 
 OK
 */

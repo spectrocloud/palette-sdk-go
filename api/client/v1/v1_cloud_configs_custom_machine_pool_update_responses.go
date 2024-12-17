@@ -37,7 +37,8 @@ func NewV1CloudConfigsCustomMachinePoolUpdateNoContent() *V1CloudConfigsCustomMa
 	return &V1CloudConfigsCustomMachinePoolUpdateNoContent{}
 }
 
-/*V1CloudConfigsCustomMachinePoolUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsCustomMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

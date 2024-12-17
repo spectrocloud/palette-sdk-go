@@ -57,7 +57,8 @@ func NewV1UsersAssetsLocationMinioCreateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1UsersAssetsLocationMinioCreateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetsLocationMinioCreateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location minio create operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationMinioCreateParams struct {

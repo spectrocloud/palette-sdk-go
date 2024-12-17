@@ -40,7 +40,8 @@ func NewV1CloudConfigsAwsMachinePoolCreateCreated() *V1CloudConfigsAwsMachinePoo
 	return &V1CloudConfigsAwsMachinePoolCreateCreated{}
 }
 
-/*V1CloudConfigsAwsMachinePoolCreateCreated handles this case with default header values.
+/*
+V1CloudConfigsAwsMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

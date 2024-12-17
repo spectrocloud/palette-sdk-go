@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDUpgradeSettingsNoContent() *V1SpectroClustersUIDUpgr
 	return &V1SpectroClustersUIDUpgradeSettingsNoContent{}
 }
 
-/*V1SpectroClustersUIDUpgradeSettingsNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDUpgradeSettingsNoContent handles this case with default header values.
 
 Ok response without content
 */

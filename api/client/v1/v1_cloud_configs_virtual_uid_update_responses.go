@@ -37,7 +37,8 @@ func NewV1CloudConfigsVirtualUIDUpdateNoContent() *V1CloudConfigsVirtualUIDUpdat
 	return &V1CloudConfigsVirtualUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsVirtualUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsVirtualUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

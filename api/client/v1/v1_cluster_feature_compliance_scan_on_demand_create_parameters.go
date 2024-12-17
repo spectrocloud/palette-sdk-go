@@ -57,7 +57,8 @@ func NewV1ClusterFeatureComplianceScanOnDemandCreateParamsWithHTTPClient(client 
 	}
 }
 
-/*V1ClusterFeatureComplianceScanOnDemandCreateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureComplianceScanOnDemandCreateParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature compliance scan on demand create operation typically these are written to a http.Request
 */
 type V1ClusterFeatureComplianceScanOnDemandCreateParams struct {

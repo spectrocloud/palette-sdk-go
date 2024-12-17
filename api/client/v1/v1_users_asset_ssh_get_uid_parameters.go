@@ -55,7 +55,8 @@ func NewV1UsersAssetSSHGetUIDParamsWithHTTPClient(client *http.Client) *V1UsersA
 	}
 }
 
-/*V1UsersAssetSSHGetUIDParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetSSHGetUIDParams contains all the parameters to send to the API endpoint
 for the v1 users asset Ssh get Uid operation typically these are written to a http.Request
 */
 type V1UsersAssetSSHGetUIDParams struct {

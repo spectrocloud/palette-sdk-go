@@ -40,7 +40,8 @@ func NewV1SsoCallbackOK() *V1SsoCallbackOK {
 	return &V1SsoCallbackOK{}
 }
 
-/*V1SsoCallbackOK handles this case with default header values.
+/*
+V1SsoCallbackOK handles this case with default header values.
 
 OK
 */

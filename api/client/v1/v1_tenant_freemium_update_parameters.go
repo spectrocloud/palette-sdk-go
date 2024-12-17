@@ -57,7 +57,8 @@ func NewV1TenantFreemiumUpdateParamsWithHTTPClient(client *http.Client) *V1Tenan
 	}
 }
 
-/*V1TenantFreemiumUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1TenantFreemiumUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant freemium update operation typically these are written to a http.Request
 */
 type V1TenantFreemiumUpdateParams struct {

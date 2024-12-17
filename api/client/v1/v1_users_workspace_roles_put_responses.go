@@ -37,7 +37,8 @@ func NewV1UsersWorkspaceRolesPutNoContent() *V1UsersWorkspaceRolesPutNoContent {
 	return &V1UsersWorkspaceRolesPutNoContent{}
 }
 
-/*V1UsersWorkspaceRolesPutNoContent handles this case with default header values.
+/*
+V1UsersWorkspaceRolesPutNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

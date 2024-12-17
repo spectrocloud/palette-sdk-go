@@ -55,7 +55,8 @@ func NewV1SpectroClustersVMGetParamsWithHTTPClient(client *http.Client) *V1Spect
 	}
 }
 
-/*V1SpectroClustersVMGetParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersVMGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters VM get operation typically these are written to a http.Request
 */
 type V1SpectroClustersVMGetParams struct {

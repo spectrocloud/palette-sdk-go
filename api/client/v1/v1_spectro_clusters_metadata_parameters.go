@@ -57,7 +57,8 @@ func NewV1SpectroClustersMetadataParamsWithHTTPClient(client *http.Client) *V1Sp
 	}
 }
 
-/*V1SpectroClustersMetadataParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersMetadataParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters metadata operation typically these are written to a http.Request
 */
 type V1SpectroClustersMetadataParams struct {

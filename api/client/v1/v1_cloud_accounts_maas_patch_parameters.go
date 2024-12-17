@@ -57,7 +57,8 @@ func NewV1CloudAccountsMaasPatchParamsWithHTTPClient(client *http.Client) *V1Clo
 	}
 }
 
-/*V1CloudAccountsMaasPatchParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsMaasPatchParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts maas patch operation typically these are written to a http.Request
 */
 type V1CloudAccountsMaasPatchParams struct {

@@ -57,7 +57,8 @@ func NewV1SpectroClustersUIDConfigNamespacesUpdateParamsWithHTTPClient(client *h
 	}
 }
 
-/*V1SpectroClustersUIDConfigNamespacesUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDConfigNamespacesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid config namespaces update operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDConfigNamespacesUpdateParams struct {

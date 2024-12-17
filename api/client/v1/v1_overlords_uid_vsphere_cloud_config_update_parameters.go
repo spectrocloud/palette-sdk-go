@@ -57,7 +57,8 @@ func NewV1OverlordsUIDVsphereCloudConfigUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1OverlordsUIDVsphereCloudConfigUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDVsphereCloudConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid vsphere cloud config update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDVsphereCloudConfigUpdateParams struct {

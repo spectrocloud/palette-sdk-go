@@ -57,7 +57,8 @@ func NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateParamsWithHTT
 	}
 }
 
-/*V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs machine pools machine Uid maintenance status update operation typically these are written to a http.Request
 */
 type V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateParams struct {

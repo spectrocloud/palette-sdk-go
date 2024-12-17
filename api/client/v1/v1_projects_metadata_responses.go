@@ -40,7 +40,8 @@ func NewV1ProjectsMetadataOK() *V1ProjectsMetadataOK {
 	return &V1ProjectsMetadataOK{}
 }
 
-/*V1ProjectsMetadataOK handles this case with default header values.
+/*
+V1ProjectsMetadataOK handles this case with default header values.
 
 An array of project metadata items
 */

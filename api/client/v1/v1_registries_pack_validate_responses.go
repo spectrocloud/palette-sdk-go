@@ -37,7 +37,8 @@ func NewV1RegistriesPackValidateNoContent() *V1RegistriesPackValidateNoContent {
 	return &V1RegistriesPackValidateNoContent{}
 }
 
-/*V1RegistriesPackValidateNoContent handles this case with default header values.
+/*
+V1RegistriesPackValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

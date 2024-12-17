@@ -55,7 +55,8 @@ func NewV1UsersSystemFeatureParamsWithHTTPClient(client *http.Client) *V1UsersSy
 	}
 }
 
-/*V1UsersSystemFeatureParams contains all the parameters to send to the API endpoint
+/*
+V1UsersSystemFeatureParams contains all the parameters to send to the API endpoint
 for the v1 users system feature operation typically these are written to a http.Request
 */
 type V1UsersSystemFeatureParams struct {

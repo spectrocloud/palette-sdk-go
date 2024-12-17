@@ -40,7 +40,8 @@ func NewV1OverlordsVsphereOvaGetOK() *V1OverlordsVsphereOvaGetOK {
 	return &V1OverlordsVsphereOvaGetOK{}
 }
 
-/*V1OverlordsVsphereOvaGetOK handles this case with default header values.
+/*
+V1OverlordsVsphereOvaGetOK handles this case with default header values.
 
 (empty)
 */

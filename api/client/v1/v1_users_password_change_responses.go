@@ -40,7 +40,8 @@ func NewV1UsersPasswordChangeNoContent() *V1UsersPasswordChangeNoContent {
 	return &V1UsersPasswordChangeNoContent{}
 }
 
-/*V1UsersPasswordChangeNoContent handles this case with default header values.
+/*
+V1UsersPasswordChangeNoContent handles this case with default header values.
 
 Ok response without content
 */
@@ -62,7 +63,8 @@ func (o *V1UsersPasswordChangeNoContent) readResponse(response runtime.ClientRes
 	return nil
 }
 
-/*V1UsersPasswordChangeBody v1 users password change body
+/*
+V1UsersPasswordChangeBody v1 users password change body
 swagger:model V1UsersPasswordChangeBody
 */
 type V1UsersPasswordChangeBody struct {

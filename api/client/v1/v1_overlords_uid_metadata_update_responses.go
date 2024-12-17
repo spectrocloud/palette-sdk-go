@@ -37,7 +37,8 @@ func NewV1OverlordsUIDMetadataUpdateNoContent() *V1OverlordsUIDMetadataUpdateNoC
 	return &V1OverlordsUIDMetadataUpdateNoContent{}
 }
 
-/*V1OverlordsUIDMetadataUpdateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDMetadataUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -37,7 +37,8 @@ func NewV1ProjectsUIDMacrosUpdateByMacroNameNoContent() *V1ProjectsUIDMacrosUpda
 	return &V1ProjectsUIDMacrosUpdateByMacroNameNoContent{}
 }
 
-/*V1ProjectsUIDMacrosUpdateByMacroNameNoContent handles this case with default header values.
+/*
+V1ProjectsUIDMacrosUpdateByMacroNameNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

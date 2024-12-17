@@ -37,7 +37,8 @@ func NewV1TagFilterUIDUpdateNoContent() *V1TagFilterUIDUpdateNoContent {
 	return &V1TagFilterUIDUpdateNoContent{}
 }
 
-/*V1TagFilterUIDUpdateNoContent handles this case with default header values.
+/*
+V1TagFilterUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

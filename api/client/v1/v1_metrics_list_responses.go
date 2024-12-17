@@ -40,7 +40,8 @@ func NewV1MetricsListOK() *V1MetricsListOK {
 	return &V1MetricsListOK{}
 }
 
-/*V1MetricsListOK handles this case with default header values.
+/*
+V1MetricsListOK handles this case with default header values.
 
 An array of metric items
 */

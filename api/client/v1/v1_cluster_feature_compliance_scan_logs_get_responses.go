@@ -40,7 +40,8 @@ func NewV1ClusterFeatureComplianceScanLogsGetOK() *V1ClusterFeatureComplianceSca
 	return &V1ClusterFeatureComplianceScanLogsGetOK{}
 }
 
-/*V1ClusterFeatureComplianceScanLogsGetOK handles this case with default header values.
+/*
+V1ClusterFeatureComplianceScanLogsGetOK handles this case with default header values.
 
 OK
 */

@@ -57,7 +57,8 @@ func NewV1AwsPropertiesValidateParamsWithHTTPClient(client *http.Client) *V1AwsP
 	}
 }
 
-/*V1AwsPropertiesValidateParams contains all the parameters to send to the API endpoint
+/*
+V1AwsPropertiesValidateParams contains all the parameters to send to the API endpoint
 for the v1 aws properties validate operation typically these are written to a http.Request
 */
 type V1AwsPropertiesValidateParams struct {

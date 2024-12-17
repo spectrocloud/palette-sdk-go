@@ -69,7 +69,8 @@ func NewV1SpectroClustersTkeRateParamsWithHTTPClient(client *http.Client) *V1Spe
 	}
 }
 
-/*V1SpectroClustersTkeRateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersTkeRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters tke rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersTkeRateParams struct {

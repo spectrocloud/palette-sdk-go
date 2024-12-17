@@ -37,7 +37,8 @@ func NewV1CloudConfigsTkePoolMachinesUIDDeleteNoContent() *V1CloudConfigsTkePool
 	return &V1CloudConfigsTkePoolMachinesUIDDeleteNoContent{}
 }
 
-/*V1CloudConfigsTkePoolMachinesUIDDeleteNoContent handles this case with default header values.
+/*
+V1CloudConfigsTkePoolMachinesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

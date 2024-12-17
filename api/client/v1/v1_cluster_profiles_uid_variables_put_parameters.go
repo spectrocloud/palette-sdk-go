@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUIDVariablesPutParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1ClusterProfilesUIDVariablesPutParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDVariablesPutParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid variables put operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDVariablesPutParams struct {

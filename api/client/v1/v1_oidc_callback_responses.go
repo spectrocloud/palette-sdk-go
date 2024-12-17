@@ -40,7 +40,8 @@ func NewV1OidcCallbackOK() *V1OidcCallbackOK {
 	return &V1OidcCallbackOK{}
 }
 
-/*V1OidcCallbackOK handles this case with default header values.
+/*
+V1OidcCallbackOK handles this case with default header values.
 
 OK
 */

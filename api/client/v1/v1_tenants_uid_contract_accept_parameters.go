@@ -55,7 +55,8 @@ func NewV1TenantsUIDContractAcceptParamsWithHTTPClient(client *http.Client) *V1T
 	}
 }
 
-/*V1TenantsUIDContractAcceptParams contains all the parameters to send to the API endpoint
+/*
+V1TenantsUIDContractAcceptParams contains all the parameters to send to the API endpoint
 for the v1 tenants Uid contract accept operation typically these are written to a http.Request
 */
 type V1TenantsUIDContractAcceptParams struct {

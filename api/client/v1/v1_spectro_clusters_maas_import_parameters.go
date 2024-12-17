@@ -57,7 +57,8 @@ func NewV1SpectroClustersMaasImportParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1SpectroClustersMaasImportParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersMaasImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters maas import operation typically these are written to a http.Request
 */
 type V1SpectroClustersMaasImportParams struct {

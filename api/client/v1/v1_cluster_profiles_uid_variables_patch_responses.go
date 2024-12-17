@@ -37,7 +37,8 @@ func NewV1ClusterProfilesUIDVariablesPatchNoContent() *V1ClusterProfilesUIDVaria
 	return &V1ClusterProfilesUIDVariablesPatchNoContent{}
 }
 
-/*V1ClusterProfilesUIDVariablesPatchNoContent handles this case with default header values.
+/*
+V1ClusterProfilesUIDVariablesPatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,7 +57,8 @@ func NewV1SpectroClustersUIDConfigRbacsUpdateParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1SpectroClustersUIDConfigRbacsUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDConfigRbacsUpdateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid config rbacs update operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDConfigRbacsUpdateParams struct {

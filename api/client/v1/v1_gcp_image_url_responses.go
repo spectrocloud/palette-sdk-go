@@ -40,7 +40,8 @@ func NewV1GcpImageURLOK() *V1GcpImageURLOK {
 	return &V1GcpImageURLOK{}
 }
 
-/*V1GcpImageURLOK handles this case with default header values.
+/*
+V1GcpImageURLOK handles this case with default header values.
 
 (empty)
 */

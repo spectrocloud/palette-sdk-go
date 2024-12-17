@@ -40,7 +40,8 @@ func NewV1VsphereEnvOK() *V1VsphereEnvOK {
 	return &V1VsphereEnvOK{}
 }
 
-/*V1VsphereEnvOK handles this case with default header values.
+/*
+V1VsphereEnvOK handles this case with default header values.
 
 (empty)
 */

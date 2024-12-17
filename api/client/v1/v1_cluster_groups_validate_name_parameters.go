@@ -55,7 +55,8 @@ func NewV1ClusterGroupsValidateNameParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1ClusterGroupsValidateNameParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterGroupsValidateNameParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups validate name operation typically these are written to a http.Request
 */
 type V1ClusterGroupsValidateNameParams struct {
