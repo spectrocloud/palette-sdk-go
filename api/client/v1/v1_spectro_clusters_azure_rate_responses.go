@@ -40,7 +40,8 @@ func NewV1SpectroClustersAzureRateOK() *V1SpectroClustersAzureRateOK {
 	return &V1SpectroClustersAzureRateOK{}
 }
 
-/*V1SpectroClustersAzureRateOK handles this case with default header values.
+/*
+V1SpectroClustersAzureRateOK handles this case with default header values.
 
 Azure Cluster estimated rate response
 */

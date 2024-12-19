@@ -40,7 +40,8 @@ func NewV1AzureVirtualNetworkListOK() *V1AzureVirtualNetworkListOK {
 	return &V1AzureVirtualNetworkListOK{}
 }
 
-/*V1AzureVirtualNetworkListOK handles this case with default header values.
+/*
+V1AzureVirtualNetworkListOK handles this case with default header values.
 
 (empty)
 */

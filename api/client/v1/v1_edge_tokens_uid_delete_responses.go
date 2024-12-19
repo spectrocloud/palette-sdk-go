@@ -37,7 +37,8 @@ func NewV1EdgeTokensUIDDeleteNoContent() *V1EdgeTokensUIDDeleteNoContent {
 	return &V1EdgeTokensUIDDeleteNoContent{}
 }
 
-/*V1EdgeTokensUIDDeleteNoContent handles this case with default header values.
+/*
+V1EdgeTokensUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -57,7 +57,8 @@ func NewV1EdgeHostDeviceHostCheckSumUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1EdgeHostDeviceHostCheckSumUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDeviceHostCheckSumUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host device host check sum update operation typically these are written to a http.Request
 */
 type V1EdgeHostDeviceHostCheckSumUpdateParams struct {

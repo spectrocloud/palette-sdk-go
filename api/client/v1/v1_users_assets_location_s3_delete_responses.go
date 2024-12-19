@@ -37,7 +37,8 @@ func NewV1UsersAssetsLocationS3DeleteNoContent() *V1UsersAssetsLocationS3DeleteN
 	return &V1UsersAssetsLocationS3DeleteNoContent{}
 }
 
-/*V1UsersAssetsLocationS3DeleteNoContent handles this case with default header values.
+/*
+V1UsersAssetsLocationS3DeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

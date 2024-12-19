@@ -57,7 +57,8 @@ func NewV1GcpBucketNameValidateParamsWithHTTPClient(client *http.Client) *V1GcpB
 	}
 }
 
-/*V1GcpBucketNameValidateParams contains all the parameters to send to the API endpoint
+/*
+V1GcpBucketNameValidateParams contains all the parameters to send to the API endpoint
 for the v1 gcp bucket name validate operation typically these are written to a http.Request
 */
 type V1GcpBucketNameValidateParams struct {

@@ -40,7 +40,8 @@ func NewV1CloudConfigsGenericPoolMachinesListOK() *V1CloudConfigsGenericPoolMach
 	return &V1CloudConfigsGenericPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsGenericPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsGenericPoolMachinesListOK handles this case with default header values.
 
 An array of Generic machine items
 */

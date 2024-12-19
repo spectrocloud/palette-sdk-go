@@ -40,7 +40,8 @@ func NewV1OpenStackKeypairsGetOK() *V1OpenStackKeypairsGetOK {
 	return &V1OpenStackKeypairsGetOK{}
 }
 
-/*V1OpenStackKeypairsGetOK handles this case with default header values.
+/*
+V1OpenStackKeypairsGetOK handles this case with default header values.
 
 (empty)
 */

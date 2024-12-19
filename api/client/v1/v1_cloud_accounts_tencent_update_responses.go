@@ -37,7 +37,8 @@ func NewV1CloudAccountsTencentUpdateNoContent() *V1CloudAccountsTencentUpdateNoC
 	return &V1CloudAccountsTencentUpdateNoContent{}
 }
 
-/*V1CloudAccountsTencentUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsTencentUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

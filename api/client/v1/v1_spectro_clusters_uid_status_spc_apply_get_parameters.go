@@ -55,7 +55,8 @@ func NewV1SpectroClustersUIDStatusSpcApplyGetParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1SpectroClustersUIDStatusSpcApplyGetParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDStatusSpcApplyGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid status spc apply get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDStatusSpcApplyGetParams struct {

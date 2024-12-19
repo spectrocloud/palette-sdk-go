@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeBootstrapUpdateNoContent() *V1CustomCloudTypeBootstrapU
 	return &V1CustomCloudTypeBootstrapUpdateNoContent{}
 }
 
-/*V1CustomCloudTypeBootstrapUpdateNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeBootstrapUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

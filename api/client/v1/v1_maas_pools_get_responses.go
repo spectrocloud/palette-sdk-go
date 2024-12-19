@@ -40,7 +40,8 @@ func NewV1MaasPoolsGetOK() *V1MaasPoolsGetOK {
 	return &V1MaasPoolsGetOK{}
 }
 
-/*V1MaasPoolsGetOK handles this case with default header values.
+/*
+V1MaasPoolsGetOK handles this case with default header values.
 
 (empty)
 */

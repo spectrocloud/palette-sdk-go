@@ -55,7 +55,8 @@ func NewV1AwsSecurityGroupsParamsWithHTTPClient(client *http.Client) *V1AwsSecur
 	}
 }
 
-/*V1AwsSecurityGroupsParams contains all the parameters to send to the API endpoint
+/*
+V1AwsSecurityGroupsParams contains all the parameters to send to the API endpoint
 for the v1 aws security groups operation typically these are written to a http.Request
 */
 type V1AwsSecurityGroupsParams struct {

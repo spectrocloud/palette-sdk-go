@@ -40,7 +40,8 @@ func NewV1DashboardSpectroClustersSearchInputOK() *V1DashboardSpectroClustersSea
 	return &V1DashboardSpectroClustersSearchInputOK{}
 }
 
-/*V1DashboardSpectroClustersSearchInputOK handles this case with default header values.
+/*
+V1DashboardSpectroClustersSearchInputOK handles this case with default header values.
 
 An array of cluster search filter input items
 */

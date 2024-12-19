@@ -55,7 +55,8 @@ func NewV1NotificationsUIDDoneParamsWithHTTPClient(client *http.Client) *V1Notif
 	}
 }
 
-/*V1NotificationsUIDDoneParams contains all the parameters to send to the API endpoint
+/*
+V1NotificationsUIDDoneParams contains all the parameters to send to the API endpoint
 for the v1 notifications Uid done operation typically these are written to a http.Request
 */
 type V1NotificationsUIDDoneParams struct {

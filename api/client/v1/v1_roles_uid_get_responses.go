@@ -40,7 +40,8 @@ func NewV1RolesUIDGetOK() *V1RolesUIDGetOK {
 	return &V1RolesUIDGetOK{}
 }
 
-/*V1RolesUIDGetOK handles this case with default header values.
+/*
+V1RolesUIDGetOK handles this case with default header values.
 
 OK
 */

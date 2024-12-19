@@ -40,7 +40,8 @@ func NewV1UsersSummaryGetOK() *V1UsersSummaryGetOK {
 	return &V1UsersSummaryGetOK{}
 }
 
-/*V1UsersSummaryGetOK handles this case with default header values.
+/*
+V1UsersSummaryGetOK handles this case with default header values.
 
 An array of users summary items
 */

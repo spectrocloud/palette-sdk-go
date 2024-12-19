@@ -40,7 +40,8 @@ func NewV1SpectroClustersEdgeNativeCreateCreated() *V1SpectroClustersEdgeNativeC
 	return &V1SpectroClustersEdgeNativeCreateCreated{}
 }
 
-/*V1SpectroClustersEdgeNativeCreateCreated handles this case with default header values.
+/*
+V1SpectroClustersEdgeNativeCreateCreated handles this case with default header values.
 
 Created successfully
 */

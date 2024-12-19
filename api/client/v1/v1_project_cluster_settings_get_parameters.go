@@ -55,7 +55,8 @@ func NewV1ProjectClusterSettingsGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1ProjectClusterSettingsGetParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectClusterSettingsGetParams contains all the parameters to send to the API endpoint
 for the v1 project cluster settings get operation typically these are written to a http.Request
 */
 type V1ProjectClusterSettingsGetParams struct {

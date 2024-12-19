@@ -55,7 +55,8 @@ func NewV1EdgeHostDevicesUIDSpcDownloadParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1EdgeHostDevicesUIDSpcDownloadParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesUIDSpcDownloadParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid spc download operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDSpcDownloadParams struct {

@@ -57,7 +57,8 @@ func NewV1ClusterFeatureBackupUpdateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1ClusterFeatureBackupUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureBackupUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature backup update operation typically these are written to a http.Request
 */
 type V1ClusterFeatureBackupUpdateParams struct {

@@ -55,7 +55,8 @@ func NewV1TencentKeypairsParamsWithHTTPClient(client *http.Client) *V1TencentKey
 	}
 }
 
-/*V1TencentKeypairsParams contains all the parameters to send to the API endpoint
+/*
+V1TencentKeypairsParams contains all the parameters to send to the API endpoint
 for the v1 tencent keypairs operation typically these are written to a http.Request
 */
 type V1TencentKeypairsParams struct {

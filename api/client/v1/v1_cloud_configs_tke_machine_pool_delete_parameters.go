@@ -55,7 +55,8 @@ func NewV1CloudConfigsTkeMachinePoolDeleteParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsTkeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsTkeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs tke machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsTkeMachinePoolDeleteParams struct {

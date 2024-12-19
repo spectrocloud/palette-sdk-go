@@ -55,7 +55,8 @@ func NewV1PasswordActivateParamsWithHTTPClient(client *http.Client) *V1PasswordA
 	}
 }
 
-/*V1PasswordActivateParams contains all the parameters to send to the API endpoint
+/*
+V1PasswordActivateParams contains all the parameters to send to the API endpoint
 for the v1 password activate operation typically these are written to a http.Request
 */
 type V1PasswordActivateParams struct {

@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeBootstrapDeleteNoContent() *V1CustomCloudTypeBootstrapD
 	return &V1CustomCloudTypeBootstrapDeleteNoContent{}
 }
 
-/*V1CustomCloudTypeBootstrapDeleteNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeBootstrapDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

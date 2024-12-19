@@ -40,7 +40,8 @@ func NewV1CloudAccountsCustomGetOK() *V1CloudAccountsCustomGetOK {
 	return &V1CloudAccountsCustomGetOK{}
 }
 
-/*V1CloudAccountsCustomGetOK handles this case with default header values.
+/*
+V1CloudAccountsCustomGetOK handles this case with default header values.
 
 OK
 */

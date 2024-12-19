@@ -40,7 +40,8 @@ func NewV1AwsStorageTypesOK() *V1AwsStorageTypesOK {
 	return &V1AwsStorageTypesOK{}
 }
 
-/*V1AwsStorageTypesOK handles this case with default header values.
+/*
+V1AwsStorageTypesOK handles this case with default header values.
 
 (empty)
 */

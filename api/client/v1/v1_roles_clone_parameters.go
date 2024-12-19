@@ -57,7 +57,8 @@ func NewV1RolesCloneParamsWithHTTPClient(client *http.Client) *V1RolesCloneParam
 	}
 }
 
-/*V1RolesCloneParams contains all the parameters to send to the API endpoint
+/*
+V1RolesCloneParams contains all the parameters to send to the API endpoint
 for the v1 roles clone operation typically these are written to a http.Request
 */
 type V1RolesCloneParams struct {

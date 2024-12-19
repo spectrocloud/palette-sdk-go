@@ -41,7 +41,8 @@ func NewV1OverlordsUIDOpenStackAccountValidateNoContent() *V1OverlordsUIDOpenSta
 	return &V1OverlordsUIDOpenStackAccountValidateNoContent{}
 }
 
-/*V1OverlordsUIDOpenStackAccountValidateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDOpenStackAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */
@@ -63,7 +64,8 @@ func (o *V1OverlordsUIDOpenStackAccountValidateNoContent) readResponse(response 
 	return nil
 }
 
-/*V1OverlordsUIDOpenStackAccountValidateBody v1 overlords UID open stack account validate body
+/*
+V1OverlordsUIDOpenStackAccountValidateBody v1 overlords UID open stack account validate body
 swagger:model V1OverlordsUIDOpenStackAccountValidateBody
 */
 type V1OverlordsUIDOpenStackAccountValidateBody struct {

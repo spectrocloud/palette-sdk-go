@@ -55,7 +55,8 @@ func NewV1SpectroClustersGetProfileUpdatesParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1SpectroClustersGetProfileUpdatesParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersGetProfileUpdatesParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters get profile updates operation typically these are written to a http.Request
 */
 type V1SpectroClustersGetProfileUpdatesParams struct {

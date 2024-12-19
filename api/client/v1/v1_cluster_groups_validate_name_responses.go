@@ -37,7 +37,8 @@ func NewV1ClusterGroupsValidateNameNoContent() *V1ClusterGroupsValidateNameNoCon
 	return &V1ClusterGroupsValidateNameNoContent{}
 }
 
-/*V1ClusterGroupsValidateNameNoContent handles this case with default header values.
+/*
+V1ClusterGroupsValidateNameNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -40,7 +40,8 @@ func NewV1WorkspaceOpsRestoreOnDemandCreateCreated() *V1WorkspaceOpsRestoreOnDem
 	return &V1WorkspaceOpsRestoreOnDemandCreateCreated{}
 }
 
-/*V1WorkspaceOpsRestoreOnDemandCreateCreated handles this case with default header values.
+/*
+V1WorkspaceOpsRestoreOnDemandCreateCreated handles this case with default header values.
 
 Created successfully
 */

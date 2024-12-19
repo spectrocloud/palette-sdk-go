@@ -37,7 +37,8 @@ func NewV1SpectroClustersPacksRefUpdateNoContent() *V1SpectroClustersPacksRefUpd
 	return &V1SpectroClustersPacksRefUpdateNoContent{}
 }
 
-/*V1SpectroClustersPacksRefUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersPacksRefUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

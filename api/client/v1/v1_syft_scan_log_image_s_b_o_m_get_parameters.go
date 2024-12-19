@@ -55,7 +55,8 @@ func NewV1SyftScanLogImageSBOMGetParamsWithHTTPClient(client *http.Client) *V1Sy
 	}
 }
 
-/*V1SyftScanLogImageSBOMGetParams contains all the parameters to send to the API endpoint
+/*
+V1SyftScanLogImageSBOMGetParams contains all the parameters to send to the API endpoint
 for the v1 syft scan log image s b o m get operation typically these are written to a http.Request
 */
 type V1SyftScanLogImageSBOMGetParams struct {

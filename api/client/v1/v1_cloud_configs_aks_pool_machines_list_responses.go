@@ -40,7 +40,8 @@ func NewV1CloudConfigsAksPoolMachinesListOK() *V1CloudConfigsAksPoolMachinesList
 	return &V1CloudConfigsAksPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsAksPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsAksPoolMachinesListOK handles this case with default header values.
 
 An array of AKS machine items
 */

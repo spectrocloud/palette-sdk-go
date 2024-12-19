@@ -57,7 +57,8 @@ func NewV1EventsComponentsCreateParamsWithHTTPClient(client *http.Client) *V1Eve
 	}
 }
 
-/*V1EventsComponentsCreateParams contains all the parameters to send to the API endpoint
+/*
+V1EventsComponentsCreateParams contains all the parameters to send to the API endpoint
 for the v1 events components create operation typically these are written to a http.Request
 */
 type V1EventsComponentsCreateParams struct {

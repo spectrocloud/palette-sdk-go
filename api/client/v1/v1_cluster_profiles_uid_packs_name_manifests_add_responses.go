@@ -40,7 +40,8 @@ func NewV1ClusterProfilesUIDPacksNameManifestsAddCreated() *V1ClusterProfilesUID
 	return &V1ClusterProfilesUIDPacksNameManifestsAddCreated{}
 }
 
-/*V1ClusterProfilesUIDPacksNameManifestsAddCreated handles this case with default header values.
+/*
+V1ClusterProfilesUIDPacksNameManifestsAddCreated handles this case with default header values.
 
 Created successfully
 */

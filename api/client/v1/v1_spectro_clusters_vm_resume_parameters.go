@@ -55,7 +55,8 @@ func NewV1SpectroClustersVMResumeParamsWithHTTPClient(client *http.Client) *V1Sp
 	}
 }
 
-/*V1SpectroClustersVMResumeParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersVMResumeParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters VM resume operation typically these are written to a http.Request
 */
 type V1SpectroClustersVMResumeParams struct {

@@ -55,7 +55,8 @@ func NewV1OciRegistriesSummaryParamsWithHTTPClient(client *http.Client) *V1OciRe
 	}
 }
 
-/*V1OciRegistriesSummaryParams contains all the parameters to send to the API endpoint
+/*
+V1OciRegistriesSummaryParams contains all the parameters to send to the API endpoint
 for the v1 oci registries summary operation typically these are written to a http.Request
 */
 type V1OciRegistriesSummaryParams struct {

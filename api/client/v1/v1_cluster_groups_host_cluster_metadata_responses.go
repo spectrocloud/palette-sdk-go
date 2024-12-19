@@ -40,7 +40,8 @@ func NewV1ClusterGroupsHostClusterMetadataOK() *V1ClusterGroupsHostClusterMetada
 	return &V1ClusterGroupsHostClusterMetadataOK{}
 }
 
-/*V1ClusterGroupsHostClusterMetadataOK handles this case with default header values.
+/*
+V1ClusterGroupsHostClusterMetadataOK handles this case with default header values.
 
 An array of cluster groups host cluster metadata items
 */

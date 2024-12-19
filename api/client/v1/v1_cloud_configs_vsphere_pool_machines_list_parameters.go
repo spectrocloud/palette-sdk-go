@@ -68,7 +68,8 @@ func NewV1CloudConfigsVspherePoolMachinesListParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1CloudConfigsVspherePoolMachinesListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVspherePoolMachinesListParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs vsphere pool machines list operation typically these are written to a http.Request
 */
 type V1CloudConfigsVspherePoolMachinesListParams struct {

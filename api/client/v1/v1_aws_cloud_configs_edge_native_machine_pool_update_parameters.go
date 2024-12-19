@@ -57,7 +57,8 @@ func NewV1AwsCloudConfigsEdgeNativeMachinePoolUpdateParamsWithHTTPClient(client 
 	}
 }
 
-/*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams contains all the parameters to send to the API endpoint
 for the v1 aws cloud configs edge native machine pool update operation typically these are written to a http.Request
 */
 type V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams struct {

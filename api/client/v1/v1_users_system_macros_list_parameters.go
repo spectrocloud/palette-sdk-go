@@ -55,7 +55,8 @@ func NewV1UsersSystemMacrosListParamsWithHTTPClient(client *http.Client) *V1User
 	}
 }
 
-/*V1UsersSystemMacrosListParams contains all the parameters to send to the API endpoint
+/*
+V1UsersSystemMacrosListParams contains all the parameters to send to the API endpoint
 for the v1 users system macros list operation typically these are written to a http.Request
 */
 type V1UsersSystemMacrosListParams struct {

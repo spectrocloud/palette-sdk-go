@@ -57,7 +57,8 @@ func NewV1UsersUIDUpdateParamsWithHTTPClient(client *http.Client) *V1UsersUIDUpd
 	}
 }
 
-/*V1UsersUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 users Uid update operation typically these are written to a http.Request
 */
 type V1UsersUIDUpdateParams struct {

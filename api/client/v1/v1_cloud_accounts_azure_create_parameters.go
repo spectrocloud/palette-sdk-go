@@ -57,7 +57,8 @@ func NewV1CloudAccountsAzureCreateParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*V1CloudAccountsAzureCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsAzureCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts azure create operation typically these are written to a http.Request
 */
 type V1CloudAccountsAzureCreateParams struct {

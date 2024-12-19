@@ -40,7 +40,8 @@ func NewV1TenantFipsSettingsGetOK() *V1TenantFipsSettingsGetOK {
 	return &V1TenantFipsSettingsGetOK{}
 }
 
-/*V1TenantFipsSettingsGetOK handles this case with default header values.
+/*
+V1TenantFipsSettingsGetOK handles this case with default header values.
 
 (empty)
 */

@@ -55,7 +55,8 @@ func NewV1MaasAccountsUIDDomainsParamsWithHTTPClient(client *http.Client) *V1Maa
 	}
 }
 
-/*V1MaasAccountsUIDDomainsParams contains all the parameters to send to the API endpoint
+/*
+V1MaasAccountsUIDDomainsParams contains all the parameters to send to the API endpoint
 for the v1 maas accounts Uid domains operation typically these are written to a http.Request
 */
 type V1MaasAccountsUIDDomainsParams struct {

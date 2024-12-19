@@ -37,7 +37,8 @@ func NewV1EdgeHostDevicesUIDDeleteNoContent() *V1EdgeHostDevicesUIDDeleteNoConte
 	return &V1EdgeHostDevicesUIDDeleteNoContent{}
 }
 
-/*V1EdgeHostDevicesUIDDeleteNoContent handles this case with default header values.
+/*
+V1EdgeHostDevicesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

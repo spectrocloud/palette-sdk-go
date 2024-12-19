@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUIDVariablesPatchParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1ClusterProfilesUIDVariablesPatchParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDVariablesPatchParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid variables patch operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDVariablesPatchParams struct {

@@ -40,7 +40,8 @@ func NewV1BasicOciRegistriesUIDGetOK() *V1BasicOciRegistriesUIDGetOK {
 	return &V1BasicOciRegistriesUIDGetOK{}
 }
 
-/*V1BasicOciRegistriesUIDGetOK handles this case with default header values.
+/*
+V1BasicOciRegistriesUIDGetOK handles this case with default header values.
 
 OK
 */

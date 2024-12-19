@@ -56,7 +56,8 @@ func NewV1CloudStorageRateParamsWithHTTPClient(client *http.Client) *V1CloudStor
 	}
 }
 
-/*V1CloudStorageRateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudStorageRateParams contains all the parameters to send to the API endpoint
 for the v1 cloud storage rate operation typically these are written to a http.Request
 */
 type V1CloudStorageRateParams struct {

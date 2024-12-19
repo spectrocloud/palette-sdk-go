@@ -40,7 +40,8 @@ func NewV1MaasZonesGetOK() *V1MaasZonesGetOK {
 	return &V1MaasZonesGetOK{}
 }
 
-/*V1MaasZonesGetOK handles this case with default header values.
+/*
+V1MaasZonesGetOK handles this case with default header values.
 
 (empty)
 */

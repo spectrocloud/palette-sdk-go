@@ -55,7 +55,8 @@ func NewV1MaasTagsGetParamsWithHTTPClient(client *http.Client) *V1MaasTagsGetPar
 	}
 }
 
-/*V1MaasTagsGetParams contains all the parameters to send to the API endpoint
+/*
+V1MaasTagsGetParams contains all the parameters to send to the API endpoint
 for the v1 maas tags get operation typically these are written to a http.Request
 */
 type V1MaasTagsGetParams struct {

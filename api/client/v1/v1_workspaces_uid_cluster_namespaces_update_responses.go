@@ -37,7 +37,8 @@ func NewV1WorkspacesUIDClusterNamespacesUpdateNoContent() *V1WorkspacesUIDCluste
 	return &V1WorkspacesUIDClusterNamespacesUpdateNoContent{}
 }
 
-/*V1WorkspacesUIDClusterNamespacesUpdateNoContent handles this case with default header values.
+/*
+V1WorkspacesUIDClusterNamespacesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,7 +57,8 @@ func NewV1EdgeHostsMetadataParamsWithHTTPClient(client *http.Client) *V1EdgeHost
 	}
 }
 
-/*V1EdgeHostsMetadataParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostsMetadataParams contains all the parameters to send to the API endpoint
 for the v1 edge hosts metadata operation typically these are written to a http.Request
 */
 type V1EdgeHostsMetadataParams struct {

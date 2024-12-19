@@ -55,7 +55,8 @@ func NewV1ClusterFeatureBackupDeleteParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1ClusterFeatureBackupDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureBackupDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature backup delete operation typically these are written to a http.Request
 */
 type V1ClusterFeatureBackupDeleteParams struct {

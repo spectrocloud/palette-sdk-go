@@ -57,7 +57,8 @@ func NewV1UsersAssetsLocationS3CreateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1UsersAssetsLocationS3CreateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetsLocationS3CreateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location s3 create operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationS3CreateParams struct {

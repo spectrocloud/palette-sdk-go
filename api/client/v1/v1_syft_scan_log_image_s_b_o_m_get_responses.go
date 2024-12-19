@@ -41,7 +41,8 @@ func NewV1SyftScanLogImageSBOMGetOK(writer io.Writer) *V1SyftScanLogImageSBOMGet
 	}
 }
 
-/*V1SyftScanLogImageSBOMGetOK handles this case with default header values.
+/*
+V1SyftScanLogImageSBOMGetOK handles this case with default header values.
 
 download file
 */

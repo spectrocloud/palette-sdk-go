@@ -57,7 +57,8 @@ func NewV1CloudConfigsCustomMachinePoolUpdateParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1CloudConfigsCustomMachinePoolUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsCustomMachinePoolUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs custom machine pool update operation typically these are written to a http.Request
 */
 type V1CloudConfigsCustomMachinePoolUpdateParams struct {

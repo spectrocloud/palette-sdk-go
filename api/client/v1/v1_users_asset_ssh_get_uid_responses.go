@@ -40,7 +40,8 @@ func NewV1UsersAssetSSHGetUIDOK() *V1UsersAssetSSHGetUIDOK {
 	return &V1UsersAssetSSHGetUIDOK{}
 }
 
-/*V1UsersAssetSSHGetUIDOK handles this case with default header values.
+/*
+V1UsersAssetSSHGetUIDOK handles this case with default header values.
 
 (empty)
 */

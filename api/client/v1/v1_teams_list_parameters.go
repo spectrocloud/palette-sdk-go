@@ -68,7 +68,8 @@ func NewV1TeamsListParamsWithHTTPClient(client *http.Client) *V1TeamsListParams 
 	}
 }
 
-/*V1TeamsListParams contains all the parameters to send to the API endpoint
+/*
+V1TeamsListParams contains all the parameters to send to the API endpoint
 for the v1 teams list operation typically these are written to a http.Request
 */
 type V1TeamsListParams struct {

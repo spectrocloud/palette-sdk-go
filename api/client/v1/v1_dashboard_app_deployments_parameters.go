@@ -58,7 +58,8 @@ func NewV1DashboardAppDeploymentsParamsWithHTTPClient(client *http.Client) *V1Da
 	}
 }
 
-/*V1DashboardAppDeploymentsParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardAppDeploymentsParams contains all the parameters to send to the API endpoint
 for the v1 dashboard app deployments operation typically these are written to a http.Request
 */
 type V1DashboardAppDeploymentsParams struct {

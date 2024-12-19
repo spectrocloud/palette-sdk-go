@@ -37,7 +37,8 @@ func NewV1TenantsCreditAccountDeleteNoContent() *V1TenantsCreditAccountDeleteNoC
 	return &V1TenantsCreditAccountDeleteNoContent{}
 }
 
-/*V1TenantsCreditAccountDeleteNoContent handles this case with default header values.
+/*
+V1TenantsCreditAccountDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */
