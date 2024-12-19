@@ -342,6 +342,8 @@ type ClientService interface {
 
 	V1TenantUIDOidcConfigUpdate(params *V1TenantUIDOidcConfigUpdateParams) (*V1TenantUIDOidcConfigUpdateNoContent, error)
 
+	V1TenantUIDPasswordPolicyGet(params *V1TenantUIDPasswordPolicyGetParams) (*V1TenantUIDPasswordPolicyGetOK, error)
+
 	V1TenantUIDPasswordPolicyUpdate(params *V1TenantUIDPasswordPolicyUpdateParams) (*V1TenantUIDPasswordPolicyUpdateNoContent, error)
 
 	V1TenantUIDSamlConfigSpecGet(params *V1TenantUIDSamlConfigSpecGetParams) (*V1TenantUIDSamlConfigSpecGetOK, error)
@@ -7370,6 +7372,40 @@ func (a *Client) V1TenantUIDOidcConfigUpdate(params *V1TenantUIDOidcConfigUpdate
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1TenantUidOidcConfigUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDPasswordPolicyGet retrieves the password policy for tenant
+*/
+func (a *Client) V1TenantUIDPasswordPolicyGet(params *V1TenantUIDPasswordPolicyGetParams) (*V1TenantUIDPasswordPolicyGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDPasswordPolicyGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidPasswordPolicyGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/password/policy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDPasswordPolicyGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDPasswordPolicyGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidPasswordPolicyGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

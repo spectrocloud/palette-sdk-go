@@ -27374,6 +27374,21 @@
       ]
     },
     "/v1/tenants/{tenantUid}/password/policy": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "retrieves the password policy for tenant",
+        "operationId": "V1TenantUidPasswordPolicyGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1TenantPasswordPolicyEntity"
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "v1"
