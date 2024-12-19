@@ -40,8 +40,7 @@ func NewV1SpectroClustersAzureValidateOK() *V1SpectroClustersAzureValidateOK {
 	return &V1SpectroClustersAzureValidateOK{}
 }
 
-/*
-V1SpectroClustersAzureValidateOK handles this case with default header values.
+/*V1SpectroClustersAzureValidateOK handles this case with default header values.
 
 Azure Cluster validation response
 */

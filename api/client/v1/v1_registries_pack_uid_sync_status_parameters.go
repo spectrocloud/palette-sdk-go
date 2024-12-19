@@ -55,8 +55,7 @@ func NewV1RegistriesPackUIDSyncStatusParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1RegistriesPackUIDSyncStatusParams contains all the parameters to send to the API endpoint
+/*V1RegistriesPackUIDSyncStatusParams contains all the parameters to send to the API endpoint
 for the v1 registries pack Uid sync status operation typically these are written to a http.Request
 */
 type V1RegistriesPackUIDSyncStatusParams struct {

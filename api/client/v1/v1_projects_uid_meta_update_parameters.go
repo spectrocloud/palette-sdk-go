@@ -57,8 +57,7 @@ func NewV1ProjectsUIDMetaUpdateParamsWithHTTPClient(client *http.Client) *V1Proj
 	}
 }
 
-/*
-V1ProjectsUIDMetaUpdateParams contains all the parameters to send to the API endpoint
+/*V1ProjectsUIDMetaUpdateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid meta update operation typically these are written to a http.Request
 */
 type V1ProjectsUIDMetaUpdateParams struct {

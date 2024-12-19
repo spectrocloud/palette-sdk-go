@@ -57,8 +57,7 @@ func NewV1WorkspaceOpsBackupCreateParamsWithHTTPClient(client *http.Client) *V1W
 	}
 }
 
-/*
-V1WorkspaceOpsBackupCreateParams contains all the parameters to send to the API endpoint
+/*V1WorkspaceOpsBackupCreateParams contains all the parameters to send to the API endpoint
 for the v1 workspace ops backup create operation typically these are written to a http.Request
 */
 type V1WorkspaceOpsBackupCreateParams struct {

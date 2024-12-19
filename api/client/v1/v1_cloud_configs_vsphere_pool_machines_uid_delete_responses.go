@@ -37,8 +37,7 @@ func NewV1CloudConfigsVspherePoolMachinesUIDDeleteNoContent() *V1CloudConfigsVsp
 	return &V1CloudConfigsVspherePoolMachinesUIDDeleteNoContent{}
 }
 
-/*
-V1CloudConfigsVspherePoolMachinesUIDDeleteNoContent handles this case with default header values.
+/*V1CloudConfigsVspherePoolMachinesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

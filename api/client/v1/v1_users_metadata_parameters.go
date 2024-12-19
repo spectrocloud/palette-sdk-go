@@ -55,8 +55,7 @@ func NewV1UsersMetadataParamsWithHTTPClient(client *http.Client) *V1UsersMetadat
 	}
 }
 
-/*
-V1UsersMetadataParams contains all the parameters to send to the API endpoint
+/*V1UsersMetadataParams contains all the parameters to send to the API endpoint
 for the v1 users metadata operation typically these are written to a http.Request
 */
 type V1UsersMetadataParams struct {

@@ -37,8 +37,7 @@ func NewV1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent() *V1AwsCloudConfi
 	return &V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent{}
 }
 
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent handles this case with default header values.
+/*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,8 +40,7 @@ func NewV1PacksUIDOK() *V1PacksUIDOK {
 	return &V1PacksUIDOK{}
 }
 
-/*
-V1PacksUIDOK handles this case with default header values.
+/*V1PacksUIDOK handles this case with default header values.
 
 A pack for the specified uid
 */

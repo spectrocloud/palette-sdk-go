@@ -40,8 +40,7 @@ func NewV1FiltersMetadataOK() *V1FiltersMetadataOK {
 	return &V1FiltersMetadataOK{}
 }
 
-/*
-V1FiltersMetadataOK handles this case with default header values.
+/*V1FiltersMetadataOK handles this case with default header values.
 
 An array of filters
 */

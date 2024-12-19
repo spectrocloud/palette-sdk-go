@@ -40,8 +40,7 @@ func NewV1OciImageRegistryGetOK() *V1OciImageRegistryGetOK {
 	return &V1OciImageRegistryGetOK{}
 }
 
-/*
-V1OciImageRegistryGetOK handles this case with default header values.
+/*V1OciImageRegistryGetOK handles this case with default header values.
 
 (empty)
 */

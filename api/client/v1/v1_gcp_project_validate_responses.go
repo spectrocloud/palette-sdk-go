@@ -37,8 +37,7 @@ func NewV1GcpProjectValidateNoContent() *V1GcpProjectValidateNoContent {
 	return &V1GcpProjectValidateNoContent{}
 }
 
-/*
-V1GcpProjectValidateNoContent handles this case with default header values.
+/*V1GcpProjectValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

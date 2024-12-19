@@ -40,8 +40,7 @@ func NewV1APIKeysUIDGetOK() *V1APIKeysUIDGetOK {
 	return &V1APIKeysUIDGetOK{}
 }
 
-/*
-V1APIKeysUIDGetOK handles this case with default header values.
+/*V1APIKeysUIDGetOK handles this case with default header values.
 
 (empty)
 */

@@ -15,9 +15,6 @@ import (
 // swagger:model v1IamRolesAnywhere
 type V1IamRolesAnywhere struct {
 
-	// AssumeRoleARN specifies the IAM role ARN to assume
-	AssumeRoleArn string `json:"assumeRoleArn,omitempty"`
-
 	// ProfileARN specifies the IAM profile ARN
 	ProfileArn string `json:"profileArn,omitempty"`
 

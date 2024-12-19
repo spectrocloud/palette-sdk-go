@@ -40,8 +40,7 @@ func NewV1DashboardCloudAccountsMetadataOK() *V1DashboardCloudAccountsMetadataOK
 	return &V1DashboardCloudAccountsMetadataOK{}
 }
 
-/*
-V1DashboardCloudAccountsMetadataOK handles this case with default header values.
+/*V1DashboardCloudAccountsMetadataOK handles this case with default header values.
 
 An array of cloud accounts summary items
 */

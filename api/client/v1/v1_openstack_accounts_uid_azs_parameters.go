@@ -55,8 +55,7 @@ func NewV1OpenstackAccountsUIDAzsParamsWithHTTPClient(client *http.Client) *V1Op
 	}
 }
 
-/*
-V1OpenstackAccountsUIDAzsParams contains all the parameters to send to the API endpoint
+/*V1OpenstackAccountsUIDAzsParams contains all the parameters to send to the API endpoint
 for the v1 openstack accounts Uid azs operation typically these are written to a http.Request
 */
 type V1OpenstackAccountsUIDAzsParams struct {

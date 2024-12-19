@@ -57,8 +57,7 @@ func NewV1MaasAccountValidateParamsWithHTTPClient(client *http.Client) *V1MaasAc
 	}
 }
 
-/*
-V1MaasAccountValidateParams contains all the parameters to send to the API endpoint
+/*V1MaasAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 maas account validate operation typically these are written to a http.Request
 */
 type V1MaasAccountValidateParams struct {

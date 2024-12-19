@@ -57,8 +57,7 @@ func NewV1OverlordsUIDOpenStackAccountUpdateParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1OverlordsUIDOpenStackAccountUpdateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDOpenStackAccountUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid open stack account update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDOpenStackAccountUpdateParams struct {

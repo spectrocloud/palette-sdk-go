@@ -57,8 +57,7 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingParams
 	}
 }
 
-/*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingParams contains all the parameters to send to the API endpoint
+/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingParams contains all the parameters to send to the API endpoint
 for the v1 dashboard workspaces Uid spectro clusters workloads cluster role binding operation typically these are written to a http.Request
 */
 type V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingParams struct {

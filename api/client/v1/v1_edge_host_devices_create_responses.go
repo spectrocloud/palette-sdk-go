@@ -40,8 +40,7 @@ func NewV1EdgeHostDevicesCreateCreated() *V1EdgeHostDevicesCreateCreated {
 	return &V1EdgeHostDevicesCreateCreated{}
 }
 
-/*
-V1EdgeHostDevicesCreateCreated handles this case with default header values.
+/*V1EdgeHostDevicesCreateCreated handles this case with default header values.
 
 Created successfully
 */

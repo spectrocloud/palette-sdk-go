@@ -55,8 +55,7 @@ func NewV1TencentStorageTypesParamsWithHTTPClient(client *http.Client) *V1Tencen
 	}
 }
 
-/*
-V1TencentStorageTypesParams contains all the parameters to send to the API endpoint
+/*V1TencentStorageTypesParams contains all the parameters to send to the API endpoint
 for the v1 tencent storage types operation typically these are written to a http.Request
 */
 type V1TencentStorageTypesParams struct {

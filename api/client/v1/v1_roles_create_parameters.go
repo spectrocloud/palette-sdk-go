@@ -57,8 +57,7 @@ func NewV1RolesCreateParamsWithHTTPClient(client *http.Client) *V1RolesCreatePar
 	}
 }
 
-/*
-V1RolesCreateParams contains all the parameters to send to the API endpoint
+/*V1RolesCreateParams contains all the parameters to send to the API endpoint
 for the v1 roles create operation typically these are written to a http.Request
 */
 type V1RolesCreateParams struct {

@@ -40,8 +40,7 @@ func NewV1CloudConfigsTkePoolMachinesListOK() *V1CloudConfigsTkePoolMachinesList
 	return &V1CloudConfigsTkePoolMachinesListOK{}
 }
 
-/*
-V1CloudConfigsTkePoolMachinesListOK handles this case with default header values.
+/*V1CloudConfigsTkePoolMachinesListOK handles this case with default header values.
 
 An array of TKE machine items
 */

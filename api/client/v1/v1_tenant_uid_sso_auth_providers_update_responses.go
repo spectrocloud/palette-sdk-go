@@ -37,8 +37,7 @@ func NewV1TenantUIDSsoAuthProvidersUpdateNoContent() *V1TenantUIDSsoAuthProvider
 	return &V1TenantUIDSsoAuthProvidersUpdateNoContent{}
 }
 
-/*
-V1TenantUIDSsoAuthProvidersUpdateNoContent handles this case with default header values.
+/*V1TenantUIDSsoAuthProvidersUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

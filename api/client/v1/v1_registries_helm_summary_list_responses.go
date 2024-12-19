@@ -40,8 +40,7 @@ func NewV1RegistriesHelmSummaryListOK() *V1RegistriesHelmSummaryListOK {
 	return &V1RegistriesHelmSummaryListOK{}
 }
 
-/*
-V1RegistriesHelmSummaryListOK handles this case with default header values.
+/*V1RegistriesHelmSummaryListOK handles this case with default header values.
 
 An array of registry items
 */

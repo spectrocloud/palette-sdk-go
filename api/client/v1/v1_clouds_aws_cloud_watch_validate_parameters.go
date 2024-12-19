@@ -57,8 +57,7 @@ func NewV1CloudsAwsCloudWatchValidateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1CloudsAwsCloudWatchValidateParams contains all the parameters to send to the API endpoint
+/*V1CloudsAwsCloudWatchValidateParams contains all the parameters to send to the API endpoint
 for the v1 clouds aws cloud watch validate operation typically these are written to a http.Request
 */
 type V1CloudsAwsCloudWatchValidateParams struct {

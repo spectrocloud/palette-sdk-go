@@ -40,8 +40,7 @@ func NewV1SpectroClustersAksRateOK() *V1SpectroClustersAksRateOK {
 	return &V1SpectroClustersAksRateOK{}
 }
 
-/*
-V1SpectroClustersAksRateOK handles this case with default header values.
+/*V1SpectroClustersAksRateOK handles this case with default header values.
 
 Aks Cluster estimated rate response
 */

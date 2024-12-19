@@ -37,8 +37,7 @@ func NewV1AppDeploymentsUIDProfileUpdateNoContent() *V1AppDeploymentsUIDProfileU
 	return &V1AppDeploymentsUIDProfileUpdateNoContent{}
 }
 
-/*
-V1AppDeploymentsUIDProfileUpdateNoContent handles this case with default header values.
+/*V1AppDeploymentsUIDProfileUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,8 +40,7 @@ func NewV1CloudConfigsTkePoolMachinesAddCreated() *V1CloudConfigsTkePoolMachines
 	return &V1CloudConfigsTkePoolMachinesAddCreated{}
 }
 
-/*
-V1CloudConfigsTkePoolMachinesAddCreated handles this case with default header values.
+/*V1CloudConfigsTkePoolMachinesAddCreated handles this case with default header values.
 
 Created successfully
 */

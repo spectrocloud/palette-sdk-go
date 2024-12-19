@@ -55,8 +55,7 @@ func NewV1ClusterFeatureComplianceScanGetParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1ClusterFeatureComplianceScanGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureComplianceScanGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature compliance scan get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureComplianceScanGetParams struct {

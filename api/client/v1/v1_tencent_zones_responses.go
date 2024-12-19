@@ -40,8 +40,7 @@ func NewV1TencentZonesOK() *V1TencentZonesOK {
 	return &V1TencentZonesOK{}
 }
 
-/*
-V1TencentZonesOK handles this case with default header values.
+/*V1TencentZonesOK handles this case with default header values.
 
 (empty)
 */

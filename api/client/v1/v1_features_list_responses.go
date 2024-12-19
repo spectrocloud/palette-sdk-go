@@ -40,8 +40,7 @@ func NewV1FeaturesListOK() *V1FeaturesListOK {
 	return &V1FeaturesListOK{}
 }
 
-/*
-V1FeaturesListOK handles this case with default header values.
+/*V1FeaturesListOK handles this case with default header values.
 
 OK
 */

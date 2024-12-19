@@ -57,8 +57,7 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetParamsWithHTT
 	}
 }
 
-/*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetParams contains all the parameters to send to the API endpoint
+/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetParams contains all the parameters to send to the API endpoint
 for the v1 dashboard workspaces Uid spectro clusters workloads stateful set operation typically these are written to a http.Request
 */
 type V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetParams struct {

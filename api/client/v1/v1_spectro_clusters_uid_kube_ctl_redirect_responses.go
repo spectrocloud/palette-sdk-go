@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDKubeCtlRedirectOK() *V1SpectroClustersUIDKubeCtlRedi
 	return &V1SpectroClustersUIDKubeCtlRedirectOK{}
 }
 
-/*
-V1SpectroClustersUIDKubeCtlRedirectOK handles this case with default header values.
+/*V1SpectroClustersUIDKubeCtlRedirectOK handles this case with default header values.
 
 (empty)
 */

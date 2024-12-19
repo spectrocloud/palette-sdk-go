@@ -55,8 +55,7 @@ func NewV1PacksUIDParamsWithHTTPClient(client *http.Client) *V1PacksUIDParams {
 	}
 }
 
-/*
-V1PacksUIDParams contains all the parameters to send to the API endpoint
+/*V1PacksUIDParams contains all the parameters to send to the API endpoint
 for the v1 packs Uid operation typically these are written to a http.Request
 */
 type V1PacksUIDParams struct {

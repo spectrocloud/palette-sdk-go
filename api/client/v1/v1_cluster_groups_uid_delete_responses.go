@@ -37,8 +37,7 @@ func NewV1ClusterGroupsUIDDeleteNoContent() *V1ClusterGroupsUIDDeleteNoContent {
 	return &V1ClusterGroupsUIDDeleteNoContent{}
 }
 
-/*
-V1ClusterGroupsUIDDeleteNoContent handles this case with default header values.
+/*V1ClusterGroupsUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

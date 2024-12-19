@@ -57,8 +57,7 @@ func NewV1AzureAccountValidateParamsWithHTTPClient(client *http.Client) *V1Azure
 	}
 }
 
-/*
-V1AzureAccountValidateParams contains all the parameters to send to the API endpoint
+/*V1AzureAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 azure account validate operation typically these are written to a http.Request
 */
 type V1AzureAccountValidateParams struct {

@@ -58,8 +58,7 @@ func NewV1DashboardEdgehostsSearchParamsWithHTTPClient(client *http.Client) *V1D
 	}
 }
 
-/*
-V1DashboardEdgehostsSearchParams contains all the parameters to send to the API endpoint
+/*V1DashboardEdgehostsSearchParams contains all the parameters to send to the API endpoint
 for the v1 dashboard edgehosts search operation typically these are written to a http.Request
 */
 type V1DashboardEdgehostsSearchParams struct {

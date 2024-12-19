@@ -37,8 +37,7 @@ func NewV1TenantsUIDMacrosUpdateNoContent() *V1TenantsUIDMacrosUpdateNoContent {
 	return &V1TenantsUIDMacrosUpdateNoContent{}
 }
 
-/*
-V1TenantsUIDMacrosUpdateNoContent handles this case with default header values.
+/*V1TenantsUIDMacrosUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

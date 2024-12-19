@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDRepaveGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1SpectroClustersUIDRepaveGetParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDRepaveGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid repave get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDRepaveGetParams struct {

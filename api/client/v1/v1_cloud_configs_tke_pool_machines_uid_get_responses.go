@@ -40,8 +40,7 @@ func NewV1CloudConfigsTkePoolMachinesUIDGetOK() *V1CloudConfigsTkePoolMachinesUI
 	return &V1CloudConfigsTkePoolMachinesUIDGetOK{}
 }
 
-/*
-V1CloudConfigsTkePoolMachinesUIDGetOK handles this case with default header values.
+/*V1CloudConfigsTkePoolMachinesUIDGetOK handles this case with default header values.
 
 OK
 */

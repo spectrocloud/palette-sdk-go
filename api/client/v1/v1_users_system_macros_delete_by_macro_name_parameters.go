@@ -57,8 +57,7 @@ func NewV1UsersSystemMacrosDeleteByMacroNameParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1UsersSystemMacrosDeleteByMacroNameParams contains all the parameters to send to the API endpoint
+/*V1UsersSystemMacrosDeleteByMacroNameParams contains all the parameters to send to the API endpoint
 for the v1 users system macros delete by macro name operation typically these are written to a http.Request
 */
 type V1UsersSystemMacrosDeleteByMacroNameParams struct {

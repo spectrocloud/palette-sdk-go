@@ -55,8 +55,7 @@ func NewV1NotificationsUIDAckParamsWithHTTPClient(client *http.Client) *V1Notifi
 	}
 }
 
-/*
-V1NotificationsUIDAckParams contains all the parameters to send to the API endpoint
+/*V1NotificationsUIDAckParams contains all the parameters to send to the API endpoint
 for the v1 notifications Uid ack operation typically these are written to a http.Request
 */
 type V1NotificationsUIDAckParams struct {

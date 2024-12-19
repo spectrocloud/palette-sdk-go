@@ -55,8 +55,7 @@ func NewV1InvoiceUIDReportInvoicePdfParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1InvoiceUIDReportInvoicePdfParams contains all the parameters to send to the API endpoint
+/*V1InvoiceUIDReportInvoicePdfParams contains all the parameters to send to the API endpoint
 for the v1 invoice Uid report invoice pdf operation typically these are written to a http.Request
 */
 type V1InvoiceUIDReportInvoicePdfParams struct {

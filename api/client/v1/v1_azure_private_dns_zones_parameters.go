@@ -55,8 +55,7 @@ func NewV1AzurePrivateDNSZonesParamsWithHTTPClient(client *http.Client) *V1Azure
 	}
 }
 
-/*
-V1AzurePrivateDNSZonesParams contains all the parameters to send to the API endpoint
+/*V1AzurePrivateDNSZonesParams contains all the parameters to send to the API endpoint
 for the v1 azure private Dns zones operation typically these are written to a http.Request
 */
 type V1AzurePrivateDNSZonesParams struct {

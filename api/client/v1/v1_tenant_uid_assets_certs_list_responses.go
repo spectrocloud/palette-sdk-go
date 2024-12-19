@@ -40,8 +40,7 @@ func NewV1TenantUIDAssetsCertsListOK() *V1TenantUIDAssetsCertsListOK {
 	return &V1TenantUIDAssetsCertsListOK{}
 }
 
-/*
-V1TenantUIDAssetsCertsListOK handles this case with default header values.
+/*V1TenantUIDAssetsCertsListOK handles this case with default header values.
 
 OK
 */

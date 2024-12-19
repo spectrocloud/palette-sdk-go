@@ -37,8 +37,7 @@ func NewV1CloudConfigsOpenStackMachinePoolUpdateNoContent() *V1CloudConfigsOpenS
 	return &V1CloudConfigsOpenStackMachinePoolUpdateNoContent{}
 }
 
-/*
-V1CloudConfigsOpenStackMachinePoolUpdateNoContent handles this case with default header values.
+/*V1CloudConfigsOpenStackMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

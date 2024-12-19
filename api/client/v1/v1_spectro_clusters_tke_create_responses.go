@@ -40,8 +40,7 @@ func NewV1SpectroClustersTkeCreateCreated() *V1SpectroClustersTkeCreateCreated {
 	return &V1SpectroClustersTkeCreateCreated{}
 }
 
-/*
-V1SpectroClustersTkeCreateCreated handles this case with default header values.
+/*V1SpectroClustersTkeCreateCreated handles this case with default header values.
 
 Created successfully
 */

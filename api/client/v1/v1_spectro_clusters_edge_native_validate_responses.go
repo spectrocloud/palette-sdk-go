@@ -40,8 +40,7 @@ func NewV1SpectroClustersEdgeNativeValidateOK() *V1SpectroClustersEdgeNativeVali
 	return &V1SpectroClustersEdgeNativeValidateOK{}
 }
 
-/*
-V1SpectroClustersEdgeNativeValidateOK handles this case with default header values.
+/*V1SpectroClustersEdgeNativeValidateOK handles this case with default header values.
 
 EdgeNative Cluster validation response
 */

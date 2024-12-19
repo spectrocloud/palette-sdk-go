@@ -37,8 +37,7 @@ func NewV1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent() *V1AwsCloudConfi
 	return &V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent{}
 }
 
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent handles this case with default header values.
+/*V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

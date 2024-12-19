@@ -37,8 +37,7 @@ func NewV1EventsComponentsObjTypeUIDDeleteNoContent() *V1EventsComponentsObjType
 	return &V1EventsComponentsObjTypeUIDDeleteNoContent{}
 }
 
-/*
-V1EventsComponentsObjTypeUIDDeleteNoContent handles this case with default header values.
+/*V1EventsComponentsObjTypeUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

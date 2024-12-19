@@ -37,8 +37,7 @@ func NewV1CloudConfigsAwsUIDClusterConfigNoContent() *V1CloudConfigsAwsUIDCluste
 	return &V1CloudConfigsAwsUIDClusterConfigNoContent{}
 }
 
-/*
-V1CloudConfigsAwsUIDClusterConfigNoContent handles this case with default header values.
+/*V1CloudConfigsAwsUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

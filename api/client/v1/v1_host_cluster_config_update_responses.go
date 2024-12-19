@@ -37,8 +37,7 @@ func NewV1HostClusterConfigUpdateNoContent() *V1HostClusterConfigUpdateNoContent
 	return &V1HostClusterConfigUpdateNoContent{}
 }
 
-/*
-V1HostClusterConfigUpdateNoContent handles this case with default header values.
+/*V1HostClusterConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

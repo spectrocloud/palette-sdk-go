@@ -40,8 +40,7 @@ func NewV1ClusterGroupsCreateCreated() *V1ClusterGroupsCreateCreated {
 	return &V1ClusterGroupsCreateCreated{}
 }
 
-/*
-V1ClusterGroupsCreateCreated handles this case with default header values.
+/*V1ClusterGroupsCreateCreated handles this case with default header values.
 
 Created successfully
 */

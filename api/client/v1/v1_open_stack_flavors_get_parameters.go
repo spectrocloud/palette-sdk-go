@@ -55,8 +55,7 @@ func NewV1OpenStackFlavorsGetParamsWithHTTPClient(client *http.Client) *V1OpenSt
 	}
 }
 
-/*
-V1OpenStackFlavorsGetParams contains all the parameters to send to the API endpoint
+/*V1OpenStackFlavorsGetParams contains all the parameters to send to the API endpoint
 for the v1 open stack flavors get operation typically these are written to a http.Request
 */
 type V1OpenStackFlavorsGetParams struct {

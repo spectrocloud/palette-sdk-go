@@ -40,8 +40,7 @@ func NewV1CloudConfigsMaasPoolMachinesListOK() *V1CloudConfigsMaasPoolMachinesLi
 	return &V1CloudConfigsMaasPoolMachinesListOK{}
 }
 
-/*
-V1CloudConfigsMaasPoolMachinesListOK handles this case with default header values.
+/*V1CloudConfigsMaasPoolMachinesListOK handles this case with default header values.
 
 An array of Maas machine items
 */

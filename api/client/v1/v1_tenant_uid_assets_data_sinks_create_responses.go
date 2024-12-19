@@ -40,8 +40,7 @@ func NewV1TenantUIDAssetsDataSinksCreateCreated() *V1TenantUIDAssetsDataSinksCre
 	return &V1TenantUIDAssetsDataSinksCreateCreated{}
 }
 
-/*
-V1TenantUIDAssetsDataSinksCreateCreated handles this case with default header values.
+/*V1TenantUIDAssetsDataSinksCreateCreated handles this case with default header values.
 
 Created successfully
 */

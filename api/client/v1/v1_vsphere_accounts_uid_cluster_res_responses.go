@@ -40,8 +40,7 @@ func NewV1VsphereAccountsUIDClusterResOK() *V1VsphereAccountsUIDClusterResOK {
 	return &V1VsphereAccountsUIDClusterResOK{}
 }
 
-/*
-V1VsphereAccountsUIDClusterResOK handles this case with default header values.
+/*V1VsphereAccountsUIDClusterResOK handles this case with default header values.
 
 (empty)
 */

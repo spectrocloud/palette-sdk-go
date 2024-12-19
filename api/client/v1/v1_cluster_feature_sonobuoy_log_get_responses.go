@@ -40,8 +40,7 @@ func NewV1ClusterFeatureSonobuoyLogGetOK() *V1ClusterFeatureSonobuoyLogGetOK {
 	return &V1ClusterFeatureSonobuoyLogGetOK{}
 }
 
-/*
-V1ClusterFeatureSonobuoyLogGetOK handles this case with default header values.
+/*V1ClusterFeatureSonobuoyLogGetOK handles this case with default header values.
 
 OK
 */

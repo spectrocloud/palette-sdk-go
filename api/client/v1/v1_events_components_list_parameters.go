@@ -68,8 +68,7 @@ func NewV1EventsComponentsListParamsWithHTTPClient(client *http.Client) *V1Event
 	}
 }
 
-/*
-V1EventsComponentsListParams contains all the parameters to send to the API endpoint
+/*V1EventsComponentsListParams contains all the parameters to send to the API endpoint
 for the v1 events components list operation typically these are written to a http.Request
 */
 type V1EventsComponentsListParams struct {

@@ -55,8 +55,7 @@ func NewV1EdgeTokensUIDGetParamsWithHTTPClient(client *http.Client) *V1EdgeToken
 	}
 }
 
-/*
-V1EdgeTokensUIDGetParams contains all the parameters to send to the API endpoint
+/*V1EdgeTokensUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 edge tokens Uid get operation typically these are written to a http.Request
 */
 type V1EdgeTokensUIDGetParams struct {

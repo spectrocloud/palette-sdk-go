@@ -40,8 +40,7 @@ func NewV1EdgeHostsTagsGetOK() *V1EdgeHostsTagsGetOK {
 	return &V1EdgeHostsTagsGetOK{}
 }
 
-/*
-V1EdgeHostsTagsGetOK handles this case with default header values.
+/*V1EdgeHostsTagsGetOK handles this case with default header values.
 
 An array of edge hosts tags
 */

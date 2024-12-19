@@ -55,8 +55,7 @@ func NewV1VsphereComputeClusterResourcesParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1VsphereComputeClusterResourcesParams contains all the parameters to send to the API endpoint
+/*V1VsphereComputeClusterResourcesParams contains all the parameters to send to the API endpoint
 for the v1 vsphere compute cluster resources operation typically these are written to a http.Request
 */
 type V1VsphereComputeClusterResourcesParams struct {

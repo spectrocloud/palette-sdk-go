@@ -37,8 +37,7 @@ func NewV1WorkspacesUIDMetaUpdateNoContent() *V1WorkspacesUIDMetaUpdateNoContent
 	return &V1WorkspacesUIDMetaUpdateNoContent{}
 }
 
-/*
-V1WorkspacesUIDMetaUpdateNoContent handles this case with default header values.
+/*V1WorkspacesUIDMetaUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -55,8 +55,7 @@ func NewV1GcpContainerImageValidateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1GcpContainerImageValidateParams contains all the parameters to send to the API endpoint
+/*V1GcpContainerImageValidateParams contains all the parameters to send to the API endpoint
 for the v1 gcp container image validate operation typically these are written to a http.Request
 */
 type V1GcpContainerImageValidateParams struct {

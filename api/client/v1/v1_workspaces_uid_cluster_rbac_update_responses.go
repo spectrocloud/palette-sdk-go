@@ -37,8 +37,7 @@ func NewV1WorkspacesUIDClusterRbacUpdateNoContent() *V1WorkspacesUIDClusterRbacU
 	return &V1WorkspacesUIDClusterRbacUpdateNoContent{}
 }
 
-/*
-V1WorkspacesUIDClusterRbacUpdateNoContent handles this case with default header values.
+/*V1WorkspacesUIDClusterRbacUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,8 +57,7 @@ func NewV1TeamsSummaryGetParamsWithHTTPClient(client *http.Client) *V1TeamsSumma
 	}
 }
 
-/*
-V1TeamsSummaryGetParams contains all the parameters to send to the API endpoint
+/*V1TeamsSummaryGetParams contains all the parameters to send to the API endpoint
 for the v1 teams summary get operation typically these are written to a http.Request
 */
 type V1TeamsSummaryGetParams struct {

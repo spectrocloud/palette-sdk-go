@@ -37,8 +37,7 @@ func NewV1AwsAccountValidateNoContent() *V1AwsAccountValidateNoContent {
 	return &V1AwsAccountValidateNoContent{}
 }
 
-/*
-V1AwsAccountValidateNoContent handles this case with default header values.
+/*V1AwsAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

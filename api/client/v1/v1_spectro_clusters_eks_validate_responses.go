@@ -40,8 +40,7 @@ func NewV1SpectroClustersEksValidateOK() *V1SpectroClustersEksValidateOK {
 	return &V1SpectroClustersEksValidateOK{}
 }
 
-/*
-V1SpectroClustersEksValidateOK handles this case with default header values.
+/*V1SpectroClustersEksValidateOK handles this case with default header values.
 
 Eks Cluster validation response
 */

@@ -40,8 +40,7 @@ func NewV1AwsSecurityGroupsOK() *V1AwsSecurityGroupsOK {
 	return &V1AwsSecurityGroupsOK{}
 }
 
-/*
-V1AwsSecurityGroupsOK handles this case with default header values.
+/*V1AwsSecurityGroupsOK handles this case with default header values.
 
 (empty)
 */

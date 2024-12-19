@@ -57,8 +57,7 @@ func NewV1SpectroClustersEdgeNativeImportParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1SpectroClustersEdgeNativeImportParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersEdgeNativeImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters edge native import operation typically these are written to a http.Request
 */
 type V1SpectroClustersEdgeNativeImportParams struct {

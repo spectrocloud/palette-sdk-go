@@ -37,8 +37,7 @@ func NewV1SpectroClustersUpdateStatusServicesNoContent() *V1SpectroClustersUpdat
 	return &V1SpectroClustersUpdateStatusServicesNoContent{}
 }
 
-/*
-V1SpectroClustersUpdateStatusServicesNoContent handles this case with default header values.
+/*V1SpectroClustersUpdateStatusServicesNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

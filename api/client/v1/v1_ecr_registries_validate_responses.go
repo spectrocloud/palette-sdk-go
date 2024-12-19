@@ -37,8 +37,7 @@ func NewV1EcrRegistriesValidateNoContent() *V1EcrRegistriesValidateNoContent {
 	return &V1EcrRegistriesValidateNoContent{}
 }
 
-/*
-V1EcrRegistriesValidateNoContent handles this case with default header values.
+/*V1EcrRegistriesValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

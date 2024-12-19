@@ -40,8 +40,7 @@ func NewV1CloudConfigsVspherePoolMachinesUIDGetOK() *V1CloudConfigsVspherePoolMa
 	return &V1CloudConfigsVspherePoolMachinesUIDGetOK{}
 }
 
-/*
-V1CloudConfigsVspherePoolMachinesUIDGetOK handles this case with default header values.
+/*V1CloudConfigsVspherePoolMachinesUIDGetOK handles this case with default header values.
 
 OK
 */

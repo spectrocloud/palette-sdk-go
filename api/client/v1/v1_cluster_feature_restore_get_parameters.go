@@ -55,8 +55,7 @@ func NewV1ClusterFeatureRestoreGetParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*
-V1ClusterFeatureRestoreGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureRestoreGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature restore get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureRestoreGetParams struct {

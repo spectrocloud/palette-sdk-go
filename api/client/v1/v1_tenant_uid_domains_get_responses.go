@@ -40,8 +40,7 @@ func NewV1TenantUIDDomainsGetOK() *V1TenantUIDDomainsGetOK {
 	return &V1TenantUIDDomainsGetOK{}
 }
 
-/*
-V1TenantUIDDomainsGetOK handles this case with default header values.
+/*V1TenantUIDDomainsGetOK handles this case with default header values.
 
 (empty)
 */

@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeClusterTemplateUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CustomCloudTypeClusterTemplateUpdateParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeClusterTemplateUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type cluster template update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeClusterTemplateUpdateParams struct {

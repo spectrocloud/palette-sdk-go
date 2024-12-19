@@ -55,8 +55,7 @@ func NewV1TeamsUIDTenantRolesGetParamsWithHTTPClient(client *http.Client) *V1Tea
 	}
 }
 
-/*
-V1TeamsUIDTenantRolesGetParams contains all the parameters to send to the API endpoint
+/*V1TeamsUIDTenantRolesGetParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid tenant roles get operation typically these are written to a http.Request
 */
 type V1TeamsUIDTenantRolesGetParams struct {

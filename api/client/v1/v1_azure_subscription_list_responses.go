@@ -40,8 +40,7 @@ func NewV1AzureSubscriptionListOK() *V1AzureSubscriptionListOK {
 	return &V1AzureSubscriptionListOK{}
 }
 
-/*
-V1AzureSubscriptionListOK handles this case with default header values.
+/*V1AzureSubscriptionListOK handles this case with default header values.
 
 (empty)
 */

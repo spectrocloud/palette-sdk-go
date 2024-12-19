@@ -68,8 +68,7 @@ func NewV1CloudAccountsOpenStackListParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1CloudAccountsOpenStackListParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsOpenStackListParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts open stack list operation typically these are written to a http.Request
 */
 type V1CloudAccountsOpenStackListParams struct {

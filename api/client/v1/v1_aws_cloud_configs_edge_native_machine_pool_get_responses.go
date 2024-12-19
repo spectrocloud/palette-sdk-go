@@ -40,8 +40,7 @@ func NewV1AwsCloudConfigsEdgeNativeMachinePoolGetOK() *V1AwsCloudConfigsEdgeNati
 	return &V1AwsCloudConfigsEdgeNativeMachinePoolGetOK{}
 }
 
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolGetOK handles this case with default header values.
+/*V1AwsCloudConfigsEdgeNativeMachinePoolGetOK handles this case with default header values.
 
 OK
 */

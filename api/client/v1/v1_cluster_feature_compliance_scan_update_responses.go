@@ -37,8 +37,7 @@ func NewV1ClusterFeatureComplianceScanUpdateNoContent() *V1ClusterFeatureComplia
 	return &V1ClusterFeatureComplianceScanUpdateNoContent{}
 }
 
-/*
-V1ClusterFeatureComplianceScanUpdateNoContent handles this case with default header values.
+/*V1ClusterFeatureComplianceScanUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

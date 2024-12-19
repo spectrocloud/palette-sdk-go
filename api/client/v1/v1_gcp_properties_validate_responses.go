@@ -37,8 +37,7 @@ func NewV1GcpPropertiesValidateNoContent() *V1GcpPropertiesValidateNoContent {
 	return &V1GcpPropertiesValidateNoContent{}
 }
 
-/*
-V1GcpPropertiesValidateNoContent handles this case with default header values.
+/*V1GcpPropertiesValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

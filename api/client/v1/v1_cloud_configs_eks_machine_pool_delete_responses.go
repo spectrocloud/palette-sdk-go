@@ -37,8 +37,7 @@ func NewV1CloudConfigsEksMachinePoolDeleteNoContent() *V1CloudConfigsEksMachineP
 	return &V1CloudConfigsEksMachinePoolDeleteNoContent{}
 }
 
-/*
-V1CloudConfigsEksMachinePoolDeleteNoContent handles this case with default header values.
+/*V1CloudConfigsEksMachinePoolDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -57,8 +57,7 @@ func NewV1TenantUIDAssetsCertsUIDUpdateParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1TenantUIDAssetsCertsUIDUpdateParams contains all the parameters to send to the API endpoint
+/*V1TenantUIDAssetsCertsUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid assets certs Uid update operation typically these are written to a http.Request
 */
 type V1TenantUIDAssetsCertsUIDUpdateParams struct {

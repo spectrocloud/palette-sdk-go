@@ -55,8 +55,7 @@ func NewV1GcpRegionsParamsWithHTTPClient(client *http.Client) *V1GcpRegionsParam
 	}
 }
 
-/*
-V1GcpRegionsParams contains all the parameters to send to the API endpoint
+/*V1GcpRegionsParams contains all the parameters to send to the API endpoint
 for the v1 gcp regions operation typically these are written to a http.Request
 */
 type V1GcpRegionsParams struct {

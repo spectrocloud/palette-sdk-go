@@ -40,8 +40,7 @@ func NewV1OpenStackProjectsGetOK() *V1OpenStackProjectsGetOK {
 	return &V1OpenStackProjectsGetOK{}
 }
 
-/*
-V1OpenStackProjectsGetOK handles this case with default header values.
+/*V1OpenStackProjectsGetOK handles this case with default header values.
 
 (empty)
 */

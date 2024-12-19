@@ -57,8 +57,7 @@ func NewV1AppProfilesUIDTiersPatchParamsWithHTTPClient(client *http.Client) *V1A
 	}
 }
 
-/*
-V1AppProfilesUIDTiersPatchParams contains all the parameters to send to the API endpoint
+/*V1AppProfilesUIDTiersPatchParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid tiers patch operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDTiersPatchParams struct {

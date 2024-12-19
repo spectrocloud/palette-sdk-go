@@ -57,8 +57,7 @@ func NewV1EcrRegistriesValidateParamsWithHTTPClient(client *http.Client) *V1EcrR
 	}
 }
 
-/*
-V1EcrRegistriesValidateParams contains all the parameters to send to the API endpoint
+/*V1EcrRegistriesValidateParams contains all the parameters to send to the API endpoint
 for the v1 ecr registries validate operation typically these are written to a http.Request
 */
 type V1EcrRegistriesValidateParams struct {

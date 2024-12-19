@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDTokenKubeConfigDeleteParamsWithHTTPClient(client *ht
 	}
 }
 
-/*
-V1SpectroClustersUIDTokenKubeConfigDeleteParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDTokenKubeConfigDeleteParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid token kube config delete operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDTokenKubeConfigDeleteParams struct {
