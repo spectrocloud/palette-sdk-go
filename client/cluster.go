@@ -194,12 +194,12 @@ func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 }
 
 // ValidateClusterRepave validates if cluster gets repaved for the specified packs.
-func (h *V1Client) ValidateClusterRepave(clusterUID string, body *models.V1SpectroClusterPacksEntity) error {
+func (h *V1Client) ValidateClusterRepave(clusterUID string, body *models.V1SpectroClusterPacksEntity) (*models.V1SpectroClusterRepaveValidationResponse, error) {
 	params := clientv1.NewV1SpectroClustersUIDValidateRepaveParamsWithContext(h.ctx).
 		WithUID(clusterUID).
 		WithBody(body)
-	_, err := h.Client.V1SpectroClustersUIDValidateRepave(params)
-	return err
+	resp, err := h.Client.V1SpectroClustersUIDValidateRepave(params)
+	return resp.Payload, err
 }
 
 // GetRepaveReasons retrieves a cluster's repave reasons.
