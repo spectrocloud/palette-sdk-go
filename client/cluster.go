@@ -361,8 +361,8 @@ func (h *V1Client) GetTheKubernetesCerts(clusterUID string) (*models.V1MachineCe
 }
 
 // UpdateClusterProfileVariableInCluster Update cluster profile variable in running cluster.
-func (h *V1Client) UpdateClusterProfileVariableInCluster(clusterUID string) error {
-	params := clientv1.NewV1SpectroClustersUIDVariablesPatchParamsWithContext(h.ctx).WithUID(clusterUID)
+func (h *V1Client) UpdateClusterProfileVariableInCluster(clusterUID string, body []*models.V1SpectroClusterVariableUpdateEntity) error {
+	params := clientv1.NewV1SpectroClustersUIDVariablesPatchParamsWithContext(h.ctx).WithUID(clusterUID).WithBody(body)
 	_, err := h.Client.V1SpectroClustersUIDVariablesPatch(params)
 	if err != nil {
 		return err
