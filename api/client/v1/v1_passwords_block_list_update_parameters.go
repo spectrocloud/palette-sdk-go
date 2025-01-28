@@ -57,8 +57,7 @@ func NewV1PasswordsBlockListUpdateParamsWithHTTPClient(client *http.Client) *V1P
 	}
 }
 
-/*
-V1PasswordsBlockListUpdateParams contains all the parameters to send to the API endpoint
+/*V1PasswordsBlockListUpdateParams contains all the parameters to send to the API endpoint
 for the v1 passwords block list update operation typically these are written to a http.Request
 */
 type V1PasswordsBlockListUpdateParams struct {

@@ -55,8 +55,7 @@ func NewV1AzureVirtualNetworkListParamsWithHTTPClient(client *http.Client) *V1Az
 	}
 }
 
-/*
-V1AzureVirtualNetworkListParams contains all the parameters to send to the API endpoint
+/*V1AzureVirtualNetworkListParams contains all the parameters to send to the API endpoint
 for the v1 azure virtual network list operation typically these are written to a http.Request
 */
 type V1AzureVirtualNetworkListParams struct {

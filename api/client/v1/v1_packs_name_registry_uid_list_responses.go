@@ -40,8 +40,7 @@ func NewV1PacksNameRegistryUIDListOK() *V1PacksNameRegistryUIDListOK {
 	return &V1PacksNameRegistryUIDListOK{}
 }
 
-/*
-V1PacksNameRegistryUIDListOK handles this case with default header values.
+/*V1PacksNameRegistryUIDListOK handles this case with default header values.
 
 (empty)
 */

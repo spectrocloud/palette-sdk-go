@@ -55,8 +55,7 @@ func NewV1TenantClusterSettingsGetParamsWithHTTPClient(client *http.Client) *V1T
 	}
 }
 
-/*
-V1TenantClusterSettingsGetParams contains all the parameters to send to the API endpoint
+/*V1TenantClusterSettingsGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant cluster settings get operation typically these are written to a http.Request
 */
 type V1TenantClusterSettingsGetParams struct {

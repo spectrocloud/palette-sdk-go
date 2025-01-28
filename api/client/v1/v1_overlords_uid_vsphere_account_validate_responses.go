@@ -41,8 +41,7 @@ func NewV1OverlordsUIDVsphereAccountValidateNoContent() *V1OverlordsUIDVsphereAc
 	return &V1OverlordsUIDVsphereAccountValidateNoContent{}
 }
 
-/*
-V1OverlordsUIDVsphereAccountValidateNoContent handles this case with default header values.
+/*V1OverlordsUIDVsphereAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */
@@ -64,8 +63,7 @@ func (o *V1OverlordsUIDVsphereAccountValidateNoContent) readResponse(response ru
 	return nil
 }
 
-/*
-V1OverlordsUIDVsphereAccountValidateBody v1 overlords UID vsphere account validate body
+/*V1OverlordsUIDVsphereAccountValidateBody v1 overlords UID vsphere account validate body
 swagger:model V1OverlordsUIDVsphereAccountValidateBody
 */
 type V1OverlordsUIDVsphereAccountValidateBody struct {

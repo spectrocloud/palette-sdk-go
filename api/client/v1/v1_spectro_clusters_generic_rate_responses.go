@@ -40,8 +40,7 @@ func NewV1SpectroClustersGenericRateOK() *V1SpectroClustersGenericRateOK {
 	return &V1SpectroClustersGenericRateOK{}
 }
 
-/*
-V1SpectroClustersGenericRateOK handles this case with default header values.
+/*V1SpectroClustersGenericRateOK handles this case with default header values.
 
 Genric Cluster estimated rate response
 */

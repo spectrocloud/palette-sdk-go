@@ -37,8 +37,7 @@ func NewV1ClusterProfilesPacksRefUpdateNoContent() *V1ClusterProfilesPacksRefUpd
 	return &V1ClusterProfilesPacksRefUpdateNoContent{}
 }
 
-/*
-V1ClusterProfilesPacksRefUpdateNoContent handles this case with default header values.
+/*V1ClusterProfilesPacksRefUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

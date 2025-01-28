@@ -40,8 +40,7 @@ func NewV1VMSnapshotUpdateOK() *V1VMSnapshotUpdateOK {
 	return &V1VMSnapshotUpdateOK{}
 }
 
-/*
-V1VMSnapshotUpdateOK handles this case with default header values.
+/*V1VMSnapshotUpdateOK handles this case with default header values.
 
 (empty)
 */

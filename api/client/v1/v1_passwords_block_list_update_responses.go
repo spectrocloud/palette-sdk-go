@@ -40,8 +40,7 @@ func NewV1PasswordsBlockListUpdateNoContent() *V1PasswordsBlockListUpdateNoConte
 	return &V1PasswordsBlockListUpdateNoContent{}
 }
 
-/*
-V1PasswordsBlockListUpdateNoContent handles this case with default header values.
+/*V1PasswordsBlockListUpdateNoContent handles this case with default header values.
 
 (empty)
 */

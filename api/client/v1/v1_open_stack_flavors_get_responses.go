@@ -40,8 +40,7 @@ func NewV1OpenStackFlavorsGetOK() *V1OpenStackFlavorsGetOK {
 	return &V1OpenStackFlavorsGetOK{}
 }
 
-/*
-V1OpenStackFlavorsGetOK handles this case with default header values.
+/*V1OpenStackFlavorsGetOK handles this case with default header values.
 
 (empty)
 */

@@ -55,8 +55,7 @@ func NewV1ProjectsAlertsParamsWithHTTPClient(client *http.Client) *V1ProjectsAle
 	}
 }
 
-/*
-V1ProjectsAlertsParams contains all the parameters to send to the API endpoint
+/*V1ProjectsAlertsParams contains all the parameters to send to the API endpoint
 for the v1 projects alerts operation typically these are written to a http.Request
 */
 type V1ProjectsAlertsParams struct {

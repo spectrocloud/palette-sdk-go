@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDConfigNamespacesUpdateNoContent() *V1SpectroClusters
 	return &V1SpectroClustersUIDConfigNamespacesUpdateNoContent{}
 }
 
-/*
-V1SpectroClustersUIDConfigNamespacesUpdateNoContent handles this case with default header values.
+/*V1SpectroClustersUIDConfigNamespacesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

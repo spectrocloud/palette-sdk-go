@@ -57,8 +57,7 @@ func NewV1UsersAssetSSHUpdateParamsWithHTTPClient(client *http.Client) *V1UsersA
 	}
 }
 
-/*
-V1UsersAssetSSHUpdateParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetSSHUpdateParams contains all the parameters to send to the API endpoint
 for the v1 users asset Ssh update operation typically these are written to a http.Request
 */
 type V1UsersAssetSSHUpdateParams struct {

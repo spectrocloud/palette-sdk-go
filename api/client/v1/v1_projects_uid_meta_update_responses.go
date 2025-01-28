@@ -37,8 +37,7 @@ func NewV1ProjectsUIDMetaUpdateNoContent() *V1ProjectsUIDMetaUpdateNoContent {
 	return &V1ProjectsUIDMetaUpdateNoContent{}
 }
 
-/*
-V1ProjectsUIDMetaUpdateNoContent handles this case with default header values.
+/*V1ProjectsUIDMetaUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

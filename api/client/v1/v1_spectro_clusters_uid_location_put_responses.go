@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDLocationPutNoContent() *V1SpectroClustersUIDLocation
 	return &V1SpectroClustersUIDLocationPutNoContent{}
 }
 
-/*
-V1SpectroClustersUIDLocationPutNoContent handles this case with default header values.
+/*V1SpectroClustersUIDLocationPutNoContent handles this case with default header values.
 
 Ok response without content
 */

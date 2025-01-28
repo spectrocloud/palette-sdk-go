@@ -37,8 +37,7 @@ func NewV1TenantUIDPasswordPolicyUpdateNoContent() *V1TenantUIDPasswordPolicyUpd
 	return &V1TenantUIDPasswordPolicyUpdateNoContent{}
 }
 
-/*
-V1TenantUIDPasswordPolicyUpdateNoContent handles this case with default header values.
+/*V1TenantUIDPasswordPolicyUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeCloudAccountKeysGetParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1CustomCloudTypeCloudAccountKeysGetParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeCloudAccountKeysGetParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type cloud account keys get operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeCloudAccountKeysGetParams struct {

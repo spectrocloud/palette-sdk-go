@@ -57,8 +57,7 @@ func NewV1AppDeploymentsProfileTiersManifestsUIDUpdateParamsWithHTTPClient(clien
 	}
 }
 
-/*
-V1AppDeploymentsProfileTiersManifestsUIDUpdateParams contains all the parameters to send to the API endpoint
+/*V1AppDeploymentsProfileTiersManifestsUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 app deployments profile tiers manifests Uid update operation typically these are written to a http.Request
 */
 type V1AppDeploymentsProfileTiersManifestsUIDUpdateParams struct {

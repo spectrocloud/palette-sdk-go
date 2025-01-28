@@ -55,8 +55,7 @@ func NewV1DashboardVMEnabledClustersListParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1DashboardVMEnabledClustersListParams contains all the parameters to send to the API endpoint
+/*V1DashboardVMEnabledClustersListParams contains all the parameters to send to the API endpoint
 for the v1 dashboard VM enabled clusters list operation typically these are written to a http.Request
 */
 type V1DashboardVMEnabledClustersListParams struct {

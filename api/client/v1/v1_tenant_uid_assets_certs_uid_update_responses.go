@@ -37,8 +37,7 @@ func NewV1TenantUIDAssetsCertsUIDUpdateNoContent() *V1TenantUIDAssetsCertsUIDUpd
 	return &V1TenantUIDAssetsCertsUIDUpdateNoContent{}
 }
 
-/*
-V1TenantUIDAssetsCertsUIDUpdateNoContent handles this case with default header values.
+/*V1TenantUIDAssetsCertsUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

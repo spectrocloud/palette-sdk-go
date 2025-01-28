@@ -57,8 +57,7 @@ func NewV1CustomCloudTypeRegisterParamsWithHTTPClient(client *http.Client) *V1Cu
 	}
 }
 
-/*
-V1CustomCloudTypeRegisterParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeRegisterParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type register operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeRegisterParams struct {

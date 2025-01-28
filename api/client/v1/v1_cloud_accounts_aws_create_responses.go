@@ -40,8 +40,7 @@ func NewV1CloudAccountsAwsCreateCreated() *V1CloudAccountsAwsCreateCreated {
 	return &V1CloudAccountsAwsCreateCreated{}
 }
 
-/*
-V1CloudAccountsAwsCreateCreated handles this case with default header values.
+/*V1CloudAccountsAwsCreateCreated handles this case with default header values.
 
 Created successfully
 */

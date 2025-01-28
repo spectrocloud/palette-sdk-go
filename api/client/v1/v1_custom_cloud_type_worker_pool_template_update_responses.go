@@ -37,8 +37,7 @@ func NewV1CustomCloudTypeWorkerPoolTemplateUpdateNoContent() *V1CustomCloudTypeW
 	return &V1CustomCloudTypeWorkerPoolTemplateUpdateNoContent{}
 }
 
-/*
-V1CustomCloudTypeWorkerPoolTemplateUpdateNoContent handles this case with default header values.
+/*V1CustomCloudTypeWorkerPoolTemplateUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

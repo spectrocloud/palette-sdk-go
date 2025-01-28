@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeWorkerPoolTemplateDeleteParamsWithHTTPClient(client *ht
 	}
 }
 
-/*
-V1CustomCloudTypeWorkerPoolTemplateDeleteParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeWorkerPoolTemplateDeleteParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type worker pool template delete operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeWorkerPoolTemplateDeleteParams struct {

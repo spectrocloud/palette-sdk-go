@@ -40,8 +40,7 @@ func NewV1FiltersListOK() *V1FiltersListOK {
 	return &V1FiltersListOK{}
 }
 
-/*
-V1FiltersListOK handles this case with default header values.
+/*V1FiltersListOK handles this case with default header values.
 
 An array of filters
 */

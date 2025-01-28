@@ -40,8 +40,7 @@ func NewV1SpectroClustersVirtualCreateCreated() *V1SpectroClustersVirtualCreateC
 	return &V1SpectroClustersVirtualCreateCreated{}
 }
 
-/*
-V1SpectroClustersVirtualCreateCreated handles this case with default header values.
+/*V1SpectroClustersVirtualCreateCreated handles this case with default header values.
 
 Created successfully
 */

@@ -57,8 +57,7 @@ func NewV1UsersAssetsLocationAzureUpdateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1UsersAssetsLocationAzureUpdateParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetsLocationAzureUpdateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location azure update operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationAzureUpdateParams struct {

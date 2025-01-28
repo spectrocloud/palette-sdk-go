@@ -57,8 +57,7 @@ func NewV1DashboardSpectroClustersUIDWorkloadsCronJobParamsWithHTTPClient(client
 	}
 }
 
-/*
-V1DashboardSpectroClustersUIDWorkloadsCronJobParams contains all the parameters to send to the API endpoint
+/*V1DashboardSpectroClustersUIDWorkloadsCronJobParams contains all the parameters to send to the API endpoint
 for the v1 dashboard spectro clusters Uid workloads cron job operation typically these are written to a http.Request
 */
 type V1DashboardSpectroClustersUIDWorkloadsCronJobParams struct {

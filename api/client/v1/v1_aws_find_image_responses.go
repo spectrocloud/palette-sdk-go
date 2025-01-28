@@ -40,8 +40,7 @@ func NewV1AwsFindImageOK() *V1AwsFindImageOK {
 	return &V1AwsFindImageOK{}
 }
 
-/*
-V1AwsFindImageOK handles this case with default header values.
+/*V1AwsFindImageOK handles this case with default header values.
 
 (empty)
 */

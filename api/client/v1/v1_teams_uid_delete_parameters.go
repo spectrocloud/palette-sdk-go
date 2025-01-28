@@ -55,8 +55,7 @@ func NewV1TeamsUIDDeleteParamsWithHTTPClient(client *http.Client) *V1TeamsUIDDel
 	}
 }
 
-/*
-V1TeamsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*V1TeamsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid delete operation typically these are written to a http.Request
 */
 type V1TeamsUIDDeleteParams struct {

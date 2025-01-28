@@ -40,8 +40,7 @@ func NewV1ClusterFeatureBackupCreateCreated() *V1ClusterFeatureBackupCreateCreat
 	return &V1ClusterFeatureBackupCreateCreated{}
 }
 
-/*
-V1ClusterFeatureBackupCreateCreated handles this case with default header values.
+/*V1ClusterFeatureBackupCreateCreated handles this case with default header values.
 
 Created successfully
 */

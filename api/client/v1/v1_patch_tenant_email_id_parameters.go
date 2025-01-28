@@ -57,8 +57,7 @@ func NewV1PatchTenantEmailIDParamsWithHTTPClient(client *http.Client) *V1PatchTe
 	}
 }
 
-/*
-V1PatchTenantEmailIDParams contains all the parameters to send to the API endpoint
+/*V1PatchTenantEmailIDParams contains all the parameters to send to the API endpoint
 for the v1 patch tenant email Id operation typically these are written to a http.Request
 */
 type V1PatchTenantEmailIDParams struct {

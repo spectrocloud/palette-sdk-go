@@ -57,8 +57,7 @@ func NewV1OverlordsUIDMaasCloudConfigUpdateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*
-V1OverlordsUIDMaasCloudConfigUpdateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDMaasCloudConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas cloud config update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasCloudConfigUpdateParams struct {

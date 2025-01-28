@@ -19,6 +19,9 @@ type V1EdgeNativeClusterConfig struct {
 	// ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN
 	ControlPlaneEndpoint *V1EdgeNativeControlPlaneEndPoint `json:"controlPlaneEndpoint,omitempty"`
 
+	// IsTwoNodeCluster is to enable two node cluster support in the control-plane
+	IsTwoNodeCluster bool `json:"isTwoNodeCluster,omitempty"`
+
 	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list
 	NtpServers []string `json:"ntpServers"`
 

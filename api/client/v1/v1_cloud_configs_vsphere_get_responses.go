@@ -40,8 +40,7 @@ func NewV1CloudConfigsVsphereGetOK() *V1CloudConfigsVsphereGetOK {
 	return &V1CloudConfigsVsphereGetOK{}
 }
 
-/*
-V1CloudConfigsVsphereGetOK handles this case with default header values.
+/*V1CloudConfigsVsphereGetOK handles this case with default header values.
 
 OK
 */

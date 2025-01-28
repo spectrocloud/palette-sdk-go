@@ -57,8 +57,7 @@ func NewV1TagFiltersCreateParamsWithHTTPClient(client *http.Client) *V1TagFilter
 	}
 }
 
-/*
-V1TagFiltersCreateParams contains all the parameters to send to the API endpoint
+/*V1TagFiltersCreateParams contains all the parameters to send to the API endpoint
 for the v1 tag filters create operation typically these are written to a http.Request
 */
 type V1TagFiltersCreateParams struct {

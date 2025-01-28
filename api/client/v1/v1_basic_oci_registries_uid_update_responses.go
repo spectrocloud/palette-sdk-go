@@ -37,8 +37,7 @@ func NewV1BasicOciRegistriesUIDUpdateNoContent() *V1BasicOciRegistriesUIDUpdateN
 	return &V1BasicOciRegistriesUIDUpdateNoContent{}
 }
 
-/*
-V1BasicOciRegistriesUIDUpdateNoContent handles this case with default header values.
+/*V1BasicOciRegistriesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

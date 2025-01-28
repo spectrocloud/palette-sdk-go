@@ -57,8 +57,7 @@ func NewV1SpectroClustersUIDPacksStatusPatchParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1SpectroClustersUIDPacksStatusPatchParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDPacksStatusPatchParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid packs status patch operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDPacksStatusPatchParams struct {

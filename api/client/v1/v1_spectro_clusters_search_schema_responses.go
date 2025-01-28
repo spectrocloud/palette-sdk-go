@@ -40,8 +40,7 @@ func NewV1SpectroClustersSearchSchemaOK() *V1SpectroClustersSearchSchemaOK {
 	return &V1SpectroClustersSearchSchemaOK{}
 }
 
-/*
-V1SpectroClustersSearchSchemaOK handles this case with default header values.
+/*V1SpectroClustersSearchSchemaOK handles this case with default header values.
 
 An array of cluster filter schema items
 */

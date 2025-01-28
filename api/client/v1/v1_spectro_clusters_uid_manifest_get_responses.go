@@ -38,8 +38,7 @@ func NewV1SpectroClustersUIDManifestGetOK() *V1SpectroClustersUIDManifestGetOK {
 	return &V1SpectroClustersUIDManifestGetOK{}
 }
 
-/*
-V1SpectroClustersUIDManifestGetOK handles this case with default header values.
+/*V1SpectroClustersUIDManifestGetOK handles this case with default header values.
 
 OK
 */

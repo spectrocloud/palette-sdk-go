@@ -55,8 +55,7 @@ func NewV1CloudAccountsAzureDeleteParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*
-V1CloudAccountsAzureDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsAzureDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts azure delete operation typically these are written to a http.Request
 */
 type V1CloudAccountsAzureDeleteParams struct {

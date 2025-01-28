@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDCostSummaryOK() *V1SpectroClustersUIDCostSummaryOK {
 	return &V1SpectroClustersUIDCostSummaryOK{}
 }
 
-/*
-V1SpectroClustersUIDCostSummaryOK handles this case with default header values.
+/*V1SpectroClustersUIDCostSummaryOK handles this case with default header values.
 
 An spectro cluster cost summary
 */

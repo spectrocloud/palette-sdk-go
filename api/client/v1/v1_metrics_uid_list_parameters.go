@@ -100,8 +100,7 @@ func NewV1MetricsUIDListParamsWithHTTPClient(client *http.Client) *V1MetricsUIDL
 	}
 }
 
-/*
-V1MetricsUIDListParams contains all the parameters to send to the API endpoint
+/*V1MetricsUIDListParams contains all the parameters to send to the API endpoint
 for the v1 metrics Uid list operation typically these are written to a http.Request
 */
 type V1MetricsUIDListParams struct {

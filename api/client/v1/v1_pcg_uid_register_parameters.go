@@ -57,8 +57,7 @@ func NewV1PcgUIDRegisterParamsWithHTTPClient(client *http.Client) *V1PcgUIDRegis
 	}
 }
 
-/*
-V1PcgUIDRegisterParams contains all the parameters to send to the API endpoint
+/*V1PcgUIDRegisterParams contains all the parameters to send to the API endpoint
 for the v1 pcg Uid register operation typically these are written to a http.Request
 */
 type V1PcgUIDRegisterParams struct {

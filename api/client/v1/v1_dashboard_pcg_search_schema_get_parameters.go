@@ -55,8 +55,7 @@ func NewV1DashboardPcgSearchSchemaGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1DashboardPcgSearchSchemaGetParams contains all the parameters to send to the API endpoint
+/*V1DashboardPcgSearchSchemaGetParams contains all the parameters to send to the API endpoint
 for the v1 dashboard pcg search schema get operation typically these are written to a http.Request
 */
 type V1DashboardPcgSearchSchemaGetParams struct {

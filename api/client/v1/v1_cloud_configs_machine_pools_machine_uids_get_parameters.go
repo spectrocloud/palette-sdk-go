@@ -55,8 +55,7 @@ func NewV1CloudConfigsMachinePoolsMachineUidsGetParamsWithHTTPClient(client *htt
 	}
 }
 
-/*
-V1CloudConfigsMachinePoolsMachineUidsGetParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsMachinePoolsMachineUidsGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs machine pools machine uids get operation typically these are written to a http.Request
 */
 type V1CloudConfigsMachinePoolsMachineUidsGetParams struct {

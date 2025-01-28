@@ -55,8 +55,7 @@ func NewV1CloudAccountsMaasDeleteParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*
-V1CloudAccountsMaasDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsMaasDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts maas delete operation typically these are written to a http.Request
 */
 type V1CloudAccountsMaasDeleteParams struct {

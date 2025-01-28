@@ -37,8 +37,7 @@ func NewV1CloudConfigsEdgeNativeMachinePoolDeleteNoContent() *V1CloudConfigsEdge
 	return &V1CloudConfigsEdgeNativeMachinePoolDeleteNoContent{}
 }
 
-/*
-V1CloudConfigsEdgeNativeMachinePoolDeleteNoContent handles this case with default header values.
+/*V1CloudConfigsEdgeNativeMachinePoolDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

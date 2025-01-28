@@ -37,8 +37,7 @@ func NewV1CustomCloudTypeControlPlaneUpdateNoContent() *V1CustomCloudTypeControl
 	return &V1CustomCloudTypeControlPlaneUpdateNoContent{}
 }
 
-/*
-V1CustomCloudTypeControlPlaneUpdateNoContent handles this case with default header values.
+/*V1CustomCloudTypeControlPlaneUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

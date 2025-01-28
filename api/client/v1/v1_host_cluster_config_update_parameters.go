@@ -57,8 +57,7 @@ func NewV1HostClusterConfigUpdateParamsWithHTTPClient(client *http.Client) *V1Ho
 	}
 }
 
-/*
-V1HostClusterConfigUpdateParams contains all the parameters to send to the API endpoint
+/*V1HostClusterConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 host cluster config update operation typically these are written to a http.Request
 */
 type V1HostClusterConfigUpdateParams struct {

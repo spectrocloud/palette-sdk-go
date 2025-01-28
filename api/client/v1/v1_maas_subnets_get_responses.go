@@ -40,8 +40,7 @@ func NewV1MaasSubnetsGetOK() *V1MaasSubnetsGetOK {
 	return &V1MaasSubnetsGetOK{}
 }
 
-/*
-V1MaasSubnetsGetOK handles this case with default header values.
+/*V1MaasSubnetsGetOK handles this case with default header values.
 
 (empty)
 */

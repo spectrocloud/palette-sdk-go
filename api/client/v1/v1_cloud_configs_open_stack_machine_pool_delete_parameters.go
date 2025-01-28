@@ -55,8 +55,7 @@ func NewV1CloudConfigsOpenStackMachinePoolDeleteParamsWithHTTPClient(client *htt
 	}
 }
 
-/*
-V1CloudConfigsOpenStackMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsOpenStackMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs open stack machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsOpenStackMachinePoolDeleteParams struct {

@@ -57,8 +57,7 @@ func NewV1EdgeHostDevicesCreateParamsWithHTTPClient(client *http.Client) *V1Edge
 	}
 }
 
-/*
-V1EdgeHostDevicesCreateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesCreateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices create operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesCreateParams struct {

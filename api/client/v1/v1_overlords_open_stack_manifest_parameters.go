@@ -55,8 +55,7 @@ func NewV1OverlordsOpenStackManifestParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1OverlordsOpenStackManifestParams contains all the parameters to send to the API endpoint
+/*V1OverlordsOpenStackManifestParams contains all the parameters to send to the API endpoint
 for the v1 overlords open stack manifest operation typically these are written to a http.Request
 */
 type V1OverlordsOpenStackManifestParams struct {

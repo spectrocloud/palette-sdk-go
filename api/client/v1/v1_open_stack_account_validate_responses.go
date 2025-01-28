@@ -37,8 +37,7 @@ func NewV1OpenStackAccountValidateNoContent() *V1OpenStackAccountValidateNoConte
 	return &V1OpenStackAccountValidateNoContent{}
 }
 
-/*
-V1OpenStackAccountValidateNoContent handles this case with default header values.
+/*V1OpenStackAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

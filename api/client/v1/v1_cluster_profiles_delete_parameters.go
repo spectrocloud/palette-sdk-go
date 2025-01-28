@@ -55,8 +55,7 @@ func NewV1ClusterProfilesDeleteParamsWithHTTPClient(client *http.Client) *V1Clus
 	}
 }
 
-/*
-V1ClusterProfilesDeleteParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles delete operation typically these are written to a http.Request
 */
 type V1ClusterProfilesDeleteParams struct {

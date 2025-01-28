@@ -40,8 +40,7 @@ func NewV1WorkspacesUIDGetOK() *V1WorkspacesUIDGetOK {
 	return &V1WorkspacesUIDGetOK{}
 }
 
-/*
-V1WorkspacesUIDGetOK handles this case with default header values.
+/*V1WorkspacesUIDGetOK handles this case with default header values.
 
 OK
 */

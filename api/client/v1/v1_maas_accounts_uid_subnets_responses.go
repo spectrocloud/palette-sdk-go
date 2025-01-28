@@ -40,8 +40,7 @@ func NewV1MaasAccountsUIDSubnetsOK() *V1MaasAccountsUIDSubnetsOK {
 	return &V1MaasAccountsUIDSubnetsOK{}
 }
 
-/*
-V1MaasAccountsUIDSubnetsOK handles this case with default header values.
+/*V1MaasAccountsUIDSubnetsOK handles this case with default header values.
 
 (empty)
 */

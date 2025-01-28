@@ -40,8 +40,7 @@ func NewV1EdgeHostDevicesUIDPackManifestsUIDGetOK() *V1EdgeHostDevicesUIDPackMan
 	return &V1EdgeHostDevicesUIDPackManifestsUIDGetOK{}
 }
 
-/*
-V1EdgeHostDevicesUIDPackManifestsUIDGetOK handles this case with default header values.
+/*V1EdgeHostDevicesUIDPackManifestsUIDGetOK handles this case with default header values.
 
 Pack manifest content
 */

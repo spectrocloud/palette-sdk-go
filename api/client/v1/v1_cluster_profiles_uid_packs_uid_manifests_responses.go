@@ -40,8 +40,7 @@ func NewV1ClusterProfilesUIDPacksUIDManifestsOK() *V1ClusterProfilesUIDPacksUIDM
 	return &V1ClusterProfilesUIDPacksUIDManifestsOK{}
 }
 
-/*
-V1ClusterProfilesUIDPacksUIDManifestsOK handles this case with default header values.
+/*V1ClusterProfilesUIDPacksUIDManifestsOK handles this case with default header values.
 
 OK
 */

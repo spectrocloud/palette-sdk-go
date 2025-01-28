@@ -57,8 +57,7 @@ func NewV1CloudAccountsOpenStackCreateParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1CloudAccountsOpenStackCreateParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsOpenStackCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts open stack create operation typically these are written to a http.Request
 */
 type V1CloudAccountsOpenStackCreateParams struct {

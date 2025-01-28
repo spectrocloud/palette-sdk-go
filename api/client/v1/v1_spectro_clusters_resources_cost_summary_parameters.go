@@ -57,8 +57,7 @@ func NewV1SpectroClustersResourcesCostSummaryParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1SpectroClustersResourcesCostSummaryParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersResourcesCostSummaryParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters resources cost summary operation typically these are written to a http.Request
 */
 type V1SpectroClustersResourcesCostSummaryParams struct {

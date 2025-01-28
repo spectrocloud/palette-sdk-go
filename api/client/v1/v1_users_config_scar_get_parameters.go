@@ -55,8 +55,7 @@ func NewV1UsersConfigScarGetParamsWithHTTPClient(client *http.Client) *V1UsersCo
 	}
 }
 
-/*
-V1UsersConfigScarGetParams contains all the parameters to send to the API endpoint
+/*V1UsersConfigScarGetParams contains all the parameters to send to the API endpoint
 for the v1 users config scar get operation typically these are written to a http.Request
 */
 type V1UsersConfigScarGetParams struct {

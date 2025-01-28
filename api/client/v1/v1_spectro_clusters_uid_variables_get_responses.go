@@ -40,29 +40,26 @@ func NewV1SpectroClustersUIDVariablesGetOK() *V1SpectroClustersUIDVariablesGetOK
 	return &V1SpectroClustersUIDVariablesGetOK{}
 }
 
-/*
-V1SpectroClustersUIDVariablesGetOK handles this case with default header values.
+/*V1SpectroClustersUIDVariablesGetOK handles this case with default header values.
 
 (empty)
 */
 type V1SpectroClustersUIDVariablesGetOK struct {
-	Payload *models.V1Variables
+	Payload []*models.V1SpectroClusterVariables
 }
 
 func (o *V1SpectroClustersUIDVariablesGetOK) Error() string {
 	return fmt.Sprintf("[GET /v1/spectroclusters/{uid}/variables][%d] v1SpectroClustersUidVariablesGetOK  %+v", 200, o.Payload)
 }
 
-func (o *V1SpectroClustersUIDVariablesGetOK) GetPayload() *models.V1Variables {
+func (o *V1SpectroClustersUIDVariablesGetOK) GetPayload() []*models.V1SpectroClusterVariables {
 	return o.Payload
 }
 
 func (o *V1SpectroClustersUIDVariablesGetOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.V1Variables)
-
 	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

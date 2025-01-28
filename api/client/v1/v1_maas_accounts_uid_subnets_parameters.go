@@ -55,8 +55,7 @@ func NewV1MaasAccountsUIDSubnetsParamsWithHTTPClient(client *http.Client) *V1Maa
 	}
 }
 
-/*
-V1MaasAccountsUIDSubnetsParams contains all the parameters to send to the API endpoint
+/*V1MaasAccountsUIDSubnetsParams contains all the parameters to send to the API endpoint
 for the v1 maas accounts Uid subnets operation typically these are written to a http.Request
 */
 type V1MaasAccountsUIDSubnetsParams struct {

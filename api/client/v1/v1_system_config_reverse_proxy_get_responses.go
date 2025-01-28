@@ -40,8 +40,7 @@ func NewV1SystemConfigReverseProxyGetOK() *V1SystemConfigReverseProxyGetOK {
 	return &V1SystemConfigReverseProxyGetOK{}
 }
 
-/*
-V1SystemConfigReverseProxyGetOK handles this case with default header values.
+/*V1SystemConfigReverseProxyGetOK handles this case with default header values.
 
 (empty)
 */

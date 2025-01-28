@@ -40,8 +40,7 @@ func NewV1OverlordsUIDGetOK() *V1OverlordsUIDGetOK {
 	return &V1OverlordsUIDGetOK{}
 }
 
-/*
-V1OverlordsUIDGetOK handles this case with default header values.
+/*V1OverlordsUIDGetOK handles this case with default header values.
 
 (empty)
 */

@@ -55,8 +55,7 @@ func NewV1OidcCallbackParamsWithHTTPClient(client *http.Client) *V1OidcCallbackP
 	}
 }
 
-/*
-V1OidcCallbackParams contains all the parameters to send to the API endpoint
+/*V1OidcCallbackParams contains all the parameters to send to the API endpoint
 for the v1 oidc callback operation typically these are written to a http.Request
 */
 type V1OidcCallbackParams struct {

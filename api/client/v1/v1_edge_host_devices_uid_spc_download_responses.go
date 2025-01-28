@@ -41,8 +41,7 @@ func NewV1EdgeHostDevicesUIDSpcDownloadOK(writer io.Writer) *V1EdgeHostDevicesUI
 	}
 }
 
-/*
-V1EdgeHostDevicesUIDSpcDownloadOK handles this case with default header values.
+/*V1EdgeHostDevicesUIDSpcDownloadOK handles this case with default header values.
 
 download spc archive file
 */

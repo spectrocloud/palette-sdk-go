@@ -37,8 +37,7 @@ func NewV1ClusterProfilesUIDVariablesDeleteNoContent() *V1ClusterProfilesUIDVari
 	return &V1ClusterProfilesUIDVariablesDeleteNoContent{}
 }
 
-/*
-V1ClusterProfilesUIDVariablesDeleteNoContent handles this case with default header values.
+/*V1ClusterProfilesUIDVariablesDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

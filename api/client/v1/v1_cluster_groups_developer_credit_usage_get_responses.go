@@ -40,8 +40,7 @@ func NewV1ClusterGroupsDeveloperCreditUsageGetOK() *V1ClusterGroupsDeveloperCred
 	return &V1ClusterGroupsDeveloperCreditUsageGetOK{}
 }
 
-/*
-V1ClusterGroupsDeveloperCreditUsageGetOK handles this case with default header values.
+/*V1ClusterGroupsDeveloperCreditUsageGetOK handles this case with default header values.
 
 Cluster group developer credit usage
 */

@@ -3136,154 +3136,6 @@
         }
       }
     },
-    "/v1/cloudaccounts/tencent": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of Tencent cloud accounts",
-        "operationId": "v1CloudAccountsTencentList",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
-            "name": "fields",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
-            "name": "filters",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
-            "name": "orderBy",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "default": 50,
-            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
-            "name": "limit",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
-            "name": "offset",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "continue token to paginate the subsequent data items",
-            "name": "continue",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of cloud account items",
-            "schema": {
-              "$ref": "#/definitions/v1TencentAccounts"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates an Tencent cloud account",
-        "operationId": "v1CloudAccountsTencentCreate",
-        "parameters": [
-          {
-            "description": "Request payload to validate Tencent cloud account",
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentAccount"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/cloudaccounts/tencent/{uid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified Tencent account",
-        "operationId": "v1CloudAccountsTencentGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1TencentAccount"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified Tencent account",
-        "operationId": "v1CloudAccountsTencentUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentAccount"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified Tencent account",
-        "operationId": "v1CloudAccountsTencentDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Tencent cloud account uid",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/cloudaccounts/vsphere": {
       "get": {
         "tags": [
@@ -7262,333 +7114,6 @@
         }
       ]
     },
-    "/v1/cloudconfigs/tke/{configUid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified TKE cloud config",
-        "operationId": "v1CloudConfigsTkeGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1TencentCloudConfig"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/tke/{configUid}/clusterConfig": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the cluster configuration information",
-        "operationId": "v1CloudConfigsTkeUidClusterConfig",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentCloudClusterConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/tke/{configUid}/machinePools": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates an TKE cloud config's machine pool",
-        "operationId": "v1CloudConfigsTkeMachinePoolCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachinePoolConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified TKE cloud config's machine pool",
-        "operationId": "v1CloudConfigsTkeMachinePoolUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachinePoolConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified machine pool",
-        "operationId": "v1CloudConfigsTkeMachinePoolDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of TKE machines",
-        "operationId": "v1CloudConfigsTkePoolMachinesList",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
-            "name": "fields",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
-            "name": "filters",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
-            "name": "orderBy",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "default": 50,
-            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
-            "name": "limit",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
-            "name": "offset",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "continue token to paginate the subsequent data items",
-            "name": "continue",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of TKE machine items",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachines"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Adds the machine to cloud config's machine pool",
-        "operationId": "v1CloudConfigsTkePoolMachinesAdd",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachine"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified Tke machine",
-        "operationId": "v1CloudConfigsTkePoolMachinesUidGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachine"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified machine to the cloud config's machine pool",
-        "operationId": "v1CloudConfigsTkePoolMachinesUidUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TencentMachine"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified Tencent machine",
-        "operationId": "v1CloudConfigsTkePoolMachinesUidDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine uid",
-          "name": "machineUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/cloudconfigs/virtual/{configUid}": {
       "get": {
         "tags": [
@@ -8406,6 +7931,34 @@
           "required": true
         }
       ]
+    },
+    "/v1/clouds/aws/account/secret/credentials": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves the Aws secret credentials",
+        "operationId": "V1AwsAccountSecretCredentials",
+        "parameters": [
+          {
+            "description": "Retrieves the Aws secret credentials",
+            "name": "account",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AwsSecretSpecInputEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AwsAccountCredentials"
+            }
+          }
+        }
+      }
     },
     "/v1/clouds/aws/account/sts": {
       "get": {
@@ -11340,289 +10893,6 @@
         }
       }
     },
-    "/v1/clouds/tencent/account/validate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Validate the specified Tencent account credentials",
-        "operationId": "V1TencentAccountValidate",
-        "parameters": [
-          {
-            "description": "Request payload to validate tencent cloud account",
-            "name": "account",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1TencentCloudAccount"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Ok response without content",
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of Tencent regions for the specified account",
-        "operationId": "V1TencentRegions",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific Tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentRegions"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/instancetypes": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of Tencent instance types",
-        "operationId": "V1TencentInstanceTypes",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which tencent instances are listed",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "number",
-            "format": "double",
-            "description": "Filter for instances having cpu greater than or equal",
-            "name": "cpuGtEq",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "format": "double",
-            "description": "Filter for instances having memory greater than or equal",
-            "name": "memoryGtEq",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "format": "double",
-            "description": "Filter for instances having gpu greater than or equal",
-            "name": "gpuGtEq",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentInstanceTypes"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/keypairs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of keypairs for the specified account",
-        "operationId": "V1TencentKeypairs",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which keypairs are requested",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific Tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentKeypairs"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/securitygroups": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of secutity groups for the specified account",
-        "operationId": "V1TencentSecurityGroups",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which security groups are requested",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific Tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentSecurityGroups"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/storagetypes": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of Tencent storage types",
-        "operationId": "V1TencentStorageTypes",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which tencent storages are listed",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Zone for which tencent storages are listed",
-            "name": "zone",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentStorageTypes"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/vpcs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of VPCs for the specified account",
-        "operationId": "V1TencentVpcs",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which VPCs are requested",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific Tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentVpcs"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/tencent/regions/{region}/zones": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of Tencent availability zones for the specified region",
-        "operationId": "V1TencentZones",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Region for which zones are requested",
-            "name": "region",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific Tencent cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1TencentAvailabilityZones"
-            }
-          }
-        }
-      }
-    },
     "/v1/clouds/vsphere/account/validate": {
       "post": {
         "description": "Returns no contents if account is valid else error.",
@@ -11758,7 +11028,7 @@
         "parameters": [
           {
             "type": "string",
-            "description": "Cloud type [aws/azure/gcp/tencent]",
+            "description": "Cloud type [aws/azure/gcp]",
             "name": "cloudType",
             "in": "path",
             "required": true
@@ -21548,101 +20818,6 @@
         }
       }
     },
-    "/v1/spectroclusters/tke": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates a Tke cluster",
-        "operationId": "v1SpectroClustersTkeCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroTencentClusterEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/spectroclusters/tke/rate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get TKE cluster estimated rate information",
-        "operationId": "v1SpectroClustersTkeRate",
-        "parameters": [
-          {
-            "enum": [
-              "hourly",
-              "monthly",
-              "yearly"
-            ],
-            "type": "string",
-            "default": "hourly",
-            "name": "periodType",
-            "in": "query"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroTencentClusterRateEntity"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Tke Cluster estimated rate response",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterRate"
-            }
-          }
-        }
-      }
-    },
-    "/v1/spectroclusters/tke/validate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Validates TKE cluster create operation",
-        "operationId": "v1SpectroClustersTkeValidate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroTencentClusterEntity"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Tke Cluster validation response",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterValidatorResponse"
-            }
-          }
-        }
-      }
-    },
     "/v1/spectroclusters/upgrade/settings": {
       "get": {
         "tags": [
@@ -25146,8 +24321,35 @@
           "200": {
             "description": "(empty)",
             "schema": {
-              "$ref": "#/definitions/v1Variables"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterVariables"
+              }
             }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update cluster variable values for specified cluster",
+        "operationId": "v1SpectroClustersUidVariablesPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterVariableUpdateEntity"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
           }
         }
       },
@@ -31818,6 +31020,27 @@
         }
       }
     },
+    "v1AwsAccountCredentials": {
+      "description": "Aws secret account credentials",
+      "type": "object",
+      "properties": {
+        "accessKey": {
+          "description": "Aws account access key",
+          "type": "string"
+        },
+        "expirationTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "secretKey": {
+          "description": "Aws account secret key",
+          "type": "string"
+        },
+        "secretToken": {
+          "description": "Aws account secret token",
+          "type": "string"
+        }
+      }
+    },
     "v1AwsAccounts": {
       "description": "List of AWS accounts",
       "type": "object",
@@ -31905,7 +31128,9 @@
           "default": "aws",
           "enum": [
             "aws",
-            "aws-us-gov"
+            "aws-us-gov",
+            "aws-iso",
+            "aws-iso-b"
           ]
         },
         "policyARNs": {
@@ -31917,6 +31142,13 @@
         },
         "secretKey": {
           "description": "AWS account secret key",
+          "type": "string"
+        },
+        "secretSpec": {
+          "$ref": "#/definitions/v1AwsSecretSpec"
+        },
+        "secretToken": {
+          "description": "AWS account secret token; in case of aws-iso and aws-iso-b",
           "type": "string"
         },
         "sts": {
@@ -32864,6 +32096,84 @@
         },
         "region": {
           "description": "Name of the available AWS region.",
+          "type": "string"
+        }
+      }
+    },
+    "v1AwsSecretSpec": {
+      "description": "AWS cloud account which includes access key and secret key in case of 'secret' credentials type. It includes policyARNS, ARN and externalId in case of sts. Partition is a group of AWS Region and Service objects",
+      "type": "object",
+      "properties": {
+        "accountName": {
+          "description": "AWS secret accountName; only for aws-iso-b environment",
+          "type": "string"
+        },
+        "agency": {
+          "description": "AWS secret agency",
+          "type": "string"
+        },
+        "isCapValidationEnabled": {
+          "description": "Flag to rotate the secret region credentials",
+          "type": "boolean"
+        },
+        "mission": {
+          "description": "AWS secret mission; only for aws-iso environment",
+          "type": "string"
+        },
+        "namePrefix": {
+          "description": "Policy Boundary",
+          "type": "string"
+        },
+        "permissionBoundary": {
+          "description": "Role or Policy Prefix",
+          "type": "string"
+        },
+        "policy": {
+          "description": "AWS secret policy; JSON string",
+          "type": "string"
+        },
+        "role": {
+          "description": "AWS secret role",
+          "type": "string"
+        },
+        "tls": {
+          "description": "TLS configuration for the AWS secret",
+          "$ref": "#/definitions/v1AwsSecretTlsConfig"
+        }
+      }
+    },
+    "v1AwsSecretSpecInputEntity": {
+      "description": "AWS Secret spec input entity",
+      "properties": {
+        "partition": {
+          "description": "AWS accounts are scoped to a single partition. Allowed values [aws-iso, aws-iso-b], Default values",
+          "type": "string",
+          "default": "aws-iso-b",
+          "enum": [
+            "aws-iso",
+            "aws-iso-b"
+          ]
+        },
+        "secretSpec": {
+          "description": "AWS secret spec entity",
+          "$ref": "#/definitions/v1AwsSecretSpec"
+        }
+      }
+    },
+    "v1AwsSecretTlsConfig": {
+      "description": "TLS configuration for the AWS secret",
+      "type": "object",
+      "properties": {
+        "ca": {
+          "description": "CA certificate",
+          "type": "string"
+        },
+        "cert": {
+          "description": "Certificate",
+          "type": "string"
+        },
+        "key": {
+          "description": "Key",
           "type": "string"
         }
       }
@@ -34305,6 +33615,14 @@
         "state": {
           "description": "Cloud account status",
           "type": "string"
+        },
+        "tokenExpiry": {
+          "description": "Token expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "tokenGenerationTime": {
+          "description": "Token generation time",
+          "$ref": "#/definitions/v1Time"
         }
       }
     },
@@ -39732,6 +39050,10 @@
         "controlPlaneEndpoint": {
           "description": "ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN",
           "$ref": "#/definitions/v1EdgeNativeControlPlaneEndPoint"
+        },
+        "isTwoNodeCluster": {
+          "description": "IsTwoNodeCluster is to enable two node cluster support in the control-plane",
+          "type": "boolean"
         },
         "ntpServers": {
           "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list",
@@ -52353,6 +51675,48 @@
         }
       }
     },
+    "v1SpectroClusterVariableUpdateEntity": {
+      "description": "List of cluster variables to be updated with profile uid",
+      "type": "object",
+      "required": [
+        "profileUid"
+      ],
+      "properties": {
+        "profileUid": {
+          "description": "Profile uid to which the variable belongs",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of variables with updated values",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpectroClusterVariable"
+          }
+        }
+      }
+    },
+    "v1SpectroClusterVariables": {
+      "description": "List of cluster variables with schema belonging to a cluster",
+      "type": "object",
+      "required": [
+        "profileUid"
+      ],
+      "properties": {
+        "profileUid": {
+          "description": "Profile uid to which the cluster variable belongs",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of cluster variables with schema",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1Variable"
+          }
+        }
+      }
+    },
     "v1SpectroClustersHealth": {
       "description": "Spectro Clusters health data",
       "type": "object",
@@ -52869,66 +52233,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
-          }
-        }
-      }
-    },
-    "v1SpectroTencentClusterEntity": {
-      "description": "Tencent cluster request payload for create and update",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "type": "object",
-          "required": [
-            "cloudType",
-            "cloudAccountUid",
-            "cloudConfig"
-          ],
-          "properties": {
-            "cloudAccountUid": {
-              "description": "Cloud account uid to be used for cluster provisioning",
-              "type": "string"
-            },
-            "cloudConfig": {
-              "$ref": "#/definitions/v1TencentClusterConfig"
-            },
-            "clusterConfig": {
-              "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
-              "$ref": "#/definitions/v1ClusterConfigEntity"
-            },
-            "machinepoolconfig": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/v1TencentMachinePoolConfigEntity"
-              }
-            },
-            "policies": {
-              "$ref": "#/definitions/v1SpectroClusterPolicies"
-            },
-            "profiles": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/v1SpectroClusterProfileEntity"
-              }
-            }
-          }
-        }
-      }
-    },
-    "v1SpectroTencentClusterRateEntity": {
-      "description": "Spectro Tencent cluster request payload for estimating rate",
-      "type": "object",
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1TencentClusterConfig"
-        },
-        "machinepoolconfig": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentMachinePoolConfigEntity"
           }
         }
       }
@@ -54418,629 +53722,10 @@
         }
       }
     },
-    "v1TencentAccount": {
-      "description": "Tencent cloud account information",
-      "type": "object",
-      "properties": {
-        "apiVersion": {
-          "description": "Cloud account api version",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Cloud account kind",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1TencentCloudAccount"
-        },
-        "status": {
-          "$ref": "#/definitions/v1CloudAccountStatus"
-        }
-      }
-    },
-    "v1TencentAccounts": {
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1TencentAccount"
-          }
-        },
-        "listmeta": {
-          "$ref": "#/definitions/v1ListMetaData"
-        }
-      }
-    },
-    "v1TencentAvailabilityZone": {
-      "description": "Tencent availability zone",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Tencent availability zone name",
-          "type": "string"
-        },
-        "state": {
-          "description": "Tencent availability zone state",
-          "type": "string"
-        },
-        "zoneId": {
-          "description": "Tencent availability zone id",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentAvailabilityZones": {
-      "description": "List of Tencent Availability zones",
-      "type": "object",
-      "required": [
-        "zones"
-      ],
-      "properties": {
-        "zones": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentAvailabilityZone"
-          }
-        }
-      }
-    },
-    "v1TencentCloudAccount": {
-      "type": "object",
-      "required": [
-        "secretId",
-        "secretKey"
-      ],
-      "properties": {
-        "secretId": {
-          "description": "Tencent api secretID",
-          "type": "string"
-        },
-        "secretKey": {
-          "description": "Tencent api secret key",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentCloudClusterConfigEntity": {
-      "description": "Tencent cloud cluster config entity",
-      "type": "object",
-      "properties": {
-        "clusterConfig": {
-          "$ref": "#/definitions/v1TencentClusterConfig"
-        }
-      }
-    },
-    "v1TencentCloudConfig": {
-      "description": "TencentCloudConfig is the Schema for the tencentcloudconfigs API",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1TencentCloudConfigSpec"
-        }
-      }
-    },
-    "v1TencentCloudConfigSpec": {
-      "description": "TencentCloudConfigSpec defines the cloud configuration input by user This will translate to clusterspec/machinespec for cluster-api",
-      "type": "object",
-      "properties": {
-        "cloudAccountRef": {
-          "description": "cloudAccountRef should point to the secret which contains TencentCloudAccount",
-          "$ref": "#/definitions/v1ObjectReference"
-        },
-        "clusterConfig": {
-          "$ref": "#/definitions/v1TencentClusterConfig"
-        },
-        "machinePoolConfig": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentMachinePoolConfig"
-          }
-        }
-      }
-    },
-    "v1TencentClusterConfig": {
-      "description": "Cluster level configuration for tencent cloud and applicable for all the machine pools",
-      "type": "object",
-      "required": [
-        "region"
-      ],
-      "properties": {
-        "endpointAccess": {
-          "description": "Endpoints specifies access to this cluster's control plane endpoints",
-          "$ref": "#/definitions/v1TkeEndpointAccess"
-        },
-        "region": {
-          "type": "string"
-        },
-        "sshKeyIDs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "vpcID": {
-          "description": "VPC Id to deploy cluster into should have one public and one private subnet for the the cluster creation, this field is optional, If VPC Id is not provided a fully managed VPC will be created",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentInstanceTypes": {
-      "description": "List of Tencent instance types",
-      "type": "object",
-      "properties": {
-        "instanceTypes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1InstanceType"
-          }
-        }
-      }
-    },
-    "v1TencentKeypair": {
-      "description": "Tencent Keypair entity",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Tencent keypair id",
-          "type": "string"
-        },
-        "name": {
-          "description": "Tencent keypair name",
-          "type": "string"
-        },
-        "publickey": {
-          "description": "Tencent public key",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentKeypairs": {
-      "description": "List of Tencent keypairs",
-      "type": "object",
-      "properties": {
-        "keypairs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentKeypair"
-          }
-        }
-      }
-    },
-    "v1TencentMachine": {
-      "description": "Tencent cloud VM definition",
-      "type": "object",
-      "properties": {
-        "apiVersion": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1TencentMachineSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/v1CloudMachineStatus"
-        }
-      }
-    },
-    "v1TencentMachinePoolCloudConfigEntity": {
-      "type": "object",
-      "properties": {
-        "azs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "instanceType": {
-          "description": "instance type",
-          "type": "string"
-        },
-        "rootDeviceSize": {
-          "description": "rootDeviceSize in GBs",
-          "type": "integer",
-          "format": "int64",
-          "maximum": 2000,
-          "minimum": 1
-        },
-        "subnetIds": {
-          "description": "AZ to subnet mapping filled by ally from hubble SubnetIDs [\"ap-guangzhou-6\"] = \"subnet-079b6061\" This field is optional If we don't provide a subnetId then by default the first subnet from the AZ will be picked up for deployment",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "v1TencentMachinePoolConfig": {
-      "type": "object",
-      "properties": {
-        "additionalLabels": {
-          "description": "AdditionalLabels",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "additionalTags": {
-          "description": "AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "azs": {
-          "description": "AZs is only used for dynamic placement",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "instanceConfig": {
-          "$ref": "#/definitions/v1InstanceConfig"
-        },
-        "instanceType": {
-          "description": "instance type",
-          "type": "string"
-        },
-        "isControlPlane": {
-          "description": "whether this pool is for control plane",
-          "type": "boolean"
-        },
-        "labels": {
-          "description": "labels for this pool, example: control-plane/worker, gpu, windows",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "machinePoolProperties": {
-          "$ref": "#/definitions/v1MachinePoolProperties"
-        },
-        "maxSize": {
-          "description": "max size of the pool, for scaling",
-          "type": "integer",
-          "format": "int32"
-        },
-        "minSize": {
-          "description": "min size of the pool, for scaling",
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "nodeRepaveInterval": {
-          "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
-          "type": "integer",
-          "format": "int32"
-        },
-        "rootDeviceSize": {
-          "description": "rootDeviceSize in GBs",
-          "type": "integer",
-          "format": "int64"
-        },
-        "size": {
-          "description": "size of the pool, number of machines",
-          "type": "integer",
-          "format": "int32"
-        },
-        "subnetIds": {
-          "description": "AZ to subnet mapping filled by ally from hubble SubnetIDs [\"ap-guangzhou-6\"] = \"subnet-079b6061\" This field is optional If we don't provide a subnetId then by default the first subnet from the AZ will be picked up for deployment",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "taints": {
-          "description": "control plane or worker taints",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Taint"
-          }
-        },
-        "updateStrategy": {
-          "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
-          "$ref": "#/definitions/v1UpdateStrategy"
-        },
-        "useControlPlaneAsWorker": {
-          "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
-          "type": "boolean"
-        }
-      }
-    },
-    "v1TencentMachinePoolConfigEntity": {
-      "type": "object",
-      "required": [
-        "cloudConfig"
-      ],
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1TencentMachinePoolCloudConfigEntity"
-        },
-        "poolConfig": {
-          "$ref": "#/definitions/v1MachinePoolConfigEntity"
-        }
-      }
-    },
-    "v1TencentMachineSpec": {
-      "description": "Tencent cloud VM definition spec",
-      "type": "object",
-      "required": [
-        "nics",
-        "instanceType",
-        "imageId"
-      ],
-      "properties": {
-        "dnsName": {
-          "type": "string"
-        },
-        "imageId": {
-          "type": "string"
-        },
-        "instanceType": {
-          "type": "string"
-        },
-        "nics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentNic"
-          }
-        },
-        "securityGroups": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "subnetId": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        },
-        "vpcId": {
-          "type": "string"
-        },
-        "zoneId": {
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentMachines": {
-      "description": "Tencent machine list",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1TencentMachine"
-          }
-        },
-        "listmeta": {
-          "$ref": "#/definitions/v1ListMetaData"
-        }
-      }
-    },
-    "v1TencentNic": {
-      "description": "Tencent network interface",
-      "type": "object",
-      "properties": {
-        "index": {
-          "type": "integer",
-          "format": "int8"
-        },
-        "privateIPs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "publicIp": {
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentRegion": {
-      "description": "Tencent region entity",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Name of tencent region",
-          "type": "string"
-        },
-        "state": {
-          "description": "State of tencent region",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentRegions": {
-      "description": "List of tencent regions",
-      "type": "object",
-      "required": [
-        "regions"
-      ],
-      "properties": {
-        "regions": {
-          "description": "Tencent regions entity",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentRegion"
-          }
-        }
-      }
-    },
-    "v1TencentSecurityGroup": {
-      "description": "Tencent Security Group. A security group is a virtual firewall that features stateful data packet filtering",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Tencent security group id",
-          "type": "string"
-        },
-        "isDefault": {
-          "description": "Whether it is the default security group, the default security group does not support deletion.",
-          "type": "boolean"
-        },
-        "name": {
-          "description": "Tencent security group name",
-          "type": "string"
-        },
-        "projectId": {
-          "description": "Tencent security group associated to a project",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentSecurityGroups": {
-      "description": "List of Tencent security groups",
-      "type": "object",
-      "properties": {
-        "groups": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentSecurityGroup"
-          }
-        }
-      }
-    },
-    "v1TencentStorageTypes": {
-      "description": "List of Tencent storage types",
-      "type": "object",
-      "properties": {
-        "storageTypes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1StorageType"
-          }
-        }
-      }
-    },
-    "v1TencentSubnet": {
-      "description": "Tencent Subnet entity",
-      "type": "object",
-      "properties": {
-        "az": {
-          "description": "Availability zone associated with tencent subnet",
-          "type": "string"
-        },
-        "cidrBlock": {
-          "description": "Tencent subnet CIDR. The CIDR notation consists of an IP address, a slash character ('/') and a decimal number from 0 to 32",
-          "type": "string"
-        },
-        "name": {
-          "description": "Tencent subnet name",
-          "type": "string"
-        },
-        "subnetId": {
-          "description": "Tencent subnet id",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentVpc": {
-      "description": "Tencent VPC entity",
-      "type": "object",
-      "required": [
-        "vpcId"
-      ],
-      "properties": {
-        "cidrBlock": {
-          "description": "Tencent VPC CIDR. The CIDR notation consists of an IP address, a slash character ('/') and a decimal number from 0 to 32",
-          "type": "string"
-        },
-        "name": {
-          "description": "Tencent VPC name",
-          "type": "string"
-        },
-        "subnets": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentSubnet"
-          }
-        },
-        "vpcId": {
-          "description": "Tencent VPC id",
-          "type": "string"
-        }
-      }
-    },
-    "v1TencentVpcs": {
-      "description": "List of Tencent VPCs",
-      "type": "object",
-      "required": [
-        "vpcs"
-      ],
-      "properties": {
-        "vpcs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TencentVpc"
-          }
-        }
-      }
-    },
     "v1Time": {
       "description": "Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.",
       "type": "string",
       "format": "date-time"
-    },
-    "v1TkeEndpointAccess": {
-      "description": "TKEEndpointAccess specifies how control plane endpoints are accessible",
-      "type": "object",
-      "properties": {
-        "IsExtranet": {
-          "description": "IsExtranet Whether it is external network access (TRUE external network access FALSE internal network access, default value: FALSE)",
-          "type": "boolean"
-        },
-        "private": {
-          "description": "Private points VPC-internal control plane access to the private endpoint",
-          "type": "boolean"
-        },
-        "privateCIDR": {
-          "description": "Deprecated. PrivateCIDRs specifies which blocks can access the public endpoint",
-          "type": "string"
-        },
-        "public": {
-          "description": "Public controls whether control plane endpoints are publicly accessible",
-          "type": "boolean"
-        },
-        "publicCIDRs": {
-          "description": "Deprecated. PublicCIDRs specifies which blocks can access the public endpoint",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "securityGroup": {
-          "description": "Tencent security group",
-          "type": "string"
-        },
-        "subnetId": {
-          "description": "Tencent Subnet",
-          "type": "string"
-        }
-      }
     },
     "v1TlsConfiguration": {
       "description": "TLS configuration",
@@ -55912,7 +54597,8 @@
       "properties": {
         "defaultValue": {
           "description": "The default value of the variable",
-          "type": "string"
+          "type": "string",
+          "x-omitempty": false
         },
         "description": {
           "description": "Variable description",
@@ -55951,6 +54637,11 @@
         "required": {
           "description": "Flag to specify if the variable is optional or mandatory. If it is mandatory then default value must be provided",
           "type": "boolean",
+          "x-omitempty": false
+        },
+        "value": {
+          "description": "The user specified value of the variable",
+          "type": "string",
           "x-omitempty": false
         }
       }

@@ -55,8 +55,7 @@ func NewV1ServiceVersionGetParamsWithHTTPClient(client *http.Client) *V1ServiceV
 	}
 }
 
-/*
-V1ServiceVersionGetParams contains all the parameters to send to the API endpoint
+/*V1ServiceVersionGetParams contains all the parameters to send to the API endpoint
 for the v1 service version get operation typically these are written to a http.Request
 */
 type V1ServiceVersionGetParams struct {

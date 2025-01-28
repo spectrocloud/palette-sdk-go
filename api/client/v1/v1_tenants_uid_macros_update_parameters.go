@@ -57,8 +57,7 @@ func NewV1TenantsUIDMacrosUpdateParamsWithHTTPClient(client *http.Client) *V1Ten
 	}
 }
 
-/*
-V1TenantsUIDMacrosUpdateParams contains all the parameters to send to the API endpoint
+/*V1TenantsUIDMacrosUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenants Uid macros update operation typically these are written to a http.Request
 */
 type V1TenantsUIDMacrosUpdateParams struct {

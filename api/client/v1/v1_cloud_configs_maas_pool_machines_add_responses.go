@@ -40,8 +40,7 @@ func NewV1CloudConfigsMaasPoolMachinesAddCreated() *V1CloudConfigsMaasPoolMachin
 	return &V1CloudConfigsMaasPoolMachinesAddCreated{}
 }
 
-/*
-V1CloudConfigsMaasPoolMachinesAddCreated handles this case with default header values.
+/*V1CloudConfigsMaasPoolMachinesAddCreated handles this case with default header values.
 
 Created successfully
 */

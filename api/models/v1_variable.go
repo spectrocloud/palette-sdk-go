@@ -18,7 +18,7 @@ import (
 type V1Variable struct {
 
 	// The default value of the variable
-	DefaultValue string `json:"defaultValue,omitempty"`
+	DefaultValue string `json:"defaultValue"`
 
 	// Variable description
 	Description string `json:"description,omitempty"`
@@ -47,6 +47,9 @@ type V1Variable struct {
 
 	// Flag to specify if the variable is optional or mandatory. If it is mandatory then default value must be provided
 	Required bool `json:"required"`
+
+	// The user specified value of the variable
+	Value string `json:"value"`
 }
 
 // Validate validates this v1 variable
