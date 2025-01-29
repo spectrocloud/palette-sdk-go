@@ -33,6 +33,9 @@ type V1EdgeNativeClusterConfig struct {
 
 	// StaticIP indicates if IP allocation type is static IP. DHCP is the default allocation type
 	StaticIP bool `json:"staticIp,omitempty"`
+
+	//IsTwoNodeCluster indicates if the cluster is a two node cluster
+	IsTwoNodeCluster bool
 }
 
 // Validate validates this v1 edge native cluster config
