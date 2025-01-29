@@ -32,7 +32,7 @@ check-diff: reviewable ## Execute branch is clean
 	git diff --quiet || ($(ERR) please run 'make reviewable' to include all changes && false)
 	@$(OK) branch is clean
 
-reviewable: fmt vet lint ## Ensure code is ready for review
+reviewable: pre-commit-install fmt vet lint ## Ensure code is ready for review
 	git submodule update --remote
 	go mod tidy
 
@@ -45,11 +45,11 @@ vet: ## Run go vet against code
 lint: golangci-lint ## Run golangci-lint against code
 	$(GOLANGCI_LINT) run -v ./...
 
-#pre-commit-install: pre-commit ## Install pre-commit hooks
-#	@if [ "$(GITHUB_ACTIONS)" != "true" ]; then \
-#		pre-commit install --hook-type commit-msg; \
-#		pre-commit install --hook-type pre-commit; \
-#	fi
+pre-commit-install: pre-commit ## Install pre-commit hooks
+	@if [ "$(GITHUB_ACTIONS)" != "true" ]; then \
+		pre-commit install --hook-type commit-msg; \
+		pre-commit install --hook-type pre-commit; \
+	fi
 
 ##@ Test Targets
 
