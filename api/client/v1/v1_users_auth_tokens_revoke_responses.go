@@ -37,7 +37,8 @@ func NewV1UsersAuthTokensRevokeNoContent() *V1UsersAuthTokensRevokeNoContent {
 	return &V1UsersAuthTokensRevokeNoContent{}
 }
 
-/*V1UsersAuthTokensRevokeNoContent handles this case with default header values.
+/*
+V1UsersAuthTokensRevokeNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

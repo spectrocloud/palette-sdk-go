@@ -55,7 +55,8 @@ func NewV1ClusterProfilesUIDPacksConfigGetParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1ClusterProfilesUIDPacksConfigGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDPacksConfigGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid packs config get operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDPacksConfigGetParams struct {

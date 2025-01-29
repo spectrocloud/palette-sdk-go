@@ -40,7 +40,8 @@ func NewV1EventsComponentsObjTypeUIDListOK() *V1EventsComponentsObjTypeUIDListOK
 	return &V1EventsComponentsObjTypeUIDListOK{}
 }
 
-/*V1EventsComponentsObjTypeUIDListOK handles this case with default header values.
+/*
+V1EventsComponentsObjTypeUIDListOK handles this case with default header values.
 
 An array of component event items
 */

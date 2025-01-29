@@ -55,7 +55,8 @@ func NewV1InvoicesUIDGetParamsWithHTTPClient(client *http.Client) *V1InvoicesUID
 	}
 }
 
-/*V1InvoicesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1InvoicesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 invoices Uid get operation typically these are written to a http.Request
 */
 type V1InvoicesUIDGetParams struct {

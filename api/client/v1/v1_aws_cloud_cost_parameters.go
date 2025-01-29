@@ -57,7 +57,8 @@ func NewV1AwsCloudCostParamsWithHTTPClient(client *http.Client) *V1AwsCloudCostP
 	}
 }
 
-/*V1AwsCloudCostParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCloudCostParams contains all the parameters to send to the API endpoint
 for the v1 aws cloud cost operation typically these are written to a http.Request
 */
 type V1AwsCloudCostParams struct {

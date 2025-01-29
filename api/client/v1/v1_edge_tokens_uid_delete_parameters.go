@@ -55,7 +55,8 @@ func NewV1EdgeTokensUIDDeleteParamsWithHTTPClient(client *http.Client) *V1EdgeTo
 	}
 }
 
-/*V1EdgeTokensUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeTokensUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 edge tokens Uid delete operation typically these are written to a http.Request
 */
 type V1EdgeTokensUIDDeleteParams struct {

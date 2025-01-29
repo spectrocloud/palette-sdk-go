@@ -55,7 +55,8 @@ func NewV1SpectroClustersUIDOIDCDashboardURLParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*V1SpectroClustersUIDOIDCDashboardURLParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDOIDCDashboardURLParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid o ID c dashboard Url operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDOIDCDashboardURLParams struct {

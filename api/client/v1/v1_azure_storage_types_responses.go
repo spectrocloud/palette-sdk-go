@@ -40,7 +40,8 @@ func NewV1AzureStorageTypesOK() *V1AzureStorageTypesOK {
 	return &V1AzureStorageTypesOK{}
 }
 
-/*V1AzureStorageTypesOK handles this case with default header values.
+/*
+V1AzureStorageTypesOK handles this case with default header values.
 
 (empty)
 */

@@ -55,7 +55,8 @@ func NewV1GcpNetworksParamsWithHTTPClient(client *http.Client) *V1GcpNetworksPar
 	}
 }
 
-/*V1GcpNetworksParams contains all the parameters to send to the API endpoint
+/*
+V1GcpNetworksParams contains all the parameters to send to the API endpoint
 for the v1 gcp networks operation typically these are written to a http.Request
 */
 type V1GcpNetworksParams struct {

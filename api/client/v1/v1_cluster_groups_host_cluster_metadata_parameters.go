@@ -55,7 +55,8 @@ func NewV1ClusterGroupsHostClusterMetadataParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1ClusterGroupsHostClusterMetadataParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterGroupsHostClusterMetadataParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups host cluster metadata operation typically these are written to a http.Request
 */
 type V1ClusterGroupsHostClusterMetadataParams struct {

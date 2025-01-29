@@ -37,7 +37,8 @@ func NewV1WorkspacesValidateNameNoContent() *V1WorkspacesValidateNameNoContent {
 	return &V1WorkspacesValidateNameNoContent{}
 }
 
-/*V1WorkspacesValidateNameNoContent handles this case with default header values.
+/*
+V1WorkspacesValidateNameNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -37,7 +37,8 @@ func NewV1ClusterProfilesUIDPacksNameManifestsUIDUpdateNoContent() *V1ClusterPro
 	return &V1ClusterProfilesUIDPacksNameManifestsUIDUpdateNoContent{}
 }
 
-/*V1ClusterProfilesUIDPacksNameManifestsUIDUpdateNoContent handles this case with default header values.
+/*
+V1ClusterProfilesUIDPacksNameManifestsUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

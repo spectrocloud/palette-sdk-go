@@ -55,7 +55,8 @@ func NewV1AzureClusterNameValidateParamsWithHTTPClient(client *http.Client) *V1A
 	}
 }
 
-/*V1AzureClusterNameValidateParams contains all the parameters to send to the API endpoint
+/*
+V1AzureClusterNameValidateParams contains all the parameters to send to the API endpoint
 for the v1 azure cluster name validate operation typically these are written to a http.Request
 */
 type V1AzureClusterNameValidateParams struct {

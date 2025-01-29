@@ -57,7 +57,8 @@ func NewV1GcpAzValidateParamsWithHTTPClient(client *http.Client) *V1GcpAzValidat
 	}
 }
 
-/*V1GcpAzValidateParams contains all the parameters to send to the API endpoint
+/*
+V1GcpAzValidateParams contains all the parameters to send to the API endpoint
 for the v1 gcp az validate operation typically these are written to a http.Request
 */
 type V1GcpAzValidateParams struct {

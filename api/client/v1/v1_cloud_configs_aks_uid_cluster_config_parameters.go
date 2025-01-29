@@ -57,7 +57,8 @@ func NewV1CloudConfigsAksUIDClusterConfigParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*V1CloudConfigsAksUIDClusterConfigParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsAksUIDClusterConfigParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aks Uid cluster config operation typically these are written to a http.Request
 */
 type V1CloudConfigsAksUIDClusterConfigParams struct {

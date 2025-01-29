@@ -37,7 +37,8 @@ func NewV1RegistriesHelmUIDSyncAccepted() *V1RegistriesHelmUIDSyncAccepted {
 	return &V1RegistriesHelmUIDSyncAccepted{}
 }
 
-/*V1RegistriesHelmUIDSyncAccepted handles this case with default header values.
+/*
+V1RegistriesHelmUIDSyncAccepted handles this case with default header values.
 
 Ok response without content
 */

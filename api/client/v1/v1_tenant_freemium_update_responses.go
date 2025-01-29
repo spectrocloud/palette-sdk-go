@@ -37,7 +37,8 @@ func NewV1TenantFreemiumUpdateNoContent() *V1TenantFreemiumUpdateNoContent {
 	return &V1TenantFreemiumUpdateNoContent{}
 }
 
-/*V1TenantFreemiumUpdateNoContent handles this case with default header values.
+/*
+V1TenantFreemiumUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

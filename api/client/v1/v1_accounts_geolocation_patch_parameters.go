@@ -57,7 +57,8 @@ func NewV1AccountsGeolocationPatchParamsWithHTTPClient(client *http.Client) *V1A
 	}
 }
 
-/*V1AccountsGeolocationPatchParams contains all the parameters to send to the API endpoint
+/*
+V1AccountsGeolocationPatchParams contains all the parameters to send to the API endpoint
 for the v1 accounts geolocation patch operation typically these are written to a http.Request
 */
 type V1AccountsGeolocationPatchParams struct {

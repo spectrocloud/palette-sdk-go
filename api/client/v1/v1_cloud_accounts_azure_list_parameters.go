@@ -68,7 +68,8 @@ func NewV1CloudAccountsAzureListParamsWithHTTPClient(client *http.Client) *V1Clo
 	}
 }
 
-/*V1CloudAccountsAzureListParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsAzureListParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts azure list operation typically these are written to a http.Request
 */
 type V1CloudAccountsAzureListParams struct {

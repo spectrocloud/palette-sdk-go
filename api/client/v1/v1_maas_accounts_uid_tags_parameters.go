@@ -55,7 +55,8 @@ func NewV1MaasAccountsUIDTagsParamsWithHTTPClient(client *http.Client) *V1MaasAc
 	}
 }
 
-/*V1MaasAccountsUIDTagsParams contains all the parameters to send to the API endpoint
+/*
+V1MaasAccountsUIDTagsParams contains all the parameters to send to the API endpoint
 for the v1 maas accounts Uid tags operation typically these are written to a http.Request
 */
 type V1MaasAccountsUIDTagsParams struct {

@@ -40,7 +40,8 @@ func NewV1RegistriesPackCreateCreated() *V1RegistriesPackCreateCreated {
 	return &V1RegistriesPackCreateCreated{}
 }
 
-/*V1RegistriesPackCreateCreated handles this case with default header values.
+/*
+V1RegistriesPackCreateCreated handles this case with default header values.
 
 Created successfully
 */

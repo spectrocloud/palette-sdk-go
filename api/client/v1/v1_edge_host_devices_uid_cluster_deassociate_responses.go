@@ -37,7 +37,8 @@ func NewV1EdgeHostDevicesUIDClusterDeassociateNoContent() *V1EdgeHostDevicesUIDC
 	return &V1EdgeHostDevicesUIDClusterDeassociateNoContent{}
 }
 
-/*V1EdgeHostDevicesUIDClusterDeassociateNoContent handles this case with default header values.
+/*
+V1EdgeHostDevicesUIDClusterDeassociateNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

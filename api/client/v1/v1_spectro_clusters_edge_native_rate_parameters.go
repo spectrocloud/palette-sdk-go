@@ -69,7 +69,8 @@ func NewV1SpectroClustersEdgeNativeRateParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1SpectroClustersEdgeNativeRateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersEdgeNativeRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters edge native rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersEdgeNativeRateParams struct {

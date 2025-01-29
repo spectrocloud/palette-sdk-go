@@ -55,7 +55,8 @@ func NewV1OverlordsMaasManifestParamsWithHTTPClient(client *http.Client) *V1Over
 	}
 }
 
-/*V1OverlordsMaasManifestParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsMaasManifestParams contains all the parameters to send to the API endpoint
 for the v1 overlords maas manifest operation typically these are written to a http.Request
 */
 type V1OverlordsMaasManifestParams struct {

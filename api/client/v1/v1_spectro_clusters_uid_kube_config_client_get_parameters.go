@@ -55,7 +55,8 @@ func NewV1SpectroClustersUIDKubeConfigClientGetParamsWithHTTPClient(client *http
 	}
 }
 
-/*V1SpectroClustersUIDKubeConfigClientGetParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDKubeConfigClientGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid kube config client get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDKubeConfigClientGetParams struct {

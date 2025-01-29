@@ -55,7 +55,8 @@ func NewV1SpectroClustersCertificatesRenewParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1SpectroClustersCertificatesRenewParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersCertificatesRenewParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters certificates renew operation typically these are written to a http.Request
 */
 type V1SpectroClustersCertificatesRenewParams struct {

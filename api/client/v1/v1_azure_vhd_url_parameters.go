@@ -55,7 +55,8 @@ func NewV1AzureVhdURLParamsWithHTTPClient(client *http.Client) *V1AzureVhdURLPar
 	}
 }
 
-/*V1AzureVhdURLParams contains all the parameters to send to the API endpoint
+/*
+V1AzureVhdURLParams contains all the parameters to send to the API endpoint
 for the v1 azure vhd Url operation typically these are written to a http.Request
 */
 type V1AzureVhdURLParams struct {

@@ -57,7 +57,8 @@ func NewV1WorkspacesUIDClusterNamespacesUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1WorkspacesUIDClusterNamespacesUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesUIDClusterNamespacesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid cluster namespaces update operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDClusterNamespacesUpdateParams struct {

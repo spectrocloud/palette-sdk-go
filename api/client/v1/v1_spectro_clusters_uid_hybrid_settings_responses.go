@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDHybridSettingsNoContent() *V1SpectroClustersUIDHybri
 	return &V1SpectroClustersUIDHybridSettingsNoContent{}
 }
 
-/*V1SpectroClustersUIDHybridSettingsNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDHybridSettingsNoContent handles this case with default header values.
 
 Ok response without content
 */

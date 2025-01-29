@@ -40,7 +40,8 @@ func NewV1AppDeploymentsUIDProfileGetOK() *V1AppDeploymentsUIDProfileGetOK {
 	return &V1AppDeploymentsUIDProfileGetOK{}
 }
 
-/*V1AppDeploymentsUIDProfileGetOK handles this case with default header values.
+/*
+V1AppDeploymentsUIDProfileGetOK handles this case with default header values.
 
 OK
 */

@@ -57,7 +57,8 @@ func NewV1NotificationsEventCreateParamsWithHTTPClient(client *http.Client) *V1N
 	}
 }
 
-/*V1NotificationsEventCreateParams contains all the parameters to send to the API endpoint
+/*
+V1NotificationsEventCreateParams contains all the parameters to send to the API endpoint
 for the v1 notifications event create operation typically these are written to a http.Request
 */
 type V1NotificationsEventCreateParams struct {

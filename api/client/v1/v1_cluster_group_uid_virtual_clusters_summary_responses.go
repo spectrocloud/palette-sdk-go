@@ -40,7 +40,8 @@ func NewV1ClusterGroupUIDVirtualClustersSummaryOK() *V1ClusterGroupUIDVirtualClu
 	return &V1ClusterGroupUIDVirtualClustersSummaryOK{}
 }
 
-/*V1ClusterGroupUIDVirtualClustersSummaryOK handles this case with default header values.
+/*
+V1ClusterGroupUIDVirtualClustersSummaryOK handles this case with default header values.
 
 An array of cluster summary items
 */

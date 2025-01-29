@@ -37,7 +37,8 @@ func NewV1TenantUIDDomainsUpdateNoContent() *V1TenantUIDDomainsUpdateNoContent {
 	return &V1TenantUIDDomainsUpdateNoContent{}
 }
 
-/*V1TenantUIDDomainsUpdateNoContent handles this case with default header values.
+/*
+V1TenantUIDDomainsUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

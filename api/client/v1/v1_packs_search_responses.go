@@ -40,7 +40,8 @@ func NewV1PacksSearchOK() *V1PacksSearchOK {
 	return &V1PacksSearchOK{}
 }
 
-/*V1PacksSearchOK handles this case with default header values.
+/*
+V1PacksSearchOK handles this case with default header values.
 
 An array of pack summary items
 */

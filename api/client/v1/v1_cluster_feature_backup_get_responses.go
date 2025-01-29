@@ -40,7 +40,8 @@ func NewV1ClusterFeatureBackupGetOK() *V1ClusterFeatureBackupGetOK {
 	return &V1ClusterFeatureBackupGetOK{}
 }
 
-/*V1ClusterFeatureBackupGetOK handles this case with default header values.
+/*
+V1ClusterFeatureBackupGetOK handles this case with default header values.
 
 OK
 */

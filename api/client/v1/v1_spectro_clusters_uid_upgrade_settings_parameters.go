@@ -57,7 +57,8 @@ func NewV1SpectroClustersUIDUpgradeSettingsParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1SpectroClustersUIDUpgradeSettingsParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDUpgradeSettingsParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid upgrade settings operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDUpgradeSettingsParams struct {

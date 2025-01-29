@@ -37,7 +37,8 @@ func NewV1MaasAccountValidateNoContent() *V1MaasAccountValidateNoContent {
 	return &V1MaasAccountValidateNoContent{}
 }
 
-/*V1MaasAccountValidateNoContent handles this case with default header values.
+/*
+V1MaasAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

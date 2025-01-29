@@ -40,7 +40,8 @@ func NewV1AzureInstanceTypesOK() *V1AzureInstanceTypesOK {
 	return &V1AzureInstanceTypesOK{}
 }
 
-/*V1AzureInstanceTypesOK handles this case with default header values.
+/*
+V1AzureInstanceTypesOK handles this case with default header values.
 
 (empty)
 */

@@ -40,7 +40,8 @@ func NewV1AppProfilesCreateCreated() *V1AppProfilesCreateCreated {
 	return &V1AppProfilesCreateCreated{}
 }
 
-/*V1AppProfilesCreateCreated handles this case with default header values.
+/*
+V1AppProfilesCreateCreated handles this case with default header values.
 
 Created successfully
 */

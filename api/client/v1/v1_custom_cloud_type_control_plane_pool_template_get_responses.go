@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeControlPlanePoolTemplateGetOK() *V1CustomCloudTypeContr
 	return &V1CustomCloudTypeControlPlanePoolTemplateGetOK{}
 }
 
-/*V1CustomCloudTypeControlPlanePoolTemplateGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeControlPlanePoolTemplateGetOK handles this case with default header values.
 
 (empty)
 */

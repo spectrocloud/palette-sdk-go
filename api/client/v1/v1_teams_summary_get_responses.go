@@ -40,7 +40,8 @@ func NewV1TeamsSummaryGetOK() *V1TeamsSummaryGetOK {
 	return &V1TeamsSummaryGetOK{}
 }
 
-/*V1TeamsSummaryGetOK handles this case with default header values.
+/*
+V1TeamsSummaryGetOK handles this case with default header values.
 
 An array of teams summary items
 */

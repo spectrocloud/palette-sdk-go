@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUpdateParamsWithHTTPClient(client *http.Client) *V1Clus
 	}
 }
 
-/*V1ClusterProfilesUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles update operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUpdateParams struct {

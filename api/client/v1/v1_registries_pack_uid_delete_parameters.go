@@ -55,7 +55,8 @@ func NewV1RegistriesPackUIDDeleteParamsWithHTTPClient(client *http.Client) *V1Re
 	}
 }
 
-/*V1RegistriesPackUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1RegistriesPackUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 registries pack Uid delete operation typically these are written to a http.Request
 */
 type V1RegistriesPackUIDDeleteParams struct {

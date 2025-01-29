@@ -55,7 +55,8 @@ func NewV1TeamsProjectRolesParamsWithHTTPClient(client *http.Client) *V1TeamsPro
 	}
 }
 
-/*V1TeamsProjectRolesParams contains all the parameters to send to the API endpoint
+/*
+V1TeamsProjectRolesParams contains all the parameters to send to the API endpoint
 for the v1 teams project roles operation typically these are written to a http.Request
 */
 type V1TeamsProjectRolesParams struct {

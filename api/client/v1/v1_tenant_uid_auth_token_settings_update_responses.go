@@ -37,7 +37,8 @@ func NewV1TenantUIDAuthTokenSettingsUpdateNoContent() *V1TenantUIDAuthTokenSetti
 	return &V1TenantUIDAuthTokenSettingsUpdateNoContent{}
 }
 
-/*V1TenantUIDAuthTokenSettingsUpdateNoContent handles this case with default header values.
+/*
+V1TenantUIDAuthTokenSettingsUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

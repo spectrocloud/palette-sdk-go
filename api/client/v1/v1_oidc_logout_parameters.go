@@ -55,7 +55,8 @@ func NewV1OidcLogoutParamsWithHTTPClient(client *http.Client) *V1OidcLogoutParam
 	}
 }
 
-/*V1OidcLogoutParams contains all the parameters to send to the API endpoint
+/*
+V1OidcLogoutParams contains all the parameters to send to the API endpoint
 for the v1 oidc logout operation typically these are written to a http.Request
 */
 type V1OidcLogoutParams struct {

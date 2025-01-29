@@ -55,7 +55,8 @@ func NewV1OverlordsUIDVsphereClusterProfileParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1OverlordsUIDVsphereClusterProfileParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDVsphereClusterProfileParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid vsphere cluster profile operation typically these are written to a http.Request
 */
 type V1OverlordsUIDVsphereClusterProfileParams struct {

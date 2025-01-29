@@ -57,7 +57,8 @@ func NewV1AuditsUIDMsgUpdateParamsWithHTTPClient(client *http.Client) *V1AuditsU
 	}
 }
 
-/*V1AuditsUIDMsgUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1AuditsUIDMsgUpdateParams contains all the parameters to send to the API endpoint
 for the v1 audits Uid msg update operation typically these are written to a http.Request
 */
 type V1AuditsUIDMsgUpdateParams struct {

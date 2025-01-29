@@ -57,7 +57,8 @@ func NewV1CloudConfigsAwsMachinePoolCreateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsAwsMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsAwsMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aws machine pool create operation typically these are written to a http.Request
 */
 type V1CloudConfigsAwsMachinePoolCreateParams struct {

@@ -40,7 +40,8 @@ func NewV1CloudConfigsGenericGetOK() *V1CloudConfigsGenericGetOK {
 	return &V1CloudConfigsGenericGetOK{}
 }
 
-/*V1CloudConfigsGenericGetOK handles this case with default header values.
+/*
+V1CloudConfigsGenericGetOK handles this case with default header values.
 
 OK
 */

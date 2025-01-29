@@ -68,7 +68,8 @@ func NewV1EdgeHostDevicesUIDGetParamsWithHTTPClient(client *http.Client) *V1Edge
 	}
 }
 
-/*V1EdgeHostDevicesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid get operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDGetParams struct {

@@ -37,7 +37,8 @@ func NewV1AuthUserOrgForgotNoContent() *V1AuthUserOrgForgotNoContent {
 	return &V1AuthUserOrgForgotNoContent{}
 }
 
-/*V1AuthUserOrgForgotNoContent handles this case with default header values.
+/*
+V1AuthUserOrgForgotNoContent handles this case with default header values.
 
 Ok response without content
 */

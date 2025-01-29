@@ -40,7 +40,8 @@ func NewV1UsersUIDGetOK() *V1UsersUIDGetOK {
 	return &V1UsersUIDGetOK{}
 }
 
-/*V1UsersUIDGetOK handles this case with default header values.
+/*
+V1UsersUIDGetOK handles this case with default header values.
 
 OK
 */

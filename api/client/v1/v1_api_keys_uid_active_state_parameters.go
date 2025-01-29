@@ -57,7 +57,8 @@ func NewV1APIKeysUIDActiveStateParamsWithHTTPClient(client *http.Client) *V1APIK
 	}
 }
 
-/*V1APIKeysUIDActiveStateParams contains all the parameters to send to the API endpoint
+/*
+V1APIKeysUIDActiveStateParams contains all the parameters to send to the API endpoint
 for the v1 Api keys Uid active state operation typically these are written to a http.Request
 */
 type V1APIKeysUIDActiveStateParams struct {

@@ -40,7 +40,8 @@ func NewV1AwsInstanceTypesOK() *V1AwsInstanceTypesOK {
 	return &V1AwsInstanceTypesOK{}
 }
 
-/*V1AwsInstanceTypesOK handles this case with default header values.
+/*
+V1AwsInstanceTypesOK handles this case with default header values.
 
 (empty)
 */

@@ -41,7 +41,8 @@ func NewV1ClusterFeatureDriverLogDownloadOK(writer io.Writer) *V1ClusterFeatureD
 	}
 }
 
-/*V1ClusterFeatureDriverLogDownloadOK handles this case with default header values.
+/*
+V1ClusterFeatureDriverLogDownloadOK handles this case with default header values.
 
 OK
 */

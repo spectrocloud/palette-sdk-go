@@ -57,7 +57,8 @@ func NewV1ProjectsUIDAlertsUIDUpdateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1ProjectsUIDAlertsUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectsUIDAlertsUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid alerts Uid update operation typically these are written to a http.Request
 */
 type V1ProjectsUIDAlertsUIDUpdateParams struct {

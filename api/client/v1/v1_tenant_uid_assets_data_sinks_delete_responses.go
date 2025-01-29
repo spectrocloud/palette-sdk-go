@@ -37,7 +37,8 @@ func NewV1TenantUIDAssetsDataSinksDeleteNoContent() *V1TenantUIDAssetsDataSinksD
 	return &V1TenantUIDAssetsDataSinksDeleteNoContent{}
 }
 
-/*V1TenantUIDAssetsDataSinksDeleteNoContent handles this case with default header values.
+/*
+V1TenantUIDAssetsDataSinksDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */
