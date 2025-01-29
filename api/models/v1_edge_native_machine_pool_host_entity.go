@@ -38,6 +38,9 @@ type V1EdgeNativeMachinePoolHostEntity struct {
 	// Set the edgehost candidate priority as primary or secondary, if the edgehost is nominated as two node candidate
 	// Enum: [primary secondary]
 	TwoNodeCandidatePriority string `json:"twoNodeCandidatePriority,omitempty"`
+
+	//IsConfigurable indicates if the host is configurable
+	IsConfigurable bool `json:"isConfigurable,omitempty"`
 }
 
 // Validate validates this v1 edge native machine pool host entity
