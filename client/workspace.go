@@ -66,6 +66,15 @@ func (h *V1Client) UpdateWorkspaceRBACS(uid, rbacUID string, r *models.V1Cluster
 	return err
 }
 
+// CreateWorkspaceBackupConfig create a backup configuration in existing workspace's .
+func (h *V1Client) CreateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
+	params := clientv1.NewV1WorkspaceOpsBackupCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1WorkspaceOpsBackupCreate(params)
+	return err
+}
+
 // UpdateWorkspaceBackupConfig updates an existing workspace's backup configuration.
 func (h *V1Client) UpdateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
 	params := clientv1.NewV1WorkspaceOpsBackupUpdateParamsWithContext(h.ctx).
