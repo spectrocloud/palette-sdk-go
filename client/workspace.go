@@ -96,6 +96,15 @@ func (h *V1Client) GetWorkspaceBackup(uid string) (*models.V1WorkspaceBackup, er
 	return resp.Payload, nil
 }
 
+// CreateWorkspaceBackupConfig create a backup configuration in existing workspace.
+func (h *V1Client) CreateWorkspaceBackupConfig(uid string, config *models.V1WorkspaceBackupConfigEntity) error {
+	params := clientv1.NewV1WorkspaceOpsBackupCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(config)
+	_, err := h.Client.V1WorkspaceOpsBackupCreate(params)
+	return err
+}
+
 // func (h *V1Client) WorkspaceBackupDelete() error {
 // 	return errors.New("not implemented")
 // }

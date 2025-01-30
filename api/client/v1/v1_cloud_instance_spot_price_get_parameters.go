@@ -62,7 +62,7 @@ for the v1 cloud instance spot price get operation typically these are written t
 type V1CloudInstanceSpotPriceGetParams struct {
 
 	/*CloudType
-	  Cloud type [aws/azure/gcp/tencent]
+	  Cloud type [aws/azure/gcp]
 
 	*/
 	CloudType string

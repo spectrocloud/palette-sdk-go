@@ -64,7 +64,7 @@ type V1ClusterFeatureLogFetcherLogDownloadParams struct {
 	/*FileName*/
 	FileName *string
 	/*UID
-	  Cluster uid for which log is requested
+	  Log fetcher uid for which log is requested
 
 	*/
 	UID string
