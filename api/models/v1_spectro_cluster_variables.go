@@ -25,7 +25,7 @@ type V1SpectroClusterVariables struct {
 
 	// List of cluster variables with schema
 	// Unique: true
-	Variables []*V1Variable `json:"variables"`
+	Variables []*V1SpectroClusterVariableResponse `json:"variables"`
 }
 
 // Validate validates this v1 spectro cluster variables

@@ -20167,7 +20167,7 @@
       "parameters": [
         {
           "type": "string",
-          "description": "Cluster uid for which log is requested",
+          "description": "Log fetcher uid for which log is requested",
           "name": "uid",
           "in": "path",
           "required": true
@@ -51675,6 +51675,64 @@
         }
       }
     },
+    "v1SpectroClusterVariableResponse": {
+      "description": "Unique variable field with schema definition",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "defaultValue": {
+          "description": "The default value of the variable",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "description": {
+          "description": "Variable description",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Unique display name of the variable",
+          "type": "string"
+        },
+        "format": {
+          "$ref": "#/definitions/v1VariableFormat"
+        },
+        "hidden": {
+          "description": "If true, then variable will be hidden for overriding the value. By default the hidden flag will be set to false",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "immutable": {
+          "description": "If true, then variable value can't be editable. By default the immutable flag will be set to false",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isSensitive": {
+          "description": "If true, then default value will be masked. By default the isSensitive flag will be set to false",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "name": {
+          "description": "Variable name",
+          "type": "string"
+        },
+        "regex": {
+          "description": "Regular expression pattern which the variable value must match",
+          "type": "string"
+        },
+        "required": {
+          "description": "Flag to specify if the variable is optional or mandatory. If it is mandatory then default value must be provided",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "value": {
+          "description": "The user specified value of the variable",
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1SpectroClusterVariableUpdateEntity": {
       "description": "List of cluster variables to be updated with profile uid",
       "type": "object",
@@ -51712,7 +51770,7 @@
           "type": "array",
           "uniqueItems": true,
           "items": {
-            "$ref": "#/definitions/v1Variable"
+            "$ref": "#/definitions/v1SpectroClusterVariableResponse"
           }
         }
       }
@@ -54637,11 +54695,6 @@
         "required": {
           "description": "Flag to specify if the variable is optional or mandatory. If it is mandatory then default value must be provided",
           "type": "boolean",
-          "x-omitempty": false
-        },
-        "value": {
-          "description": "The user specified value of the variable",
-          "type": "string",
           "x-omitempty": false
         }
       }
