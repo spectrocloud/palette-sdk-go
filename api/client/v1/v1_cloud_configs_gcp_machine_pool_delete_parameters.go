@@ -55,7 +55,8 @@ func NewV1CloudConfigsGcpMachinePoolDeleteParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsGcpMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsGcpMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs gcp machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsGcpMachinePoolDeleteParams struct {

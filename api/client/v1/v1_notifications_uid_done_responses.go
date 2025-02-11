@@ -37,7 +37,8 @@ func NewV1NotificationsUIDDoneNoContent() *V1NotificationsUIDDoneNoContent {
 	return &V1NotificationsUIDDoneNoContent{}
 }
 
-/*V1NotificationsUIDDoneNoContent handles this case with default header values.
+/*
+V1NotificationsUIDDoneNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

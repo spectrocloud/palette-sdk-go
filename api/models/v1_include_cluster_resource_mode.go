@@ -18,7 +18,6 @@ import (
 // - "Auto": don't specify --include-cluster-resources, which exclude general cluster-wide resources, but includes PersistentVolumes linked to selected namespaces.
 // - "Never": --include-cluster-resources=false, exclude all cluster-wide resources, including PersistentVolumes.
 //
-//
 // swagger:model v1IncludeClusterResourceMode
 type V1IncludeClusterResourceMode string
 

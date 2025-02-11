@@ -40,7 +40,8 @@ func NewV1CloudComputeRateOK() *V1CloudComputeRateOK {
 	return &V1CloudComputeRateOK{}
 }
 
-/*V1CloudComputeRateOK handles this case with default header values.
+/*
+V1CloudComputeRateOK handles this case with default header values.
 
 (empty)
 */

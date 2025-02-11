@@ -40,7 +40,8 @@ func NewV1ProjectsCreateCreated() *V1ProjectsCreateCreated {
 	return &V1ProjectsCreateCreated{}
 }
 
-/*V1ProjectsCreateCreated handles this case with default header values.
+/*
+V1ProjectsCreateCreated handles this case with default header values.
 
 Created successfully
 */

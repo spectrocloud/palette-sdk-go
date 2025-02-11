@@ -40,7 +40,8 @@ func NewV1RegistriesPackSummaryListOK() *V1RegistriesPackSummaryListOK {
 	return &V1RegistriesPackSummaryListOK{}
 }
 
-/*V1RegistriesPackSummaryListOK handles this case with default header values.
+/*
+V1RegistriesPackSummaryListOK handles this case with default header values.
 
 An array of registry items
 */

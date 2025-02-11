@@ -37,7 +37,8 @@ func NewV1RegistriesPackUIDUpdateNoContent() *V1RegistriesPackUIDUpdateNoContent
 	return &V1RegistriesPackUIDUpdateNoContent{}
 }
 
-/*V1RegistriesPackUIDUpdateNoContent handles this case with default header values.
+/*
+V1RegistriesPackUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,7 +57,8 @@ func NewV1CloudConfigsAksPoolMachinesAddParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1CloudConfigsAksPoolMachinesAddParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsAksPoolMachinesAddParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aks pool machines add operation typically these are written to a http.Request
 */
 type V1CloudConfigsAksPoolMachinesAddParams struct {

@@ -57,7 +57,8 @@ func NewV1AwsCloudConfigsUIDHybridConfigParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1AwsCloudConfigsUIDHybridConfigParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCloudConfigsUIDHybridConfigParams contains all the parameters to send to the API endpoint
 for the v1 aws cloud configs Uid hybrid config operation typically these are written to a http.Request
 */
 type V1AwsCloudConfigsUIDHybridConfigParams struct {

@@ -55,7 +55,8 @@ func NewV1PasswordResetRequestParamsWithHTTPClient(client *http.Client) *V1Passw
 	}
 }
 
-/*V1PasswordResetRequestParams contains all the parameters to send to the API endpoint
+/*
+V1PasswordResetRequestParams contains all the parameters to send to the API endpoint
 for the v1 password reset request operation typically these are written to a http.Request
 */
 type V1PasswordResetRequestParams struct {

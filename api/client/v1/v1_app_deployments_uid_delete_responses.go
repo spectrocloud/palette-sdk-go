@@ -37,7 +37,8 @@ func NewV1AppDeploymentsUIDDeleteNoContent() *V1AppDeploymentsUIDDeleteNoContent
 	return &V1AppDeploymentsUIDDeleteNoContent{}
 }
 
-/*V1AppDeploymentsUIDDeleteNoContent handles this case with default header values.
+/*
+V1AppDeploymentsUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

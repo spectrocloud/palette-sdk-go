@@ -40,7 +40,8 @@ func NewV1AwsZonesOK() *V1AwsZonesOK {
 	return &V1AwsZonesOK{}
 }
 
-/*V1AwsZonesOK handles this case with default header values.
+/*
+V1AwsZonesOK handles this case with default header values.
 
 (empty)
 */

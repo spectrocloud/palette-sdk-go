@@ -41,7 +41,8 @@ func NewV1ClusterFeatureLogFetcherLogDownloadOK(writer io.Writer) *V1ClusterFeat
 	}
 }
 
-/*V1ClusterFeatureLogFetcherLogDownloadOK handles this case with default header values.
+/*
+V1ClusterFeatureLogFetcherLogDownloadOK handles this case with default header values.
 
 OK
 */

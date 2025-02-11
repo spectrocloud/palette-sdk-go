@@ -40,7 +40,8 @@ func NewV1OverlordsOpenStackManifestOK() *V1OverlordsOpenStackManifestOK {
 	return &V1OverlordsOpenStackManifestOK{}
 }
 
-/*V1OverlordsOpenStackManifestOK handles this case with default header values.
+/*
+V1OverlordsOpenStackManifestOK handles this case with default header values.
 
 (empty)
 */

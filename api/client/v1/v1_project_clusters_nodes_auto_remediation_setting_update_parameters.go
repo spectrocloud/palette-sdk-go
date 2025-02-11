@@ -57,7 +57,8 @@ func NewV1ProjectClustersNodesAutoRemediationSettingUpdateParamsWithHTTPClient(c
 	}
 }
 
-/*V1ProjectClustersNodesAutoRemediationSettingUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectClustersNodesAutoRemediationSettingUpdateParams contains all the parameters to send to the API endpoint
 for the v1 project clusters nodes auto remediation setting update operation typically these are written to a http.Request
 */
 type V1ProjectClustersNodesAutoRemediationSettingUpdateParams struct {

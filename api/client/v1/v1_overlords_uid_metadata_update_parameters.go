@@ -57,7 +57,8 @@ func NewV1OverlordsUIDMetadataUpdateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1OverlordsUIDMetadataUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMetadataUpdateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid metadata update operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMetadataUpdateParams struct {

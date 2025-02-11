@@ -37,7 +37,8 @@ func NewV1UsersAssetsLocationMinioUpdateNoContent() *V1UsersAssetsLocationMinioU
 	return &V1UsersAssetsLocationMinioUpdateNoContent{}
 }
 
-/*V1UsersAssetsLocationMinioUpdateNoContent handles this case with default header values.
+/*
+V1UsersAssetsLocationMinioUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

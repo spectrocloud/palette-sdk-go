@@ -40,7 +40,8 @@ func NewV1PasswordActivateNoContent() *V1PasswordActivateNoContent {
 	return &V1PasswordActivateNoContent{}
 }
 
-/*V1PasswordActivateNoContent handles this case with default header values.
+/*
+V1PasswordActivateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */
@@ -56,7 +57,8 @@ func (o *V1PasswordActivateNoContent) readResponse(response runtime.ClientRespon
 	return nil
 }
 
-/*V1PasswordActivateBody v1 password activate body
+/*
+V1PasswordActivateBody v1 password activate body
 swagger:model V1PasswordActivateBody
 */
 type V1PasswordActivateBody struct {

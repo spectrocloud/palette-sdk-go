@@ -40,7 +40,8 @@ func NewV1AuthRefreshOK() *V1AuthRefreshOK {
 	return &V1AuthRefreshOK{}
 }
 
-/*V1AuthRefreshOK handles this case with default header values.
+/*
+V1AuthRefreshOK handles this case with default header values.
 
 OK
 */

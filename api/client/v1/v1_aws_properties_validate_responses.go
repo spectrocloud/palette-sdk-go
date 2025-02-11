@@ -37,7 +37,8 @@ func NewV1AwsPropertiesValidateNoContent() *V1AwsPropertiesValidateNoContent {
 	return &V1AwsPropertiesValidateNoContent{}
 }
 
-/*V1AwsPropertiesValidateNoContent handles this case with default header values.
+/*
+V1AwsPropertiesValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

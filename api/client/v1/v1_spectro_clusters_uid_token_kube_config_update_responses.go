@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDTokenKubeConfigUpdateNoContent() *V1SpectroClustersU
 	return &V1SpectroClustersUIDTokenKubeConfigUpdateNoContent{}
 }
 
-/*V1SpectroClustersUIDTokenKubeConfigUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDTokenKubeConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

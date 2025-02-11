@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDHeartbeatUpdateNoContent() *V1SpectroClustersUIDHear
 	return &V1SpectroClustersUIDHeartbeatUpdateNoContent{}
 }
 
-/*V1SpectroClustersUIDHeartbeatUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDHeartbeatUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

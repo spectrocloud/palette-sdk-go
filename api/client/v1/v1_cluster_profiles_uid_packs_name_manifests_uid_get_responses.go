@@ -40,7 +40,8 @@ func NewV1ClusterProfilesUIDPacksNameManifestsUIDGetOK() *V1ClusterProfilesUIDPa
 	return &V1ClusterProfilesUIDPacksNameManifestsUIDGetOK{}
 }
 
-/*V1ClusterProfilesUIDPacksNameManifestsUIDGetOK handles this case with default header values.
+/*
+V1ClusterProfilesUIDPacksNameManifestsUIDGetOK handles this case with default header values.
 
 OK
 */

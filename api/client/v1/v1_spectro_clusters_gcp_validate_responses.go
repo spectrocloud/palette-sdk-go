@@ -40,7 +40,8 @@ func NewV1SpectroClustersGcpValidateOK() *V1SpectroClustersGcpValidateOK {
 	return &V1SpectroClustersGcpValidateOK{}
 }
 
-/*V1SpectroClustersGcpValidateOK handles this case with default header values.
+/*
+V1SpectroClustersGcpValidateOK handles this case with default header values.
 
 Gcp Cluster validation response
 */

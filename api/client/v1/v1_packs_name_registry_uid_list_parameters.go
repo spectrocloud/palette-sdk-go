@@ -67,7 +67,8 @@ func NewV1PacksNameRegistryUIDListParamsWithHTTPClient(client *http.Client) *V1P
 	}
 }
 
-/*V1PacksNameRegistryUIDListParams contains all the parameters to send to the API endpoint
+/*
+V1PacksNameRegistryUIDListParams contains all the parameters to send to the API endpoint
 for the v1 packs name registry Uid list operation typically these are written to a http.Request
 */
 type V1PacksNameRegistryUIDListParams struct {

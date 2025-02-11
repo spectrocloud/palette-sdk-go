@@ -55,7 +55,8 @@ func NewV1TenantUIDDomainsGetParamsWithHTTPClient(client *http.Client) *V1Tenant
 	}
 }
 
-/*V1TenantUIDDomainsGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDDomainsGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid domains get operation typically these are written to a http.Request
 */
 type V1TenantUIDDomainsGetParams struct {

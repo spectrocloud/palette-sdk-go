@@ -40,7 +40,8 @@ func NewV1SpectroClustersUIDResourcesConsumptionOK() *V1SpectroClustersUIDResour
 	return &V1SpectroClustersUIDResourcesConsumptionOK{}
 }
 
-/*V1SpectroClustersUIDResourcesConsumptionOK handles this case with default header values.
+/*
+V1SpectroClustersUIDResourcesConsumptionOK handles this case with default header values.
 
 An array of resource consumption data items
 */

@@ -23,9 +23,6 @@ type V1EdgeHostDeviceSpecEntity struct {
 	// host pairing key
 	// Format: password
 	HostPairingKey strfmt.Password `json:"hostPairingKey,omitempty"`
-
-	// tunnel config
-	TunnelConfig *V1SpectroTunnelConfig `json:"tunnelConfig,omitempty"`
 }
 
 // Validate validates this v1 edge host device spec entity
@@ -37,10 +34,6 @@ func (m *V1EdgeHostDeviceSpecEntity) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHostPairingKey(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateTunnelConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -74,24 +67,6 @@ func (m *V1EdgeHostDeviceSpecEntity) validateHostPairingKey(formats strfmt.Regis
 
 	if err := validate.FormatOf("hostPairingKey", "body", "password", m.HostPairingKey.String(), formats); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpecEntity) validateTunnelConfig(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.TunnelConfig) { // not required
-		return nil
-	}
-
-	if m.TunnelConfig != nil {
-		if err := m.TunnelConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tunnelConfig")
-			}
-			return err
-		}
 	}
 
 	return nil

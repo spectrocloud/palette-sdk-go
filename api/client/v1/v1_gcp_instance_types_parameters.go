@@ -56,7 +56,8 @@ func NewV1GcpInstanceTypesParamsWithHTTPClient(client *http.Client) *V1GcpInstan
 	}
 }
 
-/*V1GcpInstanceTypesParams contains all the parameters to send to the API endpoint
+/*
+V1GcpInstanceTypesParams contains all the parameters to send to the API endpoint
 for the v1 gcp instance types operation typically these are written to a http.Request
 */
 type V1GcpInstanceTypesParams struct {

@@ -40,7 +40,8 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsPodOK() *V1DashboardWork
 	return &V1DashboardWorkspacesUIDSpectroClustersWorkloadsPodOK{}
 }
 
-/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsPodOK handles this case with default header values.
+/*
+V1DashboardWorkspacesUIDSpectroClustersWorkloadsPodOK handles this case with default header values.
 
 An array of clusters workload pods
 */

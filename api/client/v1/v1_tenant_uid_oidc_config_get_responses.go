@@ -40,7 +40,8 @@ func NewV1TenantUIDOidcConfigGetOK() *V1TenantUIDOidcConfigGetOK {
 	return &V1TenantUIDOidcConfigGetOK{}
 }
 
-/*V1TenantUIDOidcConfigGetOK handles this case with default header values.
+/*
+V1TenantUIDOidcConfigGetOK handles this case with default header values.
 
 OK
 */

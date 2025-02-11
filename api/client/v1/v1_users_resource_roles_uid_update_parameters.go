@@ -57,7 +57,8 @@ func NewV1UsersResourceRolesUIDUpdateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1UsersResourceRolesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersResourceRolesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 users resource roles Uid update operation typically these are written to a http.Request
 */
 type V1UsersResourceRolesUIDUpdateParams struct {

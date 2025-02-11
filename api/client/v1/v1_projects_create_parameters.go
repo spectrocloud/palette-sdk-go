@@ -57,7 +57,8 @@ func NewV1ProjectsCreateParamsWithHTTPClient(client *http.Client) *V1ProjectsCre
 	}
 }
 
-/*V1ProjectsCreateParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectsCreateParams contains all the parameters to send to the API endpoint
 for the v1 projects create operation typically these are written to a http.Request
 */
 type V1ProjectsCreateParams struct {

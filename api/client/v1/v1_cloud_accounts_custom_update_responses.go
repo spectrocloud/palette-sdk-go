@@ -37,7 +37,8 @@ func NewV1CloudAccountsCustomUpdateNoContent() *V1CloudAccountsCustomUpdateNoCon
 	return &V1CloudAccountsCustomUpdateNoContent{}
 }
 
-/*V1CloudAccountsCustomUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsCustomUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

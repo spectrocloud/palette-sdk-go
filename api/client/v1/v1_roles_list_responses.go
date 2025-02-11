@@ -40,7 +40,8 @@ func NewV1RolesListOK() *V1RolesListOK {
 	return &V1RolesListOK{}
 }
 
-/*V1RolesListOK handles this case with default header values.
+/*
+V1RolesListOK handles this case with default header values.
 
 OK
 */

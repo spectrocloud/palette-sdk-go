@@ -57,7 +57,8 @@ func NewV1WorkspaceOpsBackupDeleteParamsWithHTTPClient(client *http.Client) *V1W
 	}
 }
 
-/*V1WorkspaceOpsBackupDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspaceOpsBackupDeleteParams contains all the parameters to send to the API endpoint
 for the v1 workspace ops backup delete operation typically these are written to a http.Request
 */
 type V1WorkspaceOpsBackupDeleteParams struct {

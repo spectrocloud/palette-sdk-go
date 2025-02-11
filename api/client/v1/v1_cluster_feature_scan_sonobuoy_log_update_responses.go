@@ -37,7 +37,8 @@ func NewV1ClusterFeatureScanSonobuoyLogUpdateNoContent() *V1ClusterFeatureScanSo
 	return &V1ClusterFeatureScanSonobuoyLogUpdateNoContent{}
 }
 
-/*V1ClusterFeatureScanSonobuoyLogUpdateNoContent handles this case with default header values.
+/*
+V1ClusterFeatureScanSonobuoyLogUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

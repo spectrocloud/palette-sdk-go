@@ -40,7 +40,8 @@ func NewV1SpectroClustersMaasRateOK() *V1SpectroClustersMaasRateOK {
 	return &V1SpectroClustersMaasRateOK{}
 }
 
-/*V1SpectroClustersMaasRateOK handles this case with default header values.
+/*
+V1SpectroClustersMaasRateOK handles this case with default header values.
 
 Maas Cluster estimated rate response
 */

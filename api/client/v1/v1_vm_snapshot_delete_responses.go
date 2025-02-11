@@ -37,7 +37,8 @@ func NewV1VMSnapshotDeleteNoContent() *V1VMSnapshotDeleteNoContent {
 	return &V1VMSnapshotDeleteNoContent{}
 }
 
-/*V1VMSnapshotDeleteNoContent handles this case with default header values.
+/*
+V1VMSnapshotDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

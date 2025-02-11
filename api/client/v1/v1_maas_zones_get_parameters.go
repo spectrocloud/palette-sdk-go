@@ -55,7 +55,8 @@ func NewV1MaasZonesGetParamsWithHTTPClient(client *http.Client) *V1MaasZonesGetP
 	}
 }
 
-/*V1MaasZonesGetParams contains all the parameters to send to the API endpoint
+/*
+V1MaasZonesGetParams contains all the parameters to send to the API endpoint
 for the v1 maas zones get operation typically these are written to a http.Request
 */
 type V1MaasZonesGetParams struct {

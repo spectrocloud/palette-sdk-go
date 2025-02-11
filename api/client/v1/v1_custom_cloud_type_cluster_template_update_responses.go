@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeClusterTemplateUpdateNoContent() *V1CustomCloudTypeClus
 	return &V1CustomCloudTypeClusterTemplateUpdateNoContent{}
 }
 
-/*V1CustomCloudTypeClusterTemplateUpdateNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeClusterTemplateUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

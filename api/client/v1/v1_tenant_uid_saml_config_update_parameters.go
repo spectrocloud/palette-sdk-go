@@ -57,7 +57,8 @@ func NewV1TenantUIDSamlConfigUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1TenantUIDSamlConfigUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDSamlConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid saml config update operation typically these are written to a http.Request
 */
 type V1TenantUIDSamlConfigUpdateParams struct {

@@ -57,7 +57,8 @@ func NewV1ClusterFeatureScanSyftLogUpdateParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*V1ClusterFeatureScanSyftLogUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureScanSyftLogUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature scan syft log update operation typically these are written to a http.Request
 */
 type V1ClusterFeatureScanSyftLogUpdateParams struct {

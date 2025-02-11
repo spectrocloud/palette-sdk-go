@@ -40,7 +40,8 @@ func NewV1ClusterProfilesBulkDeleteOK() *V1ClusterProfilesBulkDeleteOK {
 	return &V1ClusterProfilesBulkDeleteOK{}
 }
 
-/*V1ClusterProfilesBulkDeleteOK handles this case with default header values.
+/*
+V1ClusterProfilesBulkDeleteOK handles this case with default header values.
 
 OK
 */

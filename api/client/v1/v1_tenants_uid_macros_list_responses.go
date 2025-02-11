@@ -40,7 +40,8 @@ func NewV1TenantsUIDMacrosListOK() *V1TenantsUIDMacrosListOK {
 	return &V1TenantsUIDMacrosListOK{}
 }
 
-/*V1TenantsUIDMacrosListOK handles this case with default header values.
+/*
+V1TenantsUIDMacrosListOK handles this case with default header values.
 
 OK
 */

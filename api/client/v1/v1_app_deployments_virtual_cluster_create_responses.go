@@ -40,7 +40,8 @@ func NewV1AppDeploymentsVirtualClusterCreateCreated() *V1AppDeploymentsVirtualCl
 	return &V1AppDeploymentsVirtualClusterCreateCreated{}
 }
 
-/*V1AppDeploymentsVirtualClusterCreateCreated handles this case with default header values.
+/*
+V1AppDeploymentsVirtualClusterCreateCreated handles this case with default header values.
 
 Created successfully
 */

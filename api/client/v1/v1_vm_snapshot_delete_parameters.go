@@ -55,7 +55,8 @@ func NewV1VMSnapshotDeleteParamsWithHTTPClient(client *http.Client) *V1VMSnapsho
 	}
 }
 
-/*V1VMSnapshotDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1VMSnapshotDeleteParams contains all the parameters to send to the API endpoint
 for the v1 VM snapshot delete operation typically these are written to a http.Request
 */
 type V1VMSnapshotDeleteParams struct {

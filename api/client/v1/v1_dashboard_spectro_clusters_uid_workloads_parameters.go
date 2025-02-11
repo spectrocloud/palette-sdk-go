@@ -57,7 +57,8 @@ func NewV1DashboardSpectroClustersUIDWorkloadsParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1DashboardSpectroClustersUIDWorkloadsParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardSpectroClustersUIDWorkloadsParams contains all the parameters to send to the API endpoint
 for the v1 dashboard spectro clusters Uid workloads operation typically these are written to a http.Request
 */
 type V1DashboardSpectroClustersUIDWorkloadsParams struct {

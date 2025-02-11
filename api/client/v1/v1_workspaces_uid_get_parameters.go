@@ -55,7 +55,8 @@ func NewV1WorkspacesUIDGetParamsWithHTTPClient(client *http.Client) *V1Workspace
 	}
 }
 
-/*V1WorkspacesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid get operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDGetParams struct {

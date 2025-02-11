@@ -55,7 +55,8 @@ func NewV1AzureStorageAccountsParamsWithHTTPClient(client *http.Client) *V1Azure
 	}
 }
 
-/*V1AzureStorageAccountsParams contains all the parameters to send to the API endpoint
+/*
+V1AzureStorageAccountsParams contains all the parameters to send to the API endpoint
 for the v1 azure storage accounts operation typically these are written to a http.Request
 */
 type V1AzureStorageAccountsParams struct {

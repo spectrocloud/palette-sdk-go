@@ -55,7 +55,8 @@ func NewV1ClusterProfilesValidateNameVersionParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*V1ClusterProfilesValidateNameVersionParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesValidateNameVersionParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles validate name version operation typically these are written to a http.Request
 */
 type V1ClusterProfilesValidateNameVersionParams struct {

@@ -40,7 +40,8 @@ func NewV1TenantResourceLimitsGetOK() *V1TenantResourceLimitsGetOK {
 	return &V1TenantResourceLimitsGetOK{}
 }
 
-/*V1TenantResourceLimitsGetOK handles this case with default header values.
+/*
+V1TenantResourceLimitsGetOK handles this case with default header values.
 
 (empty)
 */

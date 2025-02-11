@@ -55,7 +55,8 @@ func NewV1DashboardCloudAccountsMetadataParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1DashboardCloudAccountsMetadataParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardCloudAccountsMetadataParams contains all the parameters to send to the API endpoint
 for the v1 dashboard cloud accounts metadata operation typically these are written to a http.Request
 */
 type V1DashboardCloudAccountsMetadataParams struct {

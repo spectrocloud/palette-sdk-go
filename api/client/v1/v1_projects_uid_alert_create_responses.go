@@ -40,7 +40,8 @@ func NewV1ProjectsUIDAlertCreateCreated() *V1ProjectsUIDAlertCreateCreated {
 	return &V1ProjectsUIDAlertCreateCreated{}
 }
 
-/*V1ProjectsUIDAlertCreateCreated handles this case with default header values.
+/*
+V1ProjectsUIDAlertCreateCreated handles this case with default header values.
 
 Created successfully
 */

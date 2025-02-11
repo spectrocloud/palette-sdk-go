@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeControlPlaneDeleteNoContent() *V1CustomCloudTypeControl
 	return &V1CustomCloudTypeControlPlaneDeleteNoContent{}
 }
 
-/*V1CustomCloudTypeControlPlaneDeleteNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeControlPlaneDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

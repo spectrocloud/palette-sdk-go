@@ -40,7 +40,8 @@ func NewV1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingOK() *V1Dashboar
 	return &V1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingOK{}
 }
 
-/*V1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingOK handles this case with default header values.
+/*
+V1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingOK handles this case with default header values.
 
 An array of cluster workload clusterrolebindings
 */

@@ -57,7 +57,8 @@ func NewV1ClusterFeatureScanKubeBenchLogUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1ClusterFeatureScanKubeBenchLogUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureScanKubeBenchLogUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature scan kube bench log update operation typically these are written to a http.Request
 */
 type V1ClusterFeatureScanKubeBenchLogUpdateParams struct {

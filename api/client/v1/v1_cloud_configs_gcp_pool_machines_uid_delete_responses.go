@@ -37,7 +37,8 @@ func NewV1CloudConfigsGcpPoolMachinesUIDDeleteNoContent() *V1CloudConfigsGcpPool
 	return &V1CloudConfigsGcpPoolMachinesUIDDeleteNoContent{}
 }
 
-/*V1CloudConfigsGcpPoolMachinesUIDDeleteNoContent handles this case with default header values.
+/*
+V1CloudConfigsGcpPoolMachinesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

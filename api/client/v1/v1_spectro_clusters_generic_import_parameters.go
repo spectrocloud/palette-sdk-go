@@ -57,7 +57,8 @@ func NewV1SpectroClustersGenericImportParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1SpectroClustersGenericImportParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersGenericImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters generic import operation typically these are written to a http.Request
 */
 type V1SpectroClustersGenericImportParams struct {

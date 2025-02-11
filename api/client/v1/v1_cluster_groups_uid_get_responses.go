@@ -40,7 +40,8 @@ func NewV1ClusterGroupsUIDGetOK() *V1ClusterGroupsUIDGetOK {
 	return &V1ClusterGroupsUIDGetOK{}
 }
 
-/*V1ClusterGroupsUIDGetOK handles this case with default header values.
+/*
+V1ClusterGroupsUIDGetOK handles this case with default header values.
 
 OK
 */

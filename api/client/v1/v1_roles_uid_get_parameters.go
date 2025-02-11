@@ -55,7 +55,8 @@ func NewV1RolesUIDGetParamsWithHTTPClient(client *http.Client) *V1RolesUIDGetPar
 	}
 }
 
-/*V1RolesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1RolesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 roles Uid get operation typically these are written to a http.Request
 */
 type V1RolesUIDGetParams struct {

@@ -37,7 +37,8 @@ func NewV1RegistriesHelmUIDUpdateNoContent() *V1RegistriesHelmUIDUpdateNoContent
 	return &V1RegistriesHelmUIDUpdateNoContent{}
 }
 
-/*V1RegistriesHelmUIDUpdateNoContent handles this case with default header values.
+/*
+V1RegistriesHelmUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */
