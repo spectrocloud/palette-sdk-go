@@ -40,8 +40,7 @@ func NewV1CloudAccountsAzureGetOK() *V1CloudAccountsAzureGetOK {
 	return &V1CloudAccountsAzureGetOK{}
 }
 
-/*
-V1CloudAccountsAzureGetOK handles this case with default header values.
+/*V1CloudAccountsAzureGetOK handles this case with default header values.
 
 OK
 */

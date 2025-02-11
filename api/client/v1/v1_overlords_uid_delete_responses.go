@@ -40,8 +40,7 @@ func NewV1OverlordsUIDDeleteOK() *V1OverlordsUIDDeleteOK {
 	return &V1OverlordsUIDDeleteOK{}
 }
 
-/*
-V1OverlordsUIDDeleteOK handles this case with default header values.
+/*V1OverlordsUIDDeleteOK handles this case with default header values.
 
 (empty)
 */

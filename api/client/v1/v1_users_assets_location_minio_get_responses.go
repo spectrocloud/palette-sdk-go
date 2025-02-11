@@ -40,8 +40,7 @@ func NewV1UsersAssetsLocationMinioGetOK() *V1UsersAssetsLocationMinioGetOK {
 	return &V1UsersAssetsLocationMinioGetOK{}
 }
 
-/*
-V1UsersAssetsLocationMinioGetOK handles this case with default header values.
+/*V1UsersAssetsLocationMinioGetOK handles this case with default header values.
 
 (empty)
 */

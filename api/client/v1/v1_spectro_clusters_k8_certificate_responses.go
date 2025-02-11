@@ -40,8 +40,7 @@ func NewV1SpectroClustersK8CertificateOK() *V1SpectroClustersK8CertificateOK {
 	return &V1SpectroClustersK8CertificateOK{}
 }
 
-/*
-V1SpectroClustersK8CertificateOK handles this case with default header values.
+/*V1SpectroClustersK8CertificateOK handles this case with default header values.
 
 OK
 */

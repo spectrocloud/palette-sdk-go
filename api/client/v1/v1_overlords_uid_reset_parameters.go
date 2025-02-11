@@ -55,8 +55,7 @@ func NewV1OverlordsUIDResetParamsWithHTTPClient(client *http.Client) *V1Overlord
 	}
 }
 
-/*
-V1OverlordsUIDResetParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDResetParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid reset operation typically these are written to a http.Request
 */
 type V1OverlordsUIDResetParams struct {

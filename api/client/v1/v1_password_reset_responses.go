@@ -40,8 +40,7 @@ func NewV1PasswordResetNoContent() *V1PasswordResetNoContent {
 	return &V1PasswordResetNoContent{}
 }
 
-/*
-V1PasswordResetNoContent handles this case with default header values.
+/*V1PasswordResetNoContent handles this case with default header values.
 
 The resource was updated successfully
 */
@@ -57,8 +56,7 @@ func (o *V1PasswordResetNoContent) readResponse(response runtime.ClientResponse,
 	return nil
 }
 
-/*
-V1PasswordResetBody v1 password reset body
+/*V1PasswordResetBody v1 password reset body
 swagger:model V1PasswordResetBody
 */
 type V1PasswordResetBody struct {

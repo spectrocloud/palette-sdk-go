@@ -55,8 +55,7 @@ func NewV1RegistriesNameConfigGetParamsWithHTTPClient(client *http.Client) *V1Re
 	}
 }
 
-/*
-V1RegistriesNameConfigGetParams contains all the parameters to send to the API endpoint
+/*V1RegistriesNameConfigGetParams contains all the parameters to send to the API endpoint
 for the v1 registries name config get operation typically these are written to a http.Request
 */
 type V1RegistriesNameConfigGetParams struct {

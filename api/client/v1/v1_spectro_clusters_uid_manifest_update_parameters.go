@@ -57,8 +57,7 @@ func NewV1SpectroClustersUIDManifestUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1SpectroClustersUIDManifestUpdateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDManifestUpdateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid manifest update operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDManifestUpdateParams struct {

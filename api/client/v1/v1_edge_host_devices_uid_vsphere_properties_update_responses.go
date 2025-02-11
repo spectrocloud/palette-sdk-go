@@ -37,8 +37,7 @@ func NewV1EdgeHostDevicesUIDVspherePropertiesUpdateNoContent() *V1EdgeHostDevice
 	return &V1EdgeHostDevicesUIDVspherePropertiesUpdateNoContent{}
 }
 
-/*
-V1EdgeHostDevicesUIDVspherePropertiesUpdateNoContent handles this case with default header values.
+/*V1EdgeHostDevicesUIDVspherePropertiesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -37,8 +37,7 @@ func NewV1SpectroClustersVMPauseNoContent() *V1SpectroClustersVMPauseNoContent {
 	return &V1SpectroClustersVMPauseNoContent{}
 }
 
-/*
-V1SpectroClustersVMPauseNoContent handles this case with default header values.
+/*V1SpectroClustersVMPauseNoContent handles this case with default header values.
 
 Ok response without content
 */

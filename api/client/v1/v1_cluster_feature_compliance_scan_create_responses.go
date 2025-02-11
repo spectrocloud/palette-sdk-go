@@ -40,8 +40,7 @@ func NewV1ClusterFeatureComplianceScanCreateCreated() *V1ClusterFeatureComplianc
 	return &V1ClusterFeatureComplianceScanCreateCreated{}
 }
 
-/*
-V1ClusterFeatureComplianceScanCreateCreated handles this case with default header values.
+/*V1ClusterFeatureComplianceScanCreateCreated handles this case with default header values.
 
 Created successfully
 */

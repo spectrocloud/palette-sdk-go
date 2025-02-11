@@ -67,8 +67,7 @@ func NewV1RegistriesMetadataParamsWithHTTPClient(client *http.Client) *V1Registr
 	}
 }
 
-/*
-V1RegistriesMetadataParams contains all the parameters to send to the API endpoint
+/*V1RegistriesMetadataParams contains all the parameters to send to the API endpoint
 for the v1 registries metadata operation typically these are written to a http.Request
 */
 type V1RegistriesMetadataParams struct {

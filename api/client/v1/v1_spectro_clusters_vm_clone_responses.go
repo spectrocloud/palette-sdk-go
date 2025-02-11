@@ -40,8 +40,7 @@ func NewV1SpectroClustersVMCloneOK() *V1SpectroClustersVMCloneOK {
 	return &V1SpectroClustersVMCloneOK{}
 }
 
-/*
-V1SpectroClustersVMCloneOK handles this case with default header values.
+/*V1SpectroClustersVMCloneOK handles this case with default header values.
 
 (empty)
 */

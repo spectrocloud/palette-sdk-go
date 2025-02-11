@@ -40,8 +40,7 @@ func NewV1DashboardAppProfilesOK() *V1DashboardAppProfilesOK {
 	return &V1DashboardAppProfilesOK{}
 }
 
-/*
-V1DashboardAppProfilesOK handles this case with default header values.
+/*V1DashboardAppProfilesOK handles this case with default header values.
 
 An array of application profiles summary items
 */

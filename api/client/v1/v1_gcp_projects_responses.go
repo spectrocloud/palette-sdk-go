@@ -40,8 +40,7 @@ func NewV1GcpProjectsOK() *V1GcpProjectsOK {
 	return &V1GcpProjectsOK{}
 }
 
-/*
-V1GcpProjectsOK handles this case with default header values.
+/*V1GcpProjectsOK handles this case with default header values.
 
 (empty)
 */

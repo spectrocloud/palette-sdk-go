@@ -58,8 +58,7 @@ func NewV1ClusterProfilesImportParamsWithHTTPClient(client *http.Client) *V1Clus
 	}
 }
 
-/*
-V1ClusterProfilesImportParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesImportParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles import operation typically these are written to a http.Request
 */
 type V1ClusterProfilesImportParams struct {

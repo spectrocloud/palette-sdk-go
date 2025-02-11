@@ -41,8 +41,7 @@ func NewV1SpectroClustersUIDKubeConfigOK(writer io.Writer) *V1SpectroClustersUID
 	}
 }
 
-/*
-V1SpectroClustersUIDKubeConfigOK handles this case with default header values.
+/*V1SpectroClustersUIDKubeConfigOK handles this case with default header values.
 
 download file
 */

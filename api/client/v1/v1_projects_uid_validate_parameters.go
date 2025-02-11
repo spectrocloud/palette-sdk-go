@@ -55,8 +55,7 @@ func NewV1ProjectsUIDValidateParamsWithHTTPClient(client *http.Client) *V1Projec
 	}
 }
 
-/*
-V1ProjectsUIDValidateParams contains all the parameters to send to the API endpoint
+/*V1ProjectsUIDValidateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid validate operation typically these are written to a http.Request
 */
 type V1ProjectsUIDValidateParams struct {

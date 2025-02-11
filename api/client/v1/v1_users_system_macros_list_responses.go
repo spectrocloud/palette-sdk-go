@@ -40,8 +40,7 @@ func NewV1UsersSystemMacrosListOK() *V1UsersSystemMacrosListOK {
 	return &V1UsersSystemMacrosListOK{}
 }
 
-/*
-V1UsersSystemMacrosListOK handles this case with default header values.
+/*V1UsersSystemMacrosListOK handles this case with default header values.
 
 OK
 */

@@ -57,8 +57,7 @@ func NewV1AwsFindImageParamsWithHTTPClient(client *http.Client) *V1AwsFindImageP
 	}
 }
 
-/*
-V1AwsFindImageParams contains all the parameters to send to the API endpoint
+/*V1AwsFindImageParams contains all the parameters to send to the API endpoint
 for the v1 aws find image operation typically these are written to a http.Request
 */
 type V1AwsFindImageParams struct {

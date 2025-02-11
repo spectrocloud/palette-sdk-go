@@ -40,8 +40,7 @@ func NewV1ProjectsFilterSummaryOK() *V1ProjectsFilterSummaryOK {
 	return &V1ProjectsFilterSummaryOK{}
 }
 
-/*
-V1ProjectsFilterSummaryOK handles this case with default header values.
+/*V1ProjectsFilterSummaryOK handles this case with default header values.
 
 An array of project filter summary items
 */

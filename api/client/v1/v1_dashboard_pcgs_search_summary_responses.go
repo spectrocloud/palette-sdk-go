@@ -40,8 +40,7 @@ func NewV1DashboardPcgsSearchSummaryOK() *V1DashboardPcgsSearchSummaryOK {
 	return &V1DashboardPcgsSearchSummaryOK{}
 }
 
-/*
-V1DashboardPcgsSearchSummaryOK handles this case with default header values.
+/*V1DashboardPcgsSearchSummaryOK handles this case with default header values.
 
 An array of cluster summary items
 */

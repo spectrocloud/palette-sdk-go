@@ -37,8 +37,7 @@ func NewV1TeamsUIDTenantRolesUpdateNoContent() *V1TeamsUIDTenantRolesUpdateNoCon
 	return &V1TeamsUIDTenantRolesUpdateNoContent{}
 }
 
-/*
-V1TeamsUIDTenantRolesUpdateNoContent handles this case with default header values.
+/*V1TeamsUIDTenantRolesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

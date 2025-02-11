@@ -37,8 +37,7 @@ func NewV1TenantUIDAssetsCertsUIDDeleteNoContent() *V1TenantUIDAssetsCertsUIDDel
 	return &V1TenantUIDAssetsCertsUIDDeleteNoContent{}
 }
 
-/*
-V1TenantUIDAssetsCertsUIDDeleteNoContent handles this case with default header values.
+/*V1TenantUIDAssetsCertsUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -37,8 +37,7 @@ func NewV1FeaturesUpdateNoContent() *V1FeaturesUpdateNoContent {
 	return &V1FeaturesUpdateNoContent{}
 }
 
-/*
-V1FeaturesUpdateNoContent handles this case with default header values.
+/*V1FeaturesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

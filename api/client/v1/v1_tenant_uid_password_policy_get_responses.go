@@ -40,8 +40,7 @@ func NewV1TenantUIDPasswordPolicyGetOK() *V1TenantUIDPasswordPolicyGetOK {
 	return &V1TenantUIDPasswordPolicyGetOK{}
 }
 
-/*
-V1TenantUIDPasswordPolicyGetOK handles this case with default header values.
+/*V1TenantUIDPasswordPolicyGetOK handles this case with default header values.
 
 (empty)
 */

@@ -40,8 +40,7 @@ func NewV1AppDeploymentsProfileTiersUIDManifestsGetOK() *V1AppDeploymentsProfile
 	return &V1AppDeploymentsProfileTiersUIDManifestsGetOK{}
 }
 
-/*
-V1AppDeploymentsProfileTiersUIDManifestsGetOK handles this case with default header values.
+/*V1AppDeploymentsProfileTiersUIDManifestsGetOK handles this case with default header values.
 
 OK
 */

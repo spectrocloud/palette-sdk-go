@@ -55,8 +55,7 @@ func NewV1TenantUIDAssetsCertsUIDDeleteParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1TenantUIDAssetsCertsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*V1TenantUIDAssetsCertsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid assets certs Uid delete operation typically these are written to a http.Request
 */
 type V1TenantUIDAssetsCertsUIDDeleteParams struct {

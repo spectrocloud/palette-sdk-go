@@ -40,8 +40,7 @@ func NewV1ServiceVersionGetOK() *V1ServiceVersionGetOK {
 	return &V1ServiceVersionGetOK{}
 }
 
-/*
-V1ServiceVersionGetOK handles this case with default header values.
+/*V1ServiceVersionGetOK handles this case with default header values.
 
 OK
 */

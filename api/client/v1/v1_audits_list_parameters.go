@@ -68,8 +68,7 @@ func NewV1AuditsListParamsWithHTTPClient(client *http.Client) *V1AuditsListParam
 	}
 }
 
-/*
-V1AuditsListParams contains all the parameters to send to the API endpoint
+/*V1AuditsListParams contains all the parameters to send to the API endpoint
 for the v1 audits list operation typically these are written to a http.Request
 */
 type V1AuditsListParams struct {

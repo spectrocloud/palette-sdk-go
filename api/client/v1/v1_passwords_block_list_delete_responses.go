@@ -37,8 +37,7 @@ func NewV1PasswordsBlockListDeleteNoContent() *V1PasswordsBlockListDeleteNoConte
 	return &V1PasswordsBlockListDeleteNoContent{}
 }
 
-/*
-V1PasswordsBlockListDeleteNoContent handles this case with default header values.
+/*V1PasswordsBlockListDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

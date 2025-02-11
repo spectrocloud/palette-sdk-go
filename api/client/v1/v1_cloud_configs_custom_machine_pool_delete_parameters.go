@@ -55,8 +55,7 @@ func NewV1CloudConfigsCustomMachinePoolDeleteParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1CloudConfigsCustomMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsCustomMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs custom machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsCustomMachinePoolDeleteParams struct {

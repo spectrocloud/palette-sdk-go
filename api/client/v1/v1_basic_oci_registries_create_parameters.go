@@ -70,8 +70,7 @@ func NewV1BasicOciRegistriesCreateParamsWithHTTPClient(client *http.Client) *V1B
 	}
 }
 
-/*
-V1BasicOciRegistriesCreateParams contains all the parameters to send to the API endpoint
+/*V1BasicOciRegistriesCreateParams contains all the parameters to send to the API endpoint
 for the v1 basic oci registries create operation typically these are written to a http.Request
 */
 type V1BasicOciRegistriesCreateParams struct {

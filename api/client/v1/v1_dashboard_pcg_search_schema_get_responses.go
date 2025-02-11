@@ -40,8 +40,7 @@ func NewV1DashboardPcgSearchSchemaGetOK() *V1DashboardPcgSearchSchemaGetOK {
 	return &V1DashboardPcgSearchSchemaGetOK{}
 }
 
-/*
-V1DashboardPcgSearchSchemaGetOK handles this case with default header values.
+/*V1DashboardPcgSearchSchemaGetOK handles this case with default header values.
 
 An array of schema items
 */

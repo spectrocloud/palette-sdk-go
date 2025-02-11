@@ -40,8 +40,7 @@ func NewV1GcpRegionsOK() *V1GcpRegionsOK {
 	return &V1GcpRegionsOK{}
 }
 
-/*
-V1GcpRegionsOK handles this case with default header values.
+/*V1GcpRegionsOK handles this case with default header values.
 
 (empty)
 */

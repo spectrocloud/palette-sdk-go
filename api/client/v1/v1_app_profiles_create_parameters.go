@@ -57,8 +57,7 @@ func NewV1AppProfilesCreateParamsWithHTTPClient(client *http.Client) *V1AppProfi
 	}
 }
 
-/*
-V1AppProfilesCreateParams contains all the parameters to send to the API endpoint
+/*V1AppProfilesCreateParams contains all the parameters to send to the API endpoint
 for the v1 app profiles create operation typically these are written to a http.Request
 */
 type V1AppProfilesCreateParams struct {

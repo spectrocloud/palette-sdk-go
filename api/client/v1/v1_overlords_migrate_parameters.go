@@ -57,8 +57,7 @@ func NewV1OverlordsMigrateParamsWithHTTPClient(client *http.Client) *V1Overlords
 	}
 }
 
-/*
-V1OverlordsMigrateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsMigrateParams contains all the parameters to send to the API endpoint
 for the v1 overlords migrate operation typically these are written to a http.Request
 */
 type V1OverlordsMigrateParams struct {

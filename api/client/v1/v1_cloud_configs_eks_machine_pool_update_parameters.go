@@ -57,8 +57,7 @@ func NewV1CloudConfigsEksMachinePoolUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1CloudConfigsEksMachinePoolUpdateParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsEksMachinePoolUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs eks machine pool update operation typically these are written to a http.Request
 */
 type V1CloudConfigsEksMachinePoolUpdateParams struct {

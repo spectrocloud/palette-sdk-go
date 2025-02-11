@@ -40,8 +40,7 @@ func NewV1AppProfilesMacrosListOK() *V1AppProfilesMacrosListOK {
 	return &V1AppProfilesMacrosListOK{}
 }
 
-/*
-V1AppProfilesMacrosListOK handles this case with default header values.
+/*V1AppProfilesMacrosListOK handles this case with default header values.
 
 OK
 */

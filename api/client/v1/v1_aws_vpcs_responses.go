@@ -40,8 +40,7 @@ func NewV1AwsVpcsOK() *V1AwsVpcsOK {
 	return &V1AwsVpcsOK{}
 }
 
-/*
-V1AwsVpcsOK handles this case with default header values.
+/*V1AwsVpcsOK handles this case with default header values.
 
 (empty)
 */

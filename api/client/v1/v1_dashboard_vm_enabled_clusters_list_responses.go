@@ -40,8 +40,7 @@ func NewV1DashboardVMEnabledClustersListOK() *V1DashboardVMEnabledClustersListOK
 	return &V1DashboardVMEnabledClustersListOK{}
 }
 
-/*
-V1DashboardVMEnabledClustersListOK handles this case with default header values.
+/*V1DashboardVMEnabledClustersListOK handles this case with default header values.
 
 An array of schema items
 */

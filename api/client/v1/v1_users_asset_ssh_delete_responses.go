@@ -37,8 +37,7 @@ func NewV1UsersAssetSSHDeleteNoContent() *V1UsersAssetSSHDeleteNoContent {
 	return &V1UsersAssetSSHDeleteNoContent{}
 }
 
-/*
-V1UsersAssetSSHDeleteNoContent handles this case with default header values.
+/*V1UsersAssetSSHDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

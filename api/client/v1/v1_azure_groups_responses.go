@@ -40,8 +40,7 @@ func NewV1AzureGroupsOK() *V1AzureGroupsOK {
 	return &V1AzureGroupsOK{}
 }
 
-/*
-V1AzureGroupsOK handles this case with default header values.
+/*V1AzureGroupsOK handles this case with default header values.
 
 (empty)
 */

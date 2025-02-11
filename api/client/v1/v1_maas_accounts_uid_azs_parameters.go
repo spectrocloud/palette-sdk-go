@@ -55,8 +55,7 @@ func NewV1MaasAccountsUIDAzsParamsWithHTTPClient(client *http.Client) *V1MaasAcc
 	}
 }
 
-/*
-V1MaasAccountsUIDAzsParams contains all the parameters to send to the API endpoint
+/*V1MaasAccountsUIDAzsParams contains all the parameters to send to the API endpoint
 for the v1 maas accounts Uid azs operation typically these are written to a http.Request
 */
 type V1MaasAccountsUIDAzsParams struct {

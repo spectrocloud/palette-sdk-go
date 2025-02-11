@@ -40,8 +40,7 @@ func NewV1AwsKeyPairsOK() *V1AwsKeyPairsOK {
 	return &V1AwsKeyPairsOK{}
 }
 
-/*
-V1AwsKeyPairsOK handles this case with default header values.
+/*V1AwsKeyPairsOK handles this case with default header values.
 
 (empty)
 */

@@ -41,8 +41,7 @@ func NewV1SpectroClustersUIDDownloadOK(writer io.Writer) *V1SpectroClustersUIDDo
 	}
 }
 
-/*
-V1SpectroClustersUIDDownloadOK handles this case with default header values.
+/*V1SpectroClustersUIDDownloadOK handles this case with default header values.
 
 download cluster archive file
 */

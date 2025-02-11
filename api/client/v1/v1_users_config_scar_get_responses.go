@@ -40,8 +40,7 @@ func NewV1UsersConfigScarGetOK() *V1UsersConfigScarGetOK {
 	return &V1UsersConfigScarGetOK{}
 }
 
-/*
-V1UsersConfigScarGetOK handles this case with default header values.
+/*V1UsersConfigScarGetOK handles this case with default header values.
 
 (empty)
 */

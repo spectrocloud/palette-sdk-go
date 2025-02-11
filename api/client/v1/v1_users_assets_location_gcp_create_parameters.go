@@ -57,8 +57,7 @@ func NewV1UsersAssetsLocationGcpCreateParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1UsersAssetsLocationGcpCreateParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetsLocationGcpCreateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location gcp create operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationGcpCreateParams struct {

@@ -37,8 +37,7 @@ func NewV1EdgeTokensUIDStateNoContent() *V1EdgeTokensUIDStateNoContent {
 	return &V1EdgeTokensUIDStateNoContent{}
 }
 
-/*
-V1EdgeTokensUIDStateNoContent handles this case with default header values.
+/*V1EdgeTokensUIDStateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

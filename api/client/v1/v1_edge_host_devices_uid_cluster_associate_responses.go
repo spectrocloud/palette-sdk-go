@@ -37,8 +37,7 @@ func NewV1EdgeHostDevicesUIDClusterAssociateNoContent() *V1EdgeHostDevicesUIDClu
 	return &V1EdgeHostDevicesUIDClusterAssociateNoContent{}
 }
 
-/*
-V1EdgeHostDevicesUIDClusterAssociateNoContent handles this case with default header values.
+/*V1EdgeHostDevicesUIDClusterAssociateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

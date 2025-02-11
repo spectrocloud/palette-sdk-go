@@ -40,8 +40,7 @@ func NewV1SpectroClustersResourcesCostSummaryOK() *V1SpectroClustersResourcesCos
 	return &V1SpectroClustersResourcesCostSummaryOK{}
 }
 
-/*
-V1SpectroClustersResourcesCostSummaryOK handles this case with default header values.
+/*V1SpectroClustersResourcesCostSummaryOK handles this case with default header values.
 
 An array of resources cost summary items
 */

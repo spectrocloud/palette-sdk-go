@@ -40,8 +40,7 @@ func NewV1TeamsUIDResourceRolesOK() *V1TeamsUIDResourceRolesOK {
 	return &V1TeamsUIDResourceRolesOK{}
 }
 
-/*
-V1TeamsUIDResourceRolesOK handles this case with default header values.
+/*V1TeamsUIDResourceRolesOK handles this case with default header values.
 
 OK
 */

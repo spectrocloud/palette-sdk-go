@@ -37,8 +37,7 @@ func NewV1EdgeTokensUIDUpdateNoContent() *V1EdgeTokensUIDUpdateNoContent {
 	return &V1EdgeTokensUIDUpdateNoContent{}
 }
 
-/*
-V1EdgeTokensUIDUpdateNoContent handles this case with default header values.
+/*V1EdgeTokensUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -37,8 +37,7 @@ func NewV1ClusterGroupsUIDHostClusterUpdateNoContent() *V1ClusterGroupsUIDHostCl
 	return &V1ClusterGroupsUIDHostClusterUpdateNoContent{}
 }
 
-/*
-V1ClusterGroupsUIDHostClusterUpdateNoContent handles this case with default header values.
+/*V1ClusterGroupsUIDHostClusterUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

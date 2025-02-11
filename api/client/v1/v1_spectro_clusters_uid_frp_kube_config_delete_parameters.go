@@ -55,8 +55,7 @@ func NewV1SpectroClustersUIDFrpKubeConfigDeleteParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1SpectroClustersUIDFrpKubeConfigDeleteParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDFrpKubeConfigDeleteParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid frp kube config delete operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDFrpKubeConfigDeleteParams struct {

@@ -37,8 +37,7 @@ func NewV1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent() *V1CloudConfigsO
 	return &V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent{}
 }
 
-/*
-V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent handles this case with default header values.
+/*V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

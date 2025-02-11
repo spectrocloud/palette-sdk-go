@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDConfigRbacsUIDGetOK() *V1SpectroClustersUIDConfigRba
 	return &V1SpectroClustersUIDConfigRbacsUIDGetOK{}
 }
 
-/*
-V1SpectroClustersUIDConfigRbacsUIDGetOK handles this case with default header values.
+/*V1SpectroClustersUIDConfigRbacsUIDGetOK handles this case with default header values.
 
 Cluster's RBAC response
 */

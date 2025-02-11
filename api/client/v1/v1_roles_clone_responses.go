@@ -40,8 +40,7 @@ func NewV1RolesCloneCreated() *V1RolesCloneCreated {
 	return &V1RolesCloneCreated{}
 }
 
-/*
-V1RolesCloneCreated handles this case with default header values.
+/*V1RolesCloneCreated handles this case with default header values.
 
 Created successfully
 */

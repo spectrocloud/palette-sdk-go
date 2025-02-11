@@ -55,8 +55,7 @@ func NewV1ClusterFeatureLogFetcherLogDownloadParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1ClusterFeatureLogFetcherLogDownloadParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureLogFetcherLogDownloadParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature log fetcher log download operation typically these are written to a http.Request
 */
 type V1ClusterFeatureLogFetcherLogDownloadParams struct {

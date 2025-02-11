@@ -57,8 +57,7 @@ func NewV1ClusterGroupsUIDHostClusterUpdateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*
-V1ClusterGroupsUIDHostClusterUpdateParams contains all the parameters to send to the API endpoint
+/*V1ClusterGroupsUIDHostClusterUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups Uid host cluster update operation typically these are written to a http.Request
 */
 type V1ClusterGroupsUIDHostClusterUpdateParams struct {

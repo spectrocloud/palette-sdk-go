@@ -40,8 +40,7 @@ func NewV1UsersAssetsLocationAzureCreateCreated() *V1UsersAssetsLocationAzureCre
 	return &V1UsersAssetsLocationAzureCreateCreated{}
 }
 
-/*
-V1UsersAssetsLocationAzureCreateCreated handles this case with default header values.
+/*V1UsersAssetsLocationAzureCreateCreated handles this case with default header values.
 
 Created successfully
 */

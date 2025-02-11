@@ -57,8 +57,7 @@ func NewV1SpectroClustersUIDFrpKubeConfigUpdateParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1SpectroClustersUIDFrpKubeConfigUpdateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDFrpKubeConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid frp kube config update operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDFrpKubeConfigUpdateParams struct {

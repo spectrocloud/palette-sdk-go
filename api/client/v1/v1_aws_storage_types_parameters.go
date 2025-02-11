@@ -55,8 +55,7 @@ func NewV1AwsStorageTypesParamsWithHTTPClient(client *http.Client) *V1AwsStorage
 	}
 }
 
-/*
-V1AwsStorageTypesParams contains all the parameters to send to the API endpoint
+/*V1AwsStorageTypesParams contains all the parameters to send to the API endpoint
 for the v1 aws storage types operation typically these are written to a http.Request
 */
 type V1AwsStorageTypesParams struct {

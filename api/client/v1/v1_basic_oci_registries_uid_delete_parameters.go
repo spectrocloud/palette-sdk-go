@@ -55,8 +55,7 @@ func NewV1BasicOciRegistriesUIDDeleteParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1BasicOciRegistriesUIDDeleteParams contains all the parameters to send to the API endpoint
+/*V1BasicOciRegistriesUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 basic oci registries Uid delete operation typically these are written to a http.Request
 */
 type V1BasicOciRegistriesUIDDeleteParams struct {

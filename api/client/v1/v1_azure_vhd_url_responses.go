@@ -40,8 +40,7 @@ func NewV1AzureVhdURLOK() *V1AzureVhdURLOK {
 	return &V1AzureVhdURLOK{}
 }
 
-/*
-V1AzureVhdURLOK handles this case with default header values.
+/*V1AzureVhdURLOK handles this case with default header values.
 
 (empty)
 */

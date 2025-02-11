@@ -40,8 +40,7 @@ func NewV1VsphereComputeClusterResourcesOK() *V1VsphereComputeClusterResourcesOK
 	return &V1VsphereComputeClusterResourcesOK{}
 }
 
-/*
-V1VsphereComputeClusterResourcesOK handles this case with default header values.
+/*V1VsphereComputeClusterResourcesOK handles this case with default header values.
 
 (empty)
 */

@@ -37,8 +37,7 @@ func NewV1CustomCloudTypeControlPlanePoolTemplateDeleteNoContent() *V1CustomClou
 	return &V1CustomCloudTypeControlPlanePoolTemplateDeleteNoContent{}
 }
 
-/*
-V1CustomCloudTypeControlPlanePoolTemplateDeleteNoContent handles this case with default header values.
+/*V1CustomCloudTypeControlPlanePoolTemplateDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

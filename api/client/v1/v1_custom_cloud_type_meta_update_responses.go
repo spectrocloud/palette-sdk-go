@@ -37,8 +37,7 @@ func NewV1CustomCloudTypeMetaUpdateNoContent() *V1CustomCloudTypeMetaUpdateNoCon
 	return &V1CustomCloudTypeMetaUpdateNoContent{}
 }
 
-/*
-V1CustomCloudTypeMetaUpdateNoContent handles this case with default header values.
+/*V1CustomCloudTypeMetaUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

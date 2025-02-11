@@ -57,8 +57,7 @@ func NewV1EdgeHostDevicesUIDVspherePropertiesUpdateParamsWithHTTPClient(client *
 	}
 }
 
-/*
-V1EdgeHostDevicesUIDVspherePropertiesUpdateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesUIDVspherePropertiesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid vsphere properties update operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDVspherePropertiesUpdateParams struct {

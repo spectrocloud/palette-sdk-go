@@ -55,8 +55,7 @@ func NewV1EdgeTokensListParamsWithHTTPClient(client *http.Client) *V1EdgeTokensL
 	}
 }
 
-/*
-V1EdgeTokensListParams contains all the parameters to send to the API endpoint
+/*V1EdgeTokensListParams contains all the parameters to send to the API endpoint
 for the v1 edge tokens list operation typically these are written to a http.Request
 */
 type V1EdgeTokensListParams struct {

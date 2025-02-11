@@ -41,8 +41,7 @@ func NewV1ClusterProfilesUIDExportOK(writer io.Writer) *V1ClusterProfilesUIDExpo
 	}
 }
 
-/*
-V1ClusterProfilesUIDExportOK handles this case with default header values.
+/*V1ClusterProfilesUIDExportOK handles this case with default header values.
 
 Exports cluster profile as a file
 */

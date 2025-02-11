@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.4",
+    "title": "Palette APIs - 4.6",
     "version": "v1"
   },
   "paths": {
@@ -15084,6 +15084,37 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/edgehosts/{uid}/tunnelConfig": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified edge host device tunnel configuration",
+        "operationId": "v1EdgeHostDevicesUidTunnelConfigUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroTunnelConfig"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
           }
         }
       },
@@ -38554,6 +38585,9 @@
         "service": {
           "$ref": "#/definitions/v1ServiceSpec"
         },
+        "tunnelConfig": {
+          "$ref": "#/definitions/v1SpectroTunnelConfig"
+        },
         "type": {
           "description": "Deprecated. Cloudtype of the provisioned edge host",
           "type": "string",
@@ -38578,6 +38612,9 @@
         "hostPairingKey": {
           "type": "string",
           "format": "password"
+        },
+        "tunnelConfig": {
+          "$ref": "#/definitions/v1SpectroTunnelConfig"
         }
       }
     },
@@ -52275,6 +52312,16 @@
           "items": {
             "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
           }
+        }
+      }
+    },
+    "v1SpectroTunnelConfig": {
+      "description": "Spectro tunnel configuration",
+      "type": "object",
+      "properties": {
+        "sshEnabled": {
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },

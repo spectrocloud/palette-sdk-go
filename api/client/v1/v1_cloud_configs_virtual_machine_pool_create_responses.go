@@ -40,8 +40,7 @@ func NewV1CloudConfigsVirtualMachinePoolCreateCreated() *V1CloudConfigsVirtualMa
 	return &V1CloudConfigsVirtualMachinePoolCreateCreated{}
 }
 
-/*
-V1CloudConfigsVirtualMachinePoolCreateCreated handles this case with default header values.
+/*V1CloudConfigsVirtualMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

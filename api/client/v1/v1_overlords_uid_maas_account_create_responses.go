@@ -40,8 +40,7 @@ func NewV1OverlordsUIDMaasAccountCreateCreated() *V1OverlordsUIDMaasAccountCreat
 	return &V1OverlordsUIDMaasAccountCreateCreated{}
 }
 
-/*
-V1OverlordsUIDMaasAccountCreateCreated handles this case with default header values.
+/*V1OverlordsUIDMaasAccountCreateCreated handles this case with default header values.
 
 Created successfully
 */

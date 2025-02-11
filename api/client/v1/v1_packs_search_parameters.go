@@ -70,8 +70,7 @@ func NewV1PacksSearchParamsWithHTTPClient(client *http.Client) *V1PacksSearchPar
 	}
 }
 
-/*
-V1PacksSearchParams contains all the parameters to send to the API endpoint
+/*V1PacksSearchParams contains all the parameters to send to the API endpoint
 for the v1 packs search operation typically these are written to a http.Request
 */
 type V1PacksSearchParams struct {

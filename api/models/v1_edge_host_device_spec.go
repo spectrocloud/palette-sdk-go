@@ -38,6 +38,9 @@ type V1EdgeHostDeviceSpec struct {
 	// service
 	Service *V1ServiceSpec `json:"service,omitempty"`
 
+	// tunnel config
+	TunnelConfig *V1SpectroTunnelConfig `json:"tunnelConfig,omitempty"`
+
 	// Deprecated. Cloudtype of the provisioned edge host
 	// Enum: [libvirt vsphere edge-native]
 	Type string `json:"type,omitempty"`
@@ -71,6 +74,10 @@ func (m *V1EdgeHostDeviceSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateService(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTunnelConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -191,6 +198,24 @@ func (m *V1EdgeHostDeviceSpec) validateService(formats strfmt.Registry) error {
 		if err := m.Service.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("service")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeHostDeviceSpec) validateTunnelConfig(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TunnelConfig) { // not required
+		return nil
+	}
+
+	if m.TunnelConfig != nil {
+		if err := m.TunnelConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tunnelConfig")
 			}
 			return err
 		}

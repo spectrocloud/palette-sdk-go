@@ -57,8 +57,7 @@ func NewV1AppProfilesUIDCloneParamsWithHTTPClient(client *http.Client) *V1AppPro
 	}
 }
 
-/*
-V1AppProfilesUIDCloneParams contains all the parameters to send to the API endpoint
+/*V1AppProfilesUIDCloneParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid clone operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDCloneParams struct {

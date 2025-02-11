@@ -37,8 +37,7 @@ func NewV1SpectroClustersProfilesUIDPackManifestsUpdateNoContent() *V1SpectroClu
 	return &V1SpectroClustersProfilesUIDPackManifestsUpdateNoContent{}
 }
 
-/*
-V1SpectroClustersProfilesUIDPackManifestsUpdateNoContent handles this case with default header values.
+/*V1SpectroClustersProfilesUIDPackManifestsUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

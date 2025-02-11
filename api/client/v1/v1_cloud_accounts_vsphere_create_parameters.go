@@ -57,8 +57,7 @@ func NewV1CloudAccountsVsphereCreateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1CloudAccountsVsphereCreateParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsVsphereCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts vsphere create operation typically these are written to a http.Request
 */
 type V1CloudAccountsVsphereCreateParams struct {

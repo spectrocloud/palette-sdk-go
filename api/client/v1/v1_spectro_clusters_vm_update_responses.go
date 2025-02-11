@@ -40,8 +40,7 @@ func NewV1SpectroClustersVMUpdateOK() *V1SpectroClustersVMUpdateOK {
 	return &V1SpectroClustersVMUpdateOK{}
 }
 
-/*
-V1SpectroClustersVMUpdateOK handles this case with default header values.
+/*V1SpectroClustersVMUpdateOK handles this case with default header values.
 
 (empty)
 */
