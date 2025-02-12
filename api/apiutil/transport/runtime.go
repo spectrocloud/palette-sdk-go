@@ -109,7 +109,9 @@ type TLSClientOptions struct {
 // TLSClientAuth creates a tls.Config for mutual auth
 func TLSClientAuth(opts TLSClientOptions) (*tls.Config, error) {
 	// create client tls config
-	cfg := &tls.Config{}
+	cfg := &tls.Config{
+		MinVersion: tls.VersionTLS12,
+	}
 
 	// load client cert if specified
 	if opts.Certificate != "" {
