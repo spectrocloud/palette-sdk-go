@@ -15,6 +15,9 @@ import (
 // swagger:model v1OciRegistrySpec
 type V1OciRegistrySpec struct {
 
+	// contains spectro manifest
+	ContainsSpectroManifest bool `json:"containsSpectroManifest"`
+
 	// default region
 	DefaultRegion string `json:"defaultRegion,omitempty"`
 

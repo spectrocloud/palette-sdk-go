@@ -1,6 +1,8 @@
 package client
 
 import (
+	"errors"
+
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
@@ -40,6 +42,25 @@ func (h *V1Client) GetTeam(uid string) (*models.V1Team, error) {
 		return nil, err
 	}
 	return resp.Payload, nil
+}
+
+// GetTeamWithName retrieves an existing team by Team name.
+func (h *V1Client) GetTeamWithName(teamName string) (*models.V1Team, error) {
+	// ACL scoped to tenant only
+	nameFilter := "metadata.name=" + teamName
+	params := clientv1.NewV1TeamsListParams().WithFilters(&nameFilter)
+	resp, err := h.Client.V1TeamsList(params)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Payload.Items != nil {
+		if len(resp.Payload.Items) == 1 {
+			return resp.Payload.Items[0], nil
+		}
+		return nil, errors.New("More than one team found name: " + teamName)
+	}
+	return nil, errors.New("Team not found for name: " + teamName)
+
 }
 
 // DeleteTeam deletes an existing team by UID.

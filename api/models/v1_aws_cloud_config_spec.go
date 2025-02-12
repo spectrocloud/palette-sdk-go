@@ -24,6 +24,9 @@ type V1AwsCloudConfigSpec struct {
 	// cluster config
 	ClusterConfig *V1AwsClusterConfig `json:"clusterConfig,omitempty"`
 
+	// hybrid machine pools
+	HybridMachinePools []*V1AwsHybridMachinePool `json:"hybridMachinePools"`
+
 	// machine pool config
 	MachinePoolConfig []*V1AwsMachinePoolConfig `json:"machinePoolConfig"`
 }
@@ -37,6 +40,10 @@ func (m *V1AwsCloudConfigSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateClusterConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHybridMachinePools(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -81,6 +88,31 @@ func (m *V1AwsCloudConfigSpec) validateClusterConfig(formats strfmt.Registry) er
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsCloudConfigSpec) validateHybridMachinePools(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.HybridMachinePools) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.HybridMachinePools); i++ {
+		if swag.IsZero(m.HybridMachinePools[i]) { // not required
+			continue
+		}
+
+		if m.HybridMachinePools[i] != nil {
+			if err := m.HybridMachinePools[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

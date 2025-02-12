@@ -21,7 +21,10 @@ type V1WorkspaceRestoreConfig struct {
 	// Required: true
 	BackupName *string `json:"backupName"`
 
-	// include cluster resources
+	// include cluster resource mode
+	IncludeClusterResourceMode V1IncludeClusterResourceMode `json:"includeClusterResourceMode,omitempty"`
+
+	// Deprecated. Use includeClusterResourceMode
 	IncludeClusterResources bool `json:"includeClusterResources,omitempty"`
 
 	// include namespaces
@@ -47,6 +50,10 @@ func (m *V1WorkspaceRestoreConfig) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateIncludeClusterResourceMode(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateIncludeNamespaces(formats); err != nil {
 		res = append(res, err)
 	}
@@ -64,6 +71,22 @@ func (m *V1WorkspaceRestoreConfig) Validate(formats strfmt.Registry) error {
 func (m *V1WorkspaceRestoreConfig) validateBackupName(formats strfmt.Registry) error {
 
 	if err := validate.Required("backupName", "body", m.BackupName); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceRestoreConfig) validateIncludeClusterResourceMode(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
+		return nil
+	}
+
+	if err := m.IncludeClusterResourceMode.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("includeClusterResourceMode")
+		}
 		return err
 	}
 

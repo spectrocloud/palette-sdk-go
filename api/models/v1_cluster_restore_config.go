@@ -29,7 +29,10 @@ type V1ClusterRestoreConfig struct {
 	// Required: true
 	DestinationClusterUID *string `json:"destinationClusterUid"`
 
-	// include cluster resources
+	// include cluster resource mode
+	IncludeClusterResourceMode V1IncludeClusterResourceMode `json:"includeClusterResourceMode,omitempty"`
+
+	// Deprecated. Use includeClusterResourceMode
 	IncludeClusterResources bool `json:"includeClusterResources,omitempty"`
 
 	// include namespaces
@@ -56,6 +59,10 @@ func (m *V1ClusterRestoreConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateDestinationClusterUID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateIncludeClusterResourceMode(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -90,6 +97,22 @@ func (m *V1ClusterRestoreConfig) validateBackupRequestUID(formats strfmt.Registr
 func (m *V1ClusterRestoreConfig) validateDestinationClusterUID(formats strfmt.Registry) error {
 
 	if err := validate.Required("destinationClusterUid", "body", m.DestinationClusterUID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ClusterRestoreConfig) validateIncludeClusterResourceMode(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
+		return nil
+	}
+
+	if err := m.IncludeClusterResourceMode.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("includeClusterResourceMode")
+		}
 		return err
 	}
 

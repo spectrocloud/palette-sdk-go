@@ -205,6 +205,15 @@ func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 	return err
 }
 
+// ValidateClusterRepave validates if cluster gets repaved for the specified packs.
+func (h *V1Client) ValidateClusterRepave(clusterUID string, body *models.V1SpectroClusterPacksEntity) (*models.V1SpectroClusterRepaveValidationResponse, error) {
+	params := clientv1.NewV1SpectroClustersUIDValidateRepaveParamsWithContext(h.ctx).
+		WithUID(clusterUID).
+		WithBody(body)
+	resp, err := h.Client.V1SpectroClustersUIDValidateRepave(params)
+	return resp.Payload, err
+}
+
 // GetRepaveReasons retrieves a cluster's repave reasons.
 func (h *V1Client) GetRepaveReasons(clusterUID string) ([]string, error) {
 	params := clientv1.NewV1SpectroClustersUIDRepaveGetParamsWithContext(h.ctx).
@@ -361,4 +370,11 @@ func (h *V1Client) GetTheKubernetesCerts(clusterUID string) (*models.V1MachineCe
 	}
 
 	return certList, nil
+}
+
+// UpdateClusterProfileVariableInCluster Update cluster profile variable in running cluster.
+func (h *V1Client) UpdateClusterProfileVariableInCluster(clusterUID string, body []*models.V1SpectroClusterVariableUpdateEntity) error {
+	params := clientv1.NewV1SpectroClustersUIDVariablesPatchParamsWithContext(h.ctx).WithUID(clusterUID).WithBody(body)
+	_, err := h.Client.V1SpectroClustersUIDVariablesPatch(params)
+	return err
 }
