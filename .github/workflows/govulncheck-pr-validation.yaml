@@ -7,7 +7,7 @@ concurrency:
 
 jobs:
   govulncheck-pr-scan:
-    runs-on: security-runner
+    runs-on: ubuntu-latest
     container:
       image: gcr.io/spectro-images-public/golang:1.22-alpine
     steps:
