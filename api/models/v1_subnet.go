@@ -21,6 +21,9 @@ type V1Subnet struct {
 	// name
 	Name string `json:"name,omitempty"`
 
+	// Resource group associated with a network security group
+	NsgResourceGroup string `json:"nsgResourceGroup,omitempty"`
+
 	// Network Security Group(NSG) to be attached to subnet. NSG for a control plane subnet, should allow inbound to port 6443, as port 6443 is used by kubeadm to bootstrap the control planes
 	SecurityGroupName string `json:"securityGroupName,omitempty"`
 }

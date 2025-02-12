@@ -43,7 +43,7 @@ func NewV1EdgeHostsMetadataOK() *V1EdgeHostsMetadataOK {
 /*
 V1EdgeHostsMetadataOK handles this case with default header values.
 
-An array of edgehost summary items
+An array of edgenative pair summary items
 */
 type V1EdgeHostsMetadataOK struct {
 	Payload *models.V1EdgeHostsMetadataSummary

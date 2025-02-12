@@ -14,12 +14,20 @@ jobs:
         REPO: ${{ github.event.repository.name }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: setup-go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
       - name: gosec-scan
         shell: sh
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
           GO111MODULE: on
-        run: /workspace/bulwark -name CodeSASTGoSec -verbose -target $REPO -tags "branch:$BRANCH,rules:-G101"
+        run: /workspace/bulwark -name CodeSASTGoSec -verbose -target $REPO -tags "branch:$BRANCH,exclude-dir:api/client/v1 api/models,rules:-G101"
 
       - name: check-result
         shell: sh

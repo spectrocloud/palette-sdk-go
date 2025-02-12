@@ -18,7 +18,7 @@ import (
 type V1Variable struct {
 
 	// The default value of the variable
-	DefaultValue string `json:"defaultValue,omitempty"`
+	DefaultValue string `json:"defaultValue"`
 
 	// Variable description
 	Description string `json:"description,omitempty"`

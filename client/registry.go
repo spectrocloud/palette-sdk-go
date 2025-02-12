@@ -52,6 +52,16 @@ func (h *V1Client) GetPackRegistryByName(registryName string) (*models.V1PackReg
 	return nil, fmt.Errorf("registry '%s' not found", registryName)
 }
 
+// ListPackRegistries retries a list of all Pack registries.
+func (h *V1Client) ListPackRegistries() ([]*models.V1PackRegistrySummary, error) {
+	params := clientv1.NewV1RegistriesPackSummaryListParamsWithContext(h.ctx)
+	resp, err := h.Client.V1RegistriesPackSummaryList(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
 // ListHelmRegistries retrieves a list of all Helm registries, filtered by scope.
 func (h *V1Client) ListHelmRegistries(scope string) ([]*models.V1HelmRegistrySummary, error) {
 	params := clientv1.NewV1RegistriesHelmSummaryListParamsWithContext(h.ctx).
@@ -217,5 +227,19 @@ func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 	params := clientv1.NewV1EcrRegistriesUIDDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1EcrRegistriesUIDDelete(params)
+	return err
+}
+
+// ValidateOciBasicRegistry Validate Oci Basic registry auth.
+func (h *V1Client) ValidateOciBasicRegistry(body *models.V1BasicOciRegistrySpec) error {
+	params := clientv1.NewV1BasicOciRegistriesValidateParamsWithContext(h.ctx).WithBody(body)
+	_, err := h.Client.V1BasicOciRegistriesValidate(params)
+	return err
+}
+
+// ValidateOciEcrRegistry Validate Oci ecr registry credentials.
+func (h *V1Client) ValidateOciEcrRegistry(body *models.V1EcrRegistrySpec) error {
+	params := clientv1.NewV1EcrRegistriesValidateParamsWithContext(h.ctx).WithBody(body)
+	_, err := h.Client.V1EcrRegistriesValidate(params)
 	return err
 }
