@@ -34,6 +34,8 @@ type ClientService interface {
 
 	V1AuthUserOrgForgot(params *V1AuthUserOrgForgotParams) (*V1AuthUserOrgForgotNoContent, error)
 
+	V1AwsAccountSecretCredentials(params *V1AwsAccountSecretCredentialsParams) (*V1AwsAccountSecretCredentialsOK, error)
+
 	V1AwsAccountStsGet(params *V1AwsAccountStsGetParams) (*V1AwsAccountStsGetOK, error)
 
 	V1AwsAccountValidate(params *V1AwsAccountValidateParams) (*V1AwsAccountValidateNoContent, error)
@@ -354,22 +356,6 @@ type ClientService interface {
 
 	V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthProvidersUpdateParams) (*V1TenantUIDSsoAuthProvidersUpdateNoContent, error)
 
-	V1TencentAccountValidate(params *V1TencentAccountValidateParams) (*V1TencentAccountValidateNoContent, error)
-
-	V1TencentInstanceTypes(params *V1TencentInstanceTypesParams) (*V1TencentInstanceTypesOK, error)
-
-	V1TencentKeypairs(params *V1TencentKeypairsParams) (*V1TencentKeypairsOK, error)
-
-	V1TencentRegions(params *V1TencentRegionsParams) (*V1TencentRegionsOK, error)
-
-	V1TencentSecurityGroups(params *V1TencentSecurityGroupsParams) (*V1TencentSecurityGroupsOK, error)
-
-	V1TencentStorageTypes(params *V1TencentStorageTypesParams) (*V1TencentStorageTypesOK, error)
-
-	V1TencentVpcs(params *V1TencentVpcsParams) (*V1TencentVpcsOK, error)
-
-	V1TencentZones(params *V1TencentZonesParams) (*V1TencentZonesOK, error)
-
 	V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error)
 
 	V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams) (*V1UsersKubectlSessionUIDOK, error)
@@ -567,16 +553,6 @@ type ClientService interface {
 	V1CloudAccountsOpenStackList(params *V1CloudAccountsOpenStackListParams) (*V1CloudAccountsOpenStackListOK, error)
 
 	V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStackUpdateParams) (*V1CloudAccountsOpenStackUpdateNoContent, error)
-
-	V1CloudAccountsTencentCreate(params *V1CloudAccountsTencentCreateParams) (*V1CloudAccountsTencentCreateCreated, error)
-
-	V1CloudAccountsTencentDelete(params *V1CloudAccountsTencentDeleteParams) (*V1CloudAccountsTencentDeleteNoContent, error)
-
-	V1CloudAccountsTencentGet(params *V1CloudAccountsTencentGetParams) (*V1CloudAccountsTencentGetOK, error)
-
-	V1CloudAccountsTencentList(params *V1CloudAccountsTencentListParams) (*V1CloudAccountsTencentListOK, error)
-
-	V1CloudAccountsTencentUpdate(params *V1CloudAccountsTencentUpdateParams) (*V1CloudAccountsTencentUpdateNoContent, error)
 
 	V1CloudAccountsVsphereCreate(params *V1CloudAccountsVsphereCreateParams) (*V1CloudAccountsVsphereCreateCreated, error)
 
@@ -815,26 +791,6 @@ type ClientService interface {
 	V1CloudConfigsOpenStackPoolMachinesUIDUpdate(params *V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams) (*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent, error)
 
 	V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsOpenStackUIDClusterConfigParams) (*V1CloudConfigsOpenStackUIDClusterConfigNoContent, error)
-
-	V1CloudConfigsTkeGet(params *V1CloudConfigsTkeGetParams) (*V1CloudConfigsTkeGetOK, error)
-
-	V1CloudConfigsTkeMachinePoolCreate(params *V1CloudConfigsTkeMachinePoolCreateParams) (*V1CloudConfigsTkeMachinePoolCreateCreated, error)
-
-	V1CloudConfigsTkeMachinePoolDelete(params *V1CloudConfigsTkeMachinePoolDeleteParams) (*V1CloudConfigsTkeMachinePoolDeleteNoContent, error)
-
-	V1CloudConfigsTkeMachinePoolUpdate(params *V1CloudConfigsTkeMachinePoolUpdateParams) (*V1CloudConfigsTkeMachinePoolUpdateNoContent, error)
-
-	V1CloudConfigsTkePoolMachinesAdd(params *V1CloudConfigsTkePoolMachinesAddParams) (*V1CloudConfigsTkePoolMachinesAddCreated, error)
-
-	V1CloudConfigsTkePoolMachinesList(params *V1CloudConfigsTkePoolMachinesListParams) (*V1CloudConfigsTkePoolMachinesListOK, error)
-
-	V1CloudConfigsTkePoolMachinesUIDDelete(params *V1CloudConfigsTkePoolMachinesUIDDeleteParams) (*V1CloudConfigsTkePoolMachinesUIDDeleteNoContent, error)
-
-	V1CloudConfigsTkePoolMachinesUIDGet(params *V1CloudConfigsTkePoolMachinesUIDGetParams) (*V1CloudConfigsTkePoolMachinesUIDGetOK, error)
-
-	V1CloudConfigsTkePoolMachinesUIDUpdate(params *V1CloudConfigsTkePoolMachinesUIDUpdateParams) (*V1CloudConfigsTkePoolMachinesUIDUpdateNoContent, error)
-
-	V1CloudConfigsTkeUIDClusterConfig(params *V1CloudConfigsTkeUIDClusterConfigParams) (*V1CloudConfigsTkeUIDClusterConfigNoContent, error)
 
 	V1CloudConfigsVirtualGet(params *V1CloudConfigsVirtualGetParams) (*V1CloudConfigsVirtualGetOK, error)
 
@@ -1564,12 +1520,6 @@ type ClientService interface {
 
 	V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error)
 
-	V1SpectroClustersTkeCreate(params *V1SpectroClustersTkeCreateParams) (*V1SpectroClustersTkeCreateCreated, error)
-
-	V1SpectroClustersTkeRate(params *V1SpectroClustersTkeRateParams) (*V1SpectroClustersTkeRateOK, error)
-
-	V1SpectroClustersTkeValidate(params *V1SpectroClustersTkeValidateParams) (*V1SpectroClustersTkeValidateOK, error)
-
 	V1SpectroClustersUIDAdminKubeConfig(params *V1SpectroClustersUIDAdminKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDAdminKubeConfigOK, error)
 
 	V1SpectroClustersUIDAssets(params *V1SpectroClustersUIDAssetsParams) (*V1SpectroClustersUIDAssetsNoContent, error)
@@ -1675,6 +1625,8 @@ type ClientService interface {
 	V1SpectroClustersUIDValidateRepave(params *V1SpectroClustersUIDValidateRepaveParams) (*V1SpectroClustersUIDValidateRepaveOK, error)
 
 	V1SpectroClustersUIDVariablesGet(params *V1SpectroClustersUIDVariablesGetParams) (*V1SpectroClustersUIDVariablesGetOK, error)
+
+	V1SpectroClustersUIDVariablesPatch(params *V1SpectroClustersUIDVariablesPatchParams) (*V1SpectroClustersUIDVariablesPatchNoContent, error)
 
 	V1SpectroClustersUIDWorkloadsKindSync(params *V1SpectroClustersUIDWorkloadsKindSyncParams) (*V1SpectroClustersUIDWorkloadsKindSyncAccepted, error)
 
@@ -2090,6 +2042,40 @@ func (a *Client) V1AuthUserOrgForgot(params *V1AuthUserOrgForgotParams) (*V1Auth
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1AuthUserOrgForgot: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1AwsAccountSecretCredentials retrieves the aws secret credentials
+*/
+func (a *Client) V1AwsAccountSecretCredentials(params *V1AwsAccountSecretCredentialsParams) (*V1AwsAccountSecretCredentialsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AwsAccountSecretCredentialsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AwsAccountSecretCredentials",
+		Method:             "POST",
+		PathPattern:        "/v1/clouds/aws/account/secret/credentials",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AwsAccountSecretCredentialsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AwsAccountSecretCredentialsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AwsAccountSecretCredentials: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -7580,278 +7566,6 @@ func (a *Client) V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthPro
 }
 
 /*
-V1TencentAccountValidate validates the specified tencent account credentials
-*/
-func (a *Client) V1TencentAccountValidate(params *V1TencentAccountValidateParams) (*V1TencentAccountValidateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentAccountValidateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentAccountValidate",
-		Method:             "POST",
-		PathPattern:        "/v1/clouds/tencent/account/validate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentAccountValidateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentAccountValidateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentAccountValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentInstanceTypes retrieves a list of tencent instance types
-*/
-func (a *Client) V1TencentInstanceTypes(params *V1TencentInstanceTypesParams) (*V1TencentInstanceTypesOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentInstanceTypesParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentInstanceTypes",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/instancetypes",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentInstanceTypesReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentInstanceTypesOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentInstanceTypes: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentKeypairs retrieves a list of keypairs for the specified account
-*/
-func (a *Client) V1TencentKeypairs(params *V1TencentKeypairsParams) (*V1TencentKeypairsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentKeypairsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentKeypairs",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/keypairs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentKeypairsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentKeypairsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentKeypairs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentRegions retrieves a list of tencent regions for the specified account
-*/
-func (a *Client) V1TencentRegions(params *V1TencentRegionsParams) (*V1TencentRegionsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentRegionsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentRegions",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentRegionsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentRegionsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentRegions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentSecurityGroups retrieves a list of secutity groups for the specified account
-*/
-func (a *Client) V1TencentSecurityGroups(params *V1TencentSecurityGroupsParams) (*V1TencentSecurityGroupsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentSecurityGroupsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentSecurityGroups",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/securitygroups",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentSecurityGroupsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentSecurityGroupsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentSecurityGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentStorageTypes retrieves a list of tencent storage types
-*/
-func (a *Client) V1TencentStorageTypes(params *V1TencentStorageTypesParams) (*V1TencentStorageTypesOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentStorageTypesParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentStorageTypes",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/storagetypes",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentStorageTypesReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentStorageTypesOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentStorageTypes: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentVpcs retrieves a list of v p cs for the specified account
-*/
-func (a *Client) V1TencentVpcs(params *V1TencentVpcsParams) (*V1TencentVpcsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentVpcsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentVpcs",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/vpcs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentVpcsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentVpcsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentVpcs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TencentZones retrieves a list of tencent availability zones for the specified region
-*/
-func (a *Client) V1TencentZones(params *V1TencentZonesParams) (*V1TencentZonesOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TencentZonesParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1TencentZones",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/tencent/regions/{region}/zones",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TencentZonesReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TencentZonesOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1TencentZones: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1UsersConfigScarGet gets the system spectro repository restricted to edge services
 */
 func (a *Client) V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error) {
@@ -11232,176 +10946,6 @@ func (a *Client) V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStack
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsTencentCreate creates an tencent cloud account
-*/
-func (a *Client) V1CloudAccountsTencentCreate(params *V1CloudAccountsTencentCreateParams) (*V1CloudAccountsTencentCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsTencentCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsTencentCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudaccounts/tencent",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsTencentCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsTencentCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsTencentCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsTencentDelete deletes the specified tencent account
-*/
-func (a *Client) V1CloudAccountsTencentDelete(params *V1CloudAccountsTencentDeleteParams) (*V1CloudAccountsTencentDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsTencentDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsTencentDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudaccounts/tencent/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsTencentDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsTencentDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsTencentDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsTencentGet returns the specified tencent account
-*/
-func (a *Client) V1CloudAccountsTencentGet(params *V1CloudAccountsTencentGetParams) (*V1CloudAccountsTencentGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsTencentGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsTencentGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/tencent/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsTencentGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsTencentGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsTencentGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsTencentList retrieves a list of tencent cloud accounts
-*/
-func (a *Client) V1CloudAccountsTencentList(params *V1CloudAccountsTencentListParams) (*V1CloudAccountsTencentListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsTencentListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsTencentList",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/tencent",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsTencentListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsTencentListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsTencentList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsTencentUpdate updates the specified tencent account
-*/
-func (a *Client) V1CloudAccountsTencentUpdate(params *V1CloudAccountsTencentUpdateParams) (*V1CloudAccountsTencentUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsTencentUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsTencentUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudaccounts/tencent/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsTencentUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsTencentUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsTencentUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -15452,346 +14996,6 @@ func (a *Client) V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsO
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackUidClusterConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkeGet returns the specified t k e cloud config
-*/
-func (a *Client) V1CloudConfigsTkeGet(params *V1CloudConfigsTkeGetParams) (*V1CloudConfigsTkeGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkeGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkeGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkeGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkeGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkeGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkeMachinePoolCreate creates an t k e cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsTkeMachinePoolCreate(params *V1CloudConfigsTkeMachinePoolCreateParams) (*V1CloudConfigsTkeMachinePoolCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkeMachinePoolCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkeMachinePoolCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkeMachinePoolCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkeMachinePoolCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkeMachinePoolCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkeMachinePoolDelete deletes the specified machine pool
-*/
-func (a *Client) V1CloudConfigsTkeMachinePoolDelete(params *V1CloudConfigsTkeMachinePoolDeleteParams) (*V1CloudConfigsTkeMachinePoolDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkeMachinePoolDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkeMachinePoolDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkeMachinePoolDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkeMachinePoolDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkeMachinePoolDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkeMachinePoolUpdate updates the specified t k e cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsTkeMachinePoolUpdate(params *V1CloudConfigsTkeMachinePoolUpdateParams) (*V1CloudConfigsTkeMachinePoolUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkeMachinePoolUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkeMachinePoolUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkeMachinePoolUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkeMachinePoolUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkeMachinePoolUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkePoolMachinesAdd adds the machine to cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsTkePoolMachinesAdd(params *V1CloudConfigsTkePoolMachinesAddParams) (*V1CloudConfigsTkePoolMachinesAddCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkePoolMachinesAddParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkePoolMachinesAdd",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkePoolMachinesAddReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkePoolMachinesAddCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkePoolMachinesAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkePoolMachinesList retrieves a list of t k e machines
-*/
-func (a *Client) V1CloudConfigsTkePoolMachinesList(params *V1CloudConfigsTkePoolMachinesListParams) (*V1CloudConfigsTkePoolMachinesListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkePoolMachinesListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkePoolMachinesList",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkePoolMachinesListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkePoolMachinesListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkePoolMachinesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkePoolMachinesUIDDelete deletes the specified tencent machine
-*/
-func (a *Client) V1CloudConfigsTkePoolMachinesUIDDelete(params *V1CloudConfigsTkePoolMachinesUIDDeleteParams) (*V1CloudConfigsTkePoolMachinesUIDDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkePoolMachinesUIDDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkePoolMachinesUidDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkePoolMachinesUIDDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkePoolMachinesUIDDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkePoolMachinesUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkePoolMachinesUIDGet returns the specified tke machine
-*/
-func (a *Client) V1CloudConfigsTkePoolMachinesUIDGet(params *V1CloudConfigsTkePoolMachinesUIDGetParams) (*V1CloudConfigsTkePoolMachinesUIDGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkePoolMachinesUIDGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkePoolMachinesUidGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkePoolMachinesUIDGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkePoolMachinesUIDGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkePoolMachinesUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkePoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsTkePoolMachinesUIDUpdate(params *V1CloudConfigsTkePoolMachinesUIDUpdateParams) (*V1CloudConfigsTkePoolMachinesUIDUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkePoolMachinesUIDUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkePoolMachinesUidUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkePoolMachinesUIDUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkePoolMachinesUIDUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkePoolMachinesUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsTkeUIDClusterConfig updates the cluster configuration information
-*/
-func (a *Client) V1CloudConfigsTkeUIDClusterConfig(params *V1CloudConfigsTkeUIDClusterConfigParams) (*V1CloudConfigsTkeUIDClusterConfigNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsTkeUIDClusterConfigParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsTkeUidClusterConfig",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/tke/{configUid}/clusterConfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsTkeUIDClusterConfigReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsTkeUIDClusterConfigNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsTkeUidClusterConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -28222,108 +27426,6 @@ func (a *Client) V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams
 }
 
 /*
-V1SpectroClustersTkeCreate creates a tke cluster
-*/
-func (a *Client) V1SpectroClustersTkeCreate(params *V1SpectroClustersTkeCreateParams) (*V1SpectroClustersTkeCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersTkeCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersTkeCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/tke",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersTkeCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersTkeCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersTkeCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersTkeRate gets t k e cluster estimated rate information
-*/
-func (a *Client) V1SpectroClustersTkeRate(params *V1SpectroClustersTkeRateParams) (*V1SpectroClustersTkeRateOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersTkeRateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersTkeRate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/tke/rate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersTkeRateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersTkeRateOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersTkeRate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersTkeValidate validates t k e cluster create operation
-*/
-func (a *Client) V1SpectroClustersTkeValidate(params *V1SpectroClustersTkeValidateParams) (*V1SpectroClustersTkeValidateOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersTkeValidateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersTkeValidate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/tke/validate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersTkeValidateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersTkeValidateOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersTkeValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1SpectroClustersUIDAdminKubeConfig returns the specified cluster s kube config file
 */
 func (a *Client) V1SpectroClustersUIDAdminKubeConfig(params *V1SpectroClustersUIDAdminKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDAdminKubeConfigOK, error) {
@@ -30122,6 +29224,40 @@ func (a *Client) V1SpectroClustersUIDVariablesGet(params *V1SpectroClustersUIDVa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidVariablesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersUIDVariablesPatch updates cluster variable values for specified cluster
+*/
+func (a *Client) V1SpectroClustersUIDVariablesPatch(params *V1SpectroClustersUIDVariablesPatchParams) (*V1SpectroClustersUIDVariablesPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersUIDVariablesPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersUidVariablesPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/spectroclusters/{uid}/variables",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersUIDVariablesPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersUIDVariablesPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidVariablesPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
