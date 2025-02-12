@@ -1,10 +1,6 @@
 package client
 
 import (
-	"log"
-	"math/rand"
-	"time"
-
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
@@ -26,7 +22,7 @@ func (h *V1Client) UpdateAddonDeployment(cluster *models.V1SpectroCluster, body 
 		WithBody(body).
 		WithResolveNotification(&resolveNotifications)
 
-	return h.PatchWithRetry(params)
+	return h.ClustersPatchProfiles(params)
 }
 
 // IsProfileAttachedByName checks if a profile is already attached to a cluster.
@@ -48,24 +44,7 @@ func (h *V1Client) CreateAddonDeployment(cluster *models.V1SpectroCluster, body 
 		WithBody(body).
 		WithResolveNotification(&resolveNotifications)
 
-	return h.PatchWithRetry(params)
-}
-
-// PatchWithRetry patches cluster's profiles with with retry logic.
-func (h *V1Client) PatchWithRetry(params *clientv1.V1SpectroClustersPatchProfilesParams) error {
-	var err error
-	rand.NewSource(time.Now().UnixNano())
-	for attempt := 0; attempt < h.retryAttempts; attempt++ {
-		// small jitter to prevent simultaneous retries. n will be between 0 and number of retries.
-		s := rand.Intn(h.retryAttempts) // #nosec G404 - random number is not used for security purposes
-		log.Printf("Sleeping %d seconds, retry: %d, cluster:%s, profile:%s, ", s, attempt, params.UID, params.Body.Profiles[0].UID)
-		time.Sleep(time.Duration(s) * time.Second)
-		err = h.ClustersPatchProfiles(params)
-		if err == nil {
-			break
-		}
-	}
-	return err
+	return h.ClustersPatchProfiles(params)
 }
 
 // ClustersPatchProfiles patches a cluster's profiles.

@@ -13,7 +13,7 @@ func Retry(retryMsg string, attempts int, sleep time.Duration, f func() error) e
 func retryOp(retryMsg string, attempts int, sleep time.Duration, f func() error) error {
 	var err error
 
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	r := rand.New(rand.NewSource(time.Now().UnixNano())) // #nosec G404 - non-cryptographic RNG is fine for jitter
 	t := attempts
 
 	for ; attempts >= 0; attempts-- {
