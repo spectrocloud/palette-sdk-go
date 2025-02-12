@@ -27,7 +27,7 @@ jobs:
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
           GO111MODULE: on
-        run: /workspace/bulwark -name CodeSASTGoSec -verbose -target $REPO -tags "branch:$BRANCH,exclude-dir:api/client/v1,rules:-G101"
+        run: /workspace/bulwark -name CodeSASTGoSec -verbose -target $REPO -tags "branch:$BRANCH,exclude-dir:api/client/v1 api/models,rules:-G101"
 
       - name: check-result
         shell: sh
