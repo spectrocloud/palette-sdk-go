@@ -11,11 +11,16 @@ jobs:
     container:
       image: gcr.io/spectro-images-public/golang:1.22-alpine
     steps:
-      - name: install-go-licenses
-        run: GOBIN=/usr/local/bin go install github.com/google/go-licenses@latest
-
       - name: checkout
         uses: actions/checkout@v3
+
+      - name: setup-go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: install-go-licenses
+        run: GOBIN=/usr/local/bin go install github.com/google/go-licenses@latest
 
       - name: set-github-access
         run: |
