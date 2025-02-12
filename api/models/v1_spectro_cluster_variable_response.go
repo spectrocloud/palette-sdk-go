@@ -12,10 +12,10 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// V1Variable Unique variable field with schema definition
+// V1SpectroClusterVariableResponse Unique variable field with schema definition
 //
-// swagger:model v1Variable
-type V1Variable struct {
+// swagger:model v1SpectroClusterVariableResponse
+type V1SpectroClusterVariableResponse struct {
 
 	// The default value of the variable
 	DefaultValue string `json:"defaultValue"`
@@ -47,10 +47,13 @@ type V1Variable struct {
 
 	// Flag to specify if the variable is optional or mandatory. If it is mandatory then default value must be provided
 	Required bool `json:"required"`
+
+	// The user specified value of the variable
+	Value string `json:"value"`
 }
 
-// Validate validates this v1 variable
-func (m *V1Variable) Validate(formats strfmt.Registry) error {
+// Validate validates this v1 spectro cluster variable response
+func (m *V1SpectroClusterVariableResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateFormat(formats); err != nil {
@@ -67,7 +70,7 @@ func (m *V1Variable) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1Variable) validateFormat(formats strfmt.Registry) error {
+func (m *V1SpectroClusterVariableResponse) validateFormat(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Format) { // not required
 		return nil
@@ -83,7 +86,7 @@ func (m *V1Variable) validateFormat(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1Variable) validateName(formats strfmt.Registry) error {
+func (m *V1SpectroClusterVariableResponse) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
@@ -93,7 +96,7 @@ func (m *V1Variable) validateName(formats strfmt.Registry) error {
 }
 
 // MarshalBinary interface implementation
-func (m *V1Variable) MarshalBinary() ([]byte, error) {
+func (m *V1SpectroClusterVariableResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -101,8 +104,8 @@ func (m *V1Variable) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *V1Variable) UnmarshalBinary(b []byte) error {
-	var res V1Variable
+func (m *V1SpectroClusterVariableResponse) UnmarshalBinary(b []byte) error {
+	var res V1SpectroClusterVariableResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

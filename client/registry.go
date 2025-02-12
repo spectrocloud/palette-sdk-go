@@ -229,3 +229,17 @@ func (h *V1Client) DeleteOciEcrRegistry(uid string) error {
 	_, err := h.Client.V1EcrRegistriesUIDDelete(params)
 	return err
 }
+
+// ValidateOciBasicRegistry Validate Oci Basic registry auth.
+func (h *V1Client) ValidateOciBasicRegistry(body *models.V1BasicOciRegistrySpec) error {
+	params := clientv1.NewV1BasicOciRegistriesValidateParamsWithContext(h.ctx).WithBody(body)
+	_, err := h.Client.V1BasicOciRegistriesValidate(params)
+	return err
+}
+
+// ValidateOciEcrRegistry Validate Oci ecr registry credentials.
+func (h *V1Client) ValidateOciEcrRegistry(body *models.V1EcrRegistrySpec) error {
+	params := clientv1.NewV1EcrRegistriesValidateParamsWithContext(h.ctx).WithBody(body)
+	_, err := h.Client.V1EcrRegistriesValidate(params)
+	return err
+}

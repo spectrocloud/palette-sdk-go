@@ -19,6 +19,9 @@ type V1EdgeNativeClusterConfig struct {
 	// ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN
 	ControlPlaneEndpoint *V1EdgeNativeControlPlaneEndPoint `json:"controlPlaneEndpoint,omitempty"`
 
+	// IsTwoNodeCluster is to enable two node cluster support in the control-plane
+	IsTwoNodeCluster bool `json:"isTwoNodeCluster,omitempty"`
+
 	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list
 	NtpServers []string `json:"ntpServers"`
 
@@ -30,9 +33,6 @@ type V1EdgeNativeClusterConfig struct {
 
 	// StaticIP indicates if IP allocation type is static IP. DHCP is the default allocation type
 	StaticIP bool `json:"staticIp,omitempty"`
-
-	//IsTwoNodeCluster indicates if the cluster is a two node cluster
-	IsTwoNodeCluster bool
 }
 
 // Validate validates this v1 edge native cluster config

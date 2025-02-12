@@ -181,20 +181,6 @@ func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nod
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusTke retrieves maintenance status for a TKE node.
-func (h *V1Client) GetNodeMaintenanceStatusTke(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientv1.NewV1CloudConfigsTkePoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machineName).
-		WithMachineUID(nodeID)
-
-	resp, err := h.Client.V1CloudConfigsTkePoolMachinesUIDGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload.Status.MaintenanceStatus, nil
-}
-
 // GetNodeVirtualMaintenanceStatusVirtual retrieves maintenance status for a virtual node.
 // TODO: deprecate unused virtual cluster functions
 func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {

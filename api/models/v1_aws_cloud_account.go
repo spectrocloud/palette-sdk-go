@@ -26,7 +26,7 @@ type V1AwsCloudAccount struct {
 	CredentialType V1AwsCloudAccountCredentialType `json:"credentialType,omitempty"`
 
 	// AWS accounts are scoped to a single partition. Allowed values [aws, aws-us-gov], Default values
-	// Enum: [aws aws-us-gov]
+	// Enum: [aws aws-us-gov aws-iso aws-iso-b]
 	Partition *string `json:"partition,omitempty"`
 
 	// List of policy ARNs required in case of credentialType sts.
@@ -34,6 +34,12 @@ type V1AwsCloudAccount struct {
 
 	// AWS account secret key
 	SecretKey string `json:"secretKey,omitempty"`
+
+	// secret spec
+	SecretSpec *V1AwsSecretSpec `json:"secretSpec,omitempty"`
+
+	// AWS account secret token; in case of aws-iso and aws-iso-b
+	SecretToken string `json:"secretToken,omitempty"`
 
 	// AWS STS credentials in case of credentialType sts, will be empty in case of credential type secret
 	Sts *V1AwsStsCredentials `json:"sts,omitempty"`
@@ -48,6 +54,10 @@ func (m *V1AwsCloudAccount) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validatePartition(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecretSpec(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -81,7 +91,7 @@ var v1AwsCloudAccountTypePartitionPropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["aws","aws-us-gov"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["aws","aws-us-gov","aws-iso","aws-iso-b"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -96,6 +106,12 @@ const (
 
 	// V1AwsCloudAccountPartitionAwsUsGov captures enum value "aws-us-gov"
 	V1AwsCloudAccountPartitionAwsUsGov string = "aws-us-gov"
+
+	// V1AwsCloudAccountPartitionAwsIso captures enum value "aws-iso"
+	V1AwsCloudAccountPartitionAwsIso string = "aws-iso"
+
+	// V1AwsCloudAccountPartitionAwsIsob captures enum value "aws-iso-b"
+	V1AwsCloudAccountPartitionAwsIsob string = "aws-iso-b"
 )
 
 // prop value enum
@@ -115,6 +131,24 @@ func (m *V1AwsCloudAccount) validatePartition(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validatePartitionEnum("partition", "body", *m.Partition); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1AwsCloudAccount) validateSecretSpec(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SecretSpec) { // not required
+		return nil
+	}
+
+	if m.SecretSpec != nil {
+		if err := m.SecretSpec.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("secretSpec")
+			}
+			return err
+		}
 	}
 
 	return nil
