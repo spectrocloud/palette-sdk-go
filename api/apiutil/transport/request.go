@@ -173,8 +173,12 @@ func (r *request) buildHTTP(mediaType, basePath string, producers map[string]run
 
 		go func() {
 			defer func() {
-				mp.Close()
-				pw.Close()
+				if mpErr := mp.Close(); mpErr != nil {
+					log.Println(mpErr)
+				}
+				if pwErr := pw.Close(); pwErr != nil {
+					log.Println(pwErr)
+				}
 			}()
 
 			for fn, v := range r.formFields {
@@ -189,7 +193,9 @@ func (r *request) buildHTTP(mediaType, basePath string, producers map[string]run
 			defer func() {
 				for _, ff := range r.fileFields {
 					for _, ffi := range ff {
-						ffi.Close()
+						if closeErr := ffi.Close(); closeErr != nil {
+							log.Println(closeErr)
+						}
 					}
 				}
 			}()
