@@ -2,7 +2,6 @@ package client
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 	"io"
 	"os"
@@ -208,31 +207,10 @@ func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, erro
 	return resp.Payload, nil
 }
 
-type values struct {
-	HeaderMap map[string]string
-}
-
-func (v values) Get(key string) string {
-	if v.HeaderMap == nil {
-		return ""
-	}
-	return v.HeaderMap[key]
-}
-
 // DownloadClusterProfileUIDSpc retrieves an existing cluster profile by UID.
-func (h *V1Client) DownloadClusterProfileUIDSpc(w *io.PipeWriter, profileUid, projectUid string) (string, error) {
-	type CustomHeader string
-
-	const CustomHeaders CustomHeader = "CustomHeaders"
-	if projectUid != "" {
-		h.projectUID = projectUid
-		h.ctx = context.WithValue(h.ctx, CustomHeaders, values{
-			HeaderMap: map[string]string{
-				"ProjectUid": projectUid,
-			}})
-	}
+func (h *V1Client) DownloadClusterProfileUIDSpc(w *io.PipeWriter, profileUID string) (string, error) {
 	params := clientv1.NewV1ClusterProfilesUIDSpcDownloadParamsWithContext(h.ctx).
-		WithUID(profileUid)
+		WithUID(profileUID)
 
 	resp, err := h.Client.V1ClusterProfilesUIDSpcDownload(params, w)
 	if apiutil.Is404(err) {
