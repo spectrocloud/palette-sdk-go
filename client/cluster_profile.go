@@ -207,6 +207,20 @@ func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, erro
 	return resp.Payload, nil
 }
 
+// DownloadClusterProfileUIDSpc retrieves an existing cluster profile by UID.
+func (h *V1Client) DownloadClusterProfileUIDSpc(w *io.PipeWriter, profileUID string) (string, error) {
+	params := clientv1.NewV1ClusterProfilesUIDSpcDownloadParamsWithContext(h.ctx).
+		WithUID(profileUID)
+
+	resp, err := h.Client.V1ClusterProfilesUIDSpcDownload(params, w)
+	if apiutil.Is404(err) {
+		return "", nil
+	} else if err != nil {
+		return "", err
+	}
+	return resp.ContentDisposition, nil
+}
+
 // GetClusterProfiles retrieves all cluster profiles.
 func (h *V1Client) GetClusterProfiles() ([]*models.V1ClusterProfileMetadata, error) {
 	params := clientv1.NewV1ClusterProfilesMetadataParamsWithContext(h.ctx)
