@@ -208,7 +208,7 @@ func (h *V1Client) GetClusterProfile(uid string) (*models.V1ClusterProfile, erro
 }
 
 // DownloadClusterProfileUIDSpc retrieves an existing cluster profile by UID.
-func (h *V1Client) DownloadClusterProfileUIDSpc(w *io.PipeWriter, profileUID string) (string, error) {
+func (h *V1Client) DownloadClusterProfileUIDSpc(w io.Writer, profileUID string) (string, error) {
 	params := clientv1.NewV1ClusterProfilesUIDSpcDownloadParamsWithContext(h.ctx).
 		WithUID(profileUID)
 
