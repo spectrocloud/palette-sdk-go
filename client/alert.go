@@ -32,8 +32,8 @@ func (h *V1Client) UpdateAlert(body *models.V1Channel, projectUID, component, al
 	return "success", nil
 }
 
-// UpdateAlertWithoutAlertUID update alerts for project.
-func (h *V1Client) UpdateAlertWithoutAlertUID(body *models.V1AlertEntity, projectUID, component string) error {
+// UpdateProjectAlerts update alerts for project.
+func (h *V1Client) UpdateProjectAlerts(body *models.V1AlertEntity, projectUID, component string) error {
 	params := clientv1.NewV1ProjectsUIDAlertUpdateParamsWithContext(h.ctx).WithBody(body).WithUID(projectUID).
 		WithComponent(component)
 	_, err := h.Client.V1ProjectsUIDAlertUpdate(params)
