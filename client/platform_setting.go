@@ -42,10 +42,10 @@ func (h *V1Client) UpdateClusterAutoRemediationForTenant(tenantUID string, body 
 }
 
 // GetClusterAutoRemediationForTenant get cluster auto remediation for platform
-func (h *V1Client) GetClusterAutoRemediationForTenant(tenantUID string) error {
+func (h *V1Client) GetClusterAutoRemediationForTenant(tenantUID string) (*models.V1TenantClusterSettings, error) {
 	params := clientv1.NewV1TenantClusterSettingsGetParamsWithContext(h.ctx).WithTenantUID(tenantUID)
-	_, err := h.Client.V1TenantClusterSettingsGet(params)
-	return err
+	resp, err := h.Client.V1TenantClusterSettingsGet(params)
+	return resp.Payload, err
 }
 
 // UpdateClusterAutoRemediationForProject update cluster auto remediation for project
@@ -57,10 +57,10 @@ func (h *V1Client) UpdateClusterAutoRemediationForProject(projectUID string, bod
 }
 
 // GetClusterAutoRemediationForProject get cluster auto remediation for project
-func (h *V1Client) GetClusterAutoRemediationForProject(projectUID string) error {
+func (h *V1Client) GetClusterAutoRemediationForProject(projectUID string) (*models.V1ProjectClusterSettings, error) {
 	params := clientv1.NewV1ProjectClusterSettingsGetParamsWithContext(h.ctx).WithUID(projectUID)
-	_, err := h.Client.V1ProjectClusterSettingsGet(params)
-	return err
+	resp, err := h.Client.V1ProjectClusterSettingsGet(params)
+	return resp.Payload, err
 }
 
 // UpdateLoginBanner update login banner details for platform
