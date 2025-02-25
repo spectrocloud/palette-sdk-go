@@ -284,3 +284,10 @@ func (h *V1Client) GetNodeStatusMapEdgeNative(configUID, machinePoolName string)
 	}
 	return nMap, nil
 }
+
+// UpdateRegistrationTokenState set registration token state
+func (h *V1Client) UpdateRegistrationTokenState(tokenUID string, body *models.V1EdgeTokenActiveState) error {
+	params := clientv1.NewV1EdgeTokensUIDStateParams().WithUID(tokenUID).WithBody(body)
+	_, err := h.Client.V1EdgeTokensUIDState(params)
+	return err
+}
