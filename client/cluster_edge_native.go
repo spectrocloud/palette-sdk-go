@@ -32,6 +32,21 @@ func (h *V1Client) GetRegistrationToken(tokenName string) (string, error) {
 	return "", nil
 }
 
+// GetRegistrationTokenByUID retrieves an existing registration token by token UID.
+func (h *V1Client) GetRegistrationTokenByUID(tokenUID string) (*models.V1EdgeToken, error) {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1EdgeTokensUIDGetParams().WithUID(tokenUID)
+	resp, err := h.Client.V1EdgeTokensUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	token := resp.Payload
+	if token == nil {
+		return nil, errors.New("failed to list registration tokens")
+	}
+	return resp.Payload, nil
+}
+
 // CreateRegistrationToken creates a new registration token.
 func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1EdgeTokenEntity) (string, string, error) {
 	// ACL scoped to tenant only
@@ -44,6 +59,18 @@ func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1Edge
 	token, err := h.GetRegistrationToken(tokenName)
 
 	return *res.Payload.UID, token, err
+}
+
+// UpdateRegistrationTokenByUID update an existing registration token by uid.
+func (h *V1Client) UpdateRegistrationTokenByUID(tokenUID string, body *models.V1EdgeTokenUpdate) error {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1EdgeTokensUIDUpdateParams().
+		WithBody(body).WithUID(tokenUID)
+	_, err := h.Client.V1EdgeTokensUIDUpdate(params)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // DeleteRegistrationToken deletes a registration token by name.
