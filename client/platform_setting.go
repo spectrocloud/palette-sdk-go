@@ -76,3 +76,17 @@ func (h *V1Client) GetLoginBanner(tenantUID string) (*models.V1LoginBannerSettin
 	resp, err := h.Client.V1TenantUIDLoginBannerGet(params)
 	return resp.Payload, err
 }
+
+// UpdateFIPSPreference update fips preference for platform
+func (h *V1Client) UpdateFIPSPreference(tenantUID string, body *models.V1FipsSettings) error {
+	params := clientv1.NewV1TenantFipsSettingsUpdateParamsWithContext(h.ctx).WithTenantUID(tenantUID).WithBody(body)
+	_, err := h.Client.V1TenantFipsSettingsUpdate(params)
+	return err
+}
+
+// GetFIPSPreference get fips preference for platform
+func (h *V1Client) GetFIPSPreference(tenantUID string) (*models.V1FipsSettings, error) {
+	params := clientv1.NewV1TenantFipsSettingsGetParamsWithContext(h.ctx).WithTenantUID(tenantUID)
+	resp, err := h.Client.V1TenantFipsSettingsGet(params)
+	return resp.Payload, err
+}
