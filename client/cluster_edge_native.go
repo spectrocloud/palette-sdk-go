@@ -60,7 +60,7 @@ func (h *V1Client) GetRegistrationTokenByName(tokenName string) (*models.V1EdgeT
 		return nil, errors.New("failed to list registration tokens")
 	}
 	for _, token := range tokens.Items {
-		if token.Status.IsActive && token.Metadata.Name == tokenName {
+		if token.Metadata.Name == tokenName {
 			return token, nil
 		}
 	}
