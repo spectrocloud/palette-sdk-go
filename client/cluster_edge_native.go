@@ -64,8 +64,8 @@ func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1Edge
 // UpdateRegistrationTokenByUID update an existing registration token by uid.
 func (h *V1Client) UpdateRegistrationTokenByUID(tokenUID string, body *models.V1EdgeTokenUpdate) error {
 	// ACL scoped to tenant only
-	params := clientv1.NewV1EdgeTokensUIDUpdateParams().
-		WithBody(body).WithUID(tokenUID)
+	params := clientv1.NewV1EdgeTokensUIDUpdateParamsWithContext(h.ctx).WithUID(tokenUID).
+		WithBody(body)
 	_, err := h.Client.V1EdgeTokensUIDUpdate(params)
 	if err != nil {
 		return err
