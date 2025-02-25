@@ -47,6 +47,26 @@ func (h *V1Client) GetRegistrationTokenByUID(tokenUID string) (*models.V1EdgeTok
 	return resp.Payload, nil
 }
 
+// GetRegistrationTokenByName retrieves an existing registration token by name.
+func (h *V1Client) GetRegistrationTokenByName(tokenName string) (*models.V1EdgeToken, error) {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1EdgeTokensListParams()
+	resp, err := h.Client.V1EdgeTokensList(params)
+	if err != nil {
+		return nil, err
+	}
+	tokens := resp.GetPayload()
+	if tokens == nil {
+		return nil, errors.New("failed to list registration tokens")
+	}
+	for _, token := range tokens.Items {
+		if token.Status.IsActive && token.Metadata.Name == tokenName {
+			return token, nil
+		}
+	}
+	return nil, nil
+}
+
 // CreateRegistrationToken creates a new registration token.
 func (h *V1Client) CreateRegistrationToken(tokenName string, body *models.V1EdgeTokenEntity) (string, string, error) {
 	// ACL scoped to tenant only
