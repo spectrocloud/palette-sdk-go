@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
@@ -216,6 +217,40 @@ func (h *V1Client) DownloadClusterProfileUIDSpc(profileUID string) (*bytes.Buffe
 	writer := io.Writer(&buf)
 
 	resp, err := h.Client.V1ClusterProfilesUIDSpcDownload(params, writer)
+	if apiutil.Is404(err) {
+		return &buf, "", nil
+	} else if err != nil {
+		return &buf, "", err
+	}
+	return &buf, resp.ContentDisposition, nil
+}
+
+// DownloadSpcCLI downloads the cluster definition archive file
+func (h *V1Client) DownloadSpcCLI(clusterDefinitionName, clusterDefinitionProfilesIDs, cloudType string) (*bytes.Buffer, string, error) {
+	profileIDs := strings.Split(clusterDefinitionProfilesIDs, ",")
+	profiles := make([]*models.V1ClusterDefinitionProfileEntity, len(profileIDs))
+	for i, profileID := range profileIDs {
+		profileIDTrimmed := strings.TrimSpace(profileID)
+		profiles[i] = &models.V1ClusterDefinitionProfileEntity{
+			UID: &profileIDTrimmed,
+		}
+	}
+
+	body := models.V1ClusterDefinitionEntity{}
+	body.Metadata = &models.V1ObjectMetaInputEntity{
+		Name: clusterDefinitionName,
+	}
+	body.Spec = &models.V1ClusterDefinitionSpecEntity{
+		CloudType: &cloudType,
+		Profiles:  profiles,
+	}
+
+	getParam := clientv1.NewV1SpectroClustersSpcDownloadParamsWithContext(h.ctx).WithBody(&body)
+
+	var buf bytes.Buffer
+	writer := io.Writer(&buf)
+
+	resp, err := h.Client.V1SpectroClustersSpcDownload(getParam, writer)
 	if apiutil.Is404(err) {
 		return &buf, "", nil
 	} else if err != nil {
