@@ -140,3 +140,17 @@ func (h *V1Client) clusterGroupMetadata() ([]*models.V1ObjectScopeEntity, error)
 	}
 	return resp.Payload.Items, nil
 }
+
+// UpdateSystemClusterGroupPreference updates system cluster group preferences.
+func (h *V1Client) UpdateSystemClusterGroupPreference(tenantUID string, body *models.V1TenantEnableClusterGroup) error {
+	params := clientv1.NewV1TenantPrefClusterGroupUpdateParamsWithContext(h.ctx).WithTenantUID(tenantUID).WithBody(body)
+	_, err := h.Client.V1TenantPrefClusterGroupUpdate(params)
+	return err
+}
+
+// GetSystemClusterGroupPreference get system cluster group preferences.
+func (h *V1Client) GetSystemClusterGroupPreference(tenantUID string) (*models.V1TenantEnableClusterGroup, error) {
+	params := clientv1.NewV1TenantPrefClusterGroupGetParamsWithContext(h.ctx).WithTenantUID(tenantUID)
+	resp, err := h.Client.V1TenantPrefClusterGroupGet(params)
+	return resp.Payload, err
+}
