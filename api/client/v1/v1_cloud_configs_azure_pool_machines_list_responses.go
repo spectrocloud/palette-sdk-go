@@ -40,8 +40,7 @@ func NewV1CloudConfigsAzurePoolMachinesListOK() *V1CloudConfigsAzurePoolMachines
 	return &V1CloudConfigsAzurePoolMachinesListOK{}
 }
 
-/*
-V1CloudConfigsAzurePoolMachinesListOK handles this case with default header values.
+/*V1CloudConfigsAzurePoolMachinesListOK handles this case with default header values.
 
 An array of AWS machine items
 */

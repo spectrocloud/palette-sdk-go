@@ -37,8 +37,7 @@ func NewV1UsersSystemMacrosDeleteByMacroNameNoContent() *V1UsersSystemMacrosDele
 	return &V1UsersSystemMacrosDeleteByMacroNameNoContent{}
 }
 
-/*
-V1UsersSystemMacrosDeleteByMacroNameNoContent handles this case with default header values.
+/*V1UsersSystemMacrosDeleteByMacroNameNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

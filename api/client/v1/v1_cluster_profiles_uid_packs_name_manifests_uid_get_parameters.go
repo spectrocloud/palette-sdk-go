@@ -55,8 +55,7 @@ func NewV1ClusterProfilesUIDPacksNameManifestsUIDGetParamsWithHTTPClient(client 
 	}
 }
 
-/*
-V1ClusterProfilesUIDPacksNameManifestsUIDGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesUIDPacksNameManifestsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid packs name manifests Uid get operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDPacksNameManifestsUIDGetParams struct {

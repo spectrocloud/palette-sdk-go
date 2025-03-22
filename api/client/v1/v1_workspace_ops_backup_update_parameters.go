@@ -57,8 +57,7 @@ func NewV1WorkspaceOpsBackupUpdateParamsWithHTTPClient(client *http.Client) *V1W
 	}
 }
 
-/*
-V1WorkspaceOpsBackupUpdateParams contains all the parameters to send to the API endpoint
+/*V1WorkspaceOpsBackupUpdateParams contains all the parameters to send to the API endpoint
 for the v1 workspace ops backup update operation typically these are written to a http.Request
 */
 type V1WorkspaceOpsBackupUpdateParams struct {

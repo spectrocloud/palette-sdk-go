@@ -40,8 +40,7 @@ func NewV1BasicOciRegistriesCreateCreated() *V1BasicOciRegistriesCreateCreated {
 	return &V1BasicOciRegistriesCreateCreated{}
 }
 
-/*
-V1BasicOciRegistriesCreateCreated handles this case with default header values.
+/*V1BasicOciRegistriesCreateCreated handles this case with default header values.
 
 Created successfully
 */

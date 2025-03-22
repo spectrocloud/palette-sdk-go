@@ -41,8 +41,7 @@ func NewV1CustomCloudTypeLogoGetOK(writer io.Writer) *V1CustomCloudTypeLogoGetOK
 	}
 }
 
-/*
-V1CustomCloudTypeLogoGetOK handles this case with default header values.
+/*V1CustomCloudTypeLogoGetOK handles this case with default header values.
 
 Download the logo
 */

@@ -57,8 +57,7 @@ func NewV1AwsS3ValidateParamsWithHTTPClient(client *http.Client) *V1AwsS3Validat
 	}
 }
 
-/*
-V1AwsS3ValidateParams contains all the parameters to send to the API endpoint
+/*V1AwsS3ValidateParams contains all the parameters to send to the API endpoint
 for the v1 aws s3 validate operation typically these are written to a http.Request
 */
 type V1AwsS3ValidateParams struct {

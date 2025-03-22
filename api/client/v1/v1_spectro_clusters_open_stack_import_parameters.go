@@ -57,8 +57,7 @@ func NewV1SpectroClustersOpenStackImportParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1SpectroClustersOpenStackImportParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersOpenStackImportParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters open stack import operation typically these are written to a http.Request
 */
 type V1SpectroClustersOpenStackImportParams struct {

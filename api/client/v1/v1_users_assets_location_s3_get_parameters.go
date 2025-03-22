@@ -55,8 +55,7 @@ func NewV1UsersAssetsLocationS3GetParamsWithHTTPClient(client *http.Client) *V1U
 	}
 }
 
-/*
-V1UsersAssetsLocationS3GetParams contains all the parameters to send to the API endpoint
+/*V1UsersAssetsLocationS3GetParams contains all the parameters to send to the API endpoint
 for the v1 users assets location s3 get operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationS3GetParams struct {

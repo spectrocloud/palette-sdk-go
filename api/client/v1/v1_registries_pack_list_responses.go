@@ -40,8 +40,7 @@ func NewV1RegistriesPackListOK() *V1RegistriesPackListOK {
 	return &V1RegistriesPackListOK{}
 }
 
-/*
-V1RegistriesPackListOK handles this case with default header values.
+/*V1RegistriesPackListOK handles this case with default header values.
 
 An array of registry items
 */

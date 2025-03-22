@@ -40,8 +40,7 @@ func NewV1UsersSystemFeatureOK() *V1UsersSystemFeatureOK {
 	return &V1UsersSystemFeatureOK{}
 }
 
-/*
-V1UsersSystemFeatureOK handles this case with default header values.
+/*V1UsersSystemFeatureOK handles this case with default header values.
 
 OK
 */

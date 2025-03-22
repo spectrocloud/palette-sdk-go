@@ -55,8 +55,7 @@ func NewV1OverlordsVsphereManifestParamsWithHTTPClient(client *http.Client) *V1O
 	}
 }
 
-/*
-V1OverlordsVsphereManifestParams contains all the parameters to send to the API endpoint
+/*V1OverlordsVsphereManifestParams contains all the parameters to send to the API endpoint
 for the v1 overlords vsphere manifest operation typically these are written to a http.Request
 */
 type V1OverlordsVsphereManifestParams struct {

@@ -37,6 +37,9 @@ type V1ClusterGroupSummarySpec struct {
 	// host clusters count
 	HostClustersCount int64 `json:"hostClustersCount"`
 
+	// kubernetes distro type
+	KubernetesDistroType V1ClusterKubernetesDistroType `json:"kubernetesDistroType,omitempty"`
+
 	// Deprecated
 	Memory *V1ClusterGroupResource `json:"memory,omitempty"`
 
@@ -64,6 +67,10 @@ func (m *V1ClusterGroupSummarySpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHostClusters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateKubernetesDistroType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -187,6 +194,22 @@ func (m *V1ClusterGroupSummarySpec) validateHostClusters(formats strfmt.Registry
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) validateKubernetesDistroType(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.KubernetesDistroType) { // not required
+		return nil
+	}
+
+	if err := m.KubernetesDistroType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("kubernetesDistroType")
+		}
+		return err
 	}
 
 	return nil

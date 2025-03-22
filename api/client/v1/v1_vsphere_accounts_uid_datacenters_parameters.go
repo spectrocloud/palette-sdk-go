@@ -55,8 +55,7 @@ func NewV1VsphereAccountsUIDDatacentersParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1VsphereAccountsUIDDatacentersParams contains all the parameters to send to the API endpoint
+/*V1VsphereAccountsUIDDatacentersParams contains all the parameters to send to the API endpoint
 for the v1 vsphere accounts Uid datacenters operation typically these are written to a http.Request
 */
 type V1VsphereAccountsUIDDatacentersParams struct {

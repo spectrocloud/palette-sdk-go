@@ -68,8 +68,7 @@ func NewV1UsersListParamsWithHTTPClient(client *http.Client) *V1UsersListParams 
 	}
 }
 
-/*
-V1UsersListParams contains all the parameters to send to the API endpoint
+/*V1UsersListParams contains all the parameters to send to the API endpoint
 for the v1 users list operation typically these are written to a http.Request
 */
 type V1UsersListParams struct {

@@ -1082,6 +1082,8 @@ type ClientService interface {
 
 	V1EdgeHostDevicesUIDClusterDeassociate(params *V1EdgeHostDevicesUIDClusterDeassociateParams) (*V1EdgeHostDevicesUIDClusterDeassociateNoContent, error)
 
+	V1EdgeHostDevicesUIDConfigGet(params *V1EdgeHostDevicesUIDConfigGetParams) (*V1EdgeHostDevicesUIDConfigGetOK, error)
+
 	V1EdgeHostDevicesUIDDelete(params *V1EdgeHostDevicesUIDDeleteParams) (*V1EdgeHostDevicesUIDDeleteNoContent, error)
 
 	V1EdgeHostDevicesUIDGet(params *V1EdgeHostDevicesUIDGetParams) (*V1EdgeHostDevicesUIDGetOK, error)
@@ -1097,6 +1099,10 @@ type ClientService interface {
 	V1EdgeHostDevicesUIDProfilesUpdate(params *V1EdgeHostDevicesUIDProfilesUpdateParams) (*V1EdgeHostDevicesUIDProfilesUpdateNoContent, error)
 
 	V1EdgeHostDevicesUIDSpcDownload(params *V1EdgeHostDevicesUIDSpcDownloadParams, writer io.Writer) (*V1EdgeHostDevicesUIDSpcDownloadOK, error)
+
+	V1EdgeHostDevicesUIDTunnelConfigUpdate(params *V1EdgeHostDevicesUIDTunnelConfigUpdateParams) (*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent, error)
+
+	V1EdgeHostDevicesUIDTunnelStatusUpdate(params *V1EdgeHostDevicesUIDTunnelStatusUpdateParams) (*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent, error)
 
 	V1EdgeHostDevicesUIDUpdate(params *V1EdgeHostDevicesUIDUpdateParams) (*V1EdgeHostDevicesUIDUpdateNoContent, error)
 
@@ -1938,9 +1944,9 @@ type ClientService interface {
 }
 
 /*
-V1AuthOrgs returns a list of user s organizations
+  V1AuthOrgs returns a list of user s organizations
 
-Returns a list of user's organizations details and login methods
+  Returns a list of user's organizations details and login methods
 */
 func (a *Client) V1AuthOrgs(params *V1AuthOrgsParams) (*V1AuthOrgsOK, error) {
 	// TODO: Validate the params before sending
@@ -1974,9 +1980,9 @@ func (a *Client) V1AuthOrgs(params *V1AuthOrgsParams) (*V1AuthOrgsOK, error) {
 }
 
 /*
-V1AuthSsoProviders returns a list of supported sso auth providers
+  V1AuthSsoProviders returns a list of supported sso auth providers
 
-Returns a list of supported sso auth providers
+  Returns a list of supported sso auth providers
 */
 func (a *Client) V1AuthSsoProviders(params *V1AuthSsoProvidersParams) (*V1AuthSsoProvidersOK, error) {
 	// TODO: Validate the params before sending
@@ -2010,9 +2016,9 @@ func (a *Client) V1AuthSsoProviders(params *V1AuthSsoProvidersParams) (*V1AuthSs
 }
 
 /*
-V1AuthUserOrgForgot returns no content sends the user organization information via email
+  V1AuthUserOrgForgot returns no content sends the user organization information via email
 
-Returns No Content. Sends the user organization(s) information via email
+  Returns No Content. Sends the user organization(s) information via email
 */
 func (a *Client) V1AuthUserOrgForgot(params *V1AuthUserOrgForgotParams) (*V1AuthUserOrgForgotNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2046,7 +2052,7 @@ func (a *Client) V1AuthUserOrgForgot(params *V1AuthUserOrgForgotParams) (*V1Auth
 }
 
 /*
-V1AwsAccountSecretCredentials retrieves the aws secret credentials
+  V1AwsAccountSecretCredentials retrieves the aws secret credentials
 */
 func (a *Client) V1AwsAccountSecretCredentials(params *V1AwsAccountSecretCredentialsParams) (*V1AwsAccountSecretCredentialsOK, error) {
 	// TODO: Validate the params before sending
@@ -2080,7 +2086,7 @@ func (a *Client) V1AwsAccountSecretCredentials(params *V1AwsAccountSecretCredent
 }
 
 /*
-V1AwsAccountStsGet retrieves a w s external id and account id
+  V1AwsAccountStsGet retrieves a w s external id and account id
 */
 func (a *Client) V1AwsAccountStsGet(params *V1AwsAccountStsGetParams) (*V1AwsAccountStsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -2114,7 +2120,7 @@ func (a *Client) V1AwsAccountStsGet(params *V1AwsAccountStsGetParams) (*V1AwsAcc
 }
 
 /*
-V1AwsAccountValidate validates the specified a w s account credentials
+  V1AwsAccountValidate validates the specified a w s account credentials
 */
 func (a *Client) V1AwsAccountValidate(params *V1AwsAccountValidateParams) (*V1AwsAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2148,7 +2154,7 @@ func (a *Client) V1AwsAccountValidate(params *V1AwsAccountValidateParams) (*V1Aw
 }
 
 /*
-V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate creates an hybrid a w s cloud config s edge native machine pool
+  V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate creates an hybrid a w s cloud config s edge native machine pool
 */
 func (a *Client) V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params *V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams) (*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -2182,9 +2188,9 @@ func (a *Client) V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params *V1AwsCl
 }
 
 /*
-V1AwsClusterNameValidate checks if aws cluster name is valid
+  V1AwsClusterNameValidate checks if aws cluster name is valid
 
-Returns no contents if aws cluster name is valid else error.
+  Returns no contents if aws cluster name is valid else error.
 */
 func (a *Client) V1AwsClusterNameValidate(params *V1AwsClusterNameValidateParams) (*V1AwsClusterNameValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2218,7 +2224,7 @@ func (a *Client) V1AwsClusterNameValidate(params *V1AwsClusterNameValidateParams
 }
 
 /*
-V1AwsCopyImageFromDefaultRegion copies the specified image from one region to another region
+  V1AwsCopyImageFromDefaultRegion copies the specified image from one region to another region
 */
 func (a *Client) V1AwsCopyImageFromDefaultRegion(params *V1AwsCopyImageFromDefaultRegionParams) (*V1AwsCopyImageFromDefaultRegionOK, error) {
 	// TODO: Validate the params before sending
@@ -2252,7 +2258,7 @@ func (a *Client) V1AwsCopyImageFromDefaultRegion(params *V1AwsCopyImageFromDefau
 }
 
 /*
-V1AwsFindImage returns a w s image for the specified a m i name
+  V1AwsFindImage returns a w s image for the specified a m i name
 */
 func (a *Client) V1AwsFindImage(params *V1AwsFindImageParams) (*V1AwsFindImageOK, error) {
 	// TODO: Validate the params before sending
@@ -2286,7 +2292,7 @@ func (a *Client) V1AwsFindImage(params *V1AwsFindImageParams) (*V1AwsFindImageOK
 }
 
 /*
-V1AwsIamPolicies retrieves a list of a w s policies for the specified account
+  V1AwsIamPolicies retrieves a list of a w s policies for the specified account
 */
 func (a *Client) V1AwsIamPolicies(params *V1AwsIamPoliciesParams) (*V1AwsIamPoliciesOK, error) {
 	// TODO: Validate the params before sending
@@ -2320,7 +2326,7 @@ func (a *Client) V1AwsIamPolicies(params *V1AwsIamPoliciesParams) (*V1AwsIamPoli
 }
 
 /*
-V1AwsInstanceTypes retrieves a list of a w s instance types
+  V1AwsInstanceTypes retrieves a list of a w s instance types
 */
 func (a *Client) V1AwsInstanceTypes(params *V1AwsInstanceTypesParams) (*V1AwsInstanceTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -2354,7 +2360,7 @@ func (a *Client) V1AwsInstanceTypes(params *V1AwsInstanceTypesParams) (*V1AwsIns
 }
 
 /*
-V1AwsKeyPairValidate validates the specified a w s keypair
+  V1AwsKeyPairValidate validates the specified a w s keypair
 */
 func (a *Client) V1AwsKeyPairValidate(params *V1AwsKeyPairValidateParams) (*V1AwsKeyPairValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2388,7 +2394,7 @@ func (a *Client) V1AwsKeyPairValidate(params *V1AwsKeyPairValidateParams) (*V1Aw
 }
 
 /*
-V1AwsKeyPairs retrieves a list of a w s keypairs
+  V1AwsKeyPairs retrieves a list of a w s keypairs
 */
 func (a *Client) V1AwsKeyPairs(params *V1AwsKeyPairsParams) (*V1AwsKeyPairsOK, error) {
 	// TODO: Validate the params before sending
@@ -2422,7 +2428,7 @@ func (a *Client) V1AwsKeyPairs(params *V1AwsKeyPairsParams) (*V1AwsKeyPairsOK, e
 }
 
 /*
-V1AwsKmsKeyGet gets a w s k m s key by Id
+  V1AwsKmsKeyGet gets a w s k m s key by Id
 */
 func (a *Client) V1AwsKmsKeyGet(params *V1AwsKmsKeyGetParams) (*V1AwsKmsKeyGetOK, error) {
 	// TODO: Validate the params before sending
@@ -2456,7 +2462,7 @@ func (a *Client) V1AwsKmsKeyGet(params *V1AwsKmsKeyGetParams) (*V1AwsKmsKeyGetOK
 }
 
 /*
-V1AwsKmsKeyValidate validates an aws k m s key for the specified account
+  V1AwsKmsKeyValidate validates an aws k m s key for the specified account
 */
 func (a *Client) V1AwsKmsKeyValidate(params *V1AwsKmsKeyValidateParams) (*V1AwsKmsKeyValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2490,7 +2496,7 @@ func (a *Client) V1AwsKmsKeyValidate(params *V1AwsKmsKeyValidateParams) (*V1AwsK
 }
 
 /*
-V1AwsKmsKeys retrieves a list of a w s k m s keys for the specified account
+  V1AwsKmsKeys retrieves a list of a w s k m s keys for the specified account
 */
 func (a *Client) V1AwsKmsKeys(params *V1AwsKmsKeysParams) (*V1AwsKmsKeysOK, error) {
 	// TODO: Validate the params before sending
@@ -2524,7 +2530,7 @@ func (a *Client) V1AwsKmsKeys(params *V1AwsKmsKeysParams) (*V1AwsKmsKeysOK, erro
 }
 
 /*
-V1AwsPolicyArnsValidate validates the aws policy arns validate
+  V1AwsPolicyArnsValidate validates the aws policy arns validate
 */
 func (a *Client) V1AwsPolicyArnsValidate(params *V1AwsPolicyArnsValidateParams) (*V1AwsPolicyArnsValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2558,7 +2564,7 @@ func (a *Client) V1AwsPolicyArnsValidate(params *V1AwsPolicyArnsValidateParams) 
 }
 
 /*
-V1AwsPropertiesValidate validates a w s properties
+  V1AwsPropertiesValidate validates a w s properties
 */
 func (a *Client) V1AwsPropertiesValidate(params *V1AwsPropertiesValidateParams) (*V1AwsPropertiesValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2592,7 +2598,7 @@ func (a *Client) V1AwsPropertiesValidate(params *V1AwsPropertiesValidateParams) 
 }
 
 /*
-V1AwsRegions retrieves a list of a w s regions for the specified account
+  V1AwsRegions retrieves a list of a w s regions for the specified account
 */
 func (a *Client) V1AwsRegions(params *V1AwsRegionsParams) (*V1AwsRegionsOK, error) {
 	// TODO: Validate the params before sending
@@ -2626,7 +2632,7 @@ func (a *Client) V1AwsRegions(params *V1AwsRegionsParams) (*V1AwsRegionsOK, erro
 }
 
 /*
-V1AwsS3Validate validates the a w s s3 bucket
+  V1AwsS3Validate validates the a w s s3 bucket
 */
 func (a *Client) V1AwsS3Validate(params *V1AwsS3ValidateParams) (*V1AwsS3ValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2660,7 +2666,7 @@ func (a *Client) V1AwsS3Validate(params *V1AwsS3ValidateParams) (*V1AwsS3Validat
 }
 
 /*
-V1AwsSecurityGroups retrieves a list of a w s security groups for the specified account
+  V1AwsSecurityGroups retrieves a list of a w s security groups for the specified account
 */
 func (a *Client) V1AwsSecurityGroups(params *V1AwsSecurityGroupsParams) (*V1AwsSecurityGroupsOK, error) {
 	// TODO: Validate the params before sending
@@ -2694,7 +2700,7 @@ func (a *Client) V1AwsSecurityGroups(params *V1AwsSecurityGroupsParams) (*V1AwsS
 }
 
 /*
-V1AwsStorageTypes retrieves a list of a w s storage types
+  V1AwsStorageTypes retrieves a list of a w s storage types
 */
 func (a *Client) V1AwsStorageTypes(params *V1AwsStorageTypesParams) (*V1AwsStorageTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -2728,9 +2734,9 @@ func (a *Client) V1AwsStorageTypes(params *V1AwsStorageTypesParams) (*V1AwsStora
 }
 
 /*
-V1AwsVolumeSizeGet gets a w s volume size
+  V1AwsVolumeSizeGet gets a w s volume size
 
-Get AWS Volume Size
+  Get AWS Volume Size
 */
 func (a *Client) V1AwsVolumeSizeGet(params *V1AwsVolumeSizeGetParams) (*V1AwsVolumeSizeGetOK, error) {
 	// TODO: Validate the params before sending
@@ -2764,9 +2770,9 @@ func (a *Client) V1AwsVolumeSizeGet(params *V1AwsVolumeSizeGetParams) (*V1AwsVol
 }
 
 /*
-V1AwsVolumeTypesGet gets all a w s volume types
+  V1AwsVolumeTypesGet gets all a w s volume types
 
-List all AWS Volume Types
+  List all AWS Volume Types
 */
 func (a *Client) V1AwsVolumeTypesGet(params *V1AwsVolumeTypesGetParams) (*V1AwsVolumeTypesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -2800,7 +2806,7 @@ func (a *Client) V1AwsVolumeTypesGet(params *V1AwsVolumeTypesGetParams) (*V1AwsV
 }
 
 /*
-V1AwsVpcs retrieves a list of v p cs for the specified account
+  V1AwsVpcs retrieves a list of v p cs for the specified account
 */
 func (a *Client) V1AwsVpcs(params *V1AwsVpcsParams) (*V1AwsVpcsOK, error) {
 	// TODO: Validate the params before sending
@@ -2834,7 +2840,7 @@ func (a *Client) V1AwsVpcs(params *V1AwsVpcsParams) (*V1AwsVpcsOK, error) {
 }
 
 /*
-V1AwsZones retrieves a list of a w s availability zones for the specified region
+  V1AwsZones retrieves a list of a w s availability zones for the specified region
 */
 func (a *Client) V1AwsZones(params *V1AwsZonesParams) (*V1AwsZonesOK, error) {
 	// TODO: Validate the params before sending
@@ -2868,9 +2874,9 @@ func (a *Client) V1AwsZones(params *V1AwsZonesParams) (*V1AwsZonesOK, error) {
 }
 
 /*
-V1AzureAccountValidate checks if azure account is valid
+  V1AzureAccountValidate checks if azure account is valid
 
-Returns no contents if account is valid else error.
+  Returns no contents if account is valid else error.
 */
 func (a *Client) V1AzureAccountValidate(params *V1AzureAccountValidateParams) (*V1AzureAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2904,9 +2910,9 @@ func (a *Client) V1AzureAccountValidate(params *V1AzureAccountValidateParams) (*
 }
 
 /*
-V1AzureClusterNameValidate checks if azure cluster name is valid
+  V1AzureClusterNameValidate checks if azure cluster name is valid
 
-Returns no contents if Azure cluster name is valid else error.
+  Returns no contents if Azure cluster name is valid else error.
 */
 func (a *Client) V1AzureClusterNameValidate(params *V1AzureClusterNameValidateParams) (*V1AzureClusterNameValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -2940,7 +2946,7 @@ func (a *Client) V1AzureClusterNameValidate(params *V1AzureClusterNameValidatePa
 }
 
 /*
-V1AzureGroups retrieves a list of azure groups
+  V1AzureGroups retrieves a list of azure groups
 */
 func (a *Client) V1AzureGroups(params *V1AzureGroupsParams) (*V1AzureGroupsOK, error) {
 	// TODO: Validate the params before sending
@@ -2974,7 +2980,7 @@ func (a *Client) V1AzureGroups(params *V1AzureGroupsParams) (*V1AzureGroupsOK, e
 }
 
 /*
-V1AzureInstanceTypes retrieves a list of azure instance types
+  V1AzureInstanceTypes retrieves a list of azure instance types
 */
 func (a *Client) V1AzureInstanceTypes(params *V1AzureInstanceTypesParams) (*V1AzureInstanceTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -3008,9 +3014,9 @@ func (a *Client) V1AzureInstanceTypes(params *V1AzureInstanceTypesParams) (*V1Az
 }
 
 /*
-V1AzurePrivateDNSZones gets azure private DNS zones for the given resource group
+  V1AzurePrivateDNSZones gets azure private DNS zones for the given resource group
 
-Returns Azure private DNS zones
+  Returns Azure private DNS zones
 */
 func (a *Client) V1AzurePrivateDNSZones(params *V1AzurePrivateDNSZonesParams) (*V1AzurePrivateDNSZonesOK, error) {
 	// TODO: Validate the params before sending
@@ -3044,7 +3050,7 @@ func (a *Client) V1AzurePrivateDNSZones(params *V1AzurePrivateDNSZonesParams) (*
 }
 
 /*
-V1AzureRegions retrieves a list of azure regions
+  V1AzureRegions retrieves a list of azure regions
 */
 func (a *Client) V1AzureRegions(params *V1AzureRegionsParams) (*V1AzureRegionsOK, error) {
 	// TODO: Validate the params before sending
@@ -3078,7 +3084,7 @@ func (a *Client) V1AzureRegions(params *V1AzureRegionsParams) (*V1AzureRegionsOK
 }
 
 /*
-V1AzureResourceGroupList retrieves a list of azure resource group for the specified account
+  V1AzureResourceGroupList retrieves a list of azure resource group for the specified account
 */
 func (a *Client) V1AzureResourceGroupList(params *V1AzureResourceGroupListParams) (*V1AzureResourceGroupListOK, error) {
 	// TODO: Validate the params before sending
@@ -3112,9 +3118,9 @@ func (a *Client) V1AzureResourceGroupList(params *V1AzureResourceGroupListParams
 }
 
 /*
-V1AzureStorageAccountTypes gets azure storage account types
+  V1AzureStorageAccountTypes gets azure storage account types
 
-Returns Azure storage account types.
+  Returns Azure storage account types.
 */
 func (a *Client) V1AzureStorageAccountTypes(params *V1AzureStorageAccountTypesParams) (*V1AzureStorageAccountTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -3148,9 +3154,9 @@ func (a *Client) V1AzureStorageAccountTypes(params *V1AzureStorageAccountTypesPa
 }
 
 /*
-V1AzureStorageAccounts gets azure storage accounts
+  V1AzureStorageAccounts gets azure storage accounts
 
-Returns Azure storage accounts.
+  Returns Azure storage accounts.
 */
 func (a *Client) V1AzureStorageAccounts(params *V1AzureStorageAccountsParams) (*V1AzureStorageAccountsOK, error) {
 	// TODO: Validate the params before sending
@@ -3184,9 +3190,9 @@ func (a *Client) V1AzureStorageAccounts(params *V1AzureStorageAccountsParams) (*
 }
 
 /*
-V1AzureStorageContainers gets azure storage containers
+  V1AzureStorageContainers gets azure storage containers
 
-Returns Azure storage containers for the given account.
+  Returns Azure storage containers for the given account.
 */
 func (a *Client) V1AzureStorageContainers(params *V1AzureStorageContainersParams) (*V1AzureStorageContainersOK, error) {
 	// TODO: Validate the params before sending
@@ -3220,7 +3226,7 @@ func (a *Client) V1AzureStorageContainers(params *V1AzureStorageContainersParams
 }
 
 /*
-V1AzureStorageTypes retrieves a list of azure storage types
+  V1AzureStorageTypes retrieves a list of azure storage types
 */
 func (a *Client) V1AzureStorageTypes(params *V1AzureStorageTypesParams) (*V1AzureStorageTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -3254,9 +3260,9 @@ func (a *Client) V1AzureStorageTypes(params *V1AzureStorageTypesParams) (*V1Azur
 }
 
 /*
-V1AzureSubscriptionList retrieves a list of azure subscription list for the specified account
+  V1AzureSubscriptionList retrieves a list of azure subscription list for the specified account
 
-Returns list of Azure subscription list.
+  Returns list of Azure subscription list.
 */
 func (a *Client) V1AzureSubscriptionList(params *V1AzureSubscriptionListParams) (*V1AzureSubscriptionListOK, error) {
 	// TODO: Validate the params before sending
@@ -3290,7 +3296,7 @@ func (a *Client) V1AzureSubscriptionList(params *V1AzureSubscriptionListParams) 
 }
 
 /*
-V1AzureVhdURL returns the azure vhd url for the specified vhd location
+  V1AzureVhdURL returns the azure vhd url for the specified vhd location
 */
 func (a *Client) V1AzureVhdURL(params *V1AzureVhdURLParams) (*V1AzureVhdURLOK, error) {
 	// TODO: Validate the params before sending
@@ -3324,7 +3330,7 @@ func (a *Client) V1AzureVhdURL(params *V1AzureVhdURLParams) (*V1AzureVhdURLOK, e
 }
 
 /*
-V1AzureVirtualNetworkList retrieves a list of azure virtual network list for the sepcified account
+  V1AzureVirtualNetworkList retrieves a list of azure virtual network list for the sepcified account
 */
 func (a *Client) V1AzureVirtualNetworkList(params *V1AzureVirtualNetworkListParams) (*V1AzureVirtualNetworkListOK, error) {
 	// TODO: Validate the params before sending
@@ -3358,7 +3364,7 @@ func (a *Client) V1AzureVirtualNetworkList(params *V1AzureVirtualNetworkListPara
 }
 
 /*
-V1AzureZones retrieves a list of azure zones for the specified region
+  V1AzureZones retrieves a list of azure zones for the specified region
 */
 func (a *Client) V1AzureZones(params *V1AzureZonesParams) (*V1AzureZonesOK, error) {
 	// TODO: Validate the params before sending
@@ -3392,7 +3398,7 @@ func (a *Client) V1AzureZones(params *V1AzureZonesParams) (*V1AzureZonesOK, erro
 }
 
 /*
-V1CloudComputeRate returns the cloud compute rate
+  V1CloudComputeRate returns the cloud compute rate
 */
 func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudComputeRateOK, error) {
 	// TODO: Validate the params before sending
@@ -3426,7 +3432,7 @@ func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudC
 }
 
 /*
-V1CloudInstanceSpotPriceGet retrieves the cloud instance spot price based on zone and timestamp for a specific cloud
+  V1CloudInstanceSpotPriceGet retrieves the cloud instance spot price based on zone and timestamp for a specific cloud
 */
 func (a *Client) V1CloudInstanceSpotPriceGet(params *V1CloudInstanceSpotPriceGetParams) (*V1CloudInstanceSpotPriceGetOK, error) {
 	// TODO: Validate the params before sending
@@ -3460,7 +3466,7 @@ func (a *Client) V1CloudInstanceSpotPriceGet(params *V1CloudInstanceSpotPriceGet
 }
 
 /*
-V1CloudStorageRate returns the cloud storage rate
+  V1CloudStorageRate returns the cloud storage rate
 */
 func (a *Client) V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error) {
 	// TODO: Validate the params before sending
@@ -3494,9 +3500,9 @@ func (a *Client) V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudS
 }
 
 /*
-V1CloudsAwsCloudWatchValidate validates aws cloud watch credentials
+  V1CloudsAwsCloudWatchValidate validates aws cloud watch credentials
 
-Validates aws cloud watch credentials
+  Validates aws cloud watch credentials
 */
 func (a *Client) V1CloudsAwsCloudWatchValidate(params *V1CloudsAwsCloudWatchValidateParams) (*V1CloudsAwsCloudWatchValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3530,7 +3536,7 @@ func (a *Client) V1CloudsAwsCloudWatchValidate(params *V1CloudsAwsCloudWatchVali
 }
 
 /*
-V1ClusterFeatureBackupLocationUIDChange changes cluster backup location
+  V1ClusterFeatureBackupLocationUIDChange changes cluster backup location
 */
 func (a *Client) V1ClusterFeatureBackupLocationUIDChange(params *V1ClusterFeatureBackupLocationUIDChangeParams) (*V1ClusterFeatureBackupLocationUIDChangeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3564,7 +3570,7 @@ func (a *Client) V1ClusterFeatureBackupLocationUIDChange(params *V1ClusterFeatur
 }
 
 /*
-V1ClusterFeatureBackupLocationUIDGet returns the cluster object references based on location Uid
+  V1ClusterFeatureBackupLocationUIDGet returns the cluster object references based on location Uid
 */
 func (a *Client) V1ClusterFeatureBackupLocationUIDGet(params *V1ClusterFeatureBackupLocationUIDGetParams) (*V1ClusterFeatureBackupLocationUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -3598,7 +3604,7 @@ func (a *Client) V1ClusterFeatureBackupLocationUIDGet(params *V1ClusterFeatureBa
 }
 
 /*
-V1ClusterProfilesUIDExport exports the specified cluster profile
+  V1ClusterProfilesUIDExport exports the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDExport(params *V1ClusterProfilesUIDExportParams, writer io.Writer) (*V1ClusterProfilesUIDExportOK, error) {
 	// TODO: Validate the params before sending
@@ -3632,7 +3638,7 @@ func (a *Client) V1ClusterProfilesUIDExport(params *V1ClusterProfilesUIDExportPa
 }
 
 /*
-V1ClusterProfilesUIDExportTerraform downloads the specified cluster profile
+  V1ClusterProfilesUIDExportTerraform downloads the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDExportTerraform(params *V1ClusterProfilesUIDExportTerraformParams, writer io.Writer) (*V1ClusterProfilesUIDExportTerraformOK, error) {
 	// TODO: Validate the params before sending
@@ -3666,7 +3672,7 @@ func (a *Client) V1ClusterProfilesUIDExportTerraform(params *V1ClusterProfilesUI
 }
 
 /*
-V1ClusterProfilesUIDPacksNameGet returns the specified cluster profile pack
+  V1ClusterProfilesUIDPacksNameGet returns the specified cluster profile pack
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameGet(params *V1ClusterProfilesUIDPacksNameGetParams) (*V1ClusterProfilesUIDPacksNameGetOK, error) {
 	// TODO: Validate the params before sending
@@ -3700,7 +3706,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameGet(params *V1ClusterProfilesUIDPa
 }
 
 /*
-V1ClusterProfilesUIDVariablesDelete deletes the specified cluster profile variables
+  V1ClusterProfilesUIDVariablesDelete deletes the specified cluster profile variables
 */
 func (a *Client) V1ClusterProfilesUIDVariablesDelete(params *V1ClusterProfilesUIDVariablesDeleteParams) (*V1ClusterProfilesUIDVariablesDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3734,7 +3740,7 @@ func (a *Client) V1ClusterProfilesUIDVariablesDelete(params *V1ClusterProfilesUI
 }
 
 /*
-V1ClusterProfilesUIDVariablesGet retrieves a list of variables defined for the cluster profile
+  V1ClusterProfilesUIDVariablesGet retrieves a list of variables defined for the cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDVariablesGet(params *V1ClusterProfilesUIDVariablesGetParams) (*V1ClusterProfilesUIDVariablesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -3768,7 +3774,7 @@ func (a *Client) V1ClusterProfilesUIDVariablesGet(params *V1ClusterProfilesUIDVa
 }
 
 /*
-V1ClusterProfilesUIDVariablesPatch updates specific variables defined for a cluster profile
+  V1ClusterProfilesUIDVariablesPatch updates specific variables defined for a cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDVariablesPatch(params *V1ClusterProfilesUIDVariablesPatchParams) (*V1ClusterProfilesUIDVariablesPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3802,7 +3808,7 @@ func (a *Client) V1ClusterProfilesUIDVariablesPatch(params *V1ClusterProfilesUID
 }
 
 /*
-V1ClusterProfilesUIDVariablesPut updates the variables defined for a cluster profile
+  V1ClusterProfilesUIDVariablesPut updates the variables defined for a cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDVariablesPut(params *V1ClusterProfilesUIDVariablesPutParams) (*V1ClusterProfilesUIDVariablesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3836,7 +3842,7 @@ func (a *Client) V1ClusterProfilesUIDVariablesPut(params *V1ClusterProfilesUIDVa
 }
 
 /*
-V1ControlPlaneHealthCheckTimeoutUpdate updates the specified cluster control plane health check timeout
+  V1ControlPlaneHealthCheckTimeoutUpdate updates the specified cluster control plane health check timeout
 */
 func (a *Client) V1ControlPlaneHealthCheckTimeoutUpdate(params *V1ControlPlaneHealthCheckTimeoutUpdateParams) (*V1ControlPlaneHealthCheckTimeoutUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3870,7 +3876,7 @@ func (a *Client) V1ControlPlaneHealthCheckTimeoutUpdate(params *V1ControlPlaneHe
 }
 
 /*
-V1CustomCloudTypeBootstrapDelete deletes the custom cloud type bootstrap
+  V1CustomCloudTypeBootstrapDelete deletes the custom cloud type bootstrap
 */
 func (a *Client) V1CustomCloudTypeBootstrapDelete(params *V1CustomCloudTypeBootstrapDeleteParams) (*V1CustomCloudTypeBootstrapDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3904,7 +3910,7 @@ func (a *Client) V1CustomCloudTypeBootstrapDelete(params *V1CustomCloudTypeBoots
 }
 
 /*
-V1CustomCloudTypeBootstrapGet returns the custom cloud type bootstrap
+  V1CustomCloudTypeBootstrapGet returns the custom cloud type bootstrap
 */
 func (a *Client) V1CustomCloudTypeBootstrapGet(params *V1CustomCloudTypeBootstrapGetParams) (*V1CustomCloudTypeBootstrapGetOK, error) {
 	// TODO: Validate the params before sending
@@ -3938,7 +3944,7 @@ func (a *Client) V1CustomCloudTypeBootstrapGet(params *V1CustomCloudTypeBootstra
 }
 
 /*
-V1CustomCloudTypeBootstrapUpdate updates the custom cloud type bootstrap
+  V1CustomCloudTypeBootstrapUpdate updates the custom cloud type bootstrap
 */
 func (a *Client) V1CustomCloudTypeBootstrapUpdate(params *V1CustomCloudTypeBootstrapUpdateParams) (*V1CustomCloudTypeBootstrapUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3972,7 +3978,7 @@ func (a *Client) V1CustomCloudTypeBootstrapUpdate(params *V1CustomCloudTypeBoots
 }
 
 /*
-V1CustomCloudTypeCloudAccountKeysGet returns valid keys for the cloud account used for custom cloud type
+  V1CustomCloudTypeCloudAccountKeysGet returns valid keys for the cloud account used for custom cloud type
 */
 func (a *Client) V1CustomCloudTypeCloudAccountKeysGet(params *V1CustomCloudTypeCloudAccountKeysGetParams) (*V1CustomCloudTypeCloudAccountKeysGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4006,7 +4012,7 @@ func (a *Client) V1CustomCloudTypeCloudAccountKeysGet(params *V1CustomCloudTypeC
 }
 
 /*
-V1CustomCloudTypeCloudAccountKeysUpdate updates the custom cloud type cloud account keys
+  V1CustomCloudTypeCloudAccountKeysUpdate updates the custom cloud type cloud account keys
 */
 func (a *Client) V1CustomCloudTypeCloudAccountKeysUpdate(params *V1CustomCloudTypeCloudAccountKeysUpdateParams) (*V1CustomCloudTypeCloudAccountKeysUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4040,7 +4046,7 @@ func (a *Client) V1CustomCloudTypeCloudAccountKeysUpdate(params *V1CustomCloudTy
 }
 
 /*
-V1CustomCloudTypeCloudProviderDelete deletes the custom cloud type cloud provider
+  V1CustomCloudTypeCloudProviderDelete deletes the custom cloud type cloud provider
 */
 func (a *Client) V1CustomCloudTypeCloudProviderDelete(params *V1CustomCloudTypeCloudProviderDeleteParams) (*V1CustomCloudTypeCloudProviderDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4074,7 +4080,7 @@ func (a *Client) V1CustomCloudTypeCloudProviderDelete(params *V1CustomCloudTypeC
 }
 
 /*
-V1CustomCloudTypeCloudProviderGet returns the custom cloud type cloud provider
+  V1CustomCloudTypeCloudProviderGet returns the custom cloud type cloud provider
 */
 func (a *Client) V1CustomCloudTypeCloudProviderGet(params *V1CustomCloudTypeCloudProviderGetParams) (*V1CustomCloudTypeCloudProviderGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4108,7 +4114,7 @@ func (a *Client) V1CustomCloudTypeCloudProviderGet(params *V1CustomCloudTypeClou
 }
 
 /*
-V1CustomCloudTypeCloudProviderUpdate updates the custom cloud type cloud provider
+  V1CustomCloudTypeCloudProviderUpdate updates the custom cloud type cloud provider
 */
 func (a *Client) V1CustomCloudTypeCloudProviderUpdate(params *V1CustomCloudTypeCloudProviderUpdateParams) (*V1CustomCloudTypeCloudProviderUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4142,7 +4148,7 @@ func (a *Client) V1CustomCloudTypeCloudProviderUpdate(params *V1CustomCloudTypeC
 }
 
 /*
-V1CustomCloudTypeClusterTemplateDelete deletes the custom cloud type cluster template
+  V1CustomCloudTypeClusterTemplateDelete deletes the custom cloud type cluster template
 */
 func (a *Client) V1CustomCloudTypeClusterTemplateDelete(params *V1CustomCloudTypeClusterTemplateDeleteParams) (*V1CustomCloudTypeClusterTemplateDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4176,7 +4182,7 @@ func (a *Client) V1CustomCloudTypeClusterTemplateDelete(params *V1CustomCloudTyp
 }
 
 /*
-V1CustomCloudTypeClusterTemplateGet returns the custom cloud type cluster template
+  V1CustomCloudTypeClusterTemplateGet returns the custom cloud type cluster template
 */
 func (a *Client) V1CustomCloudTypeClusterTemplateGet(params *V1CustomCloudTypeClusterTemplateGetParams) (*V1CustomCloudTypeClusterTemplateGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4210,7 +4216,7 @@ func (a *Client) V1CustomCloudTypeClusterTemplateGet(params *V1CustomCloudTypeCl
 }
 
 /*
-V1CustomCloudTypeClusterTemplateUpdate updates the custom cloud type cluster template
+  V1CustomCloudTypeClusterTemplateUpdate updates the custom cloud type cluster template
 */
 func (a *Client) V1CustomCloudTypeClusterTemplateUpdate(params *V1CustomCloudTypeClusterTemplateUpdateParams) (*V1CustomCloudTypeClusterTemplateUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4244,7 +4250,7 @@ func (a *Client) V1CustomCloudTypeClusterTemplateUpdate(params *V1CustomCloudTyp
 }
 
 /*
-V1CustomCloudTypeControlPlaneDelete deletes the custom cloud type control plane
+  V1CustomCloudTypeControlPlaneDelete deletes the custom cloud type control plane
 */
 func (a *Client) V1CustomCloudTypeControlPlaneDelete(params *V1CustomCloudTypeControlPlaneDeleteParams) (*V1CustomCloudTypeControlPlaneDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4278,7 +4284,7 @@ func (a *Client) V1CustomCloudTypeControlPlaneDelete(params *V1CustomCloudTypeCo
 }
 
 /*
-V1CustomCloudTypeControlPlaneGet returns the custom cloud type control plane
+  V1CustomCloudTypeControlPlaneGet returns the custom cloud type control plane
 */
 func (a *Client) V1CustomCloudTypeControlPlaneGet(params *V1CustomCloudTypeControlPlaneGetParams) (*V1CustomCloudTypeControlPlaneGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4312,7 +4318,7 @@ func (a *Client) V1CustomCloudTypeControlPlaneGet(params *V1CustomCloudTypeContr
 }
 
 /*
-V1CustomCloudTypeControlPlanePoolTemplateDelete deletes the custom cloud type control plane pool template
+  V1CustomCloudTypeControlPlanePoolTemplateDelete deletes the custom cloud type control plane pool template
 */
 func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateDelete(params *V1CustomCloudTypeControlPlanePoolTemplateDeleteParams) (*V1CustomCloudTypeControlPlanePoolTemplateDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4346,7 +4352,7 @@ func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateDelete(params *V1Custo
 }
 
 /*
-V1CustomCloudTypeControlPlanePoolTemplateGet returns the custom cloud type control plane pool template
+  V1CustomCloudTypeControlPlanePoolTemplateGet returns the custom cloud type control plane pool template
 */
 func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateGet(params *V1CustomCloudTypeControlPlanePoolTemplateGetParams) (*V1CustomCloudTypeControlPlanePoolTemplateGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4380,7 +4386,7 @@ func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateGet(params *V1CustomCl
 }
 
 /*
-V1CustomCloudTypeControlPlanePoolTemplateUpdate updates the custom cloud type control plane pool template
+  V1CustomCloudTypeControlPlanePoolTemplateUpdate updates the custom cloud type control plane pool template
 */
 func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateUpdate(params *V1CustomCloudTypeControlPlanePoolTemplateUpdateParams) (*V1CustomCloudTypeControlPlanePoolTemplateUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4414,7 +4420,7 @@ func (a *Client) V1CustomCloudTypeControlPlanePoolTemplateUpdate(params *V1Custo
 }
 
 /*
-V1CustomCloudTypeControlPlaneUpdate updates the custom cloud type control plane
+  V1CustomCloudTypeControlPlaneUpdate updates the custom cloud type control plane
 */
 func (a *Client) V1CustomCloudTypeControlPlaneUpdate(params *V1CustomCloudTypeControlPlaneUpdateParams) (*V1CustomCloudTypeControlPlaneUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4448,7 +4454,7 @@ func (a *Client) V1CustomCloudTypeControlPlaneUpdate(params *V1CustomCloudTypeCo
 }
 
 /*
-V1CustomCloudTypeLogoGet returns the custom cloud type logo
+  V1CustomCloudTypeLogoGet returns the custom cloud type logo
 */
 func (a *Client) V1CustomCloudTypeLogoGet(params *V1CustomCloudTypeLogoGetParams, writer io.Writer) (*V1CustomCloudTypeLogoGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4482,7 +4488,7 @@ func (a *Client) V1CustomCloudTypeLogoGet(params *V1CustomCloudTypeLogoGetParams
 }
 
 /*
-V1CustomCloudTypeLogoUpdate updates the custom cloud type logo
+  V1CustomCloudTypeLogoUpdate updates the custom cloud type logo
 */
 func (a *Client) V1CustomCloudTypeLogoUpdate(params *V1CustomCloudTypeLogoUpdateParams) (*V1CustomCloudTypeLogoUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4516,7 +4522,7 @@ func (a *Client) V1CustomCloudTypeLogoUpdate(params *V1CustomCloudTypeLogoUpdate
 }
 
 /*
-V1CustomCloudTypeMetaGet returns the custom cloud type meta
+  V1CustomCloudTypeMetaGet returns the custom cloud type meta
 */
 func (a *Client) V1CustomCloudTypeMetaGet(params *V1CustomCloudTypeMetaGetParams) (*V1CustomCloudTypeMetaGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4550,7 +4556,7 @@ func (a *Client) V1CustomCloudTypeMetaGet(params *V1CustomCloudTypeMetaGetParams
 }
 
 /*
-V1CustomCloudTypeMetaUpdate updates the custom cloud type meta
+  V1CustomCloudTypeMetaUpdate updates the custom cloud type meta
 */
 func (a *Client) V1CustomCloudTypeMetaUpdate(params *V1CustomCloudTypeMetaUpdateParams) (*V1CustomCloudTypeMetaUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4584,7 +4590,7 @@ func (a *Client) V1CustomCloudTypeMetaUpdate(params *V1CustomCloudTypeMetaUpdate
 }
 
 /*
-V1CustomCloudTypeRegister registers the custom cloud type
+  V1CustomCloudTypeRegister registers the custom cloud type
 */
 func (a *Client) V1CustomCloudTypeRegister(params *V1CustomCloudTypeRegisterParams) (*V1CustomCloudTypeRegisterCreated, error) {
 	// TODO: Validate the params before sending
@@ -4618,7 +4624,7 @@ func (a *Client) V1CustomCloudTypeRegister(params *V1CustomCloudTypeRegisterPara
 }
 
 /*
-V1CustomCloudTypeWorkerPoolTemplateDelete deletes the custom cloud type worker pool template
+  V1CustomCloudTypeWorkerPoolTemplateDelete deletes the custom cloud type worker pool template
 */
 func (a *Client) V1CustomCloudTypeWorkerPoolTemplateDelete(params *V1CustomCloudTypeWorkerPoolTemplateDeleteParams) (*V1CustomCloudTypeWorkerPoolTemplateDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4652,7 +4658,7 @@ func (a *Client) V1CustomCloudTypeWorkerPoolTemplateDelete(params *V1CustomCloud
 }
 
 /*
-V1CustomCloudTypeWorkerPoolTemplateGet returns the custom cloud type worker pool template
+  V1CustomCloudTypeWorkerPoolTemplateGet returns the custom cloud type worker pool template
 */
 func (a *Client) V1CustomCloudTypeWorkerPoolTemplateGet(params *V1CustomCloudTypeWorkerPoolTemplateGetParams) (*V1CustomCloudTypeWorkerPoolTemplateGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4686,7 +4692,7 @@ func (a *Client) V1CustomCloudTypeWorkerPoolTemplateGet(params *V1CustomCloudTyp
 }
 
 /*
-V1CustomCloudTypeWorkerPoolTemplateUpdate updates the custom cloud type worker pool template
+  V1CustomCloudTypeWorkerPoolTemplateUpdate updates the custom cloud type worker pool template
 */
 func (a *Client) V1CustomCloudTypeWorkerPoolTemplateUpdate(params *V1CustomCloudTypeWorkerPoolTemplateUpdateParams) (*V1CustomCloudTypeWorkerPoolTemplateUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4720,7 +4726,7 @@ func (a *Client) V1CustomCloudTypeWorkerPoolTemplateUpdate(params *V1CustomCloud
 }
 
 /*
-V1CustomCloudTypesDelete deletes the custom cloud type
+  V1CustomCloudTypesDelete deletes the custom cloud type
 */
 func (a *Client) V1CustomCloudTypesDelete(params *V1CustomCloudTypesDeleteParams) (*V1CustomCloudTypesDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4754,7 +4760,7 @@ func (a *Client) V1CustomCloudTypesDelete(params *V1CustomCloudTypesDeleteParams
 }
 
 /*
-V1CustomCloudTypesGet returns the custom cloud types
+  V1CustomCloudTypesGet returns the custom cloud types
 */
 func (a *Client) V1CustomCloudTypesGet(params *V1CustomCloudTypesGetParams) (*V1CustomCloudTypesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -4788,7 +4794,7 @@ func (a *Client) V1CustomCloudTypesGet(params *V1CustomCloudTypesGetParams) (*V1
 }
 
 /*
-V1DashboardVMEnabledClustersList retrieves a list of virtual machine enabled clusters
+  V1DashboardVMEnabledClustersList retrieves a list of virtual machine enabled clusters
 */
 func (a *Client) V1DashboardVMEnabledClustersList(params *V1DashboardVMEnabledClustersListParams) (*V1DashboardVMEnabledClustersListOK, error) {
 	// TODO: Validate the params before sending
@@ -4822,9 +4828,9 @@ func (a *Client) V1DashboardVMEnabledClustersList(params *V1DashboardVMEnabledCl
 }
 
 /*
-V1DataSinksCloudWatchSink syncs data to cloud watch
+  V1DataSinksCloudWatchSink syncs data to cloud watch
 
-Sync data to cloud watch
+  Sync data to cloud watch
 */
 func (a *Client) V1DataSinksCloudWatchSink(params *V1DataSinksCloudWatchSinkParams) (*V1DataSinksCloudWatchSinkNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4858,7 +4864,7 @@ func (a *Client) V1DataSinksCloudWatchSink(params *V1DataSinksCloudWatchSinkPara
 }
 
 /*
-V1EdgeHostsUIDReset resets the cluster through edge host
+  V1EdgeHostsUIDReset resets the cluster through edge host
 */
 func (a *Client) V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1EdgeHostsUIDResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4892,7 +4898,7 @@ func (a *Client) V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1Edge
 }
 
 /*
-V1EksPropertiesValidate validates e k s properties
+  V1EksPropertiesValidate validates e k s properties
 */
 func (a *Client) V1EksPropertiesValidate(params *V1EksPropertiesValidateParams) (*V1EksPropertiesValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4926,7 +4932,7 @@ func (a *Client) V1EksPropertiesValidate(params *V1EksPropertiesValidateParams) 
 }
 
 /*
-V1GcpAccountValidate validates the specified g c p account credentials
+  V1GcpAccountValidate validates the specified g c p account credentials
 */
 func (a *Client) V1GcpAccountValidate(params *V1GcpAccountValidateParams) (*V1GcpAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -4960,7 +4966,7 @@ func (a *Client) V1GcpAccountValidate(params *V1GcpAccountValidateParams) (*V1Gc
 }
 
 /*
-V1GcpAvailabilityZones retrieves a list of g c p zones for the specified account
+  V1GcpAvailabilityZones retrieves a list of g c p zones for the specified account
 */
 func (a *Client) V1GcpAvailabilityZones(params *V1GcpAvailabilityZonesParams) (*V1GcpAvailabilityZonesOK, error) {
 	// TODO: Validate the params before sending
@@ -4994,7 +5000,7 @@ func (a *Client) V1GcpAvailabilityZones(params *V1GcpAvailabilityZonesParams) (*
 }
 
 /*
-V1GcpAzValidate validates the specified g c p az
+  V1GcpAzValidate validates the specified g c p az
 */
 func (a *Client) V1GcpAzValidate(params *V1GcpAzValidateParams) (*V1GcpAzValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5028,7 +5034,7 @@ func (a *Client) V1GcpAzValidate(params *V1GcpAzValidateParams) (*V1GcpAzValidat
 }
 
 /*
-V1GcpBucketNameValidate validates the specified g c p bucket name credentials
+  V1GcpBucketNameValidate validates the specified g c p bucket name credentials
 */
 func (a *Client) V1GcpBucketNameValidate(params *V1GcpBucketNameValidateParams) (*V1GcpBucketNameValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5062,7 +5068,7 @@ func (a *Client) V1GcpBucketNameValidate(params *V1GcpBucketNameValidateParams) 
 }
 
 /*
-V1GcpContainerImageValidate validates the image with tag
+  V1GcpContainerImageValidate validates the image with tag
 */
 func (a *Client) V1GcpContainerImageValidate(params *V1GcpContainerImageValidateParams) (*V1GcpContainerImageValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5096,7 +5102,7 @@ func (a *Client) V1GcpContainerImageValidate(params *V1GcpContainerImageValidate
 }
 
 /*
-V1GcpImageURL returns the gcp image url for the specified image location
+  V1GcpImageURL returns the gcp image url for the specified image location
 */
 func (a *Client) V1GcpImageURL(params *V1GcpImageURLParams) (*V1GcpImageURLOK, error) {
 	// TODO: Validate the params before sending
@@ -5130,7 +5136,7 @@ func (a *Client) V1GcpImageURL(params *V1GcpImageURLParams) (*V1GcpImageURLOK, e
 }
 
 /*
-V1GcpInstanceTypes retrieves a list of g c p instance types
+  V1GcpInstanceTypes retrieves a list of g c p instance types
 */
 func (a *Client) V1GcpInstanceTypes(params *V1GcpInstanceTypesParams) (*V1GcpInstanceTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -5164,7 +5170,7 @@ func (a *Client) V1GcpInstanceTypes(params *V1GcpInstanceTypesParams) (*V1GcpIns
 }
 
 /*
-V1GcpNetworks retrieves a list of g c p networks for the specified account
+  V1GcpNetworks retrieves a list of g c p networks for the specified account
 */
 func (a *Client) V1GcpNetworks(params *V1GcpNetworksParams) (*V1GcpNetworksOK, error) {
 	// TODO: Validate the params before sending
@@ -5198,7 +5204,7 @@ func (a *Client) V1GcpNetworks(params *V1GcpNetworksParams) (*V1GcpNetworksOK, e
 }
 
 /*
-V1GcpProjectValidate validates the specified g c p project
+  V1GcpProjectValidate validates the specified g c p project
 */
 func (a *Client) V1GcpProjectValidate(params *V1GcpProjectValidateParams) (*V1GcpProjectValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5232,7 +5238,7 @@ func (a *Client) V1GcpProjectValidate(params *V1GcpProjectValidateParams) (*V1Gc
 }
 
 /*
-V1GcpProjects retrieves a list of g c p projects for the specified account
+  V1GcpProjects retrieves a list of g c p projects for the specified account
 */
 func (a *Client) V1GcpProjects(params *V1GcpProjectsParams) (*V1GcpProjectsOK, error) {
 	// TODO: Validate the params before sending
@@ -5266,7 +5272,7 @@ func (a *Client) V1GcpProjects(params *V1GcpProjectsParams) (*V1GcpProjectsOK, e
 }
 
 /*
-V1GcpPropertiesValidate validates g c p properties
+  V1GcpPropertiesValidate validates g c p properties
 */
 func (a *Client) V1GcpPropertiesValidate(params *V1GcpPropertiesValidateParams) (*V1GcpPropertiesValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5300,7 +5306,7 @@ func (a *Client) V1GcpPropertiesValidate(params *V1GcpPropertiesValidateParams) 
 }
 
 /*
-V1GcpRegions retrieves a list of g c p regions
+  V1GcpRegions retrieves a list of g c p regions
 */
 func (a *Client) V1GcpRegions(params *V1GcpRegionsParams) (*V1GcpRegionsOK, error) {
 	// TODO: Validate the params before sending
@@ -5334,7 +5340,7 @@ func (a *Client) V1GcpRegions(params *V1GcpRegionsParams) (*V1GcpRegionsOK, erro
 }
 
 /*
-V1GcpStorageTypes retrieves a list of gcp storage types
+  V1GcpStorageTypes retrieves a list of gcp storage types
 */
 func (a *Client) V1GcpStorageTypes(params *V1GcpStorageTypesParams) (*V1GcpStorageTypesOK, error) {
 	// TODO: Validate the params before sending
@@ -5368,7 +5374,7 @@ func (a *Client) V1GcpStorageTypes(params *V1GcpStorageTypesParams) (*V1GcpStora
 }
 
 /*
-V1GcpZones retrieves a list of g c p zones for the specified account and region
+  V1GcpZones retrieves a list of g c p zones for the specified account and region
 */
 func (a *Client) V1GcpZones(params *V1GcpZonesParams) (*V1GcpZonesOK, error) {
 	// TODO: Validate the params before sending
@@ -5402,7 +5408,7 @@ func (a *Client) V1GcpZones(params *V1GcpZonesParams) (*V1GcpZonesOK, error) {
 }
 
 /*
-V1HostClusterConfigUpdate updates the specified cluster host config
+  V1HostClusterConfigUpdate updates the specified cluster host config
 */
 func (a *Client) V1HostClusterConfigUpdate(params *V1HostClusterConfigUpdateParams) (*V1HostClusterConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5436,7 +5442,7 @@ func (a *Client) V1HostClusterConfigUpdate(params *V1HostClusterConfigUpdatePara
 }
 
 /*
-V1InvoiceUIDReportInvoicePdf downloads the specified invoice report
+  V1InvoiceUIDReportInvoicePdf downloads the specified invoice report
 */
 func (a *Client) V1InvoiceUIDReportInvoicePdf(params *V1InvoiceUIDReportInvoicePdfParams, writer io.Writer) (*V1InvoiceUIDReportInvoicePdfOK, error) {
 	// TODO: Validate the params before sending
@@ -5470,7 +5476,7 @@ func (a *Client) V1InvoiceUIDReportInvoicePdf(params *V1InvoiceUIDReportInvoiceP
 }
 
 /*
-V1InvoiceUIDReportPdf downloads the specified monthly invoice report
+  V1InvoiceUIDReportPdf downloads the specified monthly invoice report
 */
 func (a *Client) V1InvoiceUIDReportPdf(params *V1InvoiceUIDReportPdfParams, writer io.Writer) (*V1InvoiceUIDReportPdfOK, error) {
 	// TODO: Validate the params before sending
@@ -5504,7 +5510,7 @@ func (a *Client) V1InvoiceUIDReportPdf(params *V1InvoiceUIDReportPdfParams, writ
 }
 
 /*
-V1InvoiceUIDReportUsagePdf downloads the specified tenant usage
+  V1InvoiceUIDReportUsagePdf downloads the specified tenant usage
 */
 func (a *Client) V1InvoiceUIDReportUsagePdf(params *V1InvoiceUIDReportUsagePdfParams, writer io.Writer) (*V1InvoiceUIDReportUsagePdfOK, error) {
 	// TODO: Validate the params before sending
@@ -5538,9 +5544,9 @@ func (a *Client) V1InvoiceUIDReportUsagePdf(params *V1InvoiceUIDReportUsagePdfPa
 }
 
 /*
-V1MaasAccountValidate checks if maas account is valid
+  V1MaasAccountValidate checks if maas account is valid
 
-Returns no contents if account is valid else error.
+  Returns no contents if account is valid else error.
 */
 func (a *Client) V1MaasAccountValidate(params *V1MaasAccountValidateParams) (*V1MaasAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5574,7 +5580,7 @@ func (a *Client) V1MaasAccountValidate(params *V1MaasAccountValidateParams) (*V1
 }
 
 /*
-V1MaasDomainsGet retrieves a list of maas domains
+  V1MaasDomainsGet retrieves a list of maas domains
 */
 func (a *Client) V1MaasDomainsGet(params *V1MaasDomainsGetParams) (*V1MaasDomainsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5608,7 +5614,7 @@ func (a *Client) V1MaasDomainsGet(params *V1MaasDomainsGetParams) (*V1MaasDomain
 }
 
 /*
-V1MaasPoolsGet retrieves a list of maas pools for a particular account uid
+  V1MaasPoolsGet retrieves a list of maas pools for a particular account uid
 */
 func (a *Client) V1MaasPoolsGet(params *V1MaasPoolsGetParams) (*V1MaasPoolsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5642,7 +5648,7 @@ func (a *Client) V1MaasPoolsGet(params *V1MaasPoolsGetParams) (*V1MaasPoolsGetOK
 }
 
 /*
-V1MaasSubnetsGet retrieves a list of maas subnets for a particular account uid
+  V1MaasSubnetsGet retrieves a list of maas subnets for a particular account uid
 */
 func (a *Client) V1MaasSubnetsGet(params *V1MaasSubnetsGetParams) (*V1MaasSubnetsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5676,7 +5682,7 @@ func (a *Client) V1MaasSubnetsGet(params *V1MaasSubnetsGetParams) (*V1MaasSubnet
 }
 
 /*
-V1MaasTagsGet retrieves a list of maas tags for a particular account uid
+  V1MaasTagsGet retrieves a list of maas tags for a particular account uid
 */
 func (a *Client) V1MaasTagsGet(params *V1MaasTagsGetParams) (*V1MaasTagsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5710,7 +5716,7 @@ func (a *Client) V1MaasTagsGet(params *V1MaasTagsGetParams) (*V1MaasTagsGetOK, e
 }
 
 /*
-V1MaasZonesGet retrieves a list of maas zones for a particular account uid
+  V1MaasZonesGet retrieves a list of maas zones for a particular account uid
 */
 func (a *Client) V1MaasZonesGet(params *V1MaasZonesGetParams) (*V1MaasZonesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5744,9 +5750,9 @@ func (a *Client) V1MaasZonesGet(params *V1MaasZonesGetParams) (*V1MaasZonesGetOK
 }
 
 /*
-V1OidcCallback idps authorization code callback
+  V1OidcCallback idps authorization code callback
 
-Returns the Authorization token for the palette. This is called by the IDP as a callback url after IDP authenticates the user with its server.
+  Returns the Authorization token for the palette. This is called by the IDP as a callback url after IDP authenticates the user with its server.
 */
 func (a *Client) V1OidcCallback(params *V1OidcCallbackParams) (*V1OidcCallbackOK, error) {
 	// TODO: Validate the params before sending
@@ -5780,9 +5786,9 @@ func (a *Client) V1OidcCallback(params *V1OidcCallbackParams) (*V1OidcCallbackOK
 }
 
 /*
-V1OidcLogout identities provider logout url for the oidc
+  V1OidcLogout identities provider logout url for the oidc
 
-Returns No Content. Works as a callback url after the IDP logout from their server.
+  Returns No Content. Works as a callback url after the IDP logout from their server.
 */
 func (a *Client) V1OidcLogout(params *V1OidcLogoutParams) (*V1OidcLogoutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5816,9 +5822,9 @@ func (a *Client) V1OidcLogout(params *V1OidcLogoutParams) (*V1OidcLogoutNoConten
 }
 
 /*
-V1OpenStackAccountValidate checks if open stack account is valid
+  V1OpenStackAccountValidate checks if open stack account is valid
 
-Returns no contents if account is valid else error.
+  Returns no contents if account is valid else error.
 */
 func (a *Client) V1OpenStackAccountValidate(params *V1OpenStackAccountValidateParams) (*V1OpenStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -5852,7 +5858,7 @@ func (a *Client) V1OpenStackAccountValidate(params *V1OpenStackAccountValidatePa
 }
 
 /*
-V1OpenStackAzsGet retrieves a list of open stack azs for a particular account uid
+  V1OpenStackAzsGet retrieves a list of open stack azs for a particular account uid
 */
 func (a *Client) V1OpenStackAzsGet(params *V1OpenStackAzsGetParams) (*V1OpenStackAzsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5886,7 +5892,7 @@ func (a *Client) V1OpenStackAzsGet(params *V1OpenStackAzsGetParams) (*V1OpenStac
 }
 
 /*
-V1OpenStackFlavorsGet returns the open stack flavors
+  V1OpenStackFlavorsGet returns the open stack flavors
 */
 func (a *Client) V1OpenStackFlavorsGet(params *V1OpenStackFlavorsGetParams) (*V1OpenStackFlavorsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5920,7 +5926,7 @@ func (a *Client) V1OpenStackFlavorsGet(params *V1OpenStackFlavorsGetParams) (*V1
 }
 
 /*
-V1OpenStackKeypairsGet returns the open stack keypair
+  V1OpenStackKeypairsGet returns the open stack keypair
 */
 func (a *Client) V1OpenStackKeypairsGet(params *V1OpenStackKeypairsGetParams) (*V1OpenStackKeypairsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5954,7 +5960,7 @@ func (a *Client) V1OpenStackKeypairsGet(params *V1OpenStackKeypairsGetParams) (*
 }
 
 /*
-V1OpenStackNetworksGet returns the open stack networks
+  V1OpenStackNetworksGet returns the open stack networks
 */
 func (a *Client) V1OpenStackNetworksGet(params *V1OpenStackNetworksGetParams) (*V1OpenStackNetworksGetOK, error) {
 	// TODO: Validate the params before sending
@@ -5988,7 +5994,7 @@ func (a *Client) V1OpenStackNetworksGet(params *V1OpenStackNetworksGetParams) (*
 }
 
 /*
-V1OpenStackProjectsGet returns the open stack projects
+  V1OpenStackProjectsGet returns the open stack projects
 */
 func (a *Client) V1OpenStackProjectsGet(params *V1OpenStackProjectsGetParams) (*V1OpenStackProjectsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6022,7 +6028,7 @@ func (a *Client) V1OpenStackProjectsGet(params *V1OpenStackProjectsGetParams) (*
 }
 
 /*
-V1OpenStackRegionsGet returns the open stack regions
+  V1OpenStackRegionsGet returns the open stack regions
 */
 func (a *Client) V1OpenStackRegionsGet(params *V1OpenStackRegionsGetParams) (*V1OpenStackRegionsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6056,7 +6062,7 @@ func (a *Client) V1OpenStackRegionsGet(params *V1OpenStackRegionsGetParams) (*V1
 }
 
 /*
-V1OverlordsMaasManifest returns the manifests required for the private gateway installation
+  V1OverlordsMaasManifest returns the manifests required for the private gateway installation
 */
 func (a *Client) V1OverlordsMaasManifest(params *V1OverlordsMaasManifestParams) (*V1OverlordsMaasManifestOK, error) {
 	// TODO: Validate the params before sending
@@ -6090,7 +6096,7 @@ func (a *Client) V1OverlordsMaasManifest(params *V1OverlordsMaasManifestParams) 
 }
 
 /*
-V1OverlordsMigrate migrates all the clusters from source overlord to target overlord
+  V1OverlordsMigrate migrates all the clusters from source overlord to target overlord
 */
 func (a *Client) V1OverlordsMigrate(params *V1OverlordsMigrateParams) (*V1OverlordsMigrateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6124,7 +6130,7 @@ func (a *Client) V1OverlordsMigrate(params *V1OverlordsMigrateParams) (*V1Overlo
 }
 
 /*
-V1OverlordsUIDMaasCloudConfigCreate creates the maas cloud config for the private gateway
+  V1OverlordsUIDMaasCloudConfigCreate creates the maas cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDMaasCloudConfigCreate(params *V1OverlordsUIDMaasCloudConfigCreateParams) (*V1OverlordsUIDMaasCloudConfigCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -6158,7 +6164,7 @@ func (a *Client) V1OverlordsUIDMaasCloudConfigCreate(params *V1OverlordsUIDMaasC
 }
 
 /*
-V1OverlordsUIDMaasCloudConfigUpdate updates the maas cloud config for the private gateway
+  V1OverlordsUIDMaasCloudConfigUpdate updates the maas cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDMaasCloudConfigUpdate(params *V1OverlordsUIDMaasCloudConfigUpdateParams) (*V1OverlordsUIDMaasCloudConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6192,7 +6198,7 @@ func (a *Client) V1OverlordsUIDMaasCloudConfigUpdate(params *V1OverlordsUIDMaasC
 }
 
 /*
-V1PasswordsBlockListDelete deletes a list of block listed passwords
+  V1PasswordsBlockListDelete deletes a list of block listed passwords
 */
 func (a *Client) V1PasswordsBlockListDelete(params *V1PasswordsBlockListDeleteParams) (*V1PasswordsBlockListDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6226,7 +6232,7 @@ func (a *Client) V1PasswordsBlockListDelete(params *V1PasswordsBlockListDeletePa
 }
 
 /*
-V1PasswordsBlockListUpdate lists of block listed passwords
+  V1PasswordsBlockListUpdate lists of block listed passwords
 */
 func (a *Client) V1PasswordsBlockListUpdate(params *V1PasswordsBlockListUpdateParams) (*V1PasswordsBlockListUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6260,9 +6266,9 @@ func (a *Client) V1PasswordsBlockListUpdate(params *V1PasswordsBlockListUpdatePa
 }
 
 /*
-V1RegistriesHelmValidate checks if helm registry is valid
+  V1RegistriesHelmValidate checks if helm registry is valid
 
-Returns no contents if helm registry is valid else error.
+  Returns no contents if helm registry is valid else error.
 */
 func (a *Client) V1RegistriesHelmValidate(params *V1RegistriesHelmValidateParams) (*V1RegistriesHelmValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6296,9 +6302,9 @@ func (a *Client) V1RegistriesHelmValidate(params *V1RegistriesHelmValidateParams
 }
 
 /*
-V1RegistriesPackValidate checks if pack registry is valid
+  V1RegistriesPackValidate checks if pack registry is valid
 
-Returns no contents if pack registry is valid else error.
+  Returns no contents if pack registry is valid else error.
 */
 func (a *Client) V1RegistriesPackValidate(params *V1RegistriesPackValidateParams) (*V1RegistriesPackValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6332,9 +6338,9 @@ func (a *Client) V1RegistriesPackValidate(params *V1RegistriesPackValidateParams
 }
 
 /*
-V1SamlCallback identities provider callback url for the s m a l authentication
+  V1SamlCallback identities provider callback url for the s m a l authentication
 
-Returns the Authorization token for the palette. This is called by the SAML based IDP as a callback url after IDP authenticates the user with its server.
+  Returns the Authorization token for the palette. This is called by the SAML based IDP as a callback url after IDP authenticates the user with its server.
 */
 func (a *Client) V1SamlCallback(params *V1SamlCallbackParams) (*V1SamlCallbackOK, error) {
 	// TODO: Validate the params before sending
@@ -6368,9 +6374,9 @@ func (a *Client) V1SamlCallback(params *V1SamlCallbackParams) (*V1SamlCallbackOK
 }
 
 /*
-V1SamlLogout identities provider logout url for the s m a l
+  V1SamlLogout identities provider logout url for the s m a l
 
-Returns No Content. Works as a callback url after the IDP logout from their server.
+  Returns No Content. Works as a callback url after the IDP logout from their server.
 */
 func (a *Client) V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6404,7 +6410,7 @@ func (a *Client) V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoConten
 }
 
 /*
-V1SpectroClustersUIDKubeCtlRedirect returns the specified cluster s kube config file
+  V1SpectroClustersUIDKubeCtlRedirect returns the specified cluster s kube config file
 */
 func (a *Client) V1SpectroClustersUIDKubeCtlRedirect(params *V1SpectroClustersUIDKubeCtlRedirectParams) (*V1SpectroClustersUIDKubeCtlRedirectOK, error) {
 	// TODO: Validate the params before sending
@@ -6438,7 +6444,7 @@ func (a *Client) V1SpectroClustersUIDKubeCtlRedirect(params *V1SpectroClustersUI
 }
 
 /*
-V1SpectroClustersUIDOIDC returns k8s spectrocluster oidc
+  V1SpectroClustersUIDOIDC returns k8s spectrocluster oidc
 */
 func (a *Client) V1SpectroClustersUIDOIDC(params *V1SpectroClustersUIDOIDCParams) (*V1SpectroClustersUIDOIDCOK, error) {
 	// TODO: Validate the params before sending
@@ -6472,7 +6478,7 @@ func (a *Client) V1SpectroClustersUIDOIDC(params *V1SpectroClustersUIDOIDCParams
 }
 
 /*
-V1SpectroClustersUIDOIDCDashboardURL returns k8s dashboard url
+  V1SpectroClustersUIDOIDCDashboardURL returns k8s dashboard url
 */
 func (a *Client) V1SpectroClustersUIDOIDCDashboardURL(params *V1SpectroClustersUIDOIDCDashboardURLParams) (*V1SpectroClustersUIDOIDCDashboardURLOK, error) {
 	// TODO: Validate the params before sending
@@ -6506,7 +6512,7 @@ func (a *Client) V1SpectroClustersUIDOIDCDashboardURL(params *V1SpectroClustersU
 }
 
 /*
-V1SpectroClustersUIDReset resets the cluster s by deleting machine pools and condtions
+  V1SpectroClustersUIDReset resets the cluster s by deleting machine pools and condtions
 */
 func (a *Client) V1SpectroClustersUIDReset(params *V1SpectroClustersUIDResetParams) (*V1SpectroClustersUIDResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6540,9 +6546,9 @@ func (a *Client) V1SpectroClustersUIDReset(params *V1SpectroClustersUIDResetPara
 }
 
 /*
-V1SsoCallback returns authorization token works as a callback url for the system defined sso apps
+  V1SsoCallback returns authorization token works as a callback url for the system defined sso apps
 
-Returns Authorization token. Works as a callback url for the system defined sso apps
+  Returns Authorization token. Works as a callback url for the system defined sso apps
 */
 func (a *Client) V1SsoCallback(params *V1SsoCallbackParams) (*V1SsoCallbackOK, error) {
 	// TODO: Validate the params before sending
@@ -6576,9 +6582,9 @@ func (a *Client) V1SsoCallback(params *V1SsoCallbackParams) (*V1SsoCallbackOK, e
 }
 
 /*
-V1SsoIdps returns a list of predefined identity provider ID p
+  V1SsoIdps returns a list of predefined identity provider ID p
 
-Returns a list of predefined Identity Provider (IDP)
+  Returns a list of predefined Identity Provider (IDP)
 */
 func (a *Client) V1SsoIdps(params *V1SsoIdpsParams) (*V1SsoIdpsOK, error) {
 	// TODO: Validate the params before sending
@@ -6612,9 +6618,9 @@ func (a *Client) V1SsoIdps(params *V1SsoIdpsParams) (*V1SsoIdpsOK, error) {
 }
 
 /*
-V1SsoLogins returns a list of supported sso logins
+  V1SsoLogins returns a list of supported sso logins
 
-Returns a list of supported sso logins and their authentication mechanism
+  Returns a list of supported sso logins and their authentication mechanism
 */
 func (a *Client) V1SsoLogins(params *V1SsoLoginsParams) (*V1SsoLoginsOK, error) {
 	// TODO: Validate the params before sending
@@ -6648,7 +6654,7 @@ func (a *Client) V1SsoLogins(params *V1SsoLoginsParams) (*V1SsoLoginsOK, error) 
 }
 
 /*
-V1SystemConfigReverseProxyGet gets the system config reverse proxy
+  V1SystemConfigReverseProxyGet gets the system config reverse proxy
 */
 func (a *Client) V1SystemConfigReverseProxyGet(params *V1SystemConfigReverseProxyGetParams) (*V1SystemConfigReverseProxyGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6682,7 +6688,7 @@ func (a *Client) V1SystemConfigReverseProxyGet(params *V1SystemConfigReverseProx
 }
 
 /*
-V1SystemConfigReverseProxyUpdate updates the system config reverse proxy
+  V1SystemConfigReverseProxyUpdate updates the system config reverse proxy
 */
 func (a *Client) V1SystemConfigReverseProxyUpdate(params *V1SystemConfigReverseProxyUpdateParams) (*V1SystemConfigReverseProxyUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6716,7 +6722,7 @@ func (a *Client) V1SystemConfigReverseProxyUpdate(params *V1SystemConfigReverseP
 }
 
 /*
-V1TeamsUIDTenantRolesGet returns the specified team s tenant roles
+  V1TeamsUIDTenantRolesGet returns the specified team s tenant roles
 */
 func (a *Client) V1TeamsUIDTenantRolesGet(params *V1TeamsUIDTenantRolesGetParams) (*V1TeamsUIDTenantRolesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6750,7 +6756,7 @@ func (a *Client) V1TeamsUIDTenantRolesGet(params *V1TeamsUIDTenantRolesGetParams
 }
 
 /*
-V1TeamsUIDTenantRolesUpdate updates the tenant roles of the specified team
+  V1TeamsUIDTenantRolesUpdate updates the tenant roles of the specified team
 */
 func (a *Client) V1TeamsUIDTenantRolesUpdate(params *V1TeamsUIDTenantRolesUpdateParams) (*V1TeamsUIDTenantRolesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6784,7 +6790,7 @@ func (a *Client) V1TeamsUIDTenantRolesUpdate(params *V1TeamsUIDTenantRolesUpdate
 }
 
 /*
-V1TenantDeveloperCreditGet gets developer credit enabled for a specific tenant
+  V1TenantDeveloperCreditGet gets developer credit enabled for a specific tenant
 */
 func (a *Client) V1TenantDeveloperCreditGet(params *V1TenantDeveloperCreditGetParams) (*V1TenantDeveloperCreditGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6818,7 +6824,7 @@ func (a *Client) V1TenantDeveloperCreditGet(params *V1TenantDeveloperCreditGetPa
 }
 
 /*
-V1TenantDeveloperCreditUpdate updates developer credit for a specific tenant
+  V1TenantDeveloperCreditUpdate updates developer credit for a specific tenant
 */
 func (a *Client) V1TenantDeveloperCreditUpdate(params *V1TenantDeveloperCreditUpdateParams) (*V1TenantDeveloperCreditUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6852,7 +6858,7 @@ func (a *Client) V1TenantDeveloperCreditUpdate(params *V1TenantDeveloperCreditUp
 }
 
 /*
-V1TenantPrefClusterGroupGet gets is cluster group enabled for a specific tenant
+  V1TenantPrefClusterGroupGet gets is cluster group enabled for a specific tenant
 */
 func (a *Client) V1TenantPrefClusterGroupGet(params *V1TenantPrefClusterGroupGetParams) (*V1TenantPrefClusterGroupGetOK, error) {
 	// TODO: Validate the params before sending
@@ -6886,7 +6892,7 @@ func (a *Client) V1TenantPrefClusterGroupGet(params *V1TenantPrefClusterGroupGet
 }
 
 /*
-V1TenantPrefClusterGroupUpdate enables or disable cluster group for a specific tenant
+  V1TenantPrefClusterGroupUpdate enables or disable cluster group for a specific tenant
 */
 func (a *Client) V1TenantPrefClusterGroupUpdate(params *V1TenantPrefClusterGroupUpdateParams) (*V1TenantPrefClusterGroupUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -6920,7 +6926,7 @@ func (a *Client) V1TenantPrefClusterGroupUpdate(params *V1TenantPrefClusterGroup
 }
 
 /*
-V1TenantUIDAssetsCertsList lists the certificates for the tenant
+  V1TenantUIDAssetsCertsList lists the certificates for the tenant
 */
 func (a *Client) V1TenantUIDAssetsCertsList(params *V1TenantUIDAssetsCertsListParams) (*V1TenantUIDAssetsCertsListOK, error) {
 	// TODO: Validate the params before sending
@@ -6954,7 +6960,7 @@ func (a *Client) V1TenantUIDAssetsCertsList(params *V1TenantUIDAssetsCertsListPa
 }
 
 /*
-V1TenantUIDAssetsCertsCreate creates the tenant certificate
+  V1TenantUIDAssetsCertsCreate creates the tenant certificate
 */
 func (a *Client) V1TenantUIDAssetsCertsCreate(params *V1TenantUIDAssetsCertsCreateParams) (*V1TenantUIDAssetsCertsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -6988,7 +6994,7 @@ func (a *Client) V1TenantUIDAssetsCertsCreate(params *V1TenantUIDAssetsCertsCrea
 }
 
 /*
-V1TenantUIDAssetsCertsUIDDelete deletes the tenant certificate
+  V1TenantUIDAssetsCertsUIDDelete deletes the tenant certificate
 */
 func (a *Client) V1TenantUIDAssetsCertsUIDDelete(params *V1TenantUIDAssetsCertsUIDDeleteParams) (*V1TenantUIDAssetsCertsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7022,7 +7028,7 @@ func (a *Client) V1TenantUIDAssetsCertsUIDDelete(params *V1TenantUIDAssetsCertsU
 }
 
 /*
-V1TenantUIDAssetsCertsUIDGet returns the ca certificate for the tenant
+  V1TenantUIDAssetsCertsUIDGet returns the ca certificate for the tenant
 */
 func (a *Client) V1TenantUIDAssetsCertsUIDGet(params *V1TenantUIDAssetsCertsUIDGetParams) (*V1TenantUIDAssetsCertsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7056,7 +7062,7 @@ func (a *Client) V1TenantUIDAssetsCertsUIDGet(params *V1TenantUIDAssetsCertsUIDG
 }
 
 /*
-V1TenantUIDAssetsCertsUIDUpdate updates the tenant certificate
+  V1TenantUIDAssetsCertsUIDUpdate updates the tenant certificate
 */
 func (a *Client) V1TenantUIDAssetsCertsUIDUpdate(params *V1TenantUIDAssetsCertsUIDUpdateParams) (*V1TenantUIDAssetsCertsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7090,7 +7096,7 @@ func (a *Client) V1TenantUIDAssetsCertsUIDUpdate(params *V1TenantUIDAssetsCertsU
 }
 
 /*
-V1TenantUIDAssetsDataSinksCreate creates data sink config
+  V1TenantUIDAssetsDataSinksCreate creates data sink config
 */
 func (a *Client) V1TenantUIDAssetsDataSinksCreate(params *V1TenantUIDAssetsDataSinksCreateParams) (*V1TenantUIDAssetsDataSinksCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -7124,7 +7130,7 @@ func (a *Client) V1TenantUIDAssetsDataSinksCreate(params *V1TenantUIDAssetsDataS
 }
 
 /*
-V1TenantUIDAssetsDataSinksDelete deletes the tenant data sink config
+  V1TenantUIDAssetsDataSinksDelete deletes the tenant data sink config
 */
 func (a *Client) V1TenantUIDAssetsDataSinksDelete(params *V1TenantUIDAssetsDataSinksDeleteParams) (*V1TenantUIDAssetsDataSinksDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7158,7 +7164,7 @@ func (a *Client) V1TenantUIDAssetsDataSinksDelete(params *V1TenantUIDAssetsDataS
 }
 
 /*
-V1TenantUIDAssetsDataSinksGet returns data sink config of tenant
+  V1TenantUIDAssetsDataSinksGet returns data sink config of tenant
 */
 func (a *Client) V1TenantUIDAssetsDataSinksGet(params *V1TenantUIDAssetsDataSinksGetParams) (*V1TenantUIDAssetsDataSinksGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7192,7 +7198,7 @@ func (a *Client) V1TenantUIDAssetsDataSinksGet(params *V1TenantUIDAssetsDataSink
 }
 
 /*
-V1TenantUIDAssetsDataSinksUpdate updates the tenant data sink config
+  V1TenantUIDAssetsDataSinksUpdate updates the tenant data sink config
 */
 func (a *Client) V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataSinksUpdateParams) (*V1TenantUIDAssetsDataSinksUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7226,7 +7232,7 @@ func (a *Client) V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataS
 }
 
 /*
-V1TenantUIDDomainsGet retrieves the domains for tenant
+  V1TenantUIDDomainsGet retrieves the domains for tenant
 */
 func (a *Client) V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1TenantUIDDomainsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7260,7 +7266,7 @@ func (a *Client) V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1
 }
 
 /*
-V1TenantUIDDomainsUpdate creates or updates domains for tenant
+  V1TenantUIDDomainsUpdate creates or updates domains for tenant
 */
 func (a *Client) V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams) (*V1TenantUIDDomainsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7294,7 +7300,7 @@ func (a *Client) V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams
 }
 
 /*
-V1TenantUIDOidcConfigGet returns the oidc spec for tenant
+  V1TenantUIDOidcConfigGet returns the oidc spec for tenant
 */
 func (a *Client) V1TenantUIDOidcConfigGet(params *V1TenantUIDOidcConfigGetParams) (*V1TenantUIDOidcConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7328,7 +7334,7 @@ func (a *Client) V1TenantUIDOidcConfigGet(params *V1TenantUIDOidcConfigGetParams
 }
 
 /*
-V1TenantUIDOidcConfigUpdate associates the oidc spec for the tenant
+  V1TenantUIDOidcConfigUpdate associates the oidc spec for the tenant
 */
 func (a *Client) V1TenantUIDOidcConfigUpdate(params *V1TenantUIDOidcConfigUpdateParams) (*V1TenantUIDOidcConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7362,7 +7368,7 @@ func (a *Client) V1TenantUIDOidcConfigUpdate(params *V1TenantUIDOidcConfigUpdate
 }
 
 /*
-V1TenantUIDPasswordPolicyGet retrieves the password policy for tenant
+  V1TenantUIDPasswordPolicyGet retrieves the password policy for tenant
 */
 func (a *Client) V1TenantUIDPasswordPolicyGet(params *V1TenantUIDPasswordPolicyGetParams) (*V1TenantUIDPasswordPolicyGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7396,7 +7402,7 @@ func (a *Client) V1TenantUIDPasswordPolicyGet(params *V1TenantUIDPasswordPolicyG
 }
 
 /*
-V1TenantUIDPasswordPolicyUpdate creates or updates a password policy for tenant
+  V1TenantUIDPasswordPolicyUpdate creates or updates a password policy for tenant
 */
 func (a *Client) V1TenantUIDPasswordPolicyUpdate(params *V1TenantUIDPasswordPolicyUpdateParams) (*V1TenantUIDPasswordPolicyUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7430,7 +7436,7 @@ func (a *Client) V1TenantUIDPasswordPolicyUpdate(params *V1TenantUIDPasswordPoli
 }
 
 /*
-V1TenantUIDSamlConfigSpecGet returns the specified service provider metadata and saml spec for tenant
+  V1TenantUIDSamlConfigSpecGet returns the specified service provider metadata and saml spec for tenant
 */
 func (a *Client) V1TenantUIDSamlConfigSpecGet(params *V1TenantUIDSamlConfigSpecGetParams) (*V1TenantUIDSamlConfigSpecGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7464,7 +7470,7 @@ func (a *Client) V1TenantUIDSamlConfigSpecGet(params *V1TenantUIDSamlConfigSpecG
 }
 
 /*
-V1TenantUIDSamlConfigUpdate associates the specified federation metadata for the tenant
+  V1TenantUIDSamlConfigUpdate associates the specified federation metadata for the tenant
 */
 func (a *Client) V1TenantUIDSamlConfigUpdate(params *V1TenantUIDSamlConfigUpdateParams) (*V1TenantUIDSamlConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7498,7 +7504,7 @@ func (a *Client) V1TenantUIDSamlConfigUpdate(params *V1TenantUIDSamlConfigUpdate
 }
 
 /*
-V1TenantUIDSsoAuthProvidersGet gets sso logins for the tenants
+  V1TenantUIDSsoAuthProvidersGet gets sso logins for the tenants
 */
 func (a *Client) V1TenantUIDSsoAuthProvidersGet(params *V1TenantUIDSsoAuthProvidersGetParams) (*V1TenantUIDSsoAuthProvidersGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7532,7 +7538,7 @@ func (a *Client) V1TenantUIDSsoAuthProvidersGet(params *V1TenantUIDSsoAuthProvid
 }
 
 /*
-V1TenantUIDSsoAuthProvidersUpdate enables sso logins for the tenants
+  V1TenantUIDSsoAuthProvidersUpdate enables sso logins for the tenants
 */
 func (a *Client) V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthProvidersUpdateParams) (*V1TenantUIDSsoAuthProvidersUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7566,7 +7572,7 @@ func (a *Client) V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthPro
 }
 
 /*
-V1UsersConfigScarGet gets the system spectro repository restricted to edge services
+  V1UsersConfigScarGet gets the system spectro repository restricted to edge services
 */
 func (a *Client) V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error) {
 	// TODO: Validate the params before sending
@@ -7600,9 +7606,9 @@ func (a *Client) V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1Us
 }
 
 /*
-V1UsersKubectlSessionUID gets users kubectl session
+  V1UsersKubectlSessionUID gets users kubectl session
 
-gets users kubectl session
+  gets users kubectl session
 */
 func (a *Client) V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams) (*V1UsersKubectlSessionUIDOK, error) {
 	// TODO: Validate the params before sending
@@ -7636,9 +7642,9 @@ func (a *Client) V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams
 }
 
 /*
-V1UsersPasswordChange users password change request using the user email Id
+  V1UsersPasswordChange users password change request using the user email Id
 
-User password change request via current password and emailId
+  User password change request via current password and emailId
 */
 func (a *Client) V1UsersPasswordChange(params *V1UsersPasswordChangeParams) (*V1UsersPasswordChangeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7672,9 +7678,9 @@ func (a *Client) V1UsersPasswordChange(params *V1UsersPasswordChangeParams) (*V1
 }
 
 /*
-V1VsphereAccountValidate checks if vsphere account is valid
+  V1VsphereAccountValidate checks if vsphere account is valid
 
-Returns no contents if account is valid else error.
+  Returns no contents if account is valid else error.
 */
 func (a *Client) V1VsphereAccountValidate(params *V1VsphereAccountValidateParams) (*V1VsphereAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7708,7 +7714,7 @@ func (a *Client) V1VsphereAccountValidate(params *V1VsphereAccountValidateParams
 }
 
 /*
-V1VsphereComputeClusterResources returns the resources for vsphere compute cluster
+  V1VsphereComputeClusterResources returns the resources for vsphere compute cluster
 */
 func (a *Client) V1VsphereComputeClusterResources(params *V1VsphereComputeClusterResourcesParams) (*V1VsphereComputeClusterResourcesOK, error) {
 	// TODO: Validate the params before sending
@@ -7742,7 +7748,7 @@ func (a *Client) V1VsphereComputeClusterResources(params *V1VsphereComputeCluste
 }
 
 /*
-V1VsphereDatacenters returns the vsphere data centers
+  V1VsphereDatacenters returns the vsphere data centers
 */
 func (a *Client) V1VsphereDatacenters(params *V1VsphereDatacentersParams) (*V1VsphereDatacentersOK, error) {
 	// TODO: Validate the params before sending
@@ -7776,7 +7782,7 @@ func (a *Client) V1VsphereDatacenters(params *V1VsphereDatacentersParams) (*V1Vs
 }
 
 /*
-V1VsphereEnv retrieves vsphere env
+  V1VsphereEnv retrieves vsphere env
 */
 func (a *Client) V1VsphereEnv(params *V1VsphereEnvParams) (*V1VsphereEnvOK, error) {
 	// TODO: Validate the params before sending
@@ -7810,7 +7816,7 @@ func (a *Client) V1VsphereEnv(params *V1VsphereEnvParams) (*V1VsphereEnvOK, erro
 }
 
 /*
-V1AccountsGeolocationPatch updates the geolocation annotation
+  V1AccountsGeolocationPatch updates the geolocation annotation
 */
 func (a *Client) V1AccountsGeolocationPatch(params *V1AccountsGeolocationPatchParams) (*V1AccountsGeolocationPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7844,7 +7850,7 @@ func (a *Client) V1AccountsGeolocationPatch(params *V1AccountsGeolocationPatchPa
 }
 
 /*
-V1APIKeysCreate creates an API key
+  V1APIKeysCreate creates an API key
 */
 func (a *Client) V1APIKeysCreate(params *V1APIKeysCreateParams) (*V1APIKeysCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -7878,7 +7884,7 @@ func (a *Client) V1APIKeysCreate(params *V1APIKeysCreateParams) (*V1APIKeysCreat
 }
 
 /*
-V1APIKeysList retrieves a list of API keys
+  V1APIKeysList retrieves a list of API keys
 */
 func (a *Client) V1APIKeysList(params *V1APIKeysListParams) (*V1APIKeysListOK, error) {
 	// TODO: Validate the params before sending
@@ -7912,7 +7918,7 @@ func (a *Client) V1APIKeysList(params *V1APIKeysListParams) (*V1APIKeysListOK, e
 }
 
 /*
-V1APIKeysUIDActiveState activates or de active the specified API key
+  V1APIKeysUIDActiveState activates or de active the specified API key
 */
 func (a *Client) V1APIKeysUIDActiveState(params *V1APIKeysUIDActiveStateParams) (*V1APIKeysUIDActiveStateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7946,7 +7952,7 @@ func (a *Client) V1APIKeysUIDActiveState(params *V1APIKeysUIDActiveStateParams) 
 }
 
 /*
-V1APIKeysUIDDelete deletes the specified API key
+  V1APIKeysUIDDelete deletes the specified API key
 */
 func (a *Client) V1APIKeysUIDDelete(params *V1APIKeysUIDDeleteParams) (*V1APIKeysUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -7980,7 +7986,7 @@ func (a *Client) V1APIKeysUIDDelete(params *V1APIKeysUIDDeleteParams) (*V1APIKey
 }
 
 /*
-V1APIKeysUIDGet returns the specified API key
+  V1APIKeysUIDGet returns the specified API key
 */
 func (a *Client) V1APIKeysUIDGet(params *V1APIKeysUIDGetParams) (*V1APIKeysUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8014,7 +8020,7 @@ func (a *Client) V1APIKeysUIDGet(params *V1APIKeysUIDGetParams) (*V1APIKeysUIDGe
 }
 
 /*
-V1APIKeysUIDState revokes or re activate the API key access
+  V1APIKeysUIDState revokes or re activate the API key access
 */
 func (a *Client) V1APIKeysUIDState(params *V1APIKeysUIDStateParams) (*V1APIKeysUIDStateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8048,7 +8054,7 @@ func (a *Client) V1APIKeysUIDState(params *V1APIKeysUIDStateParams) (*V1APIKeysU
 }
 
 /*
-V1APIKeysUIDUpdate updates the specified API key
+  V1APIKeysUIDUpdate updates the specified API key
 */
 func (a *Client) V1APIKeysUIDUpdate(params *V1APIKeysUIDUpdateParams) (*V1APIKeysUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8082,7 +8088,7 @@ func (a *Client) V1APIKeysUIDUpdate(params *V1APIKeysUIDUpdateParams) (*V1APIKey
 }
 
 /*
-V1AppDeploymentsClusterGroupCreate creates a application deployment in one of virtual clusters in the cluster group
+  V1AppDeploymentsClusterGroupCreate creates a application deployment in one of virtual clusters in the cluster group
 */
 func (a *Client) V1AppDeploymentsClusterGroupCreate(params *V1AppDeploymentsClusterGroupCreateParams) (*V1AppDeploymentsClusterGroupCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -8116,7 +8122,7 @@ func (a *Client) V1AppDeploymentsClusterGroupCreate(params *V1AppDeploymentsClus
 }
 
 /*
-V1AppDeploymentsProfileTiersManifestsUIDGet returns the specified application deployment tier manifest information
+  V1AppDeploymentsProfileTiersManifestsUIDGet returns the specified application deployment tier manifest information
 */
 func (a *Client) V1AppDeploymentsProfileTiersManifestsUIDGet(params *V1AppDeploymentsProfileTiersManifestsUIDGetParams) (*V1AppDeploymentsProfileTiersManifestsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8150,7 +8156,7 @@ func (a *Client) V1AppDeploymentsProfileTiersManifestsUIDGet(params *V1AppDeploy
 }
 
 /*
-V1AppDeploymentsProfileTiersManifestsUIDUpdate updates the specified application deployment tier manifest information
+  V1AppDeploymentsProfileTiersManifestsUIDUpdate updates the specified application deployment tier manifest information
 */
 func (a *Client) V1AppDeploymentsProfileTiersManifestsUIDUpdate(params *V1AppDeploymentsProfileTiersManifestsUIDUpdateParams) (*V1AppDeploymentsProfileTiersManifestsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8184,7 +8190,7 @@ func (a *Client) V1AppDeploymentsProfileTiersManifestsUIDUpdate(params *V1AppDep
 }
 
 /*
-V1AppDeploymentsProfileTiersUIDGet returns the specified application deployment profile tier information
+  V1AppDeploymentsProfileTiersUIDGet returns the specified application deployment profile tier information
 */
 func (a *Client) V1AppDeploymentsProfileTiersUIDGet(params *V1AppDeploymentsProfileTiersUIDGetParams) (*V1AppDeploymentsProfileTiersUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8218,7 +8224,7 @@ func (a *Client) V1AppDeploymentsProfileTiersUIDGet(params *V1AppDeploymentsProf
 }
 
 /*
-V1AppDeploymentsProfileTiersUIDManifestsGet retrieves a list of manifests of the specified application deployment profile tier
+  V1AppDeploymentsProfileTiersUIDManifestsGet retrieves a list of manifests of the specified application deployment profile tier
 */
 func (a *Client) V1AppDeploymentsProfileTiersUIDManifestsGet(params *V1AppDeploymentsProfileTiersUIDManifestsGetParams) (*V1AppDeploymentsProfileTiersUIDManifestsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8252,7 +8258,7 @@ func (a *Client) V1AppDeploymentsProfileTiersUIDManifestsGet(params *V1AppDeploy
 }
 
 /*
-V1AppDeploymentsProfileTiersUIDUpdate updates the specified application deployment profile tier information
+  V1AppDeploymentsProfileTiersUIDUpdate updates the specified application deployment profile tier information
 */
 func (a *Client) V1AppDeploymentsProfileTiersUIDUpdate(params *V1AppDeploymentsProfileTiersUIDUpdateParams) (*V1AppDeploymentsProfileTiersUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8286,7 +8292,7 @@ func (a *Client) V1AppDeploymentsProfileTiersUIDUpdate(params *V1AppDeploymentsP
 }
 
 /*
-V1AppDeploymentsUIDDelete deletes the specified application deployment
+  V1AppDeploymentsUIDDelete deletes the specified application deployment
 */
 func (a *Client) V1AppDeploymentsUIDDelete(params *V1AppDeploymentsUIDDeleteParams) (*V1AppDeploymentsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8320,7 +8326,7 @@ func (a *Client) V1AppDeploymentsUIDDelete(params *V1AppDeploymentsUIDDeletePara
 }
 
 /*
-V1AppDeploymentsUIDGet returns the specified application deployment
+  V1AppDeploymentsUIDGet returns the specified application deployment
 */
 func (a *Client) V1AppDeploymentsUIDGet(params *V1AppDeploymentsUIDGetParams) (*V1AppDeploymentsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8354,7 +8360,7 @@ func (a *Client) V1AppDeploymentsUIDGet(params *V1AppDeploymentsUIDGetParams) (*
 }
 
 /*
-V1AppDeploymentsUIDProfileApply applies the application deployment profile updates
+  V1AppDeploymentsUIDProfileApply applies the application deployment profile updates
 */
 func (a *Client) V1AppDeploymentsUIDProfileApply(params *V1AppDeploymentsUIDProfileApplyParams) (*V1AppDeploymentsUIDProfileApplyNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8388,7 +8394,7 @@ func (a *Client) V1AppDeploymentsUIDProfileApply(params *V1AppDeploymentsUIDProf
 }
 
 /*
-V1AppDeploymentsUIDProfileGet returns profile of the specified application deployment
+  V1AppDeploymentsUIDProfileGet returns profile of the specified application deployment
 */
 func (a *Client) V1AppDeploymentsUIDProfileGet(params *V1AppDeploymentsUIDProfileGetParams) (*V1AppDeploymentsUIDProfileGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8422,7 +8428,7 @@ func (a *Client) V1AppDeploymentsUIDProfileGet(params *V1AppDeploymentsUIDProfil
 }
 
 /*
-V1AppDeploymentsUIDProfileUpdate updates the specified application deployment profile
+  V1AppDeploymentsUIDProfileUpdate updates the specified application deployment profile
 */
 func (a *Client) V1AppDeploymentsUIDProfileUpdate(params *V1AppDeploymentsUIDProfileUpdateParams) (*V1AppDeploymentsUIDProfileUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8456,7 +8462,7 @@ func (a *Client) V1AppDeploymentsUIDProfileUpdate(params *V1AppDeploymentsUIDPro
 }
 
 /*
-V1AppDeploymentsUIDProfileVersionsGet retrieves a list of profile versions of the specified application deployment
+  V1AppDeploymentsUIDProfileVersionsGet retrieves a list of profile versions of the specified application deployment
 */
 func (a *Client) V1AppDeploymentsUIDProfileVersionsGet(params *V1AppDeploymentsUIDProfileVersionsGetParams) (*V1AppDeploymentsUIDProfileVersionsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8490,7 +8496,7 @@ func (a *Client) V1AppDeploymentsUIDProfileVersionsGet(params *V1AppDeploymentsU
 }
 
 /*
-V1AppDeploymentsVirtualClusterCreate creates a application deployment in the virtual cluster
+  V1AppDeploymentsVirtualClusterCreate creates a application deployment in the virtual cluster
 */
 func (a *Client) V1AppDeploymentsVirtualClusterCreate(params *V1AppDeploymentsVirtualClusterCreateParams) (*V1AppDeploymentsVirtualClusterCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -8524,7 +8530,7 @@ func (a *Client) V1AppDeploymentsVirtualClusterCreate(params *V1AppDeploymentsVi
 }
 
 /*
-V1AppProfilesCreate creates a application profile
+  V1AppProfilesCreate creates a application profile
 */
 func (a *Client) V1AppProfilesCreate(params *V1AppProfilesCreateParams) (*V1AppProfilesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -8558,7 +8564,7 @@ func (a *Client) V1AppProfilesCreate(params *V1AppProfilesCreateParams) (*V1AppP
 }
 
 /*
-V1AppProfilesMacrosList retrieves a list of application profile macros
+  V1AppProfilesMacrosList retrieves a list of application profile macros
 */
 func (a *Client) V1AppProfilesMacrosList(params *V1AppProfilesMacrosListParams) (*V1AppProfilesMacrosListOK, error) {
 	// TODO: Validate the params before sending
@@ -8592,7 +8598,7 @@ func (a *Client) V1AppProfilesMacrosList(params *V1AppProfilesMacrosListParams) 
 }
 
 /*
-V1AppProfilesUIDClone clones the specified application profile
+  V1AppProfilesUIDClone clones the specified application profile
 */
 func (a *Client) V1AppProfilesUIDClone(params *V1AppProfilesUIDCloneParams) (*V1AppProfilesUIDCloneCreated, error) {
 	// TODO: Validate the params before sending
@@ -8626,7 +8632,7 @@ func (a *Client) V1AppProfilesUIDClone(params *V1AppProfilesUIDCloneParams) (*V1
 }
 
 /*
-V1AppProfilesUIDCloneValidate validates the specified application profile clone
+  V1AppProfilesUIDCloneValidate validates the specified application profile clone
 */
 func (a *Client) V1AppProfilesUIDCloneValidate(params *V1AppProfilesUIDCloneValidateParams) (*V1AppProfilesUIDCloneValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8660,7 +8666,7 @@ func (a *Client) V1AppProfilesUIDCloneValidate(params *V1AppProfilesUIDCloneVali
 }
 
 /*
-V1AppProfilesUIDDelete deletes the specified application profile
+  V1AppProfilesUIDDelete deletes the specified application profile
 */
 func (a *Client) V1AppProfilesUIDDelete(params *V1AppProfilesUIDDeleteParams) (*V1AppProfilesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8694,7 +8700,7 @@ func (a *Client) V1AppProfilesUIDDelete(params *V1AppProfilesUIDDeleteParams) (*
 }
 
 /*
-V1AppProfilesUIDGet returns the specified application profile
+  V1AppProfilesUIDGet returns the specified application profile
 */
 func (a *Client) V1AppProfilesUIDGet(params *V1AppProfilesUIDGetParams) (*V1AppProfilesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8728,7 +8734,7 @@ func (a *Client) V1AppProfilesUIDGet(params *V1AppProfilesUIDGetParams) (*V1AppP
 }
 
 /*
-V1AppProfilesUIDMetadataUpdate updates the specified application profile metadata
+  V1AppProfilesUIDMetadataUpdate updates the specified application profile metadata
 */
 func (a *Client) V1AppProfilesUIDMetadataUpdate(params *V1AppProfilesUIDMetadataUpdateParams) (*V1AppProfilesUIDMetadataUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8762,7 +8768,7 @@ func (a *Client) V1AppProfilesUIDMetadataUpdate(params *V1AppProfilesUIDMetadata
 }
 
 /*
-V1AppProfilesUIDTiersCreate adds tier to the specified application profile
+  V1AppProfilesUIDTiersCreate adds tier to the specified application profile
 */
 func (a *Client) V1AppProfilesUIDTiersCreate(params *V1AppProfilesUIDTiersCreateParams) (*V1AppProfilesUIDTiersCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -8796,7 +8802,7 @@ func (a *Client) V1AppProfilesUIDTiersCreate(params *V1AppProfilesUIDTiersCreate
 }
 
 /*
-V1AppProfilesUIDTiersGet retrieves a list of tiers of the specified application profile
+  V1AppProfilesUIDTiersGet retrieves a list of tiers of the specified application profile
 */
 func (a *Client) V1AppProfilesUIDTiersGet(params *V1AppProfilesUIDTiersGetParams) (*V1AppProfilesUIDTiersGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8830,7 +8836,7 @@ func (a *Client) V1AppProfilesUIDTiersGet(params *V1AppProfilesUIDTiersGetParams
 }
 
 /*
-V1AppProfilesUIDTiersPatch updates app tier of the specified application profile
+  V1AppProfilesUIDTiersPatch updates app tier of the specified application profile
 */
 func (a *Client) V1AppProfilesUIDTiersPatch(params *V1AppProfilesUIDTiersPatchParams) (*V1AppProfilesUIDTiersPatchCreated, error) {
 	// TODO: Validate the params before sending
@@ -8864,7 +8870,7 @@ func (a *Client) V1AppProfilesUIDTiersPatch(params *V1AppProfilesUIDTiersPatchPa
 }
 
 /*
-V1AppProfilesUIDTiersUIDDelete deletes the specified application profile tier
+  V1AppProfilesUIDTiersUIDDelete deletes the specified application profile tier
 */
 func (a *Client) V1AppProfilesUIDTiersUIDDelete(params *V1AppProfilesUIDTiersUIDDeleteParams) (*V1AppProfilesUIDTiersUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -8898,7 +8904,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDDelete(params *V1AppProfilesUIDTiersUID
 }
 
 /*
-V1AppProfilesUIDTiersUIDGet returns the specified application profile tier information
+  V1AppProfilesUIDTiersUIDGet returns the specified application profile tier information
 */
 func (a *Client) V1AppProfilesUIDTiersUIDGet(params *V1AppProfilesUIDTiersUIDGetParams) (*V1AppProfilesUIDTiersUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -8932,7 +8938,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDGet(params *V1AppProfilesUIDTiersUIDGet
 }
 
 /*
-V1AppProfilesUIDTiersUIDManifestsCreate adds manifest to the specified application profile tier
+  V1AppProfilesUIDTiersUIDManifestsCreate adds manifest to the specified application profile tier
 */
 func (a *Client) V1AppProfilesUIDTiersUIDManifestsCreate(params *V1AppProfilesUIDTiersUIDManifestsCreateParams) (*V1AppProfilesUIDTiersUIDManifestsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -8966,7 +8972,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDManifestsCreate(params *V1AppProfilesUI
 }
 
 /*
-V1AppProfilesUIDTiersUIDManifestsGet retrieves a list of manifests of the specified application profile tier
+  V1AppProfilesUIDTiersUIDManifestsGet retrieves a list of manifests of the specified application profile tier
 */
 func (a *Client) V1AppProfilesUIDTiersUIDManifestsGet(params *V1AppProfilesUIDTiersUIDManifestsGetParams) (*V1AppProfilesUIDTiersUIDManifestsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9000,7 +9006,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDManifestsGet(params *V1AppProfilesUIDTi
 }
 
 /*
-V1AppProfilesUIDTiersUIDManifestsUIDDelete deletes the specified application profile tier manifest
+  V1AppProfilesUIDTiersUIDManifestsUIDDelete deletes the specified application profile tier manifest
 */
 func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDDelete(params *V1AppProfilesUIDTiersUIDManifestsUIDDeleteParams) (*V1AppProfilesUIDTiersUIDManifestsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9034,7 +9040,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDDelete(params *V1AppProfile
 }
 
 /*
-V1AppProfilesUIDTiersUIDManifestsUIDGet returns the specified application profile tier manifest information
+  V1AppProfilesUIDTiersUIDManifestsUIDGet returns the specified application profile tier manifest information
 */
 func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDGet(params *V1AppProfilesUIDTiersUIDManifestsUIDGetParams) (*V1AppProfilesUIDTiersUIDManifestsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9068,7 +9074,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDGet(params *V1AppProfilesUI
 }
 
 /*
-V1AppProfilesUIDTiersUIDManifestsUIDUpdate updates the specified application profile tier manifest information
+  V1AppProfilesUIDTiersUIDManifestsUIDUpdate updates the specified application profile tier manifest information
 */
 func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDUpdate(params *V1AppProfilesUIDTiersUIDManifestsUIDUpdateParams) (*V1AppProfilesUIDTiersUIDManifestsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9102,7 +9108,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDManifestsUIDUpdate(params *V1AppProfile
 }
 
 /*
-V1AppProfilesUIDTiersUIDResolvedValuesGet returns the specified application profile tier resolved values
+  V1AppProfilesUIDTiersUIDResolvedValuesGet returns the specified application profile tier resolved values
 */
 func (a *Client) V1AppProfilesUIDTiersUIDResolvedValuesGet(params *V1AppProfilesUIDTiersUIDResolvedValuesGetParams) (*V1AppProfilesUIDTiersUIDResolvedValuesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9136,7 +9142,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDResolvedValuesGet(params *V1AppProfiles
 }
 
 /*
-V1AppProfilesUIDTiersUIDUpdate updates the specified application profile tier
+  V1AppProfilesUIDTiersUIDUpdate updates the specified application profile tier
 */
 func (a *Client) V1AppProfilesUIDTiersUIDUpdate(params *V1AppProfilesUIDTiersUIDUpdateParams) (*V1AppProfilesUIDTiersUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9170,7 +9176,7 @@ func (a *Client) V1AppProfilesUIDTiersUIDUpdate(params *V1AppProfilesUIDTiersUID
 }
 
 /*
-V1AppProfilesUIDUpdate updates the specified application profile
+  V1AppProfilesUIDUpdate updates the specified application profile
 */
 func (a *Client) V1AppProfilesUIDUpdate(params *V1AppProfilesUIDUpdateParams) (*V1AppProfilesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9204,7 +9210,7 @@ func (a *Client) V1AppProfilesUIDUpdate(params *V1AppProfilesUIDUpdateParams) (*
 }
 
 /*
-V1AuditsList retrieves the list of audit logs
+  V1AuditsList retrieves the list of audit logs
 */
 func (a *Client) V1AuditsList(params *V1AuditsListParams) (*V1AuditsListOK, error) {
 	// TODO: Validate the params before sending
@@ -9238,7 +9244,7 @@ func (a *Client) V1AuditsList(params *V1AuditsListParams) (*V1AuditsListOK, erro
 }
 
 /*
-V1AuditsUIDGet returns the specified audit log
+  V1AuditsUIDGet returns the specified audit log
 */
 func (a *Client) V1AuditsUIDGet(params *V1AuditsUIDGetParams) (*V1AuditsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9272,7 +9278,7 @@ func (a *Client) V1AuditsUIDGet(params *V1AuditsUIDGetParams) (*V1AuditsUIDGetOK
 }
 
 /*
-V1AuditsUIDGetSysMsg returns the specified system audit message
+  V1AuditsUIDGetSysMsg returns the specified system audit message
 */
 func (a *Client) V1AuditsUIDGetSysMsg(params *V1AuditsUIDGetSysMsgParams) (*V1AuditsUIDGetSysMsgOK, error) {
 	// TODO: Validate the params before sending
@@ -9306,7 +9312,7 @@ func (a *Client) V1AuditsUIDGetSysMsg(params *V1AuditsUIDGetSysMsgParams) (*V1Au
 }
 
 /*
-V1AuditsUIDMsgUpdate updates the specified user message for the specified audit
+  V1AuditsUIDMsgUpdate updates the specified user message for the specified audit
 */
 func (a *Client) V1AuditsUIDMsgUpdate(params *V1AuditsUIDMsgUpdateParams) (*V1AuditsUIDMsgUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9340,9 +9346,9 @@ func (a *Client) V1AuditsUIDMsgUpdate(params *V1AuditsUIDMsgUpdateParams) (*V1Au
 }
 
 /*
-V1AuthOrg returns the user organization details
+  V1AuthOrg returns the user organization details
 
-Returns the allowed login method and information with the organization details
+  Returns the allowed login method and information with the organization details
 */
 func (a *Client) V1AuthOrg(params *V1AuthOrgParams) (*V1AuthOrgOK, error) {
 	// TODO: Validate the params before sending
@@ -9376,9 +9382,9 @@ func (a *Client) V1AuthOrg(params *V1AuthOrgParams) (*V1AuthOrgOK, error) {
 }
 
 /*
-V1AuthRefresh refreshes authentication token
+  V1AuthRefresh refreshes authentication token
 
-Returns a new token within refresh timeout and same session id is maintained
+  Returns a new token within refresh timeout and same session id is maintained
 */
 func (a *Client) V1AuthRefresh(params *V1AuthRefreshParams) (*V1AuthRefreshOK, error) {
 	// TODO: Validate the params before sending
@@ -9412,9 +9418,9 @@ func (a *Client) V1AuthRefresh(params *V1AuthRefreshParams) (*V1AuthRefreshOK, e
 }
 
 /*
-V1Authenticate authenticates the user for the specified crendentials
+  V1Authenticate authenticates the user for the specified crendentials
 
-Creates a authentication request with the specified credentials
+  Creates a authentication request with the specified credentials
 */
 func (a *Client) V1Authenticate(params *V1AuthenticateParams) (*V1AuthenticateOK, error) {
 	// TODO: Validate the params before sending
@@ -9448,7 +9454,7 @@ func (a *Client) V1Authenticate(params *V1AuthenticateParams) (*V1AuthenticateOK
 }
 
 /*
-V1AwsCloudConfigsEdgeNativeMachinePoolDelete deletes the specified edge native machine pool of hybrid a w s cluster
+  V1AwsCloudConfigsEdgeNativeMachinePoolDelete deletes the specified edge native machine pool of hybrid a w s cluster
 */
 func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolDelete(params *V1AwsCloudConfigsEdgeNativeMachinePoolDeleteParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9482,7 +9488,7 @@ func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolDelete(params *V1AwsCloud
 }
 
 /*
-V1AwsCloudConfigsEdgeNativeMachinePoolGet returns the specified a w s cluster s edge native machine pool configuration
+  V1AwsCloudConfigsEdgeNativeMachinePoolGet returns the specified a w s cluster s edge native machine pool configuration
 */
 func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolGet(params *V1AwsCloudConfigsEdgeNativeMachinePoolGetParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9516,7 +9522,7 @@ func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolGet(params *V1AwsCloudCon
 }
 
 /*
-V1AwsCloudConfigsEdgeNativeMachinePoolUpdate updates the specified hybrid a w s cluster cloud config s edge native machine pool
+  V1AwsCloudConfigsEdgeNativeMachinePoolUpdate updates the specified hybrid a w s cluster cloud config s edge native machine pool
 */
 func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9550,7 +9556,7 @@ func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloud
 }
 
 /*
-V1AwsCloudConfigsUIDHybridConfig updates the hybrid configuration information of a w s cluster
+  V1AwsCloudConfigsUIDHybridConfig updates the hybrid configuration information of a w s cluster
 */
 func (a *Client) V1AwsCloudConfigsUIDHybridConfig(params *V1AwsCloudConfigsUIDHybridConfigParams) (*V1AwsCloudConfigsUIDHybridConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9584,7 +9590,7 @@ func (a *Client) V1AwsCloudConfigsUIDHybridConfig(params *V1AwsCloudConfigsUIDHy
 }
 
 /*
-V1AwsCloudCost retrieves a w s cloud account usage cost from cost explorer
+  V1AwsCloudCost retrieves a w s cloud account usage cost from cost explorer
 */
 func (a *Client) V1AwsCloudCost(params *V1AwsCloudCostParams) (*V1AwsCloudCostOK, error) {
 	// TODO: Validate the params before sending
@@ -9618,7 +9624,7 @@ func (a *Client) V1AwsCloudCost(params *V1AwsCloudCostParams) (*V1AwsCloudCostOK
 }
 
 /*
-V1BasicOciRegistriesCreate creates a basic oci registry
+  V1BasicOciRegistriesCreate creates a basic oci registry
 */
 func (a *Client) V1BasicOciRegistriesCreate(params *V1BasicOciRegistriesCreateParams) (*V1BasicOciRegistriesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -9652,7 +9658,7 @@ func (a *Client) V1BasicOciRegistriesCreate(params *V1BasicOciRegistriesCreatePa
 }
 
 /*
-V1BasicOciRegistriesUIDDelete deletes the specified basic oci registry
+  V1BasicOciRegistriesUIDDelete deletes the specified basic oci registry
 */
 func (a *Client) V1BasicOciRegistriesUIDDelete(params *V1BasicOciRegistriesUIDDeleteParams) (*V1BasicOciRegistriesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9686,7 +9692,7 @@ func (a *Client) V1BasicOciRegistriesUIDDelete(params *V1BasicOciRegistriesUIDDe
 }
 
 /*
-V1BasicOciRegistriesUIDGet returns the basic oci registry
+  V1BasicOciRegistriesUIDGet returns the basic oci registry
 */
 func (a *Client) V1BasicOciRegistriesUIDGet(params *V1BasicOciRegistriesUIDGetParams) (*V1BasicOciRegistriesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9720,9 +9726,9 @@ func (a *Client) V1BasicOciRegistriesUIDGet(params *V1BasicOciRegistriesUIDGetPa
 }
 
 /*
-V1BasicOciRegistriesUIDSync syncs oci registry
+  V1BasicOciRegistriesUIDSync syncs oci registry
 
-Sync all the content from the oci registry
+  Sync all the content from the oci registry
 */
 func (a *Client) V1BasicOciRegistriesUIDSync(params *V1BasicOciRegistriesUIDSyncParams) (*V1BasicOciRegistriesUIDSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -9756,9 +9762,9 @@ func (a *Client) V1BasicOciRegistriesUIDSync(params *V1BasicOciRegistriesUIDSync
 }
 
 /*
-V1BasicOciRegistriesUIDSyncStatus gets oci registry sync status
+  V1BasicOciRegistriesUIDSyncStatus gets oci registry sync status
 
-Get sync status for the oci specified registry
+  Get sync status for the oci specified registry
 */
 func (a *Client) V1BasicOciRegistriesUIDSyncStatus(params *V1BasicOciRegistriesUIDSyncStatusParams) (*V1BasicOciRegistriesUIDSyncStatusOK, error) {
 	// TODO: Validate the params before sending
@@ -9792,7 +9798,7 @@ func (a *Client) V1BasicOciRegistriesUIDSyncStatus(params *V1BasicOciRegistriesU
 }
 
 /*
-V1BasicOciRegistriesUIDUpdate updates the specified basic oci registry
+  V1BasicOciRegistriesUIDUpdate updates the specified basic oci registry
 */
 func (a *Client) V1BasicOciRegistriesUIDUpdate(params *V1BasicOciRegistriesUIDUpdateParams) (*V1BasicOciRegistriesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9826,9 +9832,9 @@ func (a *Client) V1BasicOciRegistriesUIDUpdate(params *V1BasicOciRegistriesUIDUp
 }
 
 /*
-V1BasicOciRegistriesValidate checks if oci registry is valid
+  V1BasicOciRegistriesValidate checks if oci registry is valid
 
-Returns no contents if oci registry is valid else error.
+  Returns no contents if oci registry is valid else error.
 */
 func (a *Client) V1BasicOciRegistriesValidate(params *V1BasicOciRegistriesValidateParams) (*V1BasicOciRegistriesValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9862,7 +9868,7 @@ func (a *Client) V1BasicOciRegistriesValidate(params *V1BasicOciRegistriesValida
 }
 
 /*
-V1CloudAccountsAwsCreate creates an a w s cloud account
+  V1CloudAccountsAwsCreate creates an a w s cloud account
 */
 func (a *Client) V1CloudAccountsAwsCreate(params *V1CloudAccountsAwsCreateParams) (*V1CloudAccountsAwsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -9896,7 +9902,7 @@ func (a *Client) V1CloudAccountsAwsCreate(params *V1CloudAccountsAwsCreateParams
 }
 
 /*
-V1CloudAccountsAwsDelete deletes the specified a w s account
+  V1CloudAccountsAwsDelete deletes the specified a w s account
 */
 func (a *Client) V1CloudAccountsAwsDelete(params *V1CloudAccountsAwsDeleteParams) (*V1CloudAccountsAwsDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -9930,7 +9936,7 @@ func (a *Client) V1CloudAccountsAwsDelete(params *V1CloudAccountsAwsDeleteParams
 }
 
 /*
-V1CloudAccountsAwsGet returns the specified a w s account
+  V1CloudAccountsAwsGet returns the specified a w s account
 */
 func (a *Client) V1CloudAccountsAwsGet(params *V1CloudAccountsAwsGetParams) (*V1CloudAccountsAwsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -9964,7 +9970,7 @@ func (a *Client) V1CloudAccountsAwsGet(params *V1CloudAccountsAwsGetParams) (*V1
 }
 
 /*
-V1CloudAccountsAwsList retrieves a list of a w s cloud accounts
+  V1CloudAccountsAwsList retrieves a list of a w s cloud accounts
 */
 func (a *Client) V1CloudAccountsAwsList(params *V1CloudAccountsAwsListParams) (*V1CloudAccountsAwsListOK, error) {
 	// TODO: Validate the params before sending
@@ -9998,7 +10004,7 @@ func (a *Client) V1CloudAccountsAwsList(params *V1CloudAccountsAwsListParams) (*
 }
 
 /*
-V1CloudAccountsAwsUpdate updates the specified a w s account
+  V1CloudAccountsAwsUpdate updates the specified a w s account
 */
 func (a *Client) V1CloudAccountsAwsUpdate(params *V1CloudAccountsAwsUpdateParams) (*V1CloudAccountsAwsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10032,7 +10038,7 @@ func (a *Client) V1CloudAccountsAwsUpdate(params *V1CloudAccountsAwsUpdateParams
 }
 
 /*
-V1CloudAccountsAzureCreate creates azure cloud account
+  V1CloudAccountsAzureCreate creates azure cloud account
 */
 func (a *Client) V1CloudAccountsAzureCreate(params *V1CloudAccountsAzureCreateParams) (*V1CloudAccountsAzureCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10066,7 +10072,7 @@ func (a *Client) V1CloudAccountsAzureCreate(params *V1CloudAccountsAzureCreatePa
 }
 
 /*
-V1CloudAccountsAzureDelete deletes the specified azure account
+  V1CloudAccountsAzureDelete deletes the specified azure account
 */
 func (a *Client) V1CloudAccountsAzureDelete(params *V1CloudAccountsAzureDeleteParams) (*V1CloudAccountsAzureDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10100,7 +10106,7 @@ func (a *Client) V1CloudAccountsAzureDelete(params *V1CloudAccountsAzureDeletePa
 }
 
 /*
-V1CloudAccountsAzureGet returns the specified azure cloud account
+  V1CloudAccountsAzureGet returns the specified azure cloud account
 */
 func (a *Client) V1CloudAccountsAzureGet(params *V1CloudAccountsAzureGetParams) (*V1CloudAccountsAzureGetOK, error) {
 	// TODO: Validate the params before sending
@@ -10134,7 +10140,7 @@ func (a *Client) V1CloudAccountsAzureGet(params *V1CloudAccountsAzureGetParams) 
 }
 
 /*
-V1CloudAccountsAzureList retrieves a list of azure cloud accounts
+  V1CloudAccountsAzureList retrieves a list of azure cloud accounts
 */
 func (a *Client) V1CloudAccountsAzureList(params *V1CloudAccountsAzureListParams) (*V1CloudAccountsAzureListOK, error) {
 	// TODO: Validate the params before sending
@@ -10168,7 +10174,7 @@ func (a *Client) V1CloudAccountsAzureList(params *V1CloudAccountsAzureListParams
 }
 
 /*
-V1CloudAccountsAzureUpdate updates the specified azure account
+  V1CloudAccountsAzureUpdate updates the specified azure account
 */
 func (a *Client) V1CloudAccountsAzureUpdate(params *V1CloudAccountsAzureUpdateParams) (*V1CloudAccountsAzureUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10202,7 +10208,7 @@ func (a *Client) V1CloudAccountsAzureUpdate(params *V1CloudAccountsAzureUpdatePa
 }
 
 /*
-V1CloudAccountsCustomCreate creates an cloud account of specific cloud type
+  V1CloudAccountsCustomCreate creates an cloud account of specific cloud type
 */
 func (a *Client) V1CloudAccountsCustomCreate(params *V1CloudAccountsCustomCreateParams) (*V1CloudAccountsCustomCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10236,7 +10242,7 @@ func (a *Client) V1CloudAccountsCustomCreate(params *V1CloudAccountsCustomCreate
 }
 
 /*
-V1CloudAccountsCustomDelete deletes the specified account by cloud type
+  V1CloudAccountsCustomDelete deletes the specified account by cloud type
 */
 func (a *Client) V1CloudAccountsCustomDelete(params *V1CloudAccountsCustomDeleteParams) (*V1CloudAccountsCustomDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10270,7 +10276,7 @@ func (a *Client) V1CloudAccountsCustomDelete(params *V1CloudAccountsCustomDelete
 }
 
 /*
-V1CloudAccountsCustomGet returns the specified account by cloud type
+  V1CloudAccountsCustomGet returns the specified account by cloud type
 */
 func (a *Client) V1CloudAccountsCustomGet(params *V1CloudAccountsCustomGetParams) (*V1CloudAccountsCustomGetOK, error) {
 	// TODO: Validate the params before sending
@@ -10304,7 +10310,7 @@ func (a *Client) V1CloudAccountsCustomGet(params *V1CloudAccountsCustomGetParams
 }
 
 /*
-V1CloudAccountsCustomList retrieves a list of cloud accounts by cloud type
+  V1CloudAccountsCustomList retrieves a list of cloud accounts by cloud type
 */
 func (a *Client) V1CloudAccountsCustomList(params *V1CloudAccountsCustomListParams) (*V1CloudAccountsCustomListOK, error) {
 	// TODO: Validate the params before sending
@@ -10338,7 +10344,7 @@ func (a *Client) V1CloudAccountsCustomList(params *V1CloudAccountsCustomListPara
 }
 
 /*
-V1CloudAccountsCustomUpdate updates the specified account by cloud type
+  V1CloudAccountsCustomUpdate updates the specified account by cloud type
 */
 func (a *Client) V1CloudAccountsCustomUpdate(params *V1CloudAccountsCustomUpdateParams) (*V1CloudAccountsCustomUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10372,7 +10378,7 @@ func (a *Client) V1CloudAccountsCustomUpdate(params *V1CloudAccountsCustomUpdate
 }
 
 /*
-V1CloudAccountsGcpCreate creates a g c p cloud account
+  V1CloudAccountsGcpCreate creates a g c p cloud account
 */
 func (a *Client) V1CloudAccountsGcpCreate(params *V1CloudAccountsGcpCreateParams) (*V1CloudAccountsGcpCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10406,7 +10412,7 @@ func (a *Client) V1CloudAccountsGcpCreate(params *V1CloudAccountsGcpCreateParams
 }
 
 /*
-V1CloudAccountsGcpDelete deletes the specified g c p account
+  V1CloudAccountsGcpDelete deletes the specified g c p account
 */
 func (a *Client) V1CloudAccountsGcpDelete(params *V1CloudAccountsGcpDeleteParams) (*V1CloudAccountsGcpDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10440,7 +10446,7 @@ func (a *Client) V1CloudAccountsGcpDelete(params *V1CloudAccountsGcpDeleteParams
 }
 
 /*
-V1CloudAccountsGcpGet returns the specified g c p cloud account
+  V1CloudAccountsGcpGet returns the specified g c p cloud account
 */
 func (a *Client) V1CloudAccountsGcpGet(params *V1CloudAccountsGcpGetParams) (*V1CloudAccountsGcpGetOK, error) {
 	// TODO: Validate the params before sending
@@ -10474,7 +10480,7 @@ func (a *Client) V1CloudAccountsGcpGet(params *V1CloudAccountsGcpGetParams) (*V1
 }
 
 /*
-V1CloudAccountsGcpList retrieves a list of gcp cloud accounts
+  V1CloudAccountsGcpList retrieves a list of gcp cloud accounts
 */
 func (a *Client) V1CloudAccountsGcpList(params *V1CloudAccountsGcpListParams) (*V1CloudAccountsGcpListOK, error) {
 	// TODO: Validate the params before sending
@@ -10508,7 +10514,7 @@ func (a *Client) V1CloudAccountsGcpList(params *V1CloudAccountsGcpListParams) (*
 }
 
 /*
-V1CloudAccountsGcpUpdate updates the specified g c p account
+  V1CloudAccountsGcpUpdate updates the specified g c p account
 */
 func (a *Client) V1CloudAccountsGcpUpdate(params *V1CloudAccountsGcpUpdateParams) (*V1CloudAccountsGcpUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10542,7 +10548,7 @@ func (a *Client) V1CloudAccountsGcpUpdate(params *V1CloudAccountsGcpUpdateParams
 }
 
 /*
-V1CloudAccountsListSummary retrieves a list of cloud accounts summary
+  V1CloudAccountsListSummary retrieves a list of cloud accounts summary
 */
 func (a *Client) V1CloudAccountsListSummary(params *V1CloudAccountsListSummaryParams) (*V1CloudAccountsListSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -10576,7 +10582,7 @@ func (a *Client) V1CloudAccountsListSummary(params *V1CloudAccountsListSummaryPa
 }
 
 /*
-V1CloudAccountsMaasCreate creates an maas cloud account
+  V1CloudAccountsMaasCreate creates an maas cloud account
 */
 func (a *Client) V1CloudAccountsMaasCreate(params *V1CloudAccountsMaasCreateParams) (*V1CloudAccountsMaasCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10610,7 +10616,7 @@ func (a *Client) V1CloudAccountsMaasCreate(params *V1CloudAccountsMaasCreatePara
 }
 
 /*
-V1CloudAccountsMaasDelete deletes the specified maas account
+  V1CloudAccountsMaasDelete deletes the specified maas account
 */
 func (a *Client) V1CloudAccountsMaasDelete(params *V1CloudAccountsMaasDeleteParams) (*V1CloudAccountsMaasDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10644,7 +10650,7 @@ func (a *Client) V1CloudAccountsMaasDelete(params *V1CloudAccountsMaasDeletePara
 }
 
 /*
-V1CloudAccountsMaasGet returns the specified maas account
+  V1CloudAccountsMaasGet returns the specified maas account
 */
 func (a *Client) V1CloudAccountsMaasGet(params *V1CloudAccountsMaasGetParams) (*V1CloudAccountsMaasGetOK, error) {
 	// TODO: Validate the params before sending
@@ -10678,7 +10684,7 @@ func (a *Client) V1CloudAccountsMaasGet(params *V1CloudAccountsMaasGetParams) (*
 }
 
 /*
-V1CloudAccountsMaasList retrieves a list of maas cloud accounts
+  V1CloudAccountsMaasList retrieves a list of maas cloud accounts
 */
 func (a *Client) V1CloudAccountsMaasList(params *V1CloudAccountsMaasListParams) (*V1CloudAccountsMaasListOK, error) {
 	// TODO: Validate the params before sending
@@ -10712,7 +10718,7 @@ func (a *Client) V1CloudAccountsMaasList(params *V1CloudAccountsMaasListParams) 
 }
 
 /*
-V1CloudAccountsMaasPatch patches the specified cloud account maas
+  V1CloudAccountsMaasPatch patches the specified cloud account maas
 */
 func (a *Client) V1CloudAccountsMaasPatch(params *V1CloudAccountsMaasPatchParams) (*V1CloudAccountsMaasPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10746,7 +10752,7 @@ func (a *Client) V1CloudAccountsMaasPatch(params *V1CloudAccountsMaasPatchParams
 }
 
 /*
-V1CloudAccountsMaasUpdate updates the specified maas account
+  V1CloudAccountsMaasUpdate updates the specified maas account
 */
 func (a *Client) V1CloudAccountsMaasUpdate(params *V1CloudAccountsMaasUpdateParams) (*V1CloudAccountsMaasUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10780,7 +10786,7 @@ func (a *Client) V1CloudAccountsMaasUpdate(params *V1CloudAccountsMaasUpdatePara
 }
 
 /*
-V1CloudAccountsOpenStackCreate creates a open stack cloud account
+  V1CloudAccountsOpenStackCreate creates a open stack cloud account
 */
 func (a *Client) V1CloudAccountsOpenStackCreate(params *V1CloudAccountsOpenStackCreateParams) (*V1CloudAccountsOpenStackCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10814,7 +10820,7 @@ func (a *Client) V1CloudAccountsOpenStackCreate(params *V1CloudAccountsOpenStack
 }
 
 /*
-V1CloudAccountsOpenStackDelete deletes the specified open stack account
+  V1CloudAccountsOpenStackDelete deletes the specified open stack account
 */
 func (a *Client) V1CloudAccountsOpenStackDelete(params *V1CloudAccountsOpenStackDeleteParams) (*V1CloudAccountsOpenStackDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10848,7 +10854,7 @@ func (a *Client) V1CloudAccountsOpenStackDelete(params *V1CloudAccountsOpenStack
 }
 
 /*
-V1CloudAccountsOpenStackGet returns the specified open stack account
+  V1CloudAccountsOpenStackGet returns the specified open stack account
 */
 func (a *Client) V1CloudAccountsOpenStackGet(params *V1CloudAccountsOpenStackGetParams) (*V1CloudAccountsOpenStackGetOK, error) {
 	// TODO: Validate the params before sending
@@ -10882,7 +10888,7 @@ func (a *Client) V1CloudAccountsOpenStackGet(params *V1CloudAccountsOpenStackGet
 }
 
 /*
-V1CloudAccountsOpenStackList retrieves a list of open stack cloud accounts
+  V1CloudAccountsOpenStackList retrieves a list of open stack cloud accounts
 */
 func (a *Client) V1CloudAccountsOpenStackList(params *V1CloudAccountsOpenStackListParams) (*V1CloudAccountsOpenStackListOK, error) {
 	// TODO: Validate the params before sending
@@ -10916,7 +10922,7 @@ func (a *Client) V1CloudAccountsOpenStackList(params *V1CloudAccountsOpenStackLi
 }
 
 /*
-V1CloudAccountsOpenStackUpdate updates the specified open stack account
+  V1CloudAccountsOpenStackUpdate updates the specified open stack account
 */
 func (a *Client) V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStackUpdateParams) (*V1CloudAccountsOpenStackUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -10950,7 +10956,7 @@ func (a *Client) V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStack
 }
 
 /*
-V1CloudAccountsVsphereCreate creates a v sphere cloud account
+  V1CloudAccountsVsphereCreate creates a v sphere cloud account
 */
 func (a *Client) V1CloudAccountsVsphereCreate(params *V1CloudAccountsVsphereCreateParams) (*V1CloudAccountsVsphereCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -10984,7 +10990,7 @@ func (a *Client) V1CloudAccountsVsphereCreate(params *V1CloudAccountsVsphereCrea
 }
 
 /*
-V1CloudAccountsVsphereDelete deletes the specified v sphere account
+  V1CloudAccountsVsphereDelete deletes the specified v sphere account
 */
 func (a *Client) V1CloudAccountsVsphereDelete(params *V1CloudAccountsVsphereDeleteParams) (*V1CloudAccountsVsphereDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11018,7 +11024,7 @@ func (a *Client) V1CloudAccountsVsphereDelete(params *V1CloudAccountsVsphereDele
 }
 
 /*
-V1CloudAccountsVsphereGet returns the specified v sphere account
+  V1CloudAccountsVsphereGet returns the specified v sphere account
 */
 func (a *Client) V1CloudAccountsVsphereGet(params *V1CloudAccountsVsphereGetParams) (*V1CloudAccountsVsphereGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11052,7 +11058,7 @@ func (a *Client) V1CloudAccountsVsphereGet(params *V1CloudAccountsVsphereGetPara
 }
 
 /*
-V1CloudAccountsVsphereList retrieves a list of v sphere cloud accounts
+  V1CloudAccountsVsphereList retrieves a list of v sphere cloud accounts
 */
 func (a *Client) V1CloudAccountsVsphereList(params *V1CloudAccountsVsphereListParams) (*V1CloudAccountsVsphereListOK, error) {
 	// TODO: Validate the params before sending
@@ -11086,7 +11092,7 @@ func (a *Client) V1CloudAccountsVsphereList(params *V1CloudAccountsVsphereListPa
 }
 
 /*
-V1CloudAccountsVsphereUpdate updates the specified v sphere account
+  V1CloudAccountsVsphereUpdate updates the specified v sphere account
 */
 func (a *Client) V1CloudAccountsVsphereUpdate(params *V1CloudAccountsVsphereUpdateParams) (*V1CloudAccountsVsphereUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11120,7 +11126,7 @@ func (a *Client) V1CloudAccountsVsphereUpdate(params *V1CloudAccountsVsphereUpda
 }
 
 /*
-V1CloudConfigsAksGet returns the specified a k s cloud config
+  V1CloudConfigsAksGet returns the specified a k s cloud config
 */
 func (a *Client) V1CloudConfigsAksGet(params *V1CloudConfigsAksGetParams) (*V1CloudConfigsAksGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11154,7 +11160,7 @@ func (a *Client) V1CloudConfigsAksGet(params *V1CloudConfigsAksGetParams) (*V1Cl
 }
 
 /*
-V1CloudConfigsAksMachinePoolCreate creates an a k s cloud config s machine pool
+  V1CloudConfigsAksMachinePoolCreate creates an a k s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAksMachinePoolCreate(params *V1CloudConfigsAksMachinePoolCreateParams) (*V1CloudConfigsAksMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -11188,7 +11194,7 @@ func (a *Client) V1CloudConfigsAksMachinePoolCreate(params *V1CloudConfigsAksMac
 }
 
 /*
-V1CloudConfigsAksMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsAksMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsAksMachinePoolDelete(params *V1CloudConfigsAksMachinePoolDeleteParams) (*V1CloudConfigsAksMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11222,7 +11228,7 @@ func (a *Client) V1CloudConfigsAksMachinePoolDelete(params *V1CloudConfigsAksMac
 }
 
 /*
-V1CloudConfigsAksMachinePoolUpdate updates the specified a k s cloud config s machine pool
+  V1CloudConfigsAksMachinePoolUpdate updates the specified a k s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAksMachinePoolUpdate(params *V1CloudConfigsAksMachinePoolUpdateParams) (*V1CloudConfigsAksMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11256,7 +11262,7 @@ func (a *Client) V1CloudConfigsAksMachinePoolUpdate(params *V1CloudConfigsAksMac
 }
 
 /*
-V1CloudConfigsAksPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsAksPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAksPoolMachinesAdd(params *V1CloudConfigsAksPoolMachinesAddParams) (*V1CloudConfigsAksPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -11290,7 +11296,7 @@ func (a *Client) V1CloudConfigsAksPoolMachinesAdd(params *V1CloudConfigsAksPoolM
 }
 
 /*
-V1CloudConfigsAksPoolMachinesList retrieves a list of a k s machines
+  V1CloudConfigsAksPoolMachinesList retrieves a list of a k s machines
 */
 func (a *Client) V1CloudConfigsAksPoolMachinesList(params *V1CloudConfigsAksPoolMachinesListParams) (*V1CloudConfigsAksPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -11324,7 +11330,7 @@ func (a *Client) V1CloudConfigsAksPoolMachinesList(params *V1CloudConfigsAksPool
 }
 
 /*
-V1CloudConfigsAksPoolMachinesUIDDelete deletes the specified azure machine
+  V1CloudConfigsAksPoolMachinesUIDDelete deletes the specified azure machine
 */
 func (a *Client) V1CloudConfigsAksPoolMachinesUIDDelete(params *V1CloudConfigsAksPoolMachinesUIDDeleteParams) (*V1CloudConfigsAksPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11358,7 +11364,7 @@ func (a *Client) V1CloudConfigsAksPoolMachinesUIDDelete(params *V1CloudConfigsAk
 }
 
 /*
-V1CloudConfigsAksPoolMachinesUIDGet returns the specified a k s machine
+  V1CloudConfigsAksPoolMachinesUIDGet returns the specified a k s machine
 */
 func (a *Client) V1CloudConfigsAksPoolMachinesUIDGet(params *V1CloudConfigsAksPoolMachinesUIDGetParams) (*V1CloudConfigsAksPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11392,7 +11398,7 @@ func (a *Client) V1CloudConfigsAksPoolMachinesUIDGet(params *V1CloudConfigsAksPo
 }
 
 /*
-V1CloudConfigsAksPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsAksPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAksPoolMachinesUIDUpdate(params *V1CloudConfigsAksPoolMachinesUIDUpdateParams) (*V1CloudConfigsAksPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11426,7 +11432,7 @@ func (a *Client) V1CloudConfigsAksPoolMachinesUIDUpdate(params *V1CloudConfigsAk
 }
 
 /*
-V1CloudConfigsAksUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsAksUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsAksUIDClusterConfig(params *V1CloudConfigsAksUIDClusterConfigParams) (*V1CloudConfigsAksUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11460,7 +11466,7 @@ func (a *Client) V1CloudConfigsAksUIDClusterConfig(params *V1CloudConfigsAksUIDC
 }
 
 /*
-V1CloudConfigsAwsGet returns the specified a w s cloud config
+  V1CloudConfigsAwsGet returns the specified a w s cloud config
 */
 func (a *Client) V1CloudConfigsAwsGet(params *V1CloudConfigsAwsGetParams) (*V1CloudConfigsAwsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11494,7 +11500,7 @@ func (a *Client) V1CloudConfigsAwsGet(params *V1CloudConfigsAwsGetParams) (*V1Cl
 }
 
 /*
-V1CloudConfigsAwsMachinePoolCreate creates an a w s cloud config s machine pool
+  V1CloudConfigsAwsMachinePoolCreate creates an a w s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAwsMachinePoolCreate(params *V1CloudConfigsAwsMachinePoolCreateParams) (*V1CloudConfigsAwsMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -11528,7 +11534,7 @@ func (a *Client) V1CloudConfigsAwsMachinePoolCreate(params *V1CloudConfigsAwsMac
 }
 
 /*
-V1CloudConfigsAwsMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsAwsMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsAwsMachinePoolDelete(params *V1CloudConfigsAwsMachinePoolDeleteParams) (*V1CloudConfigsAwsMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11562,7 +11568,7 @@ func (a *Client) V1CloudConfigsAwsMachinePoolDelete(params *V1CloudConfigsAwsMac
 }
 
 /*
-V1CloudConfigsAwsMachinePoolUpdate updates the specified a w s cloud config s machine pool
+  V1CloudConfigsAwsMachinePoolUpdate updates the specified a w s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAwsMachinePoolUpdate(params *V1CloudConfigsAwsMachinePoolUpdateParams) (*V1CloudConfigsAwsMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11596,7 +11602,7 @@ func (a *Client) V1CloudConfigsAwsMachinePoolUpdate(params *V1CloudConfigsAwsMac
 }
 
 /*
-V1CloudConfigsAwsPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsAwsPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAwsPoolMachinesAdd(params *V1CloudConfigsAwsPoolMachinesAddParams) (*V1CloudConfigsAwsPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -11630,7 +11636,7 @@ func (a *Client) V1CloudConfigsAwsPoolMachinesAdd(params *V1CloudConfigsAwsPoolM
 }
 
 /*
-V1CloudConfigsAwsPoolMachinesList retrieves a list of a w s machines
+  V1CloudConfigsAwsPoolMachinesList retrieves a list of a w s machines
 */
 func (a *Client) V1CloudConfigsAwsPoolMachinesList(params *V1CloudConfigsAwsPoolMachinesListParams) (*V1CloudConfigsAwsPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -11664,7 +11670,7 @@ func (a *Client) V1CloudConfigsAwsPoolMachinesList(params *V1CloudConfigsAwsPool
 }
 
 /*
-V1CloudConfigsAwsPoolMachinesUIDDelete deletes the specified a w s machine
+  V1CloudConfigsAwsPoolMachinesUIDDelete deletes the specified a w s machine
 */
 func (a *Client) V1CloudConfigsAwsPoolMachinesUIDDelete(params *V1CloudConfigsAwsPoolMachinesUIDDeleteParams) (*V1CloudConfigsAwsPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11698,7 +11704,7 @@ func (a *Client) V1CloudConfigsAwsPoolMachinesUIDDelete(params *V1CloudConfigsAw
 }
 
 /*
-V1CloudConfigsAwsPoolMachinesUIDGet returns the specified a w s machine
+  V1CloudConfigsAwsPoolMachinesUIDGet returns the specified a w s machine
 */
 func (a *Client) V1CloudConfigsAwsPoolMachinesUIDGet(params *V1CloudConfigsAwsPoolMachinesUIDGetParams) (*V1CloudConfigsAwsPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11732,7 +11738,7 @@ func (a *Client) V1CloudConfigsAwsPoolMachinesUIDGet(params *V1CloudConfigsAwsPo
 }
 
 /*
-V1CloudConfigsAwsPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsAwsPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAwsPoolMachinesUIDUpdate(params *V1CloudConfigsAwsPoolMachinesUIDUpdateParams) (*V1CloudConfigsAwsPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11766,7 +11772,7 @@ func (a *Client) V1CloudConfigsAwsPoolMachinesUIDUpdate(params *V1CloudConfigsAw
 }
 
 /*
-V1CloudConfigsAwsUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsAwsUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsAwsUIDClusterConfig(params *V1CloudConfigsAwsUIDClusterConfigParams) (*V1CloudConfigsAwsUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11800,7 +11806,7 @@ func (a *Client) V1CloudConfigsAwsUIDClusterConfig(params *V1CloudConfigsAwsUIDC
 }
 
 /*
-V1CloudConfigsAzureGet returns the specified azure cloud config
+  V1CloudConfigsAzureGet returns the specified azure cloud config
 */
 func (a *Client) V1CloudConfigsAzureGet(params *V1CloudConfigsAzureGetParams) (*V1CloudConfigsAzureGetOK, error) {
 	// TODO: Validate the params before sending
@@ -11834,7 +11840,7 @@ func (a *Client) V1CloudConfigsAzureGet(params *V1CloudConfigsAzureGetParams) (*
 }
 
 /*
-V1CloudConfigsAzureMachinePoolCreate creates an azure cloud config s machine pool
+  V1CloudConfigsAzureMachinePoolCreate creates an azure cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAzureMachinePoolCreate(params *V1CloudConfigsAzureMachinePoolCreateParams) (*V1CloudConfigsAzureMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -11868,7 +11874,7 @@ func (a *Client) V1CloudConfigsAzureMachinePoolCreate(params *V1CloudConfigsAzur
 }
 
 /*
-V1CloudConfigsAzureMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsAzureMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsAzureMachinePoolDelete(params *V1CloudConfigsAzureMachinePoolDeleteParams) (*V1CloudConfigsAzureMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11902,7 +11908,7 @@ func (a *Client) V1CloudConfigsAzureMachinePoolDelete(params *V1CloudConfigsAzur
 }
 
 /*
-V1CloudConfigsAzureMachinePoolUpdate updates the specified azure cloud config s machine pool
+  V1CloudConfigsAzureMachinePoolUpdate updates the specified azure cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAzureMachinePoolUpdate(params *V1CloudConfigsAzureMachinePoolUpdateParams) (*V1CloudConfigsAzureMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -11936,7 +11942,7 @@ func (a *Client) V1CloudConfigsAzureMachinePoolUpdate(params *V1CloudConfigsAzur
 }
 
 /*
-V1CloudConfigsAzurePoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsAzurePoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAzurePoolMachinesAdd(params *V1CloudConfigsAzurePoolMachinesAddParams) (*V1CloudConfigsAzurePoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -11970,9 +11976,9 @@ func (a *Client) V1CloudConfigsAzurePoolMachinesAdd(params *V1CloudConfigsAzureP
 }
 
 /*
-V1CloudConfigsAzurePoolMachinesList retrieves a list of azure machines
+  V1CloudConfigsAzurePoolMachinesList retrieves a list of azure machines
 
-Returns all the Azure machines restricted to the user role and filters.
+  Returns all the Azure machines restricted to the user role and filters.
 */
 func (a *Client) V1CloudConfigsAzurePoolMachinesList(params *V1CloudConfigsAzurePoolMachinesListParams) (*V1CloudConfigsAzurePoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -12006,7 +12012,7 @@ func (a *Client) V1CloudConfigsAzurePoolMachinesList(params *V1CloudConfigsAzure
 }
 
 /*
-V1CloudConfigsAzurePoolMachinesUIDDelete deletes the specified azure machine
+  V1CloudConfigsAzurePoolMachinesUIDDelete deletes the specified azure machine
 */
 func (a *Client) V1CloudConfigsAzurePoolMachinesUIDDelete(params *V1CloudConfigsAzurePoolMachinesUIDDeleteParams) (*V1CloudConfigsAzurePoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12040,9 +12046,9 @@ func (a *Client) V1CloudConfigsAzurePoolMachinesUIDDelete(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsAzurePoolMachinesUIDGet returns the specified azure machine
+  V1CloudConfigsAzurePoolMachinesUIDGet returns the specified azure machine
 
-Returns a Azure machine for the specified uid.
+  Returns a Azure machine for the specified uid.
 */
 func (a *Client) V1CloudConfigsAzurePoolMachinesUIDGet(params *V1CloudConfigsAzurePoolMachinesUIDGetParams) (*V1CloudConfigsAzurePoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12076,7 +12082,7 @@ func (a *Client) V1CloudConfigsAzurePoolMachinesUIDGet(params *V1CloudConfigsAzu
 }
 
 /*
-V1CloudConfigsAzurePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
+  V1CloudConfigsAzurePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsAzurePoolMachinesUIDUpdate(params *V1CloudConfigsAzurePoolMachinesUIDUpdateParams) (*V1CloudConfigsAzurePoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12110,7 +12116,7 @@ func (a *Client) V1CloudConfigsAzurePoolMachinesUIDUpdate(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsAzureUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsAzureUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsAzureUIDClusterConfig(params *V1CloudConfigsAzureUIDClusterConfigParams) (*V1CloudConfigsAzureUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12144,7 +12150,7 @@ func (a *Client) V1CloudConfigsAzureUIDClusterConfig(params *V1CloudConfigsAzure
 }
 
 /*
-V1CloudConfigsCustomGet returns the specified custom cloud config
+  V1CloudConfigsCustomGet returns the specified custom cloud config
 */
 func (a *Client) V1CloudConfigsCustomGet(params *V1CloudConfigsCustomGetParams) (*V1CloudConfigsCustomGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12178,7 +12184,7 @@ func (a *Client) V1CloudConfigsCustomGet(params *V1CloudConfigsCustomGetParams) 
 }
 
 /*
-V1CloudConfigsCustomMachinePoolCreate creates an custom cloud config s machine pool
+  V1CloudConfigsCustomMachinePoolCreate creates an custom cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsCustomMachinePoolCreate(params *V1CloudConfigsCustomMachinePoolCreateParams) (*V1CloudConfigsCustomMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -12212,7 +12218,7 @@ func (a *Client) V1CloudConfigsCustomMachinePoolCreate(params *V1CloudConfigsCus
 }
 
 /*
-V1CloudConfigsCustomMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsCustomMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsCustomMachinePoolDelete(params *V1CloudConfigsCustomMachinePoolDeleteParams) (*V1CloudConfigsCustomMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12246,7 +12252,7 @@ func (a *Client) V1CloudConfigsCustomMachinePoolDelete(params *V1CloudConfigsCus
 }
 
 /*
-V1CloudConfigsCustomMachinePoolUpdate updates the specified custom cloud config s machine pool
+  V1CloudConfigsCustomMachinePoolUpdate updates the specified custom cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsCustomMachinePoolUpdate(params *V1CloudConfigsCustomMachinePoolUpdateParams) (*V1CloudConfigsCustomMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12280,7 +12286,7 @@ func (a *Client) V1CloudConfigsCustomMachinePoolUpdate(params *V1CloudConfigsCus
 }
 
 /*
-V1CloudConfigsCustomPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsCustomPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsCustomPoolMachinesAdd(params *V1CloudConfigsCustomPoolMachinesAddParams) (*V1CloudConfigsCustomPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -12314,7 +12320,7 @@ func (a *Client) V1CloudConfigsCustomPoolMachinesAdd(params *V1CloudConfigsCusto
 }
 
 /*
-V1CloudConfigsCustomPoolMachinesList retrieves a list of custom machines
+  V1CloudConfigsCustomPoolMachinesList retrieves a list of custom machines
 */
 func (a *Client) V1CloudConfigsCustomPoolMachinesList(params *V1CloudConfigsCustomPoolMachinesListParams) (*V1CloudConfigsCustomPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -12348,7 +12354,7 @@ func (a *Client) V1CloudConfigsCustomPoolMachinesList(params *V1CloudConfigsCust
 }
 
 /*
-V1CloudConfigsCustomPoolMachinesUIDDelete deletes the specified custom machine
+  V1CloudConfigsCustomPoolMachinesUIDDelete deletes the specified custom machine
 */
 func (a *Client) V1CloudConfigsCustomPoolMachinesUIDDelete(params *V1CloudConfigsCustomPoolMachinesUIDDeleteParams) (*V1CloudConfigsCustomPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12382,7 +12388,7 @@ func (a *Client) V1CloudConfigsCustomPoolMachinesUIDDelete(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsCustomPoolMachinesUIDGet returns the specified custom machine
+  V1CloudConfigsCustomPoolMachinesUIDGet returns the specified custom machine
 */
 func (a *Client) V1CloudConfigsCustomPoolMachinesUIDGet(params *V1CloudConfigsCustomPoolMachinesUIDGetParams) (*V1CloudConfigsCustomPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12416,7 +12422,7 @@ func (a *Client) V1CloudConfigsCustomPoolMachinesUIDGet(params *V1CloudConfigsCu
 }
 
 /*
-V1CloudConfigsCustomPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsCustomPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsCustomPoolMachinesUIDUpdate(params *V1CloudConfigsCustomPoolMachinesUIDUpdateParams) (*V1CloudConfigsCustomPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12450,7 +12456,7 @@ func (a *Client) V1CloudConfigsCustomPoolMachinesUIDUpdate(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsCustomUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsCustomUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsCustomUIDClusterConfig(params *V1CloudConfigsCustomUIDClusterConfigParams) (*V1CloudConfigsCustomUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12484,7 +12490,7 @@ func (a *Client) V1CloudConfigsCustomUIDClusterConfig(params *V1CloudConfigsCust
 }
 
 /*
-V1CloudConfigsEdgeNativeGet returns the specified edge native cloud config
+  V1CloudConfigsEdgeNativeGet returns the specified edge native cloud config
 */
 func (a *Client) V1CloudConfigsEdgeNativeGet(params *V1CloudConfigsEdgeNativeGetParams) (*V1CloudConfigsEdgeNativeGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12518,7 +12524,7 @@ func (a *Client) V1CloudConfigsEdgeNativeGet(params *V1CloudConfigsEdgeNativeGet
 }
 
 /*
-V1CloudConfigsEdgeNativeMachinePoolCreate creates a edge native cloud config s machine pool
+  V1CloudConfigsEdgeNativeMachinePoolCreate creates a edge native cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEdgeNativeMachinePoolCreate(params *V1CloudConfigsEdgeNativeMachinePoolCreateParams) (*V1CloudConfigsEdgeNativeMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -12552,7 +12558,7 @@ func (a *Client) V1CloudConfigsEdgeNativeMachinePoolCreate(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsEdgeNativeMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsEdgeNativeMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsEdgeNativeMachinePoolDelete(params *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) (*V1CloudConfigsEdgeNativeMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12586,7 +12592,7 @@ func (a *Client) V1CloudConfigsEdgeNativeMachinePoolDelete(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsEdgeNativeMachinePoolUpdate updates the specified edge native cloud config s machine pool
+  V1CloudConfigsEdgeNativeMachinePoolUpdate updates the specified edge native cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEdgeNativeMachinePoolUpdate(params *V1CloudConfigsEdgeNativeMachinePoolUpdateParams) (*V1CloudConfigsEdgeNativeMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12620,7 +12626,7 @@ func (a *Client) V1CloudConfigsEdgeNativeMachinePoolUpdate(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsEdgeNativePoolMachinesAdd adds the edge native machine to cloud config s machine pool
+  V1CloudConfigsEdgeNativePoolMachinesAdd adds the edge native machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEdgeNativePoolMachinesAdd(params *V1CloudConfigsEdgeNativePoolMachinesAddParams) (*V1CloudConfigsEdgeNativePoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -12654,7 +12660,7 @@ func (a *Client) V1CloudConfigsEdgeNativePoolMachinesAdd(params *V1CloudConfigsE
 }
 
 /*
-V1CloudConfigsEdgeNativePoolMachinesList retrieves a list of edge native machines
+  V1CloudConfigsEdgeNativePoolMachinesList retrieves a list of edge native machines
 */
 func (a *Client) V1CloudConfigsEdgeNativePoolMachinesList(params *V1CloudConfigsEdgeNativePoolMachinesListParams) (*V1CloudConfigsEdgeNativePoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -12688,7 +12694,7 @@ func (a *Client) V1CloudConfigsEdgeNativePoolMachinesList(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsEdgeNativePoolMachinesUIDDelete deletes the specified edge native machine
+  V1CloudConfigsEdgeNativePoolMachinesUIDDelete deletes the specified edge native machine
 */
 func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDDelete(params *V1CloudConfigsEdgeNativePoolMachinesUIDDeleteParams) (*V1CloudConfigsEdgeNativePoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12722,7 +12728,7 @@ func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDDelete(params *V1CloudCo
 }
 
 /*
-V1CloudConfigsEdgeNativePoolMachinesUIDGet returns the specified edge native machine
+  V1CloudConfigsEdgeNativePoolMachinesUIDGet returns the specified edge native machine
 */
 func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDGet(params *V1CloudConfigsEdgeNativePoolMachinesUIDGetParams) (*V1CloudConfigsEdgeNativePoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12756,7 +12762,7 @@ func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDGet(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsEdgeNativePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
+  V1CloudConfigsEdgeNativePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDUpdate(params *V1CloudConfigsEdgeNativePoolMachinesUIDUpdateParams) (*V1CloudConfigsEdgeNativePoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12790,7 +12796,7 @@ func (a *Client) V1CloudConfigsEdgeNativePoolMachinesUIDUpdate(params *V1CloudCo
 }
 
 /*
-V1CloudConfigsEdgeNativeUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsEdgeNativeUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsEdgeNativeUIDClusterConfig(params *V1CloudConfigsEdgeNativeUIDClusterConfigParams) (*V1CloudConfigsEdgeNativeUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12824,7 +12830,7 @@ func (a *Client) V1CloudConfigsEdgeNativeUIDClusterConfig(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsEksGet returns the specified e k s cloud config
+  V1CloudConfigsEksGet returns the specified e k s cloud config
 */
 func (a *Client) V1CloudConfigsEksGet(params *V1CloudConfigsEksGetParams) (*V1CloudConfigsEksGetOK, error) {
 	// TODO: Validate the params before sending
@@ -12858,7 +12864,7 @@ func (a *Client) V1CloudConfigsEksGet(params *V1CloudConfigsEksGetParams) (*V1Cl
 }
 
 /*
-V1CloudConfigsEksMachinePoolCreate creates an e k s cloud config s machine pool
+  V1CloudConfigsEksMachinePoolCreate creates an e k s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEksMachinePoolCreate(params *V1CloudConfigsEksMachinePoolCreateParams) (*V1CloudConfigsEksMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -12892,7 +12898,7 @@ func (a *Client) V1CloudConfigsEksMachinePoolCreate(params *V1CloudConfigsEksMac
 }
 
 /*
-V1CloudConfigsEksMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsEksMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsEksMachinePoolDelete(params *V1CloudConfigsEksMachinePoolDeleteParams) (*V1CloudConfigsEksMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12926,7 +12932,7 @@ func (a *Client) V1CloudConfigsEksMachinePoolDelete(params *V1CloudConfigsEksMac
 }
 
 /*
-V1CloudConfigsEksMachinePoolUpdate updates the specified e k s cloud config s machine pool
+  V1CloudConfigsEksMachinePoolUpdate updates the specified e k s cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEksMachinePoolUpdate(params *V1CloudConfigsEksMachinePoolUpdateParams) (*V1CloudConfigsEksMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -12960,7 +12966,7 @@ func (a *Client) V1CloudConfigsEksMachinePoolUpdate(params *V1CloudConfigsEksMac
 }
 
 /*
-V1CloudConfigsEksPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsEksPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEksPoolMachinesAdd(params *V1CloudConfigsEksPoolMachinesAddParams) (*V1CloudConfigsEksPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -12994,7 +13000,7 @@ func (a *Client) V1CloudConfigsEksPoolMachinesAdd(params *V1CloudConfigsEksPoolM
 }
 
 /*
-V1CloudConfigsEksPoolMachinesList retrieves a list of e k s machines
+  V1CloudConfigsEksPoolMachinesList retrieves a list of e k s machines
 */
 func (a *Client) V1CloudConfigsEksPoolMachinesList(params *V1CloudConfigsEksPoolMachinesListParams) (*V1CloudConfigsEksPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -13028,7 +13034,7 @@ func (a *Client) V1CloudConfigsEksPoolMachinesList(params *V1CloudConfigsEksPool
 }
 
 /*
-V1CloudConfigsEksPoolMachinesUIDDelete deletes the specified e k s machine
+  V1CloudConfigsEksPoolMachinesUIDDelete deletes the specified e k s machine
 */
 func (a *Client) V1CloudConfigsEksPoolMachinesUIDDelete(params *V1CloudConfigsEksPoolMachinesUIDDeleteParams) (*V1CloudConfigsEksPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13062,7 +13068,7 @@ func (a *Client) V1CloudConfigsEksPoolMachinesUIDDelete(params *V1CloudConfigsEk
 }
 
 /*
-V1CloudConfigsEksPoolMachinesUIDGet returns the specified e k s machine
+  V1CloudConfigsEksPoolMachinesUIDGet returns the specified e k s machine
 */
 func (a *Client) V1CloudConfigsEksPoolMachinesUIDGet(params *V1CloudConfigsEksPoolMachinesUIDGetParams) (*V1CloudConfigsEksPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13096,7 +13102,7 @@ func (a *Client) V1CloudConfigsEksPoolMachinesUIDGet(params *V1CloudConfigsEksPo
 }
 
 /*
-V1CloudConfigsEksPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsEksPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsEksPoolMachinesUIDUpdate(params *V1CloudConfigsEksPoolMachinesUIDUpdateParams) (*V1CloudConfigsEksPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13130,7 +13136,7 @@ func (a *Client) V1CloudConfigsEksPoolMachinesUIDUpdate(params *V1CloudConfigsEk
 }
 
 /*
-V1CloudConfigsEksUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsEksUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsEksUIDClusterConfig(params *V1CloudConfigsEksUIDClusterConfigParams) (*V1CloudConfigsEksUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13164,7 +13170,7 @@ func (a *Client) V1CloudConfigsEksUIDClusterConfig(params *V1CloudConfigsEksUIDC
 }
 
 /*
-V1CloudConfigsEksUIDFargateProfilesUpdate updates e k s cloud config s fargate profiles
+  V1CloudConfigsEksUIDFargateProfilesUpdate updates e k s cloud config s fargate profiles
 */
 func (a *Client) V1CloudConfigsEksUIDFargateProfilesUpdate(params *V1CloudConfigsEksUIDFargateProfilesUpdateParams) (*V1CloudConfigsEksUIDFargateProfilesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13198,7 +13204,7 @@ func (a *Client) V1CloudConfigsEksUIDFargateProfilesUpdate(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsGcpGet returns the specified g c p cloud config
+  V1CloudConfigsGcpGet returns the specified g c p cloud config
 */
 func (a *Client) V1CloudConfigsGcpGet(params *V1CloudConfigsGcpGetParams) (*V1CloudConfigsGcpGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13232,7 +13238,7 @@ func (a *Client) V1CloudConfigsGcpGet(params *V1CloudConfigsGcpGetParams) (*V1Cl
 }
 
 /*
-V1CloudConfigsGcpMachinePoolCreate creates a gcp cloud config s machine pool
+  V1CloudConfigsGcpMachinePoolCreate creates a gcp cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGcpMachinePoolCreate(params *V1CloudConfigsGcpMachinePoolCreateParams) (*V1CloudConfigsGcpMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -13266,7 +13272,7 @@ func (a *Client) V1CloudConfigsGcpMachinePoolCreate(params *V1CloudConfigsGcpMac
 }
 
 /*
-V1CloudConfigsGcpMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsGcpMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsGcpMachinePoolDelete(params *V1CloudConfigsGcpMachinePoolDeleteParams) (*V1CloudConfigsGcpMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13300,7 +13306,7 @@ func (a *Client) V1CloudConfigsGcpMachinePoolDelete(params *V1CloudConfigsGcpMac
 }
 
 /*
-V1CloudConfigsGcpMachinePoolUpdate updates the specified g c p cloud config s machine pool
+  V1CloudConfigsGcpMachinePoolUpdate updates the specified g c p cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGcpMachinePoolUpdate(params *V1CloudConfigsGcpMachinePoolUpdateParams) (*V1CloudConfigsGcpMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13334,7 +13340,7 @@ func (a *Client) V1CloudConfigsGcpMachinePoolUpdate(params *V1CloudConfigsGcpMac
 }
 
 /*
-V1CloudConfigsGcpPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsGcpPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGcpPoolMachinesAdd(params *V1CloudConfigsGcpPoolMachinesAddParams) (*V1CloudConfigsGcpPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -13368,7 +13374,7 @@ func (a *Client) V1CloudConfigsGcpPoolMachinesAdd(params *V1CloudConfigsGcpPoolM
 }
 
 /*
-V1CloudConfigsGcpPoolMachinesList retrieves a list of g c p machines
+  V1CloudConfigsGcpPoolMachinesList retrieves a list of g c p machines
 */
 func (a *Client) V1CloudConfigsGcpPoolMachinesList(params *V1CloudConfigsGcpPoolMachinesListParams) (*V1CloudConfigsGcpPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -13402,7 +13408,7 @@ func (a *Client) V1CloudConfigsGcpPoolMachinesList(params *V1CloudConfigsGcpPool
 }
 
 /*
-V1CloudConfigsGcpPoolMachinesUIDDelete deletes the specified g c p machine
+  V1CloudConfigsGcpPoolMachinesUIDDelete deletes the specified g c p machine
 */
 func (a *Client) V1CloudConfigsGcpPoolMachinesUIDDelete(params *V1CloudConfigsGcpPoolMachinesUIDDeleteParams) (*V1CloudConfigsGcpPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13436,7 +13442,7 @@ func (a *Client) V1CloudConfigsGcpPoolMachinesUIDDelete(params *V1CloudConfigsGc
 }
 
 /*
-V1CloudConfigsGcpPoolMachinesUIDGet returns the specified g c p machine
+  V1CloudConfigsGcpPoolMachinesUIDGet returns the specified g c p machine
 */
 func (a *Client) V1CloudConfigsGcpPoolMachinesUIDGet(params *V1CloudConfigsGcpPoolMachinesUIDGetParams) (*V1CloudConfigsGcpPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13470,7 +13476,7 @@ func (a *Client) V1CloudConfigsGcpPoolMachinesUIDGet(params *V1CloudConfigsGcpPo
 }
 
 /*
-V1CloudConfigsGcpPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsGcpPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGcpPoolMachinesUIDUpdate(params *V1CloudConfigsGcpPoolMachinesUIDUpdateParams) (*V1CloudConfigsGcpPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13504,7 +13510,7 @@ func (a *Client) V1CloudConfigsGcpPoolMachinesUIDUpdate(params *V1CloudConfigsGc
 }
 
 /*
-V1CloudConfigsGcpUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsGcpUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsGcpUIDClusterConfig(params *V1CloudConfigsGcpUIDClusterConfigParams) (*V1CloudConfigsGcpUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13538,7 +13544,7 @@ func (a *Client) V1CloudConfigsGcpUIDClusterConfig(params *V1CloudConfigsGcpUIDC
 }
 
 /*
-V1CloudConfigsGenericGet returns the specified generic cloud config
+  V1CloudConfigsGenericGet returns the specified generic cloud config
 */
 func (a *Client) V1CloudConfigsGenericGet(params *V1CloudConfigsGenericGetParams) (*V1CloudConfigsGenericGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13572,7 +13578,7 @@ func (a *Client) V1CloudConfigsGenericGet(params *V1CloudConfigsGenericGetParams
 }
 
 /*
-V1CloudConfigsGenericMachinePoolCreate creates a generic cloud config s machine pool
+  V1CloudConfigsGenericMachinePoolCreate creates a generic cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGenericMachinePoolCreate(params *V1CloudConfigsGenericMachinePoolCreateParams) (*V1CloudConfigsGenericMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -13606,7 +13612,7 @@ func (a *Client) V1CloudConfigsGenericMachinePoolCreate(params *V1CloudConfigsGe
 }
 
 /*
-V1CloudConfigsGenericMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsGenericMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsGenericMachinePoolDelete(params *V1CloudConfigsGenericMachinePoolDeleteParams) (*V1CloudConfigsGenericMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13640,7 +13646,7 @@ func (a *Client) V1CloudConfigsGenericMachinePoolDelete(params *V1CloudConfigsGe
 }
 
 /*
-V1CloudConfigsGenericMachinePoolUpdate updates the specified generic cloud config s machine pool
+  V1CloudConfigsGenericMachinePoolUpdate updates the specified generic cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGenericMachinePoolUpdate(params *V1CloudConfigsGenericMachinePoolUpdateParams) (*V1CloudConfigsGenericMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13674,7 +13680,7 @@ func (a *Client) V1CloudConfigsGenericMachinePoolUpdate(params *V1CloudConfigsGe
 }
 
 /*
-V1CloudConfigsGenericPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsGenericPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGenericPoolMachinesAdd(params *V1CloudConfigsGenericPoolMachinesAddParams) (*V1CloudConfigsGenericPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -13708,7 +13714,7 @@ func (a *Client) V1CloudConfigsGenericPoolMachinesAdd(params *V1CloudConfigsGene
 }
 
 /*
-V1CloudConfigsGenericPoolMachinesList retrieves a list of generic machines
+  V1CloudConfigsGenericPoolMachinesList retrieves a list of generic machines
 */
 func (a *Client) V1CloudConfigsGenericPoolMachinesList(params *V1CloudConfigsGenericPoolMachinesListParams) (*V1CloudConfigsGenericPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -13742,7 +13748,7 @@ func (a *Client) V1CloudConfigsGenericPoolMachinesList(params *V1CloudConfigsGen
 }
 
 /*
-V1CloudConfigsGenericPoolMachinesUIDDelete deletes the specified machine
+  V1CloudConfigsGenericPoolMachinesUIDDelete deletes the specified machine
 */
 func (a *Client) V1CloudConfigsGenericPoolMachinesUIDDelete(params *V1CloudConfigsGenericPoolMachinesUIDDeleteParams) (*V1CloudConfigsGenericPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13776,7 +13782,7 @@ func (a *Client) V1CloudConfigsGenericPoolMachinesUIDDelete(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsGenericPoolMachinesUIDGet returns the specified generic machine
+  V1CloudConfigsGenericPoolMachinesUIDGet returns the specified generic machine
 */
 func (a *Client) V1CloudConfigsGenericPoolMachinesUIDGet(params *V1CloudConfigsGenericPoolMachinesUIDGetParams) (*V1CloudConfigsGenericPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13810,7 +13816,7 @@ func (a *Client) V1CloudConfigsGenericPoolMachinesUIDGet(params *V1CloudConfigsG
 }
 
 /*
-V1CloudConfigsGenericPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsGenericPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGenericPoolMachinesUIDUpdate(params *V1CloudConfigsGenericPoolMachinesUIDUpdateParams) (*V1CloudConfigsGenericPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13844,7 +13850,7 @@ func (a *Client) V1CloudConfigsGenericPoolMachinesUIDUpdate(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsGenericUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsGenericUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsGenericUIDClusterConfig(params *V1CloudConfigsGenericUIDClusterConfigParams) (*V1CloudConfigsGenericUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13878,7 +13884,7 @@ func (a *Client) V1CloudConfigsGenericUIDClusterConfig(params *V1CloudConfigsGen
 }
 
 /*
-V1CloudConfigsGkeGet returns the specified g k e cloud config
+  V1CloudConfigsGkeGet returns the specified g k e cloud config
 */
 func (a *Client) V1CloudConfigsGkeGet(params *V1CloudConfigsGkeGetParams) (*V1CloudConfigsGkeGetOK, error) {
 	// TODO: Validate the params before sending
@@ -13912,7 +13918,7 @@ func (a *Client) V1CloudConfigsGkeGet(params *V1CloudConfigsGkeGetParams) (*V1Cl
 }
 
 /*
-V1CloudConfigsGkeMachinePoolCreate creates an g k e cloud config s machine pool
+  V1CloudConfigsGkeMachinePoolCreate creates an g k e cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGkeMachinePoolCreate(params *V1CloudConfigsGkeMachinePoolCreateParams) (*V1CloudConfigsGkeMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -13946,7 +13952,7 @@ func (a *Client) V1CloudConfigsGkeMachinePoolCreate(params *V1CloudConfigsGkeMac
 }
 
 /*
-V1CloudConfigsGkeMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsGkeMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsGkeMachinePoolDelete(params *V1CloudConfigsGkeMachinePoolDeleteParams) (*V1CloudConfigsGkeMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -13980,7 +13986,7 @@ func (a *Client) V1CloudConfigsGkeMachinePoolDelete(params *V1CloudConfigsGkeMac
 }
 
 /*
-V1CloudConfigsGkeMachinePoolUpdate updates the specified g k e cloud config s machine pool
+  V1CloudConfigsGkeMachinePoolUpdate updates the specified g k e cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGkeMachinePoolUpdate(params *V1CloudConfigsGkeMachinePoolUpdateParams) (*V1CloudConfigsGkeMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14014,7 +14020,7 @@ func (a *Client) V1CloudConfigsGkeMachinePoolUpdate(params *V1CloudConfigsGkeMac
 }
 
 /*
-V1CloudConfigsGkePoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsGkePoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGkePoolMachinesAdd(params *V1CloudConfigsGkePoolMachinesAddParams) (*V1CloudConfigsGkePoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -14048,7 +14054,7 @@ func (a *Client) V1CloudConfigsGkePoolMachinesAdd(params *V1CloudConfigsGkePoolM
 }
 
 /*
-V1CloudConfigsGkePoolMachinesList retrieves a list of g k e machines
+  V1CloudConfigsGkePoolMachinesList retrieves a list of g k e machines
 */
 func (a *Client) V1CloudConfigsGkePoolMachinesList(params *V1CloudConfigsGkePoolMachinesListParams) (*V1CloudConfigsGkePoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -14082,7 +14088,7 @@ func (a *Client) V1CloudConfigsGkePoolMachinesList(params *V1CloudConfigsGkePool
 }
 
 /*
-V1CloudConfigsGkePoolMachinesUIDDelete deletes the specified gcp machine
+  V1CloudConfigsGkePoolMachinesUIDDelete deletes the specified gcp machine
 */
 func (a *Client) V1CloudConfigsGkePoolMachinesUIDDelete(params *V1CloudConfigsGkePoolMachinesUIDDeleteParams) (*V1CloudConfigsGkePoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14116,7 +14122,7 @@ func (a *Client) V1CloudConfigsGkePoolMachinesUIDDelete(params *V1CloudConfigsGk
 }
 
 /*
-V1CloudConfigsGkePoolMachinesUIDGet returns the specified g k e machine
+  V1CloudConfigsGkePoolMachinesUIDGet returns the specified g k e machine
 */
 func (a *Client) V1CloudConfigsGkePoolMachinesUIDGet(params *V1CloudConfigsGkePoolMachinesUIDGetParams) (*V1CloudConfigsGkePoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14150,7 +14156,7 @@ func (a *Client) V1CloudConfigsGkePoolMachinesUIDGet(params *V1CloudConfigsGkePo
 }
 
 /*
-V1CloudConfigsGkePoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsGkePoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsGkePoolMachinesUIDUpdate(params *V1CloudConfigsGkePoolMachinesUIDUpdateParams) (*V1CloudConfigsGkePoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14184,7 +14190,7 @@ func (a *Client) V1CloudConfigsGkePoolMachinesUIDUpdate(params *V1CloudConfigsGk
 }
 
 /*
-V1CloudConfigsGkeUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsGkeUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsGkeUIDClusterConfig(params *V1CloudConfigsGkeUIDClusterConfigParams) (*V1CloudConfigsGkeUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14218,7 +14224,7 @@ func (a *Client) V1CloudConfigsGkeUIDClusterConfig(params *V1CloudConfigsGkeUIDC
 }
 
 /*
-V1CloudConfigsMaasGet returns the specified maas cloud config
+  V1CloudConfigsMaasGet returns the specified maas cloud config
 */
 func (a *Client) V1CloudConfigsMaasGet(params *V1CloudConfigsMaasGetParams) (*V1CloudConfigsMaasGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14252,7 +14258,7 @@ func (a *Client) V1CloudConfigsMaasGet(params *V1CloudConfigsMaasGetParams) (*V1
 }
 
 /*
-V1CloudConfigsMaasMachinePoolCreate creates an maas cloud config s machine pool
+  V1CloudConfigsMaasMachinePoolCreate creates an maas cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsMaasMachinePoolCreate(params *V1CloudConfigsMaasMachinePoolCreateParams) (*V1CloudConfigsMaasMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -14286,7 +14292,7 @@ func (a *Client) V1CloudConfigsMaasMachinePoolCreate(params *V1CloudConfigsMaasM
 }
 
 /*
-V1CloudConfigsMaasMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsMaasMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsMaasMachinePoolDelete(params *V1CloudConfigsMaasMachinePoolDeleteParams) (*V1CloudConfigsMaasMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14320,7 +14326,7 @@ func (a *Client) V1CloudConfigsMaasMachinePoolDelete(params *V1CloudConfigsMaasM
 }
 
 /*
-V1CloudConfigsMaasMachinePoolUpdate updates the specified maas cloud config s machine pool
+  V1CloudConfigsMaasMachinePoolUpdate updates the specified maas cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsMaasMachinePoolUpdate(params *V1CloudConfigsMaasMachinePoolUpdateParams) (*V1CloudConfigsMaasMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14354,7 +14360,7 @@ func (a *Client) V1CloudConfigsMaasMachinePoolUpdate(params *V1CloudConfigsMaasM
 }
 
 /*
-V1CloudConfigsMaasPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsMaasPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsMaasPoolMachinesAdd(params *V1CloudConfigsMaasPoolMachinesAddParams) (*V1CloudConfigsMaasPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -14388,7 +14394,7 @@ func (a *Client) V1CloudConfigsMaasPoolMachinesAdd(params *V1CloudConfigsMaasPoo
 }
 
 /*
-V1CloudConfigsMaasPoolMachinesList retrieves a list of maas machines
+  V1CloudConfigsMaasPoolMachinesList retrieves a list of maas machines
 */
 func (a *Client) V1CloudConfigsMaasPoolMachinesList(params *V1CloudConfigsMaasPoolMachinesListParams) (*V1CloudConfigsMaasPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -14422,7 +14428,7 @@ func (a *Client) V1CloudConfigsMaasPoolMachinesList(params *V1CloudConfigsMaasPo
 }
 
 /*
-V1CloudConfigsMaasPoolMachinesUIDDelete deletes the specified maas machine
+  V1CloudConfigsMaasPoolMachinesUIDDelete deletes the specified maas machine
 */
 func (a *Client) V1CloudConfigsMaasPoolMachinesUIDDelete(params *V1CloudConfigsMaasPoolMachinesUIDDeleteParams) (*V1CloudConfigsMaasPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14456,7 +14462,7 @@ func (a *Client) V1CloudConfigsMaasPoolMachinesUIDDelete(params *V1CloudConfigsM
 }
 
 /*
-V1CloudConfigsMaasPoolMachinesUIDGet returns the specified maas machine
+  V1CloudConfigsMaasPoolMachinesUIDGet returns the specified maas machine
 */
 func (a *Client) V1CloudConfigsMaasPoolMachinesUIDGet(params *V1CloudConfigsMaasPoolMachinesUIDGetParams) (*V1CloudConfigsMaasPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14490,7 +14496,7 @@ func (a *Client) V1CloudConfigsMaasPoolMachinesUIDGet(params *V1CloudConfigsMaas
 }
 
 /*
-V1CloudConfigsMaasPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsMaasPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsMaasPoolMachinesUIDUpdate(params *V1CloudConfigsMaasPoolMachinesUIDUpdateParams) (*V1CloudConfigsMaasPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14524,7 +14530,7 @@ func (a *Client) V1CloudConfigsMaasPoolMachinesUIDUpdate(params *V1CloudConfigsM
 }
 
 /*
-V1CloudConfigsMaasUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsMaasUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsMaasUIDClusterConfig(params *V1CloudConfigsMaasUIDClusterConfigParams) (*V1CloudConfigsMaasUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14558,7 +14564,7 @@ func (a *Client) V1CloudConfigsMaasUIDClusterConfig(params *V1CloudConfigsMaasUI
 }
 
 /*
-V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdate updates the specified machine maintenance
+  V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdate updates the specified machine maintenance
 */
 func (a *Client) V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdate(params *V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateParams) (*V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14592,7 +14598,7 @@ func (a *Client) V1CloudConfigsMachinePoolsMachineUIDMaintenanceStatusUpdate(par
 }
 
 /*
-V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate updates the specified machine maintenance
+  V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate updates the specified machine maintenance
 */
 func (a *Client) V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params *V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParams) (*V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14626,7 +14632,7 @@ func (a *Client) V1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdate(params *V
 }
 
 /*
-V1CloudConfigsMachinePoolsMachineUidsGet returns the specified cloud config s machine pools and machine uid
+  V1CloudConfigsMachinePoolsMachineUidsGet returns the specified cloud config s machine pools and machine uid
 */
 func (a *Client) V1CloudConfigsMachinePoolsMachineUidsGet(params *V1CloudConfigsMachinePoolsMachineUidsGetParams) (*V1CloudConfigsMachinePoolsMachineUidsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14660,7 +14666,7 @@ func (a *Client) V1CloudConfigsMachinePoolsMachineUidsGet(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsOpenStackGet returns the specified open stack cloud config
+  V1CloudConfigsOpenStackGet returns the specified open stack cloud config
 */
 func (a *Client) V1CloudConfigsOpenStackGet(params *V1CloudConfigsOpenStackGetParams) (*V1CloudConfigsOpenStackGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14694,7 +14700,7 @@ func (a *Client) V1CloudConfigsOpenStackGet(params *V1CloudConfigsOpenStackGetPa
 }
 
 /*
-V1CloudConfigsOpenStackMachinePoolCreate creates a open stack cloud config s machine pool
+  V1CloudConfigsOpenStackMachinePoolCreate creates a open stack cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsOpenStackMachinePoolCreate(params *V1CloudConfigsOpenStackMachinePoolCreateParams) (*V1CloudConfigsOpenStackMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -14728,7 +14734,7 @@ func (a *Client) V1CloudConfigsOpenStackMachinePoolCreate(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsOpenStackMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsOpenStackMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsOpenStackMachinePoolDelete(params *V1CloudConfigsOpenStackMachinePoolDeleteParams) (*V1CloudConfigsOpenStackMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14762,7 +14768,7 @@ func (a *Client) V1CloudConfigsOpenStackMachinePoolDelete(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsOpenStackMachinePoolUpdate updates the specified open stack cloud config s machine pool
+  V1CloudConfigsOpenStackMachinePoolUpdate updates the specified open stack cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsOpenStackMachinePoolUpdate(params *V1CloudConfigsOpenStackMachinePoolUpdateParams) (*V1CloudConfigsOpenStackMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14796,7 +14802,7 @@ func (a *Client) V1CloudConfigsOpenStackMachinePoolUpdate(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsOpenStackPoolMachinesAdd adds the open stack machine to cloud config s machine pool
+  V1CloudConfigsOpenStackPoolMachinesAdd adds the open stack machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsOpenStackPoolMachinesAdd(params *V1CloudConfigsOpenStackPoolMachinesAddParams) (*V1CloudConfigsOpenStackPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -14830,7 +14836,7 @@ func (a *Client) V1CloudConfigsOpenStackPoolMachinesAdd(params *V1CloudConfigsOp
 }
 
 /*
-V1CloudConfigsOpenStackPoolMachinesList retrieves a list of open stack machines
+  V1CloudConfigsOpenStackPoolMachinesList retrieves a list of open stack machines
 */
 func (a *Client) V1CloudConfigsOpenStackPoolMachinesList(params *V1CloudConfigsOpenStackPoolMachinesListParams) (*V1CloudConfigsOpenStackPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -14864,7 +14870,7 @@ func (a *Client) V1CloudConfigsOpenStackPoolMachinesList(params *V1CloudConfigsO
 }
 
 /*
-V1CloudConfigsOpenStackPoolMachinesUIDDelete deletes the specified open stack machine
+  V1CloudConfigsOpenStackPoolMachinesUIDDelete deletes the specified open stack machine
 */
 func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDDelete(params *V1CloudConfigsOpenStackPoolMachinesUIDDeleteParams) (*V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14898,7 +14904,7 @@ func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDDelete(params *V1CloudCon
 }
 
 /*
-V1CloudConfigsOpenStackPoolMachinesUIDGet returns the specified open stack machine
+  V1CloudConfigsOpenStackPoolMachinesUIDGet returns the specified open stack machine
 */
 func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDGet(params *V1CloudConfigsOpenStackPoolMachinesUIDGetParams) (*V1CloudConfigsOpenStackPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -14932,7 +14938,7 @@ func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDGet(params *V1CloudConfig
 }
 
 /*
-V1CloudConfigsOpenStackPoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
+  V1CloudConfigsOpenStackPoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDUpdate(params *V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams) (*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -14966,7 +14972,7 @@ func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDUpdate(params *V1CloudCon
 }
 
 /*
-V1CloudConfigsOpenStackUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsOpenStackUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsOpenStackUIDClusterConfigParams) (*V1CloudConfigsOpenStackUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15000,7 +15006,7 @@ func (a *Client) V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsO
 }
 
 /*
-V1CloudConfigsVirtualGet returns the specified virtual cloud config
+  V1CloudConfigsVirtualGet returns the specified virtual cloud config
 */
 func (a *Client) V1CloudConfigsVirtualGet(params *V1CloudConfigsVirtualGetParams) (*V1CloudConfigsVirtualGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15034,7 +15040,7 @@ func (a *Client) V1CloudConfigsVirtualGet(params *V1CloudConfigsVirtualGetParams
 }
 
 /*
-V1CloudConfigsVirtualMachinePoolCreate creates a virtual cloud config s machine pool
+  V1CloudConfigsVirtualMachinePoolCreate creates a virtual cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVirtualMachinePoolCreate(params *V1CloudConfigsVirtualMachinePoolCreateParams) (*V1CloudConfigsVirtualMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -15068,7 +15074,7 @@ func (a *Client) V1CloudConfigsVirtualMachinePoolCreate(params *V1CloudConfigsVi
 }
 
 /*
-V1CloudConfigsVirtualMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsVirtualMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsVirtualMachinePoolDelete(params *V1CloudConfigsVirtualMachinePoolDeleteParams) (*V1CloudConfigsVirtualMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15102,7 +15108,7 @@ func (a *Client) V1CloudConfigsVirtualMachinePoolDelete(params *V1CloudConfigsVi
 }
 
 /*
-V1CloudConfigsVirtualMachinePoolUpdate updates the specified virtual cloud config s machine pool
+  V1CloudConfigsVirtualMachinePoolUpdate updates the specified virtual cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVirtualMachinePoolUpdate(params *V1CloudConfigsVirtualMachinePoolUpdateParams) (*V1CloudConfigsVirtualMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15136,7 +15142,7 @@ func (a *Client) V1CloudConfigsVirtualMachinePoolUpdate(params *V1CloudConfigsVi
 }
 
 /*
-V1CloudConfigsVirtualPoolMachinesAdd adds the machine to cloud config s machine pool
+  V1CloudConfigsVirtualPoolMachinesAdd adds the machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVirtualPoolMachinesAdd(params *V1CloudConfigsVirtualPoolMachinesAddParams) (*V1CloudConfigsVirtualPoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -15170,7 +15176,7 @@ func (a *Client) V1CloudConfigsVirtualPoolMachinesAdd(params *V1CloudConfigsVirt
 }
 
 /*
-V1CloudConfigsVirtualPoolMachinesList retrieves a list of virtual machines
+  V1CloudConfigsVirtualPoolMachinesList retrieves a list of virtual machines
 */
 func (a *Client) V1CloudConfigsVirtualPoolMachinesList(params *V1CloudConfigsVirtualPoolMachinesListParams) (*V1CloudConfigsVirtualPoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -15204,7 +15210,7 @@ func (a *Client) V1CloudConfigsVirtualPoolMachinesList(params *V1CloudConfigsVir
 }
 
 /*
-V1CloudConfigsVirtualPoolMachinesUIDDelete deletes the specified virtual machine
+  V1CloudConfigsVirtualPoolMachinesUIDDelete deletes the specified virtual machine
 */
 func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDDelete(params *V1CloudConfigsVirtualPoolMachinesUIDDeleteParams) (*V1CloudConfigsVirtualPoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15238,7 +15244,7 @@ func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDDelete(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsVirtualPoolMachinesUIDGet returns the specified virtual machine
+  V1CloudConfigsVirtualPoolMachinesUIDGet returns the specified virtual machine
 */
 func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDGet(params *V1CloudConfigsVirtualPoolMachinesUIDGetParams) (*V1CloudConfigsVirtualPoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15272,7 +15278,7 @@ func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDGet(params *V1CloudConfigsV
 }
 
 /*
-V1CloudConfigsVirtualPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
+  V1CloudConfigsVirtualPoolMachinesUIDUpdate updates the specified machine to the cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDUpdate(params *V1CloudConfigsVirtualPoolMachinesUIDUpdateParams) (*V1CloudConfigsVirtualPoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15306,7 +15312,7 @@ func (a *Client) V1CloudConfigsVirtualPoolMachinesUIDUpdate(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsVirtualUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsVirtualUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsVirtualUIDClusterConfig(params *V1CloudConfigsVirtualUIDClusterConfigParams) (*V1CloudConfigsVirtualUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15340,7 +15346,7 @@ func (a *Client) V1CloudConfigsVirtualUIDClusterConfig(params *V1CloudConfigsVir
 }
 
 /*
-V1CloudConfigsVirtualUIDUpdate updates and resizes the virtual cluster
+  V1CloudConfigsVirtualUIDUpdate updates and resizes the virtual cluster
 */
 func (a *Client) V1CloudConfigsVirtualUIDUpdate(params *V1CloudConfigsVirtualUIDUpdateParams) (*V1CloudConfigsVirtualUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15374,7 +15380,7 @@ func (a *Client) V1CloudConfigsVirtualUIDUpdate(params *V1CloudConfigsVirtualUID
 }
 
 /*
-V1CloudConfigsVsphereGet returns the specified v sphere cloud config
+  V1CloudConfigsVsphereGet returns the specified v sphere cloud config
 */
 func (a *Client) V1CloudConfigsVsphereGet(params *V1CloudConfigsVsphereGetParams) (*V1CloudConfigsVsphereGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15408,7 +15414,7 @@ func (a *Client) V1CloudConfigsVsphereGet(params *V1CloudConfigsVsphereGetParams
 }
 
 /*
-V1CloudConfigsVsphereMachinePoolCreate creates a v sphere cloud config s machine pool
+  V1CloudConfigsVsphereMachinePoolCreate creates a v sphere cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVsphereMachinePoolCreate(params *V1CloudConfigsVsphereMachinePoolCreateParams) (*V1CloudConfigsVsphereMachinePoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -15442,7 +15448,7 @@ func (a *Client) V1CloudConfigsVsphereMachinePoolCreate(params *V1CloudConfigsVs
 }
 
 /*
-V1CloudConfigsVsphereMachinePoolDelete deletes the specified machine pool
+  V1CloudConfigsVsphereMachinePoolDelete deletes the specified machine pool
 */
 func (a *Client) V1CloudConfigsVsphereMachinePoolDelete(params *V1CloudConfigsVsphereMachinePoolDeleteParams) (*V1CloudConfigsVsphereMachinePoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15476,7 +15482,7 @@ func (a *Client) V1CloudConfigsVsphereMachinePoolDelete(params *V1CloudConfigsVs
 }
 
 /*
-V1CloudConfigsVsphereMachinePoolUpdate updates the specified v sphere cloud config s machine pool
+  V1CloudConfigsVsphereMachinePoolUpdate updates the specified v sphere cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVsphereMachinePoolUpdate(params *V1CloudConfigsVsphereMachinePoolUpdateParams) (*V1CloudConfigsVsphereMachinePoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15510,7 +15516,7 @@ func (a *Client) V1CloudConfigsVsphereMachinePoolUpdate(params *V1CloudConfigsVs
 }
 
 /*
-V1CloudConfigsVspherePoolMachinesAdd adds the v sphere machine to cloud config s machine pool
+  V1CloudConfigsVspherePoolMachinesAdd adds the v sphere machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVspherePoolMachinesAdd(params *V1CloudConfigsVspherePoolMachinesAddParams) (*V1CloudConfigsVspherePoolMachinesAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -15544,7 +15550,7 @@ func (a *Client) V1CloudConfigsVspherePoolMachinesAdd(params *V1CloudConfigsVsph
 }
 
 /*
-V1CloudConfigsVspherePoolMachinesList retrieves a list of v sphere machines
+  V1CloudConfigsVspherePoolMachinesList retrieves a list of v sphere machines
 */
 func (a *Client) V1CloudConfigsVspherePoolMachinesList(params *V1CloudConfigsVspherePoolMachinesListParams) (*V1CloudConfigsVspherePoolMachinesListOK, error) {
 	// TODO: Validate the params before sending
@@ -15578,7 +15584,7 @@ func (a *Client) V1CloudConfigsVspherePoolMachinesList(params *V1CloudConfigsVsp
 }
 
 /*
-V1CloudConfigsVspherePoolMachinesUIDDelete deletes the specified v sphere machine
+  V1CloudConfigsVspherePoolMachinesUIDDelete deletes the specified v sphere machine
 */
 func (a *Client) V1CloudConfigsVspherePoolMachinesUIDDelete(params *V1CloudConfigsVspherePoolMachinesUIDDeleteParams) (*V1CloudConfigsVspherePoolMachinesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15612,7 +15618,7 @@ func (a *Client) V1CloudConfigsVspherePoolMachinesUIDDelete(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsVspherePoolMachinesUIDGet returns the specified v sphere machine
+  V1CloudConfigsVspherePoolMachinesUIDGet returns the specified v sphere machine
 */
 func (a *Client) V1CloudConfigsVspherePoolMachinesUIDGet(params *V1CloudConfigsVspherePoolMachinesUIDGetParams) (*V1CloudConfigsVspherePoolMachinesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15646,7 +15652,7 @@ func (a *Client) V1CloudConfigsVspherePoolMachinesUIDGet(params *V1CloudConfigsV
 }
 
 /*
-V1CloudConfigsVspherePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
+  V1CloudConfigsVspherePoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
 */
 func (a *Client) V1CloudConfigsVspherePoolMachinesUIDUpdate(params *V1CloudConfigsVspherePoolMachinesUIDUpdateParams) (*V1CloudConfigsVspherePoolMachinesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15680,7 +15686,7 @@ func (a *Client) V1CloudConfigsVspherePoolMachinesUIDUpdate(params *V1CloudConfi
 }
 
 /*
-V1CloudConfigsVsphereUIDClusterConfig updates the cluster configuration information
+  V1CloudConfigsVsphereUIDClusterConfig updates the cluster configuration information
 */
 func (a *Client) V1CloudConfigsVsphereUIDClusterConfig(params *V1CloudConfigsVsphereUIDClusterConfigParams) (*V1CloudConfigsVsphereUIDClusterConfigNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15714,7 +15720,7 @@ func (a *Client) V1CloudConfigsVsphereUIDClusterConfig(params *V1CloudConfigsVsp
 }
 
 /*
-V1ClusterFeatureBackupCreate creates cluster backup settings
+  V1ClusterFeatureBackupCreate creates cluster backup settings
 */
 func (a *Client) V1ClusterFeatureBackupCreate(params *V1ClusterFeatureBackupCreateParams) (*V1ClusterFeatureBackupCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -15748,7 +15754,7 @@ func (a *Client) V1ClusterFeatureBackupCreate(params *V1ClusterFeatureBackupCrea
 }
 
 /*
-V1ClusterFeatureBackupDelete deletes cluster backup
+  V1ClusterFeatureBackupDelete deletes cluster backup
 */
 func (a *Client) V1ClusterFeatureBackupDelete(params *V1ClusterFeatureBackupDeleteParams) (*V1ClusterFeatureBackupDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15782,7 +15788,7 @@ func (a *Client) V1ClusterFeatureBackupDelete(params *V1ClusterFeatureBackupDele
 }
 
 /*
-V1ClusterFeatureBackupGet returns the cluster backup result
+  V1ClusterFeatureBackupGet returns the cluster backup result
 */
 func (a *Client) V1ClusterFeatureBackupGet(params *V1ClusterFeatureBackupGetParams) (*V1ClusterFeatureBackupGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15816,7 +15822,7 @@ func (a *Client) V1ClusterFeatureBackupGet(params *V1ClusterFeatureBackupGetPara
 }
 
 /*
-V1ClusterFeatureBackupOnDemandCreate creates on demand cluster backup
+  V1ClusterFeatureBackupOnDemandCreate creates on demand cluster backup
 */
 func (a *Client) V1ClusterFeatureBackupOnDemandCreate(params *V1ClusterFeatureBackupOnDemandCreateParams) (*V1ClusterFeatureBackupOnDemandCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -15850,7 +15856,7 @@ func (a *Client) V1ClusterFeatureBackupOnDemandCreate(params *V1ClusterFeatureBa
 }
 
 /*
-V1ClusterFeatureBackupScheduleReset resets cluster backup schedule settings
+  V1ClusterFeatureBackupScheduleReset resets cluster backup schedule settings
 */
 func (a *Client) V1ClusterFeatureBackupScheduleReset(params *V1ClusterFeatureBackupScheduleResetParams) (*V1ClusterFeatureBackupScheduleResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15884,7 +15890,7 @@ func (a *Client) V1ClusterFeatureBackupScheduleReset(params *V1ClusterFeatureBac
 }
 
 /*
-V1ClusterFeatureBackupUpdate updates cluster backup settings
+  V1ClusterFeatureBackupUpdate updates cluster backup settings
 */
 func (a *Client) V1ClusterFeatureBackupUpdate(params *V1ClusterFeatureBackupUpdateParams) (*V1ClusterFeatureBackupUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -15918,7 +15924,7 @@ func (a *Client) V1ClusterFeatureBackupUpdate(params *V1ClusterFeatureBackupUpda
 }
 
 /*
-V1ClusterFeatureComplianceScanCreate creates cluster compliance scan
+  V1ClusterFeatureComplianceScanCreate creates cluster compliance scan
 */
 func (a *Client) V1ClusterFeatureComplianceScanCreate(params *V1ClusterFeatureComplianceScanCreateParams) (*V1ClusterFeatureComplianceScanCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -15952,7 +15958,7 @@ func (a *Client) V1ClusterFeatureComplianceScanCreate(params *V1ClusterFeatureCo
 }
 
 /*
-V1ClusterFeatureComplianceScanGet returns the compliance scan of cluster if driver type is provided then specific status of driver type will be returned
+  V1ClusterFeatureComplianceScanGet returns the compliance scan of cluster if driver type is provided then specific status of driver type will be returned
 */
 func (a *Client) V1ClusterFeatureComplianceScanGet(params *V1ClusterFeatureComplianceScanGetParams) (*V1ClusterFeatureComplianceScanGetOK, error) {
 	// TODO: Validate the params before sending
@@ -15986,7 +15992,7 @@ func (a *Client) V1ClusterFeatureComplianceScanGet(params *V1ClusterFeatureCompl
 }
 
 /*
-V1ClusterFeatureComplianceScanLogDelete deletes the compliance scan log by uid
+  V1ClusterFeatureComplianceScanLogDelete deletes the compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureComplianceScanLogDelete(params *V1ClusterFeatureComplianceScanLogDeleteParams) (*V1ClusterFeatureComplianceScanLogDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16020,7 +16026,7 @@ func (a *Client) V1ClusterFeatureComplianceScanLogDelete(params *V1ClusterFeatur
 }
 
 /*
-V1ClusterFeatureComplianceScanLogsGet returns the compliance scan log by cluster uid and driver type
+  V1ClusterFeatureComplianceScanLogsGet returns the compliance scan log by cluster uid and driver type
 */
 func (a *Client) V1ClusterFeatureComplianceScanLogsGet(params *V1ClusterFeatureComplianceScanLogsGetParams) (*V1ClusterFeatureComplianceScanLogsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16054,7 +16060,7 @@ func (a *Client) V1ClusterFeatureComplianceScanLogsGet(params *V1ClusterFeatureC
 }
 
 /*
-V1ClusterFeatureComplianceScanOnDemandCreate creates on demand cluster compliance scan
+  V1ClusterFeatureComplianceScanOnDemandCreate creates on demand cluster compliance scan
 */
 func (a *Client) V1ClusterFeatureComplianceScanOnDemandCreate(params *V1ClusterFeatureComplianceScanOnDemandCreateParams) (*V1ClusterFeatureComplianceScanOnDemandCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -16088,7 +16094,7 @@ func (a *Client) V1ClusterFeatureComplianceScanOnDemandCreate(params *V1ClusterF
 }
 
 /*
-V1ClusterFeatureComplianceScanUpdate updates cluster compliance scan settings
+  V1ClusterFeatureComplianceScanUpdate updates cluster compliance scan settings
 */
 func (a *Client) V1ClusterFeatureComplianceScanUpdate(params *V1ClusterFeatureComplianceScanUpdateParams) (*V1ClusterFeatureComplianceScanUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16122,7 +16128,7 @@ func (a *Client) V1ClusterFeatureComplianceScanUpdate(params *V1ClusterFeatureCo
 }
 
 /*
-V1ClusterFeatureDriverLogDownload downloads the driver cluster logs
+  V1ClusterFeatureDriverLogDownload downloads the driver cluster logs
 */
 func (a *Client) V1ClusterFeatureDriverLogDownload(params *V1ClusterFeatureDriverLogDownloadParams, writer io.Writer) (*V1ClusterFeatureDriverLogDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -16156,7 +16162,7 @@ func (a *Client) V1ClusterFeatureDriverLogDownload(params *V1ClusterFeatureDrive
 }
 
 /*
-V1ClusterFeatureHelmChartsGet gets the installed helm charts of a specified cluster
+  V1ClusterFeatureHelmChartsGet gets the installed helm charts of a specified cluster
 */
 func (a *Client) V1ClusterFeatureHelmChartsGet(params *V1ClusterFeatureHelmChartsGetParams) (*V1ClusterFeatureHelmChartsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16190,7 +16196,7 @@ func (a *Client) V1ClusterFeatureHelmChartsGet(params *V1ClusterFeatureHelmChart
 }
 
 /*
-V1ClusterFeatureKubeBenchLogGet returns the kube bench compliance scan log by uid
+  V1ClusterFeatureKubeBenchLogGet returns the kube bench compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureKubeBenchLogGet(params *V1ClusterFeatureKubeBenchLogGetParams) (*V1ClusterFeatureKubeBenchLogGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16224,7 +16230,7 @@ func (a *Client) V1ClusterFeatureKubeBenchLogGet(params *V1ClusterFeatureKubeBen
 }
 
 /*
-V1ClusterFeatureKubeHunterLogGet returns the kube hunter compliance scan log by uid
+  V1ClusterFeatureKubeHunterLogGet returns the kube hunter compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureKubeHunterLogGet(params *V1ClusterFeatureKubeHunterLogGetParams) (*V1ClusterFeatureKubeHunterLogGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16258,7 +16264,7 @@ func (a *Client) V1ClusterFeatureKubeHunterLogGet(params *V1ClusterFeatureKubeHu
 }
 
 /*
-V1ClusterFeatureLogFetcherCreate creates the log fetcher for cluster
+  V1ClusterFeatureLogFetcherCreate creates the log fetcher for cluster
 */
 func (a *Client) V1ClusterFeatureLogFetcherCreate(params *V1ClusterFeatureLogFetcherCreateParams) (*V1ClusterFeatureLogFetcherCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -16292,7 +16298,7 @@ func (a *Client) V1ClusterFeatureLogFetcherCreate(params *V1ClusterFeatureLogFet
 }
 
 /*
-V1ClusterFeatureLogFetcherGet gets the log fetcher for cluster
+  V1ClusterFeatureLogFetcherGet gets the log fetcher for cluster
 */
 func (a *Client) V1ClusterFeatureLogFetcherGet(params *V1ClusterFeatureLogFetcherGetParams) (*V1ClusterFeatureLogFetcherGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16326,7 +16332,7 @@ func (a *Client) V1ClusterFeatureLogFetcherGet(params *V1ClusterFeatureLogFetche
 }
 
 /*
-V1ClusterFeatureLogFetcherLogDownload downloads log fetcher logs for cluster by log fetcher uid
+  V1ClusterFeatureLogFetcherLogDownload downloads log fetcher logs for cluster by log fetcher uid
 */
 func (a *Client) V1ClusterFeatureLogFetcherLogDownload(params *V1ClusterFeatureLogFetcherLogDownloadParams, writer io.Writer) (*V1ClusterFeatureLogFetcherLogDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -16360,7 +16366,7 @@ func (a *Client) V1ClusterFeatureLogFetcherLogDownload(params *V1ClusterFeatureL
 }
 
 /*
-V1ClusterFeatureLogFetcherLogUpdate updates log fetcher logs by log fetcher uid
+  V1ClusterFeatureLogFetcherLogUpdate updates log fetcher logs by log fetcher uid
 */
 func (a *Client) V1ClusterFeatureLogFetcherLogUpdate(params *V1ClusterFeatureLogFetcherLogUpdateParams) (*V1ClusterFeatureLogFetcherLogUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16394,7 +16400,7 @@ func (a *Client) V1ClusterFeatureLogFetcherLogUpdate(params *V1ClusterFeatureLog
 }
 
 /*
-V1ClusterFeatureManifestsGet gets the installed manifests of a specified cluster
+  V1ClusterFeatureManifestsGet gets the installed manifests of a specified cluster
 */
 func (a *Client) V1ClusterFeatureManifestsGet(params *V1ClusterFeatureManifestsGetParams) (*V1ClusterFeatureManifestsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16428,7 +16434,7 @@ func (a *Client) V1ClusterFeatureManifestsGet(params *V1ClusterFeatureManifestsG
 }
 
 /*
-V1ClusterFeatureRestoreGet returns the cluster restore of cluster
+  V1ClusterFeatureRestoreGet returns the cluster restore of cluster
 */
 func (a *Client) V1ClusterFeatureRestoreGet(params *V1ClusterFeatureRestoreGetParams) (*V1ClusterFeatureRestoreGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16462,7 +16468,7 @@ func (a *Client) V1ClusterFeatureRestoreGet(params *V1ClusterFeatureRestoreGetPa
 }
 
 /*
-V1ClusterFeatureRestoreOnDemandCreate creates on demand cluster restore
+  V1ClusterFeatureRestoreOnDemandCreate creates on demand cluster restore
 */
 func (a *Client) V1ClusterFeatureRestoreOnDemandCreate(params *V1ClusterFeatureRestoreOnDemandCreateParams) (*V1ClusterFeatureRestoreOnDemandCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -16496,7 +16502,7 @@ func (a *Client) V1ClusterFeatureRestoreOnDemandCreate(params *V1ClusterFeatureR
 }
 
 /*
-V1ClusterFeatureScanKubeBenchLogUpdate updates the kube bench compliance scan log by uid
+  V1ClusterFeatureScanKubeBenchLogUpdate updates the kube bench compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureScanKubeBenchLogUpdate(params *V1ClusterFeatureScanKubeBenchLogUpdateParams) (*V1ClusterFeatureScanKubeBenchLogUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16530,7 +16536,7 @@ func (a *Client) V1ClusterFeatureScanKubeBenchLogUpdate(params *V1ClusterFeature
 }
 
 /*
-V1ClusterFeatureScanKubeHunterLogUpdate updates the kube hunter compliance scan log by uid
+  V1ClusterFeatureScanKubeHunterLogUpdate updates the kube hunter compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureScanKubeHunterLogUpdate(params *V1ClusterFeatureScanKubeHunterLogUpdateParams) (*V1ClusterFeatureScanKubeHunterLogUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16564,7 +16570,7 @@ func (a *Client) V1ClusterFeatureScanKubeHunterLogUpdate(params *V1ClusterFeatur
 }
 
 /*
-V1ClusterFeatureScanSonobuoyLogUpdate updates the sonobuoy compliance scan log by uid
+  V1ClusterFeatureScanSonobuoyLogUpdate updates the sonobuoy compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureScanSonobuoyLogUpdate(params *V1ClusterFeatureScanSonobuoyLogUpdateParams) (*V1ClusterFeatureScanSonobuoyLogUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16598,7 +16604,7 @@ func (a *Client) V1ClusterFeatureScanSonobuoyLogUpdate(params *V1ClusterFeatureS
 }
 
 /*
-V1ClusterFeatureScanSyftLogUpdate updates the syft compliance scan log by uid
+  V1ClusterFeatureScanSyftLogUpdate updates the syft compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureScanSyftLogUpdate(params *V1ClusterFeatureScanSyftLogUpdateParams) (*V1ClusterFeatureScanSyftLogUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16632,7 +16638,7 @@ func (a *Client) V1ClusterFeatureScanSyftLogUpdate(params *V1ClusterFeatureScanS
 }
 
 /*
-V1ClusterFeatureSonobuoyLogGet returns the sonobuoy compliance scan log by uid
+  V1ClusterFeatureSonobuoyLogGet returns the sonobuoy compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureSonobuoyLogGet(params *V1ClusterFeatureSonobuoyLogGetParams) (*V1ClusterFeatureSonobuoyLogGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16666,7 +16672,7 @@ func (a *Client) V1ClusterFeatureSonobuoyLogGet(params *V1ClusterFeatureSonobuoy
 }
 
 /*
-V1ClusterFeatureSyftLogGet returns the syft compliance scan log by uid
+  V1ClusterFeatureSyftLogGet returns the syft compliance scan log by uid
 */
 func (a *Client) V1ClusterFeatureSyftLogGet(params *V1ClusterFeatureSyftLogGetParams) (*V1ClusterFeatureSyftLogGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16700,7 +16706,7 @@ func (a *Client) V1ClusterFeatureSyftLogGet(params *V1ClusterFeatureSyftLogGetPa
 }
 
 /*
-V1ClusterGroupUIDHostClustersSummary retrieves a list of cluster summary for a given cluster group
+  V1ClusterGroupUIDHostClustersSummary retrieves a list of cluster summary for a given cluster group
 */
 func (a *Client) V1ClusterGroupUIDHostClustersSummary(params *V1ClusterGroupUIDHostClustersSummaryParams) (*V1ClusterGroupUIDHostClustersSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -16734,7 +16740,7 @@ func (a *Client) V1ClusterGroupUIDHostClustersSummary(params *V1ClusterGroupUIDH
 }
 
 /*
-V1ClusterGroupUIDVirtualClustersSummary retrieves a list of cluster summary for a given cluster group
+  V1ClusterGroupUIDVirtualClustersSummary retrieves a list of cluster summary for a given cluster group
 */
 func (a *Client) V1ClusterGroupUIDVirtualClustersSummary(params *V1ClusterGroupUIDVirtualClustersSummaryParams) (*V1ClusterGroupUIDVirtualClustersSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -16768,7 +16774,7 @@ func (a *Client) V1ClusterGroupUIDVirtualClustersSummary(params *V1ClusterGroupU
 }
 
 /*
-V1ClusterGroupsCreate creates cluster groups
+  V1ClusterGroupsCreate creates cluster groups
 */
 func (a *Client) V1ClusterGroupsCreate(params *V1ClusterGroupsCreateParams) (*V1ClusterGroupsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -16802,7 +16808,7 @@ func (a *Client) V1ClusterGroupsCreate(params *V1ClusterGroupsCreateParams) (*V1
 }
 
 /*
-V1ClusterGroupsDeveloperCreditUsageGet gets cluster group developer credit usage by scope
+  V1ClusterGroupsDeveloperCreditUsageGet gets cluster group developer credit usage by scope
 */
 func (a *Client) V1ClusterGroupsDeveloperCreditUsageGet(params *V1ClusterGroupsDeveloperCreditUsageGetParams) (*V1ClusterGroupsDeveloperCreditUsageGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16836,7 +16842,7 @@ func (a *Client) V1ClusterGroupsDeveloperCreditUsageGet(params *V1ClusterGroupsD
 }
 
 /*
-V1ClusterGroupsHostClusterMetadata retrieves a list of cluster groups host cluster metadata
+  V1ClusterGroupsHostClusterMetadata retrieves a list of cluster groups host cluster metadata
 */
 func (a *Client) V1ClusterGroupsHostClusterMetadata(params *V1ClusterGroupsHostClusterMetadataParams) (*V1ClusterGroupsHostClusterMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -16870,7 +16876,7 @@ func (a *Client) V1ClusterGroupsHostClusterMetadata(params *V1ClusterGroupsHostC
 }
 
 /*
-V1ClusterGroupsHostClusterSummary retrieves a list of cluster groups host cluster summary
+  V1ClusterGroupsHostClusterSummary retrieves a list of cluster groups host cluster summary
 */
 func (a *Client) V1ClusterGroupsHostClusterSummary(params *V1ClusterGroupsHostClusterSummaryParams) (*V1ClusterGroupsHostClusterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -16904,7 +16910,7 @@ func (a *Client) V1ClusterGroupsHostClusterSummary(params *V1ClusterGroupsHostCl
 }
 
 /*
-V1ClusterGroupsUIDDelete deletes the specified cluster group
+  V1ClusterGroupsUIDDelete deletes the specified cluster group
 */
 func (a *Client) V1ClusterGroupsUIDDelete(params *V1ClusterGroupsUIDDeleteParams) (*V1ClusterGroupsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -16938,7 +16944,7 @@ func (a *Client) V1ClusterGroupsUIDDelete(params *V1ClusterGroupsUIDDeleteParams
 }
 
 /*
-V1ClusterGroupsUIDGet returns the specified cluster groups
+  V1ClusterGroupsUIDGet returns the specified cluster groups
 */
 func (a *Client) V1ClusterGroupsUIDGet(params *V1ClusterGroupsUIDGetParams) (*V1ClusterGroupsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -16972,7 +16978,7 @@ func (a *Client) V1ClusterGroupsUIDGet(params *V1ClusterGroupsUIDGetParams) (*V1
 }
 
 /*
-V1ClusterGroupsUIDHostClusterUpdate updates cluster reference and host cluster config
+  V1ClusterGroupsUIDHostClusterUpdate updates cluster reference and host cluster config
 */
 func (a *Client) V1ClusterGroupsUIDHostClusterUpdate(params *V1ClusterGroupsUIDHostClusterUpdateParams) (*V1ClusterGroupsUIDHostClusterUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17006,7 +17012,7 @@ func (a *Client) V1ClusterGroupsUIDHostClusterUpdate(params *V1ClusterGroupsUIDH
 }
 
 /*
-V1ClusterGroupsUIDMetaUpdate updates the specified cluster groups meta
+  V1ClusterGroupsUIDMetaUpdate updates the specified cluster groups meta
 */
 func (a *Client) V1ClusterGroupsUIDMetaUpdate(params *V1ClusterGroupsUIDMetaUpdateParams) (*V1ClusterGroupsUIDMetaUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17040,7 +17046,7 @@ func (a *Client) V1ClusterGroupsUIDMetaUpdate(params *V1ClusterGroupsUIDMetaUpda
 }
 
 /*
-V1ClusterGroupsUIDPacksResolvedValuesGet returns the specified clustergroup s profile packs resolved values
+  V1ClusterGroupsUIDPacksResolvedValuesGet returns the specified clustergroup s profile packs resolved values
 */
 func (a *Client) V1ClusterGroupsUIDPacksResolvedValuesGet(params *V1ClusterGroupsUIDPacksResolvedValuesGetParams) (*V1ClusterGroupsUIDPacksResolvedValuesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17074,7 +17080,7 @@ func (a *Client) V1ClusterGroupsUIDPacksResolvedValuesGet(params *V1ClusterGroup
 }
 
 /*
-V1ClusterGroupsUIDProfilesGet returns the associated profiles of a specified cluster group
+  V1ClusterGroupsUIDProfilesGet returns the associated profiles of a specified cluster group
 */
 func (a *Client) V1ClusterGroupsUIDProfilesGet(params *V1ClusterGroupsUIDProfilesGetParams) (*V1ClusterGroupsUIDProfilesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17108,7 +17114,7 @@ func (a *Client) V1ClusterGroupsUIDProfilesGet(params *V1ClusterGroupsUIDProfile
 }
 
 /*
-V1ClusterGroupsUIDProfilesUpdate updates the specified cluster groups profiles
+  V1ClusterGroupsUIDProfilesUpdate updates the specified cluster groups profiles
 */
 func (a *Client) V1ClusterGroupsUIDProfilesUpdate(params *V1ClusterGroupsUIDProfilesUpdateParams) (*V1ClusterGroupsUIDProfilesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17142,7 +17148,7 @@ func (a *Client) V1ClusterGroupsUIDProfilesUpdate(params *V1ClusterGroupsUIDProf
 }
 
 /*
-V1ClusterGroupsValidateName validates the cluster groups name
+  V1ClusterGroupsValidateName validates the cluster groups name
 */
 func (a *Client) V1ClusterGroupsValidateName(params *V1ClusterGroupsValidateNameParams) (*V1ClusterGroupsValidateNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17176,7 +17182,7 @@ func (a *Client) V1ClusterGroupsValidateName(params *V1ClusterGroupsValidateName
 }
 
 /*
-V1ClusterNamespacesGet returns available namespaces for the cluster
+  V1ClusterNamespacesGet returns available namespaces for the cluster
 */
 func (a *Client) V1ClusterNamespacesGet(params *V1ClusterNamespacesGetParams) (*V1ClusterNamespacesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17210,7 +17216,7 @@ func (a *Client) V1ClusterNamespacesGet(params *V1ClusterNamespacesGetParams) (*
 }
 
 /*
-V1ClusterProfilesBulkDelete deletes list of cluster profiles
+  V1ClusterProfilesBulkDelete deletes list of cluster profiles
 */
 func (a *Client) V1ClusterProfilesBulkDelete(params *V1ClusterProfilesBulkDeleteParams) (*V1ClusterProfilesBulkDeleteOK, error) {
 	// TODO: Validate the params before sending
@@ -17244,7 +17250,7 @@ func (a *Client) V1ClusterProfilesBulkDelete(params *V1ClusterProfilesBulkDelete
 }
 
 /*
-V1ClusterProfilesCreate creates a cluster profile
+  V1ClusterProfilesCreate creates a cluster profile
 */
 func (a *Client) V1ClusterProfilesCreate(params *V1ClusterProfilesCreateParams) (*V1ClusterProfilesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -17278,7 +17284,7 @@ func (a *Client) V1ClusterProfilesCreate(params *V1ClusterProfilesCreateParams) 
 }
 
 /*
-V1ClusterProfilesDelete deletes the specified cluster profile
+  V1ClusterProfilesDelete deletes the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesDelete(params *V1ClusterProfilesDeleteParams) (*V1ClusterProfilesDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17312,7 +17318,7 @@ func (a *Client) V1ClusterProfilesDelete(params *V1ClusterProfilesDeleteParams) 
 }
 
 /*
-V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary supported filter fields profile name tags profile type environment supported sort fields profile name environment profile type creation timestamp last modified timestamp
+  V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary supported filter fields profile name tags profile type environment supported sort fields profile name environment profile type creation timestamp last modified timestamp
 */
 func (a *Client) V1ClusterProfilesFilterSummary(params *V1ClusterProfilesFilterSummaryParams) (*V1ClusterProfilesFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -17346,7 +17352,7 @@ func (a *Client) V1ClusterProfilesFilterSummary(params *V1ClusterProfilesFilterS
 }
 
 /*
-V1ClusterProfilesGet returns a specified cluster profile
+  V1ClusterProfilesGet returns a specified cluster profile
 */
 func (a *Client) V1ClusterProfilesGet(params *V1ClusterProfilesGetParams) (*V1ClusterProfilesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17380,7 +17386,7 @@ func (a *Client) V1ClusterProfilesGet(params *V1ClusterProfilesGetParams) (*V1Cl
 }
 
 /*
-V1ClusterProfilesImport imports a cluster profile
+  V1ClusterProfilesImport imports a cluster profile
 */
 func (a *Client) V1ClusterProfilesImport(params *V1ClusterProfilesImportParams) (*V1ClusterProfilesImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -17414,7 +17420,7 @@ func (a *Client) V1ClusterProfilesImport(params *V1ClusterProfilesImportParams) 
 }
 
 /*
-V1ClusterProfilesImportFile imports a cluster profile via file
+  V1ClusterProfilesImportFile imports a cluster profile via file
 */
 func (a *Client) V1ClusterProfilesImportFile(params *V1ClusterProfilesImportFileParams) (*V1ClusterProfilesImportFileCreated, error) {
 	// TODO: Validate the params before sending
@@ -17448,7 +17454,7 @@ func (a *Client) V1ClusterProfilesImportFile(params *V1ClusterProfilesImportFile
 }
 
 /*
-V1ClusterProfilesImportValidate validates cluster profile import
+  V1ClusterProfilesImportValidate validates cluster profile import
 */
 func (a *Client) V1ClusterProfilesImportValidate(params *V1ClusterProfilesImportValidateParams) (*V1ClusterProfilesImportValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -17482,7 +17488,7 @@ func (a *Client) V1ClusterProfilesImportValidate(params *V1ClusterProfilesImport
 }
 
 /*
-V1ClusterProfilesMetadata retrieves a list of cluster profiles metadata
+  V1ClusterProfilesMetadata retrieves a list of cluster profiles metadata
 */
 func (a *Client) V1ClusterProfilesMetadata(params *V1ClusterProfilesMetadataParams) (*V1ClusterProfilesMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -17516,7 +17522,7 @@ func (a *Client) V1ClusterProfilesMetadata(params *V1ClusterProfilesMetadataPara
 }
 
 /*
-V1ClusterProfilesPacksRefUpdate updates cluster profile packs ref
+  V1ClusterProfilesPacksRefUpdate updates cluster profile packs ref
 */
 func (a *Client) V1ClusterProfilesPacksRefUpdate(params *V1ClusterProfilesPacksRefUpdateParams) (*V1ClusterProfilesPacksRefUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17550,11 +17556,11 @@ func (a *Client) V1ClusterProfilesPacksRefUpdate(params *V1ClusterProfilesPacksR
 }
 
 /*
-	V1ClusterProfilesPublish publishes the specified cluster profile
+  V1ClusterProfilesPublish publishes the specified cluster profile
 
-	Publish the draft cluster profile with next revision, the current draft cluster profile will be marked to published
-
+  Publish the draft cluster profile with next revision, the current draft cluster profile will be marked to published
 and the draft cluster profile will be set to null in the cluster profile template.
+
 */
 func (a *Client) V1ClusterProfilesPublish(params *V1ClusterProfilesPublishParams) (*V1ClusterProfilesPublishNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17588,7 +17594,7 @@ func (a *Client) V1ClusterProfilesPublish(params *V1ClusterProfilesPublishParams
 }
 
 /*
-V1ClusterProfilesUIDClone creates a clone of the specified cluster profile
+  V1ClusterProfilesUIDClone creates a clone of the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDClone(params *V1ClusterProfilesUIDCloneParams) (*V1ClusterProfilesUIDCloneCreated, error) {
 	// TODO: Validate the params before sending
@@ -17622,9 +17628,9 @@ func (a *Client) V1ClusterProfilesUIDClone(params *V1ClusterProfilesUIDClonePara
 }
 
 /*
-V1ClusterProfilesUIDCloneValidate validates the cluster profile clone
+  V1ClusterProfilesUIDCloneValidate validates the cluster profile clone
 
-Validates the cloned cluster profile name, version and target project uid
+  Validates the cloned cluster profile name, version and target project uid
 */
 func (a *Client) V1ClusterProfilesUIDCloneValidate(params *V1ClusterProfilesUIDCloneValidateParams) (*V1ClusterProfilesUIDCloneValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17658,7 +17664,7 @@ func (a *Client) V1ClusterProfilesUIDCloneValidate(params *V1ClusterProfilesUIDC
 }
 
 /*
-V1ClusterProfilesUIDMetadataUpdate updates the specified cluster profile metadata
+  V1ClusterProfilesUIDMetadataUpdate updates the specified cluster profile metadata
 */
 func (a *Client) V1ClusterProfilesUIDMetadataUpdate(params *V1ClusterProfilesUIDMetadataUpdateParams) (*V1ClusterProfilesUIDMetadataUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17692,7 +17698,7 @@ func (a *Client) V1ClusterProfilesUIDMetadataUpdate(params *V1ClusterProfilesUID
 }
 
 /*
-V1ClusterProfilesUIDPacksAdd adds a new pack to the specified cluster profile and returns the created pack uid
+  V1ClusterProfilesUIDPacksAdd adds a new pack to the specified cluster profile and returns the created pack uid
 */
 func (a *Client) V1ClusterProfilesUIDPacksAdd(params *V1ClusterProfilesUIDPacksAddParams) (*V1ClusterProfilesUIDPacksAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -17726,7 +17732,7 @@ func (a *Client) V1ClusterProfilesUIDPacksAdd(params *V1ClusterProfilesUIDPacksA
 }
 
 /*
-V1ClusterProfilesUIDPacksConfigGet returns the specified cluster profile pack configuration
+  V1ClusterProfilesUIDPacksConfigGet returns the specified cluster profile pack configuration
 */
 func (a *Client) V1ClusterProfilesUIDPacksConfigGet(params *V1ClusterProfilesUIDPacksConfigGetParams) (*V1ClusterProfilesUIDPacksConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17760,7 +17766,7 @@ func (a *Client) V1ClusterProfilesUIDPacksConfigGet(params *V1ClusterProfilesUID
 }
 
 /*
-V1ClusterProfilesUIDPacksGet returns the specified cluster profile packs
+  V1ClusterProfilesUIDPacksGet returns the specified cluster profile packs
 */
 func (a *Client) V1ClusterProfilesUIDPacksGet(params *V1ClusterProfilesUIDPacksGetParams) (*V1ClusterProfilesUIDPacksGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17794,7 +17800,7 @@ func (a *Client) V1ClusterProfilesUIDPacksGet(params *V1ClusterProfilesUIDPacksG
 }
 
 /*
-V1ClusterProfilesUIDPacksManifestsGet returns the specified cluster profile pack manifests
+  V1ClusterProfilesUIDPacksManifestsGet returns the specified cluster profile pack manifests
 */
 func (a *Client) V1ClusterProfilesUIDPacksManifestsGet(params *V1ClusterProfilesUIDPacksManifestsGetParams) (*V1ClusterProfilesUIDPacksManifestsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17828,7 +17834,7 @@ func (a *Client) V1ClusterProfilesUIDPacksManifestsGet(params *V1ClusterProfiles
 }
 
 /*
-V1ClusterProfilesUIDPacksNameDelete deletes the specified pack information in the cluster profile
+  V1ClusterProfilesUIDPacksNameDelete deletes the specified pack information in the cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameDelete(params *V1ClusterProfilesUIDPacksNameDeleteParams) (*V1ClusterProfilesUIDPacksNameDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17862,7 +17868,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameDelete(params *V1ClusterProfilesUI
 }
 
 /*
-V1ClusterProfilesUIDPacksNameManifestsAdd adds manifest to the profiles packs and returns the added manifests uid
+  V1ClusterProfilesUIDPacksNameManifestsAdd adds manifest to the profiles packs and returns the added manifests uid
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameManifestsAdd(params *V1ClusterProfilesUIDPacksNameManifestsAddParams) (*V1ClusterProfilesUIDPacksNameManifestsAddCreated, error) {
 	// TODO: Validate the params before sending
@@ -17896,7 +17902,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameManifestsAdd(params *V1ClusterProf
 }
 
 /*
-V1ClusterProfilesUIDPacksNameManifestsUIDDelete deletes the specified cluster profile pack manifest
+  V1ClusterProfilesUIDPacksNameManifestsUIDDelete deletes the specified cluster profile pack manifest
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDDelete(params *V1ClusterProfilesUIDPacksNameManifestsUIDDeleteParams) (*V1ClusterProfilesUIDPacksNameManifestsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17930,7 +17936,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDDelete(params *V1Clust
 }
 
 /*
-V1ClusterProfilesUIDPacksNameManifestsUIDGet returns the specified cluster profile pack manifest
+  V1ClusterProfilesUIDPacksNameManifestsUIDGet returns the specified cluster profile pack manifest
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDGet(params *V1ClusterProfilesUIDPacksNameManifestsUIDGetParams) (*V1ClusterProfilesUIDPacksNameManifestsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -17964,7 +17970,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDGet(params *V1ClusterP
 }
 
 /*
-V1ClusterProfilesUIDPacksNameManifestsUIDUpdate updates the specified manifest of the profile s pack
+  V1ClusterProfilesUIDPacksNameManifestsUIDUpdate updates the specified manifest of the profile s pack
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDUpdate(params *V1ClusterProfilesUIDPacksNameManifestsUIDUpdateParams) (*V1ClusterProfilesUIDPacksNameManifestsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -17998,7 +18004,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameManifestsUIDUpdate(params *V1Clust
 }
 
 /*
-V1ClusterProfilesUIDPacksNameUpdate updates the specified pack information in the cluster profile
+  V1ClusterProfilesUIDPacksNameUpdate updates the specified pack information in the cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDPacksNameUpdate(params *V1ClusterProfilesUIDPacksNameUpdateParams) (*V1ClusterProfilesUIDPacksNameUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -18032,7 +18038,7 @@ func (a *Client) V1ClusterProfilesUIDPacksNameUpdate(params *V1ClusterProfilesUI
 }
 
 /*
-V1ClusterProfilesUIDPacksResolvedValuesGet returns the specified cluster profile packs resolved values
+  V1ClusterProfilesUIDPacksResolvedValuesGet returns the specified cluster profile packs resolved values
 */
 func (a *Client) V1ClusterProfilesUIDPacksResolvedValuesGet(params *V1ClusterProfilesUIDPacksResolvedValuesGetParams) (*V1ClusterProfilesUIDPacksResolvedValuesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -18066,7 +18072,7 @@ func (a *Client) V1ClusterProfilesUIDPacksResolvedValuesGet(params *V1ClusterPro
 }
 
 /*
-V1ClusterProfilesUIDPacksUIDManifests returns the associated manifests for the specified profile s pack
+  V1ClusterProfilesUIDPacksUIDManifests returns the associated manifests for the specified profile s pack
 */
 func (a *Client) V1ClusterProfilesUIDPacksUIDManifests(params *V1ClusterProfilesUIDPacksUIDManifestsParams) (*V1ClusterProfilesUIDPacksUIDManifestsOK, error) {
 	// TODO: Validate the params before sending
@@ -18100,7 +18106,7 @@ func (a *Client) V1ClusterProfilesUIDPacksUIDManifests(params *V1ClusterProfiles
 }
 
 /*
-V1ClusterProfilesUIDSpcDownload downloads the specified cluster profile
+  V1ClusterProfilesUIDSpcDownload downloads the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesUIDSpcDownload(params *V1ClusterProfilesUIDSpcDownloadParams, writer io.Writer) (*V1ClusterProfilesUIDSpcDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -18134,7 +18140,7 @@ func (a *Client) V1ClusterProfilesUIDSpcDownload(params *V1ClusterProfilesUIDSpc
 }
 
 /*
-V1ClusterProfilesUIDSummary retrieves a specified cluster profile summary
+  V1ClusterProfilesUIDSummary retrieves a specified cluster profile summary
 */
 func (a *Client) V1ClusterProfilesUIDSummary(params *V1ClusterProfilesUIDSummaryParams) (*V1ClusterProfilesUIDSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -18168,7 +18174,7 @@ func (a *Client) V1ClusterProfilesUIDSummary(params *V1ClusterProfilesUIDSummary
 }
 
 /*
-V1ClusterProfilesUIDValidatePacks validates specified cluster profile packs
+  V1ClusterProfilesUIDValidatePacks validates specified cluster profile packs
 */
 func (a *Client) V1ClusterProfilesUIDValidatePacks(params *V1ClusterProfilesUIDValidatePacksParams) (*V1ClusterProfilesUIDValidatePacksOK, error) {
 	// TODO: Validate the params before sending
@@ -18202,7 +18208,7 @@ func (a *Client) V1ClusterProfilesUIDValidatePacks(params *V1ClusterProfilesUIDV
 }
 
 /*
-V1ClusterProfilesUpdate updates the specified cluster profile
+  V1ClusterProfilesUpdate updates the specified cluster profile
 */
 func (a *Client) V1ClusterProfilesUpdate(params *V1ClusterProfilesUpdateParams) (*V1ClusterProfilesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -18236,9 +18242,9 @@ func (a *Client) V1ClusterProfilesUpdate(params *V1ClusterProfilesUpdateParams) 
 }
 
 /*
-V1ClusterProfilesValidateNameVersion validates the cluster profile metadata
+  V1ClusterProfilesValidateNameVersion validates the cluster profile metadata
 
-Validates the cluster profile name and version
+  Validates the cluster profile name and version
 */
 func (a *Client) V1ClusterProfilesValidateNameVersion(params *V1ClusterProfilesValidateNameVersionParams) (*V1ClusterProfilesValidateNameVersionNoContent, error) {
 	// TODO: Validate the params before sending
@@ -18272,7 +18278,7 @@ func (a *Client) V1ClusterProfilesValidateNameVersion(params *V1ClusterProfilesV
 }
 
 /*
-V1ClusterProfilesValidatePacks validates cluster profile packs
+  V1ClusterProfilesValidatePacks validates cluster profile packs
 */
 func (a *Client) V1ClusterProfilesValidatePacks(params *V1ClusterProfilesValidatePacksParams) (*V1ClusterProfilesValidatePacksOK, error) {
 	// TODO: Validate the params before sending
@@ -18306,7 +18312,7 @@ func (a *Client) V1ClusterProfilesValidatePacks(params *V1ClusterProfilesValidat
 }
 
 /*
-V1ClusterVMSnapshotsList returns the list of snapshots of given namespaces
+  V1ClusterVMSnapshotsList returns the list of snapshots of given namespaces
 */
 func (a *Client) V1ClusterVMSnapshotsList(params *V1ClusterVMSnapshotsListParams) (*V1ClusterVMSnapshotsListOK, error) {
 	// TODO: Validate the params before sending
@@ -18340,7 +18346,7 @@ func (a *Client) V1ClusterVMSnapshotsList(params *V1ClusterVMSnapshotsListParams
 }
 
 /*
-V1DashboardAppDeployments retrieves a list of application deployments filter summary supported filter fields app deployment name cluster Uid tags supported sort fields app deployment name creation timestamp last modified timestamp
+  V1DashboardAppDeployments retrieves a list of application deployments filter summary supported filter fields app deployment name cluster Uid tags supported sort fields app deployment name creation timestamp last modified timestamp
 */
 func (a *Client) V1DashboardAppDeployments(params *V1DashboardAppDeploymentsParams) (*V1DashboardAppDeploymentsOK, error) {
 	// TODO: Validate the params before sending
@@ -18374,7 +18380,7 @@ func (a *Client) V1DashboardAppDeployments(params *V1DashboardAppDeploymentsPara
 }
 
 /*
-V1DashboardAppProfiles retrieves a list of application profiles filter summary supported filter fields profile name tags supported sort fields profile name creation timestamp last modified timestamp
+  V1DashboardAppProfiles retrieves a list of application profiles filter summary supported filter fields profile name tags supported sort fields profile name creation timestamp last modified timestamp
 */
 func (a *Client) V1DashboardAppProfiles(params *V1DashboardAppProfilesParams) (*V1DashboardAppProfilesOK, error) {
 	// TODO: Validate the params before sending
@@ -18408,7 +18414,7 @@ func (a *Client) V1DashboardAppProfiles(params *V1DashboardAppProfilesParams) (*
 }
 
 /*
-V1DashboardAppProfilesMetadata retrieves a list of application profile metadata
+  V1DashboardAppProfilesMetadata retrieves a list of application profile metadata
 */
 func (a *Client) V1DashboardAppProfilesMetadata(params *V1DashboardAppProfilesMetadataParams) (*V1DashboardAppProfilesMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -18442,7 +18448,7 @@ func (a *Client) V1DashboardAppProfilesMetadata(params *V1DashboardAppProfilesMe
 }
 
 /*
-V1DashboardCloudAccountsMetadata retrieves a list of cloud accounts metadata
+  V1DashboardCloudAccountsMetadata retrieves a list of cloud accounts metadata
 */
 func (a *Client) V1DashboardCloudAccountsMetadata(params *V1DashboardCloudAccountsMetadataParams) (*V1DashboardCloudAccountsMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -18476,7 +18482,7 @@ func (a *Client) V1DashboardCloudAccountsMetadata(params *V1DashboardCloudAccoun
 }
 
 /*
-V1DashboardClustersSearchSummaryExport exports the list of cluster summary with matching search filter and download as a file csv supported sort fields environment cluster name health state creation timestamp last modified timestamp
+  V1DashboardClustersSearchSummaryExport exports the list of cluster summary with matching search filter and download as a file csv supported sort fields environment cluster name health state creation timestamp last modified timestamp
 */
 func (a *Client) V1DashboardClustersSearchSummaryExport(params *V1DashboardClustersSearchSummaryExportParams, writer io.Writer) (*V1DashboardClustersSearchSummaryExportOK, error) {
 	// TODO: Validate the params before sending
@@ -18510,7 +18516,7 @@ func (a *Client) V1DashboardClustersSearchSummaryExport(params *V1DashboardClust
 }
 
 /*
-V1DashboardClustersSearchSummaryExportGet exports and download the list of cluster summary with matching search filter and download as a file csv
+  V1DashboardClustersSearchSummaryExportGet exports and download the list of cluster summary with matching search filter and download as a file csv
 */
 func (a *Client) V1DashboardClustersSearchSummaryExportGet(params *V1DashboardClustersSearchSummaryExportGetParams, writer io.Writer) (*V1DashboardClustersSearchSummaryExportGetOK, error) {
 	// TODO: Validate the params before sending
@@ -18544,7 +18550,7 @@ func (a *Client) V1DashboardClustersSearchSummaryExportGet(params *V1DashboardCl
 }
 
 /*
-V1DashboardEdgehostsSearch retrieves a list of edgehosts summary with provided search filter supported fields as per schema v1 dashboard edgehosts search schema
+  V1DashboardEdgehostsSearch retrieves a list of edgehosts summary with provided search filter supported fields as per schema v1 dashboard edgehosts search schema
 */
 func (a *Client) V1DashboardEdgehostsSearch(params *V1DashboardEdgehostsSearchParams) (*V1DashboardEdgehostsSearchOK, error) {
 	// TODO: Validate the params before sending
@@ -18578,7 +18584,7 @@ func (a *Client) V1DashboardEdgehostsSearch(params *V1DashboardEdgehostsSearchPa
 }
 
 /*
-V1DashboardEdgehostsSearchSchemaGet retrieves a schema for the edgehost search filter
+  V1DashboardEdgehostsSearchSchemaGet retrieves a schema for the edgehost search filter
 */
 func (a *Client) V1DashboardEdgehostsSearchSchemaGet(params *V1DashboardEdgehostsSearchSchemaGetParams) (*V1DashboardEdgehostsSearchSchemaGetOK, error) {
 	// TODO: Validate the params before sending
@@ -18612,7 +18618,7 @@ func (a *Client) V1DashboardEdgehostsSearchSchemaGet(params *V1DashboardEdgehost
 }
 
 /*
-V1DashboardPcgSearchSchemaGet retrieves a schema for the p c g search filter
+  V1DashboardPcgSearchSchemaGet retrieves a schema for the p c g search filter
 */
 func (a *Client) V1DashboardPcgSearchSchemaGet(params *V1DashboardPcgSearchSchemaGetParams) (*V1DashboardPcgSearchSchemaGetOK, error) {
 	// TODO: Validate the params before sending
@@ -18646,7 +18652,7 @@ func (a *Client) V1DashboardPcgSearchSchemaGet(params *V1DashboardPcgSearchSchem
 }
 
 /*
-V1DashboardPcgsSearchSummary retrieves a list of p c g summary with provided search filter supported fields as per schema v1 dashboard pcgs search schema
+  V1DashboardPcgsSearchSummary retrieves a list of p c g summary with provided search filter supported fields as per schema v1 dashboard pcgs search schema
 */
 func (a *Client) V1DashboardPcgsSearchSummary(params *V1DashboardPcgsSearchSummaryParams) (*V1DashboardPcgsSearchSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -18680,7 +18686,7 @@ func (a *Client) V1DashboardPcgsSearchSummary(params *V1DashboardPcgsSearchSumma
 }
 
 /*
-V1DashboardSpectroClustersCostSummary retrieves spectro clusters cloud cost summary information
+  V1DashboardSpectroClustersCostSummary retrieves spectro clusters cloud cost summary information
 */
 func (a *Client) V1DashboardSpectroClustersCostSummary(params *V1DashboardSpectroClustersCostSummaryParams) (*V1DashboardSpectroClustersCostSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -18714,7 +18720,7 @@ func (a *Client) V1DashboardSpectroClustersCostSummary(params *V1DashboardSpectr
 }
 
 /*
-V1DashboardSpectroClustersRepaveList retrieves a list of clusters with the desired repave state
+  V1DashboardSpectroClustersRepaveList retrieves a list of clusters with the desired repave state
 */
 func (a *Client) V1DashboardSpectroClustersRepaveList(params *V1DashboardSpectroClustersRepaveListParams) (*V1DashboardSpectroClustersRepaveListOK, error) {
 	// TODO: Validate the params before sending
@@ -18748,7 +18754,7 @@ func (a *Client) V1DashboardSpectroClustersRepaveList(params *V1DashboardSpectro
 }
 
 /*
-V1DashboardSpectroClustersSearchInput retrieves a supported input values for the cluster search filter
+  V1DashboardSpectroClustersSearchInput retrieves a supported input values for the cluster search filter
 */
 func (a *Client) V1DashboardSpectroClustersSearchInput(params *V1DashboardSpectroClustersSearchInputParams) (*V1DashboardSpectroClustersSearchInputOK, error) {
 	// TODO: Validate the params before sending
@@ -18782,7 +18788,7 @@ func (a *Client) V1DashboardSpectroClustersSearchInput(params *V1DashboardSpectr
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloads retrieves specified cluster workloads
+  V1DashboardSpectroClustersUIDWorkloads retrieves specified cluster workloads
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloads(params *V1DashboardSpectroClustersUIDWorkloadsParams) (*V1DashboardSpectroClustersUIDWorkloadsOK, error) {
 	// TODO: Validate the params before sending
@@ -18816,7 +18822,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloads(params *V1DashboardSpect
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsClusterRoleBinding retrieves specified cluster workload clusterrolebindings
+  V1DashboardSpectroClustersUIDWorkloadsClusterRoleBinding retrieves specified cluster workload clusterrolebindings
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsClusterRoleBinding(params *V1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingParams) (*V1DashboardSpectroClustersUIDWorkloadsClusterRoleBindingOK, error) {
 	// TODO: Validate the params before sending
@@ -18850,7 +18856,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsClusterRoleBinding(params
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsCronJob retrieves specified cluster workload cronjobs
+  V1DashboardSpectroClustersUIDWorkloadsCronJob retrieves specified cluster workload cronjobs
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsCronJob(params *V1DashboardSpectroClustersUIDWorkloadsCronJobParams) (*V1DashboardSpectroClustersUIDWorkloadsCronJobOK, error) {
 	// TODO: Validate the params before sending
@@ -18884,7 +18890,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsCronJob(params *V1Dashboa
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsDaemonSet retrieves specified cluster workload daemonsets
+  V1DashboardSpectroClustersUIDWorkloadsDaemonSet retrieves specified cluster workload daemonsets
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsDaemonSet(params *V1DashboardSpectroClustersUIDWorkloadsDaemonSetParams) (*V1DashboardSpectroClustersUIDWorkloadsDaemonSetOK, error) {
 	// TODO: Validate the params before sending
@@ -18918,7 +18924,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsDaemonSet(params *V1Dashb
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsDeployment retrieves specified cluster workload deployments
+  V1DashboardSpectroClustersUIDWorkloadsDeployment retrieves specified cluster workload deployments
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsDeployment(params *V1DashboardSpectroClustersUIDWorkloadsDeploymentParams) (*V1DashboardSpectroClustersUIDWorkloadsDeploymentOK, error) {
 	// TODO: Validate the params before sending
@@ -18952,7 +18958,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsDeployment(params *V1Dash
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsJob retrieves specified cluster workload jobs
+  V1DashboardSpectroClustersUIDWorkloadsJob retrieves specified cluster workload jobs
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsJob(params *V1DashboardSpectroClustersUIDWorkloadsJobParams) (*V1DashboardSpectroClustersUIDWorkloadsJobOK, error) {
 	// TODO: Validate the params before sending
@@ -18986,7 +18992,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsJob(params *V1DashboardSp
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsNamespace retrieves specified cluster workload namespaces
+  V1DashboardSpectroClustersUIDWorkloadsNamespace retrieves specified cluster workload namespaces
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsNamespace(params *V1DashboardSpectroClustersUIDWorkloadsNamespaceParams) (*V1DashboardSpectroClustersUIDWorkloadsNamespaceOK, error) {
 	// TODO: Validate the params before sending
@@ -19020,7 +19026,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsNamespace(params *V1Dashb
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsPod retrieves specified cluster workload pods
+  V1DashboardSpectroClustersUIDWorkloadsPod retrieves specified cluster workload pods
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsPod(params *V1DashboardSpectroClustersUIDWorkloadsPodParams) (*V1DashboardSpectroClustersUIDWorkloadsPodOK, error) {
 	// TODO: Validate the params before sending
@@ -19054,7 +19060,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsPod(params *V1DashboardSp
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsRoleBinding retrieves specified cluster workload rolebindings
+  V1DashboardSpectroClustersUIDWorkloadsRoleBinding retrieves specified cluster workload rolebindings
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsRoleBinding(params *V1DashboardSpectroClustersUIDWorkloadsRoleBindingParams) (*V1DashboardSpectroClustersUIDWorkloadsRoleBindingOK, error) {
 	// TODO: Validate the params before sending
@@ -19088,7 +19094,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsRoleBinding(params *V1Das
 }
 
 /*
-V1DashboardSpectroClustersUIDWorkloadsStatefulSet retrieves specified cluster workload statefulsets
+  V1DashboardSpectroClustersUIDWorkloadsStatefulSet retrieves specified cluster workload statefulsets
 */
 func (a *Client) V1DashboardSpectroClustersUIDWorkloadsStatefulSet(params *V1DashboardSpectroClustersUIDWorkloadsStatefulSetParams) (*V1DashboardSpectroClustersUIDWorkloadsStatefulSetOK, error) {
 	// TODO: Validate the params before sending
@@ -19122,7 +19128,7 @@ func (a *Client) V1DashboardSpectroClustersUIDWorkloadsStatefulSet(params *V1Das
 }
 
 /*
-V1DashboardWorkspacesList retrieves a list of workspace
+  V1DashboardWorkspacesList retrieves a list of workspace
 */
 func (a *Client) V1DashboardWorkspacesList(params *V1DashboardWorkspacesListParams) (*V1DashboardWorkspacesListOK, error) {
 	// TODO: Validate the params before sending
@@ -19156,7 +19162,7 @@ func (a *Client) V1DashboardWorkspacesList(params *V1DashboardWorkspacesListPara
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBinding retrieves specified workspace clusters workload clusterrolebindings
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBinding retrieves specified workspace clusters workload clusterrolebindings
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBinding(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBindingOK, error) {
 	// TODO: Validate the params before sending
@@ -19190,7 +19196,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsClusterRoleBind
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJob retrieves specified workspace clusters workload cronjobs
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJob retrieves specified workspace clusters workload cronjobs
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJob(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJobOK, error) {
 	// TODO: Validate the params before sending
@@ -19224,7 +19230,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsCronJob(params 
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSet retrieves specified workspace clusters workload daemonsets
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSet retrieves specified workspace clusters workload daemonsets
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSet(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSetParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSetOK, error) {
 	// TODO: Validate the params before sending
@@ -19258,7 +19264,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsDaemonSet(param
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeployment retrieves specified workspace clusters workload deployments
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeployment retrieves specified workspace clusters workload deployments
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeployment(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeploymentOK, error) {
 	// TODO: Validate the params before sending
@@ -19292,7 +19298,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsDeployment(para
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsJob retrieves specified workspace clusters workload jobs
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsJob retrieves specified workspace clusters workload jobs
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsJob(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsJobParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsJobOK, error) {
 	// TODO: Validate the params before sending
@@ -19326,7 +19332,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsJob(params *V1D
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespace retrieves specified workspace clusters workload namespaces
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespace retrieves specified workspace clusters workload namespaces
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespace(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceOK, error) {
 	// TODO: Validate the params before sending
@@ -19360,7 +19366,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespace(param
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsPod retrieves specified workspace clusters workload pods
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsPod retrieves specified workspace clusters workload pods
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsPod(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsPodParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsPodOK, error) {
 	// TODO: Validate the params before sending
@@ -19394,7 +19400,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsPod(params *V1D
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBinding retrieves specified workspace clusters workload rolebindings
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBinding retrieves specified workspace clusters workload rolebindings
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBinding(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBindingParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBindingOK, error) {
 	// TODO: Validate the params before sending
@@ -19428,7 +19434,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsRoleBinding(par
 }
 
 /*
-V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSet retrieves specified workspace clusters workload statefulsets
+  V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSet retrieves specified workspace clusters workload statefulsets
 */
 func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSet(params *V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetParams) (*V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSetOK, error) {
 	// TODO: Validate the params before sending
@@ -19462,7 +19468,7 @@ func (a *Client) V1DashboardWorkspacesUIDSpectroClustersWorkloadsStatefulSet(par
 }
 
 /*
-V1EcrRegistriesCreate creates a ecr registry
+  V1EcrRegistriesCreate creates a ecr registry
 */
 func (a *Client) V1EcrRegistriesCreate(params *V1EcrRegistriesCreateParams) (*V1EcrRegistriesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -19496,7 +19502,7 @@ func (a *Client) V1EcrRegistriesCreate(params *V1EcrRegistriesCreateParams) (*V1
 }
 
 /*
-V1EcrRegistriesUIDDelete deletes the specified ecr registry
+  V1EcrRegistriesUIDDelete deletes the specified ecr registry
 */
 func (a *Client) V1EcrRegistriesUIDDelete(params *V1EcrRegistriesUIDDeleteParams) (*V1EcrRegistriesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19530,7 +19536,7 @@ func (a *Client) V1EcrRegistriesUIDDelete(params *V1EcrRegistriesUIDDeleteParams
 }
 
 /*
-V1EcrRegistriesUIDGet returns the specified ecr registry
+  V1EcrRegistriesUIDGet returns the specified ecr registry
 */
 func (a *Client) V1EcrRegistriesUIDGet(params *V1EcrRegistriesUIDGetParams) (*V1EcrRegistriesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -19564,9 +19570,9 @@ func (a *Client) V1EcrRegistriesUIDGet(params *V1EcrRegistriesUIDGetParams) (*V1
 }
 
 /*
-V1EcrRegistriesUIDSync syncs ecr registry
+  V1EcrRegistriesUIDSync syncs ecr registry
 
-Sync all the content from the ecr registry
+  Sync all the content from the ecr registry
 */
 func (a *Client) V1EcrRegistriesUIDSync(params *V1EcrRegistriesUIDSyncParams) (*V1EcrRegistriesUIDSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -19600,9 +19606,9 @@ func (a *Client) V1EcrRegistriesUIDSync(params *V1EcrRegistriesUIDSyncParams) (*
 }
 
 /*
-V1EcrRegistriesUIDSyncStatus gets ecr registry sync status
+  V1EcrRegistriesUIDSyncStatus gets ecr registry sync status
 
-Get sync status for the ecr specified registry
+  Get sync status for the ecr specified registry
 */
 func (a *Client) V1EcrRegistriesUIDSyncStatus(params *V1EcrRegistriesUIDSyncStatusParams) (*V1EcrRegistriesUIDSyncStatusOK, error) {
 	// TODO: Validate the params before sending
@@ -19636,7 +19642,7 @@ func (a *Client) V1EcrRegistriesUIDSyncStatus(params *V1EcrRegistriesUIDSyncStat
 }
 
 /*
-V1EcrRegistriesUIDUpdate updates the specified ecr registry
+  V1EcrRegistriesUIDUpdate updates the specified ecr registry
 */
 func (a *Client) V1EcrRegistriesUIDUpdate(params *V1EcrRegistriesUIDUpdateParams) (*V1EcrRegistriesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19670,9 +19676,9 @@ func (a *Client) V1EcrRegistriesUIDUpdate(params *V1EcrRegistriesUIDUpdateParams
 }
 
 /*
-V1EcrRegistriesValidate checks if ecr registry is valid
+  V1EcrRegistriesValidate checks if ecr registry is valid
 
-Returns no contents if ecr registry is valid else error.
+  Returns no contents if ecr registry is valid else error.
 */
 func (a *Client) V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) (*V1EcrRegistriesValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19706,7 +19712,7 @@ func (a *Client) V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) 
 }
 
 /*
-V1EdgeHostDeviceHostCheckSumUpdate updates the specified edge host device host check sum
+  V1EdgeHostDeviceHostCheckSumUpdate updates the specified edge host device host check sum
 */
 func (a *Client) V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19740,7 +19746,7 @@ func (a *Client) V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHost
 }
 
 /*
-V1EdgeHostDeviceHostPairingKeyUpdate updates the specified edge host device host pairing key
+  V1EdgeHostDeviceHostPairingKeyUpdate updates the specified edge host device host pairing key
 */
 func (a *Client) V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19774,7 +19780,7 @@ func (a *Client) V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHo
 }
 
 /*
-V1EdgeHostDevicesCreate creates the edge host device
+  V1EdgeHostDevicesCreate creates the edge host device
 */
 func (a *Client) V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) (*V1EdgeHostDevicesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -19808,7 +19814,7 @@ func (a *Client) V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) 
 }
 
 /*
-V1EdgeHostDevicesHealthUpdate updates the edge host health
+  V1EdgeHostDevicesHealthUpdate updates the edge host health
 */
 func (a *Client) V1EdgeHostDevicesHealthUpdate(params *V1EdgeHostDevicesHealthUpdateParams) (*V1EdgeHostDevicesHealthUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19842,7 +19848,7 @@ func (a *Client) V1EdgeHostDevicesHealthUpdate(params *V1EdgeHostDevicesHealthUp
 }
 
 /*
-V1EdgeHostDevicesRegister registers the edge host device
+  V1EdgeHostDevicesRegister registers the edge host device
 */
 func (a *Client) V1EdgeHostDevicesRegister(params *V1EdgeHostDevicesRegisterParams) (*V1EdgeHostDevicesRegisterOK, error) {
 	// TODO: Validate the params before sending
@@ -19876,7 +19882,7 @@ func (a *Client) V1EdgeHostDevicesRegister(params *V1EdgeHostDevicesRegisterPara
 }
 
 /*
-V1EdgeHostDevicesUIDClusterAssociate associates the clusters to the edge host
+  V1EdgeHostDevicesUIDClusterAssociate associates the clusters to the edge host
 */
 func (a *Client) V1EdgeHostDevicesUIDClusterAssociate(params *V1EdgeHostDevicesUIDClusterAssociateParams) (*V1EdgeHostDevicesUIDClusterAssociateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19910,7 +19916,7 @@ func (a *Client) V1EdgeHostDevicesUIDClusterAssociate(params *V1EdgeHostDevicesU
 }
 
 /*
-V1EdgeHostDevicesUIDClusterDeassociate deassociates the clusters to the edge host
+  V1EdgeHostDevicesUIDClusterDeassociate deassociates the clusters to the edge host
 */
 func (a *Client) V1EdgeHostDevicesUIDClusterDeassociate(params *V1EdgeHostDevicesUIDClusterDeassociateParams) (*V1EdgeHostDevicesUIDClusterDeassociateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19944,7 +19950,41 @@ func (a *Client) V1EdgeHostDevicesUIDClusterDeassociate(params *V1EdgeHostDevice
 }
 
 /*
-V1EdgeHostDevicesUIDDelete deletes the specified edge host device
+  V1EdgeHostDevicesUIDConfigGet gets the specified edge host device configuration
+*/
+func (a *Client) V1EdgeHostDevicesUIDConfigGet(params *V1EdgeHostDevicesUIDConfigGetParams) (*V1EdgeHostDevicesUIDConfigGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDConfigGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidConfigGet",
+		Method:             "GET",
+		PathPattern:        "/v1/edgehosts/{uid}/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDConfigGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDConfigGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidConfigGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  V1EdgeHostDevicesUIDDelete deletes the specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDDelete(params *V1EdgeHostDevicesUIDDeleteParams) (*V1EdgeHostDevicesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -19978,7 +20018,7 @@ func (a *Client) V1EdgeHostDevicesUIDDelete(params *V1EdgeHostDevicesUIDDeletePa
 }
 
 /*
-V1EdgeHostDevicesUIDGet returns the specified edge host device
+  V1EdgeHostDevicesUIDGet returns the specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDGet(params *V1EdgeHostDevicesUIDGetParams) (*V1EdgeHostDevicesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20012,7 +20052,7 @@ func (a *Client) V1EdgeHostDevicesUIDGet(params *V1EdgeHostDevicesUIDGetParams) 
 }
 
 /*
-V1EdgeHostDevicesUIDMetaUpdate updates the specified edge host device meta
+  V1EdgeHostDevicesUIDMetaUpdate updates the specified edge host device meta
 */
 func (a *Client) V1EdgeHostDevicesUIDMetaUpdate(params *V1EdgeHostDevicesUIDMetaUpdateParams) (*V1EdgeHostDevicesUIDMetaUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20046,7 +20086,7 @@ func (a *Client) V1EdgeHostDevicesUIDMetaUpdate(params *V1EdgeHostDevicesUIDMeta
 }
 
 /*
-V1EdgeHostDevicesUIDPackManifestsUIDGet returns the specified edge host s manifest
+  V1EdgeHostDevicesUIDPackManifestsUIDGet returns the specified edge host s manifest
 */
 func (a *Client) V1EdgeHostDevicesUIDPackManifestsUIDGet(params *V1EdgeHostDevicesUIDPackManifestsUIDGetParams) (*V1EdgeHostDevicesUIDPackManifestsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20080,7 +20120,7 @@ func (a *Client) V1EdgeHostDevicesUIDPackManifestsUIDGet(params *V1EdgeHostDevic
 }
 
 /*
-V1EdgeHostDevicesUIDPacksStatusPatch patches update specified edge host s packs status
+  V1EdgeHostDevicesUIDPacksStatusPatch patches update specified edge host s packs status
 */
 func (a *Client) V1EdgeHostDevicesUIDPacksStatusPatch(params *V1EdgeHostDevicesUIDPacksStatusPatchParams) (*V1EdgeHostDevicesUIDPacksStatusPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20114,7 +20154,7 @@ func (a *Client) V1EdgeHostDevicesUIDPacksStatusPatch(params *V1EdgeHostDevicesU
 }
 
 /*
-V1EdgeHostDevicesUIDProfilesGet returns the associated profiles of a specified edge host device
+  V1EdgeHostDevicesUIDProfilesGet returns the associated profiles of a specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDProfilesGet(params *V1EdgeHostDevicesUIDProfilesGetParams) (*V1EdgeHostDevicesUIDProfilesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20148,7 +20188,7 @@ func (a *Client) V1EdgeHostDevicesUIDProfilesGet(params *V1EdgeHostDevicesUIDPro
 }
 
 /*
-V1EdgeHostDevicesUIDProfilesUpdate associates cluster profiles to the specified edge host device
+  V1EdgeHostDevicesUIDProfilesUpdate associates cluster profiles to the specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDProfilesUpdate(params *V1EdgeHostDevicesUIDProfilesUpdateParams) (*V1EdgeHostDevicesUIDProfilesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20182,7 +20222,7 @@ func (a *Client) V1EdgeHostDevicesUIDProfilesUpdate(params *V1EdgeHostDevicesUID
 }
 
 /*
-V1EdgeHostDevicesUIDSpcDownload downloads the specified edge host device spc
+  V1EdgeHostDevicesUIDSpcDownload downloads the specified edge host device spc
 */
 func (a *Client) V1EdgeHostDevicesUIDSpcDownload(params *V1EdgeHostDevicesUIDSpcDownloadParams, writer io.Writer) (*V1EdgeHostDevicesUIDSpcDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -20216,7 +20256,75 @@ func (a *Client) V1EdgeHostDevicesUIDSpcDownload(params *V1EdgeHostDevicesUIDSpc
 }
 
 /*
-V1EdgeHostDevicesUIDUpdate updates the specified edge host device
+  V1EdgeHostDevicesUIDTunnelConfigUpdate updates the specified edge host device tunnel configuration
+*/
+func (a *Client) V1EdgeHostDevicesUIDTunnelConfigUpdate(params *V1EdgeHostDevicesUIDTunnelConfigUpdateParams) (*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDTunnelConfigUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidTunnelConfigUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/tunnelConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDTunnelConfigUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidTunnelConfigUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  V1EdgeHostDevicesUIDTunnelStatusUpdate updates the edge host tunnel status
+*/
+func (a *Client) V1EdgeHostDevicesUIDTunnelStatusUpdate(params *V1EdgeHostDevicesUIDTunnelStatusUpdateParams) (*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDTunnelStatusUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidTunnelStatusUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/tunnelStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDTunnelStatusUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidTunnelStatusUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  V1EdgeHostDevicesUIDUpdate updates the specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDUpdate(params *V1EdgeHostDevicesUIDUpdateParams) (*V1EdgeHostDevicesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20250,7 +20358,7 @@ func (a *Client) V1EdgeHostDevicesUIDUpdate(params *V1EdgeHostDevicesUIDUpdatePa
 }
 
 /*
-V1EdgeHostDevicesUIDVspherePropertiesUpdate updates the specified edge host device vsphere properties
+  V1EdgeHostDevicesUIDVspherePropertiesUpdate updates the specified edge host device vsphere properties
 */
 func (a *Client) V1EdgeHostDevicesUIDVspherePropertiesUpdate(params *V1EdgeHostDevicesUIDVspherePropertiesUpdateParams) (*V1EdgeHostDevicesUIDVspherePropertiesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20284,7 +20392,7 @@ func (a *Client) V1EdgeHostDevicesUIDVspherePropertiesUpdate(params *V1EdgeHostD
 }
 
 /*
-V1EdgeHostsMetadata retrieves a list of edgehosts summary
+  V1EdgeHostsMetadata retrieves a list of edgehosts summary
 */
 func (a *Client) V1EdgeHostsMetadata(params *V1EdgeHostsMetadataParams) (*V1EdgeHostsMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -20318,7 +20426,7 @@ func (a *Client) V1EdgeHostsMetadata(params *V1EdgeHostsMetadataParams) (*V1Edge
 }
 
 /*
-V1EdgeHostsMetadataQuickFilterGet retrieves a list of edge hosts metadata matching the filter condition
+  V1EdgeHostsMetadataQuickFilterGet retrieves a list of edge hosts metadata matching the filter condition
 */
 func (a *Client) V1EdgeHostsMetadataQuickFilterGet(params *V1EdgeHostsMetadataQuickFilterGetParams) (*V1EdgeHostsMetadataQuickFilterGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20352,7 +20460,7 @@ func (a *Client) V1EdgeHostsMetadataQuickFilterGet(params *V1EdgeHostsMetadataQu
 }
 
 /*
-V1EdgeHostsTagsGet retrieves a list of edge hosts tags
+  V1EdgeHostsTagsGet retrieves a list of edge hosts tags
 */
 func (a *Client) V1EdgeHostsTagsGet(params *V1EdgeHostsTagsGetParams) (*V1EdgeHostsTagsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20386,7 +20494,7 @@ func (a *Client) V1EdgeHostsTagsGet(params *V1EdgeHostsTagsGetParams) (*V1EdgeHo
 }
 
 /*
-V1EdgeNativeClustersHostsList retrieves a list of edge host of edge native cluster
+  V1EdgeNativeClustersHostsList retrieves a list of edge host of edge native cluster
 */
 func (a *Client) V1EdgeNativeClustersHostsList(params *V1EdgeNativeClustersHostsListParams) (*V1EdgeNativeClustersHostsListOK, error) {
 	// TODO: Validate the params before sending
@@ -20420,7 +20528,7 @@ func (a *Client) V1EdgeNativeClustersHostsList(params *V1EdgeNativeClustersHosts
 }
 
 /*
-V1EdgeTokensCreate creates the edge token
+  V1EdgeTokensCreate creates the edge token
 */
 func (a *Client) V1EdgeTokensCreate(params *V1EdgeTokensCreateParams) (*V1EdgeTokensCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -20454,7 +20562,7 @@ func (a *Client) V1EdgeTokensCreate(params *V1EdgeTokensCreateParams) (*V1EdgeTo
 }
 
 /*
-V1EdgeTokensList retrieves a list of edge tokens
+  V1EdgeTokensList retrieves a list of edge tokens
 */
 func (a *Client) V1EdgeTokensList(params *V1EdgeTokensListParams) (*V1EdgeTokensListOK, error) {
 	// TODO: Validate the params before sending
@@ -20488,7 +20596,7 @@ func (a *Client) V1EdgeTokensList(params *V1EdgeTokensListParams) (*V1EdgeTokens
 }
 
 /*
-V1EdgeTokensUIDDelete deletes the specified edge token
+  V1EdgeTokensUIDDelete deletes the specified edge token
 */
 func (a *Client) V1EdgeTokensUIDDelete(params *V1EdgeTokensUIDDeleteParams) (*V1EdgeTokensUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20522,7 +20630,7 @@ func (a *Client) V1EdgeTokensUIDDelete(params *V1EdgeTokensUIDDeleteParams) (*V1
 }
 
 /*
-V1EdgeTokensUIDGet returns the specified edge token
+  V1EdgeTokensUIDGet returns the specified edge token
 */
 func (a *Client) V1EdgeTokensUIDGet(params *V1EdgeTokensUIDGetParams) (*V1EdgeTokensUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20556,7 +20664,7 @@ func (a *Client) V1EdgeTokensUIDGet(params *V1EdgeTokensUIDGetParams) (*V1EdgeTo
 }
 
 /*
-V1EdgeTokensUIDState revokes or re activate the edge token access
+  V1EdgeTokensUIDState revokes or re activate the edge token access
 */
 func (a *Client) V1EdgeTokensUIDState(params *V1EdgeTokensUIDStateParams) (*V1EdgeTokensUIDStateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20590,7 +20698,7 @@ func (a *Client) V1EdgeTokensUIDState(params *V1EdgeTokensUIDStateParams) (*V1Ed
 }
 
 /*
-V1EdgeTokensUIDUpdate updates the specified edge token
+  V1EdgeTokensUIDUpdate updates the specified edge token
 */
 func (a *Client) V1EdgeTokensUIDUpdate(params *V1EdgeTokensUIDUpdateParams) (*V1EdgeTokensUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20624,9 +20732,9 @@ func (a *Client) V1EdgeTokensUIDUpdate(params *V1EdgeTokensUIDUpdateParams) (*V1
 }
 
 /*
-V1EventsComponentsCreate creates a component event
+  V1EventsComponentsCreate creates a component event
 
-Creates a component event
+  Creates a component event
 */
 func (a *Client) V1EventsComponentsCreate(params *V1EventsComponentsCreateParams) (*V1EventsComponentsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -20660,9 +20768,9 @@ func (a *Client) V1EventsComponentsCreate(params *V1EventsComponentsCreateParams
 }
 
 /*
-V1EventsComponentsCreateBulk creates the component events in bulk
+  V1EventsComponentsCreateBulk creates the component events in bulk
 
-Creates the component events in bulk
+  Creates the component events in bulk
 */
 func (a *Client) V1EventsComponentsCreateBulk(params *V1EventsComponentsCreateBulkParams) (*V1EventsComponentsCreateBulkCreated, error) {
 	// TODO: Validate the params before sending
@@ -20696,9 +20804,9 @@ func (a *Client) V1EventsComponentsCreateBulk(params *V1EventsComponentsCreateBu
 }
 
 /*
-V1EventsComponentsList returns a paginated list of component events based on request parameters
+  V1EventsComponentsList returns a paginated list of component events based on request parameters
 
-Returns a paginated list of component events based on request parameters
+  Returns a paginated list of component events based on request parameters
 */
 func (a *Client) V1EventsComponentsList(params *V1EventsComponentsListParams) (*V1EventsComponentsListOK, error) {
 	// TODO: Validate the params before sending
@@ -20732,7 +20840,7 @@ func (a *Client) V1EventsComponentsList(params *V1EventsComponentsListParams) (*
 }
 
 /*
-V1EventsComponentsObjTypeUIDDelete deletes all the components events for the specified related object
+  V1EventsComponentsObjTypeUIDDelete deletes all the components events for the specified related object
 */
 func (a *Client) V1EventsComponentsObjTypeUIDDelete(params *V1EventsComponentsObjTypeUIDDeleteParams) (*V1EventsComponentsObjTypeUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20766,9 +20874,9 @@ func (a *Client) V1EventsComponentsObjTypeUIDDelete(params *V1EventsComponentsOb
 }
 
 /*
-V1EventsComponentsObjTypeUIDList returns a list of components events for the specified related object
+  V1EventsComponentsObjTypeUIDList returns a list of components events for the specified related object
 
-Returns a list of components events for the specified related object
+  Returns a list of components events for the specified related object
 */
 func (a *Client) V1EventsComponentsObjTypeUIDList(params *V1EventsComponentsObjTypeUIDListParams) (*V1EventsComponentsObjTypeUIDListOK, error) {
 	// TODO: Validate the params before sending
@@ -20802,7 +20910,7 @@ func (a *Client) V1EventsComponentsObjTypeUIDList(params *V1EventsComponentsObjT
 }
 
 /*
-V1FeaturesList retrieves the list of features
+  V1FeaturesList retrieves the list of features
 */
 func (a *Client) V1FeaturesList(params *V1FeaturesListParams) (*V1FeaturesListOK, error) {
 	// TODO: Validate the params before sending
@@ -20836,7 +20944,7 @@ func (a *Client) V1FeaturesList(params *V1FeaturesListParams) (*V1FeaturesListOK
 }
 
 /*
-V1FeaturesUpdate updates a feature
+  V1FeaturesUpdate updates a feature
 */
 func (a *Client) V1FeaturesUpdate(params *V1FeaturesUpdateParams) (*V1FeaturesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -20870,7 +20978,7 @@ func (a *Client) V1FeaturesUpdate(params *V1FeaturesUpdateParams) (*V1FeaturesUp
 }
 
 /*
-V1FiltersList returns a list of filters
+  V1FiltersList returns a list of filters
 */
 func (a *Client) V1FiltersList(params *V1FiltersListParams) (*V1FiltersListOK, error) {
 	// TODO: Validate the params before sending
@@ -20904,7 +21012,7 @@ func (a *Client) V1FiltersList(params *V1FiltersListParams) (*V1FiltersListOK, e
 }
 
 /*
-V1FiltersMetadata returns a list of filters metadata
+  V1FiltersMetadata returns a list of filters metadata
 */
 func (a *Client) V1FiltersMetadata(params *V1FiltersMetadataParams) (*V1FiltersMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -20938,7 +21046,7 @@ func (a *Client) V1FiltersMetadata(params *V1FiltersMetadataParams) (*V1FiltersM
 }
 
 /*
-V1InvoicesUIDGet returns a specified invoice
+  V1InvoicesUIDGet returns a specified invoice
 */
 func (a *Client) V1InvoicesUIDGet(params *V1InvoicesUIDGetParams) (*V1InvoicesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -20972,7 +21080,7 @@ func (a *Client) V1InvoicesUIDGet(params *V1InvoicesUIDGetParams) (*V1InvoicesUI
 }
 
 /*
-V1MaasAccountsUIDAzs gets the maas azs for a given account
+  V1MaasAccountsUIDAzs gets the maas azs for a given account
 */
 func (a *Client) V1MaasAccountsUIDAzs(params *V1MaasAccountsUIDAzsParams) (*V1MaasAccountsUIDAzsOK, error) {
 	// TODO: Validate the params before sending
@@ -21006,7 +21114,7 @@ func (a *Client) V1MaasAccountsUIDAzs(params *V1MaasAccountsUIDAzsParams) (*V1Ma
 }
 
 /*
-V1MaasAccountsUIDDomains gets the maas domains for a given account
+  V1MaasAccountsUIDDomains gets the maas domains for a given account
 */
 func (a *Client) V1MaasAccountsUIDDomains(params *V1MaasAccountsUIDDomainsParams) (*V1MaasAccountsUIDDomainsOK, error) {
 	// TODO: Validate the params before sending
@@ -21040,7 +21148,7 @@ func (a *Client) V1MaasAccountsUIDDomains(params *V1MaasAccountsUIDDomainsParams
 }
 
 /*
-V1MaasAccountsUIDPools gets the maas pools for a given account
+  V1MaasAccountsUIDPools gets the maas pools for a given account
 */
 func (a *Client) V1MaasAccountsUIDPools(params *V1MaasAccountsUIDPoolsParams) (*V1MaasAccountsUIDPoolsOK, error) {
 	// TODO: Validate the params before sending
@@ -21074,7 +21182,7 @@ func (a *Client) V1MaasAccountsUIDPools(params *V1MaasAccountsUIDPoolsParams) (*
 }
 
 /*
-V1MaasAccountsUIDSubnets gets the maas subnets for a given account
+  V1MaasAccountsUIDSubnets gets the maas subnets for a given account
 */
 func (a *Client) V1MaasAccountsUIDSubnets(params *V1MaasAccountsUIDSubnetsParams) (*V1MaasAccountsUIDSubnetsOK, error) {
 	// TODO: Validate the params before sending
@@ -21108,7 +21216,7 @@ func (a *Client) V1MaasAccountsUIDSubnets(params *V1MaasAccountsUIDSubnetsParams
 }
 
 /*
-V1MaasAccountsUIDTags gets the maas tags for a given account
+  V1MaasAccountsUIDTags gets the maas tags for a given account
 */
 func (a *Client) V1MaasAccountsUIDTags(params *V1MaasAccountsUIDTagsParams) (*V1MaasAccountsUIDTagsOK, error) {
 	// TODO: Validate the params before sending
@@ -21142,7 +21250,7 @@ func (a *Client) V1MaasAccountsUIDTags(params *V1MaasAccountsUIDTagsParams) (*V1
 }
 
 /*
-V1MacrosList retrieves a list of macros
+  V1MacrosList retrieves a list of macros
 */
 func (a *Client) V1MacrosList(params *V1MacrosListParams) (*V1MacrosListOK, error) {
 	// TODO: Validate the params before sending
@@ -21176,9 +21284,9 @@ func (a *Client) V1MacrosList(params *V1MacrosListParams) (*V1MacrosListOK, erro
 }
 
 /*
-V1MetricsList retrieves the list of metrics for a specified resource kind
+  V1MetricsList retrieves the list of metrics for a specified resource kind
 
-Returns all the metrics for a given resource kind
+  Returns all the metrics for a given resource kind
 */
 func (a *Client) V1MetricsList(params *V1MetricsListParams) (*V1MetricsListOK, error) {
 	// TODO: Validate the params before sending
@@ -21212,7 +21320,7 @@ func (a *Client) V1MetricsList(params *V1MetricsListParams) (*V1MetricsListOK, e
 }
 
 /*
-V1MetricsUIDDelete deletes the metrics of the specified resource
+  V1MetricsUIDDelete deletes the metrics of the specified resource
 */
 func (a *Client) V1MetricsUIDDelete(params *V1MetricsUIDDeleteParams) (*V1MetricsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -21246,7 +21354,7 @@ func (a *Client) V1MetricsUIDDelete(params *V1MetricsUIDDeleteParams) (*V1Metric
 }
 
 /*
-V1MetricsUIDList returns the metrics for a specified resource uid
+  V1MetricsUIDList returns the metrics for a specified resource uid
 */
 func (a *Client) V1MetricsUIDList(params *V1MetricsUIDListParams) (*V1MetricsUIDListOK, error) {
 	// TODO: Validate the params before sending
@@ -21280,9 +21388,9 @@ func (a *Client) V1MetricsUIDList(params *V1MetricsUIDListParams) (*V1MetricsUID
 }
 
 /*
-V1NotificationsEventCreate creates a notification event
+  V1NotificationsEventCreate creates a notification event
 
-Creates a notification event
+  Creates a notification event
 */
 func (a *Client) V1NotificationsEventCreate(params *V1NotificationsEventCreateParams) (*V1NotificationsEventCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -21316,9 +21424,9 @@ func (a *Client) V1NotificationsEventCreate(params *V1NotificationsEventCreatePa
 }
 
 /*
-V1NotificationsList returns a paginated list of notifications based on request parameters
+  V1NotificationsList returns a paginated list of notifications based on request parameters
 
-Returns a paginated list of notifications based on request parameters
+  Returns a paginated list of notifications based on request parameters
 */
 func (a *Client) V1NotificationsList(params *V1NotificationsListParams) (*V1NotificationsListOK, error) {
 	// TODO: Validate the params before sending
@@ -21352,9 +21460,9 @@ func (a *Client) V1NotificationsList(params *V1NotificationsListParams) (*V1Noti
 }
 
 /*
-V1NotificationsObjTypeUIDList returns a list of notifications for the specified related object
+  V1NotificationsObjTypeUIDList returns a list of notifications for the specified related object
 
-Returns a list of notifications for the specified related object
+  Returns a list of notifications for the specified related object
 */
 func (a *Client) V1NotificationsObjTypeUIDList(params *V1NotificationsObjTypeUIDListParams) (*V1NotificationsObjTypeUIDListOK, error) {
 	// TODO: Validate the params before sending
@@ -21388,9 +21496,9 @@ func (a *Client) V1NotificationsObjTypeUIDList(params *V1NotificationsObjTypeUID
 }
 
 /*
-V1NotificationsUIDAck updates the specified notification for the acknowledgment
+  V1NotificationsUIDAck updates the specified notification for the acknowledgment
 
-Updates the specified notification for the acknowledgment
+  Updates the specified notification for the acknowledgment
 */
 func (a *Client) V1NotificationsUIDAck(params *V1NotificationsUIDAckParams) (*V1NotificationsUIDAckNoContent, error) {
 	// TODO: Validate the params before sending
@@ -21424,9 +21532,9 @@ func (a *Client) V1NotificationsUIDAck(params *V1NotificationsUIDAckParams) (*V1
 }
 
 /*
-V1NotificationsUIDDone updates the specified notification action as done
+  V1NotificationsUIDDone updates the specified notification action as done
 
-Updates the specified notification action as done
+  Updates the specified notification action as done
 */
 func (a *Client) V1NotificationsUIDDone(params *V1NotificationsUIDDoneParams) (*V1NotificationsUIDDoneNoContent, error) {
 	// TODO: Validate the params before sending
@@ -21460,7 +21568,7 @@ func (a *Client) V1NotificationsUIDDone(params *V1NotificationsUIDDoneParams) (*
 }
 
 /*
-V1OciImageRegistryGet creates a image registry
+  V1OciImageRegistryGet creates a image registry
 */
 func (a *Client) V1OciImageRegistryGet(params *V1OciImageRegistryGetParams) (*V1OciImageRegistryGetOK, error) {
 	// TODO: Validate the params before sending
@@ -21494,7 +21602,7 @@ func (a *Client) V1OciImageRegistryGet(params *V1OciImageRegistryGetParams) (*V1
 }
 
 /*
-V1OciRegistriesGet returns the information of specified oci registry
+  V1OciRegistriesGet returns the information of specified oci registry
 */
 func (a *Client) V1OciRegistriesGet(params *V1OciRegistriesGetParams) (*V1OciRegistriesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -21528,7 +21636,7 @@ func (a *Client) V1OciRegistriesGet(params *V1OciRegistriesGetParams) (*V1OciReg
 }
 
 /*
-V1OciRegistriesSummary retrieves a oci registries summary
+  V1OciRegistriesSummary retrieves a oci registries summary
 */
 func (a *Client) V1OciRegistriesSummary(params *V1OciRegistriesSummaryParams) (*V1OciRegistriesSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -21562,7 +21670,7 @@ func (a *Client) V1OciRegistriesSummary(params *V1OciRegistriesSummaryParams) (*
 }
 
 /*
-V1OpenstackAccountsUIDAzs gets the openstack azs for a given account and region
+  V1OpenstackAccountsUIDAzs gets the openstack azs for a given account and region
 */
 func (a *Client) V1OpenstackAccountsUIDAzs(params *V1OpenstackAccountsUIDAzsParams) (*V1OpenstackAccountsUIDAzsOK, error) {
 	// TODO: Validate the params before sending
@@ -21596,7 +21704,7 @@ func (a *Client) V1OpenstackAccountsUIDAzs(params *V1OpenstackAccountsUIDAzsPara
 }
 
 /*
-V1OpenstackAccountsUIDFlavors gets the openstack keypairs for a given account and scope
+  V1OpenstackAccountsUIDFlavors gets the openstack keypairs for a given account and scope
 */
 func (a *Client) V1OpenstackAccountsUIDFlavors(params *V1OpenstackAccountsUIDFlavorsParams) (*V1OpenstackAccountsUIDFlavorsOK, error) {
 	// TODO: Validate the params before sending
@@ -21630,7 +21738,7 @@ func (a *Client) V1OpenstackAccountsUIDFlavors(params *V1OpenstackAccountsUIDFla
 }
 
 /*
-V1OpenstackAccountsUIDKeypairs gets the openstack keypairs for a given account and scope
+  V1OpenstackAccountsUIDKeypairs gets the openstack keypairs for a given account and scope
 */
 func (a *Client) V1OpenstackAccountsUIDKeypairs(params *V1OpenstackAccountsUIDKeypairsParams) (*V1OpenstackAccountsUIDKeypairsOK, error) {
 	// TODO: Validate the params before sending
@@ -21664,7 +21772,7 @@ func (a *Client) V1OpenstackAccountsUIDKeypairs(params *V1OpenstackAccountsUIDKe
 }
 
 /*
-V1OpenstackAccountsUIDNetworks gets the openstack networks for a given account and scope
+  V1OpenstackAccountsUIDNetworks gets the openstack networks for a given account and scope
 */
 func (a *Client) V1OpenstackAccountsUIDNetworks(params *V1OpenstackAccountsUIDNetworksParams) (*V1OpenstackAccountsUIDNetworksOK, error) {
 	// TODO: Validate the params before sending
@@ -21698,7 +21806,7 @@ func (a *Client) V1OpenstackAccountsUIDNetworks(params *V1OpenstackAccountsUIDNe
 }
 
 /*
-V1OpenstackAccountsUIDProjects gets the openstack projects for a given account
+  V1OpenstackAccountsUIDProjects gets the openstack projects for a given account
 */
 func (a *Client) V1OpenstackAccountsUIDProjects(params *V1OpenstackAccountsUIDProjectsParams) (*V1OpenstackAccountsUIDProjectsOK, error) {
 	// TODO: Validate the params before sending
@@ -21732,7 +21840,7 @@ func (a *Client) V1OpenstackAccountsUIDProjects(params *V1OpenstackAccountsUIDPr
 }
 
 /*
-V1OpenstackAccountsUIDRegions gets the openstack regions for a given account
+  V1OpenstackAccountsUIDRegions gets the openstack regions for a given account
 */
 func (a *Client) V1OpenstackAccountsUIDRegions(params *V1OpenstackAccountsUIDRegionsParams) (*V1OpenstackAccountsUIDRegionsOK, error) {
 	// TODO: Validate the params before sending
@@ -21766,7 +21874,7 @@ func (a *Client) V1OpenstackAccountsUIDRegions(params *V1OpenstackAccountsUIDReg
 }
 
 /*
-V1OverlordsList retrieves a list of overlords owned by the tenant
+  V1OverlordsList retrieves a list of overlords owned by the tenant
 */
 func (a *Client) V1OverlordsList(params *V1OverlordsListParams) (*V1OverlordsListOK, error) {
 	// TODO: Validate the params before sending
@@ -21800,7 +21908,7 @@ func (a *Client) V1OverlordsList(params *V1OverlordsListParams) (*V1OverlordsLis
 }
 
 /*
-V1OverlordsOpenStackManifest returns the manifests required for the private gateway installation
+  V1OverlordsOpenStackManifest returns the manifests required for the private gateway installation
 */
 func (a *Client) V1OverlordsOpenStackManifest(params *V1OverlordsOpenStackManifestParams) (*V1OverlordsOpenStackManifestOK, error) {
 	// TODO: Validate the params before sending
@@ -21834,7 +21942,7 @@ func (a *Client) V1OverlordsOpenStackManifest(params *V1OverlordsOpenStackManife
 }
 
 /*
-V1OverlordsPairingCode returns the pairing code for the private gateway
+  V1OverlordsPairingCode returns the pairing code for the private gateway
 */
 func (a *Client) V1OverlordsPairingCode(params *V1OverlordsPairingCodeParams) (*V1OverlordsPairingCodeOK, error) {
 	// TODO: Validate the params before sending
@@ -21868,7 +21976,7 @@ func (a *Client) V1OverlordsPairingCode(params *V1OverlordsPairingCodeParams) (*
 }
 
 /*
-V1OverlordsUIDDelete deletes the private gateway
+  V1OverlordsUIDDelete deletes the private gateway
 */
 func (a *Client) V1OverlordsUIDDelete(params *V1OverlordsUIDDeleteParams) (*V1OverlordsUIDDeleteOK, error) {
 	// TODO: Validate the params before sending
@@ -21902,7 +22010,7 @@ func (a *Client) V1OverlordsUIDDelete(params *V1OverlordsUIDDeleteParams) (*V1Ov
 }
 
 /*
-V1OverlordsUIDGet returns the specified private gateway s for the given uid
+  V1OverlordsUIDGet returns the specified private gateway s for the given uid
 */
 func (a *Client) V1OverlordsUIDGet(params *V1OverlordsUIDGetParams) (*V1OverlordsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -21936,7 +22044,7 @@ func (a *Client) V1OverlordsUIDGet(params *V1OverlordsUIDGetParams) (*V1Overlord
 }
 
 /*
-V1OverlordsUIDMaasAccountCreate creates the maas cloudaccount for the private gateway
+  V1OverlordsUIDMaasAccountCreate creates the maas cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDMaasAccountCreate(params *V1OverlordsUIDMaasAccountCreateParams) (*V1OverlordsUIDMaasAccountCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -21970,7 +22078,7 @@ func (a *Client) V1OverlordsUIDMaasAccountCreate(params *V1OverlordsUIDMaasAccou
 }
 
 /*
-V1OverlordsUIDMaasAccountUpdate updates the maas cloudaccount for the private gateway
+  V1OverlordsUIDMaasAccountUpdate updates the maas cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDMaasAccountUpdate(params *V1OverlordsUIDMaasAccountUpdateParams) (*V1OverlordsUIDMaasAccountUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22004,7 +22112,7 @@ func (a *Client) V1OverlordsUIDMaasAccountUpdate(params *V1OverlordsUIDMaasAccou
 }
 
 /*
-V1OverlordsUIDMaasAccountValidate validates the maas cloudaccount for the private gateway
+  V1OverlordsUIDMaasAccountValidate validates the maas cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDMaasAccountValidate(params *V1OverlordsUIDMaasAccountValidateParams) (*V1OverlordsUIDMaasAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22038,7 +22146,7 @@ func (a *Client) V1OverlordsUIDMaasAccountValidate(params *V1OverlordsUIDMaasAcc
 }
 
 /*
-V1OverlordsUIDMaasClusterProfile returns the specified maas private gateway cluster profile
+  V1OverlordsUIDMaasClusterProfile returns the specified maas private gateway cluster profile
 */
 func (a *Client) V1OverlordsUIDMaasClusterProfile(params *V1OverlordsUIDMaasClusterProfileParams) (*V1OverlordsUIDMaasClusterProfileOK, error) {
 	// TODO: Validate the params before sending
@@ -22072,7 +22180,7 @@ func (a *Client) V1OverlordsUIDMaasClusterProfile(params *V1OverlordsUIDMaasClus
 }
 
 /*
-V1OverlordsUIDMetadataUpdate updates the private gateway s metadata
+  V1OverlordsUIDMetadataUpdate updates the private gateway s metadata
 */
 func (a *Client) V1OverlordsUIDMetadataUpdate(params *V1OverlordsUIDMetadataUpdateParams) (*V1OverlordsUIDMetadataUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22106,7 +22214,7 @@ func (a *Client) V1OverlordsUIDMetadataUpdate(params *V1OverlordsUIDMetadataUpda
 }
 
 /*
-V1OverlordsUIDOpenStackAccountCreate creates the open stack cloudaccount for the private gateway
+  V1OverlordsUIDOpenStackAccountCreate creates the open stack cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDOpenStackAccountCreate(params *V1OverlordsUIDOpenStackAccountCreateParams) (*V1OverlordsUIDOpenStackAccountCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -22140,7 +22248,7 @@ func (a *Client) V1OverlordsUIDOpenStackAccountCreate(params *V1OverlordsUIDOpen
 }
 
 /*
-V1OverlordsUIDOpenStackAccountUpdate updates the open stack cloudaccount for the private gateway
+  V1OverlordsUIDOpenStackAccountUpdate updates the open stack cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDOpenStackAccountUpdate(params *V1OverlordsUIDOpenStackAccountUpdateParams) (*V1OverlordsUIDOpenStackAccountUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22174,7 +22282,7 @@ func (a *Client) V1OverlordsUIDOpenStackAccountUpdate(params *V1OverlordsUIDOpen
 }
 
 /*
-V1OverlordsUIDOpenStackAccountValidate validates the open stack cloudaccount for the private gateway
+  V1OverlordsUIDOpenStackAccountValidate validates the open stack cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDOpenStackAccountValidate(params *V1OverlordsUIDOpenStackAccountValidateParams) (*V1OverlordsUIDOpenStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22208,7 +22316,7 @@ func (a *Client) V1OverlordsUIDOpenStackAccountValidate(params *V1OverlordsUIDOp
 }
 
 /*
-V1OverlordsUIDOpenStackCloudConfigCreate creates the open stack cloud config for the private gateway
+  V1OverlordsUIDOpenStackCloudConfigCreate creates the open stack cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDOpenStackCloudConfigCreate(params *V1OverlordsUIDOpenStackCloudConfigCreateParams) (*V1OverlordsUIDOpenStackCloudConfigCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -22242,7 +22350,7 @@ func (a *Client) V1OverlordsUIDOpenStackCloudConfigCreate(params *V1OverlordsUID
 }
 
 /*
-V1OverlordsUIDOpenStackCloudConfigUpdate updates the open stack cloud config for the private gateway
+  V1OverlordsUIDOpenStackCloudConfigUpdate updates the open stack cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDOpenStackCloudConfigUpdate(params *V1OverlordsUIDOpenStackCloudConfigUpdateParams) (*V1OverlordsUIDOpenStackCloudConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22276,7 +22384,7 @@ func (a *Client) V1OverlordsUIDOpenStackCloudConfigUpdate(params *V1OverlordsUID
 }
 
 /*
-V1OverlordsUIDOpenStackClusterProfile returns the specified open stack private gateway cluster profile
+  V1OverlordsUIDOpenStackClusterProfile returns the specified open stack private gateway cluster profile
 */
 func (a *Client) V1OverlordsUIDOpenStackClusterProfile(params *V1OverlordsUIDOpenStackClusterProfileParams) (*V1OverlordsUIDOpenStackClusterProfileOK, error) {
 	// TODO: Validate the params before sending
@@ -22310,7 +22418,7 @@ func (a *Client) V1OverlordsUIDOpenStackClusterProfile(params *V1OverlordsUIDOpe
 }
 
 /*
-V1OverlordsUIDPoolCreate creates an IP pool defintion for the sepcified private gateway
+  V1OverlordsUIDPoolCreate creates an IP pool defintion for the sepcified private gateway
 */
 func (a *Client) V1OverlordsUIDPoolCreate(params *V1OverlordsUIDPoolCreateParams) (*V1OverlordsUIDPoolCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -22344,7 +22452,7 @@ func (a *Client) V1OverlordsUIDPoolCreate(params *V1OverlordsUIDPoolCreateParams
 }
 
 /*
-V1OverlordsUIDPoolDelete deletes the private gateways s specified IP pool data
+  V1OverlordsUIDPoolDelete deletes the private gateways s specified IP pool data
 */
 func (a *Client) V1OverlordsUIDPoolDelete(params *V1OverlordsUIDPoolDeleteParams) (*V1OverlordsUIDPoolDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22378,7 +22486,7 @@ func (a *Client) V1OverlordsUIDPoolDelete(params *V1OverlordsUIDPoolDeleteParams
 }
 
 /*
-V1OverlordsUIDPoolUpdate updates the private gateways s specified IP pool data
+  V1OverlordsUIDPoolUpdate updates the private gateways s specified IP pool data
 */
 func (a *Client) V1OverlordsUIDPoolUpdate(params *V1OverlordsUIDPoolUpdateParams) (*V1OverlordsUIDPoolUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22412,7 +22520,7 @@ func (a *Client) V1OverlordsUIDPoolUpdate(params *V1OverlordsUIDPoolUpdateParams
 }
 
 /*
-V1OverlordsUIDPoolsList retrieves a list of IP pools for the specified private gateway
+  V1OverlordsUIDPoolsList retrieves a list of IP pools for the specified private gateway
 */
 func (a *Client) V1OverlordsUIDPoolsList(params *V1OverlordsUIDPoolsListParams) (*V1OverlordsUIDPoolsListOK, error) {
 	// TODO: Validate the params before sending
@@ -22446,7 +22554,7 @@ func (a *Client) V1OverlordsUIDPoolsList(params *V1OverlordsUIDPoolsListParams) 
 }
 
 /*
-V1OverlordsUIDReset resets the private gateway by disaaociating the private gateway s resources
+  V1OverlordsUIDReset resets the private gateway by disaaociating the private gateway s resources
 */
 func (a *Client) V1OverlordsUIDReset(params *V1OverlordsUIDResetParams) (*V1OverlordsUIDResetOK, error) {
 	// TODO: Validate the params before sending
@@ -22480,7 +22588,7 @@ func (a *Client) V1OverlordsUIDReset(params *V1OverlordsUIDResetParams) (*V1Over
 }
 
 /*
-V1OverlordsUIDVsphereAccountCreate creates the v sphere cloudaccount for the private gateway
+  V1OverlordsUIDVsphereAccountCreate creates the v sphere cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDVsphereAccountCreate(params *V1OverlordsUIDVsphereAccountCreateParams) (*V1OverlordsUIDVsphereAccountCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -22514,7 +22622,7 @@ func (a *Client) V1OverlordsUIDVsphereAccountCreate(params *V1OverlordsUIDVspher
 }
 
 /*
-V1OverlordsUIDVsphereAccountUpdate updates the v sphere cloudaccount for the private gateway
+  V1OverlordsUIDVsphereAccountUpdate updates the v sphere cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDVsphereAccountUpdate(params *V1OverlordsUIDVsphereAccountUpdateParams) (*V1OverlordsUIDVsphereAccountUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22548,7 +22656,7 @@ func (a *Client) V1OverlordsUIDVsphereAccountUpdate(params *V1OverlordsUIDVspher
 }
 
 /*
-V1OverlordsUIDVsphereAccountValidate validates the v sphere cloudaccount for the private gateway
+  V1OverlordsUIDVsphereAccountValidate validates the v sphere cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDVsphereAccountValidate(params *V1OverlordsUIDVsphereAccountValidateParams) (*V1OverlordsUIDVsphereAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22582,7 +22690,7 @@ func (a *Client) V1OverlordsUIDVsphereAccountValidate(params *V1OverlordsUIDVsph
 }
 
 /*
-V1OverlordsUIDVsphereCloudConfigCreate creates the v sphere cloud config for the private gateway
+  V1OverlordsUIDVsphereCloudConfigCreate creates the v sphere cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDVsphereCloudConfigCreate(params *V1OverlordsUIDVsphereCloudConfigCreateParams) (*V1OverlordsUIDVsphereCloudConfigCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -22616,7 +22724,7 @@ func (a *Client) V1OverlordsUIDVsphereCloudConfigCreate(params *V1OverlordsUIDVs
 }
 
 /*
-V1OverlordsUIDVsphereCloudConfigUpdate updates the v sphere cloud config for the private gateway
+  V1OverlordsUIDVsphereCloudConfigUpdate updates the v sphere cloud config for the private gateway
 */
 func (a *Client) V1OverlordsUIDVsphereCloudConfigUpdate(params *V1OverlordsUIDVsphereCloudConfigUpdateParams) (*V1OverlordsUIDVsphereCloudConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -22650,7 +22758,7 @@ func (a *Client) V1OverlordsUIDVsphereCloudConfigUpdate(params *V1OverlordsUIDVs
 }
 
 /*
-V1OverlordsUIDVsphereClusterProfile returns the specified vsphere private gateway cluster profile
+  V1OverlordsUIDVsphereClusterProfile returns the specified vsphere private gateway cluster profile
 */
 func (a *Client) V1OverlordsUIDVsphereClusterProfile(params *V1OverlordsUIDVsphereClusterProfileParams) (*V1OverlordsUIDVsphereClusterProfileOK, error) {
 	// TODO: Validate the params before sending
@@ -22684,7 +22792,7 @@ func (a *Client) V1OverlordsUIDVsphereClusterProfile(params *V1OverlordsUIDVsphe
 }
 
 /*
-V1OverlordsUIDVsphereComputeclusterRes retrieves the v sphere computecluster resources for the specified private gateway s account
+  V1OverlordsUIDVsphereComputeclusterRes retrieves the v sphere computecluster resources for the specified private gateway s account
 */
 func (a *Client) V1OverlordsUIDVsphereComputeclusterRes(params *V1OverlordsUIDVsphereComputeclusterResParams) (*V1OverlordsUIDVsphereComputeclusterResOK, error) {
 	// TODO: Validate the params before sending
@@ -22718,7 +22826,7 @@ func (a *Client) V1OverlordsUIDVsphereComputeclusterRes(params *V1OverlordsUIDVs
 }
 
 /*
-V1OverlordsUIDVsphereDatacenters retrieves the v sphere datacenters and datacluster for the specified private gateway s account
+  V1OverlordsUIDVsphereDatacenters retrieves the v sphere datacenters and datacluster for the specified private gateway s account
 */
 func (a *Client) V1OverlordsUIDVsphereDatacenters(params *V1OverlordsUIDVsphereDatacentersParams) (*V1OverlordsUIDVsphereDatacentersOK, error) {
 	// TODO: Validate the params before sending
@@ -22752,7 +22860,7 @@ func (a *Client) V1OverlordsUIDVsphereDatacenters(params *V1OverlordsUIDVsphereD
 }
 
 /*
-V1OverlordsVsphereManifest returns the manifests required for the private gateway installation
+  V1OverlordsVsphereManifest returns the manifests required for the private gateway installation
 */
 func (a *Client) V1OverlordsVsphereManifest(params *V1OverlordsVsphereManifestParams) (*V1OverlordsVsphereManifestOK, error) {
 	// TODO: Validate the params before sending
@@ -22786,7 +22894,7 @@ func (a *Client) V1OverlordsVsphereManifest(params *V1OverlordsVsphereManifestPa
 }
 
 /*
-V1OverlordsVsphereOvaGet returns overlord s ova information
+  V1OverlordsVsphereOvaGet returns overlord s ova information
 */
 func (a *Client) V1OverlordsVsphereOvaGet(params *V1OverlordsVsphereOvaGetParams) (*V1OverlordsVsphereOvaGetOK, error) {
 	// TODO: Validate the params before sending
@@ -22820,7 +22928,7 @@ func (a *Client) V1OverlordsVsphereOvaGet(params *V1OverlordsVsphereOvaGetParams
 }
 
 /*
-V1PacksNameRegistryUIDList retrieves a list of packs
+  V1PacksNameRegistryUIDList retrieves a list of packs
 */
 func (a *Client) V1PacksNameRegistryUIDList(params *V1PacksNameRegistryUIDListParams) (*V1PacksNameRegistryUIDListOK, error) {
 	// TODO: Validate the params before sending
@@ -22854,7 +22962,7 @@ func (a *Client) V1PacksNameRegistryUIDList(params *V1PacksNameRegistryUIDListPa
 }
 
 /*
-V1PacksPackUIDLogo returns the logo for a specified pack
+  V1PacksPackUIDLogo returns the logo for a specified pack
 */
 func (a *Client) V1PacksPackUIDLogo(params *V1PacksPackUIDLogoParams, writer io.Writer) (*V1PacksPackUIDLogoOK, error) {
 	// TODO: Validate the params before sending
@@ -22888,7 +22996,7 @@ func (a *Client) V1PacksPackUIDLogo(params *V1PacksPackUIDLogoParams, writer io.
 }
 
 /*
-V1PacksSearch retrieves a list of packs based on filter
+  V1PacksSearch retrieves a list of packs based on filter
 */
 func (a *Client) V1PacksSearch(params *V1PacksSearchParams) (*V1PacksSearchOK, error) {
 	// TODO: Validate the params before sending
@@ -22922,7 +23030,7 @@ func (a *Client) V1PacksSearch(params *V1PacksSearchParams) (*V1PacksSearchOK, e
 }
 
 /*
-V1PacksSummaryList retrieves a list of packs
+  V1PacksSummaryList retrieves a list of packs
 */
 func (a *Client) V1PacksSummaryList(params *V1PacksSummaryListParams) (*V1PacksSummaryListOK, error) {
 	// TODO: Validate the params before sending
@@ -22956,7 +23064,7 @@ func (a *Client) V1PacksSummaryList(params *V1PacksSummaryListParams) (*V1PacksS
 }
 
 /*
-V1PacksUID returns the specified pack
+  V1PacksUID returns the specified pack
 */
 func (a *Client) V1PacksUID(params *V1PacksUIDParams) (*V1PacksUIDOK, error) {
 	// TODO: Validate the params before sending
@@ -22990,7 +23098,7 @@ func (a *Client) V1PacksUID(params *V1PacksUIDParams) (*V1PacksUIDOK, error) {
 }
 
 /*
-V1PacksUIDReadme returns the readme of a specified pack
+  V1PacksUIDReadme returns the readme of a specified pack
 */
 func (a *Client) V1PacksUIDReadme(params *V1PacksUIDReadmeParams) (*V1PacksUIDReadmeOK, error) {
 	// TODO: Validate the params before sending
@@ -23024,9 +23132,9 @@ func (a *Client) V1PacksUIDReadme(params *V1PacksUIDReadmeParams) (*V1PacksUIDRe
 }
 
 /*
-V1PasswordActivate updates and activates the specified user password using the password token
+  V1PasswordActivate updates and activates the specified user password using the password token
 
-Updates and Activates user password with the help of password token
+  Updates and Activates user password with the help of password token
 */
 func (a *Client) V1PasswordActivate(params *V1PasswordActivateParams) (*V1PasswordActivateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23060,9 +23168,9 @@ func (a *Client) V1PasswordActivate(params *V1PasswordActivateParams) (*V1Passwo
 }
 
 /*
-V1PasswordReset resets the user password using the password token
+  V1PasswordReset resets the user password using the password token
 
-Updates the new user password with the help of password token
+  Updates the new user password with the help of password token
 */
 func (a *Client) V1PasswordReset(params *V1PasswordResetParams) (*V1PasswordResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23096,9 +23204,9 @@ func (a *Client) V1PasswordReset(params *V1PasswordResetParams) (*V1PasswordRese
 }
 
 /*
-V1PasswordResetRequest creates request to reset password via email
+  V1PasswordResetRequest creates request to reset password via email
 
-Creates request to reset password via email. Password reset email will be sent to the user. Sends 204 No Content.
+  Creates request to reset password via email. Password reset email will be sent to the user. Sends 204 No Content.
 */
 func (a *Client) V1PasswordResetRequest(params *V1PasswordResetRequestParams) (*V1PasswordResetRequestNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23132,7 +23240,7 @@ func (a *Client) V1PasswordResetRequest(params *V1PasswordResetRequestParams) (*
 }
 
 /*
-V1PatchTenantAddress updates tenant address
+  V1PatchTenantAddress updates tenant address
 */
 func (a *Client) V1PatchTenantAddress(params *V1PatchTenantAddressParams) (*V1PatchTenantAddressNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23166,7 +23274,7 @@ func (a *Client) V1PatchTenantAddress(params *V1PatchTenantAddressParams) (*V1Pa
 }
 
 /*
-V1PatchTenantEmailID updates tenant email Id
+  V1PatchTenantEmailID updates tenant email Id
 */
 func (a *Client) V1PatchTenantEmailID(params *V1PatchTenantEmailIDParams) (*V1PatchTenantEmailIDNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23200,7 +23308,7 @@ func (a *Client) V1PatchTenantEmailID(params *V1PatchTenantEmailIDParams) (*V1Pa
 }
 
 /*
-V1PcgSelfHosted returns the private gateway manifest link
+  V1PcgSelfHosted returns the private gateway manifest link
 */
 func (a *Client) V1PcgSelfHosted(params *V1PcgSelfHostedParams) (*V1PcgSelfHostedOK, error) {
 	// TODO: Validate the params before sending
@@ -23234,7 +23342,7 @@ func (a *Client) V1PcgSelfHosted(params *V1PcgSelfHostedParams) (*V1PcgSelfHoste
 }
 
 /*
-V1PcgUIDAllyManifestGet returns the pcg ally manifest
+  V1PcgUIDAllyManifestGet returns the pcg ally manifest
 */
 func (a *Client) V1PcgUIDAllyManifestGet(params *V1PcgUIDAllyManifestGetParams, writer io.Writer) (*V1PcgUIDAllyManifestGetOK, error) {
 	// TODO: Validate the params before sending
@@ -23268,7 +23376,7 @@ func (a *Client) V1PcgUIDAllyManifestGet(params *V1PcgUIDAllyManifestGetParams, 
 }
 
 /*
-V1PcgUIDJetManifestGet returns the pcg jet manifest
+  V1PcgUIDJetManifestGet returns the pcg jet manifest
 */
 func (a *Client) V1PcgUIDJetManifestGet(params *V1PcgUIDJetManifestGetParams, writer io.Writer) (*V1PcgUIDJetManifestGetOK, error) {
 	// TODO: Validate the params before sending
@@ -23302,7 +23410,7 @@ func (a *Client) V1PcgUIDJetManifestGet(params *V1PcgUIDJetManifestGetParams, wr
 }
 
 /*
-V1PcgUIDRegister registers the pcg
+  V1PcgUIDRegister registers the pcg
 */
 func (a *Client) V1PcgUIDRegister(params *V1PcgUIDRegisterParams) (*V1PcgUIDRegisterNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23336,7 +23444,7 @@ func (a *Client) V1PcgUIDRegister(params *V1PcgUIDRegisterParams) (*V1PcgUIDRegi
 }
 
 /*
-V1PermissionsList retrieves a list of permissions
+  V1PermissionsList retrieves a list of permissions
 */
 func (a *Client) V1PermissionsList(params *V1PermissionsListParams) (*V1PermissionsListOK, error) {
 	// TODO: Validate the params before sending
@@ -23370,7 +23478,7 @@ func (a *Client) V1PermissionsList(params *V1PermissionsListParams) (*V1Permissi
 }
 
 /*
-V1ProjectClusterSettingsGet gets project cluster settings
+  V1ProjectClusterSettingsGet gets project cluster settings
 */
 func (a *Client) V1ProjectClusterSettingsGet(params *V1ProjectClusterSettingsGetParams) (*V1ProjectClusterSettingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -23404,7 +23512,7 @@ func (a *Client) V1ProjectClusterSettingsGet(params *V1ProjectClusterSettingsGet
 }
 
 /*
-V1ProjectClustersNodesAutoRemediationSettingUpdate updates project clusters nodes auto remediation setting
+  V1ProjectClustersNodesAutoRemediationSettingUpdate updates project clusters nodes auto remediation setting
 */
 func (a *Client) V1ProjectClustersNodesAutoRemediationSettingUpdate(params *V1ProjectClustersNodesAutoRemediationSettingUpdateParams) (*V1ProjectClustersNodesAutoRemediationSettingUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23438,7 +23546,7 @@ func (a *Client) V1ProjectClustersNodesAutoRemediationSettingUpdate(params *V1Pr
 }
 
 /*
-V1ProjectsAlerts retrieves a list of supported alerts for a project
+  V1ProjectsAlerts retrieves a list of supported alerts for a project
 */
 func (a *Client) V1ProjectsAlerts(params *V1ProjectsAlertsParams) (*V1ProjectsAlertsOK, error) {
 	// TODO: Validate the params before sending
@@ -23472,7 +23580,7 @@ func (a *Client) V1ProjectsAlerts(params *V1ProjectsAlertsParams) (*V1ProjectsAl
 }
 
 /*
-V1ProjectsCreate creates a project
+  V1ProjectsCreate creates a project
 */
 func (a *Client) V1ProjectsCreate(params *V1ProjectsCreateParams) (*V1ProjectsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -23506,7 +23614,7 @@ func (a *Client) V1ProjectsCreate(params *V1ProjectsCreateParams) (*V1ProjectsCr
 }
 
 /*
-V1ProjectsFilterSummary v1 projects filter summary API
+  V1ProjectsFilterSummary v1 projects filter summary API
 */
 func (a *Client) V1ProjectsFilterSummary(params *V1ProjectsFilterSummaryParams) (*V1ProjectsFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -23540,7 +23648,7 @@ func (a *Client) V1ProjectsFilterSummary(params *V1ProjectsFilterSummaryParams) 
 }
 
 /*
-V1ProjectsMetadata retrieves a list of projects metadata
+  V1ProjectsMetadata retrieves a list of projects metadata
 */
 func (a *Client) V1ProjectsMetadata(params *V1ProjectsMetadataParams) (*V1ProjectsMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -23574,7 +23682,7 @@ func (a *Client) V1ProjectsMetadata(params *V1ProjectsMetadataParams) (*V1Projec
 }
 
 /*
-V1ProjectsUIDAlertCreate creates the specified alert to the specified project
+  V1ProjectsUIDAlertCreate creates the specified alert to the specified project
 */
 func (a *Client) V1ProjectsUIDAlertCreate(params *V1ProjectsUIDAlertCreateParams) (*V1ProjectsUIDAlertCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -23608,7 +23716,7 @@ func (a *Client) V1ProjectsUIDAlertCreate(params *V1ProjectsUIDAlertCreateParams
 }
 
 /*
-V1ProjectsUIDAlertDelete deletes the specified alert to the specified project
+  V1ProjectsUIDAlertDelete deletes the specified alert to the specified project
 */
 func (a *Client) V1ProjectsUIDAlertDelete(params *V1ProjectsUIDAlertDeleteParams) (*V1ProjectsUIDAlertDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23642,7 +23750,7 @@ func (a *Client) V1ProjectsUIDAlertDelete(params *V1ProjectsUIDAlertDeleteParams
 }
 
 /*
-V1ProjectsUIDAlertUpdate upserts the specified alert to the specified project
+  V1ProjectsUIDAlertUpdate upserts the specified alert to the specified project
 */
 func (a *Client) V1ProjectsUIDAlertUpdate(params *V1ProjectsUIDAlertUpdateParams) (*V1ProjectsUIDAlertUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23676,7 +23784,7 @@ func (a *Client) V1ProjectsUIDAlertUpdate(params *V1ProjectsUIDAlertUpdateParams
 }
 
 /*
-V1ProjectsUIDAlertsUIDDelete deletes the specified alert of the specified project
+  V1ProjectsUIDAlertsUIDDelete deletes the specified alert of the specified project
 */
 func (a *Client) V1ProjectsUIDAlertsUIDDelete(params *V1ProjectsUIDAlertsUIDDeleteParams) (*V1ProjectsUIDAlertsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23710,7 +23818,7 @@ func (a *Client) V1ProjectsUIDAlertsUIDDelete(params *V1ProjectsUIDAlertsUIDDele
 }
 
 /*
-V1ProjectsUIDAlertsUIDGet gets the specified alert of the specified project
+  V1ProjectsUIDAlertsUIDGet gets the specified alert of the specified project
 */
 func (a *Client) V1ProjectsUIDAlertsUIDGet(params *V1ProjectsUIDAlertsUIDGetParams) (*V1ProjectsUIDAlertsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -23744,7 +23852,7 @@ func (a *Client) V1ProjectsUIDAlertsUIDGet(params *V1ProjectsUIDAlertsUIDGetPara
 }
 
 /*
-V1ProjectsUIDAlertsUIDUpdate updates the specified alert of the specified project
+  V1ProjectsUIDAlertsUIDUpdate updates the specified alert of the specified project
 */
 func (a *Client) V1ProjectsUIDAlertsUIDUpdate(params *V1ProjectsUIDAlertsUIDUpdateParams) (*V1ProjectsUIDAlertsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23778,7 +23886,7 @@ func (a *Client) V1ProjectsUIDAlertsUIDUpdate(params *V1ProjectsUIDAlertsUIDUpda
 }
 
 /*
-V1ProjectsUIDDelete deletes the specified project
+  V1ProjectsUIDDelete deletes the specified project
 */
 func (a *Client) V1ProjectsUIDDelete(params *V1ProjectsUIDDeleteParams) (*V1ProjectsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23812,7 +23920,7 @@ func (a *Client) V1ProjectsUIDDelete(params *V1ProjectsUIDDeleteParams) (*V1Proj
 }
 
 /*
-V1ProjectsUIDGet returns the specified project
+  V1ProjectsUIDGet returns the specified project
 */
 func (a *Client) V1ProjectsUIDGet(params *V1ProjectsUIDGetParams) (*V1ProjectsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -23846,7 +23954,7 @@ func (a *Client) V1ProjectsUIDGet(params *V1ProjectsUIDGetParams) (*V1ProjectsUI
 }
 
 /*
-V1ProjectsUIDMacrosCreate creates or add new macros for the specified project
+  V1ProjectsUIDMacrosCreate creates or add new macros for the specified project
 */
 func (a *Client) V1ProjectsUIDMacrosCreate(params *V1ProjectsUIDMacrosCreateParams) (*V1ProjectsUIDMacrosCreateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23880,7 +23988,7 @@ func (a *Client) V1ProjectsUIDMacrosCreate(params *V1ProjectsUIDMacrosCreatePara
 }
 
 /*
-V1ProjectsUIDMacrosDeleteByMacroName deletes the macros for the specified project by macro name
+  V1ProjectsUIDMacrosDeleteByMacroName deletes the macros for the specified project by macro name
 */
 func (a *Client) V1ProjectsUIDMacrosDeleteByMacroName(params *V1ProjectsUIDMacrosDeleteByMacroNameParams) (*V1ProjectsUIDMacrosDeleteByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23914,7 +24022,7 @@ func (a *Client) V1ProjectsUIDMacrosDeleteByMacroName(params *V1ProjectsUIDMacro
 }
 
 /*
-V1ProjectsUIDMacrosList lists the macros of the specified project
+  V1ProjectsUIDMacrosList lists the macros of the specified project
 */
 func (a *Client) V1ProjectsUIDMacrosList(params *V1ProjectsUIDMacrosListParams) (*V1ProjectsUIDMacrosListOK, error) {
 	// TODO: Validate the params before sending
@@ -23948,7 +24056,7 @@ func (a *Client) V1ProjectsUIDMacrosList(params *V1ProjectsUIDMacrosListParams) 
 }
 
 /*
-V1ProjectsUIDMacrosUpdate updates the macros of the specified project
+  V1ProjectsUIDMacrosUpdate updates the macros of the specified project
 */
 func (a *Client) V1ProjectsUIDMacrosUpdate(params *V1ProjectsUIDMacrosUpdateParams) (*V1ProjectsUIDMacrosUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -23982,7 +24090,7 @@ func (a *Client) V1ProjectsUIDMacrosUpdate(params *V1ProjectsUIDMacrosUpdatePara
 }
 
 /*
-V1ProjectsUIDMacrosUpdateByMacroName updates the macros for the specified project by macro name
+  V1ProjectsUIDMacrosUpdateByMacroName updates the macros for the specified project by macro name
 */
 func (a *Client) V1ProjectsUIDMacrosUpdateByMacroName(params *V1ProjectsUIDMacrosUpdateByMacroNameParams) (*V1ProjectsUIDMacrosUpdateByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24016,7 +24124,7 @@ func (a *Client) V1ProjectsUIDMacrosUpdateByMacroName(params *V1ProjectsUIDMacro
 }
 
 /*
-V1ProjectsUIDMetaUpdate updates the metadata of the specified project
+  V1ProjectsUIDMetaUpdate updates the metadata of the specified project
 */
 func (a *Client) V1ProjectsUIDMetaUpdate(params *V1ProjectsUIDMetaUpdateParams) (*V1ProjectsUIDMetaUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24050,7 +24158,7 @@ func (a *Client) V1ProjectsUIDMetaUpdate(params *V1ProjectsUIDMetaUpdateParams) 
 }
 
 /*
-V1ProjectsUIDTeamsUpdate updates the teams association to the specified project
+  V1ProjectsUIDTeamsUpdate updates the teams association to the specified project
 */
 func (a *Client) V1ProjectsUIDTeamsUpdate(params *V1ProjectsUIDTeamsUpdateParams) (*V1ProjectsUIDTeamsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24084,7 +24192,7 @@ func (a *Client) V1ProjectsUIDTeamsUpdate(params *V1ProjectsUIDTeamsUpdateParams
 }
 
 /*
-V1ProjectsUIDUpdate updates the specified project
+  V1ProjectsUIDUpdate updates the specified project
 */
 func (a *Client) V1ProjectsUIDUpdate(params *V1ProjectsUIDUpdateParams) (*V1ProjectsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24118,7 +24226,7 @@ func (a *Client) V1ProjectsUIDUpdate(params *V1ProjectsUIDUpdateParams) (*V1Proj
 }
 
 /*
-V1ProjectsUIDUsersUpdate updates the users association to the specified project
+  V1ProjectsUIDUsersUpdate updates the users association to the specified project
 */
 func (a *Client) V1ProjectsUIDUsersUpdate(params *V1ProjectsUIDUsersUpdateParams) (*V1ProjectsUIDUsersUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24152,7 +24260,7 @@ func (a *Client) V1ProjectsUIDUsersUpdate(params *V1ProjectsUIDUsersUpdateParams
 }
 
 /*
-V1ProjectsUIDValidate validates and returns active resource of project before delete
+  V1ProjectsUIDValidate validates and returns active resource of project before delete
 */
 func (a *Client) V1ProjectsUIDValidate(params *V1ProjectsUIDValidateParams) (*V1ProjectsUIDValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -24186,7 +24294,7 @@ func (a *Client) V1ProjectsUIDValidate(params *V1ProjectsUIDValidateParams) (*V1
 }
 
 /*
-V1RateConfigGet gets all rate config for public and private cloud
+  V1RateConfigGet gets all rate config for public and private cloud
 */
 func (a *Client) V1RateConfigGet(params *V1RateConfigGetParams) (*V1RateConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -24220,7 +24328,7 @@ func (a *Client) V1RateConfigGet(params *V1RateConfigGetParams) (*V1RateConfigGe
 }
 
 /*
-V1RateConfigUpdate updates the rate config for public and private cloud
+  V1RateConfigUpdate updates the rate config for public and private cloud
 */
 func (a *Client) V1RateConfigUpdate(params *V1RateConfigUpdateParams) (*V1RateConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24254,7 +24362,7 @@ func (a *Client) V1RateConfigUpdate(params *V1RateConfigUpdateParams) (*V1RateCo
 }
 
 /*
-V1RegistriesHelmCreate creates a helm registry
+  V1RegistriesHelmCreate creates a helm registry
 */
 func (a *Client) V1RegistriesHelmCreate(params *V1RegistriesHelmCreateParams) (*V1RegistriesHelmCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -24288,7 +24396,7 @@ func (a *Client) V1RegistriesHelmCreate(params *V1RegistriesHelmCreateParams) (*
 }
 
 /*
-V1RegistriesHelmList retrieves a list of helm registries
+  V1RegistriesHelmList retrieves a list of helm registries
 */
 func (a *Client) V1RegistriesHelmList(params *V1RegistriesHelmListParams) (*V1RegistriesHelmListOK, error) {
 	// TODO: Validate the params before sending
@@ -24322,7 +24430,7 @@ func (a *Client) V1RegistriesHelmList(params *V1RegistriesHelmListParams) (*V1Re
 }
 
 /*
-V1RegistriesHelmSummaryList retrieves a list of helm registries as summary
+  V1RegistriesHelmSummaryList retrieves a list of helm registries as summary
 */
 func (a *Client) V1RegistriesHelmSummaryList(params *V1RegistriesHelmSummaryListParams) (*V1RegistriesHelmSummaryListOK, error) {
 	// TODO: Validate the params before sending
@@ -24356,7 +24464,7 @@ func (a *Client) V1RegistriesHelmSummaryList(params *V1RegistriesHelmSummaryList
 }
 
 /*
-V1RegistriesHelmUIDDelete deletes the specified helm registry
+  V1RegistriesHelmUIDDelete deletes the specified helm registry
 */
 func (a *Client) V1RegistriesHelmUIDDelete(params *V1RegistriesHelmUIDDeleteParams) (*V1RegistriesHelmUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24390,7 +24498,7 @@ func (a *Client) V1RegistriesHelmUIDDelete(params *V1RegistriesHelmUIDDeletePara
 }
 
 /*
-V1RegistriesHelmUIDGet returns the specified helm registry
+  V1RegistriesHelmUIDGet returns the specified helm registry
 */
 func (a *Client) V1RegistriesHelmUIDGet(params *V1RegistriesHelmUIDGetParams) (*V1RegistriesHelmUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -24424,9 +24532,9 @@ func (a *Client) V1RegistriesHelmUIDGet(params *V1RegistriesHelmUIDGetParams) (*
 }
 
 /*
-V1RegistriesHelmUIDSync syncs helm registry
+  V1RegistriesHelmUIDSync syncs helm registry
 
-Sync all the helm charts from the registry
+  Sync all the helm charts from the registry
 */
 func (a *Client) V1RegistriesHelmUIDSync(params *V1RegistriesHelmUIDSyncParams) (*V1RegistriesHelmUIDSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -24460,9 +24568,9 @@ func (a *Client) V1RegistriesHelmUIDSync(params *V1RegistriesHelmUIDSyncParams) 
 }
 
 /*
-V1RegistriesHelmUIDSyncStatus gets helm registry sync status
+  V1RegistriesHelmUIDSyncStatus gets helm registry sync status
 
-Get the sync status for the specified helm registry
+  Get the sync status for the specified helm registry
 */
 func (a *Client) V1RegistriesHelmUIDSyncStatus(params *V1RegistriesHelmUIDSyncStatusParams) (*V1RegistriesHelmUIDSyncStatusOK, error) {
 	// TODO: Validate the params before sending
@@ -24496,7 +24604,7 @@ func (a *Client) V1RegistriesHelmUIDSyncStatus(params *V1RegistriesHelmUIDSyncSt
 }
 
 /*
-V1RegistriesHelmUIDUpdate updates the specified helm registry
+  V1RegistriesHelmUIDUpdate updates the specified helm registry
 */
 func (a *Client) V1RegistriesHelmUIDUpdate(params *V1RegistriesHelmUIDUpdateParams) (*V1RegistriesHelmUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24530,7 +24638,7 @@ func (a *Client) V1RegistriesHelmUIDUpdate(params *V1RegistriesHelmUIDUpdatePara
 }
 
 /*
-V1RegistriesMetadata retrieves a list of registries metadata
+  V1RegistriesMetadata retrieves a list of registries metadata
 */
 func (a *Client) V1RegistriesMetadata(params *V1RegistriesMetadataParams) (*V1RegistriesMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -24564,7 +24672,7 @@ func (a *Client) V1RegistriesMetadata(params *V1RegistriesMetadataParams) (*V1Re
 }
 
 /*
-V1RegistriesNameConfigGet returns the specified system scope registry configuration
+  V1RegistriesNameConfigGet returns the specified system scope registry configuration
 */
 func (a *Client) V1RegistriesNameConfigGet(params *V1RegistriesNameConfigGetParams) (*V1RegistriesNameConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -24598,7 +24706,7 @@ func (a *Client) V1RegistriesNameConfigGet(params *V1RegistriesNameConfigGetPara
 }
 
 /*
-V1RegistriesPackCreate creates a pack registry
+  V1RegistriesPackCreate creates a pack registry
 */
 func (a *Client) V1RegistriesPackCreate(params *V1RegistriesPackCreateParams) (*V1RegistriesPackCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -24632,7 +24740,7 @@ func (a *Client) V1RegistriesPackCreate(params *V1RegistriesPackCreateParams) (*
 }
 
 /*
-V1RegistriesPackList retrieves a list of pack registries
+  V1RegistriesPackList retrieves a list of pack registries
 */
 func (a *Client) V1RegistriesPackList(params *V1RegistriesPackListParams) (*V1RegistriesPackListOK, error) {
 	// TODO: Validate the params before sending
@@ -24666,7 +24774,7 @@ func (a *Client) V1RegistriesPackList(params *V1RegistriesPackListParams) (*V1Re
 }
 
 /*
-V1RegistriesPackSummaryList retrieves a list of pack registries as summary
+  V1RegistriesPackSummaryList retrieves a list of pack registries as summary
 */
 func (a *Client) V1RegistriesPackSummaryList(params *V1RegistriesPackSummaryListParams) (*V1RegistriesPackSummaryListOK, error) {
 	// TODO: Validate the params before sending
@@ -24700,7 +24808,7 @@ func (a *Client) V1RegistriesPackSummaryList(params *V1RegistriesPackSummaryList
 }
 
 /*
-V1RegistriesPackUIDDelete deletes the specified pack registry
+  V1RegistriesPackUIDDelete deletes the specified pack registry
 */
 func (a *Client) V1RegistriesPackUIDDelete(params *V1RegistriesPackUIDDeleteParams) (*V1RegistriesPackUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24734,7 +24842,7 @@ func (a *Client) V1RegistriesPackUIDDelete(params *V1RegistriesPackUIDDeletePara
 }
 
 /*
-V1RegistriesPackUIDGet returns the specified pack registry
+  V1RegistriesPackUIDGet returns the specified pack registry
 */
 func (a *Client) V1RegistriesPackUIDGet(params *V1RegistriesPackUIDGetParams) (*V1RegistriesPackUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -24768,9 +24876,9 @@ func (a *Client) V1RegistriesPackUIDGet(params *V1RegistriesPackUIDGetParams) (*
 }
 
 /*
-V1RegistriesPackUIDSync syncs pack registry
+  V1RegistriesPackUIDSync syncs pack registry
 
-Sync all the packs from the registry
+  Sync all the packs from the registry
 */
 func (a *Client) V1RegistriesPackUIDSync(params *V1RegistriesPackUIDSyncParams) (*V1RegistriesPackUIDSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -24804,9 +24912,9 @@ func (a *Client) V1RegistriesPackUIDSync(params *V1RegistriesPackUIDSyncParams) 
 }
 
 /*
-V1RegistriesPackUIDSyncStatus gets pack registry sync status
+  V1RegistriesPackUIDSyncStatus gets pack registry sync status
 
-Get sync status for the pack specified registry
+  Get sync status for the pack specified registry
 */
 func (a *Client) V1RegistriesPackUIDSyncStatus(params *V1RegistriesPackUIDSyncStatusParams) (*V1RegistriesPackUIDSyncStatusOK, error) {
 	// TODO: Validate the params before sending
@@ -24840,7 +24948,7 @@ func (a *Client) V1RegistriesPackUIDSyncStatus(params *V1RegistriesPackUIDSyncSt
 }
 
 /*
-V1RegistriesPackUIDUpdate updates the specified pack registry
+  V1RegistriesPackUIDUpdate updates the specified pack registry
 */
 func (a *Client) V1RegistriesPackUIDUpdate(params *V1RegistriesPackUIDUpdateParams) (*V1RegistriesPackUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24874,7 +24982,7 @@ func (a *Client) V1RegistriesPackUIDUpdate(params *V1RegistriesPackUIDUpdatePara
 }
 
 /*
-V1RegistriesUIDDelete deletes the specified registry
+  V1RegistriesUIDDelete deletes the specified registry
 */
 func (a *Client) V1RegistriesUIDDelete(params *V1RegistriesUIDDeleteParams) (*V1RegistriesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24908,7 +25016,7 @@ func (a *Client) V1RegistriesUIDDelete(params *V1RegistriesUIDDeleteParams) (*V1
 }
 
 /*
-V1RolesClone clones the role
+  V1RolesClone clones the role
 */
 func (a *Client) V1RolesClone(params *V1RolesCloneParams) (*V1RolesCloneCreated, error) {
 	// TODO: Validate the params before sending
@@ -24942,7 +25050,7 @@ func (a *Client) V1RolesClone(params *V1RolesCloneParams) (*V1RolesCloneCreated,
 }
 
 /*
-V1RolesCreate creates a role with specified permissions
+  V1RolesCreate creates a role with specified permissions
 */
 func (a *Client) V1RolesCreate(params *V1RolesCreateParams) (*V1RolesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -24976,7 +25084,7 @@ func (a *Client) V1RolesCreate(params *V1RolesCreateParams) (*V1RolesCreateCreat
 }
 
 /*
-V1RolesList retrieves a list of roles
+  V1RolesList retrieves a list of roles
 */
 func (a *Client) V1RolesList(params *V1RolesListParams) (*V1RolesListOK, error) {
 	// TODO: Validate the params before sending
@@ -25010,7 +25118,7 @@ func (a *Client) V1RolesList(params *V1RolesListParams) (*V1RolesListOK, error) 
 }
 
 /*
-V1RolesUIDDelete deletes the specified role
+  V1RolesUIDDelete deletes the specified role
 */
 func (a *Client) V1RolesUIDDelete(params *V1RolesUIDDeleteParams) (*V1RolesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -25044,7 +25152,7 @@ func (a *Client) V1RolesUIDDelete(params *V1RolesUIDDeleteParams) (*V1RolesUIDDe
 }
 
 /*
-V1RolesUIDGet returns the specified role
+  V1RolesUIDGet returns the specified role
 */
 func (a *Client) V1RolesUIDGet(params *V1RolesUIDGetParams) (*V1RolesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -25078,7 +25186,7 @@ func (a *Client) V1RolesUIDGet(params *V1RolesUIDGetParams) (*V1RolesUIDGetOK, e
 }
 
 /*
-V1RolesUIDUpdate updates the specified role
+  V1RolesUIDUpdate updates the specified role
 */
 func (a *Client) V1RolesUIDUpdate(params *V1RolesUIDUpdateParams) (*V1RolesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -25112,7 +25220,7 @@ func (a *Client) V1RolesUIDUpdate(params *V1RolesUIDUpdateParams) (*V1RolesUIDUp
 }
 
 /*
-V1ServiceManifestGet returns a service manifest for a given service name and version
+  V1ServiceManifestGet returns a service manifest for a given service name and version
 */
 func (a *Client) V1ServiceManifestGet(params *V1ServiceManifestGetParams) (*V1ServiceManifestGetOK, error) {
 	// TODO: Validate the params before sending
@@ -25146,7 +25254,7 @@ func (a *Client) V1ServiceManifestGet(params *V1ServiceManifestGetParams) (*V1Se
 }
 
 /*
-V1ServiceVersionGet returns a latest version for a given service name
+  V1ServiceVersionGet returns a latest version for a given service name
 */
 func (a *Client) V1ServiceVersionGet(params *V1ServiceVersionGetParams) (*V1ServiceVersionGetOK, error) {
 	// TODO: Validate the params before sending
@@ -25180,7 +25288,7 @@ func (a *Client) V1ServiceVersionGet(params *V1ServiceVersionGetParams) (*V1Serv
 }
 
 /*
-V1SpectroClustersAksCreate creates an a k s cluster
+  V1SpectroClustersAksCreate creates an a k s cluster
 */
 func (a *Client) V1SpectroClustersAksCreate(params *V1SpectroClustersAksCreateParams) (*V1SpectroClustersAksCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25214,7 +25322,7 @@ func (a *Client) V1SpectroClustersAksCreate(params *V1SpectroClustersAksCreatePa
 }
 
 /*
-V1SpectroClustersAksRate gets a k s cluster estimated rate information
+  V1SpectroClustersAksRate gets a k s cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersAksRate(params *V1SpectroClustersAksRateParams) (*V1SpectroClustersAksRateOK, error) {
 	// TODO: Validate the params before sending
@@ -25248,7 +25356,7 @@ func (a *Client) V1SpectroClustersAksRate(params *V1SpectroClustersAksRateParams
 }
 
 /*
-V1SpectroClustersAksValidate validates a k s cluster create operation
+  V1SpectroClustersAksValidate validates a k s cluster create operation
 */
 func (a *Client) V1SpectroClustersAksValidate(params *V1SpectroClustersAksValidateParams) (*V1SpectroClustersAksValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25282,7 +25390,7 @@ func (a *Client) V1SpectroClustersAksValidate(params *V1SpectroClustersAksValida
 }
 
 /*
-V1SpectroClustersAwsCreate creates an a w s cluster
+  V1SpectroClustersAwsCreate creates an a w s cluster
 */
 func (a *Client) V1SpectroClustersAwsCreate(params *V1SpectroClustersAwsCreateParams) (*V1SpectroClustersAwsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25316,7 +25424,7 @@ func (a *Client) V1SpectroClustersAwsCreate(params *V1SpectroClustersAwsCreatePa
 }
 
 /*
-V1SpectroClustersAwsImport imports an a w s cluster
+  V1SpectroClustersAwsImport imports an a w s cluster
 */
 func (a *Client) V1SpectroClustersAwsImport(params *V1SpectroClustersAwsImportParams) (*V1SpectroClustersAwsImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -25350,7 +25458,7 @@ func (a *Client) V1SpectroClustersAwsImport(params *V1SpectroClustersAwsImportPa
 }
 
 /*
-V1SpectroClustersAwsRate gets a w s cluster estimated rate information
+  V1SpectroClustersAwsRate gets a w s cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersAwsRate(params *V1SpectroClustersAwsRateParams) (*V1SpectroClustersAwsRateOK, error) {
 	// TODO: Validate the params before sending
@@ -25384,7 +25492,7 @@ func (a *Client) V1SpectroClustersAwsRate(params *V1SpectroClustersAwsRateParams
 }
 
 /*
-V1SpectroClustersAwsValidate validates a w s cluster create operation
+  V1SpectroClustersAwsValidate validates a w s cluster create operation
 */
 func (a *Client) V1SpectroClustersAwsValidate(params *V1SpectroClustersAwsValidateParams) (*V1SpectroClustersAwsValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25418,7 +25526,7 @@ func (a *Client) V1SpectroClustersAwsValidate(params *V1SpectroClustersAwsValida
 }
 
 /*
-V1SpectroClustersAzureCreate creates an azure cluster
+  V1SpectroClustersAzureCreate creates an azure cluster
 */
 func (a *Client) V1SpectroClustersAzureCreate(params *V1SpectroClustersAzureCreateParams) (*V1SpectroClustersAzureCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25452,7 +25560,7 @@ func (a *Client) V1SpectroClustersAzureCreate(params *V1SpectroClustersAzureCrea
 }
 
 /*
-V1SpectroClustersAzureImport imports an azure cluster
+  V1SpectroClustersAzureImport imports an azure cluster
 */
 func (a *Client) V1SpectroClustersAzureImport(params *V1SpectroClustersAzureImportParams) (*V1SpectroClustersAzureImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -25486,7 +25594,7 @@ func (a *Client) V1SpectroClustersAzureImport(params *V1SpectroClustersAzureImpo
 }
 
 /*
-V1SpectroClustersAzureRate gets azure cluster estimated rate information
+  V1SpectroClustersAzureRate gets azure cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersAzureRate(params *V1SpectroClustersAzureRateParams) (*V1SpectroClustersAzureRateOK, error) {
 	// TODO: Validate the params before sending
@@ -25520,7 +25628,7 @@ func (a *Client) V1SpectroClustersAzureRate(params *V1SpectroClustersAzureRatePa
 }
 
 /*
-V1SpectroClustersAzureValidate validates azure cluster create operation
+  V1SpectroClustersAzureValidate validates azure cluster create operation
 */
 func (a *Client) V1SpectroClustersAzureValidate(params *V1SpectroClustersAzureValidateParams) (*V1SpectroClustersAzureValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25554,7 +25662,7 @@ func (a *Client) V1SpectroClustersAzureValidate(params *V1SpectroClustersAzureVa
 }
 
 /*
-V1SpectroClustersCertificatesRenew sets the cluster control plane nodes kubernetes certificates for renewal
+  V1SpectroClustersCertificatesRenew sets the cluster control plane nodes kubernetes certificates for renewal
 */
 func (a *Client) V1SpectroClustersCertificatesRenew(params *V1SpectroClustersCertificatesRenewParams) (*V1SpectroClustersCertificatesRenewNoContent, error) {
 	// TODO: Validate the params before sending
@@ -25588,7 +25696,7 @@ func (a *Client) V1SpectroClustersCertificatesRenew(params *V1SpectroClustersCer
 }
 
 /*
-V1SpectroClustersConfigEdgeInstaller clusters configuration for the edge installer
+  V1SpectroClustersConfigEdgeInstaller clusters configuration for the edge installer
 */
 func (a *Client) V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersConfigEdgeInstallerParams) (*V1SpectroClustersConfigEdgeInstallerOK, error) {
 	// TODO: Validate the params before sending
@@ -25622,7 +25730,7 @@ func (a *Client) V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersC
 }
 
 /*
-V1SpectroClustersCustomCreate creates a custom cluster
+  V1SpectroClustersCustomCreate creates a custom cluster
 */
 func (a *Client) V1SpectroClustersCustomCreate(params *V1SpectroClustersCustomCreateParams) (*V1SpectroClustersCustomCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25656,7 +25764,7 @@ func (a *Client) V1SpectroClustersCustomCreate(params *V1SpectroClustersCustomCr
 }
 
 /*
-V1SpectroClustersCustomValidate validates custom cluster create operation
+  V1SpectroClustersCustomValidate validates custom cluster create operation
 */
 func (a *Client) V1SpectroClustersCustomValidate(params *V1SpectroClustersCustomValidateParams) (*V1SpectroClustersCustomValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25690,7 +25798,7 @@ func (a *Client) V1SpectroClustersCustomValidate(params *V1SpectroClustersCustom
 }
 
 /*
-V1SpectroClustersDelete deletes the specified cluster
+  V1SpectroClustersDelete deletes the specified cluster
 */
 func (a *Client) V1SpectroClustersDelete(params *V1SpectroClustersDeleteParams) (*V1SpectroClustersDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -25724,7 +25832,7 @@ func (a *Client) V1SpectroClustersDelete(params *V1SpectroClustersDeleteParams) 
 }
 
 /*
-V1SpectroClustersDeleteProfiles removes cluster profiles from the specified cluster
+  V1SpectroClustersDeleteProfiles removes cluster profiles from the specified cluster
 */
 func (a *Client) V1SpectroClustersDeleteProfiles(params *V1SpectroClustersDeleteProfilesParams) (*V1SpectroClustersDeleteProfilesNoContent, error) {
 	// TODO: Validate the params before sending
@@ -25758,7 +25866,7 @@ func (a *Client) V1SpectroClustersDeleteProfiles(params *V1SpectroClustersDelete
 }
 
 /*
-V1SpectroClustersEdgeNativeCreate creates an edge native cluster
+  V1SpectroClustersEdgeNativeCreate creates an edge native cluster
 */
 func (a *Client) V1SpectroClustersEdgeNativeCreate(params *V1SpectroClustersEdgeNativeCreateParams) (*V1SpectroClustersEdgeNativeCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25792,7 +25900,7 @@ func (a *Client) V1SpectroClustersEdgeNativeCreate(params *V1SpectroClustersEdge
 }
 
 /*
-V1SpectroClustersEdgeNativeImport imports an edge native cluster
+  V1SpectroClustersEdgeNativeImport imports an edge native cluster
 */
 func (a *Client) V1SpectroClustersEdgeNativeImport(params *V1SpectroClustersEdgeNativeImportParams) (*V1SpectroClustersEdgeNativeImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -25826,7 +25934,7 @@ func (a *Client) V1SpectroClustersEdgeNativeImport(params *V1SpectroClustersEdge
 }
 
 /*
-V1SpectroClustersEdgeNativeRate gets edge native cluster estimated rate information
+  V1SpectroClustersEdgeNativeRate gets edge native cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersEdgeNativeRate(params *V1SpectroClustersEdgeNativeRateParams) (*V1SpectroClustersEdgeNativeRateOK, error) {
 	// TODO: Validate the params before sending
@@ -25860,7 +25968,7 @@ func (a *Client) V1SpectroClustersEdgeNativeRate(params *V1SpectroClustersEdgeNa
 }
 
 /*
-V1SpectroClustersEdgeNativeValidate validates edge native cluster create operation
+  V1SpectroClustersEdgeNativeValidate validates edge native cluster create operation
 */
 func (a *Client) V1SpectroClustersEdgeNativeValidate(params *V1SpectroClustersEdgeNativeValidateParams) (*V1SpectroClustersEdgeNativeValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25894,7 +26002,7 @@ func (a *Client) V1SpectroClustersEdgeNativeValidate(params *V1SpectroClustersEd
 }
 
 /*
-V1SpectroClustersEksCreate creates an e k s cluster
+  V1SpectroClustersEksCreate creates an e k s cluster
 */
 func (a *Client) V1SpectroClustersEksCreate(params *V1SpectroClustersEksCreateParams) (*V1SpectroClustersEksCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -25928,7 +26036,7 @@ func (a *Client) V1SpectroClustersEksCreate(params *V1SpectroClustersEksCreatePa
 }
 
 /*
-V1SpectroClustersEksRate gets e k s cluster estimated rate information
+  V1SpectroClustersEksRate gets e k s cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersEksRate(params *V1SpectroClustersEksRateParams) (*V1SpectroClustersEksRateOK, error) {
 	// TODO: Validate the params before sending
@@ -25962,7 +26070,7 @@ func (a *Client) V1SpectroClustersEksRate(params *V1SpectroClustersEksRateParams
 }
 
 /*
-V1SpectroClustersEksValidate validates e k s cluster create operation
+  V1SpectroClustersEksValidate validates e k s cluster create operation
 */
 func (a *Client) V1SpectroClustersEksValidate(params *V1SpectroClustersEksValidateParams) (*V1SpectroClustersEksValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -25996,7 +26104,7 @@ func (a *Client) V1SpectroClustersEksValidate(params *V1SpectroClustersEksValida
 }
 
 /*
-V1SpectroClustersFiltersWorkspace retrieves a list of running non rbac configured clusters in a workspace
+  V1SpectroClustersFiltersWorkspace retrieves a list of running non rbac configured clusters in a workspace
 */
 func (a *Client) V1SpectroClustersFiltersWorkspace(params *V1SpectroClustersFiltersWorkspaceParams) (*V1SpectroClustersFiltersWorkspaceOK, error) {
 	// TODO: Validate the params before sending
@@ -26030,7 +26138,7 @@ func (a *Client) V1SpectroClustersFiltersWorkspace(params *V1SpectroClustersFilt
 }
 
 /*
-V1SpectroClustersGcpCreate creates a g c p cluster
+  V1SpectroClustersGcpCreate creates a g c p cluster
 */
 func (a *Client) V1SpectroClustersGcpCreate(params *V1SpectroClustersGcpCreateParams) (*V1SpectroClustersGcpCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -26064,7 +26172,7 @@ func (a *Client) V1SpectroClustersGcpCreate(params *V1SpectroClustersGcpCreatePa
 }
 
 /*
-V1SpectroClustersGcpImport imports a g c p cluster
+  V1SpectroClustersGcpImport imports a g c p cluster
 */
 func (a *Client) V1SpectroClustersGcpImport(params *V1SpectroClustersGcpImportParams) (*V1SpectroClustersGcpImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -26098,7 +26206,7 @@ func (a *Client) V1SpectroClustersGcpImport(params *V1SpectroClustersGcpImportPa
 }
 
 /*
-V1SpectroClustersGcpRate gets g c p cluster estimated rate information
+  V1SpectroClustersGcpRate gets g c p cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersGcpRate(params *V1SpectroClustersGcpRateParams) (*V1SpectroClustersGcpRateOK, error) {
 	// TODO: Validate the params before sending
@@ -26132,7 +26240,7 @@ func (a *Client) V1SpectroClustersGcpRate(params *V1SpectroClustersGcpRateParams
 }
 
 /*
-V1SpectroClustersGcpValidate validates g c p cluster create operation
+  V1SpectroClustersGcpValidate validates g c p cluster create operation
 */
 func (a *Client) V1SpectroClustersGcpValidate(params *V1SpectroClustersGcpValidateParams) (*V1SpectroClustersGcpValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -26166,9 +26274,9 @@ func (a *Client) V1SpectroClustersGcpValidate(params *V1SpectroClustersGcpValida
 }
 
 /*
-V1SpectroClustersGenericImport imports a cluster of any cloud type in generic way
+  V1SpectroClustersGenericImport imports a cluster of any cloud type in generic way
 
-The machines information will be captured, whereas the cloud specific configuration info will not be retrieved
+  The machines information will be captured, whereas the cloud specific configuration info will not be retrieved
 */
 func (a *Client) V1SpectroClustersGenericImport(params *V1SpectroClustersGenericImportParams) (*V1SpectroClustersGenericImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -26202,7 +26310,7 @@ func (a *Client) V1SpectroClustersGenericImport(params *V1SpectroClustersGeneric
 }
 
 /*
-V1SpectroClustersGenericRate gets generic cluster estimated rate information
+  V1SpectroClustersGenericRate gets generic cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersGenericRate(params *V1SpectroClustersGenericRateParams) (*V1SpectroClustersGenericRateOK, error) {
 	// TODO: Validate the params before sending
@@ -26236,7 +26344,7 @@ func (a *Client) V1SpectroClustersGenericRate(params *V1SpectroClustersGenericRa
 }
 
 /*
-V1SpectroClustersGet returns the specified cluster
+  V1SpectroClustersGet returns the specified cluster
 */
 func (a *Client) V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1SpectroClustersGetOK, error) {
 	// TODO: Validate the params before sending
@@ -26270,7 +26378,7 @@ func (a *Client) V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1Sp
 }
 
 /*
-V1SpectroClustersGetHybridPoolsMetadata returns the metadata of all hybrid pools associated with the specified cluster
+  V1SpectroClustersGetHybridPoolsMetadata returns the metadata of all hybrid pools associated with the specified cluster
 */
 func (a *Client) V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroClustersGetHybridPoolsMetadataParams) (*V1SpectroClustersGetHybridPoolsMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -26304,7 +26412,7 @@ func (a *Client) V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersGetProfileUpdates returns the profile updates of a specified cluster
+  V1SpectroClustersGetProfileUpdates returns the profile updates of a specified cluster
 */
 func (a *Client) V1SpectroClustersGetProfileUpdates(params *V1SpectroClustersGetProfileUpdatesParams) (*V1SpectroClustersGetProfileUpdatesOK, error) {
 	// TODO: Validate the params before sending
@@ -26338,7 +26446,7 @@ func (a *Client) V1SpectroClustersGetProfileUpdates(params *V1SpectroClustersGet
 }
 
 /*
-V1SpectroClustersGetProfiles returns the associated profiles of a specified cluster
+  V1SpectroClustersGetProfiles returns the associated profiles of a specified cluster
 */
 func (a *Client) V1SpectroClustersGetProfiles(params *V1SpectroClustersGetProfilesParams) (*V1SpectroClustersGetProfilesOK, error) {
 	// TODO: Validate the params before sending
@@ -26372,7 +26480,7 @@ func (a *Client) V1SpectroClustersGetProfiles(params *V1SpectroClustersGetProfil
 }
 
 /*
-V1SpectroClustersGetProfilesPacksManifests returns the associated profile s pack manifests of a specified cluster
+  V1SpectroClustersGetProfilesPacksManifests returns the associated profile s pack manifests of a specified cluster
 */
 func (a *Client) V1SpectroClustersGetProfilesPacksManifests(params *V1SpectroClustersGetProfilesPacksManifestsParams) (*V1SpectroClustersGetProfilesPacksManifestsOK, error) {
 	// TODO: Validate the params before sending
@@ -26406,7 +26514,7 @@ func (a *Client) V1SpectroClustersGetProfilesPacksManifests(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersGkeCreate creates an g k e cluster
+  V1SpectroClustersGkeCreate creates an g k e cluster
 */
 func (a *Client) V1SpectroClustersGkeCreate(params *V1SpectroClustersGkeCreateParams) (*V1SpectroClustersGkeCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -26440,7 +26548,7 @@ func (a *Client) V1SpectroClustersGkeCreate(params *V1SpectroClustersGkeCreatePa
 }
 
 /*
-V1SpectroClustersGkeRate gets g k e cluster estimated rate information
+  V1SpectroClustersGkeRate gets g k e cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersGkeRate(params *V1SpectroClustersGkeRateParams) (*V1SpectroClustersGkeRateOK, error) {
 	// TODO: Validate the params before sending
@@ -26474,7 +26582,7 @@ func (a *Client) V1SpectroClustersGkeRate(params *V1SpectroClustersGkeRateParams
 }
 
 /*
-V1SpectroClustersGkeValidate validates g k e cluster create operation
+  V1SpectroClustersGkeValidate validates g k e cluster create operation
 */
 func (a *Client) V1SpectroClustersGkeValidate(params *V1SpectroClustersGkeValidateParams) (*V1SpectroClustersGkeValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -26508,7 +26616,7 @@ func (a *Client) V1SpectroClustersGkeValidate(params *V1SpectroClustersGkeValida
 }
 
 /*
-V1SpectroClustersK8Certificate gets k8 certificate for spectro cluster
+  V1SpectroClustersK8Certificate gets k8 certificate for spectro cluster
 */
 func (a *Client) V1SpectroClustersK8Certificate(params *V1SpectroClustersK8CertificateParams) (*V1SpectroClustersK8CertificateOK, error) {
 	// TODO: Validate the params before sending
@@ -26542,7 +26650,7 @@ func (a *Client) V1SpectroClustersK8Certificate(params *V1SpectroClustersK8Certi
 }
 
 /*
-V1SpectroClustersK8CertificateUpdate updates k8 certificate for spectro cluster
+  V1SpectroClustersK8CertificateUpdate updates k8 certificate for spectro cluster
 */
 func (a *Client) V1SpectroClustersK8CertificateUpdate(params *V1SpectroClustersK8CertificateUpdateParams) (*V1SpectroClustersK8CertificateUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -26576,7 +26684,7 @@ func (a *Client) V1SpectroClustersK8CertificateUpdate(params *V1SpectroClustersK
 }
 
 /*
-V1SpectroClustersMaasCreate creates a m a a s cluster
+  V1SpectroClustersMaasCreate creates a m a a s cluster
 */
 func (a *Client) V1SpectroClustersMaasCreate(params *V1SpectroClustersMaasCreateParams) (*V1SpectroClustersMaasCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -26610,7 +26718,7 @@ func (a *Client) V1SpectroClustersMaasCreate(params *V1SpectroClustersMaasCreate
 }
 
 /*
-V1SpectroClustersMaasImport imports a maas cluster
+  V1SpectroClustersMaasImport imports a maas cluster
 */
 func (a *Client) V1SpectroClustersMaasImport(params *V1SpectroClustersMaasImportParams) (*V1SpectroClustersMaasImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -26644,7 +26752,7 @@ func (a *Client) V1SpectroClustersMaasImport(params *V1SpectroClustersMaasImport
 }
 
 /*
-V1SpectroClustersMaasRate gets maas cluster estimated rate information
+  V1SpectroClustersMaasRate gets maas cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersMaasRate(params *V1SpectroClustersMaasRateParams) (*V1SpectroClustersMaasRateOK, error) {
 	// TODO: Validate the params before sending
@@ -26678,7 +26786,7 @@ func (a *Client) V1SpectroClustersMaasRate(params *V1SpectroClustersMaasRatePara
 }
 
 /*
-V1SpectroClustersMaasValidate validates m a a s cluster create operation
+  V1SpectroClustersMaasValidate validates m a a s cluster create operation
 */
 func (a *Client) V1SpectroClustersMaasValidate(params *V1SpectroClustersMaasValidateParams) (*V1SpectroClustersMaasValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -26712,7 +26820,7 @@ func (a *Client) V1SpectroClustersMaasValidate(params *V1SpectroClustersMaasVali
 }
 
 /*
-V1SpectroClustersMetadata retrieves a list of cluster summary
+  V1SpectroClustersMetadata retrieves a list of cluster summary
 */
 func (a *Client) V1SpectroClustersMetadata(params *V1SpectroClustersMetadataParams) (*V1SpectroClustersMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -26746,7 +26854,7 @@ func (a *Client) V1SpectroClustersMetadata(params *V1SpectroClustersMetadataPara
 }
 
 /*
-V1SpectroClustersMetadataGet retrieves a list of cluster summary metadata
+  V1SpectroClustersMetadataGet retrieves a list of cluster summary metadata
 */
 func (a *Client) V1SpectroClustersMetadataGet(params *V1SpectroClustersMetadataGetParams) (*V1SpectroClustersMetadataGetOK, error) {
 	// TODO: Validate the params before sending
@@ -26780,7 +26888,7 @@ func (a *Client) V1SpectroClustersMetadataGet(params *V1SpectroClustersMetadataG
 }
 
 /*
-V1SpectroClustersMetadataSearch retrieves a list of cluster metadata with provided search filter spec supported sort fields environment cluster name cluster state creation timestamp last modified timestamp
+  V1SpectroClustersMetadataSearch retrieves a list of cluster metadata with provided search filter spec supported sort fields environment cluster name cluster state creation timestamp last modified timestamp
 */
 func (a *Client) V1SpectroClustersMetadataSearch(params *V1SpectroClustersMetadataSearchParams) (*V1SpectroClustersMetadataSearchOK, error) {
 	// TODO: Validate the params before sending
@@ -26814,7 +26922,7 @@ func (a *Client) V1SpectroClustersMetadataSearch(params *V1SpectroClustersMetada
 }
 
 /*
-V1SpectroClustersMetadataSearchSchema retrieves a schema for the cluster metadata search filter
+  V1SpectroClustersMetadataSearchSchema retrieves a schema for the cluster metadata search filter
 */
 func (a *Client) V1SpectroClustersMetadataSearchSchema(params *V1SpectroClustersMetadataSearchSchemaParams) (*V1SpectroClustersMetadataSearchSchemaOK, error) {
 	// TODO: Validate the params before sending
@@ -26848,7 +26956,7 @@ func (a *Client) V1SpectroClustersMetadataSearchSchema(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersOpenStackCreate creates a open stack cluster
+  V1SpectroClustersOpenStackCreate creates a open stack cluster
 */
 func (a *Client) V1SpectroClustersOpenStackCreate(params *V1SpectroClustersOpenStackCreateParams) (*V1SpectroClustersOpenStackCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -26882,7 +26990,7 @@ func (a *Client) V1SpectroClustersOpenStackCreate(params *V1SpectroClustersOpenS
 }
 
 /*
-V1SpectroClustersOpenStackImport imports an open stack cluster
+  V1SpectroClustersOpenStackImport imports an open stack cluster
 */
 func (a *Client) V1SpectroClustersOpenStackImport(params *V1SpectroClustersOpenStackImportParams) (*V1SpectroClustersOpenStackImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -26916,7 +27024,7 @@ func (a *Client) V1SpectroClustersOpenStackImport(params *V1SpectroClustersOpenS
 }
 
 /*
-V1SpectroClustersOpenStackRate gets openstack cluster estimated rate information
+  V1SpectroClustersOpenStackRate gets openstack cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersOpenStackRate(params *V1SpectroClustersOpenStackRateParams) (*V1SpectroClustersOpenStackRateOK, error) {
 	// TODO: Validate the params before sending
@@ -26950,7 +27058,7 @@ func (a *Client) V1SpectroClustersOpenStackRate(params *V1SpectroClustersOpenSta
 }
 
 /*
-V1SpectroClustersOpenStackValidate validates open stack cluster create operation
+  V1SpectroClustersOpenStackValidate validates open stack cluster create operation
 */
 func (a *Client) V1SpectroClustersOpenStackValidate(params *V1SpectroClustersOpenStackValidateParams) (*V1SpectroClustersOpenStackValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -26984,7 +27092,7 @@ func (a *Client) V1SpectroClustersOpenStackValidate(params *V1SpectroClustersOpe
 }
 
 /*
-V1SpectroClustersPacksRefUpdate updates the cluster s pack references
+  V1SpectroClustersPacksRefUpdate updates the cluster s pack references
 */
 func (a *Client) V1SpectroClustersPacksRefUpdate(params *V1SpectroClustersPacksRefUpdateParams) (*V1SpectroClustersPacksRefUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27018,7 +27126,7 @@ func (a *Client) V1SpectroClustersPacksRefUpdate(params *V1SpectroClustersPacksR
 }
 
 /*
-V1SpectroClustersPatchProfiles patches cluster profiles to the specified cluster
+  V1SpectroClustersPatchProfiles patches cluster profiles to the specified cluster
 */
 func (a *Client) V1SpectroClustersPatchProfiles(params *V1SpectroClustersPatchProfilesParams) (*V1SpectroClustersPatchProfilesNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27052,7 +27160,7 @@ func (a *Client) V1SpectroClustersPatchProfiles(params *V1SpectroClustersPatchPr
 }
 
 /*
-V1SpectroClustersProfilesUIDPackManifestsGet returns the associated profiles pack manifests of the specified cluster
+  V1SpectroClustersProfilesUIDPackManifestsGet returns the associated profiles pack manifests of the specified cluster
 */
 func (a *Client) V1SpectroClustersProfilesUIDPackManifestsGet(params *V1SpectroClustersProfilesUIDPackManifestsGetParams) (*V1SpectroClustersProfilesUIDPackManifestsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27086,7 +27194,7 @@ func (a *Client) V1SpectroClustersProfilesUIDPackManifestsGet(params *V1SpectroC
 }
 
 /*
-V1SpectroClustersProfilesUIDPackManifestsUpdate updates cluster profiles pack manifests to the specified cluster
+  V1SpectroClustersProfilesUIDPackManifestsUpdate updates cluster profiles pack manifests to the specified cluster
 */
 func (a *Client) V1SpectroClustersProfilesUIDPackManifestsUpdate(params *V1SpectroClustersProfilesUIDPackManifestsUpdateParams) (*V1SpectroClustersProfilesUIDPackManifestsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27120,7 +27228,7 @@ func (a *Client) V1SpectroClustersProfilesUIDPackManifestsUpdate(params *V1Spect
 }
 
 /*
-V1SpectroClustersResourcesConsumption retrieves spectro clusters resource consumption
+  V1SpectroClustersResourcesConsumption retrieves spectro clusters resource consumption
 */
 func (a *Client) V1SpectroClustersResourcesConsumption(params *V1SpectroClustersResourcesConsumptionParams) (*V1SpectroClustersResourcesConsumptionOK, error) {
 	// TODO: Validate the params before sending
@@ -27154,7 +27262,7 @@ func (a *Client) V1SpectroClustersResourcesConsumption(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersResourcesCostSummary retrieves spectro clusters resources cost summary information
+  V1SpectroClustersResourcesCostSummary retrieves spectro clusters resources cost summary information
 */
 func (a *Client) V1SpectroClustersResourcesCostSummary(params *V1SpectroClustersResourcesCostSummaryParams) (*V1SpectroClustersResourcesCostSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -27188,7 +27296,7 @@ func (a *Client) V1SpectroClustersResourcesCostSummary(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersResourcesUsageSummary retrieves spectro clusters resources usage summary information
+  V1SpectroClustersResourcesUsageSummary retrieves spectro clusters resources usage summary information
 */
 func (a *Client) V1SpectroClustersResourcesUsageSummary(params *V1SpectroClustersResourcesUsageSummaryParams) (*V1SpectroClustersResourcesUsageSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -27222,7 +27330,7 @@ func (a *Client) V1SpectroClustersResourcesUsageSummary(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersSearchFilterSummary retrieves a list of cluster summary with provided search filter spec supported sort fields environment cluster name memory usage health state creation timestamp last modified timestamp
+  V1SpectroClustersSearchFilterSummary retrieves a list of cluster summary with provided search filter spec supported sort fields environment cluster name memory usage health state creation timestamp last modified timestamp
 */
 func (a *Client) V1SpectroClustersSearchFilterSummary(params *V1SpectroClustersSearchFilterSummaryParams) (*V1SpectroClustersSearchFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -27256,7 +27364,7 @@ func (a *Client) V1SpectroClustersSearchFilterSummary(params *V1SpectroClustersS
 }
 
 /*
-V1SpectroClustersSearchSchema retrieves a schema for the cluster search filter
+  V1SpectroClustersSearchSchema retrieves a schema for the cluster search filter
 */
 func (a *Client) V1SpectroClustersSearchSchema(params *V1SpectroClustersSearchSchemaParams) (*V1SpectroClustersSearchSchemaOK, error) {
 	// TODO: Validate the params before sending
@@ -27290,7 +27398,7 @@ func (a *Client) V1SpectroClustersSearchSchema(params *V1SpectroClustersSearchSc
 }
 
 /*
-V1SpectroClustersSpcDownload downloads the cluster definition archive file
+  V1SpectroClustersSpcDownload downloads the cluster definition archive file
 */
 func (a *Client) V1SpectroClustersSpcDownload(params *V1SpectroClustersSpcDownloadParams, writer io.Writer) (*V1SpectroClustersSpcDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -27324,7 +27432,7 @@ func (a *Client) V1SpectroClustersSpcDownload(params *V1SpectroClustersSpcDownlo
 }
 
 /*
-V1SpectroClustersSummaryUID returns the specified cluster summary
+  V1SpectroClustersSummaryUID returns the specified cluster summary
 */
 func (a *Client) V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUIDParams) (*V1SpectroClustersSummaryUIDOK, error) {
 	// TODO: Validate the params before sending
@@ -27358,7 +27466,7 @@ func (a *Client) V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUID
 }
 
 /*
-V1SpectroClustersSummaryUIDOverview returns the specified cluster summary overview
+  V1SpectroClustersSummaryUIDOverview returns the specified cluster summary overview
 */
 func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSummaryUIDOverviewParams) (*V1SpectroClustersSummaryUIDOverviewOK, error) {
 	// TODO: Validate the params before sending
@@ -27392,7 +27500,7 @@ func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSu
 }
 
 /*
-V1SpectroClustersTagsGet retrieves a list of spectrocluster tags
+  V1SpectroClustersTagsGet retrieves a list of spectrocluster tags
 */
 func (a *Client) V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27426,7 +27534,7 @@ func (a *Client) V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams
 }
 
 /*
-V1SpectroClustersUIDAdminKubeConfig returns the specified cluster s kube config file
+  V1SpectroClustersUIDAdminKubeConfig returns the specified cluster s kube config file
 */
 func (a *Client) V1SpectroClustersUIDAdminKubeConfig(params *V1SpectroClustersUIDAdminKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDAdminKubeConfigOK, error) {
 	// TODO: Validate the params before sending
@@ -27460,7 +27568,7 @@ func (a *Client) V1SpectroClustersUIDAdminKubeConfig(params *V1SpectroClustersUI
 }
 
 /*
-V1SpectroClustersUIDAssets associates the assets for the cluster
+  V1SpectroClustersUIDAssets associates the assets for the cluster
 */
 func (a *Client) V1SpectroClustersUIDAssets(params *V1SpectroClustersUIDAssetsParams) (*V1SpectroClustersUIDAssetsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27494,7 +27602,7 @@ func (a *Client) V1SpectroClustersUIDAssets(params *V1SpectroClustersUIDAssetsPa
 }
 
 /*
-V1SpectroClustersUIDAssetsGet gets the cluster asset doc
+  V1SpectroClustersUIDAssetsGet gets the cluster asset doc
 */
 func (a *Client) V1SpectroClustersUIDAssetsGet(params *V1SpectroClustersUIDAssetsGetParams) (*V1SpectroClustersUIDAssetsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27528,7 +27636,7 @@ func (a *Client) V1SpectroClustersUIDAssetsGet(params *V1SpectroClustersUIDAsset
 }
 
 /*
-V1SpectroClustersUIDClusterMetaAttributeUpdate updates the specified cluster meta attribute
+  V1SpectroClustersUIDClusterMetaAttributeUpdate updates the specified cluster meta attribute
 */
 func (a *Client) V1SpectroClustersUIDClusterMetaAttributeUpdate(params *V1SpectroClustersUIDClusterMetaAttributeUpdateParams) (*V1SpectroClustersUIDClusterMetaAttributeUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27562,7 +27670,7 @@ func (a *Client) V1SpectroClustersUIDClusterMetaAttributeUpdate(params *V1Spectr
 }
 
 /*
-V1SpectroClustersUIDConfigNamespacesGet retrieves namespaces for the specified cluster
+  V1SpectroClustersUIDConfigNamespacesGet retrieves namespaces for the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigNamespacesGet(params *V1SpectroClustersUIDConfigNamespacesGetParams) (*V1SpectroClustersUIDConfigNamespacesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27596,7 +27704,7 @@ func (a *Client) V1SpectroClustersUIDConfigNamespacesGet(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDConfigNamespacesUIDGet retrieves the specified namespace of the cluster
+  V1SpectroClustersUIDConfigNamespacesUIDGet retrieves the specified namespace of the cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigNamespacesUIDGet(params *V1SpectroClustersUIDConfigNamespacesUIDGetParams) (*V1SpectroClustersUIDConfigNamespacesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27630,7 +27738,7 @@ func (a *Client) V1SpectroClustersUIDConfigNamespacesUIDGet(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersUIDConfigNamespacesUIDUpdate updates the specified namespace of the cluster
+  V1SpectroClustersUIDConfigNamespacesUIDUpdate updates the specified namespace of the cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigNamespacesUIDUpdate(params *V1SpectroClustersUIDConfigNamespacesUIDUpdateParams) (*V1SpectroClustersUIDConfigNamespacesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27664,7 +27772,7 @@ func (a *Client) V1SpectroClustersUIDConfigNamespacesUIDUpdate(params *V1Spectro
 }
 
 /*
-V1SpectroClustersUIDConfigNamespacesUpdate updates namespaces for the specified cluster
+  V1SpectroClustersUIDConfigNamespacesUpdate updates namespaces for the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigNamespacesUpdate(params *V1SpectroClustersUIDConfigNamespacesUpdateParams) (*V1SpectroClustersUIDConfigNamespacesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27698,7 +27806,7 @@ func (a *Client) V1SpectroClustersUIDConfigNamespacesUpdate(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersUIDConfigRbacsGet retrieves r b a c information for the specified cluster
+  V1SpectroClustersUIDConfigRbacsGet retrieves r b a c information for the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigRbacsGet(params *V1SpectroClustersUIDConfigRbacsGetParams) (*V1SpectroClustersUIDConfigRbacsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27732,7 +27840,7 @@ func (a *Client) V1SpectroClustersUIDConfigRbacsGet(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDConfigRbacsUIDGet retrieves the specified r b a c of the cluster
+  V1SpectroClustersUIDConfigRbacsUIDGet retrieves the specified r b a c of the cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigRbacsUIDGet(params *V1SpectroClustersUIDConfigRbacsUIDGetParams) (*V1SpectroClustersUIDConfigRbacsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27766,7 +27874,7 @@ func (a *Client) V1SpectroClustersUIDConfigRbacsUIDGet(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUIDConfigRbacsUIDUpdate updates the specified r b a c of the cluster
+  V1SpectroClustersUIDConfigRbacsUIDUpdate updates the specified r b a c of the cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigRbacsUIDUpdate(params *V1SpectroClustersUIDConfigRbacsUIDUpdateParams) (*V1SpectroClustersUIDConfigRbacsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27800,7 +27908,7 @@ func (a *Client) V1SpectroClustersUIDConfigRbacsUIDUpdate(params *V1SpectroClust
 }
 
 /*
-V1SpectroClustersUIDConfigRbacsUpdate updates r b a c information for the specified cluster
+  V1SpectroClustersUIDConfigRbacsUpdate updates r b a c information for the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDConfigRbacsUpdate(params *V1SpectroClustersUIDConfigRbacsUpdateParams) (*V1SpectroClustersUIDConfigRbacsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27834,7 +27942,7 @@ func (a *Client) V1SpectroClustersUIDConfigRbacsUpdate(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUIDCostSummary retrieves the specified cluster cost summary
+  V1SpectroClustersUIDCostSummary retrieves the specified cluster cost summary
 */
 func (a *Client) V1SpectroClustersUIDCostSummary(params *V1SpectroClustersUIDCostSummaryParams) (*V1SpectroClustersUIDCostSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -27868,7 +27976,7 @@ func (a *Client) V1SpectroClustersUIDCostSummary(params *V1SpectroClustersUIDCos
 }
 
 /*
-V1SpectroClustersUIDDownload downloads the specified cluster
+  V1SpectroClustersUIDDownload downloads the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDDownload(params *V1SpectroClustersUIDDownloadParams, writer io.Writer) (*V1SpectroClustersUIDDownloadOK, error) {
 	// TODO: Validate the params before sending
@@ -27902,7 +28010,7 @@ func (a *Client) V1SpectroClustersUIDDownload(params *V1SpectroClustersUIDDownlo
 }
 
 /*
-V1SpectroClustersUIDFrpKubeConfigDelete deletes the cluster s frp kube config client data
+  V1SpectroClustersUIDFrpKubeConfigDelete deletes the cluster s frp kube config client data
 */
 func (a *Client) V1SpectroClustersUIDFrpKubeConfigDelete(params *V1SpectroClustersUIDFrpKubeConfigDeleteParams) (*V1SpectroClustersUIDFrpKubeConfigDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -27936,7 +28044,7 @@ func (a *Client) V1SpectroClustersUIDFrpKubeConfigDelete(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDFrpKubeConfigGet returns the specified cluster s frp kube config file
+  V1SpectroClustersUIDFrpKubeConfigGet returns the specified cluster s frp kube config file
 */
 func (a *Client) V1SpectroClustersUIDFrpKubeConfigGet(params *V1SpectroClustersUIDFrpKubeConfigGetParams, writer io.Writer) (*V1SpectroClustersUIDFrpKubeConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -27970,7 +28078,7 @@ func (a *Client) V1SpectroClustersUIDFrpKubeConfigGet(params *V1SpectroClustersU
 }
 
 /*
-V1SpectroClustersUIDFrpKubeConfigUpdate updates the cluster s frp kube config data
+  V1SpectroClustersUIDFrpKubeConfigUpdate updates the cluster s frp kube config data
 */
 func (a *Client) V1SpectroClustersUIDFrpKubeConfigUpdate(params *V1SpectroClustersUIDFrpKubeConfigUpdateParams) (*V1SpectroClustersUIDFrpKubeConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28004,7 +28112,7 @@ func (a *Client) V1SpectroClustersUIDFrpKubeConfigUpdate(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDHeartbeatUpdate updates specific cluster heartbeat
+  V1SpectroClustersUIDHeartbeatUpdate updates specific cluster heartbeat
 */
 func (a *Client) V1SpectroClustersUIDHeartbeatUpdate(params *V1SpectroClustersUIDHeartbeatUpdateParams) (*V1SpectroClustersUIDHeartbeatUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28038,7 +28146,7 @@ func (a *Client) V1SpectroClustersUIDHeartbeatUpdate(params *V1SpectroClustersUI
 }
 
 /*
-V1SpectroClustersUIDHybridSettings updates specific cluster hybrid settings
+  V1SpectroClustersUIDHybridSettings updates specific cluster hybrid settings
 */
 func (a *Client) V1SpectroClustersUIDHybridSettings(params *V1SpectroClustersUIDHybridSettingsParams) (*V1SpectroClustersUIDHybridSettingsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28072,7 +28180,7 @@ func (a *Client) V1SpectroClustersUIDHybridSettings(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDImportManifest returns the specified cluster s import manifest file
+  V1SpectroClustersUIDImportManifest returns the specified cluster s import manifest file
 */
 func (a *Client) V1SpectroClustersUIDImportManifest(params *V1SpectroClustersUIDImportManifestParams, writer io.Writer) (*V1SpectroClustersUIDImportManifestOK, error) {
 	// TODO: Validate the params before sending
@@ -28106,7 +28214,7 @@ func (a *Client) V1SpectroClustersUIDImportManifest(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDImportUpgradePatch upgrades the specified imported read only cluster with full permissions
+  V1SpectroClustersUIDImportUpgradePatch upgrades the specified imported read only cluster with full permissions
 */
 func (a *Client) V1SpectroClustersUIDImportUpgradePatch(params *V1SpectroClustersUIDImportUpgradePatchParams) (*V1SpectroClustersUIDImportUpgradePatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28140,7 +28248,7 @@ func (a *Client) V1SpectroClustersUIDImportUpgradePatch(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersUIDKubeConfig returns the specified cluster s kube config file
+  V1SpectroClustersUIDKubeConfig returns the specified cluster s kube config file
 */
 func (a *Client) V1SpectroClustersUIDKubeConfig(params *V1SpectroClustersUIDKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDKubeConfigOK, error) {
 	// TODO: Validate the params before sending
@@ -28174,7 +28282,7 @@ func (a *Client) V1SpectroClustersUIDKubeConfig(params *V1SpectroClustersUIDKube
 }
 
 /*
-V1SpectroClustersUIDKubeConfigClientDelete deletes the cluster s kube config client data
+  V1SpectroClustersUIDKubeConfigClientDelete deletes the cluster s kube config client data
 */
 func (a *Client) V1SpectroClustersUIDKubeConfigClientDelete(params *V1SpectroClustersUIDKubeConfigClientDeleteParams) (*V1SpectroClustersUIDKubeConfigClientDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28208,7 +28316,7 @@ func (a *Client) V1SpectroClustersUIDKubeConfigClientDelete(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersUIDKubeConfigClientGet returns the specified cluster s kube config client file
+  V1SpectroClustersUIDKubeConfigClientGet returns the specified cluster s kube config client file
 */
 func (a *Client) V1SpectroClustersUIDKubeConfigClientGet(params *V1SpectroClustersUIDKubeConfigClientGetParams, writer io.Writer) (*V1SpectroClustersUIDKubeConfigClientGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28242,7 +28350,7 @@ func (a *Client) V1SpectroClustersUIDKubeConfigClientGet(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDKubeConfigClientUpdate updates the cluster s kube config client data
+  V1SpectroClustersUIDKubeConfigClientUpdate updates the cluster s kube config client data
 */
 func (a *Client) V1SpectroClustersUIDKubeConfigClientUpdate(params *V1SpectroClustersUIDKubeConfigClientUpdateParams) (*V1SpectroClustersUIDKubeConfigClientUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28276,7 +28384,7 @@ func (a *Client) V1SpectroClustersUIDKubeConfigClientUpdate(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersUIDKubeConfigUpdate updates the cluster s manifest data
+  V1SpectroClustersUIDKubeConfigUpdate updates the cluster s manifest data
 */
 func (a *Client) V1SpectroClustersUIDKubeConfigUpdate(params *V1SpectroClustersUIDKubeConfigUpdateParams) (*V1SpectroClustersUIDKubeConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28310,7 +28418,7 @@ func (a *Client) V1SpectroClustersUIDKubeConfigUpdate(params *V1SpectroClustersU
 }
 
 /*
-V1SpectroClustersUIDLifecycleConfigUpdate updates the specified cluster life cycle configuration
+  V1SpectroClustersUIDLifecycleConfigUpdate updates the specified cluster life cycle configuration
 */
 func (a *Client) V1SpectroClustersUIDLifecycleConfigUpdate(params *V1SpectroClustersUIDLifecycleConfigUpdateParams) (*V1SpectroClustersUIDLifecycleConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28344,7 +28452,7 @@ func (a *Client) V1SpectroClustersUIDLifecycleConfigUpdate(params *V1SpectroClus
 }
 
 /*
-V1SpectroClustersUIDLocationPut associates the assets for the cluster
+  V1SpectroClustersUIDLocationPut associates the assets for the cluster
 */
 func (a *Client) V1SpectroClustersUIDLocationPut(params *V1SpectroClustersUIDLocationPutParams) (*V1SpectroClustersUIDLocationPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28378,7 +28486,7 @@ func (a *Client) V1SpectroClustersUIDLocationPut(params *V1SpectroClustersUIDLoc
 }
 
 /*
-V1SpectroClustersUIDManifestGet returns the specified cluster s manifest data
+  V1SpectroClustersUIDManifestGet returns the specified cluster s manifest data
 */
 func (a *Client) V1SpectroClustersUIDManifestGet(params *V1SpectroClustersUIDManifestGetParams) (*V1SpectroClustersUIDManifestGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28412,7 +28520,7 @@ func (a *Client) V1SpectroClustersUIDManifestGet(params *V1SpectroClustersUIDMan
 }
 
 /*
-V1SpectroClustersUIDManifestUpdate updates the specified cluster s manifest data
+  V1SpectroClustersUIDManifestUpdate updates the specified cluster s manifest data
 */
 func (a *Client) V1SpectroClustersUIDManifestUpdate(params *V1SpectroClustersUIDManifestUpdateParams) (*V1SpectroClustersUIDManifestUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28446,7 +28554,7 @@ func (a *Client) V1SpectroClustersUIDManifestUpdate(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDMetadataUpdate updates the specified spectro cluster metadata
+  V1SpectroClustersUIDMetadataUpdate updates the specified spectro cluster metadata
 */
 func (a *Client) V1SpectroClustersUIDMetadataUpdate(params *V1SpectroClustersUIDMetadataUpdateParams) (*V1SpectroClustersUIDMetadataUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28480,7 +28588,7 @@ func (a *Client) V1SpectroClustersUIDMetadataUpdate(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDOsPatchUpdate updates the specified cluster o s patch configuration
+  V1SpectroClustersUIDOsPatchUpdate updates the specified cluster o s patch configuration
 */
 func (a *Client) V1SpectroClustersUIDOsPatchUpdate(params *V1SpectroClustersUIDOsPatchUpdateParams) (*V1SpectroClustersUIDOsPatchUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28514,7 +28622,7 @@ func (a *Client) V1SpectroClustersUIDOsPatchUpdate(params *V1SpectroClustersUIDO
 }
 
 /*
-V1SpectroClustersUIDPackManifestsUIDGet returns the specified cluster s manifest
+  V1SpectroClustersUIDPackManifestsUIDGet returns the specified cluster s manifest
 */
 func (a *Client) V1SpectroClustersUIDPackManifestsUIDGet(params *V1SpectroClustersUIDPackManifestsUIDGetParams) (*V1SpectroClustersUIDPackManifestsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28548,7 +28656,7 @@ func (a *Client) V1SpectroClustersUIDPackManifestsUIDGet(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDPackProperties gets specified cluster pack properties
+  V1SpectroClustersUIDPackProperties gets specified cluster pack properties
 */
 func (a *Client) V1SpectroClustersUIDPackProperties(params *V1SpectroClustersUIDPackPropertiesParams) (*V1SpectroClustersUIDPackPropertiesOK, error) {
 	// TODO: Validate the params before sending
@@ -28582,7 +28690,7 @@ func (a *Client) V1SpectroClustersUIDPackProperties(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDPacksResolvedValuesGet returns the specified cluster s packs resolved values
+  V1SpectroClustersUIDPacksResolvedValuesGet returns the specified cluster s packs resolved values
 */
 func (a *Client) V1SpectroClustersUIDPacksResolvedValuesGet(params *V1SpectroClustersUIDPacksResolvedValuesGetParams) (*V1SpectroClustersUIDPacksResolvedValuesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28616,7 +28724,7 @@ func (a *Client) V1SpectroClustersUIDPacksResolvedValuesGet(params *V1SpectroClu
 }
 
 /*
-V1SpectroClustersUIDPacksStatusPatch patches update specified cluster s packs status
+  V1SpectroClustersUIDPacksStatusPatch patches update specified cluster s packs status
 */
 func (a *Client) V1SpectroClustersUIDPacksStatusPatch(params *V1SpectroClustersUIDPacksStatusPatchParams) (*V1SpectroClustersUIDPacksStatusPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28650,7 +28758,7 @@ func (a *Client) V1SpectroClustersUIDPacksStatusPatch(params *V1SpectroClustersU
 }
 
 /*
-V1SpectroClustersUIDProfilesUIDPacksConfigGet returns the specified cluster s profile pack configuration
+  V1SpectroClustersUIDProfilesUIDPacksConfigGet returns the specified cluster s profile pack configuration
 */
 func (a *Client) V1SpectroClustersUIDProfilesUIDPacksConfigGet(params *V1SpectroClustersUIDProfilesUIDPacksConfigGetParams) (*V1SpectroClustersUIDProfilesUIDPacksConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28684,7 +28792,7 @@ func (a *Client) V1SpectroClustersUIDProfilesUIDPacksConfigGet(params *V1Spectro
 }
 
 /*
-V1SpectroClustersUIDRate returns the estimated rate of the specified cluster
+  V1SpectroClustersUIDRate returns the estimated rate of the specified cluster
 */
 func (a *Client) V1SpectroClustersUIDRate(params *V1SpectroClustersUIDRateParams) (*V1SpectroClustersUIDRateOK, error) {
 	// TODO: Validate the params before sending
@@ -28718,7 +28826,7 @@ func (a *Client) V1SpectroClustersUIDRate(params *V1SpectroClustersUIDRateParams
 }
 
 /*
-V1SpectroClustersUIDRepaveApproveUpdate returns the spectrocluster repave approve update
+  V1SpectroClustersUIDRepaveApproveUpdate returns the spectrocluster repave approve update
 */
 func (a *Client) V1SpectroClustersUIDRepaveApproveUpdate(params *V1SpectroClustersUIDRepaveApproveUpdateParams) (*V1SpectroClustersUIDRepaveApproveUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28752,7 +28860,7 @@ func (a *Client) V1SpectroClustersUIDRepaveApproveUpdate(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUIDRepaveGet returns the spectrocluster repave
+  V1SpectroClustersUIDRepaveGet returns the spectrocluster repave
 */
 func (a *Client) V1SpectroClustersUIDRepaveGet(params *V1SpectroClustersUIDRepaveGetParams) (*V1SpectroClustersUIDRepaveGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28786,7 +28894,7 @@ func (a *Client) V1SpectroClustersUIDRepaveGet(params *V1SpectroClustersUIDRepav
 }
 
 /*
-V1SpectroClustersUIDResourcesConsumption retrieves specified spectro cluster resource consumption
+  V1SpectroClustersUIDResourcesConsumption retrieves specified spectro cluster resource consumption
 */
 func (a *Client) V1SpectroClustersUIDResourcesConsumption(params *V1SpectroClustersUIDResourcesConsumptionParams) (*V1SpectroClustersUIDResourcesConsumptionOK, error) {
 	// TODO: Validate the params before sending
@@ -28820,7 +28928,7 @@ func (a *Client) V1SpectroClustersUIDResourcesConsumption(params *V1SpectroClust
 }
 
 /*
-V1SpectroClustersUIDStatus gets the cluster s status
+  V1SpectroClustersUIDStatus gets the cluster s status
 */
 func (a *Client) V1SpectroClustersUIDStatus(params *V1SpectroClustersUIDStatusParams) (*V1SpectroClustersUIDStatusOK, error) {
 	// TODO: Validate the params before sending
@@ -28854,7 +28962,7 @@ func (a *Client) V1SpectroClustersUIDStatus(params *V1SpectroClustersUIDStatusPa
 }
 
 /*
-V1SpectroClustersUIDStatusSpcApply sets the can be applied to true on the spc apply status can be applied indicates the agent to orchestrate the spc changes
+  V1SpectroClustersUIDStatusSpcApply sets the can be applied to true on the spc apply status can be applied indicates the agent to orchestrate the spc changes
 */
 func (a *Client) V1SpectroClustersUIDStatusSpcApply(params *V1SpectroClustersUIDStatusSpcApplyParams) (*V1SpectroClustersUIDStatusSpcApplyAccepted, error) {
 	// TODO: Validate the params before sending
@@ -28888,7 +28996,7 @@ func (a *Client) V1SpectroClustersUIDStatusSpcApply(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDStatusSpcApplyGet returns the s p c apply information for the agent
+  V1SpectroClustersUIDStatusSpcApplyGet returns the s p c apply information for the agent
 */
 func (a *Client) V1SpectroClustersUIDStatusSpcApplyGet(params *V1SpectroClustersUIDStatusSpcApplyGetParams) (*V1SpectroClustersUIDStatusSpcApplyGetOK, error) {
 	// TODO: Validate the params before sending
@@ -28922,7 +29030,7 @@ func (a *Client) V1SpectroClustersUIDStatusSpcApplyGet(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUIDStatusSpcPatchTime updates the agent patch time for the s p c changes
+  V1SpectroClustersUIDStatusSpcPatchTime updates the agent patch time for the s p c changes
 */
 func (a *Client) V1SpectroClustersUIDStatusSpcPatchTime(params *V1SpectroClustersUIDStatusSpcPatchTimeParams) (*V1SpectroClustersUIDStatusSpcPatchTimeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28956,7 +29064,7 @@ func (a *Client) V1SpectroClustersUIDStatusSpcPatchTime(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersUIDTokenKubeConfigDelete deletes the cluster s token kube config data
+  V1SpectroClustersUIDTokenKubeConfigDelete deletes the cluster s token kube config data
 */
 func (a *Client) V1SpectroClustersUIDTokenKubeConfigDelete(params *V1SpectroClustersUIDTokenKubeConfigDeleteParams) (*V1SpectroClustersUIDTokenKubeConfigDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -28990,7 +29098,7 @@ func (a *Client) V1SpectroClustersUIDTokenKubeConfigDelete(params *V1SpectroClus
 }
 
 /*
-V1SpectroClustersUIDTokenKubeConfigGet returns the specified cluster s token kube config file
+  V1SpectroClustersUIDTokenKubeConfigGet returns the specified cluster s token kube config file
 */
 func (a *Client) V1SpectroClustersUIDTokenKubeConfigGet(params *V1SpectroClustersUIDTokenKubeConfigGetParams, writer io.Writer) (*V1SpectroClustersUIDTokenKubeConfigGetOK, error) {
 	// TODO: Validate the params before sending
@@ -29024,7 +29132,7 @@ func (a *Client) V1SpectroClustersUIDTokenKubeConfigGet(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersUIDTokenKubeConfigUpdate updates the cluster s token kube config data
+  V1SpectroClustersUIDTokenKubeConfigUpdate updates the cluster s token kube config data
 */
 func (a *Client) V1SpectroClustersUIDTokenKubeConfigUpdate(params *V1SpectroClustersUIDTokenKubeConfigUpdateParams) (*V1SpectroClustersUIDTokenKubeConfigUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29058,7 +29166,7 @@ func (a *Client) V1SpectroClustersUIDTokenKubeConfigUpdate(params *V1SpectroClus
 }
 
 /*
-V1SpectroClustersUIDUpgradeSettings updates specific cluster upgrade settings
+  V1SpectroClustersUIDUpgradeSettings updates specific cluster upgrade settings
 */
 func (a *Client) V1SpectroClustersUIDUpgradeSettings(params *V1SpectroClustersUIDUpgradeSettingsParams) (*V1SpectroClustersUIDUpgradeSettingsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29092,7 +29200,7 @@ func (a *Client) V1SpectroClustersUIDUpgradeSettings(params *V1SpectroClustersUI
 }
 
 /*
-V1SpectroClustersUIDUpgradesPut updates the cluster s upgrade status
+  V1SpectroClustersUIDUpgradesPut updates the cluster s upgrade status
 */
 func (a *Client) V1SpectroClustersUIDUpgradesPut(params *V1SpectroClustersUIDUpgradesPutParams) (*V1SpectroClustersUIDUpgradesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29126,7 +29234,7 @@ func (a *Client) V1SpectroClustersUIDUpgradesPut(params *V1SpectroClustersUIDUpg
 }
 
 /*
-V1SpectroClustersUIDValidatePacks validates cluster packs
+  V1SpectroClustersUIDValidatePacks validates cluster packs
 */
 func (a *Client) V1SpectroClustersUIDValidatePacks(params *V1SpectroClustersUIDValidatePacksParams) (*V1SpectroClustersUIDValidatePacksOK, error) {
 	// TODO: Validate the params before sending
@@ -29160,7 +29268,7 @@ func (a *Client) V1SpectroClustersUIDValidatePacks(params *V1SpectroClustersUIDV
 }
 
 /*
-V1SpectroClustersUIDValidateRepave validates if cluster gets repaved for the specified packs
+  V1SpectroClustersUIDValidateRepave validates if cluster gets repaved for the specified packs
 */
 func (a *Client) V1SpectroClustersUIDValidateRepave(params *V1SpectroClustersUIDValidateRepaveParams) (*V1SpectroClustersUIDValidateRepaveOK, error) {
 	// TODO: Validate the params before sending
@@ -29194,7 +29302,7 @@ func (a *Client) V1SpectroClustersUIDValidateRepave(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDVariablesGet retrieves a list of variables associated with the cluster
+  V1SpectroClustersUIDVariablesGet retrieves a list of variables associated with the cluster
 */
 func (a *Client) V1SpectroClustersUIDVariablesGet(params *V1SpectroClustersUIDVariablesGetParams) (*V1SpectroClustersUIDVariablesGetOK, error) {
 	// TODO: Validate the params before sending
@@ -29228,7 +29336,7 @@ func (a *Client) V1SpectroClustersUIDVariablesGet(params *V1SpectroClustersUIDVa
 }
 
 /*
-V1SpectroClustersUIDVariablesPatch updates cluster variable values for specified cluster
+  V1SpectroClustersUIDVariablesPatch updates cluster variable values for specified cluster
 */
 func (a *Client) V1SpectroClustersUIDVariablesPatch(params *V1SpectroClustersUIDVariablesPatchParams) (*V1SpectroClustersUIDVariablesPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29262,7 +29370,7 @@ func (a *Client) V1SpectroClustersUIDVariablesPatch(params *V1SpectroClustersUID
 }
 
 /*
-V1SpectroClustersUIDWorkloadsKindSync syncs specified cluster workload
+  V1SpectroClustersUIDWorkloadsKindSync syncs specified cluster workload
 */
 func (a *Client) V1SpectroClustersUIDWorkloadsKindSync(params *V1SpectroClustersUIDWorkloadsKindSyncParams) (*V1SpectroClustersUIDWorkloadsKindSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -29296,9 +29404,9 @@ func (a *Client) V1SpectroClustersUIDWorkloadsKindSync(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUIDWorkloadsSync syncs specified cluster workload
+  V1SpectroClustersUIDWorkloadsSync syncs specified cluster workload
 
-Sync specified cluster workload
+  Sync specified cluster workload
 */
 func (a *Client) V1SpectroClustersUIDWorkloadsSync(params *V1SpectroClustersUIDWorkloadsSyncParams) (*V1SpectroClustersUIDWorkloadsSyncAccepted, error) {
 	// TODO: Validate the params before sending
@@ -29332,7 +29440,7 @@ func (a *Client) V1SpectroClustersUIDWorkloadsSync(params *V1SpectroClustersUIDW
 }
 
 /*
-V1SpectroClustersUpdateProfiles associates cluster profiles to the specified cluster
+  V1SpectroClustersUpdateProfiles associates cluster profiles to the specified cluster
 */
 func (a *Client) V1SpectroClustersUpdateProfiles(params *V1SpectroClustersUpdateProfilesParams) (*V1SpectroClustersUpdateProfilesNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29366,7 +29474,7 @@ func (a *Client) V1SpectroClustersUpdateProfiles(params *V1SpectroClustersUpdate
 }
 
 /*
-V1SpectroClustersUpdateStatusCondition updates the specified cluster status condition
+  V1SpectroClustersUpdateStatusCondition updates the specified cluster status condition
 */
 func (a *Client) V1SpectroClustersUpdateStatusCondition(params *V1SpectroClustersUpdateStatusConditionParams) (*V1SpectroClustersUpdateStatusConditionNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29400,7 +29508,7 @@ func (a *Client) V1SpectroClustersUpdateStatusCondition(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersUpdateStatusConditions updates the specified cluster status conditions
+  V1SpectroClustersUpdateStatusConditions updates the specified cluster status conditions
 */
 func (a *Client) V1SpectroClustersUpdateStatusConditions(params *V1SpectroClustersUpdateStatusConditionsParams) (*V1SpectroClustersUpdateStatusConditionsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29434,7 +29542,7 @@ func (a *Client) V1SpectroClustersUpdateStatusConditions(params *V1SpectroCluste
 }
 
 /*
-V1SpectroClustersUpdateStatusEndpoints updates the specified cluster s service endpoints information
+  V1SpectroClustersUpdateStatusEndpoints updates the specified cluster s service endpoints information
 */
 func (a *Client) V1SpectroClustersUpdateStatusEndpoints(params *V1SpectroClustersUpdateStatusEndpointsParams) (*V1SpectroClustersUpdateStatusEndpointsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29468,7 +29576,7 @@ func (a *Client) V1SpectroClustersUpdateStatusEndpoints(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersUpdateStatusImported updates the specified cluster status as imported
+  V1SpectroClustersUpdateStatusImported updates the specified cluster status as imported
 */
 func (a *Client) V1SpectroClustersUpdateStatusImported(params *V1SpectroClustersUpdateStatusImportedParams) (*V1SpectroClustersUpdateStatusImportedNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29502,7 +29610,7 @@ func (a *Client) V1SpectroClustersUpdateStatusImported(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUpdateStatusServices updates the specified cluster s services information
+  V1SpectroClustersUpdateStatusServices updates the specified cluster s services information
 */
 func (a *Client) V1SpectroClustersUpdateStatusServices(params *V1SpectroClustersUpdateStatusServicesParams) (*V1SpectroClustersUpdateStatusServicesNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29536,7 +29644,7 @@ func (a *Client) V1SpectroClustersUpdateStatusServices(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersUpgradeSettings updates all clusters upgrade settings
+  V1SpectroClustersUpgradeSettings updates all clusters upgrade settings
 */
 func (a *Client) V1SpectroClustersUpgradeSettings(params *V1SpectroClustersUpgradeSettingsParams) (*V1SpectroClustersUpgradeSettingsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29570,7 +29678,7 @@ func (a *Client) V1SpectroClustersUpgradeSettings(params *V1SpectroClustersUpgra
 }
 
 /*
-V1SpectroClustersUpgradeSettingsGet gets cluster settings by context
+  V1SpectroClustersUpgradeSettingsGet gets cluster settings by context
 */
 func (a *Client) V1SpectroClustersUpgradeSettingsGet(params *V1SpectroClustersUpgradeSettingsGetParams) (*V1SpectroClustersUpgradeSettingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -29604,7 +29712,7 @@ func (a *Client) V1SpectroClustersUpgradeSettingsGet(params *V1SpectroClustersUp
 }
 
 /*
-V1SpectroClustersVMAddVolume adds volume to the virtual machine instance
+  V1SpectroClustersVMAddVolume adds volume to the virtual machine instance
 */
 func (a *Client) V1SpectroClustersVMAddVolume(params *V1SpectroClustersVMAddVolumeParams) (*V1SpectroClustersVMAddVolumeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29638,7 +29746,7 @@ func (a *Client) V1SpectroClustersVMAddVolume(params *V1SpectroClustersVMAddVolu
 }
 
 /*
-V1SpectroClustersVMClone clones virtual machine
+  V1SpectroClustersVMClone clones virtual machine
 */
 func (a *Client) V1SpectroClustersVMClone(params *V1SpectroClustersVMCloneParams) (*V1SpectroClustersVMCloneOK, error) {
 	// TODO: Validate the params before sending
@@ -29672,7 +29780,7 @@ func (a *Client) V1SpectroClustersVMClone(params *V1SpectroClustersVMCloneParams
 }
 
 /*
-V1SpectroClustersVMCreate creates virtual machine
+  V1SpectroClustersVMCreate creates virtual machine
 */
 func (a *Client) V1SpectroClustersVMCreate(params *V1SpectroClustersVMCreateParams) (*V1SpectroClustersVMCreateOK, error) {
 	// TODO: Validate the params before sending
@@ -29706,7 +29814,7 @@ func (a *Client) V1SpectroClustersVMCreate(params *V1SpectroClustersVMCreatePara
 }
 
 /*
-V1SpectroClustersVMDelete deletes the virtual machine
+  V1SpectroClustersVMDelete deletes the virtual machine
 */
 func (a *Client) V1SpectroClustersVMDelete(params *V1SpectroClustersVMDeleteParams) (*V1SpectroClustersVMDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29740,7 +29848,7 @@ func (a *Client) V1SpectroClustersVMDelete(params *V1SpectroClustersVMDeletePara
 }
 
 /*
-V1SpectroClustersVMGet gets virtual machine
+  V1SpectroClustersVMGet gets virtual machine
 */
 func (a *Client) V1SpectroClustersVMGet(params *V1SpectroClustersVMGetParams) (*V1SpectroClustersVMGetOK, error) {
 	// TODO: Validate the params before sending
@@ -29774,7 +29882,7 @@ func (a *Client) V1SpectroClustersVMGet(params *V1SpectroClustersVMGetParams) (*
 }
 
 /*
-V1SpectroClustersVMList returns the list of virtual machines
+  V1SpectroClustersVMList returns the list of virtual machines
 */
 func (a *Client) V1SpectroClustersVMList(params *V1SpectroClustersVMListParams) (*V1SpectroClustersVMListOK, error) {
 	// TODO: Validate the params before sending
@@ -29808,7 +29916,7 @@ func (a *Client) V1SpectroClustersVMList(params *V1SpectroClustersVMListParams) 
 }
 
 /*
-V1SpectroClustersVMMigrate migrates the virtual machine
+  V1SpectroClustersVMMigrate migrates the virtual machine
 */
 func (a *Client) V1SpectroClustersVMMigrate(params *V1SpectroClustersVMMigrateParams) (*V1SpectroClustersVMMigrateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29842,7 +29950,7 @@ func (a *Client) V1SpectroClustersVMMigrate(params *V1SpectroClustersVMMigratePa
 }
 
 /*
-V1SpectroClustersVMPause pauses the virtual machine instance
+  V1SpectroClustersVMPause pauses the virtual machine instance
 */
 func (a *Client) V1SpectroClustersVMPause(params *V1SpectroClustersVMPauseParams) (*V1SpectroClustersVMPauseNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29876,7 +29984,7 @@ func (a *Client) V1SpectroClustersVMPause(params *V1SpectroClustersVMPauseParams
 }
 
 /*
-V1SpectroClustersVMRemoveVolume removes volume from the virtual machine instance
+  V1SpectroClustersVMRemoveVolume removes volume from the virtual machine instance
 */
 func (a *Client) V1SpectroClustersVMRemoveVolume(params *V1SpectroClustersVMRemoveVolumeParams) (*V1SpectroClustersVMRemoveVolumeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29910,7 +30018,7 @@ func (a *Client) V1SpectroClustersVMRemoveVolume(params *V1SpectroClustersVMRemo
 }
 
 /*
-V1SpectroClustersVMRestart restarts the virtual machine
+  V1SpectroClustersVMRestart restarts the virtual machine
 */
 func (a *Client) V1SpectroClustersVMRestart(params *V1SpectroClustersVMRestartParams) (*V1SpectroClustersVMRestartNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29944,7 +30052,7 @@ func (a *Client) V1SpectroClustersVMRestart(params *V1SpectroClustersVMRestartPa
 }
 
 /*
-V1SpectroClustersVMResume resumes the virtual machine instance
+  V1SpectroClustersVMResume resumes the virtual machine instance
 */
 func (a *Client) V1SpectroClustersVMResume(params *V1SpectroClustersVMResumeParams) (*V1SpectroClustersVMResumeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -29978,7 +30086,7 @@ func (a *Client) V1SpectroClustersVMResume(params *V1SpectroClustersVMResumePara
 }
 
 /*
-V1SpectroClustersVMStart starts the virtual machine
+  V1SpectroClustersVMStart starts the virtual machine
 */
 func (a *Client) V1SpectroClustersVMStart(params *V1SpectroClustersVMStartParams) (*V1SpectroClustersVMStartNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30012,7 +30120,7 @@ func (a *Client) V1SpectroClustersVMStart(params *V1SpectroClustersVMStartParams
 }
 
 /*
-V1SpectroClustersVMStop stops the virtual machine
+  V1SpectroClustersVMStop stops the virtual machine
 */
 func (a *Client) V1SpectroClustersVMStop(params *V1SpectroClustersVMStopParams) (*V1SpectroClustersVMStopNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30046,7 +30154,7 @@ func (a *Client) V1SpectroClustersVMStop(params *V1SpectroClustersVMStopParams) 
 }
 
 /*
-V1SpectroClustersVMUpdate updates the specified virtual machine of the cluster
+  V1SpectroClustersVMUpdate updates the specified virtual machine of the cluster
 */
 func (a *Client) V1SpectroClustersVMUpdate(params *V1SpectroClustersVMUpdateParams) (*V1SpectroClustersVMUpdateOK, error) {
 	// TODO: Validate the params before sending
@@ -30080,7 +30188,7 @@ func (a *Client) V1SpectroClustersVMUpdate(params *V1SpectroClustersVMUpdatePara
 }
 
 /*
-V1SpectroClustersValidateName validates the cluster name
+  V1SpectroClustersValidateName validates the cluster name
 */
 func (a *Client) V1SpectroClustersValidateName(params *V1SpectroClustersValidateNameParams) (*V1SpectroClustersValidateNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30114,7 +30222,7 @@ func (a *Client) V1SpectroClustersValidateName(params *V1SpectroClustersValidate
 }
 
 /*
-V1SpectroClustersValidatePacks validates spectro cluster packs
+  V1SpectroClustersValidatePacks validates spectro cluster packs
 */
 func (a *Client) V1SpectroClustersValidatePacks(params *V1SpectroClustersValidatePacksParams) (*V1SpectroClustersValidatePacksOK, error) {
 	// TODO: Validate the params before sending
@@ -30148,7 +30256,7 @@ func (a *Client) V1SpectroClustersValidatePacks(params *V1SpectroClustersValidat
 }
 
 /*
-V1SpectroClustersVirtualCreate creates a virtual cluster
+  V1SpectroClustersVirtualCreate creates a virtual cluster
 */
 func (a *Client) V1SpectroClustersVirtualCreate(params *V1SpectroClustersVirtualCreateParams) (*V1SpectroClustersVirtualCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -30182,7 +30290,7 @@ func (a *Client) V1SpectroClustersVirtualCreate(params *V1SpectroClustersVirtual
 }
 
 /*
-V1SpectroClustersVirtualValidate validates virtual cluster create operation
+  V1SpectroClustersVirtualValidate validates virtual cluster create operation
 */
 func (a *Client) V1SpectroClustersVirtualValidate(params *V1SpectroClustersVirtualValidateParams) (*V1SpectroClustersVirtualValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -30216,7 +30324,7 @@ func (a *Client) V1SpectroClustersVirtualValidate(params *V1SpectroClustersVirtu
 }
 
 /*
-V1SpectroClustersVsphereCreate creates a v sphere cluster
+  V1SpectroClustersVsphereCreate creates a v sphere cluster
 */
 func (a *Client) V1SpectroClustersVsphereCreate(params *V1SpectroClustersVsphereCreateParams) (*V1SpectroClustersVsphereCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -30250,7 +30358,7 @@ func (a *Client) V1SpectroClustersVsphereCreate(params *V1SpectroClustersVsphere
 }
 
 /*
-V1SpectroClustersVsphereImport imports a v sphere cluster
+  V1SpectroClustersVsphereImport imports a v sphere cluster
 */
 func (a *Client) V1SpectroClustersVsphereImport(params *V1SpectroClustersVsphereImportParams) (*V1SpectroClustersVsphereImportCreated, error) {
 	// TODO: Validate the params before sending
@@ -30284,7 +30392,7 @@ func (a *Client) V1SpectroClustersVsphereImport(params *V1SpectroClustersVsphere
 }
 
 /*
-V1SpectroClustersVsphereRate gets v sphere cluster estimated rate information
+  V1SpectroClustersVsphereRate gets v sphere cluster estimated rate information
 */
 func (a *Client) V1SpectroClustersVsphereRate(params *V1SpectroClustersVsphereRateParams) (*V1SpectroClustersVsphereRateOK, error) {
 	// TODO: Validate the params before sending
@@ -30318,7 +30426,7 @@ func (a *Client) V1SpectroClustersVsphereRate(params *V1SpectroClustersVsphereRa
 }
 
 /*
-V1SpectroClustersVsphereValidate validates v sphere cluster create operation
+  V1SpectroClustersVsphereValidate validates v sphere cluster create operation
 */
 func (a *Client) V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphereValidateParams) (*V1SpectroClustersVsphereValidateOK, error) {
 	// TODO: Validate the params before sending
@@ -30352,7 +30460,7 @@ func (a *Client) V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphe
 }
 
 /*
-V1SyftScanLogImageSBOMGet returns the image sbom of syft scan log of cluster
+  V1SyftScanLogImageSBOMGet returns the image sbom of syft scan log of cluster
 */
 func (a *Client) V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetParams, writer io.Writer) (*V1SyftScanLogImageSBOMGetOK, error) {
 	// TODO: Validate the params before sending
@@ -30386,7 +30494,7 @@ func (a *Client) V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetPara
 }
 
 /*
-V1TagFilterUIDDelete deletes the specified filter object
+  V1TagFilterUIDDelete deletes the specified filter object
 */
 func (a *Client) V1TagFilterUIDDelete(params *V1TagFilterUIDDeleteParams) (*V1TagFilterUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30420,7 +30528,7 @@ func (a *Client) V1TagFilterUIDDelete(params *V1TagFilterUIDDeleteParams) (*V1Ta
 }
 
 /*
-V1TagFilterUIDGet returns the specified filter object
+  V1TagFilterUIDGet returns the specified filter object
 */
 func (a *Client) V1TagFilterUIDGet(params *V1TagFilterUIDGetParams) (*V1TagFilterUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -30454,7 +30562,7 @@ func (a *Client) V1TagFilterUIDGet(params *V1TagFilterUIDGetParams) (*V1TagFilte
 }
 
 /*
-V1TagFilterUIDUpdate updates a tag filter
+  V1TagFilterUIDUpdate updates a tag filter
 */
 func (a *Client) V1TagFilterUIDUpdate(params *V1TagFilterUIDUpdateParams) (*V1TagFilterUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30488,7 +30596,7 @@ func (a *Client) V1TagFilterUIDUpdate(params *V1TagFilterUIDUpdateParams) (*V1Ta
 }
 
 /*
-V1TagFiltersCreate creates a tag filter
+  V1TagFiltersCreate creates a tag filter
 */
 func (a *Client) V1TagFiltersCreate(params *V1TagFiltersCreateParams) (*V1TagFiltersCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -30522,7 +30630,7 @@ func (a *Client) V1TagFiltersCreate(params *V1TagFiltersCreateParams) (*V1TagFil
 }
 
 /*
-V1TeamsCreate creates a team with the specified users and roles
+  V1TeamsCreate creates a team with the specified users and roles
 */
 func (a *Client) V1TeamsCreate(params *V1TeamsCreateParams) (*V1TeamsCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -30556,7 +30664,7 @@ func (a *Client) V1TeamsCreate(params *V1TeamsCreateParams) (*V1TeamsCreateCreat
 }
 
 /*
-V1TeamsList retrieves a list of teams
+  V1TeamsList retrieves a list of teams
 */
 func (a *Client) V1TeamsList(params *V1TeamsListParams) (*V1TeamsListOK, error) {
 	// TODO: Validate the params before sending
@@ -30590,7 +30698,7 @@ func (a *Client) V1TeamsList(params *V1TeamsListParams) (*V1TeamsListOK, error) 
 }
 
 /*
-V1TeamsProjectRoles returns the specified team s project and roles data
+  V1TeamsProjectRoles returns the specified team s project and roles data
 */
 func (a *Client) V1TeamsProjectRoles(params *V1TeamsProjectRolesParams) (*V1TeamsProjectRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -30624,7 +30732,7 @@ func (a *Client) V1TeamsProjectRoles(params *V1TeamsProjectRolesParams) (*V1Team
 }
 
 /*
-V1TeamsProjectRolesPut updates the projects and roles for the specified team
+  V1TeamsProjectRolesPut updates the projects and roles for the specified team
 */
 func (a *Client) V1TeamsProjectRolesPut(params *V1TeamsProjectRolesPutParams) (*V1TeamsProjectRolesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30658,9 +30766,9 @@ func (a *Client) V1TeamsProjectRolesPut(params *V1TeamsProjectRolesPutParams) (*
 }
 
 /*
-V1TeamsResourceRolesUIDUpdate updates the resource roles for team
+  V1TeamsResourceRolesUIDUpdate updates the resource roles for team
 
-Specific resource roles fo team is updated
+  Specific resource roles fo team is updated
 */
 func (a *Client) V1TeamsResourceRolesUIDUpdate(params *V1TeamsResourceRolesUIDUpdateParams) (*V1TeamsResourceRolesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30694,7 +30802,7 @@ func (a *Client) V1TeamsResourceRolesUIDUpdate(params *V1TeamsResourceRolesUIDUp
 }
 
 /*
-V1TeamsSummaryGet retrieves a list of teams summary with provided filter spec
+  V1TeamsSummaryGet retrieves a list of teams summary with provided filter spec
 */
 func (a *Client) V1TeamsSummaryGet(params *V1TeamsSummaryGetParams) (*V1TeamsSummaryGetOK, error) {
 	// TODO: Validate the params before sending
@@ -30728,7 +30836,7 @@ func (a *Client) V1TeamsSummaryGet(params *V1TeamsSummaryGetParams) (*V1TeamsSum
 }
 
 /*
-V1TeamsUIDDelete deletes the specified team
+  V1TeamsUIDDelete deletes the specified team
 */
 func (a *Client) V1TeamsUIDDelete(params *V1TeamsUIDDeleteParams) (*V1TeamsUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30762,7 +30870,7 @@ func (a *Client) V1TeamsUIDDelete(params *V1TeamsUIDDeleteParams) (*V1TeamsUIDDe
 }
 
 /*
-V1TeamsUIDGet returns the sepcified team
+  V1TeamsUIDGet returns the sepcified team
 */
 func (a *Client) V1TeamsUIDGet(params *V1TeamsUIDGetParams) (*V1TeamsUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -30796,7 +30904,7 @@ func (a *Client) V1TeamsUIDGet(params *V1TeamsUIDGetParams) (*V1TeamsUIDGetOK, e
 }
 
 /*
-V1TeamsUIDPatch patches the specified team
+  V1TeamsUIDPatch patches the specified team
 */
 func (a *Client) V1TeamsUIDPatch(params *V1TeamsUIDPatchParams) (*V1TeamsUIDPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30830,9 +30938,9 @@ func (a *Client) V1TeamsUIDPatch(params *V1TeamsUIDPatchParams) (*V1TeamsUIDPatc
 }
 
 /*
-V1TeamsUIDResourceRoles returns the specified individual and resource roles for a team
+  V1TeamsUIDResourceRoles returns the specified individual and resource roles for a team
 
-Returns resource roles for team
+  Returns resource roles for team
 */
 func (a *Client) V1TeamsUIDResourceRoles(params *V1TeamsUIDResourceRolesParams) (*V1TeamsUIDResourceRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -30866,9 +30974,9 @@ func (a *Client) V1TeamsUIDResourceRoles(params *V1TeamsUIDResourceRolesParams) 
 }
 
 /*
-V1TeamsUIDResourceRolesCreate adds resource roles for team
+  V1TeamsUIDResourceRolesCreate adds resource roles for team
 
-Resource roles added to specific team
+  Resource roles added to specific team
 */
 func (a *Client) V1TeamsUIDResourceRolesCreate(params *V1TeamsUIDResourceRolesCreateParams) (*V1TeamsUIDResourceRolesCreateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30902,7 +31010,7 @@ func (a *Client) V1TeamsUIDResourceRolesCreate(params *V1TeamsUIDResourceRolesCr
 }
 
 /*
-V1TeamsUIDResourceRolesUIDDelete deleteds the resource roles from team
+  V1TeamsUIDResourceRolesUIDDelete deleteds the resource roles from team
 */
 func (a *Client) V1TeamsUIDResourceRolesUIDDelete(params *V1TeamsUIDResourceRolesUIDDeleteParams) (*V1TeamsUIDResourceRolesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30936,7 +31044,7 @@ func (a *Client) V1TeamsUIDResourceRolesUIDDelete(params *V1TeamsUIDResourceRole
 }
 
 /*
-V1TeamsUIDUpdate updates the sepcified team
+  V1TeamsUIDUpdate updates the sepcified team
 */
 func (a *Client) V1TeamsUIDUpdate(params *V1TeamsUIDUpdateParams) (*V1TeamsUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -30970,7 +31078,7 @@ func (a *Client) V1TeamsUIDUpdate(params *V1TeamsUIDUpdateParams) (*V1TeamsUIDUp
 }
 
 /*
-V1TeamsWorkspaceGetRoles returns the specified team s workspaces and roles data
+  V1TeamsWorkspaceGetRoles returns the specified team s workspaces and roles data
 */
 func (a *Client) V1TeamsWorkspaceGetRoles(params *V1TeamsWorkspaceGetRolesParams) (*V1TeamsWorkspaceGetRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -31004,7 +31112,7 @@ func (a *Client) V1TeamsWorkspaceGetRoles(params *V1TeamsWorkspaceGetRolesParams
 }
 
 /*
-V1TeamsWorkspaceRolesPut updates the workspace roles for the specified team
+  V1TeamsWorkspaceRolesPut updates the workspace roles for the specified team
 */
 func (a *Client) V1TeamsWorkspaceRolesPut(params *V1TeamsWorkspaceRolesPutParams) (*V1TeamsWorkspaceRolesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31038,7 +31146,7 @@ func (a *Client) V1TeamsWorkspaceRolesPut(params *V1TeamsWorkspaceRolesPutParams
 }
 
 /*
-V1TenantClusterSettingsGet gets tenant cluster settings
+  V1TenantClusterSettingsGet gets tenant cluster settings
 */
 func (a *Client) V1TenantClusterSettingsGet(params *V1TenantClusterSettingsGetParams) (*V1TenantClusterSettingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31072,7 +31180,7 @@ func (a *Client) V1TenantClusterSettingsGet(params *V1TenantClusterSettingsGetPa
 }
 
 /*
-V1TenantClustersNodesAutoRemediationSettingUpdate updates tenant clusters nodes auto remediation setting
+  V1TenantClustersNodesAutoRemediationSettingUpdate updates tenant clusters nodes auto remediation setting
 */
 func (a *Client) V1TenantClustersNodesAutoRemediationSettingUpdate(params *V1TenantClustersNodesAutoRemediationSettingUpdateParams) (*V1TenantClustersNodesAutoRemediationSettingUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31106,7 +31214,7 @@ func (a *Client) V1TenantClustersNodesAutoRemediationSettingUpdate(params *V1Ten
 }
 
 /*
-V1TenantFipsSettingsGet gets tenant fips settings
+  V1TenantFipsSettingsGet gets tenant fips settings
 */
 func (a *Client) V1TenantFipsSettingsGet(params *V1TenantFipsSettingsGetParams) (*V1TenantFipsSettingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31140,7 +31248,7 @@ func (a *Client) V1TenantFipsSettingsGet(params *V1TenantFipsSettingsGetParams) 
 }
 
 /*
-V1TenantFipsSettingsUpdate updates tenant fips setting
+  V1TenantFipsSettingsUpdate updates tenant fips setting
 */
 func (a *Client) V1TenantFipsSettingsUpdate(params *V1TenantFipsSettingsUpdateParams) (*V1TenantFipsSettingsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31174,7 +31282,7 @@ func (a *Client) V1TenantFipsSettingsUpdate(params *V1TenantFipsSettingsUpdatePa
 }
 
 /*
-V1TenantFreemiumGet gets tenant level freemium configuration
+  V1TenantFreemiumGet gets tenant level freemium configuration
 */
 func (a *Client) V1TenantFreemiumGet(params *V1TenantFreemiumGetParams) (*V1TenantFreemiumGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31208,7 +31316,7 @@ func (a *Client) V1TenantFreemiumGet(params *V1TenantFreemiumGetParams) (*V1Tena
 }
 
 /*
-V1TenantFreemiumUpdate updates tenant freemium configuration
+  V1TenantFreemiumUpdate updates tenant freemium configuration
 */
 func (a *Client) V1TenantFreemiumUpdate(params *V1TenantFreemiumUpdateParams) (*V1TenantFreemiumUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31242,7 +31350,7 @@ func (a *Client) V1TenantFreemiumUpdate(params *V1TenantFreemiumUpdateParams) (*
 }
 
 /*
-V1TenantFreemiumUsageGet gets tenant freemium usage
+  V1TenantFreemiumUsageGet gets tenant freemium usage
 */
 func (a *Client) V1TenantFreemiumUsageGet(params *V1TenantFreemiumUsageGetParams) (*V1TenantFreemiumUsageGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31276,7 +31384,7 @@ func (a *Client) V1TenantFreemiumUsageGet(params *V1TenantFreemiumUsageGetParams
 }
 
 /*
-V1TenantResourceLimitsGet gets tenant level resource limits configuration
+  V1TenantResourceLimitsGet gets tenant level resource limits configuration
 */
 func (a *Client) V1TenantResourceLimitsGet(params *V1TenantResourceLimitsGetParams) (*V1TenantResourceLimitsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31310,7 +31418,7 @@ func (a *Client) V1TenantResourceLimitsGet(params *V1TenantResourceLimitsGetPara
 }
 
 /*
-V1TenantResourceLimitsUpdate updates tenant resource limits configuration
+  V1TenantResourceLimitsUpdate updates tenant resource limits configuration
 */
 func (a *Client) V1TenantResourceLimitsUpdate(params *V1TenantResourceLimitsUpdateParams) (*V1TenantResourceLimitsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31344,7 +31452,7 @@ func (a *Client) V1TenantResourceLimitsUpdate(params *V1TenantResourceLimitsUpda
 }
 
 /*
-V1TenantUIDAuthTokenSettingsGet gets tenant auth token settings
+  V1TenantUIDAuthTokenSettingsGet gets tenant auth token settings
 */
 func (a *Client) V1TenantUIDAuthTokenSettingsGet(params *V1TenantUIDAuthTokenSettingsGetParams) (*V1TenantUIDAuthTokenSettingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31378,7 +31486,7 @@ func (a *Client) V1TenantUIDAuthTokenSettingsGet(params *V1TenantUIDAuthTokenSet
 }
 
 /*
-V1TenantUIDAuthTokenSettingsUpdate updates tenant auth token settings
+  V1TenantUIDAuthTokenSettingsUpdate updates tenant auth token settings
 */
 func (a *Client) V1TenantUIDAuthTokenSettingsUpdate(params *V1TenantUIDAuthTokenSettingsUpdateParams) (*V1TenantUIDAuthTokenSettingsUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31412,7 +31520,7 @@ func (a *Client) V1TenantUIDAuthTokenSettingsUpdate(params *V1TenantUIDAuthToken
 }
 
 /*
-V1TenantUIDLoginBannerGet gets tenant login banner settings
+  V1TenantUIDLoginBannerGet gets tenant login banner settings
 */
 func (a *Client) V1TenantUIDLoginBannerGet(params *V1TenantUIDLoginBannerGetParams) (*V1TenantUIDLoginBannerGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31446,7 +31554,7 @@ func (a *Client) V1TenantUIDLoginBannerGet(params *V1TenantUIDLoginBannerGetPara
 }
 
 /*
-V1TenantUIDLoginBannerUpdate updates tenant login banner settings
+  V1TenantUIDLoginBannerUpdate updates tenant login banner settings
 */
 func (a *Client) V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpdateParams) (*V1TenantUIDLoginBannerUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31480,7 +31588,7 @@ func (a *Client) V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpda
 }
 
 /*
-V1TenantsCreditAccountDelete deletes the aws credit account for tenants
+  V1TenantsCreditAccountDelete deletes the aws credit account for tenants
 */
 func (a *Client) V1TenantsCreditAccountDelete(params *V1TenantsCreditAccountDeleteParams) (*V1TenantsCreditAccountDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31514,7 +31622,7 @@ func (a *Client) V1TenantsCreditAccountDelete(params *V1TenantsCreditAccountDele
 }
 
 /*
-V1TenantsCreditAccountGet gets the credit accounts for the tenants with free tier access
+  V1TenantsCreditAccountGet gets the credit accounts for the tenants with free tier access
 */
 func (a *Client) V1TenantsCreditAccountGet(params *V1TenantsCreditAccountGetParams) (*V1TenantsCreditAccountGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31548,7 +31656,7 @@ func (a *Client) V1TenantsCreditAccountGet(params *V1TenantsCreditAccountGetPara
 }
 
 /*
-V1TenantsUIDContractAccept tenants to accept the contract agreement
+  V1TenantsUIDContractAccept tenants to accept the contract agreement
 */
 func (a *Client) V1TenantsUIDContractAccept(params *V1TenantsUIDContractAcceptParams) (*V1TenantsUIDContractAcceptNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31582,7 +31690,7 @@ func (a *Client) V1TenantsUIDContractAccept(params *V1TenantsUIDContractAcceptPa
 }
 
 /*
-V1TenantsUIDMacrosCreate creates or add new macros for the specified tenant
+  V1TenantsUIDMacrosCreate creates or add new macros for the specified tenant
 */
 func (a *Client) V1TenantsUIDMacrosCreate(params *V1TenantsUIDMacrosCreateParams) (*V1TenantsUIDMacrosCreateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31616,7 +31724,7 @@ func (a *Client) V1TenantsUIDMacrosCreate(params *V1TenantsUIDMacrosCreateParams
 }
 
 /*
-V1TenantsUIDMacrosDeleteByMacroName deletes the macros for the specified tenant by given macro name
+  V1TenantsUIDMacrosDeleteByMacroName deletes the macros for the specified tenant by given macro name
 */
 func (a *Client) V1TenantsUIDMacrosDeleteByMacroName(params *V1TenantsUIDMacrosDeleteByMacroNameParams) (*V1TenantsUIDMacrosDeleteByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31650,7 +31758,7 @@ func (a *Client) V1TenantsUIDMacrosDeleteByMacroName(params *V1TenantsUIDMacrosD
 }
 
 /*
-V1TenantsUIDMacrosList lists the macros of the specified tenant
+  V1TenantsUIDMacrosList lists the macros of the specified tenant
 */
 func (a *Client) V1TenantsUIDMacrosList(params *V1TenantsUIDMacrosListParams) (*V1TenantsUIDMacrosListOK, error) {
 	// TODO: Validate the params before sending
@@ -31684,7 +31792,7 @@ func (a *Client) V1TenantsUIDMacrosList(params *V1TenantsUIDMacrosListParams) (*
 }
 
 /*
-V1TenantsUIDMacrosUpdate updates the macros of the specified tenant
+  V1TenantsUIDMacrosUpdate updates the macros of the specified tenant
 */
 func (a *Client) V1TenantsUIDMacrosUpdate(params *V1TenantsUIDMacrosUpdateParams) (*V1TenantsUIDMacrosUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31718,7 +31826,7 @@ func (a *Client) V1TenantsUIDMacrosUpdate(params *V1TenantsUIDMacrosUpdateParams
 }
 
 /*
-V1TenantsUIDMacrosUpdateByMacroName updates the macros for the specified tenant by given macro name
+  V1TenantsUIDMacrosUpdateByMacroName updates the macros for the specified tenant by given macro name
 */
 func (a *Client) V1TenantsUIDMacrosUpdateByMacroName(params *V1TenantsUIDMacrosUpdateByMacroNameParams) (*V1TenantsUIDMacrosUpdateByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31752,7 +31860,7 @@ func (a *Client) V1TenantsUIDMacrosUpdateByMacroName(params *V1TenantsUIDMacrosU
 }
 
 /*
-V1UserAssetsSSHCreate creates a SSH key
+  V1UserAssetsSSHCreate creates a SSH key
 */
 func (a *Client) V1UserAssetsSSHCreate(params *V1UserAssetsSSHCreateParams) (*V1UserAssetsSSHCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -31786,7 +31894,7 @@ func (a *Client) V1UserAssetsSSHCreate(params *V1UserAssetsSSHCreateParams) (*V1
 }
 
 /*
-V1UsersAssetSSHDelete returns the specified user ssh key
+  V1UsersAssetSSHDelete returns the specified user ssh key
 */
 func (a *Client) V1UsersAssetSSHDelete(params *V1UsersAssetSSHDeleteParams) (*V1UsersAssetSSHDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31820,7 +31928,7 @@ func (a *Client) V1UsersAssetSSHDelete(params *V1UsersAssetSSHDeleteParams) (*V1
 }
 
 /*
-V1UsersAssetSSHGetUID returns the specified user ssh key
+  V1UsersAssetSSHGetUID returns the specified user ssh key
 */
 func (a *Client) V1UsersAssetSSHGetUID(params *V1UsersAssetSSHGetUIDParams) (*V1UsersAssetSSHGetUIDOK, error) {
 	// TODO: Validate the params before sending
@@ -31854,7 +31962,7 @@ func (a *Client) V1UsersAssetSSHGetUID(params *V1UsersAssetSSHGetUIDParams) (*V1
 }
 
 /*
-V1UsersAssetSSHUpdate updates the specified user ssh key
+  V1UsersAssetSSHUpdate updates the specified user ssh key
 */
 func (a *Client) V1UsersAssetSSHUpdate(params *V1UsersAssetSSHUpdateParams) (*V1UsersAssetSSHUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31888,7 +31996,7 @@ func (a *Client) V1UsersAssetSSHUpdate(params *V1UsersAssetSSHUpdateParams) (*V1
 }
 
 /*
-V1UsersAssetsLocationAzureCreate creates a azure location
+  V1UsersAssetsLocationAzureCreate creates a azure location
 */
 func (a *Client) V1UsersAssetsLocationAzureCreate(params *V1UsersAssetsLocationAzureCreateParams) (*V1UsersAssetsLocationAzureCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -31922,7 +32030,7 @@ func (a *Client) V1UsersAssetsLocationAzureCreate(params *V1UsersAssetsLocationA
 }
 
 /*
-V1UsersAssetsLocationAzureGet returns the specified azure location
+  V1UsersAssetsLocationAzureGet returns the specified azure location
 */
 func (a *Client) V1UsersAssetsLocationAzureGet(params *V1UsersAssetsLocationAzureGetParams) (*V1UsersAssetsLocationAzureGetOK, error) {
 	// TODO: Validate the params before sending
@@ -31956,7 +32064,7 @@ func (a *Client) V1UsersAssetsLocationAzureGet(params *V1UsersAssetsLocationAzur
 }
 
 /*
-V1UsersAssetsLocationAzureUpdate updates the specified azure location
+  V1UsersAssetsLocationAzureUpdate updates the specified azure location
 */
 func (a *Client) V1UsersAssetsLocationAzureUpdate(params *V1UsersAssetsLocationAzureUpdateParams) (*V1UsersAssetsLocationAzureUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31990,7 +32098,7 @@ func (a *Client) V1UsersAssetsLocationAzureUpdate(params *V1UsersAssetsLocationA
 }
 
 /*
-V1UsersAssetsLocationDefaultUpdate updates the default backup location
+  V1UsersAssetsLocationDefaultUpdate updates the default backup location
 */
 func (a *Client) V1UsersAssetsLocationDefaultUpdate(params *V1UsersAssetsLocationDefaultUpdateParams) (*V1UsersAssetsLocationDefaultUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32024,7 +32132,7 @@ func (a *Client) V1UsersAssetsLocationDefaultUpdate(params *V1UsersAssetsLocatio
 }
 
 /*
-V1UsersAssetsLocationDelete deletes the specified location
+  V1UsersAssetsLocationDelete deletes the specified location
 */
 func (a *Client) V1UsersAssetsLocationDelete(params *V1UsersAssetsLocationDeleteParams) (*V1UsersAssetsLocationDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32058,7 +32166,7 @@ func (a *Client) V1UsersAssetsLocationDelete(params *V1UsersAssetsLocationDelete
 }
 
 /*
-V1UsersAssetsLocationGcpCreate creates a g c p location
+  V1UsersAssetsLocationGcpCreate creates a g c p location
 */
 func (a *Client) V1UsersAssetsLocationGcpCreate(params *V1UsersAssetsLocationGcpCreateParams) (*V1UsersAssetsLocationGcpCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -32092,7 +32200,7 @@ func (a *Client) V1UsersAssetsLocationGcpCreate(params *V1UsersAssetsLocationGcp
 }
 
 /*
-V1UsersAssetsLocationGcpGet returns the specified g c p location
+  V1UsersAssetsLocationGcpGet returns the specified g c p location
 */
 func (a *Client) V1UsersAssetsLocationGcpGet(params *V1UsersAssetsLocationGcpGetParams) (*V1UsersAssetsLocationGcpGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32126,7 +32234,7 @@ func (a *Client) V1UsersAssetsLocationGcpGet(params *V1UsersAssetsLocationGcpGet
 }
 
 /*
-V1UsersAssetsLocationGcpUpdate updates the specified g c p location
+  V1UsersAssetsLocationGcpUpdate updates the specified g c p location
 */
 func (a *Client) V1UsersAssetsLocationGcpUpdate(params *V1UsersAssetsLocationGcpUpdateParams) (*V1UsersAssetsLocationGcpUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32160,7 +32268,7 @@ func (a *Client) V1UsersAssetsLocationGcpUpdate(params *V1UsersAssetsLocationGcp
 }
 
 /*
-V1UsersAssetsLocationGet returns the specified users location
+  V1UsersAssetsLocationGet returns the specified users location
 */
 func (a *Client) V1UsersAssetsLocationGet(params *V1UsersAssetsLocationGetParams) (*V1UsersAssetsLocationGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32194,7 +32302,7 @@ func (a *Client) V1UsersAssetsLocationGet(params *V1UsersAssetsLocationGetParams
 }
 
 /*
-V1UsersAssetsLocationMinioCreate creates a min i o location
+  V1UsersAssetsLocationMinioCreate creates a min i o location
 */
 func (a *Client) V1UsersAssetsLocationMinioCreate(params *V1UsersAssetsLocationMinioCreateParams) (*V1UsersAssetsLocationMinioCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -32228,7 +32336,7 @@ func (a *Client) V1UsersAssetsLocationMinioCreate(params *V1UsersAssetsLocationM
 }
 
 /*
-V1UsersAssetsLocationMinioGet returns the specified min i o location
+  V1UsersAssetsLocationMinioGet returns the specified min i o location
 */
 func (a *Client) V1UsersAssetsLocationMinioGet(params *V1UsersAssetsLocationMinioGetParams) (*V1UsersAssetsLocationMinioGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32262,7 +32370,7 @@ func (a *Client) V1UsersAssetsLocationMinioGet(params *V1UsersAssetsLocationMini
 }
 
 /*
-V1UsersAssetsLocationMinioUpdate updates the specified min i o location
+  V1UsersAssetsLocationMinioUpdate updates the specified min i o location
 */
 func (a *Client) V1UsersAssetsLocationMinioUpdate(params *V1UsersAssetsLocationMinioUpdateParams) (*V1UsersAssetsLocationMinioUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32296,7 +32404,7 @@ func (a *Client) V1UsersAssetsLocationMinioUpdate(params *V1UsersAssetsLocationM
 }
 
 /*
-V1UsersAssetsLocationS3Create creates a s3 location
+  V1UsersAssetsLocationS3Create creates a s3 location
 */
 func (a *Client) V1UsersAssetsLocationS3Create(params *V1UsersAssetsLocationS3CreateParams) (*V1UsersAssetsLocationS3CreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -32330,7 +32438,7 @@ func (a *Client) V1UsersAssetsLocationS3Create(params *V1UsersAssetsLocationS3Cr
 }
 
 /*
-V1UsersAssetsLocationS3Delete returns the specified s3 location
+  V1UsersAssetsLocationS3Delete returns the specified s3 location
 */
 func (a *Client) V1UsersAssetsLocationS3Delete(params *V1UsersAssetsLocationS3DeleteParams) (*V1UsersAssetsLocationS3DeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32364,7 +32472,7 @@ func (a *Client) V1UsersAssetsLocationS3Delete(params *V1UsersAssetsLocationS3De
 }
 
 /*
-V1UsersAssetsLocationS3Get returns the specified s3 location
+  V1UsersAssetsLocationS3Get returns the specified s3 location
 */
 func (a *Client) V1UsersAssetsLocationS3Get(params *V1UsersAssetsLocationS3GetParams) (*V1UsersAssetsLocationS3GetOK, error) {
 	// TODO: Validate the params before sending
@@ -32398,7 +32506,7 @@ func (a *Client) V1UsersAssetsLocationS3Get(params *V1UsersAssetsLocationS3GetPa
 }
 
 /*
-V1UsersAssetsLocationS3Update updates the specified s3 location
+  V1UsersAssetsLocationS3Update updates the specified s3 location
 */
 func (a *Client) V1UsersAssetsLocationS3Update(params *V1UsersAssetsLocationS3UpdateParams) (*V1UsersAssetsLocationS3UpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32432,7 +32540,7 @@ func (a *Client) V1UsersAssetsLocationS3Update(params *V1UsersAssetsLocationS3Up
 }
 
 /*
-V1UsersAssetsSSHGet returns the SSH keys
+  V1UsersAssetsSSHGet returns the SSH keys
 */
 func (a *Client) V1UsersAssetsSSHGet(params *V1UsersAssetsSSHGetParams) (*V1UsersAssetsSSHGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32466,7 +32574,7 @@ func (a *Client) V1UsersAssetsSSHGet(params *V1UsersAssetsSSHGetParams) (*V1User
 }
 
 /*
-V1UsersAuthTokensRevoke revokes access of specific token s
+  V1UsersAuthTokensRevoke revokes access of specific token s
 */
 func (a *Client) V1UsersAuthTokensRevoke(params *V1UsersAuthTokensRevokeParams) (*V1UsersAuthTokensRevokeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32500,9 +32608,9 @@ func (a *Client) V1UsersAuthTokensRevoke(params *V1UsersAuthTokensRevokeParams) 
 }
 
 /*
-V1UsersCreate creates user
+  V1UsersCreate creates user
 
-A user is created for the given user context
+  A user is created for the given user context
 */
 func (a *Client) V1UsersCreate(params *V1UsersCreateParams) (*V1UsersCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -32536,9 +32644,9 @@ func (a *Client) V1UsersCreate(params *V1UsersCreateParams) (*V1UsersCreateCreat
 }
 
 /*
-V1UsersEmailPasswordReset users password reset request using the email id
+  V1UsersEmailPasswordReset users password reset request using the email id
 
-User password request will be sent to the supplied emailId
+  User password request will be sent to the supplied emailId
 */
 func (a *Client) V1UsersEmailPasswordReset(params *V1UsersEmailPasswordResetParams) (*V1UsersEmailPasswordResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32572,9 +32680,9 @@ func (a *Client) V1UsersEmailPasswordReset(params *V1UsersEmailPasswordResetPara
 }
 
 /*
-V1UsersInfoGet returns the base information of specified user
+  V1UsersInfoGet returns the base information of specified user
 
-Returns a basic information of User for the specified uid.
+  Returns a basic information of User for the specified uid.
 */
 func (a *Client) V1UsersInfoGet(params *V1UsersInfoGetParams) (*V1UsersInfoGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32608,9 +32716,9 @@ func (a *Client) V1UsersInfoGet(params *V1UsersInfoGetParams) (*V1UsersInfoGetOK
 }
 
 /*
-V1UsersList lists users
+  V1UsersList lists users
 
-Lists users the given user context
+  Lists users the given user context
 */
 func (a *Client) V1UsersList(params *V1UsersListParams) (*V1UsersListOK, error) {
 	// TODO: Validate the params before sending
@@ -32644,7 +32752,7 @@ func (a *Client) V1UsersList(params *V1UsersListParams) (*V1UsersListOK, error) 
 }
 
 /*
-V1UsersMetadata retrieves a list of users metadata
+  V1UsersMetadata retrieves a list of users metadata
 */
 func (a *Client) V1UsersMetadata(params *V1UsersMetadataParams) (*V1UsersMetadataOK, error) {
 	// TODO: Validate the params before sending
@@ -32678,9 +32786,9 @@ func (a *Client) V1UsersMetadata(params *V1UsersMetadataParams) (*V1UsersMetadat
 }
 
 /*
-V1UsersProjectRoles returns the specified user projects and roles information
+  V1UsersProjectRoles returns the specified user projects and roles information
 
-Returns a User with projects and roles
+  Returns a User with projects and roles
 */
 func (a *Client) V1UsersProjectRoles(params *V1UsersProjectRolesParams) (*V1UsersProjectRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -32714,9 +32822,9 @@ func (a *Client) V1UsersProjectRoles(params *V1UsersProjectRolesParams) (*V1User
 }
 
 /*
-V1UsersProjectRolesPut updates the projects and roles for user
+  V1UsersProjectRolesPut updates the projects and roles for user
 
-User is updated with projects and roles
+  User is updated with projects and roles
 */
 func (a *Client) V1UsersProjectRolesPut(params *V1UsersProjectRolesPutParams) (*V1UsersProjectRolesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32750,9 +32858,9 @@ func (a *Client) V1UsersProjectRolesPut(params *V1UsersProjectRolesPutParams) (*
 }
 
 /*
-V1UsersResourceRolesUIDUpdate updates the resource roles for user
+  V1UsersResourceRolesUIDUpdate updates the resource roles for user
 
-Specific resource roles fo user is updated
+  Specific resource roles fo user is updated
 */
 func (a *Client) V1UsersResourceRolesUIDUpdate(params *V1UsersResourceRolesUIDUpdateParams) (*V1UsersResourceRolesUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32786,7 +32894,7 @@ func (a *Client) V1UsersResourceRolesUIDUpdate(params *V1UsersResourceRolesUIDUp
 }
 
 /*
-V1UsersStatusLoginMode users status login mode
+  V1UsersStatusLoginMode users status login mode
 */
 func (a *Client) V1UsersStatusLoginMode(params *V1UsersStatusLoginModeParams) (*V1UsersStatusLoginModeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32820,7 +32928,7 @@ func (a *Client) V1UsersStatusLoginMode(params *V1UsersStatusLoginModeParams) (*
 }
 
 /*
-V1UsersSummaryGet retrieves a list of users summary with provided filter spec
+  V1UsersSummaryGet retrieves a list of users summary with provided filter spec
 */
 func (a *Client) V1UsersSummaryGet(params *V1UsersSummaryGetParams) (*V1UsersSummaryGetOK, error) {
 	// TODO: Validate the params before sending
@@ -32854,9 +32962,9 @@ func (a *Client) V1UsersSummaryGet(params *V1UsersSummaryGetParams) (*V1UsersSum
 }
 
 /*
-V1UsersSystemFeature returns the users system feature
+  V1UsersSystemFeature returns the users system feature
 
-Returns the users system feature
+  Returns the users system feature
 */
 func (a *Client) V1UsersSystemFeature(params *V1UsersSystemFeatureParams) (*V1UsersSystemFeatureOK, error) {
 	// TODO: Validate the params before sending
@@ -32890,7 +32998,7 @@ func (a *Client) V1UsersSystemFeature(params *V1UsersSystemFeatureParams) (*V1Us
 }
 
 /*
-V1UsersSystemMacrosCreate creates or add new macros for the system user
+  V1UsersSystemMacrosCreate creates or add new macros for the system user
 */
 func (a *Client) V1UsersSystemMacrosCreate(params *V1UsersSystemMacrosCreateParams) (*V1UsersSystemMacrosCreateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32924,7 +33032,7 @@ func (a *Client) V1UsersSystemMacrosCreate(params *V1UsersSystemMacrosCreatePara
 }
 
 /*
-V1UsersSystemMacrosDeleteByMacroName deletes the macros for the system user by macro name
+  V1UsersSystemMacrosDeleteByMacroName deletes the macros for the system user by macro name
 */
 func (a *Client) V1UsersSystemMacrosDeleteByMacroName(params *V1UsersSystemMacrosDeleteByMacroNameParams) (*V1UsersSystemMacrosDeleteByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -32958,7 +33066,7 @@ func (a *Client) V1UsersSystemMacrosDeleteByMacroName(params *V1UsersSystemMacro
 }
 
 /*
-V1UsersSystemMacrosList lists the macros of the system
+  V1UsersSystemMacrosList lists the macros of the system
 */
 func (a *Client) V1UsersSystemMacrosList(params *V1UsersSystemMacrosListParams) (*V1UsersSystemMacrosListOK, error) {
 	// TODO: Validate the params before sending
@@ -32992,7 +33100,7 @@ func (a *Client) V1UsersSystemMacrosList(params *V1UsersSystemMacrosListParams) 
 }
 
 /*
-V1UsersSystemMacrosUpdate updates the macros of the system
+  V1UsersSystemMacrosUpdate updates the macros of the system
 */
 func (a *Client) V1UsersSystemMacrosUpdate(params *V1UsersSystemMacrosUpdateParams) (*V1UsersSystemMacrosUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33026,7 +33134,7 @@ func (a *Client) V1UsersSystemMacrosUpdate(params *V1UsersSystemMacrosUpdatePara
 }
 
 /*
-V1UsersSystemMacrosUpdateByMacroName updates the macros for the system user by macro name
+  V1UsersSystemMacrosUpdateByMacroName updates the macros for the system user by macro name
 */
 func (a *Client) V1UsersSystemMacrosUpdateByMacroName(params *V1UsersSystemMacrosUpdateByMacroNameParams) (*V1UsersSystemMacrosUpdateByMacroNameNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33060,9 +33168,9 @@ func (a *Client) V1UsersSystemMacrosUpdateByMacroName(params *V1UsersSystemMacro
 }
 
 /*
-V1UsersUIDDelete deletes the specified user
+  V1UsersUIDDelete deletes the specified user
 
-Deletes the specified User for given uid
+  Deletes the specified User for given uid
 */
 func (a *Client) V1UsersUIDDelete(params *V1UsersUIDDeleteParams) (*V1UsersUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33096,9 +33204,9 @@ func (a *Client) V1UsersUIDDelete(params *V1UsersUIDDeleteParams) (*V1UsersUIDDe
 }
 
 /*
-V1UsersUIDGet returns the specified user
+  V1UsersUIDGet returns the specified user
 
-Returns a User for the specified uid.
+  Returns a User for the specified uid.
 */
 func (a *Client) V1UsersUIDGet(params *V1UsersUIDGetParams) (*V1UsersUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -33132,9 +33240,9 @@ func (a *Client) V1UsersUIDGet(params *V1UsersUIDGetParams) (*V1UsersUIDGetOK, e
 }
 
 /*
-V1UsersUIDPasswordChange users password change request using the user uid
+  V1UsersUIDPasswordChange users password change request using the user uid
 
-User password change request via current password
+  User password change request via current password
 */
 func (a *Client) V1UsersUIDPasswordChange(params *V1UsersUIDPasswordChangeParams) (*V1UsersUIDPasswordChangeNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33168,9 +33276,9 @@ func (a *Client) V1UsersUIDPasswordChange(params *V1UsersUIDPasswordChangeParams
 }
 
 /*
-V1UsersUIDPasswordReset users password reset request using the user uid
+  V1UsersUIDPasswordReset users password reset request using the user uid
 
-User password reset request, will send the password reset option through the emailId
+  User password reset request, will send the password reset option through the emailId
 */
 func (a *Client) V1UsersUIDPasswordReset(params *V1UsersUIDPasswordResetParams) (*V1UsersUIDPasswordResetNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33204,9 +33312,9 @@ func (a *Client) V1UsersUIDPasswordReset(params *V1UsersUIDPasswordResetParams) 
 }
 
 /*
-V1UsersUIDPatch patches the specified user
+  V1UsersUIDPatch patches the specified user
 
-User is patched for the specified information
+  User is patched for the specified information
 */
 func (a *Client) V1UsersUIDPatch(params *V1UsersUIDPatchParams) (*V1UsersUIDPatchNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33240,9 +33348,9 @@ func (a *Client) V1UsersUIDPatch(params *V1UsersUIDPatchParams) (*V1UsersUIDPatc
 }
 
 /*
-V1UsersUIDResourceRoles returns the specified individual and resource roles for a user
+  V1UsersUIDResourceRoles returns the specified individual and resource roles for a user
 
-Returns resource roles for user
+  Returns resource roles for user
 */
 func (a *Client) V1UsersUIDResourceRoles(params *V1UsersUIDResourceRolesParams) (*V1UsersUIDResourceRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -33276,9 +33384,9 @@ func (a *Client) V1UsersUIDResourceRoles(params *V1UsersUIDResourceRolesParams) 
 }
 
 /*
-V1UsersUIDResourceRolesCreate adds resource roles for user
+  V1UsersUIDResourceRolesCreate adds resource roles for user
 
-Resource roles added to specific user
+  Resource roles added to specific user
 */
 func (a *Client) V1UsersUIDResourceRolesCreate(params *V1UsersUIDResourceRolesCreateParams) (*V1UsersUIDResourceRolesCreateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33312,7 +33420,7 @@ func (a *Client) V1UsersUIDResourceRolesCreate(params *V1UsersUIDResourceRolesCr
 }
 
 /*
-V1UsersUIDResourceRolesUIDDelete deleteds the resource roles from user
+  V1UsersUIDResourceRolesUIDDelete deleteds the resource roles from user
 */
 func (a *Client) V1UsersUIDResourceRolesUIDDelete(params *V1UsersUIDResourceRolesUIDDeleteParams) (*V1UsersUIDResourceRolesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33346,9 +33454,9 @@ func (a *Client) V1UsersUIDResourceRolesUIDDelete(params *V1UsersUIDResourceRole
 }
 
 /*
-V1UsersUIDRoles returns the specified individual and team roles for a user
+  V1UsersUIDRoles returns the specified individual and team roles for a user
 
-Returns roles clubbed from team
+  Returns roles clubbed from team
 */
 func (a *Client) V1UsersUIDRoles(params *V1UsersUIDRolesParams) (*V1UsersUIDRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -33382,9 +33490,9 @@ func (a *Client) V1UsersUIDRoles(params *V1UsersUIDRolesParams) (*V1UsersUIDRole
 }
 
 /*
-V1UsersUIDRolesUpdate updates the roles for user
+  V1UsersUIDRolesUpdate updates the roles for user
 
-User is updated with roles
+  User is updated with roles
 */
 func (a *Client) V1UsersUIDRolesUpdate(params *V1UsersUIDRolesUpdateParams) (*V1UsersUIDRolesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33418,9 +33526,9 @@ func (a *Client) V1UsersUIDRolesUpdate(params *V1UsersUIDRolesUpdateParams) (*V1
 }
 
 /*
-V1UsersUIDUpdate updates user
+  V1UsersUIDUpdate updates user
 
-A user is created for the given user context
+  A user is created for the given user context
 */
 func (a *Client) V1UsersUIDUpdate(params *V1UsersUIDUpdateParams) (*V1UsersUIDUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33454,9 +33562,9 @@ func (a *Client) V1UsersUIDUpdate(params *V1UsersUIDUpdateParams) (*V1UsersUIDUp
 }
 
 /*
-V1UsersWorkspaceGetRoles returns the specified user workspaces and roles information
+  V1UsersWorkspaceGetRoles returns the specified user workspaces and roles information
 
-Returns a User with workspaces and roles
+  Returns a User with workspaces and roles
 */
 func (a *Client) V1UsersWorkspaceGetRoles(params *V1UsersWorkspaceGetRolesParams) (*V1UsersWorkspaceGetRolesOK, error) {
 	// TODO: Validate the params before sending
@@ -33490,9 +33598,9 @@ func (a *Client) V1UsersWorkspaceGetRoles(params *V1UsersWorkspaceGetRolesParams
 }
 
 /*
-V1UsersWorkspaceRolesPut updates the workspace roles for user
+  V1UsersWorkspaceRolesPut updates the workspace roles for user
 
-User is updated with workspace roles
+  User is updated with workspace roles
 */
 func (a *Client) V1UsersWorkspaceRolesPut(params *V1UsersWorkspaceRolesPutParams) (*V1UsersWorkspaceRolesPutNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33526,7 +33634,7 @@ func (a *Client) V1UsersWorkspaceRolesPut(params *V1UsersWorkspaceRolesPutParams
 }
 
 /*
-V1VMSnapshotCreate creates snapshot of virtual machine
+  V1VMSnapshotCreate creates snapshot of virtual machine
 */
 func (a *Client) V1VMSnapshotCreate(params *V1VMSnapshotCreateParams) (*V1VMSnapshotCreateOK, error) {
 	// TODO: Validate the params before sending
@@ -33560,7 +33668,7 @@ func (a *Client) V1VMSnapshotCreate(params *V1VMSnapshotCreateParams) (*V1VMSnap
 }
 
 /*
-V1VMSnapshotDelete deletes the snapshot of virtual machine
+  V1VMSnapshotDelete deletes the snapshot of virtual machine
 */
 func (a *Client) V1VMSnapshotDelete(params *V1VMSnapshotDeleteParams) (*V1VMSnapshotDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33594,7 +33702,7 @@ func (a *Client) V1VMSnapshotDelete(params *V1VMSnapshotDeleteParams) (*V1VMSnap
 }
 
 /*
-V1VMSnapshotGet gets virtual machine snapshot
+  V1VMSnapshotGet gets virtual machine snapshot
 */
 func (a *Client) V1VMSnapshotGet(params *V1VMSnapshotGetParams) (*V1VMSnapshotGetOK, error) {
 	// TODO: Validate the params before sending
@@ -33628,7 +33736,7 @@ func (a *Client) V1VMSnapshotGet(params *V1VMSnapshotGetParams) (*V1VMSnapshotGe
 }
 
 /*
-V1VMSnapshotUpdate updates the specified snapshot of a virtual machine
+  V1VMSnapshotUpdate updates the specified snapshot of a virtual machine
 */
 func (a *Client) V1VMSnapshotUpdate(params *V1VMSnapshotUpdateParams) (*V1VMSnapshotUpdateOK, error) {
 	// TODO: Validate the params before sending
@@ -33662,7 +33770,7 @@ func (a *Client) V1VMSnapshotUpdate(params *V1VMSnapshotUpdateParams) (*V1VMSnap
 }
 
 /*
-V1VirtualClustersPacksValues gets the cluster pack values yaml
+  V1VirtualClustersPacksValues gets the cluster pack values yaml
 */
 func (a *Client) V1VirtualClustersPacksValues(params *V1VirtualClustersPacksValuesParams) (*V1VirtualClustersPacksValuesOK, error) {
 	// TODO: Validate the params before sending
@@ -33696,7 +33804,7 @@ func (a *Client) V1VirtualClustersPacksValues(params *V1VirtualClustersPacksValu
 }
 
 /*
-V1VsphereAccountsUIDClusterRes gets the v sphere computecluster resources for the given overlord account
+  V1VsphereAccountsUIDClusterRes gets the v sphere computecluster resources for the given overlord account
 */
 func (a *Client) V1VsphereAccountsUIDClusterRes(params *V1VsphereAccountsUIDClusterResParams) (*V1VsphereAccountsUIDClusterResOK, error) {
 	// TODO: Validate the params before sending
@@ -33730,7 +33838,7 @@ func (a *Client) V1VsphereAccountsUIDClusterRes(params *V1VsphereAccountsUIDClus
 }
 
 /*
-V1VsphereAccountsUIDDatacenters gets the v sphere datacenters and datacluster for the given overlord account
+  V1VsphereAccountsUIDDatacenters gets the v sphere datacenters and datacluster for the given overlord account
 */
 func (a *Client) V1VsphereAccountsUIDDatacenters(params *V1VsphereAccountsUIDDatacentersParams) (*V1VsphereAccountsUIDDatacentersOK, error) {
 	// TODO: Validate the params before sending
@@ -33764,7 +33872,7 @@ func (a *Client) V1VsphereAccountsUIDDatacenters(params *V1VsphereAccountsUIDDat
 }
 
 /*
-V1VsphereDNSMappingCreate creates a v sphere DNS mapping
+  V1VsphereDNSMappingCreate creates a v sphere DNS mapping
 */
 func (a *Client) V1VsphereDNSMappingCreate(params *V1VsphereDNSMappingCreateParams) (*V1VsphereDNSMappingCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -33798,7 +33906,7 @@ func (a *Client) V1VsphereDNSMappingCreate(params *V1VsphereDNSMappingCreatePara
 }
 
 /*
-V1VsphereDNSMappingDelete deletes the specified v sphere DNS mapping
+  V1VsphereDNSMappingDelete deletes the specified v sphere DNS mapping
 */
 func (a *Client) V1VsphereDNSMappingDelete(params *V1VsphereDNSMappingDeleteParams) (*V1VsphereDNSMappingDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33832,7 +33940,7 @@ func (a *Client) V1VsphereDNSMappingDelete(params *V1VsphereDNSMappingDeletePara
 }
 
 /*
-V1VsphereDNSMappingGet returns the specified v sphere DNS mapping
+  V1VsphereDNSMappingGet returns the specified v sphere DNS mapping
 */
 func (a *Client) V1VsphereDNSMappingGet(params *V1VsphereDNSMappingGetParams) (*V1VsphereDNSMappingGetOK, error) {
 	// TODO: Validate the params before sending
@@ -33866,7 +33974,7 @@ func (a *Client) V1VsphereDNSMappingGet(params *V1VsphereDNSMappingGetParams) (*
 }
 
 /*
-V1VsphereDNSMappingUpdate updates the specified v sphere DNS mapping
+  V1VsphereDNSMappingUpdate updates the specified v sphere DNS mapping
 */
 func (a *Client) V1VsphereDNSMappingUpdate(params *V1VsphereDNSMappingUpdateParams) (*V1VsphereDNSMappingUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -33900,7 +34008,7 @@ func (a *Client) V1VsphereDNSMappingUpdate(params *V1VsphereDNSMappingUpdatePara
 }
 
 /*
-V1VsphereDNSMappingsGet returns the specified v sphere DNS mappings
+  V1VsphereDNSMappingsGet returns the specified v sphere DNS mappings
 */
 func (a *Client) V1VsphereDNSMappingsGet(params *V1VsphereDNSMappingsGetParams) (*V1VsphereDNSMappingsGetOK, error) {
 	// TODO: Validate the params before sending
@@ -33934,7 +34042,7 @@ func (a *Client) V1VsphereDNSMappingsGet(params *V1VsphereDNSMappingsGetParams) 
 }
 
 /*
-V1VsphereMappingGet returns the specified v sphere DNS mapping
+  V1VsphereMappingGet returns the specified v sphere DNS mapping
 */
 func (a *Client) V1VsphereMappingGet(params *V1VsphereMappingGetParams) (*V1VsphereMappingGetOK, error) {
 	// TODO: Validate the params before sending
@@ -33968,7 +34076,7 @@ func (a *Client) V1VsphereMappingGet(params *V1VsphereMappingGetParams) (*V1Vsph
 }
 
 /*
-V1WorkspaceOpsBackupCreate creates workspace backup settings
+  V1WorkspaceOpsBackupCreate creates workspace backup settings
 */
 func (a *Client) V1WorkspaceOpsBackupCreate(params *V1WorkspaceOpsBackupCreateParams) (*V1WorkspaceOpsBackupCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -34002,7 +34110,7 @@ func (a *Client) V1WorkspaceOpsBackupCreate(params *V1WorkspaceOpsBackupCreatePa
 }
 
 /*
-V1WorkspaceOpsBackupDelete deletes workspace backup
+  V1WorkspaceOpsBackupDelete deletes workspace backup
 */
 func (a *Client) V1WorkspaceOpsBackupDelete(params *V1WorkspaceOpsBackupDeleteParams) (*V1WorkspaceOpsBackupDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34036,7 +34144,7 @@ func (a *Client) V1WorkspaceOpsBackupDelete(params *V1WorkspaceOpsBackupDeletePa
 }
 
 /*
-V1WorkspaceOpsBackupGet returns the workspace backup result
+  V1WorkspaceOpsBackupGet returns the workspace backup result
 */
 func (a *Client) V1WorkspaceOpsBackupGet(params *V1WorkspaceOpsBackupGetParams) (*V1WorkspaceOpsBackupGetOK, error) {
 	// TODO: Validate the params before sending
@@ -34070,7 +34178,7 @@ func (a *Client) V1WorkspaceOpsBackupGet(params *V1WorkspaceOpsBackupGetParams) 
 }
 
 /*
-V1WorkspaceOpsBackupOnDemandCreate creates on demand workspace backup
+  V1WorkspaceOpsBackupOnDemandCreate creates on demand workspace backup
 */
 func (a *Client) V1WorkspaceOpsBackupOnDemandCreate(params *V1WorkspaceOpsBackupOnDemandCreateParams) (*V1WorkspaceOpsBackupOnDemandCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -34104,7 +34212,7 @@ func (a *Client) V1WorkspaceOpsBackupOnDemandCreate(params *V1WorkspaceOpsBackup
 }
 
 /*
-V1WorkspaceOpsBackupUpdate updates workspace backup settings
+  V1WorkspaceOpsBackupUpdate updates workspace backup settings
 */
 func (a *Client) V1WorkspaceOpsBackupUpdate(params *V1WorkspaceOpsBackupUpdateParams) (*V1WorkspaceOpsBackupUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34138,7 +34246,7 @@ func (a *Client) V1WorkspaceOpsBackupUpdate(params *V1WorkspaceOpsBackupUpdatePa
 }
 
 /*
-V1WorkspaceOpsRestoreGet returns the workspace restore result
+  V1WorkspaceOpsRestoreGet returns the workspace restore result
 */
 func (a *Client) V1WorkspaceOpsRestoreGet(params *V1WorkspaceOpsRestoreGetParams) (*V1WorkspaceOpsRestoreGetOK, error) {
 	// TODO: Validate the params before sending
@@ -34172,7 +34280,7 @@ func (a *Client) V1WorkspaceOpsRestoreGet(params *V1WorkspaceOpsRestoreGetParams
 }
 
 /*
-V1WorkspaceOpsRestoreOnDemandCreate creates on demand workspace restore
+  V1WorkspaceOpsRestoreOnDemandCreate creates on demand workspace restore
 */
 func (a *Client) V1WorkspaceOpsRestoreOnDemandCreate(params *V1WorkspaceOpsRestoreOnDemandCreateParams) (*V1WorkspaceOpsRestoreOnDemandCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -34206,7 +34314,7 @@ func (a *Client) V1WorkspaceOpsRestoreOnDemandCreate(params *V1WorkspaceOpsResto
 }
 
 /*
-V1WorkspacesClusterRbacCreate creates cluster rbac in workspace
+  V1WorkspacesClusterRbacCreate creates cluster rbac in workspace
 */
 func (a *Client) V1WorkspacesClusterRbacCreate(params *V1WorkspacesClusterRbacCreateParams) (*V1WorkspacesClusterRbacCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -34240,7 +34348,7 @@ func (a *Client) V1WorkspacesClusterRbacCreate(params *V1WorkspacesClusterRbacCr
 }
 
 /*
-V1WorkspacesCreate creates workspace
+  V1WorkspacesCreate creates workspace
 */
 func (a *Client) V1WorkspacesCreate(params *V1WorkspacesCreateParams) (*V1WorkspacesCreateCreated, error) {
 	// TODO: Validate the params before sending
@@ -34274,7 +34382,7 @@ func (a *Client) V1WorkspacesCreate(params *V1WorkspacesCreateParams) (*V1Worksp
 }
 
 /*
-V1WorkspacesUIDClusterNamespacesUpdate updates the specified workspace namespaces
+  V1WorkspacesUIDClusterNamespacesUpdate updates the specified workspace namespaces
 */
 func (a *Client) V1WorkspacesUIDClusterNamespacesUpdate(params *V1WorkspacesUIDClusterNamespacesUpdateParams) (*V1WorkspacesUIDClusterNamespacesUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34308,7 +34416,7 @@ func (a *Client) V1WorkspacesUIDClusterNamespacesUpdate(params *V1WorkspacesUIDC
 }
 
 /*
-V1WorkspacesUIDClusterRbacDelete deletes the specified workspace cluster rbac
+  V1WorkspacesUIDClusterRbacDelete deletes the specified workspace cluster rbac
 */
 func (a *Client) V1WorkspacesUIDClusterRbacDelete(params *V1WorkspacesUIDClusterRbacDeleteParams) (*V1WorkspacesUIDClusterRbacDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34342,7 +34450,7 @@ func (a *Client) V1WorkspacesUIDClusterRbacDelete(params *V1WorkspacesUIDCluster
 }
 
 /*
-V1WorkspacesUIDClusterRbacUpdate updates the specified workspace cluster rbac
+  V1WorkspacesUIDClusterRbacUpdate updates the specified workspace cluster rbac
 */
 func (a *Client) V1WorkspacesUIDClusterRbacUpdate(params *V1WorkspacesUIDClusterRbacUpdateParams) (*V1WorkspacesUIDClusterRbacUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34376,7 +34484,7 @@ func (a *Client) V1WorkspacesUIDClusterRbacUpdate(params *V1WorkspacesUIDCluster
 }
 
 /*
-V1WorkspacesUIDDelete deletes the specified workspace
+  V1WorkspacesUIDDelete deletes the specified workspace
 */
 func (a *Client) V1WorkspacesUIDDelete(params *V1WorkspacesUIDDeleteParams) (*V1WorkspacesUIDDeleteNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34410,7 +34518,7 @@ func (a *Client) V1WorkspacesUIDDelete(params *V1WorkspacesUIDDeleteParams) (*V1
 }
 
 /*
-V1WorkspacesUIDGet returns the specified workspace
+  V1WorkspacesUIDGet returns the specified workspace
 */
 func (a *Client) V1WorkspacesUIDGet(params *V1WorkspacesUIDGetParams) (*V1WorkspacesUIDGetOK, error) {
 	// TODO: Validate the params before sending
@@ -34444,7 +34552,7 @@ func (a *Client) V1WorkspacesUIDGet(params *V1WorkspacesUIDGetParams) (*V1Worksp
 }
 
 /*
-V1WorkspacesUIDMetaUpdate updates the specified workspace meta
+  V1WorkspacesUIDMetaUpdate updates the specified workspace meta
 */
 func (a *Client) V1WorkspacesUIDMetaUpdate(params *V1WorkspacesUIDMetaUpdateParams) (*V1WorkspacesUIDMetaUpdateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -34478,7 +34586,7 @@ func (a *Client) V1WorkspacesUIDMetaUpdate(params *V1WorkspacesUIDMetaUpdatePara
 }
 
 /*
-V1WorkspacesValidateName validates the workspace name
+  V1WorkspacesValidateName validates the workspace name
 */
 func (a *Client) V1WorkspacesValidateName(params *V1WorkspacesValidateNameParams) (*V1WorkspacesValidateNameNoContent, error) {
 	// TODO: Validate the params before sending

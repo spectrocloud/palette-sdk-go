@@ -55,8 +55,7 @@ func NewV1OverlordsUIDVsphereDatacentersParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1OverlordsUIDVsphereDatacentersParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDVsphereDatacentersParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid vsphere datacenters operation typically these are written to a http.Request
 */
 type V1OverlordsUIDVsphereDatacentersParams struct {

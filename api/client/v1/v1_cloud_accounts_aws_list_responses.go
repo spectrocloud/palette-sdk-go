@@ -40,8 +40,7 @@ func NewV1CloudAccountsAwsListOK() *V1CloudAccountsAwsListOK {
 	return &V1CloudAccountsAwsListOK{}
 }
 
-/*
-V1CloudAccountsAwsListOK handles this case with default header values.
+/*V1CloudAccountsAwsListOK handles this case with default header values.
 
 An array of cloud account items
 */

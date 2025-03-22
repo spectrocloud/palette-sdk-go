@@ -37,8 +37,7 @@ func NewV1SpectroClustersValidateNameNoContent() *V1SpectroClustersValidateNameN
 	return &V1SpectroClustersValidateNameNoContent{}
 }
 
-/*
-V1SpectroClustersValidateNameNoContent handles this case with default header values.
+/*V1SpectroClustersValidateNameNoContent handles this case with default header values.
 
 Ok response without content
 */

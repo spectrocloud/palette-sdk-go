@@ -55,8 +55,7 @@ func NewV1ClusterFeatureKubeHunterLogGetParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1ClusterFeatureKubeHunterLogGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureKubeHunterLogGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature kube hunter log get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureKubeHunterLogGetParams struct {

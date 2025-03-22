@@ -57,8 +57,7 @@ func NewV1EdgeTokensUIDUpdateParamsWithHTTPClient(client *http.Client) *V1EdgeTo
 	}
 }
 
-/*
-V1EdgeTokensUIDUpdateParams contains all the parameters to send to the API endpoint
+/*V1EdgeTokensUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge tokens Uid update operation typically these are written to a http.Request
 */
 type V1EdgeTokensUIDUpdateParams struct {

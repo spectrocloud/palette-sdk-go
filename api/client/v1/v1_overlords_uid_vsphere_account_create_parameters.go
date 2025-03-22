@@ -57,8 +57,7 @@ func NewV1OverlordsUIDVsphereAccountCreateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1OverlordsUIDVsphereAccountCreateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDVsphereAccountCreateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid vsphere account create operation typically these are written to a http.Request
 */
 type V1OverlordsUIDVsphereAccountCreateParams struct {

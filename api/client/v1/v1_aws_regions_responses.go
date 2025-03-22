@@ -40,8 +40,7 @@ func NewV1AwsRegionsOK() *V1AwsRegionsOK {
 	return &V1AwsRegionsOK{}
 }
 
-/*
-V1AwsRegionsOK handles this case with default header values.
+/*V1AwsRegionsOK handles this case with default header values.
 
 (empty)
 */

@@ -37,8 +37,7 @@ func NewV1CloudAccountsOpenStackUpdateNoContent() *V1CloudAccountsOpenStackUpdat
 	return &V1CloudAccountsOpenStackUpdateNoContent{}
 }
 
-/*
-V1CloudAccountsOpenStackUpdateNoContent handles this case with default header values.
+/*V1CloudAccountsOpenStackUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

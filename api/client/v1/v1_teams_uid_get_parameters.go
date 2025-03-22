@@ -55,8 +55,7 @@ func NewV1TeamsUIDGetParamsWithHTTPClient(client *http.Client) *V1TeamsUIDGetPar
 	}
 }
 
-/*
-V1TeamsUIDGetParams contains all the parameters to send to the API endpoint
+/*V1TeamsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid get operation typically these are written to a http.Request
 */
 type V1TeamsUIDGetParams struct {

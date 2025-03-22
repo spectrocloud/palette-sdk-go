@@ -40,8 +40,7 @@ func NewV1SpectroClustersFiltersWorkspaceOK() *V1SpectroClustersFiltersWorkspace
 	return &V1SpectroClustersFiltersWorkspaceOK{}
 }
 
-/*
-V1SpectroClustersFiltersWorkspaceOK handles this case with default header values.
+/*V1SpectroClustersFiltersWorkspaceOK handles this case with default header values.
 
 An array of cluster summary items
 */

@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDImportUpgradePatchNoContent() *V1SpectroClustersUIDI
 	return &V1SpectroClustersUIDImportUpgradePatchNoContent{}
 }
 
-/*
-V1SpectroClustersUIDImportUpgradePatchNoContent handles this case with default header values.
+/*V1SpectroClustersUIDImportUpgradePatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

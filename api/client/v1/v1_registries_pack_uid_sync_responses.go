@@ -37,8 +37,7 @@ func NewV1RegistriesPackUIDSyncAccepted() *V1RegistriesPackUIDSyncAccepted {
 	return &V1RegistriesPackUIDSyncAccepted{}
 }
 
-/*
-V1RegistriesPackUIDSyncAccepted handles this case with default header values.
+/*V1RegistriesPackUIDSyncAccepted handles this case with default header values.
 
 Ok response without content
 */

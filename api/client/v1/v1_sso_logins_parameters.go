@@ -55,8 +55,7 @@ func NewV1SsoLoginsParamsWithHTTPClient(client *http.Client) *V1SsoLoginsParams 
 	}
 }
 
-/*
-V1SsoLoginsParams contains all the parameters to send to the API endpoint
+/*V1SsoLoginsParams contains all the parameters to send to the API endpoint
 for the v1 sso logins operation typically these are written to a http.Request
 */
 type V1SsoLoginsParams struct {

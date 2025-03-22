@@ -40,8 +40,7 @@ func NewV1AzureRegionsOK() *V1AzureRegionsOK {
 	return &V1AzureRegionsOK{}
 }
 
-/*
-V1AzureRegionsOK handles this case with default header values.
+/*V1AzureRegionsOK handles this case with default header values.
 
 (empty)
 */

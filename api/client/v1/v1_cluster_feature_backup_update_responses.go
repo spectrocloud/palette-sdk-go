@@ -37,8 +37,7 @@ func NewV1ClusterFeatureBackupUpdateNoContent() *V1ClusterFeatureBackupUpdateNoC
 	return &V1ClusterFeatureBackupUpdateNoContent{}
 }
 
-/*
-V1ClusterFeatureBackupUpdateNoContent handles this case with default header values.
+/*V1ClusterFeatureBackupUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

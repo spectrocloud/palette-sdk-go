@@ -57,8 +57,7 @@ func NewV1EdgeHostDevicesUIDProfilesUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1EdgeHostDevicesUIDProfilesUpdateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesUIDProfilesUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid profiles update operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDProfilesUpdateParams struct {

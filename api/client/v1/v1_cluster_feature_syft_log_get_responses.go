@@ -40,8 +40,7 @@ func NewV1ClusterFeatureSyftLogGetOK() *V1ClusterFeatureSyftLogGetOK {
 	return &V1ClusterFeatureSyftLogGetOK{}
 }
 
-/*
-V1ClusterFeatureSyftLogGetOK handles this case with default header values.
+/*V1ClusterFeatureSyftLogGetOK handles this case with default header values.
 
 OK
 */

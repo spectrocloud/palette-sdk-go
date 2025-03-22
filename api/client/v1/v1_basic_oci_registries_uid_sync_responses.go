@@ -37,8 +37,7 @@ func NewV1BasicOciRegistriesUIDSyncAccepted() *V1BasicOciRegistriesUIDSyncAccept
 	return &V1BasicOciRegistriesUIDSyncAccepted{}
 }
 
-/*
-V1BasicOciRegistriesUIDSyncAccepted handles this case with default header values.
+/*V1BasicOciRegistriesUIDSyncAccepted handles this case with default header values.
 
 Ok response without content
 */

@@ -37,8 +37,7 @@ func NewV1TenantDeveloperCreditUpdateNoContent() *V1TenantDeveloperCreditUpdateN
 	return &V1TenantDeveloperCreditUpdateNoContent{}
 }
 
-/*
-V1TenantDeveloperCreditUpdateNoContent handles this case with default header values.
+/*V1TenantDeveloperCreditUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

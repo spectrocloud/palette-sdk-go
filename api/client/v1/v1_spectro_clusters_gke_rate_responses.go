@@ -40,8 +40,7 @@ func NewV1SpectroClustersGkeRateOK() *V1SpectroClustersGkeRateOK {
 	return &V1SpectroClustersGkeRateOK{}
 }
 
-/*
-V1SpectroClustersGkeRateOK handles this case with default header values.
+/*V1SpectroClustersGkeRateOK handles this case with default header values.
 
 Gke Cluster estimated rate response
 */

@@ -40,8 +40,7 @@ func NewV1ClusterProfilesValidatePacksOK() *V1ClusterProfilesValidatePacksOK {
 	return &V1ClusterProfilesValidatePacksOK{}
 }
 
-/*
-V1ClusterProfilesValidatePacksOK handles this case with default header values.
+/*V1ClusterProfilesValidatePacksOK handles this case with default header values.
 
 Cluster profile packs validation response
 */

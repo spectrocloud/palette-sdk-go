@@ -55,8 +55,7 @@ func NewV1WorkspacesValidateNameParamsWithHTTPClient(client *http.Client) *V1Wor
 	}
 }
 
-/*
-V1WorkspacesValidateNameParams contains all the parameters to send to the API endpoint
+/*V1WorkspacesValidateNameParams contains all the parameters to send to the API endpoint
 for the v1 workspaces validate name operation typically these are written to a http.Request
 */
 type V1WorkspacesValidateNameParams struct {

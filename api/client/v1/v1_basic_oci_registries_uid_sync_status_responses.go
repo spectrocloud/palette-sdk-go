@@ -40,8 +40,7 @@ func NewV1BasicOciRegistriesUIDSyncStatusOK() *V1BasicOciRegistriesUIDSyncStatus
 	return &V1BasicOciRegistriesUIDSyncStatusOK{}
 }
 
-/*
-V1BasicOciRegistriesUIDSyncStatusOK handles this case with default header values.
+/*V1BasicOciRegistriesUIDSyncStatusOK handles this case with default header values.
 
 Oci registry sync status
 */

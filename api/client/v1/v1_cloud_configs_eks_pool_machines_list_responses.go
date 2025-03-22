@@ -40,8 +40,7 @@ func NewV1CloudConfigsEksPoolMachinesListOK() *V1CloudConfigsEksPoolMachinesList
 	return &V1CloudConfigsEksPoolMachinesListOK{}
 }
 
-/*
-V1CloudConfigsEksPoolMachinesListOK handles this case with default header values.
+/*V1CloudConfigsEksPoolMachinesListOK handles this case with default header values.
 
 An array of EKS machine items
 */

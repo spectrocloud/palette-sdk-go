@@ -40,8 +40,7 @@ func NewV1SpectroClustersEksRateOK() *V1SpectroClustersEksRateOK {
 	return &V1SpectroClustersEksRateOK{}
 }
 
-/*
-V1SpectroClustersEksRateOK handles this case with default header values.
+/*V1SpectroClustersEksRateOK handles this case with default header values.
 
 Eks Cluster estimated rate response
 */

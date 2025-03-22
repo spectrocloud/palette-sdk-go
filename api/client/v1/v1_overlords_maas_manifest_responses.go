@@ -40,8 +40,7 @@ func NewV1OverlordsMaasManifestOK() *V1OverlordsMaasManifestOK {
 	return &V1OverlordsMaasManifestOK{}
 }
 
-/*
-V1OverlordsMaasManifestOK handles this case with default header values.
+/*V1OverlordsMaasManifestOK handles this case with default header values.
 
 (empty)
 */

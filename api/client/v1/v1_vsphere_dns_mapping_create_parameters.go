@@ -57,8 +57,7 @@ func NewV1VsphereDNSMappingCreateParamsWithHTTPClient(client *http.Client) *V1Vs
 	}
 }
 
-/*
-V1VsphereDNSMappingCreateParams contains all the parameters to send to the API endpoint
+/*V1VsphereDNSMappingCreateParams contains all the parameters to send to the API endpoint
 for the v1 vsphere Dns mapping create operation typically these are written to a http.Request
 */
 type V1VsphereDNSMappingCreateParams struct {

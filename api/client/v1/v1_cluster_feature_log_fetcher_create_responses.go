@@ -40,8 +40,7 @@ func NewV1ClusterFeatureLogFetcherCreateCreated() *V1ClusterFeatureLogFetcherCre
 	return &V1ClusterFeatureLogFetcherCreateCreated{}
 }
 
-/*
-V1ClusterFeatureLogFetcherCreateCreated handles this case with default header values.
+/*V1ClusterFeatureLogFetcherCreateCreated handles this case with default header values.
 
 Created successfully
 */

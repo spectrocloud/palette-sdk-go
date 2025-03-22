@@ -40,8 +40,7 @@ func NewV1DashboardSpectroClustersUIDWorkloadsDaemonSetOK() *V1DashboardSpectroC
 	return &V1DashboardSpectroClustersUIDWorkloadsDaemonSetOK{}
 }
 
-/*
-V1DashboardSpectroClustersUIDWorkloadsDaemonSetOK handles this case with default header values.
+/*V1DashboardSpectroClustersUIDWorkloadsDaemonSetOK handles this case with default header values.
 
 An array of cluster workload daemonsets
 */

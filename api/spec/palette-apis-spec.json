@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.4",
+    "title": "Palette APIs - 4.6",
     "version": "v1"
   },
   "paths": {
@@ -14466,7 +14466,6 @@
         "parameters": [
           {
             "enum": [
-              "libvirt",
               "edge-native",
               "vsphere"
             ],
@@ -14784,6 +14783,31 @@
         }
       ]
     },
+    "/v1/edgehosts/{uid}/config": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the specified edge host device configuration",
+        "operationId": "v1EdgeHostDevicesUidConfigGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1EdgeHostConfig"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/edgehosts/{uid}/health": {
       "patch": {
         "tags": [
@@ -15084,6 +15108,68 @@
                 "type": "string"
               }
             }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/edgehosts/{uid}/tunnelConfig": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified edge host device tunnel configuration",
+        "operationId": "v1EdgeHostDevicesUidTunnelConfigUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroTunnelConfig"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/edgehosts/{uid}/tunnelStatus": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the edge host tunnel status",
+        "operationId": "v1EdgeHostDevicesUidTunnelStatusUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroTunnelStatus"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
           }
         }
       },
@@ -20959,7 +21045,8 @@
           {
             "enum": [
               "k3s",
-              "cncf_k8s"
+              "cncf_k8s",
+              "vcluster-generic"
             ],
             "type": "string",
             "default": "k3s",
@@ -34643,6 +34730,9 @@
           "type": "integer",
           "x-omitempty": false
         },
+        "kubernetesDistroType": {
+          "$ref": "#/definitions/v1ClusterKubernetesDistroType"
+        },
         "memory": {
           "description": "Deprecated",
           "$ref": "#/definitions/v1ClusterGroupResource"
@@ -34827,7 +34917,8 @@
       "default": "k3s",
       "enum": [
         "k3s",
-        "cncf_k8s"
+        "cncf_k8s",
+        "vcluster-generic"
       ]
     },
     "v1ClusterLocation": {
@@ -38475,6 +38566,20 @@
         }
       }
     },
+    "v1EdgeHostConfig": {
+      "type": "object",
+      "properties": {
+        "clusterUids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tunnelConfig": {
+          "$ref": "#/definitions/v1SpectroTunnelConfig"
+        }
+      }
+    },
     "v1EdgeHostDevice": {
       "properties": {
         "aclmeta": {
@@ -38554,11 +38659,13 @@
         "service": {
           "$ref": "#/definitions/v1ServiceSpec"
         },
+        "tunnelConfig": {
+          "$ref": "#/definitions/v1SpectroTunnelConfig"
+        },
         "type": {
           "description": "Deprecated. Cloudtype of the provisioned edge host",
           "type": "string",
           "enum": [
-            "libvirt",
             "vsphere",
             "edge-native"
           ]
@@ -38578,6 +38685,9 @@
         "hostPairingKey": {
           "type": "string",
           "format": "password"
+        },
+        "tunnelConfig": {
+          "$ref": "#/definitions/v1SpectroTunnelConfig"
         }
       }
     },
@@ -38620,6 +38730,9 @@
             "unpaired",
             "in-use"
           ]
+        },
+        "tunnelStatus": {
+          "$ref": "#/definitions/v1SpectroTunnelStatus"
         }
       }
     },
@@ -38688,7 +38801,6 @@
         "edgeHostType": {
           "type": "string",
           "enum": [
-            "libvirt",
             "edge-native",
             "vsphere"
           ]
@@ -48309,9 +48421,6 @@
         "generic": {
           "$ref": "#/definitions/v1PrivateCloudRateConfig"
         },
-        "libvirt": {
-          "$ref": "#/definitions/v1PrivateCloudRateConfig"
-        },
         "maas": {
           "$ref": "#/definitions/v1PrivateCloudRateConfig"
         },
@@ -49704,6 +49813,11 @@
         "hideDisplay": {
           "type": "boolean",
           "x-order": 1
+        },
+        "isDeprecated": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "x-order": 11
         },
         "maxFloatVal": {
           "type": "number",
@@ -52278,6 +52392,40 @@
         }
       }
     },
+    "v1SpectroTunnelConfig": {
+      "description": "Spectro tunnel configuration",
+      "type": "object",
+      "properties": {
+        "remoteSsh": {
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": false
+        },
+        "remoteSshTempUser": {
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SpectroTunnelStatus": {
+      "description": "SpectroTunnelStatus is the status of the tunnel",
+      "type": "object",
+      "properties": {
+        "ssh": {
+          "description": "SshStatus is the status of the ssh tunnel",
+          "$ref": "#/definitions/v1SshTunnelStatus"
+        }
+      }
+    },
     "v1SpectroVirtualClusterEntity": {
       "description": "Spectro virtual cluster request payload for create and update",
       "type": "object",
@@ -52414,6 +52562,77 @@
         "maxPrice": {
           "description": "MaxPrice defines the maximum price the user is willing to pay for Spot VM instances",
           "type": "string"
+        }
+      }
+    },
+    "v1SshTunnelStatus": {
+      "type": "object",
+      "properties": {
+        "lastModifiedTime": {
+          "description": "LastModifiedTime is the last modified time of the SSH tunnel",
+          "$ref": "#/definitions/v1Time"
+        },
+        "message": {
+          "description": "Message is the status message of the SSH tunnel",
+          "type": "string"
+        },
+        "state": {
+          "description": "State is the state of the SSH tunnel",
+          "type": "string",
+          "enum": [
+            "Initiating",
+            "Created",
+            "Deleting",
+            "Deleted",
+            "Failed"
+          ]
+        },
+        "user": {
+          "description": "User is the temporary user of the SSH tunnel",
+          "$ref": "#/definitions/v1SshUserStatus"
+        }
+      }
+    },
+    "v1SshUserCredentials": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "description": "Password is the temporary password of the SSH tunnel",
+          "type": "string"
+        },
+        "sshKey": {
+          "description": "SshKey is the ssh key of the SSH tunnel",
+          "type": "string"
+        },
+        "username": {
+          "description": "UserName is the temporary username of the SSH tunnel",
+          "type": "string"
+        }
+      }
+    },
+    "v1SshUserStatus": {
+      "type": "object",
+      "properties": {
+        "credentials": {
+          "description": "Credentials is the temporary user credentials of the SSH tunnel",
+          "$ref": "#/definitions/v1SshUserCredentials"
+        },
+        "lastModifiedTime": {
+          "description": "LastModifiedTime is the last modified time of the SSH tunnel",
+          "$ref": "#/definitions/v1Time"
+        },
+        "message": {
+          "description": "Message is the status message of the SSH tunnel",
+          "type": "string"
+        },
+        "state": {
+          "description": "State is the state of the SSH tunnel",
+          "type": "string",
+          "enum": [
+            "Created",
+            "Deleted",
+            "Failed"
+          ]
         }
       }
     },
@@ -53523,6 +53742,7 @@
           "x-omitempty": false
         },
         "syncSsoTeams": {
+          "description": "When syncSsoTeams is set to true, all the teams from the OIDC configuration are pulled and saved in palette whereas when set to false, only the teams which are part of palette are pulled and saved",
           "type": "boolean",
           "x-omitempty": false
         },
@@ -53661,6 +53881,7 @@
           "type": "string"
         },
         "syncSsoTeams": {
+          "description": "When syncSsoTeams is set to true, all the teams from the OIDC configuration are pulled and saved in palette whereas when set to false, only the teams which are part of palette are pulled and saved",
           "type": "boolean"
         }
       }
@@ -53725,6 +53946,7 @@
           "x-omitempty": false
         },
         "syncSsoTeams": {
+          "description": "When syncSsoTeams is set to true, all the teams from the OIDC configuration are pulled and saved in palette whereas when set to false, only the teams which are part of palette are pulled and saved",
           "type": "boolean",
           "x-omitempty": false
         }

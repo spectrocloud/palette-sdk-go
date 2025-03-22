@@ -37,8 +37,7 @@ func NewV1AppProfilesUIDMetadataUpdateNoContent() *V1AppProfilesUIDMetadataUpdat
 	return &V1AppProfilesUIDMetadataUpdateNoContent{}
 }
 
-/*
-V1AppProfilesUIDMetadataUpdateNoContent handles this case with default header values.
+/*V1AppProfilesUIDMetadataUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

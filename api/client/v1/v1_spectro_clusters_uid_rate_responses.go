@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDRateOK() *V1SpectroClustersUIDRateOK {
 	return &V1SpectroClustersUIDRateOK{}
 }
 
-/*
-V1SpectroClustersUIDRateOK handles this case with default header values.
+/*V1SpectroClustersUIDRateOK handles this case with default header values.
 
 OK
 */

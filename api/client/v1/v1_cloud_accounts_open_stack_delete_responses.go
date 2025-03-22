@@ -37,8 +37,7 @@ func NewV1CloudAccountsOpenStackDeleteNoContent() *V1CloudAccountsOpenStackDelet
 	return &V1CloudAccountsOpenStackDeleteNoContent{}
 }
 
-/*
-V1CloudAccountsOpenStackDeleteNoContent handles this case with default header values.
+/*V1CloudAccountsOpenStackDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

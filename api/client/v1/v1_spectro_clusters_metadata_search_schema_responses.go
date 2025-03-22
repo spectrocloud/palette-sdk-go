@@ -40,8 +40,7 @@ func NewV1SpectroClustersMetadataSearchSchemaOK() *V1SpectroClustersMetadataSear
 	return &V1SpectroClustersMetadataSearchSchemaOK{}
 }
 
-/*
-V1SpectroClustersMetadataSearchSchemaOK handles this case with default header values.
+/*V1SpectroClustersMetadataSearchSchemaOK handles this case with default header values.
 
 An array of cluster meta schema items
 */

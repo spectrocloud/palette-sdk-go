@@ -55,8 +55,7 @@ func NewV1DashboardAppProfilesMetadataParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1DashboardAppProfilesMetadataParams contains all the parameters to send to the API endpoint
+/*V1DashboardAppProfilesMetadataParams contains all the parameters to send to the API endpoint
 for the v1 dashboard app profiles metadata operation typically these are written to a http.Request
 */
 type V1DashboardAppProfilesMetadataParams struct {

@@ -40,8 +40,7 @@ func NewV1OverlordsUIDOpenStackClusterProfileOK() *V1OverlordsUIDOpenStackCluste
 	return &V1OverlordsUIDOpenStackClusterProfileOK{}
 }
 
-/*
-V1OverlordsUIDOpenStackClusterProfileOK handles this case with default header values.
+/*V1OverlordsUIDOpenStackClusterProfileOK handles this case with default header values.
 
 OK
 */

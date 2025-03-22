@@ -40,8 +40,7 @@ func NewV1UsersMetadataOK() *V1UsersMetadataOK {
 	return &V1UsersMetadataOK{}
 }
 
-/*
-V1UsersMetadataOK handles this case with default header values.
+/*V1UsersMetadataOK handles this case with default header values.
 
 An array of users metadata items
 */

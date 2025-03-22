@@ -40,8 +40,7 @@ func NewV1UsersAssetsLocationS3CreateCreated() *V1UsersAssetsLocationS3CreateCre
 	return &V1UsersAssetsLocationS3CreateCreated{}
 }
 
-/*
-V1UsersAssetsLocationS3CreateCreated handles this case with default header values.
+/*V1UsersAssetsLocationS3CreateCreated handles this case with default header values.
 
 Created successfully
 */

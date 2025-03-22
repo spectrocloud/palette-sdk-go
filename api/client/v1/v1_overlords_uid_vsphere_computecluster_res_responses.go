@@ -40,8 +40,7 @@ func NewV1OverlordsUIDVsphereComputeclusterResOK() *V1OverlordsUIDVsphereCompute
 	return &V1OverlordsUIDVsphereComputeclusterResOK{}
 }
 
-/*
-V1OverlordsUIDVsphereComputeclusterResOK handles this case with default header values.
+/*V1OverlordsUIDVsphereComputeclusterResOK handles this case with default header values.
 
 (empty)
 */

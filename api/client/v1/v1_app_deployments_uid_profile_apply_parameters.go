@@ -55,8 +55,7 @@ func NewV1AppDeploymentsUIDProfileApplyParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1AppDeploymentsUIDProfileApplyParams contains all the parameters to send to the API endpoint
+/*V1AppDeploymentsUIDProfileApplyParams contains all the parameters to send to the API endpoint
 for the v1 app deployments Uid profile apply operation typically these are written to a http.Request
 */
 type V1AppDeploymentsUIDProfileApplyParams struct {

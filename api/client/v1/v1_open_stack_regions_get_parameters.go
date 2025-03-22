@@ -55,8 +55,7 @@ func NewV1OpenStackRegionsGetParamsWithHTTPClient(client *http.Client) *V1OpenSt
 	}
 }
 
-/*
-V1OpenStackRegionsGetParams contains all the parameters to send to the API endpoint
+/*V1OpenStackRegionsGetParams contains all the parameters to send to the API endpoint
 for the v1 open stack regions get operation typically these are written to a http.Request
 */
 type V1OpenStackRegionsGetParams struct {

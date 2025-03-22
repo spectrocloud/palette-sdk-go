@@ -57,8 +57,7 @@ func NewV1EdgeHostDevicesUIDClusterAssociateParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1EdgeHostDevicesUIDClusterAssociateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesUIDClusterAssociateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid cluster associate operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDClusterAssociateParams struct {

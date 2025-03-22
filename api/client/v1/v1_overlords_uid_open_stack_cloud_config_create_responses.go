@@ -40,8 +40,7 @@ func NewV1OverlordsUIDOpenStackCloudConfigCreateCreated() *V1OverlordsUIDOpenSta
 	return &V1OverlordsUIDOpenStackCloudConfigCreateCreated{}
 }
 
-/*
-V1OverlordsUIDOpenStackCloudConfigCreateCreated handles this case with default header values.
+/*V1OverlordsUIDOpenStackCloudConfigCreateCreated handles this case with default header values.
 
 Created successfully
 */

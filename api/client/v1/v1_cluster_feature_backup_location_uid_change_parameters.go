@@ -57,8 +57,7 @@ func NewV1ClusterFeatureBackupLocationUIDChangeParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1ClusterFeatureBackupLocationUIDChangeParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureBackupLocationUIDChangeParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature backup location Uid change operation typically these are written to a http.Request
 */
 type V1ClusterFeatureBackupLocationUIDChangeParams struct {

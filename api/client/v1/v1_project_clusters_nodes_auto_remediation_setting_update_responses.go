@@ -37,8 +37,7 @@ func NewV1ProjectClustersNodesAutoRemediationSettingUpdateNoContent() *V1Project
 	return &V1ProjectClustersNodesAutoRemediationSettingUpdateNoContent{}
 }
 
-/*
-V1ProjectClustersNodesAutoRemediationSettingUpdateNoContent handles this case with default header values.
+/*V1ProjectClustersNodesAutoRemediationSettingUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

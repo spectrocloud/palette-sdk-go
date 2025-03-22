@@ -55,8 +55,7 @@ func NewV1PcgUIDJetManifestGetParamsWithHTTPClient(client *http.Client) *V1PcgUI
 	}
 }
 
-/*
-V1PcgUIDJetManifestGetParams contains all the parameters to send to the API endpoint
+/*V1PcgUIDJetManifestGetParams contains all the parameters to send to the API endpoint
 for the v1 pcg Uid jet manifest get operation typically these are written to a http.Request
 */
 type V1PcgUIDJetManifestGetParams struct {

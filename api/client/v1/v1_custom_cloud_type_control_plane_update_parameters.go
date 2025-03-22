@@ -55,8 +55,7 @@ func NewV1CustomCloudTypeControlPlaneUpdateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*
-V1CustomCloudTypeControlPlaneUpdateParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeControlPlaneUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type control plane update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeControlPlaneUpdateParams struct {

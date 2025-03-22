@@ -37,8 +37,7 @@ func NewV1GcpContainerImageValidateNoContent() *V1GcpContainerImageValidateNoCon
 	return &V1GcpContainerImageValidateNoContent{}
 }
 
-/*
-V1GcpContainerImageValidateNoContent handles this case with default header values.
+/*V1GcpContainerImageValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

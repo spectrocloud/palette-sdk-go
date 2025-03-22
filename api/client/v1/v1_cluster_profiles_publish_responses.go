@@ -37,8 +37,7 @@ func NewV1ClusterProfilesPublishNoContent() *V1ClusterProfilesPublishNoContent {
 	return &V1ClusterProfilesPublishNoContent{}
 }
 
-/*
-V1ClusterProfilesPublishNoContent handles this case with default header values.
+/*V1ClusterProfilesPublishNoContent handles this case with default header values.
 
 Cluster profile published successfully
 */

@@ -57,8 +57,7 @@ func NewV1ControlPlaneHealthCheckTimeoutUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1ControlPlaneHealthCheckTimeoutUpdateParams contains all the parameters to send to the API endpoint
+/*V1ControlPlaneHealthCheckTimeoutUpdateParams contains all the parameters to send to the API endpoint
 for the v1 control plane health check timeout update operation typically these are written to a http.Request
 */
 type V1ControlPlaneHealthCheckTimeoutUpdateParams struct {

@@ -37,8 +37,7 @@ func NewV1EcrRegistriesUIDUpdateNoContent() *V1EcrRegistriesUIDUpdateNoContent {
 	return &V1EcrRegistriesUIDUpdateNoContent{}
 }
 
-/*
-V1EcrRegistriesUIDUpdateNoContent handles this case with default header values.
+/*V1EcrRegistriesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

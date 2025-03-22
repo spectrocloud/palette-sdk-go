@@ -57,8 +57,7 @@ func NewV1ProjectsUIDMacrosUpdateParamsWithHTTPClient(client *http.Client) *V1Pr
 	}
 }
 
-/*
-V1ProjectsUIDMacrosUpdateParams contains all the parameters to send to the API endpoint
+/*V1ProjectsUIDMacrosUpdateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid macros update operation typically these are written to a http.Request
 */
 type V1ProjectsUIDMacrosUpdateParams struct {

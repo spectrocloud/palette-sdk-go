@@ -40,8 +40,7 @@ func NewV1CloudAccountsOpenStackCreateCreated() *V1CloudAccountsOpenStackCreateC
 	return &V1CloudAccountsOpenStackCreateCreated{}
 }
 
-/*
-V1CloudAccountsOpenStackCreateCreated handles this case with default header values.
+/*V1CloudAccountsOpenStackCreateCreated handles this case with default header values.
 
 Created successfully
 */

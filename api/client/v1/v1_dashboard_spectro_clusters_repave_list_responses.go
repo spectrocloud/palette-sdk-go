@@ -40,8 +40,7 @@ func NewV1DashboardSpectroClustersRepaveListOK() *V1DashboardSpectroClustersRepa
 	return &V1DashboardSpectroClustersRepaveListOK{}
 }
 
-/*
-V1DashboardSpectroClustersRepaveListOK handles this case with default header values.
+/*V1DashboardSpectroClustersRepaveListOK handles this case with default header values.
 
 An array of cluster summary items
 */

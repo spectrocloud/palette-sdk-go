@@ -37,8 +37,7 @@ func NewV1EdgeHostDevicesUIDMetaUpdateNoContent() *V1EdgeHostDevicesUIDMetaUpdat
 	return &V1EdgeHostDevicesUIDMetaUpdateNoContent{}
 }
 
-/*
-V1EdgeHostDevicesUIDMetaUpdateNoContent handles this case with default header values.
+/*V1EdgeHostDevicesUIDMetaUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

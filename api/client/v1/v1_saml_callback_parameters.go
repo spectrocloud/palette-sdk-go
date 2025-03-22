@@ -55,8 +55,7 @@ func NewV1SamlCallbackParamsWithHTTPClient(client *http.Client) *V1SamlCallbackP
 	}
 }
 
-/*
-V1SamlCallbackParams contains all the parameters to send to the API endpoint
+/*V1SamlCallbackParams contains all the parameters to send to the API endpoint
 for the v1 saml callback operation typically these are written to a http.Request
 */
 type V1SamlCallbackParams struct {

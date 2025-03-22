@@ -57,8 +57,7 @@ func NewV1PasswordsBlockListDeleteParamsWithHTTPClient(client *http.Client) *V1P
 	}
 }
 
-/*
-V1PasswordsBlockListDeleteParams contains all the parameters to send to the API endpoint
+/*V1PasswordsBlockListDeleteParams contains all the parameters to send to the API endpoint
 for the v1 passwords block list delete operation typically these are written to a http.Request
 */
 type V1PasswordsBlockListDeleteParams struct {

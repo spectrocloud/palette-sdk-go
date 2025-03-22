@@ -40,8 +40,7 @@ func NewV1TenantUIDAssetsCertsCreateCreated() *V1TenantUIDAssetsCertsCreateCreat
 	return &V1TenantUIDAssetsCertsCreateCreated{}
 }
 
-/*
-V1TenantUIDAssetsCertsCreateCreated handles this case with default header values.
+/*V1TenantUIDAssetsCertsCreateCreated handles this case with default header values.
 
 Created successfully
 */

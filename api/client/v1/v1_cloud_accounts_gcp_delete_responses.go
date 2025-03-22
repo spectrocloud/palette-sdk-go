@@ -37,8 +37,7 @@ func NewV1CloudAccountsGcpDeleteNoContent() *V1CloudAccountsGcpDeleteNoContent {
 	return &V1CloudAccountsGcpDeleteNoContent{}
 }
 
-/*
-V1CloudAccountsGcpDeleteNoContent handles this case with default header values.
+/*V1CloudAccountsGcpDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

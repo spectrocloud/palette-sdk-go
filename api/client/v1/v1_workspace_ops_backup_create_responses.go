@@ -40,8 +40,7 @@ func NewV1WorkspaceOpsBackupCreateCreated() *V1WorkspaceOpsBackupCreateCreated {
 	return &V1WorkspaceOpsBackupCreateCreated{}
 }
 
-/*
-V1WorkspaceOpsBackupCreateCreated handles this case with default header values.
+/*V1WorkspaceOpsBackupCreateCreated handles this case with default header values.
 
 Created successfully
 */

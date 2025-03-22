@@ -40,8 +40,7 @@ func NewV1OciRegistriesGetOK() *V1OciRegistriesGetOK {
 	return &V1OciRegistriesGetOK{}
 }
 
-/*
-V1OciRegistriesGetOK handles this case with default header values.
+/*V1OciRegistriesGetOK handles this case with default header values.
 
 OK
 */

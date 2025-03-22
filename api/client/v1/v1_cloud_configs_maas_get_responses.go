@@ -40,8 +40,7 @@ func NewV1CloudConfigsMaasGetOK() *V1CloudConfigsMaasGetOK {
 	return &V1CloudConfigsMaasGetOK{}
 }
 
-/*
-V1CloudConfigsMaasGetOK handles this case with default header values.
+/*V1CloudConfigsMaasGetOK handles this case with default header values.
 
 OK
 */

@@ -57,8 +57,7 @@ func NewV1CustomCloudTypeMetaUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1CustomCloudTypeMetaUpdateParams contains all the parameters to send to the API endpoint
+/*V1CustomCloudTypeMetaUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type meta update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeMetaUpdateParams struct {

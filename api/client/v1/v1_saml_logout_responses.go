@@ -37,8 +37,7 @@ func NewV1SamlLogoutNoContent() *V1SamlLogoutNoContent {
 	return &V1SamlLogoutNoContent{}
 }
 
-/*
-V1SamlLogoutNoContent handles this case with default header values.
+/*V1SamlLogoutNoContent handles this case with default header values.
 
 Ok response without content
 */

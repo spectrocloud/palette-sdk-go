@@ -57,8 +57,7 @@ func NewV1ClusterProfilesImportValidateParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*
-V1ClusterProfilesImportValidateParams contains all the parameters to send to the API endpoint
+/*V1ClusterProfilesImportValidateParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles import validate operation typically these are written to a http.Request
 */
 type V1ClusterProfilesImportValidateParams struct {

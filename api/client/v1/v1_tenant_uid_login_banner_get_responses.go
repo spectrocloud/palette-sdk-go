@@ -40,8 +40,7 @@ func NewV1TenantUIDLoginBannerGetOK() *V1TenantUIDLoginBannerGetOK {
 	return &V1TenantUIDLoginBannerGetOK{}
 }
 
-/*
-V1TenantUIDLoginBannerGetOK handles this case with default header values.
+/*V1TenantUIDLoginBannerGetOK handles this case with default header values.
 
 OK
 */

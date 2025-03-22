@@ -57,8 +57,7 @@ func NewV1OpenStackAccountValidateParamsWithHTTPClient(client *http.Client) *V1O
 	}
 }
 
-/*
-V1OpenStackAccountValidateParams contains all the parameters to send to the API endpoint
+/*V1OpenStackAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 open stack account validate operation typically these are written to a http.Request
 */
 type V1OpenStackAccountValidateParams struct {

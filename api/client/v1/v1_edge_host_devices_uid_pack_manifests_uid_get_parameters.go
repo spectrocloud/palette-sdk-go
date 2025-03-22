@@ -68,8 +68,7 @@ func NewV1EdgeHostDevicesUIDPackManifestsUIDGetParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1EdgeHostDevicesUIDPackManifestsUIDGetParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesUIDPackManifestsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid pack manifests Uid get operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDPackManifestsUIDGetParams struct {

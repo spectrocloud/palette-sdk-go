@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDProfilesUIDPacksConfigGetOK() *V1SpectroClustersUIDP
 	return &V1SpectroClustersUIDProfilesUIDPacksConfigGetOK{}
 }
 
-/*
-V1SpectroClustersUIDProfilesUIDPacksConfigGetOK handles this case with default header values.
+/*V1SpectroClustersUIDProfilesUIDPacksConfigGetOK handles this case with default header values.
 
 An array of cluster pack values
 */

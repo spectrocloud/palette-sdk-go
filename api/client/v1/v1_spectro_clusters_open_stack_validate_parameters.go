@@ -57,8 +57,7 @@ func NewV1SpectroClustersOpenStackValidateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1SpectroClustersOpenStackValidateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersOpenStackValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters open stack validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersOpenStackValidateParams struct {

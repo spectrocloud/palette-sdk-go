@@ -55,8 +55,7 @@ func NewV1VsphereDatacentersParamsWithHTTPClient(client *http.Client) *V1Vsphere
 	}
 }
 
-/*
-V1VsphereDatacentersParams contains all the parameters to send to the API endpoint
+/*V1VsphereDatacentersParams contains all the parameters to send to the API endpoint
 for the v1 vsphere datacenters operation typically these are written to a http.Request
 */
 type V1VsphereDatacentersParams struct {

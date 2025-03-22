@@ -40,8 +40,7 @@ func NewV1CloudAccountsListSummaryOK() *V1CloudAccountsListSummaryOK {
 	return &V1CloudAccountsListSummaryOK{}
 }
 
-/*
-V1CloudAccountsListSummaryOK handles this case with default header values.
+/*V1CloudAccountsListSummaryOK handles this case with default header values.
 
 An array of cloud account summary items
 */

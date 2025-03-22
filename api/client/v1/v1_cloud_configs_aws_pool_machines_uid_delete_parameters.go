@@ -55,8 +55,7 @@ func NewV1CloudConfigsAwsPoolMachinesUIDDeleteParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1CloudConfigsAwsPoolMachinesUIDDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsAwsPoolMachinesUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs aws pool machines Uid delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsAwsPoolMachinesUIDDeleteParams struct {

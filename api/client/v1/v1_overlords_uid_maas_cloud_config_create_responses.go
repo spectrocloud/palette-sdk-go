@@ -40,8 +40,7 @@ func NewV1OverlordsUIDMaasCloudConfigCreateCreated() *V1OverlordsUIDMaasCloudCon
 	return &V1OverlordsUIDMaasCloudConfigCreateCreated{}
 }
 
-/*
-V1OverlordsUIDMaasCloudConfigCreateCreated handles this case with default header values.
+/*V1OverlordsUIDMaasCloudConfigCreateCreated handles this case with default header values.
 
 Created successfully
 */

@@ -41,8 +41,7 @@ func NewV1PacksPackUIDLogoOK(writer io.Writer) *V1PacksPackUIDLogoOK {
 	}
 }
 
-/*
-V1PacksPackUIDLogoOK handles this case with default header values.
+/*V1PacksPackUIDLogoOK handles this case with default header values.
 
 OK
 */

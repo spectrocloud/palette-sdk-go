@@ -55,8 +55,7 @@ func NewV1CloudConfigsGkeMachinePoolDeleteParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*
-V1CloudConfigsGkeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*V1CloudConfigsGkeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs gke machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsGkeMachinePoolDeleteParams struct {

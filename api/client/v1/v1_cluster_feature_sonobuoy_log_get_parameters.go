@@ -55,8 +55,7 @@ func NewV1ClusterFeatureSonobuoyLogGetParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1ClusterFeatureSonobuoyLogGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterFeatureSonobuoyLogGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature sonobuoy log get operation typically these are written to a http.Request
 */
 type V1ClusterFeatureSonobuoyLogGetParams struct {

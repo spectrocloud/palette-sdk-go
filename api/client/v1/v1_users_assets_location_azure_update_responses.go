@@ -37,8 +37,7 @@ func NewV1UsersAssetsLocationAzureUpdateNoContent() *V1UsersAssetsLocationAzureU
 	return &V1UsersAssetsLocationAzureUpdateNoContent{}
 }
 
-/*
-V1UsersAssetsLocationAzureUpdateNoContent handles this case with default header values.
+/*V1UsersAssetsLocationAzureUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,8 +40,7 @@ func NewV1UsersWorkspaceGetRolesOK() *V1UsersWorkspaceGetRolesOK {
 	return &V1UsersWorkspaceGetRolesOK{}
 }
 
-/*
-V1UsersWorkspaceGetRolesOK handles this case with default header values.
+/*V1UsersWorkspaceGetRolesOK handles this case with default header values.
 
 OK
 */

@@ -40,8 +40,7 @@ func NewV1CustomCloudTypesGetOK() *V1CustomCloudTypesGetOK {
 	return &V1CustomCloudTypesGetOK{}
 }
 
-/*
-V1CustomCloudTypesGetOK handles this case with default header values.
+/*V1CustomCloudTypesGetOK handles this case with default header values.
 
 (empty)
 */

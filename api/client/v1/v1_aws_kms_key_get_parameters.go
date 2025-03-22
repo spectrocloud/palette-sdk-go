@@ -55,8 +55,7 @@ func NewV1AwsKmsKeyGetParamsWithHTTPClient(client *http.Client) *V1AwsKmsKeyGetP
 	}
 }
 
-/*
-V1AwsKmsKeyGetParams contains all the parameters to send to the API endpoint
+/*V1AwsKmsKeyGetParams contains all the parameters to send to the API endpoint
 for the v1 aws kms key get operation typically these are written to a http.Request
 */
 type V1AwsKmsKeyGetParams struct {

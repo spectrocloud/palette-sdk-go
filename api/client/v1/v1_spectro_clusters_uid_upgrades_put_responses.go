@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDUpgradesPutNoContent() *V1SpectroClustersUIDUpgrades
 	return &V1SpectroClustersUIDUpgradesPutNoContent{}
 }
 
-/*
-V1SpectroClustersUIDUpgradesPutNoContent handles this case with default header values.
+/*V1SpectroClustersUIDUpgradesPutNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

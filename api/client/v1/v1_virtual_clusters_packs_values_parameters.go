@@ -67,8 +67,7 @@ func NewV1VirtualClustersPacksValuesParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*
-V1VirtualClustersPacksValuesParams contains all the parameters to send to the API endpoint
+/*V1VirtualClustersPacksValuesParams contains all the parameters to send to the API endpoint
 for the v1 virtual clusters packs values operation typically these are written to a http.Request
 */
 type V1VirtualClustersPacksValuesParams struct {
