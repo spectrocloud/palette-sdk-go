@@ -40,8 +40,7 @@ func NewV1SsoLoginsOK() *V1SsoLoginsOK {
 	return &V1SsoLoginsOK{}
 }
 
-/*
-V1SsoLoginsOK handles this case with default header values.
+/*V1SsoLoginsOK handles this case with default header values.
 
 (empty)
 */

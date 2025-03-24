@@ -57,8 +57,7 @@ func NewV1TenantUIDAssetsDataSinksUpdateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*
-V1TenantUIDAssetsDataSinksUpdateParams contains all the parameters to send to the API endpoint
+/*V1TenantUIDAssetsDataSinksUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid assets data sinks update operation typically these are written to a http.Request
 */
 type V1TenantUIDAssetsDataSinksUpdateParams struct {

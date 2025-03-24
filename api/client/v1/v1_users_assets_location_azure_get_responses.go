@@ -40,8 +40,7 @@ func NewV1UsersAssetsLocationAzureGetOK() *V1UsersAssetsLocationAzureGetOK {
 	return &V1UsersAssetsLocationAzureGetOK{}
 }
 
-/*
-V1UsersAssetsLocationAzureGetOK handles this case with default header values.
+/*V1UsersAssetsLocationAzureGetOK handles this case with default header values.
 
 (empty)
 */

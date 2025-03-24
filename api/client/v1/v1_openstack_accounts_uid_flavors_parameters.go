@@ -55,8 +55,7 @@ func NewV1OpenstackAccountsUIDFlavorsParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1OpenstackAccountsUIDFlavorsParams contains all the parameters to send to the API endpoint
+/*V1OpenstackAccountsUIDFlavorsParams contains all the parameters to send to the API endpoint
 for the v1 openstack accounts Uid flavors operation typically these are written to a http.Request
 */
 type V1OpenstackAccountsUIDFlavorsParams struct {

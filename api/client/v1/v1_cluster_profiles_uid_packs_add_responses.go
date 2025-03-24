@@ -40,8 +40,7 @@ func NewV1ClusterProfilesUIDPacksAddCreated() *V1ClusterProfilesUIDPacksAddCreat
 	return &V1ClusterProfilesUIDPacksAddCreated{}
 }
 
-/*
-V1ClusterProfilesUIDPacksAddCreated handles this case with default header values.
+/*V1ClusterProfilesUIDPacksAddCreated handles this case with default header values.
 
 Created successfully
 */

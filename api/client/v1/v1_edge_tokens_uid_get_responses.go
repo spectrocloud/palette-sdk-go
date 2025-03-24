@@ -40,8 +40,7 @@ func NewV1EdgeTokensUIDGetOK() *V1EdgeTokensUIDGetOK {
 	return &V1EdgeTokensUIDGetOK{}
 }
 
-/*
-V1EdgeTokensUIDGetOK handles this case with default header values.
+/*V1EdgeTokensUIDGetOK handles this case with default header values.
 
 OK
 */

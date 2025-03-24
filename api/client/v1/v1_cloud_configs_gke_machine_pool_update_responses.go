@@ -37,8 +37,7 @@ func NewV1CloudConfigsGkeMachinePoolUpdateNoContent() *V1CloudConfigsGkeMachineP
 	return &V1CloudConfigsGkeMachinePoolUpdateNoContent{}
 }
 
-/*
-V1CloudConfigsGkeMachinePoolUpdateNoContent handles this case with default header values.
+/*V1CloudConfigsGkeMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

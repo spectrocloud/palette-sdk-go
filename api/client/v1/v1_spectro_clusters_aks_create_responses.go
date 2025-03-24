@@ -40,8 +40,7 @@ func NewV1SpectroClustersAksCreateCreated() *V1SpectroClustersAksCreateCreated {
 	return &V1SpectroClustersAksCreateCreated{}
 }
 
-/*
-V1SpectroClustersAksCreateCreated handles this case with default header values.
+/*V1SpectroClustersAksCreateCreated handles this case with default header values.
 
 Created successfully
 */

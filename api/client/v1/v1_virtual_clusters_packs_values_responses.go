@@ -40,8 +40,7 @@ func NewV1VirtualClustersPacksValuesOK() *V1VirtualClustersPacksValuesOK {
 	return &V1VirtualClustersPacksValuesOK{}
 }
 
-/*
-V1VirtualClustersPacksValuesOK handles this case with default header values.
+/*V1VirtualClustersPacksValuesOK handles this case with default header values.
 
 Successful response
 */

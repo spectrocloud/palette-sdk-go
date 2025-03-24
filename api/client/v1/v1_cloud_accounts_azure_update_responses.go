@@ -37,8 +37,7 @@ func NewV1CloudAccountsAzureUpdateNoContent() *V1CloudAccountsAzureUpdateNoConte
 	return &V1CloudAccountsAzureUpdateNoContent{}
 }
 
-/*
-V1CloudAccountsAzureUpdateNoContent handles this case with default header values.
+/*V1CloudAccountsAzureUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,8 +40,7 @@ func NewV1AzurePrivateDNSZonesOK() *V1AzurePrivateDNSZonesOK {
 	return &V1AzurePrivateDNSZonesOK{}
 }
 
-/*
-V1AzurePrivateDNSZonesOK handles this case with default header values.
+/*V1AzurePrivateDNSZonesOK handles this case with default header values.
 
 (empty)
 */

@@ -55,8 +55,7 @@ func NewV1ServiceManifestGetParamsWithHTTPClient(client *http.Client) *V1Service
 	}
 }
 
-/*
-V1ServiceManifestGetParams contains all the parameters to send to the API endpoint
+/*V1ServiceManifestGetParams contains all the parameters to send to the API endpoint
 for the v1 service manifest get operation typically these are written to a http.Request
 */
 type V1ServiceManifestGetParams struct {

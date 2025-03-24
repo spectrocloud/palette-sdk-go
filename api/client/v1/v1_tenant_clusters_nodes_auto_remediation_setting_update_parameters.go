@@ -57,8 +57,7 @@ func NewV1TenantClustersNodesAutoRemediationSettingUpdateParamsWithHTTPClient(cl
 	}
 }
 
-/*
-V1TenantClustersNodesAutoRemediationSettingUpdateParams contains all the parameters to send to the API endpoint
+/*V1TenantClustersNodesAutoRemediationSettingUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant clusters nodes auto remediation setting update operation typically these are written to a http.Request
 */
 type V1TenantClustersNodesAutoRemediationSettingUpdateParams struct {

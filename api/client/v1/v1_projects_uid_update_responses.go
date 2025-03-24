@@ -37,8 +37,7 @@ func NewV1ProjectsUIDUpdateNoContent() *V1ProjectsUIDUpdateNoContent {
 	return &V1ProjectsUIDUpdateNoContent{}
 }
 
-/*
-V1ProjectsUIDUpdateNoContent handles this case with default header values.
+/*V1ProjectsUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

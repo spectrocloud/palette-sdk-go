@@ -55,8 +55,7 @@ func NewV1TenantPrefClusterGroupGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*
-V1TenantPrefClusterGroupGetParams contains all the parameters to send to the API endpoint
+/*V1TenantPrefClusterGroupGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant pref cluster group get operation typically these are written to a http.Request
 */
 type V1TenantPrefClusterGroupGetParams struct {

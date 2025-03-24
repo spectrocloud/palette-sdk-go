@@ -57,8 +57,7 @@ func NewV1UsersProjectRolesPutParamsWithHTTPClient(client *http.Client) *V1Users
 	}
 }
 
-/*
-V1UsersProjectRolesPutParams contains all the parameters to send to the API endpoint
+/*V1UsersProjectRolesPutParams contains all the parameters to send to the API endpoint
 for the v1 users project roles put operation typically these are written to a http.Request
 */
 type V1UsersProjectRolesPutParams struct {

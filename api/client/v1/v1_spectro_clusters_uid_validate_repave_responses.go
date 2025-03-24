@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDValidateRepaveOK() *V1SpectroClustersUIDValidateRepa
 	return &V1SpectroClustersUIDValidateRepaveOK{}
 }
 
-/*
-V1SpectroClustersUIDValidateRepaveOK handles this case with default header values.
+/*V1SpectroClustersUIDValidateRepaveOK handles this case with default header values.
 
 Cluster repave validation response
 */

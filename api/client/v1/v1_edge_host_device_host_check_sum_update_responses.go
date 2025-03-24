@@ -37,8 +37,7 @@ func NewV1EdgeHostDeviceHostCheckSumUpdateNoContent() *V1EdgeHostDeviceHostCheck
 	return &V1EdgeHostDeviceHostCheckSumUpdateNoContent{}
 }
 
-/*
-V1EdgeHostDeviceHostCheckSumUpdateNoContent handles this case with default header values.
+/*V1EdgeHostDeviceHostCheckSumUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,8 +40,7 @@ func NewV1SpectroClustersOpenStackCreateCreated() *V1SpectroClustersOpenStackCre
 	return &V1SpectroClustersOpenStackCreateCreated{}
 }
 
-/*
-V1SpectroClustersOpenStackCreateCreated handles this case with default header values.
+/*V1SpectroClustersOpenStackCreateCreated handles this case with default header values.
 
 Created successfully
 */

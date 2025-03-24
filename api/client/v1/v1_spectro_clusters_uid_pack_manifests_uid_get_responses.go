@@ -40,8 +40,7 @@ func NewV1SpectroClustersUIDPackManifestsUIDGetOK() *V1SpectroClustersUIDPackMan
 	return &V1SpectroClustersUIDPackManifestsUIDGetOK{}
 }
 
-/*
-V1SpectroClustersUIDPackManifestsUIDGetOK handles this case with default header values.
+/*V1SpectroClustersUIDPackManifestsUIDGetOK handles this case with default header values.
 
 Pack manifest content
 */

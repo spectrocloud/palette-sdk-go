@@ -37,8 +37,7 @@ func NewV1SpectroClustersUpgradeSettingsNoContent() *V1SpectroClustersUpgradeSet
 	return &V1SpectroClustersUpgradeSettingsNoContent{}
 }
 
-/*
-V1SpectroClustersUpgradeSettingsNoContent handles this case with default header values.
+/*V1SpectroClustersUpgradeSettingsNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -55,8 +55,7 @@ func NewV1SpectroClustersGetHybridPoolsMetadataParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1SpectroClustersGetHybridPoolsMetadataParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersGetHybridPoolsMetadataParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters get hybrid pools metadata operation typically these are written to a http.Request
 */
 type V1SpectroClustersGetHybridPoolsMetadataParams struct {

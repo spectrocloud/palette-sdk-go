@@ -40,8 +40,7 @@ func NewV1AppProfilesUIDTiersCreateCreated() *V1AppProfilesUIDTiersCreateCreated
 	return &V1AppProfilesUIDTiersCreateCreated{}
 }
 
-/*
-V1AppProfilesUIDTiersCreateCreated handles this case with default header values.
+/*V1AppProfilesUIDTiersCreateCreated handles this case with default header values.
 
 Created successfully
 */

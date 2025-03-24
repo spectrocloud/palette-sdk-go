@@ -37,8 +37,7 @@ func NewV1OverlordsUIDMaasCloudConfigUpdateNoContent() *V1OverlordsUIDMaasCloudC
 	return &V1OverlordsUIDMaasCloudConfigUpdateNoContent{}
 }
 
-/*
-V1OverlordsUIDMaasCloudConfigUpdateNoContent handles this case with default header values.
+/*V1OverlordsUIDMaasCloudConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

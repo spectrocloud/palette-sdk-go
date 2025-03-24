@@ -37,8 +37,7 @@ func NewV1CloudConfigsGcpMachinePoolUpdateNoContent() *V1CloudConfigsGcpMachineP
 	return &V1CloudConfigsGcpMachinePoolUpdateNoContent{}
 }
 
-/*
-V1CloudConfigsGcpMachinePoolUpdateNoContent handles this case with default header values.
+/*V1CloudConfigsGcpMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

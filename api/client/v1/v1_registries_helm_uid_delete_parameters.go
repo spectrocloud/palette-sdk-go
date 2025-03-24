@@ -55,8 +55,7 @@ func NewV1RegistriesHelmUIDDeleteParamsWithHTTPClient(client *http.Client) *V1Re
 	}
 }
 
-/*
-V1RegistriesHelmUIDDeleteParams contains all the parameters to send to the API endpoint
+/*V1RegistriesHelmUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 registries helm Uid delete operation typically these are written to a http.Request
 */
 type V1RegistriesHelmUIDDeleteParams struct {

@@ -40,8 +40,7 @@ func NewV1ClusterFeatureLogFetcherGetOK() *V1ClusterFeatureLogFetcherGetOK {
 	return &V1ClusterFeatureLogFetcherGetOK{}
 }
 
-/*
-V1ClusterFeatureLogFetcherGetOK handles this case with default header values.
+/*V1ClusterFeatureLogFetcherGetOK handles this case with default header values.
 
 OK
 */

@@ -40,8 +40,7 @@ func NewV1RegistriesNameConfigGetOK() *V1RegistriesNameConfigGetOK {
 	return &V1RegistriesNameConfigGetOK{}
 }
 
-/*
-V1RegistriesNameConfigGetOK handles this case with default header values.
+/*V1RegistriesNameConfigGetOK handles this case with default header values.
 
 OK
 */

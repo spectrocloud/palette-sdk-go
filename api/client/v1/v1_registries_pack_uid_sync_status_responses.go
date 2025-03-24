@@ -40,8 +40,7 @@ func NewV1RegistriesPackUIDSyncStatusOK() *V1RegistriesPackUIDSyncStatusOK {
 	return &V1RegistriesPackUIDSyncStatusOK{}
 }
 
-/*
-V1RegistriesPackUIDSyncStatusOK handles this case with default header values.
+/*V1RegistriesPackUIDSyncStatusOK handles this case with default header values.
 
 Pack registry sync status
 */

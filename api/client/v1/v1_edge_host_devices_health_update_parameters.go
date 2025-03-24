@@ -57,8 +57,7 @@ func NewV1EdgeHostDevicesHealthUpdateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*
-V1EdgeHostDevicesHealthUpdateParams contains all the parameters to send to the API endpoint
+/*V1EdgeHostDevicesHealthUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices health update operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesHealthUpdateParams struct {

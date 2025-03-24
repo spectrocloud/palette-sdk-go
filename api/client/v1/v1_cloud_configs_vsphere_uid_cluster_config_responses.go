@@ -37,8 +37,7 @@ func NewV1CloudConfigsVsphereUIDClusterConfigNoContent() *V1CloudConfigsVsphereU
 	return &V1CloudConfigsVsphereUIDClusterConfigNoContent{}
 }
 
-/*
-V1CloudConfigsVsphereUIDClusterConfigNoContent handles this case with default header values.
+/*V1CloudConfigsVsphereUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

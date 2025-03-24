@@ -40,8 +40,7 @@ func NewV1SpectroClustersGetProfilesOK() *V1SpectroClustersGetProfilesOK {
 	return &V1SpectroClustersGetProfilesOK{}
 }
 
-/*
-V1SpectroClustersGetProfilesOK handles this case with default header values.
+/*V1SpectroClustersGetProfilesOK handles this case with default header values.
 
 OK
 */

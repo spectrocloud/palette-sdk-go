@@ -55,8 +55,7 @@ func NewV1SpectroClustersMetadataSearchSchemaParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*
-V1SpectroClustersMetadataSearchSchemaParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersMetadataSearchSchemaParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters metadata search schema operation typically these are written to a http.Request
 */
 type V1SpectroClustersMetadataSearchSchemaParams struct {

@@ -55,8 +55,7 @@ func NewV1AwsKeyPairValidateParamsWithHTTPClient(client *http.Client) *V1AwsKeyP
 	}
 }
 
-/*
-V1AwsKeyPairValidateParams contains all the parameters to send to the API endpoint
+/*V1AwsKeyPairValidateParams contains all the parameters to send to the API endpoint
 for the v1 aws key pair validate operation typically these are written to a http.Request
 */
 type V1AwsKeyPairValidateParams struct {

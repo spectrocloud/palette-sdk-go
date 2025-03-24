@@ -40,8 +40,7 @@ func NewV1SpectroClustersAzureCreateCreated() *V1SpectroClustersAzureCreateCreat
 	return &V1SpectroClustersAzureCreateCreated{}
 }
 
-/*
-V1SpectroClustersAzureCreateCreated handles this case with default header values.
+/*V1SpectroClustersAzureCreateCreated handles this case with default header values.
 
 Created successfully
 */

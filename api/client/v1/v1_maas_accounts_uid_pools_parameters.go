@@ -55,8 +55,7 @@ func NewV1MaasAccountsUIDPoolsParamsWithHTTPClient(client *http.Client) *V1MaasA
 	}
 }
 
-/*
-V1MaasAccountsUIDPoolsParams contains all the parameters to send to the API endpoint
+/*V1MaasAccountsUIDPoolsParams contains all the parameters to send to the API endpoint
 for the v1 maas accounts Uid pools operation typically these are written to a http.Request
 */
 type V1MaasAccountsUIDPoolsParams struct {

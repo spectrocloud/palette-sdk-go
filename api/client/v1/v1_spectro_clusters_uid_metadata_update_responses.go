@@ -37,8 +37,7 @@ func NewV1SpectroClustersUIDMetadataUpdateNoContent() *V1SpectroClustersUIDMetad
 	return &V1SpectroClustersUIDMetadataUpdateNoContent{}
 }
 
-/*
-V1SpectroClustersUIDMetadataUpdateNoContent handles this case with default header values.
+/*V1SpectroClustersUIDMetadataUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

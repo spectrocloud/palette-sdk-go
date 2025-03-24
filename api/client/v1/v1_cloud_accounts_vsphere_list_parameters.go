@@ -68,8 +68,7 @@ func NewV1CloudAccountsVsphereListParamsWithHTTPClient(client *http.Client) *V1C
 	}
 }
 
-/*
-V1CloudAccountsVsphereListParams contains all the parameters to send to the API endpoint
+/*V1CloudAccountsVsphereListParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts vsphere list operation typically these are written to a http.Request
 */
 type V1CloudAccountsVsphereListParams struct {

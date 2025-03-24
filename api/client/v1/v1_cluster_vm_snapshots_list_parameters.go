@@ -68,8 +68,7 @@ func NewV1ClusterVMSnapshotsListParamsWithHTTPClient(client *http.Client) *V1Clu
 	}
 }
 
-/*
-V1ClusterVMSnapshotsListParams contains all the parameters to send to the API endpoint
+/*V1ClusterVMSnapshotsListParams contains all the parameters to send to the API endpoint
 for the v1 cluster VM snapshots list operation typically these are written to a http.Request
 */
 type V1ClusterVMSnapshotsListParams struct {

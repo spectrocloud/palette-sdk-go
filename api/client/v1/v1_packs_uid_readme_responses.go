@@ -40,8 +40,7 @@ func NewV1PacksUIDReadmeOK() *V1PacksUIDReadmeOK {
 	return &V1PacksUIDReadmeOK{}
 }
 
-/*
-V1PacksUIDReadmeOK handles this case with default header values.
+/*V1PacksUIDReadmeOK handles this case with default header values.
 
 Readme describes the documentation of the specified pack
 */

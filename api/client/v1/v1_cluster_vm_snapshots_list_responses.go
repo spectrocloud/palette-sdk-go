@@ -40,8 +40,7 @@ func NewV1ClusterVMSnapshotsListOK() *V1ClusterVMSnapshotsListOK {
 	return &V1ClusterVMSnapshotsListOK{}
 }
 
-/*
-V1ClusterVMSnapshotsListOK handles this case with default header values.
+/*V1ClusterVMSnapshotsListOK handles this case with default header values.
 
 OK
 */

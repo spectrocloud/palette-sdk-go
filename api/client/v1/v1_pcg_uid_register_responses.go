@@ -37,8 +37,7 @@ func NewV1PcgUIDRegisterNoContent() *V1PcgUIDRegisterNoContent {
 	return &V1PcgUIDRegisterNoContent{}
 }
 
-/*
-V1PcgUIDRegisterNoContent handles this case with default header values.
+/*V1PcgUIDRegisterNoContent handles this case with default header values.
 
 Ok response without content
 */

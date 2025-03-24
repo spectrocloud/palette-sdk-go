@@ -40,8 +40,7 @@ func NewV1CloudConfigsVspherePoolMachinesListOK() *V1CloudConfigsVspherePoolMach
 	return &V1CloudConfigsVspherePoolMachinesListOK{}
 }
 
-/*
-V1CloudConfigsVspherePoolMachinesListOK handles this case with default header values.
+/*V1CloudConfigsVspherePoolMachinesListOK handles this case with default header values.
 
 An array of vSphere machine items
 */

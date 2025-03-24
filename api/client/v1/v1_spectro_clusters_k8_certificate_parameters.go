@@ -55,8 +55,7 @@ func NewV1SpectroClustersK8CertificateParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*
-V1SpectroClustersK8CertificateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersK8CertificateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters k8 certificate operation typically these are written to a http.Request
 */
 type V1SpectroClustersK8CertificateParams struct {

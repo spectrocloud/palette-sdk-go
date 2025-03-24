@@ -37,8 +37,7 @@ func NewV1RegistriesHelmUIDDeleteNoContent() *V1RegistriesHelmUIDDeleteNoContent
 	return &V1RegistriesHelmUIDDeleteNoContent{}
 }
 
-/*
-V1RegistriesHelmUIDDeleteNoContent handles this case with default header values.
+/*V1RegistriesHelmUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

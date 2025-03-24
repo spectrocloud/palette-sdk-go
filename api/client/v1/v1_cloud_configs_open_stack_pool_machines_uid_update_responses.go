@@ -37,8 +37,7 @@ func NewV1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent() *V1CloudConfigsO
 	return &V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent{}
 }
 
-/*
-V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

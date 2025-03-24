@@ -37,8 +37,7 @@ func NewV1OverlordsUIDOpenStackAccountUpdateNoContent() *V1OverlordsUIDOpenStack
 	return &V1OverlordsUIDOpenStackAccountUpdateNoContent{}
 }
 
-/*
-V1OverlordsUIDOpenStackAccountUpdateNoContent handles this case with default header values.
+/*V1OverlordsUIDOpenStackAccountUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

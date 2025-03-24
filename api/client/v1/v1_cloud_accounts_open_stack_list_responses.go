@@ -40,8 +40,7 @@ func NewV1CloudAccountsOpenStackListOK() *V1CloudAccountsOpenStackListOK {
 	return &V1CloudAccountsOpenStackListOK{}
 }
 
-/*
-V1CloudAccountsOpenStackListOK handles this case with default header values.
+/*V1CloudAccountsOpenStackListOK handles this case with default header values.
 
 An array of cloud account items
 */

@@ -40,8 +40,7 @@ func NewV1OverlordsPairingCodeOK() *V1OverlordsPairingCodeOK {
 	return &V1OverlordsPairingCodeOK{}
 }
 
-/*
-V1OverlordsPairingCodeOK handles this case with default header values.
+/*V1OverlordsPairingCodeOK handles this case with default header values.
 
 (empty)
 */

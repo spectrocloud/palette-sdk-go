@@ -40,8 +40,7 @@ func NewV1ClusterProfilesGetOK() *V1ClusterProfilesGetOK {
 	return &V1ClusterProfilesGetOK{}
 }
 
-/*
-V1ClusterProfilesGetOK handles this case with default header values.
+/*V1ClusterProfilesGetOK handles this case with default header values.
 
 OK
 */

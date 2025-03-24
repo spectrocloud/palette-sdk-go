@@ -40,8 +40,7 @@ func NewV1APIKeysCreateCreated() *V1APIKeysCreateCreated {
 	return &V1APIKeysCreateCreated{}
 }
 
-/*
-V1APIKeysCreateCreated handles this case with default header values.
+/*V1APIKeysCreateCreated handles this case with default header values.
 
 APIKey Created successfully
 */

@@ -57,8 +57,7 @@ func NewV1UsersAuthTokensRevokeParamsWithHTTPClient(client *http.Client) *V1User
 	}
 }
 
-/*
-V1UsersAuthTokensRevokeParams contains all the parameters to send to the API endpoint
+/*V1UsersAuthTokensRevokeParams contains all the parameters to send to the API endpoint
 for the v1 users auth tokens revoke operation typically these are written to a http.Request
 */
 type V1UsersAuthTokensRevokeParams struct {

@@ -55,8 +55,7 @@ func NewV1OverlordsPairingCodeParamsWithHTTPClient(client *http.Client) *V1Overl
 	}
 }
 
-/*
-V1OverlordsPairingCodeParams contains all the parameters to send to the API endpoint
+/*V1OverlordsPairingCodeParams contains all the parameters to send to the API endpoint
 for the v1 overlords pairing code operation typically these are written to a http.Request
 */
 type V1OverlordsPairingCodeParams struct {

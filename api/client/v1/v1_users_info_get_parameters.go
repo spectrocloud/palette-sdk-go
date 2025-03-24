@@ -55,8 +55,7 @@ func NewV1UsersInfoGetParamsWithHTTPClient(client *http.Client) *V1UsersInfoGetP
 	}
 }
 
-/*
-V1UsersInfoGetParams contains all the parameters to send to the API endpoint
+/*V1UsersInfoGetParams contains all the parameters to send to the API endpoint
 for the v1 users info get operation typically these are written to a http.Request
 */
 type V1UsersInfoGetParams struct {

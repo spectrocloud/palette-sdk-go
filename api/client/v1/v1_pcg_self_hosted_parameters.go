@@ -57,8 +57,7 @@ func NewV1PcgSelfHostedParamsWithHTTPClient(client *http.Client) *V1PcgSelfHoste
 	}
 }
 
-/*
-V1PcgSelfHostedParams contains all the parameters to send to the API endpoint
+/*V1PcgSelfHostedParams contains all the parameters to send to the API endpoint
 for the v1 pcg self hosted operation typically these are written to a http.Request
 */
 type V1PcgSelfHostedParams struct {

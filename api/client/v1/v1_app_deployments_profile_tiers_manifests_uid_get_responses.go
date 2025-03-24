@@ -40,8 +40,7 @@ func NewV1AppDeploymentsProfileTiersManifestsUIDGetOK() *V1AppDeploymentsProfile
 	return &V1AppDeploymentsProfileTiersManifestsUIDGetOK{}
 }
 
-/*
-V1AppDeploymentsProfileTiersManifestsUIDGetOK handles this case with default header values.
+/*V1AppDeploymentsProfileTiersManifestsUIDGetOK handles this case with default header values.
 
 OK
 */

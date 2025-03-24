@@ -40,8 +40,7 @@ func NewV1CustomCloudTypeControlPlaneGetOK() *V1CustomCloudTypeControlPlaneGetOK
 	return &V1CustomCloudTypeControlPlaneGetOK{}
 }
 
-/*
-V1CustomCloudTypeControlPlaneGetOK handles this case with default header values.
+/*V1CustomCloudTypeControlPlaneGetOK handles this case with default header values.
 
 (empty)
 */

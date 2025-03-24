@@ -55,8 +55,7 @@ func NewV1TenantResourceLimitsGetParamsWithHTTPClient(client *http.Client) *V1Te
 	}
 }
 
-/*
-V1TenantResourceLimitsGetParams contains all the parameters to send to the API endpoint
+/*V1TenantResourceLimitsGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant resource limits get operation typically these are written to a http.Request
 */
 type V1TenantResourceLimitsGetParams struct {

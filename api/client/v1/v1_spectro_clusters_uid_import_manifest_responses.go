@@ -41,8 +41,7 @@ func NewV1SpectroClustersUIDImportManifestOK(writer io.Writer) *V1SpectroCluster
 	}
 }
 
-/*
-V1SpectroClustersUIDImportManifestOK handles this case with default header values.
+/*V1SpectroClustersUIDImportManifestOK handles this case with default header values.
 
 download file
 */

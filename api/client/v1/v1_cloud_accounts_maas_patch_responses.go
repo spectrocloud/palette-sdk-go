@@ -37,8 +37,7 @@ func NewV1CloudAccountsMaasPatchNoContent() *V1CloudAccountsMaasPatchNoContent {
 	return &V1CloudAccountsMaasPatchNoContent{}
 }
 
-/*
-V1CloudAccountsMaasPatchNoContent handles this case with default header values.
+/*V1CloudAccountsMaasPatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

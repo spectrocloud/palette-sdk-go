@@ -40,8 +40,7 @@ func NewV1AppDeploymentsClusterGroupCreateCreated() *V1AppDeploymentsClusterGrou
 	return &V1AppDeploymentsClusterGroupCreateCreated{}
 }
 
-/*
-V1AppDeploymentsClusterGroupCreateCreated handles this case with default header values.
+/*V1AppDeploymentsClusterGroupCreateCreated handles this case with default header values.
 
 Created successfully
 */

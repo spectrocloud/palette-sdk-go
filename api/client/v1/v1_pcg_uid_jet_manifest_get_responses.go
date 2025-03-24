@@ -41,8 +41,7 @@ func NewV1PcgUIDJetManifestGetOK(writer io.Writer) *V1PcgUIDJetManifestGetOK {
 	}
 }
 
-/*
-V1PcgUIDJetManifestGetOK handles this case with default header values.
+/*V1PcgUIDJetManifestGetOK handles this case with default header values.
 
 download file
 */

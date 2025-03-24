@@ -55,8 +55,7 @@ func NewV1RegistriesPackUIDGetParamsWithHTTPClient(client *http.Client) *V1Regis
 	}
 }
 
-/*
-V1RegistriesPackUIDGetParams contains all the parameters to send to the API endpoint
+/*V1RegistriesPackUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 registries pack Uid get operation typically these are written to a http.Request
 */
 type V1RegistriesPackUIDGetParams struct {

@@ -37,8 +37,7 @@ func NewV1PatchTenantEmailIDNoContent() *V1PatchTenantEmailIDNoContent {
 	return &V1PatchTenantEmailIDNoContent{}
 }
 
-/*
-V1PatchTenantEmailIDNoContent handles this case with default header values.
+/*V1PatchTenantEmailIDNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

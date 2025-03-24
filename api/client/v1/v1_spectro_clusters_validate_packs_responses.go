@@ -40,8 +40,7 @@ func NewV1SpectroClustersValidatePacksOK() *V1SpectroClustersValidatePacksOK {
 	return &V1SpectroClustersValidatePacksOK{}
 }
 
-/*
-V1SpectroClustersValidatePacksOK handles this case with default header values.
+/*V1SpectroClustersValidatePacksOK handles this case with default header values.
 
 Cluster packs validation response
 */

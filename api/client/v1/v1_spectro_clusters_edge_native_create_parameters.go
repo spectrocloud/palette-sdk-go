@@ -57,8 +57,7 @@ func NewV1SpectroClustersEdgeNativeCreateParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*
-V1SpectroClustersEdgeNativeCreateParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersEdgeNativeCreateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters edge native create operation typically these are written to a http.Request
 */
 type V1SpectroClustersEdgeNativeCreateParams struct {

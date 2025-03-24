@@ -40,8 +40,7 @@ func NewV1OpenstackAccountsUIDNetworksOK() *V1OpenstackAccountsUIDNetworksOK {
 	return &V1OpenstackAccountsUIDNetworksOK{}
 }
 
-/*
-V1OpenstackAccountsUIDNetworksOK handles this case with default header values.
+/*V1OpenstackAccountsUIDNetworksOK handles this case with default header values.
 
 (empty)
 */

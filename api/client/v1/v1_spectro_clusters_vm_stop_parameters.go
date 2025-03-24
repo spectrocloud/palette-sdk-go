@@ -55,8 +55,7 @@ func NewV1SpectroClustersVMStopParamsWithHTTPClient(client *http.Client) *V1Spec
 	}
 }
 
-/*
-V1SpectroClustersVMStopParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersVMStopParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters VM stop operation typically these are written to a http.Request
 */
 type V1SpectroClustersVMStopParams struct {

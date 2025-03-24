@@ -40,8 +40,7 @@ func NewV1SsoIdpsOK() *V1SsoIdpsOK {
 	return &V1SsoIdpsOK{}
 }
 
-/*
-V1SsoIdpsOK handles this case with default header values.
+/*V1SsoIdpsOK handles this case with default header values.
 
 (empty)
 */

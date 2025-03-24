@@ -55,8 +55,7 @@ func NewV1ProjectsMetadataParamsWithHTTPClient(client *http.Client) *V1ProjectsM
 	}
 }
 
-/*
-V1ProjectsMetadataParams contains all the parameters to send to the API endpoint
+/*V1ProjectsMetadataParams contains all the parameters to send to the API endpoint
 for the v1 projects metadata operation typically these are written to a http.Request
 */
 type V1ProjectsMetadataParams struct {

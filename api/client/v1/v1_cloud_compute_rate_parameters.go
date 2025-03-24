@@ -55,8 +55,7 @@ func NewV1CloudComputeRateParamsWithHTTPClient(client *http.Client) *V1CloudComp
 	}
 }
 
-/*
-V1CloudComputeRateParams contains all the parameters to send to the API endpoint
+/*V1CloudComputeRateParams contains all the parameters to send to the API endpoint
 for the v1 cloud compute rate operation typically these are written to a http.Request
 */
 type V1CloudComputeRateParams struct {

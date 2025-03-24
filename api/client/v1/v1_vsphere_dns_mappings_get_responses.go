@@ -40,8 +40,7 @@ func NewV1VsphereDNSMappingsGetOK() *V1VsphereDNSMappingsGetOK {
 	return &V1VsphereDNSMappingsGetOK{}
 }
 
-/*
-V1VsphereDNSMappingsGetOK handles this case with default header values.
+/*V1VsphereDNSMappingsGetOK handles this case with default header values.
 
 (empty)
 */

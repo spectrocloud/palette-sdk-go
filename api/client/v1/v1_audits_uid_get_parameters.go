@@ -55,8 +55,7 @@ func NewV1AuditsUIDGetParamsWithHTTPClient(client *http.Client) *V1AuditsUIDGetP
 	}
 }
 
-/*
-V1AuditsUIDGetParams contains all the parameters to send to the API endpoint
+/*V1AuditsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 audits Uid get operation typically these are written to a http.Request
 */
 type V1AuditsUIDGetParams struct {

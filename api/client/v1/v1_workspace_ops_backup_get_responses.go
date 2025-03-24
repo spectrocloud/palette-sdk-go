@@ -40,8 +40,7 @@ func NewV1WorkspaceOpsBackupGetOK() *V1WorkspaceOpsBackupGetOK {
 	return &V1WorkspaceOpsBackupGetOK{}
 }
 
-/*
-V1WorkspaceOpsBackupGetOK handles this case with default header values.
+/*V1WorkspaceOpsBackupGetOK handles this case with default header values.
 
 OK
 */

@@ -70,8 +70,7 @@ func NewV1ClusterGroupUIDVirtualClustersSummaryParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1ClusterGroupUIDVirtualClustersSummaryParams contains all the parameters to send to the API endpoint
+/*V1ClusterGroupUIDVirtualClustersSummaryParams contains all the parameters to send to the API endpoint
 for the v1 cluster group Uid virtual clusters summary operation typically these are written to a http.Request
 */
 type V1ClusterGroupUIDVirtualClustersSummaryParams struct {

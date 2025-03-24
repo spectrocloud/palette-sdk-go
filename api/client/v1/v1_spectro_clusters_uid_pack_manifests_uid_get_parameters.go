@@ -68,8 +68,7 @@ func NewV1SpectroClustersUIDPackManifestsUIDGetParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1SpectroClustersUIDPackManifestsUIDGetParams contains all the parameters to send to the API endpoint
+/*V1SpectroClustersUIDPackManifestsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid pack manifests Uid get operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDPackManifestsUIDGetParams struct {

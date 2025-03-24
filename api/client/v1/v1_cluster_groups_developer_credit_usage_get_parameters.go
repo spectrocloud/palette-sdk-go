@@ -55,8 +55,7 @@ func NewV1ClusterGroupsDeveloperCreditUsageGetParamsWithHTTPClient(client *http.
 	}
 }
 
-/*
-V1ClusterGroupsDeveloperCreditUsageGetParams contains all the parameters to send to the API endpoint
+/*V1ClusterGroupsDeveloperCreditUsageGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups developer credit usage get operation typically these are written to a http.Request
 */
 type V1ClusterGroupsDeveloperCreditUsageGetParams struct {

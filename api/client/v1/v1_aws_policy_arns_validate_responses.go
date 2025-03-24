@@ -37,8 +37,7 @@ func NewV1AwsPolicyArnsValidateNoContent() *V1AwsPolicyArnsValidateNoContent {
 	return &V1AwsPolicyArnsValidateNoContent{}
 }
 
-/*
-V1AwsPolicyArnsValidateNoContent handles this case with default header values.
+/*V1AwsPolicyArnsValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

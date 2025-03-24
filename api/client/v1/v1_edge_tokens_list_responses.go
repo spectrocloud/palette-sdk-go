@@ -40,8 +40,7 @@ func NewV1EdgeTokensListOK() *V1EdgeTokensListOK {
 	return &V1EdgeTokensListOK{}
 }
 
-/*
-V1EdgeTokensListOK handles this case with default header values.
+/*V1EdgeTokensListOK handles this case with default header values.
 
 An array of edge tokens
 */

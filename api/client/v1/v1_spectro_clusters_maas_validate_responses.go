@@ -40,8 +40,7 @@ func NewV1SpectroClustersMaasValidateOK() *V1SpectroClustersMaasValidateOK {
 	return &V1SpectroClustersMaasValidateOK{}
 }
 
-/*
-V1SpectroClustersMaasValidateOK handles this case with default header values.
+/*V1SpectroClustersMaasValidateOK handles this case with default header values.
 
 Maas Cluster validation response
 */

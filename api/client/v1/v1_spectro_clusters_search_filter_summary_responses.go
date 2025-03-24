@@ -40,8 +40,7 @@ func NewV1SpectroClustersSearchFilterSummaryOK() *V1SpectroClustersSearchFilterS
 	return &V1SpectroClustersSearchFilterSummaryOK{}
 }
 
-/*
-V1SpectroClustersSearchFilterSummaryOK handles this case with default header values.
+/*V1SpectroClustersSearchFilterSummaryOK handles this case with default header values.
 
 An array of cluster summary items
 */

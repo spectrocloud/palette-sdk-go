@@ -57,8 +57,7 @@ func NewV1AwsIamPoliciesParamsWithHTTPClient(client *http.Client) *V1AwsIamPolic
 	}
 }
 
-/*
-V1AwsIamPoliciesParams contains all the parameters to send to the API endpoint
+/*V1AwsIamPoliciesParams contains all the parameters to send to the API endpoint
 for the v1 aws iam policies operation typically these are written to a http.Request
 */
 type V1AwsIamPoliciesParams struct {

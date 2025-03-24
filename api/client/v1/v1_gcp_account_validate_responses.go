@@ -37,8 +37,7 @@ func NewV1GcpAccountValidateNoContent() *V1GcpAccountValidateNoContent {
 	return &V1GcpAccountValidateNoContent{}
 }
 
-/*
-V1GcpAccountValidateNoContent handles this case with default header values.
+/*V1GcpAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

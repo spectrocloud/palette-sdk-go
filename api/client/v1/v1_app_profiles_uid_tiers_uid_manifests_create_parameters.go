@@ -57,8 +57,7 @@ func NewV1AppProfilesUIDTiersUIDManifestsCreateParamsWithHTTPClient(client *http
 	}
 }
 
-/*
-V1AppProfilesUIDTiersUIDManifestsCreateParams contains all the parameters to send to the API endpoint
+/*V1AppProfilesUIDTiersUIDManifestsCreateParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid tiers Uid manifests create operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDTiersUIDManifestsCreateParams struct {

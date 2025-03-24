@@ -40,8 +40,7 @@ func NewV1CloudAccountsVsphereCreateCreated() *V1CloudAccountsVsphereCreateCreat
 	return &V1CloudAccountsVsphereCreateCreated{}
 }
 
-/*
-V1CloudAccountsVsphereCreateCreated handles this case with default header values.
+/*V1CloudAccountsVsphereCreateCreated handles this case with default header values.
 
 Created successfully
 */

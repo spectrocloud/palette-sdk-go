@@ -55,8 +55,7 @@ func NewV1OverlordsUIDVsphereAccountValidateParamsWithHTTPClient(client *http.Cl
 	}
 }
 
-/*
-V1OverlordsUIDVsphereAccountValidateParams contains all the parameters to send to the API endpoint
+/*V1OverlordsUIDVsphereAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid vsphere account validate operation typically these are written to a http.Request
 */
 type V1OverlordsUIDVsphereAccountValidateParams struct {

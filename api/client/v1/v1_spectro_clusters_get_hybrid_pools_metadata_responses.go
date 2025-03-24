@@ -40,8 +40,7 @@ func NewV1SpectroClustersGetHybridPoolsMetadataOK() *V1SpectroClustersGetHybridP
 	return &V1SpectroClustersGetHybridPoolsMetadataOK{}
 }
 
-/*
-V1SpectroClustersGetHybridPoolsMetadataOK handles this case with default header values.
+/*V1SpectroClustersGetHybridPoolsMetadataOK handles this case with default header values.
 
 OK
 */
