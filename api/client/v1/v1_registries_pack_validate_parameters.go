@@ -57,7 +57,8 @@ func NewV1RegistriesPackValidateParamsWithHTTPClient(client *http.Client) *V1Reg
 	}
 }
 
-/*V1RegistriesPackValidateParams contains all the parameters to send to the API endpoint
+/*
+V1RegistriesPackValidateParams contains all the parameters to send to the API endpoint
 for the v1 registries pack validate operation typically these are written to a http.Request
 */
 type V1RegistriesPackValidateParams struct {

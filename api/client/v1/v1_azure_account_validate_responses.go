@@ -37,7 +37,8 @@ func NewV1AzureAccountValidateNoContent() *V1AzureAccountValidateNoContent {
 	return &V1AzureAccountValidateNoContent{}
 }
 
-/*V1AzureAccountValidateNoContent handles this case with default header values.
+/*
+V1AzureAccountValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

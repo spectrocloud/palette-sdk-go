@@ -37,7 +37,8 @@ func NewV1SpectroClustersVMDeleteNoContent() *V1SpectroClustersVMDeleteNoContent
 	return &V1SpectroClustersVMDeleteNoContent{}
 }
 
-/*V1SpectroClustersVMDeleteNoContent handles this case with default header values.
+/*
+V1SpectroClustersVMDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

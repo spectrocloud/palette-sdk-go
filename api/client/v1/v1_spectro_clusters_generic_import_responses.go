@@ -40,7 +40,8 @@ func NewV1SpectroClustersGenericImportCreated() *V1SpectroClustersGenericImportC
 	return &V1SpectroClustersGenericImportCreated{}
 }
 
-/*V1SpectroClustersGenericImportCreated handles this case with default header values.
+/*
+V1SpectroClustersGenericImportCreated handles this case with default header values.
 
 Created successfully
 */

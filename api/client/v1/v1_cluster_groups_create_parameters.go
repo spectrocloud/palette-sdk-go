@@ -57,7 +57,8 @@ func NewV1ClusterGroupsCreateParamsWithHTTPClient(client *http.Client) *V1Cluste
 	}
 }
 
-/*V1ClusterGroupsCreateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterGroupsCreateParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups create operation typically these are written to a http.Request
 */
 type V1ClusterGroupsCreateParams struct {

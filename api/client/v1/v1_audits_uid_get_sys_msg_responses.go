@@ -40,7 +40,8 @@ func NewV1AuditsUIDGetSysMsgOK() *V1AuditsUIDGetSysMsgOK {
 	return &V1AuditsUIDGetSysMsgOK{}
 }
 
-/*V1AuditsUIDGetSysMsgOK handles this case with default header values.
+/*
+V1AuditsUIDGetSysMsgOK handles this case with default header values.
 
 (empty)
 */

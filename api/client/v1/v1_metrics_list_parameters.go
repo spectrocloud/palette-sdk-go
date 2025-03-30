@@ -100,7 +100,8 @@ func NewV1MetricsListParamsWithHTTPClient(client *http.Client) *V1MetricsListPar
 	}
 }
 
-/*V1MetricsListParams contains all the parameters to send to the API endpoint
+/*
+V1MetricsListParams contains all the parameters to send to the API endpoint
 for the v1 metrics list operation typically these are written to a http.Request
 */
 type V1MetricsListParams struct {

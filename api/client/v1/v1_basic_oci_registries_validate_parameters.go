@@ -57,7 +57,8 @@ func NewV1BasicOciRegistriesValidateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1BasicOciRegistriesValidateParams contains all the parameters to send to the API endpoint
+/*
+V1BasicOciRegistriesValidateParams contains all the parameters to send to the API endpoint
 for the v1 basic oci registries validate operation typically these are written to a http.Request
 */
 type V1BasicOciRegistriesValidateParams struct {

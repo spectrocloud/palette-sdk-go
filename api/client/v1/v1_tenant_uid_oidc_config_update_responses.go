@@ -37,7 +37,8 @@ func NewV1TenantUIDOidcConfigUpdateNoContent() *V1TenantUIDOidcConfigUpdateNoCon
 	return &V1TenantUIDOidcConfigUpdateNoContent{}
 }
 
-/*V1TenantUIDOidcConfigUpdateNoContent handles this case with default header values.
+/*
+V1TenantUIDOidcConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

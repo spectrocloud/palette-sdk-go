@@ -40,7 +40,8 @@ func NewV1CloudConfigsOpenStackPoolMachinesListOK() *V1CloudConfigsOpenStackPool
 	return &V1CloudConfigsOpenStackPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsOpenStackPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsOpenStackPoolMachinesListOK handles this case with default header values.
 
 An array of OpenStack machine items
 */

@@ -37,7 +37,8 @@ func NewV1CloudAccountsAwsUpdateNoContent() *V1CloudAccountsAwsUpdateNoContent {
 	return &V1CloudAccountsAwsUpdateNoContent{}
 }
 
-/*V1CloudAccountsAwsUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsAwsUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

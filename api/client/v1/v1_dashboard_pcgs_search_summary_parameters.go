@@ -58,7 +58,8 @@ func NewV1DashboardPcgsSearchSummaryParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1DashboardPcgsSearchSummaryParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardPcgsSearchSummaryParams contains all the parameters to send to the API endpoint
 for the v1 dashboard pcgs search summary operation typically these are written to a http.Request
 */
 type V1DashboardPcgsSearchSummaryParams struct {

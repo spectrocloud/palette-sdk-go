@@ -37,7 +37,8 @@ func NewV1UsersUIDPatchNoContent() *V1UsersUIDPatchNoContent {
 	return &V1UsersUIDPatchNoContent{}
 }
 
-/*V1UsersUIDPatchNoContent handles this case with default header values.
+/*
+V1UsersUIDPatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

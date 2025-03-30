@@ -37,7 +37,8 @@ func NewV1CloudAccountsMaasDeleteNoContent() *V1CloudAccountsMaasDeleteNoContent
 	return &V1CloudAccountsMaasDeleteNoContent{}
 }
 
-/*V1CloudAccountsMaasDeleteNoContent handles this case with default header values.
+/*
+V1CloudAccountsMaasDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

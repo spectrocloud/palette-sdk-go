@@ -40,7 +40,8 @@ func NewV1TenantUIDAuthTokenSettingsGetOK() *V1TenantUIDAuthTokenSettingsGetOK {
 	return &V1TenantUIDAuthTokenSettingsGetOK{}
 }
 
-/*V1TenantUIDAuthTokenSettingsGetOK handles this case with default header values.
+/*
+V1TenantUIDAuthTokenSettingsGetOK handles this case with default header values.
 
 OK
 */

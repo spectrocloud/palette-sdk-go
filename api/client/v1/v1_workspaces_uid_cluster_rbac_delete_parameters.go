@@ -55,7 +55,8 @@ func NewV1WorkspacesUIDClusterRbacDeleteParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1WorkspacesUIDClusterRbacDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesUIDClusterRbacDeleteParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid cluster rbac delete operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDClusterRbacDeleteParams struct {

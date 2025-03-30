@@ -55,7 +55,8 @@ func NewV1ClusterProfilesUIDSummaryParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1ClusterProfilesUIDSummaryParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDSummaryParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid summary operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDSummaryParams struct {

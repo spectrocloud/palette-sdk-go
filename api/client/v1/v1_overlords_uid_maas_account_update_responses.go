@@ -37,7 +37,8 @@ func NewV1OverlordsUIDMaasAccountUpdateNoContent() *V1OverlordsUIDMaasAccountUpd
 	return &V1OverlordsUIDMaasAccountUpdateNoContent{}
 }
 
-/*V1OverlordsUIDMaasAccountUpdateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDMaasAccountUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

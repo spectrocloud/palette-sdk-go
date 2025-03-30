@@ -57,7 +57,8 @@ func NewV1CloudConfigsOpenStackPoolMachinesUIDUpdateParamsWithHTTPClient(client 
 	}
 }
 
-/*V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs open stack pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams struct {

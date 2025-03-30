@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeClusterTemplateGetOK() *V1CustomCloudTypeClusterTemplat
 	return &V1CustomCloudTypeClusterTemplateGetOK{}
 }
 
-/*V1CustomCloudTypeClusterTemplateGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeClusterTemplateGetOK handles this case with default header values.
 
 (empty)
 */

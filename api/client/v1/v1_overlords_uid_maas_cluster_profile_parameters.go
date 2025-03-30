@@ -55,7 +55,8 @@ func NewV1OverlordsUIDMaasClusterProfileParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1OverlordsUIDMaasClusterProfileParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMaasClusterProfileParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas cluster profile operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasClusterProfileParams struct {

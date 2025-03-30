@@ -68,7 +68,8 @@ func NewV1EcrRegistriesUIDSyncParamsWithHTTPClient(client *http.Client) *V1EcrRe
 	}
 }
 
-/*V1EcrRegistriesUIDSyncParams contains all the parameters to send to the API endpoint
+/*
+V1EcrRegistriesUIDSyncParams contains all the parameters to send to the API endpoint
 for the v1 ecr registries Uid sync operation typically these are written to a http.Request
 */
 type V1EcrRegistriesUIDSyncParams struct {

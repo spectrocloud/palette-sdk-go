@@ -40,7 +40,8 @@ func NewV1WorkspacesClusterRbacCreateCreated() *V1WorkspacesClusterRbacCreateCre
 	return &V1WorkspacesClusterRbacCreateCreated{}
 }
 
-/*V1WorkspacesClusterRbacCreateCreated handles this case with default header values.
+/*
+V1WorkspacesClusterRbacCreateCreated handles this case with default header values.
 
 Created successfully
 */

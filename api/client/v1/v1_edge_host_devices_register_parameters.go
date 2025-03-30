@@ -57,7 +57,8 @@ func NewV1EdgeHostDevicesRegisterParamsWithHTTPClient(client *http.Client) *V1Ed
 	}
 }
 
-/*V1EdgeHostDevicesRegisterParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesRegisterParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices register operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesRegisterParams struct {

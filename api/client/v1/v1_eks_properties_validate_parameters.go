@@ -57,7 +57,8 @@ func NewV1EksPropertiesValidateParamsWithHTTPClient(client *http.Client) *V1EksP
 	}
 }
 
-/*V1EksPropertiesValidateParams contains all the parameters to send to the API endpoint
+/*
+V1EksPropertiesValidateParams contains all the parameters to send to the API endpoint
 for the v1 eks properties validate operation typically these are written to a http.Request
 */
 type V1EksPropertiesValidateParams struct {

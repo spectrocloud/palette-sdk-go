@@ -37,7 +37,8 @@ func NewV1CloudAccountsVsphereUpdateNoContent() *V1CloudAccountsVsphereUpdateNoC
 	return &V1CloudAccountsVsphereUpdateNoContent{}
 }
 
-/*V1CloudAccountsVsphereUpdateNoContent handles this case with default header values.
+/*
+V1CloudAccountsVsphereUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

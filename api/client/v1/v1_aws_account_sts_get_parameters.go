@@ -67,7 +67,8 @@ func NewV1AwsAccountStsGetParamsWithHTTPClient(client *http.Client) *V1AwsAccoun
 	}
 }
 
-/*V1AwsAccountStsGetParams contains all the parameters to send to the API endpoint
+/*
+V1AwsAccountStsGetParams contains all the parameters to send to the API endpoint
 for the v1 aws account sts get operation typically these are written to a http.Request
 */
 type V1AwsAccountStsGetParams struct {

@@ -55,7 +55,8 @@ func NewV1OpenStackProjectsGetParamsWithHTTPClient(client *http.Client) *V1OpenS
 	}
 }
 
-/*V1OpenStackProjectsGetParams contains all the parameters to send to the API endpoint
+/*
+V1OpenStackProjectsGetParams contains all the parameters to send to the API endpoint
 for the v1 open stack projects get operation typically these are written to a http.Request
 */
 type V1OpenStackProjectsGetParams struct {

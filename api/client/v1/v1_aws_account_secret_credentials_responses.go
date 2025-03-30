@@ -40,7 +40,8 @@ func NewV1AwsAccountSecretCredentialsOK() *V1AwsAccountSecretCredentialsOK {
 	return &V1AwsAccountSecretCredentialsOK{}
 }
 
-/*V1AwsAccountSecretCredentialsOK handles this case with default header values.
+/*
+V1AwsAccountSecretCredentialsOK handles this case with default header values.
 
 (empty)
 */

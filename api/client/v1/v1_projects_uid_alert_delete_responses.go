@@ -37,7 +37,8 @@ func NewV1ProjectsUIDAlertDeleteNoContent() *V1ProjectsUIDAlertDeleteNoContent {
 	return &V1ProjectsUIDAlertDeleteNoContent{}
 }
 
-/*V1ProjectsUIDAlertDeleteNoContent handles this case with default header values.
+/*
+V1ProjectsUIDAlertDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

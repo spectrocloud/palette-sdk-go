@@ -40,7 +40,8 @@ func NewV1CloudStorageRateOK() *V1CloudStorageRateOK {
 	return &V1CloudStorageRateOK{}
 }
 
-/*V1CloudStorageRateOK handles this case with default header values.
+/*
+V1CloudStorageRateOK handles this case with default header values.
 
 (empty)
 */

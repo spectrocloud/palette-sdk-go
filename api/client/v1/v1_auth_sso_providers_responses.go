@@ -40,7 +40,8 @@ func NewV1AuthSsoProvidersOK() *V1AuthSsoProvidersOK {
 	return &V1AuthSsoProvidersOK{}
 }
 
-/*V1AuthSsoProvidersOK handles this case with default header values.
+/*
+V1AuthSsoProvidersOK handles this case with default header values.
 
 (empty)
 */

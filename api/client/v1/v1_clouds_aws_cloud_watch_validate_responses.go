@@ -37,7 +37,8 @@ func NewV1CloudsAwsCloudWatchValidateNoContent() *V1CloudsAwsCloudWatchValidateN
 	return &V1CloudsAwsCloudWatchValidateNoContent{}
 }
 
-/*V1CloudsAwsCloudWatchValidateNoContent handles this case with default header values.
+/*
+V1CloudsAwsCloudWatchValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -40,7 +40,8 @@ func NewV1GcpStorageTypesOK() *V1GcpStorageTypesOK {
 	return &V1GcpStorageTypesOK{}
 }
 
-/*V1GcpStorageTypesOK handles this case with default header values.
+/*
+V1GcpStorageTypesOK handles this case with default header values.
 
 (empty)
 */

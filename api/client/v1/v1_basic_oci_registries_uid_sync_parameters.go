@@ -68,7 +68,8 @@ func NewV1BasicOciRegistriesUIDSyncParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1BasicOciRegistriesUIDSyncParams contains all the parameters to send to the API endpoint
+/*
+V1BasicOciRegistriesUIDSyncParams contains all the parameters to send to the API endpoint
 for the v1 basic oci registries Uid sync operation typically these are written to a http.Request
 */
 type V1BasicOciRegistriesUIDSyncParams struct {

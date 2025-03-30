@@ -37,7 +37,8 @@ func NewV1EdgeHostDevicesUIDTunnelConfigUpdateNoContent() *V1EdgeHostDevicesUIDT
 	return &V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent{}
 }
 
-/*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent handles this case with default header values.
+/*
+V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

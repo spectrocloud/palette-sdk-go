@@ -41,7 +41,8 @@ func NewV1SpectroClustersUIDFrpKubeConfigGetOK(writer io.Writer) *V1SpectroClust
 	}
 }
 
-/*V1SpectroClustersUIDFrpKubeConfigGetOK handles this case with default header values.
+/*
+V1SpectroClustersUIDFrpKubeConfigGetOK handles this case with default header values.
 
 download file
 */

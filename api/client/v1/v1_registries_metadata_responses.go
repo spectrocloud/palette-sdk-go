@@ -40,7 +40,8 @@ func NewV1RegistriesMetadataOK() *V1RegistriesMetadataOK {
 	return &V1RegistriesMetadataOK{}
 }
 
-/*V1RegistriesMetadataOK handles this case with default header values.
+/*
+V1RegistriesMetadataOK handles this case with default header values.
 
 An array of registry metadata items
 */

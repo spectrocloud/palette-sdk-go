@@ -40,7 +40,8 @@ func NewV1SpectroClustersUIDPackPropertiesOK() *V1SpectroClustersUIDPackProperti
 	return &V1SpectroClustersUIDPackPropertiesOK{}
 }
 
-/*V1SpectroClustersUIDPackPropertiesOK handles this case with default header values.
+/*
+V1SpectroClustersUIDPackPropertiesOK handles this case with default header values.
 
 Cluster's pack properties response
 */

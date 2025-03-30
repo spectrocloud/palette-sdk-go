@@ -40,7 +40,8 @@ func NewV1VsphereDNSMappingCreateCreated() *V1VsphereDNSMappingCreateCreated {
 	return &V1VsphereDNSMappingCreateCreated{}
 }
 
-/*V1VsphereDNSMappingCreateCreated handles this case with default header values.
+/*
+V1VsphereDNSMappingCreateCreated handles this case with default header values.
 
 Created successfully
 */

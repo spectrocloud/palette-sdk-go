@@ -55,7 +55,8 @@ func NewV1AppProfilesUIDTiersUIDManifestsUIDDeleteParamsWithHTTPClient(client *h
 	}
 }
 
-/*V1AppProfilesUIDTiersUIDManifestsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1AppProfilesUIDTiersUIDManifestsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid tiers Uid manifests Uid delete operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDTiersUIDManifestsUIDDeleteParams struct {

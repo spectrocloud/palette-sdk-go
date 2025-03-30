@@ -40,7 +40,8 @@ func NewV1ClusterProfilesUIDPacksConfigGetOK() *V1ClusterProfilesUIDPacksConfigG
 	return &V1ClusterProfilesUIDPacksConfigGetOK{}
 }
 
-/*V1ClusterProfilesUIDPacksConfigGetOK handles this case with default header values.
+/*
+V1ClusterProfilesUIDPacksConfigGetOK handles this case with default header values.
 
 An array of cluster profile pack configurations
 */

@@ -55,7 +55,8 @@ func NewV1UsersWorkspaceGetRolesParamsWithHTTPClient(client *http.Client) *V1Use
 	}
 }
 
-/*V1UsersWorkspaceGetRolesParams contains all the parameters to send to the API endpoint
+/*
+V1UsersWorkspaceGetRolesParams contains all the parameters to send to the API endpoint
 for the v1 users workspace get roles operation typically these are written to a http.Request
 */
 type V1UsersWorkspaceGetRolesParams struct {

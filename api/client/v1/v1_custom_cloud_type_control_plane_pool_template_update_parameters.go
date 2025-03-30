@@ -55,7 +55,8 @@ func NewV1CustomCloudTypeControlPlanePoolTemplateUpdateParamsWithHTTPClient(clie
 	}
 }
 
-/*V1CustomCloudTypeControlPlanePoolTemplateUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CustomCloudTypeControlPlanePoolTemplateUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type control plane pool template update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeControlPlanePoolTemplateUpdateParams struct {

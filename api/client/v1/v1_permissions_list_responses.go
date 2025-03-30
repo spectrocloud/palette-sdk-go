@@ -40,7 +40,8 @@ func NewV1PermissionsListOK() *V1PermissionsListOK {
 	return &V1PermissionsListOK{}
 }
 
-/*V1PermissionsListOK handles this case with default header values.
+/*
+V1PermissionsListOK handles this case with default header values.
 
 An array of permissions
 */

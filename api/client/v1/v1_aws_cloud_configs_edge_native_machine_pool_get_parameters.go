@@ -55,7 +55,8 @@ func NewV1AwsCloudConfigsEdgeNativeMachinePoolGetParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1AwsCloudConfigsEdgeNativeMachinePoolGetParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCloudConfigsEdgeNativeMachinePoolGetParams contains all the parameters to send to the API endpoint
 for the v1 aws cloud configs edge native machine pool get operation typically these are written to a http.Request
 */
 type V1AwsCloudConfigsEdgeNativeMachinePoolGetParams struct {

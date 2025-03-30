@@ -40,7 +40,8 @@ func NewV1ClusterFeatureKubeBenchLogGetOK() *V1ClusterFeatureKubeBenchLogGetOK {
 	return &V1ClusterFeatureKubeBenchLogGetOK{}
 }
 
-/*V1ClusterFeatureKubeBenchLogGetOK handles this case with default header values.
+/*
+V1ClusterFeatureKubeBenchLogGetOK handles this case with default header values.
 
 OK
 */

@@ -37,7 +37,8 @@ func NewV1CloudConfigsEksUIDFargateProfilesUpdateNoContent() *V1CloudConfigsEksU
 	return &V1CloudConfigsEksUIDFargateProfilesUpdateNoContent{}
 }
 
-/*V1CloudConfigsEksUIDFargateProfilesUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsEksUIDFargateProfilesUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

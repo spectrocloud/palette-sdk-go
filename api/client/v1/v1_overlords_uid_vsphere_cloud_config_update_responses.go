@@ -37,7 +37,8 @@ func NewV1OverlordsUIDVsphereCloudConfigUpdateNoContent() *V1OverlordsUIDVsphere
 	return &V1OverlordsUIDVsphereCloudConfigUpdateNoContent{}
 }
 
-/*V1OverlordsUIDVsphereCloudConfigUpdateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDVsphereCloudConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

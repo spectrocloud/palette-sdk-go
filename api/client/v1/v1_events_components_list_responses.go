@@ -40,7 +40,8 @@ func NewV1EventsComponentsListOK() *V1EventsComponentsListOK {
 	return &V1EventsComponentsListOK{}
 }
 
-/*V1EventsComponentsListOK handles this case with default header values.
+/*
+V1EventsComponentsListOK handles this case with default header values.
 
 An array of component events items
 */

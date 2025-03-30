@@ -40,7 +40,8 @@ func NewV1TagFilterUIDGetOK() *V1TagFilterUIDGetOK {
 	return &V1TagFilterUIDGetOK{}
 }
 
-/*V1TagFilterUIDGetOK handles this case with default header values.
+/*
+V1TagFilterUIDGetOK handles this case with default header values.
 
 A Filter object
 */

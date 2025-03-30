@@ -40,7 +40,8 @@ func NewV1MetricsUIDListOK() *V1MetricsUIDListOK {
 	return &V1MetricsUIDListOK{}
 }
 
-/*V1MetricsUIDListOK handles this case with default header values.
+/*
+V1MetricsUIDListOK handles this case with default header values.
 
 An array of metric items
 */

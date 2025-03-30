@@ -76,7 +76,8 @@ func NewV1RegistriesPackSummaryListParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1RegistriesPackSummaryListParams contains all the parameters to send to the API endpoint
+/*
+V1RegistriesPackSummaryListParams contains all the parameters to send to the API endpoint
 for the v1 registries pack summary list operation typically these are written to a http.Request
 */
 type V1RegistriesPackSummaryListParams struct {

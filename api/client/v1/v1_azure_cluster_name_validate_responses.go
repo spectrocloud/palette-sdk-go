@@ -37,7 +37,8 @@ func NewV1AzureClusterNameValidateNoContent() *V1AzureClusterNameValidateNoConte
 	return &V1AzureClusterNameValidateNoContent{}
 }
 
-/*V1AzureClusterNameValidateNoContent handles this case with default header values.
+/*
+V1AzureClusterNameValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

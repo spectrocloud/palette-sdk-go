@@ -55,7 +55,8 @@ func NewV1PacksPackUIDLogoParamsWithHTTPClient(client *http.Client) *V1PacksPack
 	}
 }
 
-/*V1PacksPackUIDLogoParams contains all the parameters to send to the API endpoint
+/*
+V1PacksPackUIDLogoParams contains all the parameters to send to the API endpoint
 for the v1 packs pack Uid logo operation typically these are written to a http.Request
 */
 type V1PacksPackUIDLogoParams struct {

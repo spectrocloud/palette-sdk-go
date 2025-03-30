@@ -55,7 +55,8 @@ func NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1CloudConfigsOpenStackPoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsOpenStackPoolMachinesUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs open stack pool machines Uid get operation typically these are written to a http.Request
 */
 type V1CloudConfigsOpenStackPoolMachinesUIDGetParams struct {

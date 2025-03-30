@@ -55,7 +55,8 @@ func NewV1UsersAssetSSHDeleteParamsWithHTTPClient(client *http.Client) *V1UsersA
 	}
 }
 
-/*V1UsersAssetSSHDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetSSHDeleteParams contains all the parameters to send to the API endpoint
 for the v1 users asset Ssh delete operation typically these are written to a http.Request
 */
 type V1UsersAssetSSHDeleteParams struct {

@@ -55,7 +55,8 @@ func NewV1OciImageRegistryGetParamsWithHTTPClient(client *http.Client) *V1OciIma
 	}
 }
 
-/*V1OciImageRegistryGetParams contains all the parameters to send to the API endpoint
+/*
+V1OciImageRegistryGetParams contains all the parameters to send to the API endpoint
 for the v1 oci image registry get operation typically these are written to a http.Request
 */
 type V1OciImageRegistryGetParams struct {

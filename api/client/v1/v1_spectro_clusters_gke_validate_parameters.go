@@ -57,7 +57,8 @@ func NewV1SpectroClustersGkeValidateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1SpectroClustersGkeValidateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersGkeValidateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters gke validate operation typically these are written to a http.Request
 */
 type V1SpectroClustersGkeValidateParams struct {

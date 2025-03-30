@@ -40,7 +40,8 @@ func NewV1VsphereDatacentersOK() *V1VsphereDatacentersOK {
 	return &V1VsphereDatacentersOK{}
 }
 
-/*V1VsphereDatacentersOK handles this case with default header values.
+/*
+V1VsphereDatacentersOK handles this case with default header values.
 
 (empty)
 */

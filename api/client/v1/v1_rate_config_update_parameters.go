@@ -57,7 +57,8 @@ func NewV1RateConfigUpdateParamsWithHTTPClient(client *http.Client) *V1RateConfi
 	}
 }
 
-/*V1RateConfigUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1RateConfigUpdateParams contains all the parameters to send to the API endpoint
 for the v1 rate config update operation typically these are written to a http.Request
 */
 type V1RateConfigUpdateParams struct {

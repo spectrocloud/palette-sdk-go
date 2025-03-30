@@ -37,7 +37,8 @@ func NewV1AppProfilesUIDTiersUIDDeleteNoContent() *V1AppProfilesUIDTiersUIDDelet
 	return &V1AppProfilesUIDTiersUIDDeleteNoContent{}
 }
 
-/*V1AppProfilesUIDTiersUIDDeleteNoContent handles this case with default header values.
+/*
+V1AppProfilesUIDTiersUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

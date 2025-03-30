@@ -40,7 +40,8 @@ func NewV1DashboardAppDeploymentsOK() *V1DashboardAppDeploymentsOK {
 	return &V1DashboardAppDeploymentsOK{}
 }
 
-/*V1DashboardAppDeploymentsOK handles this case with default header values.
+/*
+V1DashboardAppDeploymentsOK handles this case with default header values.
 
 An array of application deployment summary items
 */

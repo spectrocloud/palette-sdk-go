@@ -37,7 +37,8 @@ func NewV1ClusterProfilesUIDCloneValidateNoContent() *V1ClusterProfilesUIDCloneV
 	return &V1ClusterProfilesUIDCloneValidateNoContent{}
 }
 
-/*V1ClusterProfilesUIDCloneValidateNoContent handles this case with default header values.
+/*
+V1ClusterProfilesUIDCloneValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

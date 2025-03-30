@@ -37,7 +37,8 @@ func NewV1VsphereDNSMappingUpdateNoContent() *V1VsphereDNSMappingUpdateNoContent
 	return &V1VsphereDNSMappingUpdateNoContent{}
 }
 
-/*V1VsphereDNSMappingUpdateNoContent handles this case with default header values.
+/*
+V1VsphereDNSMappingUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

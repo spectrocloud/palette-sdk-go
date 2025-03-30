@@ -55,7 +55,8 @@ func NewV1OverlordsUIDMaasAccountValidateParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*V1OverlordsUIDMaasAccountValidateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMaasAccountValidateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas account validate operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasAccountValidateParams struct {

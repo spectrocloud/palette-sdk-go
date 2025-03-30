@@ -40,7 +40,8 @@ func NewV1TenantUIDAssetsDataSinksGetOK() *V1TenantUIDAssetsDataSinksGetOK {
 	return &V1TenantUIDAssetsDataSinksGetOK{}
 }
 
-/*V1TenantUIDAssetsDataSinksGetOK handles this case with default header values.
+/*
+V1TenantUIDAssetsDataSinksGetOK handles this case with default header values.
 
 OK
 */

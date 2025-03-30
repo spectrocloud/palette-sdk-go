@@ -57,7 +57,8 @@ func NewV1WorkspacesUIDMetaUpdateParamsWithHTTPClient(client *http.Client) *V1Wo
 	}
 }
 
-/*V1WorkspacesUIDMetaUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesUIDMetaUpdateParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid meta update operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDMetaUpdateParams struct {

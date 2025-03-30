@@ -57,7 +57,8 @@ func NewV1DashboardSpectroClustersUIDWorkloadsRoleBindingParamsWithHTTPClient(cl
 	}
 }
 
-/*V1DashboardSpectroClustersUIDWorkloadsRoleBindingParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardSpectroClustersUIDWorkloadsRoleBindingParams contains all the parameters to send to the API endpoint
 for the v1 dashboard spectro clusters Uid workloads role binding operation typically these are written to a http.Request
 */
 type V1DashboardSpectroClustersUIDWorkloadsRoleBindingParams struct {

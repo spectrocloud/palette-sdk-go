@@ -55,7 +55,8 @@ func NewV1FiltersMetadataParamsWithHTTPClient(client *http.Client) *V1FiltersMet
 	}
 }
 
-/*V1FiltersMetadataParams contains all the parameters to send to the API endpoint
+/*
+V1FiltersMetadataParams contains all the parameters to send to the API endpoint
 for the v1 filters metadata operation typically these are written to a http.Request
 */
 type V1FiltersMetadataParams struct {

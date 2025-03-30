@@ -40,7 +40,8 @@ func NewV1TenantUIDSamlConfigSpecGetOK() *V1TenantUIDSamlConfigSpecGetOK {
 	return &V1TenantUIDSamlConfigSpecGetOK{}
 }
 
-/*V1TenantUIDSamlConfigSpecGetOK handles this case with default header values.
+/*
+V1TenantUIDSamlConfigSpecGetOK handles this case with default header values.
 
 OK
 */

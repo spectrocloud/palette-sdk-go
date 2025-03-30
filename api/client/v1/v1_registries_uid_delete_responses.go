@@ -37,7 +37,8 @@ func NewV1RegistriesUIDDeleteNoContent() *V1RegistriesUIDDeleteNoContent {
 	return &V1RegistriesUIDDeleteNoContent{}
 }
 
-/*V1RegistriesUIDDeleteNoContent handles this case with default header values.
+/*
+V1RegistriesUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

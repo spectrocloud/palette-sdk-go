@@ -41,7 +41,8 @@ func NewV1PcgUIDAllyManifestGetOK(writer io.Writer) *V1PcgUIDAllyManifestGetOK {
 	}
 }
 
-/*V1PcgUIDAllyManifestGetOK handles this case with default header values.
+/*
+V1PcgUIDAllyManifestGetOK handles this case with default header values.
 
 download file
 */

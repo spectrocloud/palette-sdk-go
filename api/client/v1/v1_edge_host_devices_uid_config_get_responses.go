@@ -40,7 +40,8 @@ func NewV1EdgeHostDevicesUIDConfigGetOK() *V1EdgeHostDevicesUIDConfigGetOK {
 	return &V1EdgeHostDevicesUIDConfigGetOK{}
 }
 
-/*V1EdgeHostDevicesUIDConfigGetOK handles this case with default header values.
+/*
+V1EdgeHostDevicesUIDConfigGetOK handles this case with default header values.
 
 OK
 */

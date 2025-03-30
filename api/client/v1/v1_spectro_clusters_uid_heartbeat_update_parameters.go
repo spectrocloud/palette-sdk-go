@@ -57,7 +57,8 @@ func NewV1SpectroClustersUIDHeartbeatUpdateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1SpectroClustersUIDHeartbeatUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDHeartbeatUpdateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid heartbeat update operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDHeartbeatUpdateParams struct {

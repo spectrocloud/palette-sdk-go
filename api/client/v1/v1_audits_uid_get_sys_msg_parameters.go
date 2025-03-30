@@ -55,7 +55,8 @@ func NewV1AuditsUIDGetSysMsgParamsWithHTTPClient(client *http.Client) *V1AuditsU
 	}
 }
 
-/*V1AuditsUIDGetSysMsgParams contains all the parameters to send to the API endpoint
+/*
+V1AuditsUIDGetSysMsgParams contains all the parameters to send to the API endpoint
 for the v1 audits Uid get sys msg operation typically these are written to a http.Request
 */
 type V1AuditsUIDGetSysMsgParams struct {

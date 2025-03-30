@@ -37,7 +37,8 @@ func NewV1UsersAssetsLocationGcpUpdateNoContent() *V1UsersAssetsLocationGcpUpdat
 	return &V1UsersAssetsLocationGcpUpdateNoContent{}
 }
 
-/*V1UsersAssetsLocationGcpUpdateNoContent handles this case with default header values.
+/*
+V1UsersAssetsLocationGcpUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,7 +40,8 @@ func NewV1ClusterNamespacesGetOK() *V1ClusterNamespacesGetOK {
 	return &V1ClusterNamespacesGetOK{}
 }
 
-/*V1ClusterNamespacesGetOK handles this case with default header values.
+/*
+V1ClusterNamespacesGetOK handles this case with default header values.
 
 OK
 */

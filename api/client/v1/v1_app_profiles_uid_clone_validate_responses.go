@@ -37,7 +37,8 @@ func NewV1AppProfilesUIDCloneValidateNoContent() *V1AppProfilesUIDCloneValidateN
 	return &V1AppProfilesUIDCloneValidateNoContent{}
 }
 
-/*V1AppProfilesUIDCloneValidateNoContent handles this case with default header values.
+/*
+V1AppProfilesUIDCloneValidateNoContent handles this case with default header values.
 
 Ok response without content
 */
