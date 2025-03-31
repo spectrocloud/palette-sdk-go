@@ -311,3 +311,17 @@ func (h *V1Client) UpdateRegistrationTokenState(tokenUID string, body *models.V1
 	_, err := h.Client.V1EdgeTokensUIDState(params)
 	return err
 }
+
+// UpdateEdgeHostDeviceTunnelConfig updates the specified edge host device tunnel configuration
+func (h *V1Client) UpdateEdgeHostDeviceTunnelConfig(edgeHostID string, remoteSSH, remoteSSHTempUser *string) error {
+	tunnelConfig := &models.V1SpectroTunnelConfig{
+		RemoteSSH:         remoteSSH,
+		RemoteSSHTempUser: remoteSSHTempUser,
+	}
+
+	params := clientv1.NewV1EdgeHostDevicesUIDTunnelConfigUpdateParams().
+		WithUID(edgeHostID).
+		WithBody(tunnelConfig)
+	_, err := h.Client.V1EdgeHostDevicesUIDTunnelConfigUpdate(params)
+	return err
+}

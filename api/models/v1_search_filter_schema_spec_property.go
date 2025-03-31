@@ -50,6 +50,9 @@ type V1SearchFilterSchemaSpecProperty struct {
 
 	// max float val
 	MaxFloatVal float64 `json:"maxFloatVal,omitempty"`
+
+	// is deprecated
+	IsDeprecated bool `json:"isDeprecated"`
 }
 
 // Validate validates this v1 search filter schema spec property

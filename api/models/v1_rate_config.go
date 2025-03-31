@@ -41,9 +41,6 @@ type V1RateConfig struct {
 	// generic
 	Generic *V1PrivateCloudRateConfig `json:"generic,omitempty"`
 
-	// libvirt
-	Libvirt *V1PrivateCloudRateConfig `json:"libvirt,omitempty"`
-
 	// maas
 	Maas *V1PrivateCloudRateConfig `json:"maas,omitempty"`
 
@@ -83,10 +80,6 @@ func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateGeneric(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateLibvirt(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -237,24 +230,6 @@ func (m *V1RateConfig) validateGeneric(formats strfmt.Registry) error {
 		if err := m.Generic.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("generic")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1RateConfig) validateLibvirt(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Libvirt) { // not required
-		return nil
-	}
-
-	if m.Libvirt != nil {
-		if err := m.Libvirt.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("libvirt")
 			}
 			return err
 		}

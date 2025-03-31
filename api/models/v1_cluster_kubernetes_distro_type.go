@@ -25,6 +25,9 @@ const (
 
 	// V1ClusterKubernetesDistroTypeCncfK8s captures enum value "cncf_k8s"
 	V1ClusterKubernetesDistroTypeCncfK8s V1ClusterKubernetesDistroType = "cncf_k8s"
+
+	// V1ClusterKubernetesDistroTypeVclusterGeneric captures enum value "vcluster-generic"
+	V1ClusterKubernetesDistroTypeVclusterGeneric V1ClusterKubernetesDistroType = "vcluster-generic"
 )
 
 // for schema
@@ -32,7 +35,7 @@ var v1ClusterKubernetesDistroTypeEnum []interface{}
 
 func init() {
 	var res []V1ClusterKubernetesDistroType
-	if err := json.Unmarshal([]byte(`["k3s","cncf_k8s"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["k3s","cncf_k8s","vcluster-generic"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
