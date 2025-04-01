@@ -121,11 +121,27 @@ func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sor
 }
 
 // GetClusterKubeConfig retrieves a cluster's kubeconfig.
+// Deprecated: use GetClusterClientKubeConfig() instead.
 func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
 	builder := &strings.Builder{}
 	params := clientv1.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1SpectroClustersUIDKubeConfig(params, builder)
+	if err != nil {
+		if herr.IsNotFound(err) {
+			return "", nil
+		}
+		return "", err
+	}
+	return parseKubeconfig(builder)
+}
+
+// GetClusterClientKubeConfig retrieves a cluster's client kubeconfig.
+func (h *V1Client) GetClusterClientKubeConfig(uid string) (string, error) {
+	builder := &strings.Builder{}
+	params := clientv1.NewV1SpectroClustersUIDKubeConfigClientGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	_, err := h.Client.V1SpectroClustersUIDKubeConfigClientGet(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil
