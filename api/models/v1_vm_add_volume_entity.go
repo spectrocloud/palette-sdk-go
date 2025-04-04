@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,6 +58,8 @@ func (m *V1VMAddVolumeEntity) validateAddVolumeOptions(formats strfmt.Registry) 
 		if err := m.AddVolumeOptions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("addVolumeOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("addVolumeOptions")
 			}
 			return err
 		}
@@ -65,7 +69,6 @@ func (m *V1VMAddVolumeEntity) validateAddVolumeOptions(formats strfmt.Registry) 
 }
 
 func (m *V1VMAddVolumeEntity) validateDataVolumeTemplate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataVolumeTemplate) { // not required
 		return nil
 	}
@@ -74,6 +77,64 @@ func (m *V1VMAddVolumeEntity) validateDataVolumeTemplate(formats strfmt.Registry
 		if err := m.DataVolumeTemplate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataVolumeTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolumeTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 VM add volume entity based on the context it is used
+func (m *V1VMAddVolumeEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAddVolumeOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDataVolumeTemplate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMAddVolumeEntity) contextValidateAddVolumeOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AddVolumeOptions != nil {
+
+		if err := m.AddVolumeOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("addVolumeOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("addVolumeOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMAddVolumeEntity) contextValidateDataVolumeTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataVolumeTemplate != nil {
+
+		if swag.IsZero(m.DataVolumeTemplate) { // not required
+			return nil
+		}
+
+		if err := m.DataVolumeTemplate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataVolumeTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolumeTemplate")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -89,7 +90,6 @@ func (m *V1VMInterface) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMInterface) validateDhcpOptions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DhcpOptions) { // not required
 		return nil
 	}
@@ -98,6 +98,8 @@ func (m *V1VMInterface) validateDhcpOptions(formats strfmt.Registry) error {
 		if err := m.DhcpOptions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dhcpOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dhcpOptions")
 			}
 			return err
 		}
@@ -116,7 +118,6 @@ func (m *V1VMInterface) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1VMInterface) validatePorts(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Ports) { // not required
 		return nil
 	}
@@ -130,6 +131,72 @@ func (m *V1VMInterface) validatePorts(formats strfmt.Registry) error {
 			if err := m.Ports[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("ports" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("ports" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm interface based on the context it is used
+func (m *V1VMInterface) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDhcpOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePorts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMInterface) contextValidateDhcpOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DhcpOptions != nil {
+
+		if swag.IsZero(m.DhcpOptions) { // not required
+			return nil
+		}
+
+		if err := m.DhcpOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dhcpOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dhcpOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMInterface) contextValidatePorts(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Ports); i++ {
+
+		if m.Ports[i] != nil {
+
+			if swag.IsZero(m.Ports[i]) { // not required
+				return nil
+			}
+
+			if err := m.Ports[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("ports" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("ports" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

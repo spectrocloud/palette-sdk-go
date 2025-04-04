@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,6 @@ func (m *V1SpectroClusterHybridPoolsMetadata) Validate(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterHybridPoolsMetadata) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -60,6 +60,8 @@ func (m *V1SpectroClusterHybridPoolsMetadata) validateMetadata(formats strfmt.Re
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -69,7 +71,6 @@ func (m *V1SpectroClusterHybridPoolsMetadata) validateMetadata(formats strfmt.Re
 }
 
 func (m *V1SpectroClusterHybridPoolsMetadata) validateSpec(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Spec) { // not required
 		return nil
 	}
@@ -78,6 +79,8 @@ func (m *V1SpectroClusterHybridPoolsMetadata) validateSpec(formats strfmt.Regist
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec")
 			}
 			return err
 		}
@@ -87,7 +90,6 @@ func (m *V1SpectroClusterHybridPoolsMetadata) validateSpec(formats strfmt.Regist
 }
 
 func (m *V1SpectroClusterHybridPoolsMetadata) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -96,6 +98,93 @@ func (m *V1SpectroClusterHybridPoolsMetadata) validateStatus(formats strfmt.Regi
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster hybrid pools metadata based on the context it is used
+func (m *V1SpectroClusterHybridPoolsMetadata) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpec(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterHybridPoolsMetadata) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterHybridPoolsMetadata) contextValidateSpec(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Spec != nil {
+
+		if swag.IsZero(m.Spec) { // not required
+			return nil
+		}
+
+		if err := m.Spec.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterHybridPoolsMetadata) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Status != nil {
+
+		if swag.IsZero(m.Status) { // not required
+			return nil
+		}
+
+		if err := m.Status.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -149,7 +238,6 @@ func (m *V1SpectroClusterHybridPoolsMetadataSpec) Validate(formats strfmt.Regist
 }
 
 func (m *V1SpectroClusterHybridPoolsMetadataSpec) validateHybridPools(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HybridPools) { // not required
 		return nil
 	}
@@ -163,6 +251,47 @@ func (m *V1SpectroClusterHybridPoolsMetadataSpec) validateHybridPools(formats st
 			if err := m.HybridPools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("spec" + "." + "hybridPools" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("spec" + "." + "hybridPools" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster hybrid pools metadata spec based on the context it is used
+func (m *V1SpectroClusterHybridPoolsMetadataSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHybridPools(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterHybridPoolsMetadataSpec) contextValidateHybridPools(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HybridPools); i++ {
+
+		if m.HybridPools[i] != nil {
+
+			if swag.IsZero(m.HybridPools[i]) { // not required
+				return nil
+			}
+
+			if err := m.HybridPools[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("spec" + "." + "hybridPools" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("spec" + "." + "hybridPools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

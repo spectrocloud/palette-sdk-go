@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,7 +46,6 @@ func (m *V1SearchFilterIntegerConditionMatch) Validate(formats strfmt.Registry) 
 }
 
 func (m *V1SearchFilterIntegerConditionMatch) validateConjunction(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Conjunction) { // not required
 		return nil
 	}
@@ -53,6 +54,8 @@ func (m *V1SearchFilterIntegerConditionMatch) validateConjunction(formats strfmt
 		if err := m.Conjunction.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("conjunction")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("conjunction")
 			}
 			return err
 		}
@@ -62,13 +65,47 @@ func (m *V1SearchFilterIntegerConditionMatch) validateConjunction(formats strfmt
 }
 
 func (m *V1SearchFilterIntegerConditionMatch) validateValues(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Values) { // not required
 		return nil
 	}
 
 	if err := validate.UniqueItems("values", "body", m.Values); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 search filter integer condition match based on the context it is used
+func (m *V1SearchFilterIntegerConditionMatch) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConjunction(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SearchFilterIntegerConditionMatch) contextValidateConjunction(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Conjunction != nil {
+
+		if swag.IsZero(m.Conjunction) { // not required
+			return nil
+		}
+
+		if err := m.Conjunction.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("conjunction")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("conjunction")
+			}
+			return err
+		}
 	}
 
 	return nil

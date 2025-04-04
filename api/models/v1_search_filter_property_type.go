@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1SearchFilterPropertyType
 type V1SearchFilterPropertyType string
+
+func NewV1SearchFilterPropertyType(value V1SearchFilterPropertyType) *V1SearchFilterPropertyType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1SearchFilterPropertyType.
+func (m V1SearchFilterPropertyType) Pointer() *V1SearchFilterPropertyType {
+	return &m
+}
 
 const (
 
@@ -71,5 +81,10 @@ func (m V1SearchFilterPropertyType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 search filter property type based on context it is used
+func (m V1SearchFilterPropertyType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,7 +53,6 @@ func (m *V1AwsHybridConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsHybridConfig) validateIamRolesAnywhere(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IamRolesAnywhere) { // not required
 		return nil
 	}
@@ -60,6 +61,8 @@ func (m *V1AwsHybridConfig) validateIamRolesAnywhere(formats strfmt.Registry) er
 		if err := m.IamRolesAnywhere.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("iamRolesAnywhere")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("iamRolesAnywhere")
 			}
 			return err
 		}
@@ -69,7 +72,6 @@ func (m *V1AwsHybridConfig) validateIamRolesAnywhere(formats strfmt.Registry) er
 }
 
 func (m *V1AwsHybridConfig) validateSystemsManager(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SystemsManager) { // not required
 		return nil
 	}
@@ -78,6 +80,68 @@ func (m *V1AwsHybridConfig) validateSystemsManager(formats strfmt.Registry) erro
 		if err := m.SystemsManager.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("systemsManager")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("systemsManager")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws hybrid config based on the context it is used
+func (m *V1AwsHybridConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateIamRolesAnywhere(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSystemsManager(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsHybridConfig) contextValidateIamRolesAnywhere(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.IamRolesAnywhere != nil {
+
+		if swag.IsZero(m.IamRolesAnywhere) { // not required
+			return nil
+		}
+
+		if err := m.IamRolesAnywhere.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("iamRolesAnywhere")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("iamRolesAnywhere")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsHybridConfig) contextValidateSystemsManager(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SystemsManager != nil {
+
+		if swag.IsZero(m.SystemsManager) { // not required
+			return nil
+		}
+
+		if err := m.SystemsManager.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("systemsManager")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("systemsManager")
 			}
 			return err
 		}

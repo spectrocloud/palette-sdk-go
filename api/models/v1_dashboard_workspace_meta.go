@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -69,7 +70,6 @@ func (m *V1DashboardWorkspaceMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1DashboardWorkspaceMeta) validateClusterNames(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterNames) { // not required
 		return nil
 	}
@@ -82,7 +82,6 @@ func (m *V1DashboardWorkspaceMeta) validateClusterNames(formats strfmt.Registry)
 }
 
 func (m *V1DashboardWorkspaceMeta) validateClusterRefs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterRefs) { // not required
 		return nil
 	}
@@ -100,6 +99,8 @@ func (m *V1DashboardWorkspaceMeta) validateClusterRefs(formats strfmt.Registry) 
 			if err := m.ClusterRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -111,7 +112,6 @@ func (m *V1DashboardWorkspaceMeta) validateClusterRefs(formats strfmt.Registry) 
 }
 
 func (m *V1DashboardWorkspaceMeta) validateCreationTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CreationTime) { // not required
 		return nil
 	}
@@ -119,6 +119,8 @@ func (m *V1DashboardWorkspaceMeta) validateCreationTime(formats strfmt.Registry)
 	if err := m.CreationTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("creationTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("creationTime")
 		}
 		return err
 	}
@@ -127,12 +129,72 @@ func (m *V1DashboardWorkspaceMeta) validateCreationTime(formats strfmt.Registry)
 }
 
 func (m *V1DashboardWorkspaceMeta) validateNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
 
 	if err := validate.UniqueItems("namespaces", "body", m.Namespaces); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 dashboard workspace meta based on the context it is used
+func (m *V1DashboardWorkspaceMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterRefs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCreationTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1DashboardWorkspaceMeta) contextValidateClusterRefs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterRefs); i++ {
+
+		if m.ClusterRefs[i] != nil {
+
+			if swag.IsZero(m.ClusterRefs[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterRefs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1DashboardWorkspaceMeta) contextValidateCreationTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.CreationTime) { // not required
+		return nil
+	}
+
+	if err := m.CreationTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("creationTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("creationTime")
+		}
 		return err
 	}
 

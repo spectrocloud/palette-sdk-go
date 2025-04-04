@@ -11,6 +11,7 @@ issues:
   exclude-use-default: false
   exclude-dirs:
     - "api/apiutil"
+    - "api/client/version1"
   exclude-files:
     - ".*_test\\.go"
 
@@ -18,7 +19,7 @@ linters:
   disable-all: true
   enable:
     - errcheck
-    - exportloopref
+    - copyloopvar
     - goconst
     - gofmt
     - goimports

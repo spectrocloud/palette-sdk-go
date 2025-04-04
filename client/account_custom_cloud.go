@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 
-	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/version1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )

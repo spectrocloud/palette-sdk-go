@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -75,7 +77,6 @@ func (m *V1ClusterBackupConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterBackupConfig) validateIncludeClusterResourceMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
 		return nil
 	}
@@ -83,6 +84,8 @@ func (m *V1ClusterBackupConfig) validateIncludeClusterResourceMode(formats strfm
 	if err := m.IncludeClusterResourceMode.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("includeClusterResourceMode")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("includeClusterResourceMode")
 		}
 		return err
 	}
@@ -91,7 +94,6 @@ func (m *V1ClusterBackupConfig) validateIncludeClusterResourceMode(formats strfm
 }
 
 func (m *V1ClusterBackupConfig) validateNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
@@ -104,7 +106,6 @@ func (m *V1ClusterBackupConfig) validateNamespaces(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterBackupConfig) validateSchedule(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Schedule) { // not required
 		return nil
 	}
@@ -113,6 +114,65 @@ func (m *V1ClusterBackupConfig) validateSchedule(formats strfmt.Registry) error 
 		if err := m.Schedule.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("schedule")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("schedule")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster backup config based on the context it is used
+func (m *V1ClusterBackupConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateIncludeClusterResourceMode(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSchedule(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterBackupConfig) contextValidateIncludeClusterResourceMode(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
+		return nil
+	}
+
+	if err := m.IncludeClusterResourceMode.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("includeClusterResourceMode")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("includeClusterResourceMode")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ClusterBackupConfig) contextValidateSchedule(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Schedule != nil {
+
+		if swag.IsZero(m.Schedule) { // not required
+			return nil
+		}
+
+		if err := m.Schedule.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("schedule")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("schedule")
 			}
 			return err
 		}

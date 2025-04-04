@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -26,7 +27,7 @@ type V1ClusterLogFetcherRequest struct {
 	K8s *V1ClusterLogFetcherK8sRequest `json:"k8s,omitempty"`
 
 	// Accepted Values - ["cluster", "app"]. if "app" then logs will be fetched from the virtual cluster
-	// Enum: [cluster app]
+	// Enum: ["cluster","app"]
 	Mode *string `json:"mode,omitempty"`
 
 	// No of lines of logs requested
@@ -59,7 +60,6 @@ func (m *V1ClusterLogFetcherRequest) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterLogFetcherRequest) validateK8s(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.K8s) { // not required
 		return nil
 	}
@@ -68,6 +68,8 @@ func (m *V1ClusterLogFetcherRequest) validateK8s(formats strfmt.Registry) error 
 		if err := m.K8s.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("k8s")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("k8s")
 			}
 			return err
 		}
@@ -106,7 +108,6 @@ func (m *V1ClusterLogFetcherRequest) validateModeEnum(path, location string, val
 }
 
 func (m *V1ClusterLogFetcherRequest) validateMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Mode) { // not required
 		return nil
 	}
@@ -120,7 +121,6 @@ func (m *V1ClusterLogFetcherRequest) validateMode(formats strfmt.Registry) error
 }
 
 func (m *V1ClusterLogFetcherRequest) validateNode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Node) { // not required
 		return nil
 	}
@@ -129,6 +129,68 @@ func (m *V1ClusterLogFetcherRequest) validateNode(formats strfmt.Registry) error
 		if err := m.Node.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("node")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("node")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster log fetcher request based on the context it is used
+func (m *V1ClusterLogFetcherRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateK8s(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNode(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterLogFetcherRequest) contextValidateK8s(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.K8s != nil {
+
+		if swag.IsZero(m.K8s) { // not required
+			return nil
+		}
+
+		if err := m.K8s.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("k8s")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("k8s")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterLogFetcherRequest) contextValidateNode(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Node != nil {
+
+		if swag.IsZero(m.Node) { // not required
+			return nil
+		}
+
+		if err := m.Node.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("node")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("node")
 			}
 			return err
 		}

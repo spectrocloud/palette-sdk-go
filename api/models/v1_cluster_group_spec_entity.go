@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
@@ -31,7 +32,7 @@ type V1ClusterGroupSpecEntity struct {
 	Profiles []*V1SpectroClusterProfileEntity `json:"profiles"`
 
 	// type
-	// Enum: [hostCluster]
+	// Enum: ["hostCluster"]
 	Type string `json:"type,omitempty"`
 }
 
@@ -62,7 +63,6 @@ func (m *V1ClusterGroupSpecEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterGroupSpecEntity) validateClusterRefs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterRefs) { // not required
 		return nil
 	}
@@ -80,6 +80,8 @@ func (m *V1ClusterGroupSpecEntity) validateClusterRefs(formats strfmt.Registry) 
 			if err := m.ClusterRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -91,7 +93,6 @@ func (m *V1ClusterGroupSpecEntity) validateClusterRefs(formats strfmt.Registry) 
 }
 
 func (m *V1ClusterGroupSpecEntity) validateClustersConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClustersConfig) { // not required
 		return nil
 	}
@@ -100,6 +101,8 @@ func (m *V1ClusterGroupSpecEntity) validateClustersConfig(formats strfmt.Registr
 		if err := m.ClustersConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clustersConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clustersConfig")
 			}
 			return err
 		}
@@ -109,7 +112,6 @@ func (m *V1ClusterGroupSpecEntity) validateClustersConfig(formats strfmt.Registr
 }
 
 func (m *V1ClusterGroupSpecEntity) validateProfiles(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Profiles) { // not required
 		return nil
 	}
@@ -123,6 +125,8 @@ func (m *V1ClusterGroupSpecEntity) validateProfiles(formats strfmt.Registry) err
 			if err := m.Profiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -160,7 +164,6 @@ func (m *V1ClusterGroupSpecEntity) validateTypeEnum(path, location string, value
 }
 
 func (m *V1ClusterGroupSpecEntity) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -168,6 +171,99 @@ func (m *V1ClusterGroupSpecEntity) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster group spec entity based on the context it is used
+func (m *V1ClusterGroupSpecEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterRefs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClustersConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfiles(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterGroupSpecEntity) contextValidateClusterRefs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterRefs); i++ {
+
+		if m.ClusterRefs[i] != nil {
+
+			if swag.IsZero(m.ClusterRefs[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterRefs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSpecEntity) contextValidateClustersConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClustersConfig != nil {
+
+		if swag.IsZero(m.ClustersConfig) { // not required
+			return nil
+		}
+
+		if err := m.ClustersConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clustersConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clustersConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSpecEntity) contextValidateProfiles(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Profiles); i++ {
+
+		if m.Profiles[i] != nil {
+
+			if swag.IsZero(m.Profiles[i]) { // not required
+				return nil
+			}
+
+			if err := m.Profiles[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

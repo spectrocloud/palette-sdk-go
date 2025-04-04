@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,7 +24,7 @@ type V1LoginResponse struct {
 	AppEnv string `json:"appEnv,omitempty"`
 
 	// Describes the default mode of authentication. Possible values [password, sso]
-	// Enum: [password sso]
+	// Enum: ["password","sso"]
 	AuthType string `json:"authType,omitempty"`
 
 	// Organization name.
@@ -93,7 +94,6 @@ func (m *V1LoginResponse) validateAuthTypeEnum(path, location string, value stri
 }
 
 func (m *V1LoginResponse) validateAuthType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuthType) { // not required
 		return nil
 	}
@@ -107,7 +107,6 @@ func (m *V1LoginResponse) validateAuthType(formats strfmt.Registry) error {
 }
 
 func (m *V1LoginResponse) validateSsoLogins(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SsoLogins) { // not required
 		return nil
 	}
@@ -115,6 +114,36 @@ func (m *V1LoginResponse) validateSsoLogins(formats strfmt.Registry) error {
 	if err := m.SsoLogins.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("ssoLogins")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("ssoLogins")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 login response based on the context it is used
+func (m *V1LoginResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateSsoLogins(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1LoginResponse) contextValidateSsoLogins(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := m.SsoLogins.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("ssoLogins")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("ssoLogins")
 		}
 		return err
 	}

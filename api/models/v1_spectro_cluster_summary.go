@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,6 @@ func (m *V1SpectroClusterSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterSummary) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -60,6 +60,8 @@ func (m *V1SpectroClusterSummary) validateMetadata(formats strfmt.Registry) erro
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -69,7 +71,6 @@ func (m *V1SpectroClusterSummary) validateMetadata(formats strfmt.Registry) erro
 }
 
 func (m *V1SpectroClusterSummary) validateSpecSummary(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpecSummary) { // not required
 		return nil
 	}
@@ -78,6 +79,8 @@ func (m *V1SpectroClusterSummary) validateSpecSummary(formats strfmt.Registry) e
 		if err := m.SpecSummary.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary")
 			}
 			return err
 		}
@@ -87,7 +90,6 @@ func (m *V1SpectroClusterSummary) validateSpecSummary(formats strfmt.Registry) e
 }
 
 func (m *V1SpectroClusterSummary) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -96,6 +98,93 @@ func (m *V1SpectroClusterSummary) validateStatus(formats strfmt.Registry) error 
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster summary based on the context it is used
+func (m *V1SpectroClusterSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpecSummary(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterSummary) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummary) contextValidateSpecSummary(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SpecSummary != nil {
+
+		if swag.IsZero(m.SpecSummary) { // not required
+			return nil
+		}
+
+		if err := m.SpecSummary.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummary) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Status != nil {
+
+		if swag.IsZero(m.Status) { // not required
+			return nil
+		}
+
+		if err := m.Status.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -128,7 +217,7 @@ func (m *V1SpectroClusterSummary) UnmarshalBinary(b []byte) error {
 type V1SpectroClusterSummarySpecSummary struct {
 
 	// Architecture type of the cluster
-	ArchTypes []V1ArchType `json:"archTypes"`
+	ArchTypes []*V1ArchType `json:"archTypes"`
 
 	// cloud account meta
 	CloudAccountMeta *V1CloudAccountMeta `json:"cloudAccountMeta,omitempty"`
@@ -188,18 +277,24 @@ func (m *V1SpectroClusterSummarySpecSummary) Validate(formats strfmt.Registry) e
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateArchTypes(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ArchTypes) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ArchTypes); i++ {
+		if swag.IsZero(m.ArchTypes[i]) { // not required
+			continue
+		}
 
-		if err := m.ArchTypes[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("specSummary" + "." + "archTypes" + "." + strconv.Itoa(i))
+		if m.ArchTypes[i] != nil {
+			if err := m.ArchTypes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("specSummary" + "." + "archTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "archTypes" + "." + strconv.Itoa(i))
+				}
+				return err
 			}
-			return err
 		}
 
 	}
@@ -208,7 +303,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateArchTypes(formats strfmt.Re
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateCloudAccountMeta(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudAccountMeta) { // not required
 		return nil
 	}
@@ -217,6 +311,8 @@ func (m *V1SpectroClusterSummarySpecSummary) validateCloudAccountMeta(formats st
 		if err := m.CloudAccountMeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "cloudAccountMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "cloudAccountMeta")
 			}
 			return err
 		}
@@ -226,7 +322,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateCloudAccountMeta(formats st
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateCloudConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudConfig) { // not required
 		return nil
 	}
@@ -235,6 +330,8 @@ func (m *V1SpectroClusterSummarySpecSummary) validateCloudConfig(formats strfmt.
 		if err := m.CloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "cloudConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "cloudConfig")
 			}
 			return err
 		}
@@ -244,7 +341,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateCloudConfig(formats strfmt.
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateClusterConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -253,6 +349,8 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterConfig(formats strfm
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "clusterConfig")
 			}
 			return err
 		}
@@ -262,7 +360,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterConfig(formats strfm
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterProfileTemplate) { // not required
 		return nil
 	}
@@ -271,6 +368,8 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplate(form
 		if err := m.ClusterProfileTemplate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "clusterProfileTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "clusterProfileTemplate")
 			}
 			return err
 		}
@@ -280,7 +379,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplate(form
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplates(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterProfileTemplates) { // not required
 		return nil
 	}
@@ -294,6 +392,8 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplates(for
 			if err := m.ClusterProfileTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("specSummary" + "." + "clusterProfileTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "clusterProfileTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -305,7 +405,6 @@ func (m *V1SpectroClusterSummarySpecSummary) validateClusterProfileTemplates(for
 }
 
 func (m *V1SpectroClusterSummarySpecSummary) validateProjectMeta(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProjectMeta) { // not required
 		return nil
 	}
@@ -314,6 +413,201 @@ func (m *V1SpectroClusterSummarySpecSummary) validateProjectMeta(formats strfmt.
 		if err := m.ProjectMeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "projectMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "projectMeta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster summary spec summary based on the context it is used
+func (m *V1SpectroClusterSummarySpecSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateArchTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCloudAccountMeta(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCloudConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterProfileTemplate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProjectMeta(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateArchTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ArchTypes); i++ {
+
+		if m.ArchTypes[i] != nil {
+
+			if swag.IsZero(m.ArchTypes[i]) { // not required
+				return nil
+			}
+
+			if err := m.ArchTypes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("specSummary" + "." + "archTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "archTypes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateCloudAccountMeta(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudAccountMeta != nil {
+
+		if swag.IsZero(m.CloudAccountMeta) { // not required
+			return nil
+		}
+
+		if err := m.CloudAccountMeta.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "cloudAccountMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "cloudAccountMeta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateCloudConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudConfig != nil {
+
+		if swag.IsZero(m.CloudConfig) { // not required
+			return nil
+		}
+
+		if err := m.CloudConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "cloudConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "cloudConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterConfig != nil {
+
+		if swag.IsZero(m.ClusterConfig) { // not required
+			return nil
+		}
+
+		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "clusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateClusterProfileTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterProfileTemplate != nil {
+
+		if swag.IsZero(m.ClusterProfileTemplate) { // not required
+			return nil
+		}
+
+		if err := m.ClusterProfileTemplate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "clusterProfileTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "clusterProfileTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateClusterProfileTemplates(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterProfileTemplates); i++ {
+
+		if m.ClusterProfileTemplates[i] != nil {
+
+			if swag.IsZero(m.ClusterProfileTemplates[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterProfileTemplates[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("specSummary" + "." + "clusterProfileTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "clusterProfileTemplates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummarySpecSummary) contextValidateProjectMeta(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ProjectMeta != nil {
+
+		if swag.IsZero(m.ProjectMeta) { // not required
+			return nil
+		}
+
+		if err := m.ProjectMeta.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "projectMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "projectMeta")
 			}
 			return err
 		}
@@ -430,7 +724,6 @@ func (m *V1SpectroClusterSummaryStatus) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateClusterImport(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterImport) { // not required
 		return nil
 	}
@@ -439,6 +732,8 @@ func (m *V1SpectroClusterSummaryStatus) validateClusterImport(formats strfmt.Reg
 		if err := m.ClusterImport.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "clusterImport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "clusterImport")
 			}
 			return err
 		}
@@ -448,7 +743,6 @@ func (m *V1SpectroClusterSummaryStatus) validateClusterImport(formats strfmt.Reg
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -457,6 +751,8 @@ func (m *V1SpectroClusterSummaryStatus) validateCost(formats strfmt.Registry) er
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "cost")
 			}
 			return err
 		}
@@ -466,7 +762,6 @@ func (m *V1SpectroClusterSummaryStatus) validateCost(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateFips(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Fips) { // not required
 		return nil
 	}
@@ -475,6 +770,8 @@ func (m *V1SpectroClusterSummaryStatus) validateFips(formats strfmt.Registry) er
 		if err := m.Fips.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "fips")
 			}
 			return err
 		}
@@ -484,7 +781,6 @@ func (m *V1SpectroClusterSummaryStatus) validateFips(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateHealth(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Health) { // not required
 		return nil
 	}
@@ -493,6 +789,8 @@ func (m *V1SpectroClusterSummaryStatus) validateHealth(formats strfmt.Registry) 
 		if err := m.Health.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "health")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "health")
 			}
 			return err
 		}
@@ -502,7 +800,6 @@ func (m *V1SpectroClusterSummaryStatus) validateHealth(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateHourlyRate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HourlyRate) { // not required
 		return nil
 	}
@@ -511,6 +808,8 @@ func (m *V1SpectroClusterSummaryStatus) validateHourlyRate(formats strfmt.Regist
 		if err := m.HourlyRate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "hourlyRate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "hourlyRate")
 			}
 			return err
 		}
@@ -520,7 +819,6 @@ func (m *V1SpectroClusterSummaryStatus) validateHourlyRate(formats strfmt.Regist
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateLocation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -529,6 +827,8 @@ func (m *V1SpectroClusterSummaryStatus) validateLocation(formats strfmt.Registry
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "location")
 			}
 			return err
 		}
@@ -538,7 +838,6 @@ func (m *V1SpectroClusterSummaryStatus) validateLocation(formats strfmt.Registry
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateMetrics(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metrics) { // not required
 		return nil
 	}
@@ -547,6 +846,8 @@ func (m *V1SpectroClusterSummaryStatus) validateMetrics(formats strfmt.Registry)
 		if err := m.Metrics.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "metrics")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "metrics")
 			}
 			return err
 		}
@@ -556,7 +857,6 @@ func (m *V1SpectroClusterSummaryStatus) validateMetrics(formats strfmt.Registry)
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateNotifications(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Notifications) { // not required
 		return nil
 	}
@@ -565,6 +865,8 @@ func (m *V1SpectroClusterSummaryStatus) validateNotifications(formats strfmt.Reg
 		if err := m.Notifications.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "notifications")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "notifications")
 			}
 			return err
 		}
@@ -574,7 +876,6 @@ func (m *V1SpectroClusterSummaryStatus) validateNotifications(formats strfmt.Reg
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateRepave(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Repave) { // not required
 		return nil
 	}
@@ -583,6 +884,8 @@ func (m *V1SpectroClusterSummaryStatus) validateRepave(formats strfmt.Registry) 
 		if err := m.Repave.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "repave")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "repave")
 			}
 			return err
 		}
@@ -592,7 +895,6 @@ func (m *V1SpectroClusterSummaryStatus) validateRepave(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterSummaryStatus) validateVirtual(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Virtual) { // not required
 		return nil
 	}
@@ -601,6 +903,268 @@ func (m *V1SpectroClusterSummaryStatus) validateVirtual(formats strfmt.Registry)
 		if err := m.Virtual.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "virtual")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "virtual")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster summary status based on the context it is used
+func (m *V1SpectroClusterSummaryStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterImport(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFips(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHealth(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHourlyRate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLocation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetrics(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNotifications(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRepave(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVirtual(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateClusterImport(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterImport != nil {
+
+		if swag.IsZero(m.ClusterImport) { // not required
+			return nil
+		}
+
+		if err := m.ClusterImport.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "clusterImport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "clusterImport")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cost != nil {
+
+		if swag.IsZero(m.Cost) { // not required
+			return nil
+		}
+
+		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "cost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateFips(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Fips != nil {
+
+		if swag.IsZero(m.Fips) { // not required
+			return nil
+		}
+
+		if err := m.Fips.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "fips")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateHealth(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Health != nil {
+
+		if swag.IsZero(m.Health) { // not required
+			return nil
+		}
+
+		if err := m.Health.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "health")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "health")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateHourlyRate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HourlyRate != nil {
+
+		if swag.IsZero(m.HourlyRate) { // not required
+			return nil
+		}
+
+		if err := m.HourlyRate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "hourlyRate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "hourlyRate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Location != nil {
+
+		if swag.IsZero(m.Location) { // not required
+			return nil
+		}
+
+		if err := m.Location.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "location")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateMetrics(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metrics != nil {
+
+		if swag.IsZero(m.Metrics) { // not required
+			return nil
+		}
+
+		if err := m.Metrics.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "metrics")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "metrics")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateNotifications(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Notifications != nil {
+
+		if swag.IsZero(m.Notifications) { // not required
+			return nil
+		}
+
+		if err := m.Notifications.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "notifications")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "notifications")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateRepave(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Repave != nil {
+
+		if swag.IsZero(m.Repave) { // not required
+			return nil
+		}
+
+		if err := m.Repave.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "repave")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "repave")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSummaryStatus) contextValidateVirtual(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Virtual != nil {
+
+		if swag.IsZero(m.Virtual) { // not required
+			return nil
+		}
+
+		if err := m.Virtual.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status" + "." + "virtual")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status" + "." + "virtual")
 			}
 			return err
 		}

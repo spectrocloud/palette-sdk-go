@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -55,7 +56,6 @@ func (m *V1WorkspaceClusterRestoreConfig) Validate(formats strfmt.Registry) erro
 }
 
 func (m *V1WorkspaceClusterRestoreConfig) validateClusterRestoreRefs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterRestoreRefs) { // not required
 		return nil
 	}
@@ -69,6 +69,8 @@ func (m *V1WorkspaceClusterRestoreConfig) validateClusterRestoreRefs(formats str
 			if err := m.ClusterRestoreRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterRestoreRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRestoreRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -80,7 +82,6 @@ func (m *V1WorkspaceClusterRestoreConfig) validateClusterRestoreRefs(formats str
 }
 
 func (m *V1WorkspaceClusterRestoreConfig) validateRestoreState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RestoreState) { // not required
 		return nil
 	}
@@ -89,6 +90,8 @@ func (m *V1WorkspaceClusterRestoreConfig) validateRestoreState(formats strfmt.Re
 		if err := m.RestoreState.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("restoreState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("restoreState")
 			}
 			return err
 		}
@@ -98,7 +101,6 @@ func (m *V1WorkspaceClusterRestoreConfig) validateRestoreState(formats strfmt.Re
 }
 
 func (m *V1WorkspaceClusterRestoreConfig) validateRestoreTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RestoreTime) { // not required
 		return nil
 	}
@@ -106,6 +108,94 @@ func (m *V1WorkspaceClusterRestoreConfig) validateRestoreTime(formats strfmt.Reg
 	if err := m.RestoreTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("restoreTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("restoreTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 workspace cluster restore config based on the context it is used
+func (m *V1WorkspaceClusterRestoreConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterRestoreRefs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRestoreState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRestoreTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1WorkspaceClusterRestoreConfig) contextValidateClusterRestoreRefs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterRestoreRefs); i++ {
+
+		if m.ClusterRestoreRefs[i] != nil {
+
+			if swag.IsZero(m.ClusterRestoreRefs[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterRestoreRefs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterRestoreRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterRestoreRefs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceClusterRestoreConfig) contextValidateRestoreState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RestoreState != nil {
+
+		if swag.IsZero(m.RestoreState) { // not required
+			return nil
+		}
+
+		if err := m.RestoreState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("restoreState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("restoreState")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceClusterRestoreConfig) contextValidateRestoreTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.RestoreTime) { // not required
+		return nil
+	}
+
+	if err := m.RestoreTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("restoreTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("restoreTime")
 		}
 		return err
 	}

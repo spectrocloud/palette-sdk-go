@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/version1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
@@ -113,6 +113,21 @@ func (h *V1Client) GetEdgeHost(edgeHostID string) (*models.V1EdgeHostDevice, err
 		return nil, err
 	}
 	return resp.Payload, nil
+}
+
+// UpdateEdgeHostTunnelConfig updates an edge host's SSH tunnel configuration.
+func (h *V1Client) UpdateEdgeHostTunnelConfig(edgeHostID, remoteSSH, remoteSSHTempUser string) error {
+	tunnelConfig := &models.V1SpectroTunnelConfig{
+		RemoteSSH:         apiutil.Ptr(remoteSSH),
+		RemoteSSHTempUser: apiutil.Ptr(remoteSSHTempUser),
+	}
+
+	params := clientv1.NewV1EdgeHostDevicesUIDTunnelConfigUpdateParamsWithContext(h.ctx).
+		WithUID(edgeHostID).
+		WithBody(tunnelConfig)
+
+	_, err := h.Client.V1EdgeHostDevicesUIDTunnelConfigUpdate(params)
+	return err
 }
 
 // ListEdgeHosts returns a list of all edge hosts.

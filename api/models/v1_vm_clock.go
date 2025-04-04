@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1VMClock) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMClock) validateTimer(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Timer) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1VMClock) validateTimer(formats strfmt.Registry) error {
 		if err := m.Timer.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("timer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("timer")
 			}
 			return err
 		}
@@ -63,7 +66,6 @@ func (m *V1VMClock) validateTimer(formats strfmt.Registry) error {
 }
 
 func (m *V1VMClock) validateUtc(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Utc) { // not required
 		return nil
 	}
@@ -72,6 +74,68 @@ func (m *V1VMClock) validateUtc(formats strfmt.Registry) error {
 		if err := m.Utc.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("utc")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("utc")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm clock based on the context it is used
+func (m *V1VMClock) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTimer(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUtc(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMClock) contextValidateTimer(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Timer != nil {
+
+		if swag.IsZero(m.Timer) { // not required
+			return nil
+		}
+
+		if err := m.Timer.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("timer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("timer")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMClock) contextValidateUtc(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Utc != nil {
+
+		if swag.IsZero(m.Utc) { // not required
+			return nil
+		}
+
+		if err := m.Utc.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("utc")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("utc")
 			}
 			return err
 		}

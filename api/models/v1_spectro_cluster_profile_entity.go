@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -52,7 +53,6 @@ func (m *V1SpectroClusterProfileEntity) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1SpectroClusterProfileEntity) validatePackValues(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PackValues) { // not required
 		return nil
 	}
@@ -70,6 +70,8 @@ func (m *V1SpectroClusterProfileEntity) validatePackValues(formats strfmt.Regist
 			if err := m.PackValues[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("packValues" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packValues" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -81,7 +83,6 @@ func (m *V1SpectroClusterProfileEntity) validatePackValues(formats strfmt.Regist
 }
 
 func (m *V1SpectroClusterProfileEntity) validateVariables(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Variables) { // not required
 		return nil
 	}
@@ -95,6 +96,76 @@ func (m *V1SpectroClusterProfileEntity) validateVariables(formats strfmt.Registr
 			if err := m.Variables[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("variables" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("variables" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster profile entity based on the context it is used
+func (m *V1SpectroClusterProfileEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePackValues(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVariables(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterProfileEntity) contextValidatePackValues(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PackValues); i++ {
+
+		if m.PackValues[i] != nil {
+
+			if swag.IsZero(m.PackValues[i]) { // not required
+				return nil
+			}
+
+			if err := m.PackValues[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("packValues" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packValues" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterProfileEntity) contextValidateVariables(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Variables); i++ {
+
+		if m.Variables[i] != nil {
+
+			if swag.IsZero(m.Variables[i]) { // not required
+				return nil
+			}
+
+			if err := m.Variables[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("variables" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("variables" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

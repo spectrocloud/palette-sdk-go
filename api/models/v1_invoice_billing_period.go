@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,7 +46,6 @@ func (m *V1InvoiceBillingPeriod) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceBillingPeriod) validateEnd(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.End) { // not required
 		return nil
 	}
@@ -52,6 +53,8 @@ func (m *V1InvoiceBillingPeriod) validateEnd(formats strfmt.Registry) error {
 	if err := m.End.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("end")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("end")
 		}
 		return err
 	}
@@ -60,7 +63,6 @@ func (m *V1InvoiceBillingPeriod) validateEnd(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceBillingPeriod) validateStart(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Start) { // not required
 		return nil
 	}
@@ -68,6 +70,62 @@ func (m *V1InvoiceBillingPeriod) validateStart(formats strfmt.Registry) error {
 	if err := m.Start.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("start")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("start")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 invoice billing period based on the context it is used
+func (m *V1InvoiceBillingPeriod) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateEnd(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStart(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1InvoiceBillingPeriod) contextValidateEnd(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.End) { // not required
+		return nil
+	}
+
+	if err := m.End.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("end")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("end")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1InvoiceBillingPeriod) contextValidateStart(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Start) { // not required
+		return nil
+	}
+
+	if err := m.Start.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("start")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("start")
 		}
 		return err
 	}

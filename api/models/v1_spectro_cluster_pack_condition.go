@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -29,7 +30,7 @@ type V1SpectroClusterPackCondition struct {
 	Status string `json:"status,omitempty"`
 
 	// type
-	// Enum: [ReadyForInstall Installed Ready Error UpgradeAvailable WaitingForOtherLayers]
+	// Enum: ["ReadyForInstall","Installed","Ready","Error","UpgradeAvailable","WaitingForOtherLayers"]
 	Type string `json:"type,omitempty"`
 }
 
@@ -89,7 +90,6 @@ func (m *V1SpectroClusterPackCondition) validateTypeEnum(path, location string, 
 }
 
 func (m *V1SpectroClusterPackCondition) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -99,6 +99,11 @@ func (m *V1SpectroClusterPackCondition) validateType(formats strfmt.Registry) er
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 spectro cluster pack condition based on context it is used
+func (m *V1SpectroClusterPackCondition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -36,7 +37,7 @@ type V1InvoiceSpec struct {
 	Month V1Time `json:"month,omitempty"`
 
 	// payment unit
-	// Enum: [usd]
+	// Enum: ["usd"]
 	PaymentUnit string `json:"paymentUnit,omitempty"`
 
 	// plan
@@ -78,7 +79,6 @@ func (m *V1InvoiceSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceSpec) validateAddress(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Address) { // not required
 		return nil
 	}
@@ -87,6 +87,8 @@ func (m *V1InvoiceSpec) validateAddress(formats strfmt.Registry) error {
 		if err := m.Address.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("address")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("address")
 			}
 			return err
 		}
@@ -96,7 +98,6 @@ func (m *V1InvoiceSpec) validateAddress(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceSpec) validateBillingPeriod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BillingPeriod) { // not required
 		return nil
 	}
@@ -105,6 +106,8 @@ func (m *V1InvoiceSpec) validateBillingPeriod(formats strfmt.Registry) error {
 		if err := m.BillingPeriod.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("billingPeriod")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("billingPeriod")
 			}
 			return err
 		}
@@ -114,7 +117,6 @@ func (m *V1InvoiceSpec) validateBillingPeriod(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceSpec) validateCredits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Credits) { // not required
 		return nil
 	}
@@ -123,6 +125,8 @@ func (m *V1InvoiceSpec) validateCredits(formats strfmt.Registry) error {
 		if err := m.Credits.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credits")
 			}
 			return err
 		}
@@ -132,7 +136,6 @@ func (m *V1InvoiceSpec) validateCredits(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceSpec) validateMonth(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Month) { // not required
 		return nil
 	}
@@ -140,6 +143,8 @@ func (m *V1InvoiceSpec) validateMonth(formats strfmt.Registry) error {
 	if err := m.Month.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("month")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("month")
 		}
 		return err
 	}
@@ -174,7 +179,6 @@ func (m *V1InvoiceSpec) validatePaymentUnitEnum(path, location string, value str
 }
 
 func (m *V1InvoiceSpec) validatePaymentUnit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PaymentUnit) { // not required
 		return nil
 	}
@@ -188,7 +192,6 @@ func (m *V1InvoiceSpec) validatePaymentUnit(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceSpec) validatePlan(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Plan) { // not required
 		return nil
 	}
@@ -197,6 +200,140 @@ func (m *V1InvoiceSpec) validatePlan(formats strfmt.Registry) error {
 		if err := m.Plan.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("plan")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("plan")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 invoice spec based on the context it is used
+func (m *V1InvoiceSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAddress(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateBillingPeriod(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCredits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMonth(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePlan(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1InvoiceSpec) contextValidateAddress(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Address != nil {
+
+		if swag.IsZero(m.Address) { // not required
+			return nil
+		}
+
+		if err := m.Address.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("address")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("address")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1InvoiceSpec) contextValidateBillingPeriod(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BillingPeriod != nil {
+
+		if swag.IsZero(m.BillingPeriod) { // not required
+			return nil
+		}
+
+		if err := m.BillingPeriod.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("billingPeriod")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("billingPeriod")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1InvoiceSpec) contextValidateCredits(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Credits != nil {
+
+		if swag.IsZero(m.Credits) { // not required
+			return nil
+		}
+
+		if err := m.Credits.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("credits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credits")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1InvoiceSpec) contextValidateMonth(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Month) { // not required
+		return nil
+	}
+
+	if err := m.Month.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("month")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("month")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1InvoiceSpec) contextValidatePlan(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Plan != nil {
+
+		if swag.IsZero(m.Plan) { // not required
+			return nil
+		}
+
+		if err := m.Plan.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("plan")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("plan")
 			}
 			return err
 		}

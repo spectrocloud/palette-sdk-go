@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -109,7 +111,6 @@ func (m *V1AzureClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureClusterConfig) validateAadProfile(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AadProfile) { // not required
 		return nil
 	}
@@ -118,6 +119,8 @@ func (m *V1AzureClusterConfig) validateAadProfile(formats strfmt.Registry) error
 		if err := m.AadProfile.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("aadProfile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aadProfile")
 			}
 			return err
 		}
@@ -127,7 +130,6 @@ func (m *V1AzureClusterConfig) validateAadProfile(formats strfmt.Registry) error
 }
 
 func (m *V1AzureClusterConfig) validateAPIServerAccessProfile(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.APIServerAccessProfile) { // not required
 		return nil
 	}
@@ -136,6 +138,8 @@ func (m *V1AzureClusterConfig) validateAPIServerAccessProfile(formats strfmt.Reg
 		if err := m.APIServerAccessProfile.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("apiServerAccessProfile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("apiServerAccessProfile")
 			}
 			return err
 		}
@@ -145,7 +149,6 @@ func (m *V1AzureClusterConfig) validateAPIServerAccessProfile(formats strfmt.Reg
 }
 
 func (m *V1AzureClusterConfig) validateControlPlaneSubnet(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ControlPlaneSubnet) { // not required
 		return nil
 	}
@@ -154,6 +157,8 @@ func (m *V1AzureClusterConfig) validateControlPlaneSubnet(formats strfmt.Registr
 		if err := m.ControlPlaneSubnet.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("controlPlaneSubnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("controlPlaneSubnet")
 			}
 			return err
 		}
@@ -163,7 +168,6 @@ func (m *V1AzureClusterConfig) validateControlPlaneSubnet(formats strfmt.Registr
 }
 
 func (m *V1AzureClusterConfig) validateInfraLBConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InfraLBConfig) { // not required
 		return nil
 	}
@@ -172,6 +176,8 @@ func (m *V1AzureClusterConfig) validateInfraLBConfig(formats strfmt.Registry) er
 		if err := m.InfraLBConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("infraLBConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("infraLBConfig")
 			}
 			return err
 		}
@@ -208,7 +214,6 @@ func (m *V1AzureClusterConfig) validateSubscriptionID(formats strfmt.Registry) e
 }
 
 func (m *V1AzureClusterConfig) validateWorkerSubnet(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.WorkerSubnet) { // not required
 		return nil
 	}
@@ -217,6 +222,143 @@ func (m *V1AzureClusterConfig) validateWorkerSubnet(formats strfmt.Registry) err
 		if err := m.WorkerSubnet.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workerSubnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workerSubnet")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 azure cluster config based on the context it is used
+func (m *V1AzureClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAadProfile(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAPIServerAccessProfile(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateControlPlaneSubnet(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInfraLBConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateWorkerSubnet(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateAadProfile(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AadProfile != nil {
+
+		if swag.IsZero(m.AadProfile) { // not required
+			return nil
+		}
+
+		if err := m.AadProfile.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("aadProfile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aadProfile")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateAPIServerAccessProfile(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.APIServerAccessProfile != nil {
+
+		if swag.IsZero(m.APIServerAccessProfile) { // not required
+			return nil
+		}
+
+		if err := m.APIServerAccessProfile.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("apiServerAccessProfile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("apiServerAccessProfile")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateControlPlaneSubnet(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ControlPlaneSubnet != nil {
+
+		if swag.IsZero(m.ControlPlaneSubnet) { // not required
+			return nil
+		}
+
+		if err := m.ControlPlaneSubnet.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("controlPlaneSubnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("controlPlaneSubnet")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateInfraLBConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InfraLBConfig != nil {
+
+		if swag.IsZero(m.InfraLBConfig) { // not required
+			return nil
+		}
+
+		if err := m.InfraLBConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("infraLBConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("infraLBConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateWorkerSubnet(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.WorkerSubnet != nil {
+
+		if swag.IsZero(m.WorkerSubnet) { // not required
+			return nil
+		}
+
+		if err := m.WorkerSubnet.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workerSubnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workerSubnet")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -66,7 +67,6 @@ func (m *V1AzureCloudConfigStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureCloudConfigStatus) validateConditions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Conditions) { // not required
 		return nil
 	}
@@ -80,6 +80,8 @@ func (m *V1AzureCloudConfigStatus) validateConditions(formats strfmt.Registry) e
 			if err := m.Conditions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -91,7 +93,6 @@ func (m *V1AzureCloudConfigStatus) validateConditions(formats strfmt.Registry) e
 }
 
 func (m *V1AzureCloudConfigStatus) validateImages(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Images) { // not required
 		return nil
 	}
@@ -100,6 +101,8 @@ func (m *V1AzureCloudConfigStatus) validateImages(formats strfmt.Registry) error
 		if err := m.Images.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("images")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("images")
 			}
 			return err
 		}
@@ -109,7 +112,6 @@ func (m *V1AzureCloudConfigStatus) validateImages(formats strfmt.Registry) error
 }
 
 func (m *V1AzureCloudConfigStatus) validateVhdImage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.VhdImage) { // not required
 		return nil
 	}
@@ -118,6 +120,97 @@ func (m *V1AzureCloudConfigStatus) validateVhdImage(formats strfmt.Registry) err
 		if err := m.VhdImage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vhdImage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vhdImage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 azure cloud config status based on the context it is used
+func (m *V1AzureCloudConfigStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConditions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateImages(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVhdImage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AzureCloudConfigStatus) contextValidateConditions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Conditions); i++ {
+
+		if m.Conditions[i] != nil {
+
+			if swag.IsZero(m.Conditions[i]) { // not required
+				return nil
+			}
+
+			if err := m.Conditions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AzureCloudConfigStatus) contextValidateImages(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Images != nil {
+
+		if swag.IsZero(m.Images) { // not required
+			return nil
+		}
+
+		if err := m.Images.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("images")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("images")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureCloudConfigStatus) contextValidateVhdImage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.VhdImage != nil {
+
+		if swag.IsZero(m.VhdImage) { // not required
+			return nil
+		}
+
+		if err := m.VhdImage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("vhdImage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vhdImage")
 			}
 			return err
 		}

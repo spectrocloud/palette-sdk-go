@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -26,7 +27,7 @@ type V1EdgeHostHealth struct {
 	Message string `json:"message,omitempty"`
 
 	// state
-	// Enum: [healthy unhealthy]
+	// Enum: ["healthy","unhealthy"]
 	State string `json:"state,omitempty"`
 }
 
@@ -74,7 +75,6 @@ func (m *V1EdgeHostHealth) validateStateEnum(path, location string, value string
 }
 
 func (m *V1EdgeHostHealth) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
@@ -84,6 +84,11 @@ func (m *V1EdgeHostHealth) validateState(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 edge host health based on context it is used
+func (m *V1EdgeHostHealth) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

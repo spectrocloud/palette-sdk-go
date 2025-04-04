@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -37,7 +38,6 @@ func (m *V1AzureStorageTypes) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureStorageTypes) validateStorageTypes(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StorageTypes) { // not required
 		return nil
 	}
@@ -51,6 +51,47 @@ func (m *V1AzureStorageTypes) validateStorageTypes(formats strfmt.Registry) erro
 			if err := m.StorageTypes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("storageTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("storageTypes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 azure storage types based on the context it is used
+func (m *V1AzureStorageTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateStorageTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AzureStorageTypes) contextValidateStorageTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.StorageTypes); i++ {
+
+		if m.StorageTypes[i] != nil {
+
+			if swag.IsZero(m.StorageTypes[i]) { // not required
+				return nil
+			}
+
+			if err := m.StorageTypes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("storageTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("storageTypes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

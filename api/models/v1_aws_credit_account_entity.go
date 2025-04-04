@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -48,7 +50,6 @@ func (m *V1AwsCreditAccountEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCreditAccountEntity) validateLoginCredentials(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LoginCredentials) { // not required
 		return nil
 	}
@@ -57,6 +58,8 @@ func (m *V1AwsCreditAccountEntity) validateLoginCredentials(formats strfmt.Regis
 		if err := m.LoginCredentials.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loginCredentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loginCredentials")
 			}
 			return err
 		}
@@ -66,7 +69,6 @@ func (m *V1AwsCreditAccountEntity) validateLoginCredentials(formats strfmt.Regis
 }
 
 func (m *V1AwsCreditAccountEntity) validateUserCloudAccount(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UserCloudAccount) { // not required
 		return nil
 	}
@@ -75,6 +77,68 @@ func (m *V1AwsCreditAccountEntity) validateUserCloudAccount(formats strfmt.Regis
 		if err := m.UserCloudAccount.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("userCloudAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("userCloudAccount")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws credit account entity based on the context it is used
+func (m *V1AwsCreditAccountEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLoginCredentials(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUserCloudAccount(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsCreditAccountEntity) contextValidateLoginCredentials(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LoginCredentials != nil {
+
+		if swag.IsZero(m.LoginCredentials) { // not required
+			return nil
+		}
+
+		if err := m.LoginCredentials.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loginCredentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loginCredentials")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsCreditAccountEntity) contextValidateUserCloudAccount(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UserCloudAccount != nil {
+
+		if swag.IsZero(m.UserCloudAccount) { // not required
+			return nil
+		}
+
+		if err := m.UserCloudAccount.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("userCloudAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("userCloudAccount")
 			}
 			return err
 		}

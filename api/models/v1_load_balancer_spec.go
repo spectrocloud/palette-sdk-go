@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,14 +24,14 @@ type V1LoadBalancerSpec struct {
 	APIServerLBStaticIP string `json:"apiServerLBStaticIP,omitempty"`
 
 	// ip allocation method
-	// Enum: [Static Dynamic]
+	// Enum: ["Static","Dynamic"]
 	IPAllocationMethod *string `json:"ipAllocationMethod,omitempty"`
 
 	// private DNS name
 	PrivateDNSName string `json:"privateDNSName,omitempty"`
 
 	// Load Balancer type
-	// Enum: [Internal Public]
+	// Enum: ["Internal","Public"]
 	Type *string `json:"type,omitempty"`
 }
 
@@ -82,7 +83,6 @@ func (m *V1LoadBalancerSpec) validateIPAllocationMethodEnum(path, location strin
 }
 
 func (m *V1LoadBalancerSpec) validateIPAllocationMethod(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPAllocationMethod) { // not required
 		return nil
 	}
@@ -125,7 +125,6 @@ func (m *V1LoadBalancerSpec) validateTypeEnum(path, location string, value strin
 }
 
 func (m *V1LoadBalancerSpec) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -135,6 +134,11 @@ func (m *V1LoadBalancerSpec) validateType(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 load balancer spec based on context it is used
+func (m *V1LoadBalancerSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

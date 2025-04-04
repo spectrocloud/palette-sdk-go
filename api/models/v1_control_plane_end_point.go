@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -26,7 +27,7 @@ type V1ControlPlaneEndPoint struct {
 	Host string `json:"host,omitempty"`
 
 	// VIP or External
-	// Enum: [VIP External DDNS]
+	// Enum: ["VIP","External","DDNS"]
 	Type string `json:"type,omitempty"`
 }
 
@@ -77,7 +78,6 @@ func (m *V1ControlPlaneEndPoint) validateTypeEnum(path, location string, value s
 }
 
 func (m *V1ControlPlaneEndPoint) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -87,6 +87,11 @@ func (m *V1ControlPlaneEndPoint) validateType(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 control plane end point based on context it is used
+func (m *V1ControlPlaneEndPoint) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -55,10 +57,15 @@ func (m *V1VMFilesystem) validateName(formats strfmt.Registry) error {
 
 func (m *V1VMFilesystem) validateVirtiofs(formats strfmt.Registry) error {
 
-	if err := validate.Required("virtiofs", "body", m.Virtiofs); err != nil {
-		return err
+	if m.Virtiofs == nil {
+		return errors.Required("virtiofs", "body", nil)
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 Vm filesystem based on context it is used
+func (m *V1VMFilesystem) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

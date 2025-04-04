@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -54,7 +56,6 @@ func (m *V1VMPodAffinityTerm) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMPodAffinityTerm) validateLabelSelector(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LabelSelector) { // not required
 		return nil
 	}
@@ -63,6 +64,8 @@ func (m *V1VMPodAffinityTerm) validateLabelSelector(formats strfmt.Registry) err
 		if err := m.LabelSelector.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("labelSelector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("labelSelector")
 			}
 			return err
 		}
@@ -72,7 +75,6 @@ func (m *V1VMPodAffinityTerm) validateLabelSelector(formats strfmt.Registry) err
 }
 
 func (m *V1VMPodAffinityTerm) validateNamespaceSelector(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.NamespaceSelector) { // not required
 		return nil
 	}
@@ -81,6 +83,8 @@ func (m *V1VMPodAffinityTerm) validateNamespaceSelector(formats strfmt.Registry)
 		if err := m.NamespaceSelector.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("namespaceSelector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("namespaceSelector")
 			}
 			return err
 		}
@@ -93,6 +97,66 @@ func (m *V1VMPodAffinityTerm) validateTopologyKey(formats strfmt.Registry) error
 
 	if err := validate.Required("topologyKey", "body", m.TopologyKey); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm pod affinity term based on the context it is used
+func (m *V1VMPodAffinityTerm) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLabelSelector(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNamespaceSelector(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMPodAffinityTerm) contextValidateLabelSelector(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LabelSelector != nil {
+
+		if swag.IsZero(m.LabelSelector) { // not required
+			return nil
+		}
+
+		if err := m.LabelSelector.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("labelSelector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("labelSelector")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMPodAffinityTerm) contextValidateNamespaceSelector(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NamespaceSelector != nil {
+
+		if swag.IsZero(m.NamespaceSelector) { // not required
+			return nil
+		}
+
+		if err := m.NamespaceSelector.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("namespaceSelector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("namespaceSelector")
+			}
+			return err
+		}
 	}
 
 	return nil

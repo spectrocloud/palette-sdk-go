@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1LocationType
 type V1LocationType string
+
+func NewV1LocationType(value V1LocationType) *V1LocationType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1LocationType.
+func (m V1LocationType) Pointer() *V1LocationType {
+	return &m
+}
 
 const (
 
@@ -62,5 +72,10 @@ func (m V1LocationType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 location type based on context it is used
+func (m V1LocationType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

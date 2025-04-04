@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
+	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/version1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 

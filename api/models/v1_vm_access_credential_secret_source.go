@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,6 +44,11 @@ func (m *V1VMAccessCredentialSecretSource) validateSecretName(formats strfmt.Reg
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 Vm access credential secret source based on context it is used
+func (m *V1VMAccessCredentialSecretSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -58,7 +59,6 @@ func (m *V1ClusterComplianceScanLogs) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterComplianceScanLogs) validateKubeBenchLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.KubeBenchLogs) { // not required
 		return nil
 	}
@@ -72,6 +72,8 @@ func (m *V1ClusterComplianceScanLogs) validateKubeBenchLogs(formats strfmt.Regis
 			if err := m.KubeBenchLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("kubeBenchLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("kubeBenchLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -83,7 +85,6 @@ func (m *V1ClusterComplianceScanLogs) validateKubeBenchLogs(formats strfmt.Regis
 }
 
 func (m *V1ClusterComplianceScanLogs) validateKubeHunterLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.KubeHunterLogs) { // not required
 		return nil
 	}
@@ -97,6 +98,8 @@ func (m *V1ClusterComplianceScanLogs) validateKubeHunterLogs(formats strfmt.Regi
 			if err := m.KubeHunterLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("kubeHunterLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("kubeHunterLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -108,7 +111,6 @@ func (m *V1ClusterComplianceScanLogs) validateKubeHunterLogs(formats strfmt.Regi
 }
 
 func (m *V1ClusterComplianceScanLogs) validateSonobuoyLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SonobuoyLogs) { // not required
 		return nil
 	}
@@ -122,6 +124,8 @@ func (m *V1ClusterComplianceScanLogs) validateSonobuoyLogs(formats strfmt.Regist
 			if err := m.SonobuoyLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("sonobuoyLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("sonobuoyLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -133,7 +137,6 @@ func (m *V1ClusterComplianceScanLogs) validateSonobuoyLogs(formats strfmt.Regist
 }
 
 func (m *V1ClusterComplianceScanLogs) validateSyftLogs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SyftLogs) { // not required
 		return nil
 	}
@@ -147,6 +150,134 @@ func (m *V1ClusterComplianceScanLogs) validateSyftLogs(formats strfmt.Registry) 
 			if err := m.SyftLogs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("syftLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("syftLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster compliance scan logs based on the context it is used
+func (m *V1ClusterComplianceScanLogs) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateKubeBenchLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateKubeHunterLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSonobuoyLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSyftLogs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterComplianceScanLogs) contextValidateKubeBenchLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.KubeBenchLogs); i++ {
+
+		if m.KubeBenchLogs[i] != nil {
+
+			if swag.IsZero(m.KubeBenchLogs[i]) { // not required
+				return nil
+			}
+
+			if err := m.KubeBenchLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("kubeBenchLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("kubeBenchLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterComplianceScanLogs) contextValidateKubeHunterLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.KubeHunterLogs); i++ {
+
+		if m.KubeHunterLogs[i] != nil {
+
+			if swag.IsZero(m.KubeHunterLogs[i]) { // not required
+				return nil
+			}
+
+			if err := m.KubeHunterLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("kubeHunterLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("kubeHunterLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterComplianceScanLogs) contextValidateSonobuoyLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.SonobuoyLogs); i++ {
+
+		if m.SonobuoyLogs[i] != nil {
+
+			if swag.IsZero(m.SonobuoyLogs[i]) { // not required
+				return nil
+			}
+
+			if err := m.SonobuoyLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("sonobuoyLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("sonobuoyLogs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterComplianceScanLogs) contextValidateSyftLogs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.SyftLogs); i++ {
+
+		if m.SyftLogs[i] != nil {
+
+			if swag.IsZero(m.SyftLogs[i]) { // not required
+				return nil
+			}
+
+			if err := m.SyftLogs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("syftLogs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("syftLogs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

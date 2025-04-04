@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,7 +49,6 @@ func (m *V1VirtualMachineSnapshotSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VirtualMachineSnapshotSpec) validateFailureDeadline(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FailureDeadline) { // not required
 		return nil
 	}
@@ -55,6 +56,8 @@ func (m *V1VirtualMachineSnapshotSpec) validateFailureDeadline(formats strfmt.Re
 	if err := m.FailureDeadline.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("failureDeadline")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("failureDeadline")
 		}
 		return err
 	}
@@ -72,6 +75,61 @@ func (m *V1VirtualMachineSnapshotSpec) validateSource(formats strfmt.Registry) e
 		if err := m.Source.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 virtual machine snapshot spec based on the context it is used
+func (m *V1VirtualMachineSnapshotSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFailureDeadline(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VirtualMachineSnapshotSpec) contextValidateFailureDeadline(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.FailureDeadline) { // not required
+		return nil
+	}
+
+	if err := m.FailureDeadline.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("failureDeadline")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("failureDeadline")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1VirtualMachineSnapshotSpec) contextValidateSource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Source != nil {
+
+		if err := m.Source.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
 			}
 			return err
 		}

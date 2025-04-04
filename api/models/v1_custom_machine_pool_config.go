@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -71,7 +72,6 @@ func (m *V1CustomMachinePoolConfig) validateIsControlPlane(formats strfmt.Regist
 }
 
 func (m *V1CustomMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Taints) { // not required
 		return nil
 	}
@@ -89,6 +89,47 @@ func (m *V1CustomMachinePoolConfig) validateTaints(formats strfmt.Registry) erro
 			if err := m.Taints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 custom machine pool config based on the context it is used
+func (m *V1CustomMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTaints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1CustomMachinePoolConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Taints); i++ {
+
+		if m.Taints[i] != nil {
+
+			if swag.IsZero(m.Taints[i]) { // not required
+				return nil
+			}
+
+			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

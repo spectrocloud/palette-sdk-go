@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,13 +19,22 @@ import (
 // swagger:model v1AwsPartition
 type V1AwsPartition string
 
+func NewV1AwsPartition(value V1AwsPartition) *V1AwsPartition {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1AwsPartition.
+func (m V1AwsPartition) Pointer() *V1AwsPartition {
+	return &m
+}
+
 const (
 
 	// V1AwsPartitionAws captures enum value "aws"
 	V1AwsPartitionAws V1AwsPartition = "aws"
 
-	// V1AwsPartitionAwsUsGov captures enum value "aws-us-gov"
-	V1AwsPartitionAwsUsGov V1AwsPartition = "aws-us-gov"
+	// V1AwsPartitionAwsDashUsDashGov captures enum value "aws-us-gov"
+	V1AwsPartitionAwsDashUsDashGov V1AwsPartition = "aws-us-gov"
 )
 
 // for schema
@@ -59,5 +69,10 @@ func (m V1AwsPartition) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 aws partition based on context it is used
+func (m V1AwsPartition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
