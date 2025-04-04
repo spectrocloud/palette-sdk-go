@@ -11,7 +11,7 @@ issues:
   exclude-use-default: false
   exclude-dirs:
     - "api/apiutil"
-    - "api/client/v1"
+    - "api/client/version1"
   exclude-files:
     - ".*_test\\.go"
 
