@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/go-openapi/swag"
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/v1"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
