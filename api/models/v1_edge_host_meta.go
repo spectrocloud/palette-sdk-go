@@ -23,7 +23,7 @@ type V1EdgeHostMeta struct {
 	ArchType V1ArchType `json:"archType,omitempty"`
 
 	// edge host type
-	// Enum: [libvirt edge-native vsphere]
+	// Enum: [edge-native vsphere]
 	EdgeHostType string `json:"edgeHostType,omitempty"`
 
 	// health state
@@ -77,7 +77,7 @@ var v1EdgeHostMetaTypeEdgeHostTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["libvirt","edge-native","vsphere"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["edge-native","vsphere"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -86,9 +86,6 @@ func init() {
 }
 
 const (
-
-	// V1EdgeHostMetaEdgeHostTypeLibvirt captures enum value "libvirt"
-	V1EdgeHostMetaEdgeHostTypeLibvirt string = "libvirt"
 
 	// V1EdgeHostMetaEdgeHostTypeEdgeNative captures enum value "edge-native"
 	V1EdgeHostMetaEdgeHostTypeEdgeNative string = "edge-native"

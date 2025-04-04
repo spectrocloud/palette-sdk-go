@@ -41,6 +41,9 @@ type V1EdgeHostDeviceStatus struct {
 	// state
 	// Enum: [ready unpaired in-use]
 	State string `json:"state,omitempty"`
+
+	// tunnel status
+	TunnelStatus *V1SpectroTunnelStatus `json:"tunnelStatus,omitempty"`
 }
 
 // Validate validates this v1 edge host device status
@@ -68,6 +71,10 @@ func (m *V1EdgeHostDeviceStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateState(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTunnelStatus(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -229,6 +236,24 @@ func (m *V1EdgeHostDeviceStatus) validateState(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateStateEnum("state", "body", m.State); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1EdgeHostDeviceStatus) validateTunnelStatus(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.TunnelStatus) { // not required
+		return nil
+	}
+
+	if m.TunnelStatus != nil {
+		if err := m.TunnelStatus.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tunnelStatus")
+			}
+			return err
+		}
 	}
 
 	return nil

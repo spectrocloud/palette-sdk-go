@@ -60,7 +60,7 @@ type V1TenantSamlSpec struct {
 	// slo url
 	SingleLogoutURL string `json:"singleLogoutUrl"`
 
-	// sync sso teams
+	// When syncSsoTeams is set to true, all the teams from the OIDC configuration are pulled and saved in palette whereas when set to false, only the teams which are part of palette are pulled and saved
 	SyncSsoTeams bool `json:"syncSsoTeams"`
 }
 

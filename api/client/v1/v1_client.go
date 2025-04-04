@@ -1082,6 +1082,8 @@ type ClientService interface {
 
 	V1EdgeHostDevicesUIDClusterDeassociate(params *V1EdgeHostDevicesUIDClusterDeassociateParams) (*V1EdgeHostDevicesUIDClusterDeassociateNoContent, error)
 
+	V1EdgeHostDevicesUIDConfigGet(params *V1EdgeHostDevicesUIDConfigGetParams) (*V1EdgeHostDevicesUIDConfigGetOK, error)
+
 	V1EdgeHostDevicesUIDDelete(params *V1EdgeHostDevicesUIDDeleteParams) (*V1EdgeHostDevicesUIDDeleteNoContent, error)
 
 	V1EdgeHostDevicesUIDGet(params *V1EdgeHostDevicesUIDGetParams) (*V1EdgeHostDevicesUIDGetOK, error)
@@ -1097,6 +1099,10 @@ type ClientService interface {
 	V1EdgeHostDevicesUIDProfilesUpdate(params *V1EdgeHostDevicesUIDProfilesUpdateParams) (*V1EdgeHostDevicesUIDProfilesUpdateNoContent, error)
 
 	V1EdgeHostDevicesUIDSpcDownload(params *V1EdgeHostDevicesUIDSpcDownloadParams, writer io.Writer) (*V1EdgeHostDevicesUIDSpcDownloadOK, error)
+
+	V1EdgeHostDevicesUIDTunnelConfigUpdate(params *V1EdgeHostDevicesUIDTunnelConfigUpdateParams) (*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent, error)
+
+	V1EdgeHostDevicesUIDTunnelStatusUpdate(params *V1EdgeHostDevicesUIDTunnelStatusUpdateParams) (*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent, error)
 
 	V1EdgeHostDevicesUIDUpdate(params *V1EdgeHostDevicesUIDUpdateParams) (*V1EdgeHostDevicesUIDUpdateNoContent, error)
 
@@ -19944,6 +19950,40 @@ func (a *Client) V1EdgeHostDevicesUIDClusterDeassociate(params *V1EdgeHostDevice
 }
 
 /*
+V1EdgeHostDevicesUIDConfigGet gets the specified edge host device configuration
+*/
+func (a *Client) V1EdgeHostDevicesUIDConfigGet(params *V1EdgeHostDevicesUIDConfigGetParams) (*V1EdgeHostDevicesUIDConfigGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDConfigGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidConfigGet",
+		Method:             "GET",
+		PathPattern:        "/v1/edgehosts/{uid}/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDConfigGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDConfigGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidConfigGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1EdgeHostDevicesUIDDelete deletes the specified edge host device
 */
 func (a *Client) V1EdgeHostDevicesUIDDelete(params *V1EdgeHostDevicesUIDDeleteParams) (*V1EdgeHostDevicesUIDDeleteNoContent, error) {
@@ -20212,6 +20252,74 @@ func (a *Client) V1EdgeHostDevicesUIDSpcDownload(params *V1EdgeHostDevicesUIDSpc
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidSpcDownload: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1EdgeHostDevicesUIDTunnelConfigUpdate updates the specified edge host device tunnel configuration
+*/
+func (a *Client) V1EdgeHostDevicesUIDTunnelConfigUpdate(params *V1EdgeHostDevicesUIDTunnelConfigUpdateParams) (*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDTunnelConfigUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidTunnelConfigUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/tunnelConfig",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDTunnelConfigUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDTunnelConfigUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidTunnelConfigUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1EdgeHostDevicesUIDTunnelStatusUpdate updates the edge host tunnel status
+*/
+func (a *Client) V1EdgeHostDevicesUIDTunnelStatusUpdate(params *V1EdgeHostDevicesUIDTunnelStatusUpdateParams) (*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDevicesUIDTunnelStatusUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDevicesUidTunnelStatusUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/tunnelStatus",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDevicesUIDTunnelStatusUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDevicesUIDTunnelStatusUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDevicesUidTunnelStatusUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
