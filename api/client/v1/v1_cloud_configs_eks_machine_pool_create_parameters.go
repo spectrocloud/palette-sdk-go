@@ -57,7 +57,8 @@ func NewV1CloudConfigsEksMachinePoolCreateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1CloudConfigsEksMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEksMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs eks machine pool create operation typically these are written to a http.Request
 */
 type V1CloudConfigsEksMachinePoolCreateParams struct {

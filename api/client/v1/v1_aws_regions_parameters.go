@@ -55,7 +55,8 @@ func NewV1AwsRegionsParamsWithHTTPClient(client *http.Client) *V1AwsRegionsParam
 	}
 }
 
-/*V1AwsRegionsParams contains all the parameters to send to the API endpoint
+/*
+V1AwsRegionsParams contains all the parameters to send to the API endpoint
 for the v1 aws regions operation typically these are written to a http.Request
 */
 type V1AwsRegionsParams struct {

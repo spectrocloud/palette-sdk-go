@@ -40,7 +40,8 @@ func NewV1EdgeHostDevicesRegisterOK() *V1EdgeHostDevicesRegisterOK {
 	return &V1EdgeHostDevicesRegisterOK{}
 }
 
-/*V1EdgeHostDevicesRegisterOK handles this case with default header values.
+/*
+V1EdgeHostDevicesRegisterOK handles this case with default header values.
 
 OK
 */

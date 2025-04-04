@@ -40,7 +40,8 @@ func NewV1RegistriesHelmUIDSyncStatusOK() *V1RegistriesHelmUIDSyncStatusOK {
 	return &V1RegistriesHelmUIDSyncStatusOK{}
 }
 
-/*V1RegistriesHelmUIDSyncStatusOK handles this case with default header values.
+/*
+V1RegistriesHelmUIDSyncStatusOK handles this case with default header values.
 
 Helm registry sync status
 */

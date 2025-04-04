@@ -40,7 +40,8 @@ func NewV1UsersKubectlSessionUIDOK() *V1UsersKubectlSessionUIDOK {
 	return &V1UsersKubectlSessionUIDOK{}
 }
 
-/*V1UsersKubectlSessionUIDOK handles this case with default header values.
+/*
+V1UsersKubectlSessionUIDOK handles this case with default header values.
 
 OK
 */

@@ -55,7 +55,8 @@ func NewV1EdgeHostsUIDResetParamsWithHTTPClient(client *http.Client) *V1EdgeHost
 	}
 }
 
-/*V1EdgeHostsUIDResetParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostsUIDResetParams contains all the parameters to send to the API endpoint
 for the v1 edge hosts Uid reset operation typically these are written to a http.Request
 */
 type V1EdgeHostsUIDResetParams struct {

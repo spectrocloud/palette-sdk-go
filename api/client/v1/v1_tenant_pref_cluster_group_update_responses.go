@@ -37,7 +37,8 @@ func NewV1TenantPrefClusterGroupUpdateNoContent() *V1TenantPrefClusterGroupUpdat
 	return &V1TenantPrefClusterGroupUpdateNoContent{}
 }
 
-/*V1TenantPrefClusterGroupUpdateNoContent handles this case with default header values.
+/*
+V1TenantPrefClusterGroupUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

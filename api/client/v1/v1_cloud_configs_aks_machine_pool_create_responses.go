@@ -40,7 +40,8 @@ func NewV1CloudConfigsAksMachinePoolCreateCreated() *V1CloudConfigsAksMachinePoo
 	return &V1CloudConfigsAksMachinePoolCreateCreated{}
 }
 
-/*V1CloudConfigsAksMachinePoolCreateCreated handles this case with default header values.
+/*
+V1CloudConfigsAksMachinePoolCreateCreated handles this case with default header values.
 
 Created successfully
 */

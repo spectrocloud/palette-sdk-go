@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeWorkerPoolTemplateDeleteNoContent() *V1CustomCloudTypeW
 	return &V1CustomCloudTypeWorkerPoolTemplateDeleteNoContent{}
 }
 
-/*V1CustomCloudTypeWorkerPoolTemplateDeleteNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeWorkerPoolTemplateDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

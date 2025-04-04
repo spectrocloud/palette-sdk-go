@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -39,7 +41,6 @@ func (m *V1VMError) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMError) validateTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Time) { // not required
 		return nil
 	}
@@ -47,6 +48,40 @@ func (m *V1VMError) validateTime(formats strfmt.Registry) error {
 	if err := m.Time.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("time")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("time")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm error based on the context it is used
+func (m *V1VMError) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMError) contextValidateTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Time) { // not required
+		return nil
+	}
+
+	if err := m.Time.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("time")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("time")
 		}
 		return err
 	}

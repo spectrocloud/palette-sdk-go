@@ -40,7 +40,8 @@ func NewV1ClusterFeatureHelmChartsGetOK() *V1ClusterFeatureHelmChartsGetOK {
 	return &V1ClusterFeatureHelmChartsGetOK{}
 }
 
-/*V1ClusterFeatureHelmChartsGetOK handles this case with default header values.
+/*
+V1ClusterFeatureHelmChartsGetOK handles this case with default header values.
 
 OK
 */

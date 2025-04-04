@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1WorkspaceBackupStatusMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1WorkspaceBackupStatusMeta) validateActor(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1WorkspaceBackupStatusMeta) validateActor(formats strfmt.Registry) err
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -63,7 +66,6 @@ func (m *V1WorkspaceBackupStatusMeta) validateActor(formats strfmt.Registry) err
 }
 
 func (m *V1WorkspaceBackupStatusMeta) validateWorkspaceBackupConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.WorkspaceBackupConfig) { // not required
 		return nil
 	}
@@ -72,6 +74,68 @@ func (m *V1WorkspaceBackupStatusMeta) validateWorkspaceBackupConfig(formats strf
 		if err := m.WorkspaceBackupConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workspaceBackupConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workspaceBackupConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 workspace backup status meta based on the context it is used
+func (m *V1WorkspaceBackupStatusMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateActor(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateWorkspaceBackupConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1WorkspaceBackupStatusMeta) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Actor != nil {
+
+		if swag.IsZero(m.Actor) { // not required
+			return nil
+		}
+
+		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceBackupStatusMeta) contextValidateWorkspaceBackupConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.WorkspaceBackupConfig != nil {
+
+		if swag.IsZero(m.WorkspaceBackupConfig) { // not required
+			return nil
+		}
+
+		if err := m.WorkspaceBackupConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workspaceBackupConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workspaceBackupConfig")
 			}
 			return err
 		}

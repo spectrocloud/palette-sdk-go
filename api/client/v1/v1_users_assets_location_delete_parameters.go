@@ -55,7 +55,8 @@ func NewV1UsersAssetsLocationDeleteParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1UsersAssetsLocationDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetsLocationDeleteParams contains all the parameters to send to the API endpoint
 for the v1 users assets location delete operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationDeleteParams struct {

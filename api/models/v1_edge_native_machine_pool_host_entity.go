@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -36,7 +37,7 @@ type V1EdgeNativeMachinePoolHostEntity struct {
 	StaticIP string `json:"staticIP,omitempty"`
 
 	// Set the edgehost candidate priority as primary or secondary, if the edgehost is nominated as two node candidate
-	// Enum: [primary secondary]
+	// Enum: ["primary","secondary"]
 	TwoNodeCandidatePriority string `json:"twoNodeCandidatePriority,omitempty"`
 }
 
@@ -72,7 +73,6 @@ func (m *V1EdgeNativeMachinePoolHostEntity) validateHostUID(formats strfmt.Regis
 }
 
 func (m *V1EdgeNativeMachinePoolHostEntity) validateNic(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Nic) { // not required
 		return nil
 	}
@@ -81,6 +81,8 @@ func (m *V1EdgeNativeMachinePoolHostEntity) validateNic(formats strfmt.Registry)
 		if err := m.Nic.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("nic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nic")
 			}
 			return err
 		}
@@ -119,7 +121,6 @@ func (m *V1EdgeNativeMachinePoolHostEntity) validateTwoNodeCandidatePriorityEnum
 }
 
 func (m *V1EdgeNativeMachinePoolHostEntity) validateTwoNodeCandidatePriority(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TwoNodeCandidatePriority) { // not required
 		return nil
 	}
@@ -127,6 +128,41 @@ func (m *V1EdgeNativeMachinePoolHostEntity) validateTwoNodeCandidatePriority(for
 	// value enum
 	if err := m.validateTwoNodeCandidatePriorityEnum("twoNodeCandidatePriority", "body", m.TwoNodeCandidatePriority); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 edge native machine pool host entity based on the context it is used
+func (m *V1EdgeNativeMachinePoolHostEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNic(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1EdgeNativeMachinePoolHostEntity) contextValidateNic(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Nic != nil {
+
+		if swag.IsZero(m.Nic) { // not required
+			return nil
+		}
+
+		if err := m.Nic.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nic")
+			}
+			return err
+		}
 	}
 
 	return nil

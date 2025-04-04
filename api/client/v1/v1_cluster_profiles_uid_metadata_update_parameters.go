@@ -57,7 +57,8 @@ func NewV1ClusterProfilesUIDMetadataUpdateParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1ClusterProfilesUIDMetadataUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDMetadataUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid metadata update operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDMetadataUpdateParams struct {

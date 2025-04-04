@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1ProjectClusterSettings) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectClusterSettings) validateNodesAutoRemediationSetting(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.NodesAutoRemediationSetting) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1ProjectClusterSettings) validateNodesAutoRemediationSetting(formats s
 		if err := m.NodesAutoRemediationSetting.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("nodesAutoRemediationSetting")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nodesAutoRemediationSetting")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1ProjectClusterSettings) validateNodesAutoRemediationSetting(formats s
 }
 
 func (m *V1ProjectClusterSettings) validateTenantClusterSettings(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TenantClusterSettings) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1ProjectClusterSettings) validateTenantClusterSettings(formats strfmt.
 		if err := m.TenantClusterSettings.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tenantClusterSettings")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tenantClusterSettings")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 project cluster settings based on the context it is used
+func (m *V1ProjectClusterSettings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNodesAutoRemediationSetting(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTenantClusterSettings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ProjectClusterSettings) contextValidateNodesAutoRemediationSetting(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NodesAutoRemediationSetting != nil {
+
+		if swag.IsZero(m.NodesAutoRemediationSetting) { // not required
+			return nil
+		}
+
+		if err := m.NodesAutoRemediationSetting.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nodesAutoRemediationSetting")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nodesAutoRemediationSetting")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ProjectClusterSettings) contextValidateTenantClusterSettings(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.TenantClusterSettings != nil {
+
+		if swag.IsZero(m.TenantClusterSettings) { // not required
+			return nil
+		}
+
+		if err := m.TenantClusterSettings.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tenantClusterSettings")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tenantClusterSettings")
 			}
 			return err
 		}

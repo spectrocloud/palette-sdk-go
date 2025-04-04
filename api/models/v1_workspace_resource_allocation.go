@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,12 +47,11 @@ func (m *V1WorkspaceResourceAllocation) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1WorkspaceResourceAllocation) validateCPUCores(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CPUCores) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("cpuCores", "body", float64(m.CPUCores), -1, false); err != nil {
+	if err := validate.Minimum("cpuCores", "body", m.CPUCores, -1, false); err != nil {
 		return err
 	}
 
@@ -58,15 +59,19 @@ func (m *V1WorkspaceResourceAllocation) validateCPUCores(formats strfmt.Registry
 }
 
 func (m *V1WorkspaceResourceAllocation) validateMemoryMiB(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MemoryMiB) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("memoryMiB", "body", float64(m.MemoryMiB), -1, false); err != nil {
+	if err := validate.Minimum("memoryMiB", "body", m.MemoryMiB, -1, false); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 workspace resource allocation based on context it is used
+func (m *V1WorkspaceResourceAllocation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

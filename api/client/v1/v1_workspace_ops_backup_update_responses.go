@@ -37,7 +37,8 @@ func NewV1WorkspaceOpsBackupUpdateNoContent() *V1WorkspaceOpsBackupUpdateNoConte
 	return &V1WorkspaceOpsBackupUpdateNoContent{}
 }
 
-/*V1WorkspaceOpsBackupUpdateNoContent handles this case with default header values.
+/*
+V1WorkspaceOpsBackupUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

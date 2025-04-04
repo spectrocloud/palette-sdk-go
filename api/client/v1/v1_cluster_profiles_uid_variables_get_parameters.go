@@ -55,7 +55,8 @@ func NewV1ClusterProfilesUIDVariablesGetParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1ClusterProfilesUIDVariablesGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesUIDVariablesGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles Uid variables get operation typically these are written to a http.Request
 */
 type V1ClusterProfilesUIDVariablesGetParams struct {

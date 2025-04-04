@@ -37,7 +37,8 @@ func NewV1AppProfilesUIDTiersUIDUpdateNoContent() *V1AppProfilesUIDTiersUIDUpdat
 	return &V1AppProfilesUIDTiersUIDUpdateNoContent{}
 }
 
-/*V1AppProfilesUIDTiersUIDUpdateNoContent handles this case with default header values.
+/*
+V1AppProfilesUIDTiersUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -57,7 +57,8 @@ func NewV1ClusterProfilesBulkDeleteParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1ClusterProfilesBulkDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterProfilesBulkDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster profiles bulk delete operation typically these are written to a http.Request
 */
 type V1ClusterProfilesBulkDeleteParams struct {

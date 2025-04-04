@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -58,7 +59,7 @@ type V1PackFilterSpec struct {
 
 	// Pack type
 	// Unique: true
-	Type []V1PackType `json:"type"`
+	Type []*V1PackType `json:"type"`
 }
 
 // Validate validates this v1 pack filter spec
@@ -112,7 +113,6 @@ func (m *V1PackFilterSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateAddOnSubType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AddOnSubType) { // not required
 		return nil
 	}
@@ -125,7 +125,6 @@ func (m *V1PackFilterSpec) validateAddOnSubType(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateAddOnType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AddOnType) { // not required
 		return nil
 	}
@@ -138,7 +137,6 @@ func (m *V1PackFilterSpec) validateAddOnType(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateDisplayName(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DisplayName) { // not required
 		return nil
 	}
@@ -147,6 +145,8 @@ func (m *V1PackFilterSpec) validateDisplayName(formats strfmt.Registry) error {
 		if err := m.DisplayName.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("displayName")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("displayName")
 			}
 			return err
 		}
@@ -156,7 +156,6 @@ func (m *V1PackFilterSpec) validateDisplayName(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateEnvironment(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Environment) { // not required
 		return nil
 	}
@@ -169,7 +168,6 @@ func (m *V1PackFilterSpec) validateEnvironment(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateLayer(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Layer) { // not required
 		return nil
 	}
@@ -183,6 +181,8 @@ func (m *V1PackFilterSpec) validateLayer(formats strfmt.Registry) error {
 		if err := m.Layer[i].Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("layer" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("layer" + "." + strconv.Itoa(i))
 			}
 			return err
 		}
@@ -193,7 +193,6 @@ func (m *V1PackFilterSpec) validateLayer(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateName(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Name) { // not required
 		return nil
 	}
@@ -202,6 +201,8 @@ func (m *V1PackFilterSpec) validateName(formats strfmt.Registry) error {
 		if err := m.Name.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("name")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("name")
 			}
 			return err
 		}
@@ -211,7 +212,6 @@ func (m *V1PackFilterSpec) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateRegistryUID(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RegistryUID) { // not required
 		return nil
 	}
@@ -224,7 +224,6 @@ func (m *V1PackFilterSpec) validateRegistryUID(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateSource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Source) { // not required
 		return nil
 	}
@@ -237,7 +236,6 @@ func (m *V1PackFilterSpec) validateSource(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
@@ -250,7 +248,6 @@ func (m *V1PackFilterSpec) validateState(formats strfmt.Registry) error {
 }
 
 func (m *V1PackFilterSpec) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -260,12 +257,134 @@ func (m *V1PackFilterSpec) validateType(formats strfmt.Registry) error {
 	}
 
 	for i := 0; i < len(m.Type); i++ {
+		if swag.IsZero(m.Type[i]) { // not required
+			continue
+		}
 
-		if err := m.Type[i].Validate(formats); err != nil {
+		if m.Type[i] != nil {
+			if err := m.Type[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("type" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("type" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 pack filter spec based on the context it is used
+func (m *V1PackFilterSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDisplayName(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLayer(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateName(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PackFilterSpec) contextValidateDisplayName(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DisplayName != nil {
+
+		if swag.IsZero(m.DisplayName) { // not required
+			return nil
+		}
+
+		if err := m.DisplayName.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("type" + "." + strconv.Itoa(i))
+				return ve.ValidateName("displayName")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("displayName")
 			}
 			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PackFilterSpec) contextValidateLayer(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Layer); i++ {
+
+		if swag.IsZero(m.Layer[i]) { // not required
+			return nil
+		}
+
+		if err := m.Layer[i].ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("layer" + "." + strconv.Itoa(i))
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("layer" + "." + strconv.Itoa(i))
+			}
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1PackFilterSpec) contextValidateName(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Name != nil {
+
+		if swag.IsZero(m.Name) { // not required
+			return nil
+		}
+
+		if err := m.Name.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("name")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("name")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PackFilterSpec) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Type); i++ {
+
+		if m.Type[i] != nil {
+
+			if swag.IsZero(m.Type[i]) { // not required
+				return nil
+			}
+
+			if err := m.Type[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("type" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("type" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
 		}
 
 	}

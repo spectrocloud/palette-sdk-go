@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -64,7 +65,6 @@ func (m *V1GcpMachinePoolCloudConfigEntity) validateInstanceType(formats strfmt.
 }
 
 func (m *V1GcpMachinePoolCloudConfigEntity) validateSubnets(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Subnets) { // not required
 		return nil
 	}
@@ -78,6 +78,47 @@ func (m *V1GcpMachinePoolCloudConfigEntity) validateSubnets(formats strfmt.Regis
 			if err := m.Subnets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("subnets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("subnets" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 gcp machine pool cloud config entity based on the context it is used
+func (m *V1GcpMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateSubnets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1GcpMachinePoolCloudConfigEntity) contextValidateSubnets(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Subnets); i++ {
+
+		if m.Subnets[i] != nil {
+
+			if swag.IsZero(m.Subnets[i]) { // not required
+				return nil
+			}
+
+			if err := m.Subnets[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("subnets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("subnets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -37,7 +37,8 @@ func NewV1APIKeysUIDDeleteNoContent() *V1APIKeysUIDDeleteNoContent {
 	return &V1APIKeysUIDDeleteNoContent{}
 }
 
-/*V1APIKeysUIDDeleteNoContent handles this case with default header values.
+/*
+V1APIKeysUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -57,7 +57,8 @@ func NewV1DataSinksCloudWatchSinkParamsWithHTTPClient(client *http.Client) *V1Da
 	}
 }
 
-/*V1DataSinksCloudWatchSinkParams contains all the parameters to send to the API endpoint
+/*
+V1DataSinksCloudWatchSinkParams contains all the parameters to send to the API endpoint
 for the v1 data sinks cloud watch sink operation typically these are written to a http.Request
 */
 type V1DataSinksCloudWatchSinkParams struct {

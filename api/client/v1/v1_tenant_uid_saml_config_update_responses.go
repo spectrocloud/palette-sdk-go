@@ -37,7 +37,8 @@ func NewV1TenantUIDSamlConfigUpdateNoContent() *V1TenantUIDSamlConfigUpdateNoCon
 	return &V1TenantUIDSamlConfigUpdateNoContent{}
 }
 
-/*V1TenantUIDSamlConfigUpdateNoContent handles this case with default header values.
+/*
+V1TenantUIDSamlConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

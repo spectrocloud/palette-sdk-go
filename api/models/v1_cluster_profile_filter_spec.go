@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -24,14 +25,14 @@ type V1ClusterProfileFilterSpec struct {
 	Environment []string `json:"environment"`
 
 	// fips
-	Fips V1ClusterFipsMode `json:"fips,omitempty"`
+	Fips *V1ClusterFipsMode `json:"fips,omitempty"`
 
 	// profile name
 	ProfileName *V1FilterString `json:"profileName,omitempty"`
 
 	// profile type
 	// Unique: true
-	ProfileType []V1ProfileType `json:"profileType"`
+	ProfileType []*V1ProfileType `json:"profileType"`
 
 	// scope
 	Scope V1ClusterProfileScope `json:"scope,omitempty"`
@@ -82,7 +83,6 @@ func (m *V1ClusterProfileFilterSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterProfileFilterSpec) validateEnvironment(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Environment) { // not required
 		return nil
 	}
@@ -95,23 +95,25 @@ func (m *V1ClusterProfileFilterSpec) validateEnvironment(formats strfmt.Registry
 }
 
 func (m *V1ClusterProfileFilterSpec) validateFips(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Fips) { // not required
 		return nil
 	}
 
-	if err := m.Fips.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("fips")
+	if m.Fips != nil {
+		if err := m.Fips.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("fips")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
 func (m *V1ClusterProfileFilterSpec) validateProfileName(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProfileName) { // not required
 		return nil
 	}
@@ -120,6 +122,8 @@ func (m *V1ClusterProfileFilterSpec) validateProfileName(formats strfmt.Registry
 		if err := m.ProfileName.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("profileName")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profileName")
 			}
 			return err
 		}
@@ -129,7 +133,6 @@ func (m *V1ClusterProfileFilterSpec) validateProfileName(formats strfmt.Registry
 }
 
 func (m *V1ClusterProfileFilterSpec) validateProfileType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProfileType) { // not required
 		return nil
 	}
@@ -139,12 +142,19 @@ func (m *V1ClusterProfileFilterSpec) validateProfileType(formats strfmt.Registry
 	}
 
 	for i := 0; i < len(m.ProfileType); i++ {
+		if swag.IsZero(m.ProfileType[i]) { // not required
+			continue
+		}
 
-		if err := m.ProfileType[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("profileType" + "." + strconv.Itoa(i))
+		if m.ProfileType[i] != nil {
+			if err := m.ProfileType[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("profileType" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profileType" + "." + strconv.Itoa(i))
+				}
+				return err
 			}
-			return err
 		}
 
 	}
@@ -153,7 +163,6 @@ func (m *V1ClusterProfileFilterSpec) validateProfileType(formats strfmt.Registry
 }
 
 func (m *V1ClusterProfileFilterSpec) validateScope(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Scope) { // not required
 		return nil
 	}
@@ -161,6 +170,8 @@ func (m *V1ClusterProfileFilterSpec) validateScope(formats strfmt.Registry) erro
 	if err := m.Scope.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("scope")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("scope")
 		}
 		return err
 	}
@@ -169,7 +180,6 @@ func (m *V1ClusterProfileFilterSpec) validateScope(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterProfileFilterSpec) validateTags(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Tags) { // not required
 		return nil
 	}
@@ -178,6 +188,8 @@ func (m *V1ClusterProfileFilterSpec) validateTags(formats strfmt.Registry) error
 		if err := m.Tags.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tags")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tags")
 			}
 			return err
 		}
@@ -187,7 +199,6 @@ func (m *V1ClusterProfileFilterSpec) validateTags(formats strfmt.Registry) error
 }
 
 func (m *V1ClusterProfileFilterSpec) validateVersion(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Version) { // not required
 		return nil
 	}
@@ -196,6 +207,169 @@ func (m *V1ClusterProfileFilterSpec) validateVersion(formats strfmt.Registry) er
 		if err := m.Version.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("version")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("version")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster profile filter spec based on the context it is used
+func (m *V1ClusterProfileFilterSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFips(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfileName(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfileType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateScope(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTags(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVersion(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateFips(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Fips != nil {
+
+		if swag.IsZero(m.Fips) { // not required
+			return nil
+		}
+
+		if err := m.Fips.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("fips")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateProfileName(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ProfileName != nil {
+
+		if swag.IsZero(m.ProfileName) { // not required
+			return nil
+		}
+
+		if err := m.ProfileName.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("profileName")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profileName")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateProfileType(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ProfileType); i++ {
+
+		if m.ProfileType[i] != nil {
+
+			if swag.IsZero(m.ProfileType[i]) { // not required
+				return nil
+			}
+
+			if err := m.ProfileType[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("profileType" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profileType" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateScope(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Scope) { // not required
+		return nil
+	}
+
+	if err := m.Scope.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("scope")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("scope")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Tags != nil {
+
+		if swag.IsZero(m.Tags) { // not required
+			return nil
+		}
+
+		if err := m.Tags.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tags")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tags")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateVersion(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Version != nil {
+
+		if swag.IsZero(m.Version) { // not required
+			return nil
+		}
+
+		if err := m.Version.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("version")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("version")
 			}
 			return err
 		}

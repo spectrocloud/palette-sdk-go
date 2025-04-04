@@ -57,7 +57,8 @@ func NewV1WorkspacesClusterRbacCreateParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1WorkspacesClusterRbacCreateParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesClusterRbacCreateParams contains all the parameters to send to the API endpoint
 for the v1 workspaces cluster rbac create operation typically these are written to a http.Request
 */
 type V1WorkspacesClusterRbacCreateParams struct {

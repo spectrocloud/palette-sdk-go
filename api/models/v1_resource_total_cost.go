@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -30,6 +32,11 @@ type V1ResourceTotalCost struct {
 
 // Validate validates this v1 resource total cost
 func (m *V1ResourceTotalCost) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 resource total cost based on context it is used
+func (m *V1ResourceTotalCost) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

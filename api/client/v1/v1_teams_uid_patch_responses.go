@@ -37,7 +37,8 @@ func NewV1TeamsUIDPatchNoContent() *V1TeamsUIDPatchNoContent {
 	return &V1TeamsUIDPatchNoContent{}
 }
 
-/*V1TeamsUIDPatchNoContent handles this case with default header values.
+/*
+V1TeamsUIDPatchNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

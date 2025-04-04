@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,6 @@ func (m *V1AppDeploymentProfileVersions) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1AppDeploymentProfileVersions) validateAvailableVersions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AvailableVersions) { // not required
 		return nil
 	}
@@ -65,6 +65,8 @@ func (m *V1AppDeploymentProfileVersions) validateAvailableVersions(formats strfm
 			if err := m.AvailableVersions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("availableVersions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("availableVersions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -76,7 +78,6 @@ func (m *V1AppDeploymentProfileVersions) validateAvailableVersions(formats strfm
 }
 
 func (m *V1AppDeploymentProfileVersions) validateLatestVersions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LatestVersions) { // not required
 		return nil
 	}
@@ -90,6 +91,8 @@ func (m *V1AppDeploymentProfileVersions) validateLatestVersions(formats strfmt.R
 			if err := m.LatestVersions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("latestVersions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("latestVersions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -101,7 +104,6 @@ func (m *V1AppDeploymentProfileVersions) validateLatestVersions(formats strfmt.R
 }
 
 func (m *V1AppDeploymentProfileVersions) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -110,6 +112,101 @@ func (m *V1AppDeploymentProfileVersions) validateMetadata(formats strfmt.Registr
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 app deployment profile versions based on the context it is used
+func (m *V1AppDeploymentProfileVersions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAvailableVersions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLatestVersions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AppDeploymentProfileVersions) contextValidateAvailableVersions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AvailableVersions); i++ {
+
+		if m.AvailableVersions[i] != nil {
+
+			if swag.IsZero(m.AvailableVersions[i]) { // not required
+				return nil
+			}
+
+			if err := m.AvailableVersions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("availableVersions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("availableVersions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AppDeploymentProfileVersions) contextValidateLatestVersions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.LatestVersions); i++ {
+
+		if m.LatestVersions[i] != nil {
+
+			if swag.IsZero(m.LatestVersions[i]) { // not required
+				return nil
+			}
+
+			if err := m.LatestVersions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("latestVersions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("latestVersions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AppDeploymentProfileVersions) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}

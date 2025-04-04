@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1SearchFilterKeyValueOperator
 type V1SearchFilterKeyValueOperator string
+
+func NewV1SearchFilterKeyValueOperator(value V1SearchFilterKeyValueOperator) *V1SearchFilterKeyValueOperator {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1SearchFilterKeyValueOperator.
+func (m V1SearchFilterKeyValueOperator) Pointer() *V1SearchFilterKeyValueOperator {
+	return &m
+}
 
 const (
 
@@ -56,5 +66,10 @@ func (m V1SearchFilterKeyValueOperator) Validate(formats strfmt.Registry) error 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 search filter key value operator based on context it is used
+func (m V1SearchFilterKeyValueOperator) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

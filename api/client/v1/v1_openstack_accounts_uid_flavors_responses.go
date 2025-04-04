@@ -40,7 +40,8 @@ func NewV1OpenstackAccountsUIDFlavorsOK() *V1OpenstackAccountsUIDFlavorsOK {
 	return &V1OpenstackAccountsUIDFlavorsOK{}
 }
 
-/*V1OpenstackAccountsUIDFlavorsOK handles this case with default header values.
+/*
+V1OpenstackAccountsUIDFlavorsOK handles this case with default header values.
 
 (empty)
 */

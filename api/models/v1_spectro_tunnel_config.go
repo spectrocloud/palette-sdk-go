@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,11 +21,11 @@ import (
 type V1SpectroTunnelConfig struct {
 
 	// remote Ssh
-	// Enum: [enabled disabled]
+	// Enum: ["enabled","disabled"]
 	RemoteSSH *string `json:"remoteSsh"`
 
 	// remote Ssh temp user
-	// Enum: [enabled disabled]
+	// Enum: ["enabled","disabled"]
 	RemoteSSHTempUser *string `json:"remoteSshTempUser"`
 }
 
@@ -76,7 +77,6 @@ func (m *V1SpectroTunnelConfig) validateRemoteSSHEnum(path, location string, val
 }
 
 func (m *V1SpectroTunnelConfig) validateRemoteSSH(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RemoteSSH) { // not required
 		return nil
 	}
@@ -119,7 +119,6 @@ func (m *V1SpectroTunnelConfig) validateRemoteSSHTempUserEnum(path, location str
 }
 
 func (m *V1SpectroTunnelConfig) validateRemoteSSHTempUser(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RemoteSSHTempUser) { // not required
 		return nil
 	}
@@ -129,6 +128,11 @@ func (m *V1SpectroTunnelConfig) validateRemoteSSHTempUser(formats strfmt.Registr
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 spectro tunnel config based on context it is used
+func (m *V1SpectroTunnelConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

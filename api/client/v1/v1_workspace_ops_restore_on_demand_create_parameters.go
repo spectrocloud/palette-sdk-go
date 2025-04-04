@@ -57,7 +57,8 @@ func NewV1WorkspaceOpsRestoreOnDemandCreateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1WorkspaceOpsRestoreOnDemandCreateParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspaceOpsRestoreOnDemandCreateParams contains all the parameters to send to the API endpoint
 for the v1 workspace ops restore on demand create operation typically these are written to a http.Request
 */
 type V1WorkspaceOpsRestoreOnDemandCreateParams struct {

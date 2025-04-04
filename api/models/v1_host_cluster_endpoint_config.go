@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1HostClusterEndpointConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1HostClusterEndpointConfig) validateIngressConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IngressConfig) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1HostClusterEndpointConfig) validateIngressConfig(formats strfmt.Regis
 		if err := m.IngressConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ingressConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ingressConfig")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1HostClusterEndpointConfig) validateIngressConfig(formats strfmt.Regis
 }
 
 func (m *V1HostClusterEndpointConfig) validateLoadBalancerConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LoadBalancerConfig) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1HostClusterEndpointConfig) validateLoadBalancerConfig(formats strfmt.
 		if err := m.LoadBalancerConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loadBalancerConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBalancerConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 host cluster endpoint config based on the context it is used
+func (m *V1HostClusterEndpointConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateIngressConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLoadBalancerConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1HostClusterEndpointConfig) contextValidateIngressConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.IngressConfig != nil {
+
+		if swag.IsZero(m.IngressConfig) { // not required
+			return nil
+		}
+
+		if err := m.IngressConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ingressConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ingressConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1HostClusterEndpointConfig) contextValidateLoadBalancerConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LoadBalancerConfig != nil {
+
+		if swag.IsZero(m.LoadBalancerConfig) { // not required
+			return nil
+		}
+
+		if err := m.LoadBalancerConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loadBalancerConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loadBalancerConfig")
 			}
 			return err
 		}

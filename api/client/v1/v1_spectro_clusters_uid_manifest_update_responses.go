@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDManifestUpdateNoContent() *V1SpectroClustersUIDManif
 	return &V1SpectroClustersUIDManifestUpdateNoContent{}
 }
 
-/*V1SpectroClustersUIDManifestUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDManifestUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

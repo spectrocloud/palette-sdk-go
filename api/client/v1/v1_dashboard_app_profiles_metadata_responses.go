@@ -40,7 +40,8 @@ func NewV1DashboardAppProfilesMetadataOK() *V1DashboardAppProfilesMetadataOK {
 	return &V1DashboardAppProfilesMetadataOK{}
 }
 
-/*V1DashboardAppProfilesMetadataOK handles this case with default header values.
+/*
+V1DashboardAppProfilesMetadataOK handles this case with default header values.
 
 An array of application profile summary items
 */

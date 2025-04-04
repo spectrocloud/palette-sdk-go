@@ -55,7 +55,8 @@ func NewV1EdgeHostDevicesUIDClusterDeassociateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1EdgeHostDevicesUIDClusterDeassociateParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesUIDClusterDeassociateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid cluster deassociate operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDClusterDeassociateParams struct {

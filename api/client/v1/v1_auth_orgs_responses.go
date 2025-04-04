@@ -40,7 +40,8 @@ func NewV1AuthOrgsOK() *V1AuthOrgsOK {
 	return &V1AuthOrgsOK{}
 }
 
-/*V1AuthOrgsOK handles this case with default header values.
+/*
+V1AuthOrgsOK handles this case with default header values.
 
 OK
 */

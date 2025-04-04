@@ -69,7 +69,8 @@ func NewV1SpectroClustersGenericRateParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1SpectroClustersGenericRateParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersGenericRateParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters generic rate operation typically these are written to a http.Request
 */
 type V1SpectroClustersGenericRateParams struct {

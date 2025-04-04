@@ -55,7 +55,8 @@ func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithHTTPClient(client *ht
 	}
 }
 
-/*V1CloudConfigsEdgeNativeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeNativeMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge native machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeNativeMachinePoolDeleteParams struct {

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,7 +55,6 @@ func (m *V1ResourceRolesEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceRolesEntity) validateFilterRefs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FilterRefs) { // not required
 		return nil
 	}
@@ -68,6 +68,8 @@ func (m *V1ResourceRolesEntity) validateFilterRefs(formats strfmt.Registry) erro
 			if err := m.FilterRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("filterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("filterRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -79,7 +81,6 @@ func (m *V1ResourceRolesEntity) validateFilterRefs(formats strfmt.Registry) erro
 }
 
 func (m *V1ResourceRolesEntity) validateProjectUids(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProjectUids) { // not required
 		return nil
 	}
@@ -93,6 +94,8 @@ func (m *V1ResourceRolesEntity) validateProjectUids(formats strfmt.Registry) err
 			if err := m.ProjectUids[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("projectUids" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("projectUids" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -104,7 +107,6 @@ func (m *V1ResourceRolesEntity) validateProjectUids(formats strfmt.Registry) err
 }
 
 func (m *V1ResourceRolesEntity) validateRoles(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Roles) { // not required
 		return nil
 	}
@@ -118,6 +120,105 @@ func (m *V1ResourceRolesEntity) validateRoles(formats strfmt.Registry) error {
 			if err := m.Roles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("roles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("roles" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 resource roles entity based on the context it is used
+func (m *V1ResourceRolesEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFilterRefs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProjectUids(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRoles(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ResourceRolesEntity) contextValidateFilterRefs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.FilterRefs); i++ {
+
+		if m.FilterRefs[i] != nil {
+
+			if swag.IsZero(m.FilterRefs[i]) { // not required
+				return nil
+			}
+
+			if err := m.FilterRefs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("filterRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("filterRefs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ResourceRolesEntity) contextValidateProjectUids(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ProjectUids); i++ {
+
+		if m.ProjectUids[i] != nil {
+
+			if swag.IsZero(m.ProjectUids[i]) { // not required
+				return nil
+			}
+
+			if err := m.ProjectUids[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("projectUids" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("projectUids" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ResourceRolesEntity) contextValidateRoles(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Roles); i++ {
+
+		if m.Roles[i] != nil {
+
+			if swag.IsZero(m.Roles[i]) { // not required
+				return nil
+			}
+
+			if err := m.Roles[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("roles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("roles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

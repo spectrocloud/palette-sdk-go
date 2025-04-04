@@ -57,7 +57,8 @@ func NewV1TenantFipsSettingsUpdateParamsWithHTTPClient(client *http.Client) *V1T
 	}
 }
 
-/*V1TenantFipsSettingsUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1TenantFipsSettingsUpdateParams contains all the parameters to send to the API endpoint
 for the v1 tenant fips settings update operation typically these are written to a http.Request
 */
 type V1TenantFipsSettingsUpdateParams struct {

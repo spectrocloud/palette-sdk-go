@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -18,12 +20,17 @@ type V1GcpAccountEntitySpec struct {
 	// Gcp cloud account json credentials
 	JSONCredentials string `json:"jsonCredentials,omitempty"`
 
-	// Reference of the credentials stored in the file
+	// Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file
 	JSONCredentialsFileUID string `json:"jsonCredentialsFileUid,omitempty"`
 }
 
 // Validate validates this v1 gcp account entity spec
 func (m *V1GcpAccountEntitySpec) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 gcp account entity spec based on context it is used
+func (m *V1GcpAccountEntitySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

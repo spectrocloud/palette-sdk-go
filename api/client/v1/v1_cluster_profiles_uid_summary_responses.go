@@ -40,7 +40,8 @@ func NewV1ClusterProfilesUIDSummaryOK() *V1ClusterProfilesUIDSummaryOK {
 	return &V1ClusterProfilesUIDSummaryOK{}
 }
 
-/*V1ClusterProfilesUIDSummaryOK handles this case with default header values.
+/*
+V1ClusterProfilesUIDSummaryOK handles this case with default header values.
 
 Cluster profile summary response
 */

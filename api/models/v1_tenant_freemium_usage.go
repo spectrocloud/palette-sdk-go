@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -48,7 +50,6 @@ func (m *V1TenantFreemiumUsage) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1TenantFreemiumUsage) validateLimit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Limit) { // not required
 		return nil
 	}
@@ -57,6 +58,8 @@ func (m *V1TenantFreemiumUsage) validateLimit(formats strfmt.Registry) error {
 		if err := m.Limit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("limit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("limit")
 			}
 			return err
 		}
@@ -66,7 +69,6 @@ func (m *V1TenantFreemiumUsage) validateLimit(formats strfmt.Registry) error {
 }
 
 func (m *V1TenantFreemiumUsage) validateUsage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Usage) { // not required
 		return nil
 	}
@@ -75,6 +77,68 @@ func (m *V1TenantFreemiumUsage) validateUsage(formats strfmt.Registry) error {
 		if err := m.Usage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("usage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 tenant freemium usage based on the context it is used
+func (m *V1TenantFreemiumUsage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLimit(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUsage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1TenantFreemiumUsage) contextValidateLimit(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Limit != nil {
+
+		if swag.IsZero(m.Limit) { // not required
+			return nil
+		}
+
+		if err := m.Limit.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("limit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("limit")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1TenantFreemiumUsage) contextValidateUsage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Usage != nil {
+
+		if swag.IsZero(m.Usage) { // not required
+			return nil
+		}
+
+		if err := m.Usage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("usage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usage")
 			}
 			return err
 		}

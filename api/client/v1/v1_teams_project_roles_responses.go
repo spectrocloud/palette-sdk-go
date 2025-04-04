@@ -40,7 +40,8 @@ func NewV1TeamsProjectRolesOK() *V1TeamsProjectRolesOK {
 	return &V1TeamsProjectRolesOK{}
 }
 
-/*V1TeamsProjectRolesOK handles this case with default header values.
+/*
+V1TeamsProjectRolesOK handles this case with default header values.
 
 OK
 */

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1ClusterUpgradeSettingsEntity struct {
 
 	// spectro components
-	// Enum: [lock unlock]
+	// Enum: ["lock","unlock"]
 	SpectroComponents string `json:"spectroComponents,omitempty"`
 }
 
@@ -68,7 +69,6 @@ func (m *V1ClusterUpgradeSettingsEntity) validateSpectroComponentsEnum(path, loc
 }
 
 func (m *V1ClusterUpgradeSettingsEntity) validateSpectroComponents(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpectroComponents) { // not required
 		return nil
 	}
@@ -78,6 +78,11 @@ func (m *V1ClusterUpgradeSettingsEntity) validateSpectroComponents(formats strfm
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 cluster upgrade settings entity based on context it is used
+func (m *V1ClusterUpgradeSettingsEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

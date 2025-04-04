@@ -57,7 +57,8 @@ func NewV1OverlordsUIDMaasAccountCreateParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1OverlordsUIDMaasAccountCreateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMaasAccountCreateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas account create operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasAccountCreateParams struct {

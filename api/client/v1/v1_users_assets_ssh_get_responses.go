@@ -40,7 +40,8 @@ func NewV1UsersAssetsSSHGetOK() *V1UsersAssetsSSHGetOK {
 	return &V1UsersAssetsSSHGetOK{}
 }
 
-/*V1UsersAssetsSSHGetOK handles this case with default header values.
+/*
+V1UsersAssetsSSHGetOK handles this case with default header values.
 
 (empty)
 */

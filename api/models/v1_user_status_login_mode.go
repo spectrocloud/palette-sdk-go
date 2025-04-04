@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1UserStatusLoginMode struct {
 
 	// login mode
-	// Enum: [dev devops]
+	// Enum: ["dev","devops"]
 	LoginMode string `json:"loginMode,omitempty"`
 }
 
@@ -68,7 +69,6 @@ func (m *V1UserStatusLoginMode) validateLoginModeEnum(path, location string, val
 }
 
 func (m *V1UserStatusLoginMode) validateLoginMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LoginMode) { // not required
 		return nil
 	}
@@ -78,6 +78,11 @@ func (m *V1UserStatusLoginMode) validateLoginMode(formats strfmt.Registry) error
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 user status login mode based on context it is used
+func (m *V1UserStatusLoginMode) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

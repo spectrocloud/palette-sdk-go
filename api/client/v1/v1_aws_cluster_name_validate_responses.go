@@ -37,7 +37,8 @@ func NewV1AwsClusterNameValidateNoContent() *V1AwsClusterNameValidateNoContent {
 	return &V1AwsClusterNameValidateNoContent{}
 }
 
-/*V1AwsClusterNameValidateNoContent handles this case with default header values.
+/*
+V1AwsClusterNameValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

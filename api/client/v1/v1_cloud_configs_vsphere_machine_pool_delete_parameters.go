@@ -55,7 +55,8 @@ func NewV1CloudConfigsVsphereMachinePoolDeleteParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1CloudConfigsVsphereMachinePoolDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVsphereMachinePoolDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs vsphere machine pool delete operation typically these are written to a http.Request
 */
 type V1CloudConfigsVsphereMachinePoolDeleteParams struct {

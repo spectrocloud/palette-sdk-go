@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -46,7 +47,6 @@ func (m *V1SpectroClusterValidatorResponse) Validate(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroClusterValidatorResponse) validateMachinePools(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MachinePools) { // not required
 		return nil
 	}
@@ -55,6 +55,8 @@ func (m *V1SpectroClusterValidatorResponse) validateMachinePools(formats strfmt.
 		if err := m.MachinePools.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machinePools")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machinePools")
 			}
 			return err
 		}
@@ -64,7 +66,6 @@ func (m *V1SpectroClusterValidatorResponse) validateMachinePools(formats strfmt.
 }
 
 func (m *V1SpectroClusterValidatorResponse) validateProfiles(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Profiles) { // not required
 		return nil
 	}
@@ -82,6 +83,72 @@ func (m *V1SpectroClusterValidatorResponse) validateProfiles(formats strfmt.Regi
 			if err := m.Profiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster validator response based on the context it is used
+func (m *V1SpectroClusterValidatorResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMachinePools(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfiles(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterValidatorResponse) contextValidateMachinePools(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachinePools != nil {
+
+		if swag.IsZero(m.MachinePools) { // not required
+			return nil
+		}
+
+		if err := m.MachinePools.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machinePools")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machinePools")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterValidatorResponse) contextValidateProfiles(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Profiles); i++ {
+
+		if m.Profiles[i] != nil {
+
+			if swag.IsZero(m.Profiles[i]) { // not required
+				return nil
+			}
+
+			if err := m.Profiles[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

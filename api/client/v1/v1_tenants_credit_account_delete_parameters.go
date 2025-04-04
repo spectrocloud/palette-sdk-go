@@ -68,7 +68,8 @@ func NewV1TenantsCreditAccountDeleteParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1TenantsCreditAccountDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1TenantsCreditAccountDeleteParams contains all the parameters to send to the API endpoint
 for the v1 tenants credit account delete operation typically these are written to a http.Request
 */
 type V1TenantsCreditAccountDeleteParams struct {

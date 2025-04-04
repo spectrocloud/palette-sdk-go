@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1AwsAmiReference struct {
 
 	// EKSOptimizedLookupType If specified, will look up an EKS Optimized image in SSM Parameter store
-	// Enum: [AmazonLinux AmazonLinuxGPU]
+	// Enum: ["AmazonLinux","AmazonLinuxGPU"]
 	EksOptimizedLookupType string `json:"eksOptimizedLookupType,omitempty"`
 
 	// ID of resource
@@ -71,7 +72,6 @@ func (m *V1AwsAmiReference) validateEksOptimizedLookupTypeEnum(path, location st
 }
 
 func (m *V1AwsAmiReference) validateEksOptimizedLookupType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EksOptimizedLookupType) { // not required
 		return nil
 	}
@@ -81,6 +81,11 @@ func (m *V1AwsAmiReference) validateEksOptimizedLookupType(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 aws ami reference based on context it is used
+func (m *V1AwsAmiReference) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

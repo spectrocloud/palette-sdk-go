@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1PackSortFields
 type V1PackSortFields string
+
+func NewV1PackSortFields(value V1PackSortFields) *V1PackSortFields {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1PackSortFields.
+func (m V1PackSortFields) Pointer() *V1PackSortFields {
+	return &m
+}
 
 const (
 
@@ -68,5 +78,10 @@ func (m V1PackSortFields) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 pack sort fields based on context it is used
+func (m V1PackSortFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

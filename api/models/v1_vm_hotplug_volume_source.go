@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1VMHotplugVolumeSource) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMHotplugVolumeSource) validateDataVolume(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataVolume) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1VMHotplugVolumeSource) validateDataVolume(formats strfmt.Registry) er
 		if err := m.DataVolume.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolume")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1VMHotplugVolumeSource) validateDataVolume(formats strfmt.Registry) er
 }
 
 func (m *V1VMHotplugVolumeSource) validatePersistentVolumeClaim(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PersistentVolumeClaim) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1VMHotplugVolumeSource) validatePersistentVolumeClaim(formats strfmt.R
 		if err := m.PersistentVolumeClaim.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("persistentVolumeClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("persistentVolumeClaim")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm hotplug volume source based on the context it is used
+func (m *V1VMHotplugVolumeSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDataVolume(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePersistentVolumeClaim(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMHotplugVolumeSource) contextValidateDataVolume(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataVolume != nil {
+
+		if swag.IsZero(m.DataVolume) { // not required
+			return nil
+		}
+
+		if err := m.DataVolume.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolume")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMHotplugVolumeSource) contextValidatePersistentVolumeClaim(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PersistentVolumeClaim != nil {
+
+		if swag.IsZero(m.PersistentVolumeClaim) { // not required
+			return nil
+		}
+
+		if err := m.PersistentVolumeClaim.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("persistentVolumeClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("persistentVolumeClaim")
 			}
 			return err
 		}

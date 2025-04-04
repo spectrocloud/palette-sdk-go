@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeClusterTemplateDeleteNoContent() *V1CustomCloudTypeClus
 	return &V1CustomCloudTypeClusterTemplateDeleteNoContent{}
 }
 
-/*V1CustomCloudTypeClusterTemplateDeleteNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeClusterTemplateDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

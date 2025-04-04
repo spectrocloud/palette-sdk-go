@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -35,7 +37,6 @@ func (m *V1AwsCloudCostSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCloudCostSummary) validateCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -44,6 +45,43 @@ func (m *V1AwsCloudCostSummary) validateCost(formats strfmt.Registry) error {
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws cloud cost summary based on the context it is used
+func (m *V1AwsCloudCostSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsCloudCostSummary) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cost != nil {
+
+		if swag.IsZero(m.Cost) { // not required
+			return nil
+		}
+
+		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
 			}
 			return err
 		}

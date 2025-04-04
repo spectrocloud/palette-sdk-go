@@ -37,7 +37,8 @@ func NewV1CloudConfigsVirtualUIDClusterConfigNoContent() *V1CloudConfigsVirtualU
 	return &V1CloudConfigsVirtualUIDClusterConfigNoContent{}
 }
 
-/*V1CloudConfigsVirtualUIDClusterConfigNoContent handles this case with default header values.
+/*
+V1CloudConfigsVirtualUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

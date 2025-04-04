@@ -37,7 +37,8 @@ func NewV1CloudAccountsVsphereDeleteNoContent() *V1CloudAccountsVsphereDeleteNoC
 	return &V1CloudAccountsVsphereDeleteNoContent{}
 }
 
-/*V1CloudAccountsVsphereDeleteNoContent handles this case with default header values.
+/*
+V1CloudAccountsVsphereDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

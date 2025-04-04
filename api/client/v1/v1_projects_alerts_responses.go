@@ -40,7 +40,8 @@ func NewV1ProjectsAlertsOK() *V1ProjectsAlertsOK {
 	return &V1ProjectsAlertsOK{}
 }
 
-/*V1ProjectsAlertsOK handles this case with default header values.
+/*
+V1ProjectsAlertsOK handles this case with default header values.
 
 An array of alert components
 */

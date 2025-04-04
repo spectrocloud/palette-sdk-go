@@ -37,7 +37,8 @@ func NewV1RateConfigUpdateNoContent() *V1RateConfigUpdateNoContent {
 	return &V1RateConfigUpdateNoContent{}
 }
 
-/*V1RateConfigUpdateNoContent handles this case with default header values.
+/*
+V1RateConfigUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

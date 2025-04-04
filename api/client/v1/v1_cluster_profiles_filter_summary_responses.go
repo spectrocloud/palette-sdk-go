@@ -40,7 +40,8 @@ func NewV1ClusterProfilesFilterSummaryOK() *V1ClusterProfilesFilterSummaryOK {
 	return &V1ClusterProfilesFilterSummaryOK{}
 }
 
-/*V1ClusterProfilesFilterSummaryOK handles this case with default header values.
+/*
+V1ClusterProfilesFilterSummaryOK handles this case with default header values.
 
 An array of cluster profiles summary items
 */

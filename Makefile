@@ -22,8 +22,8 @@ help:  ## Display this help
 
 ##@ Build Targets
 
-generate: ## Generate models
-	(cd api && ./generate.sh ./)
+generate: swagger ## Generate models
+	(cd api && ./generate.sh $(SWAGGER) ./)
 
 ##@ Static Analysis Targets
 
@@ -59,7 +59,7 @@ test: ## Run acceptance tests
 
 ##@ Tools Targets
 
-BIN_DIR ?= ./bin
+BIN_DIR ?= $(shell pwd)/bin
 bin-dir:
 	test -d $(BIN_DIR) || mkdir $(BIN_DIR)
 
@@ -90,3 +90,24 @@ pre-commit:
 			pip install pre-commit; \
 		} \
 	fi
+
+SWAGGER_VERSION ?= v0.31.0
+SWAGGER = $(BIN_DIR)/swagger-$(SWAGGER_VERSION)
+.PHONY: swagger
+swagger: $(SWAGGER) ## Install swagger locally if necessary.
+$(SWAGGER): $(BIN_DIR)
+	$(call go-install-tool,$(SWAGGER),github.com/go-swagger/go-swagger/cmd/swagger,$(SWAGGER_VERSION))
+
+# go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
+# $1 - target path with name of binary (ideally with version)
+# $2 - package url which can be installed
+# $3 - specific version of package
+define go-install-tool
+@[ -f $(1) ] || { \
+set -e; \
+package=$(2)@$(3) ;\
+echo "Downloading $${package}" ;\
+GOBIN=$(BIN_DIR) go install $${package} ;\
+mv "$$(echo "$(1)" | sed "s/-$(3)$$//")" $(1) ;\
+}
+endef

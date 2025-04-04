@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -55,7 +57,6 @@ func (m *V1StorageType) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1StorageType) validateCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -64,6 +65,8 @@ func (m *V1StorageType) validateCost(formats strfmt.Registry) error {
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
 			}
 			return err
 		}
@@ -73,7 +76,6 @@ func (m *V1StorageType) validateCost(formats strfmt.Registry) error {
 }
 
 func (m *V1StorageType) validateIopsCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IopsCost) { // not required
 		return nil
 	}
@@ -82,6 +84,8 @@ func (m *V1StorageType) validateIopsCost(formats strfmt.Registry) error {
 		if err := m.IopsCost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("iopsCost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("iopsCost")
 			}
 			return err
 		}
@@ -91,7 +95,6 @@ func (m *V1StorageType) validateIopsCost(formats strfmt.Registry) error {
 }
 
 func (m *V1StorageType) validateThroughputCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ThroughputCost) { // not required
 		return nil
 	}
@@ -100,6 +103,93 @@ func (m *V1StorageType) validateThroughputCost(formats strfmt.Registry) error {
 		if err := m.ThroughputCost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("throughputCost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("throughputCost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 storage type based on the context it is used
+func (m *V1StorageType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateIopsCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateThroughputCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1StorageType) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cost != nil {
+
+		if swag.IsZero(m.Cost) { // not required
+			return nil
+		}
+
+		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1StorageType) contextValidateIopsCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.IopsCost != nil {
+
+		if swag.IsZero(m.IopsCost) { // not required
+			return nil
+		}
+
+		if err := m.IopsCost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("iopsCost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("iopsCost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1StorageType) contextValidateThroughputCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ThroughputCost != nil {
+
+		if swag.IsZero(m.ThroughputCost) { // not required
+			return nil
+		}
+
+		if err := m.ThroughputCost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("throughputCost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("throughputCost")
 			}
 			return err
 		}

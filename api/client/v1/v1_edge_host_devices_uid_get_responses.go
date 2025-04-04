@@ -40,7 +40,8 @@ func NewV1EdgeHostDevicesUIDGetOK() *V1EdgeHostDevicesUIDGetOK {
 	return &V1EdgeHostDevicesUIDGetOK{}
 }
 
-/*V1EdgeHostDevicesUIDGetOK handles this case with default header values.
+/*
+V1EdgeHostDevicesUIDGetOK handles this case with default header values.
 
 OK
 */

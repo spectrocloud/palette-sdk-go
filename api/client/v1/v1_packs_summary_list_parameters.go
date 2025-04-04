@@ -68,7 +68,8 @@ func NewV1PacksSummaryListParamsWithHTTPClient(client *http.Client) *V1PacksSumm
 	}
 }
 
-/*V1PacksSummaryListParams contains all the parameters to send to the API endpoint
+/*
+V1PacksSummaryListParams contains all the parameters to send to the API endpoint
 for the v1 packs summary list operation typically these are written to a http.Request
 */
 type V1PacksSummaryListParams struct {

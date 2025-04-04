@@ -55,7 +55,8 @@ func NewV1TenantUIDLoginBannerGetParamsWithHTTPClient(client *http.Client) *V1Te
 	}
 }
 
-/*V1TenantUIDLoginBannerGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDLoginBannerGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid login banner get operation typically these are written to a http.Request
 */
 type V1TenantUIDLoginBannerGetParams struct {

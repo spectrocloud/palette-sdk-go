@@ -37,7 +37,8 @@ func NewV1SpectroClustersVMMigrateNoContent() *V1SpectroClustersVMMigrateNoConte
 	return &V1SpectroClustersVMMigrateNoContent{}
 }
 
-/*V1SpectroClustersVMMigrateNoContent handles this case with default header values.
+/*
+V1SpectroClustersVMMigrateNoContent handles this case with default header values.
 
 Ok response without content
 */

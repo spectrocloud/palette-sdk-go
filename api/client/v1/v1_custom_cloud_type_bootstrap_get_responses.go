@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeBootstrapGetOK() *V1CustomCloudTypeBootstrapGetOK {
 	return &V1CustomCloudTypeBootstrapGetOK{}
 }
 
-/*V1CustomCloudTypeBootstrapGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeBootstrapGetOK handles this case with default header values.
 
 (empty)
 */

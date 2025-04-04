@@ -37,7 +37,8 @@ func NewV1OverlordsUIDVsphereAccountUpdateNoContent() *V1OverlordsUIDVsphereAcco
 	return &V1OverlordsUIDVsphereAccountUpdateNoContent{}
 }
 
-/*V1OverlordsUIDVsphereAccountUpdateNoContent handles this case with default header values.
+/*
+V1OverlordsUIDVsphereAccountUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

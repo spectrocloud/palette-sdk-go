@@ -57,7 +57,8 @@ func NewV1CloudAccountsMaasCreateParamsWithHTTPClient(client *http.Client) *V1Cl
 	}
 }
 
-/*V1CloudAccountsMaasCreateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudAccountsMaasCreateParams contains all the parameters to send to the API endpoint
 for the v1 cloud accounts maas create operation typically these are written to a http.Request
 */
 type V1CloudAccountsMaasCreateParams struct {

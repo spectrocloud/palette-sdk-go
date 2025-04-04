@@ -55,7 +55,8 @@ func NewV1MetricsUIDDeleteParamsWithHTTPClient(client *http.Client) *V1MetricsUI
 	}
 }
 
-/*V1MetricsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1MetricsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 metrics Uid delete operation typically these are written to a http.Request
 */
 type V1MetricsUIDDeleteParams struct {

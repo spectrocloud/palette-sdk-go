@@ -57,7 +57,8 @@ func NewV1OverlordsUIDMaasCloudConfigCreateParamsWithHTTPClient(client *http.Cli
 	}
 }
 
-/*V1OverlordsUIDMaasCloudConfigCreateParams contains all the parameters to send to the API endpoint
+/*
+V1OverlordsUIDMaasCloudConfigCreateParams contains all the parameters to send to the API endpoint
 for the v1 overlords Uid maas cloud config create operation typically these are written to a http.Request
 */
 type V1OverlordsUIDMaasCloudConfigCreateParams struct {

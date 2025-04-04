@@ -40,7 +40,8 @@ func NewV1SpectroClustersResourcesUsageSummaryOK() *V1SpectroClustersResourcesUs
 	return &V1SpectroClustersResourcesUsageSummaryOK{}
 }
 
-/*V1SpectroClustersResourcesUsageSummaryOK handles this case with default header values.
+/*
+V1SpectroClustersResourcesUsageSummaryOK handles this case with default header values.
 
 An array of resources usage summary items
 */

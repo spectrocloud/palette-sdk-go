@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,7 +58,6 @@ func (m *V1VsphereComputeCluster) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereComputeCluster) validateDatastores(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Datastores) { // not required
 		return nil
 	}
@@ -69,7 +70,6 @@ func (m *V1VsphereComputeCluster) validateDatastores(formats strfmt.Registry) er
 }
 
 func (m *V1VsphereComputeCluster) validateNetworks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Networks) { // not required
 		return nil
 	}
@@ -82,7 +82,6 @@ func (m *V1VsphereComputeCluster) validateNetworks(formats strfmt.Registry) erro
 }
 
 func (m *V1VsphereComputeCluster) validateResourcePools(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ResourcePools) { // not required
 		return nil
 	}
@@ -91,6 +90,11 @@ func (m *V1VsphereComputeCluster) validateResourcePools(formats strfmt.Registry)
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 vsphere compute cluster based on context it is used
+func (m *V1VsphereComputeCluster) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

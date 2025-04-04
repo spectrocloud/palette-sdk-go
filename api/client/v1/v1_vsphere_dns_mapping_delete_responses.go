@@ -37,7 +37,8 @@ func NewV1VsphereDNSMappingDeleteNoContent() *V1VsphereDNSMappingDeleteNoContent
 	return &V1VsphereDNSMappingDeleteNoContent{}
 }
 
-/*V1VsphereDNSMappingDeleteNoContent handles this case with default header values.
+/*
+V1VsphereDNSMappingDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

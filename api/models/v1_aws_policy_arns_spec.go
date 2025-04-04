@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -54,6 +56,8 @@ func (m *V1AwsPolicyArnsSpec) validateAccount(formats strfmt.Registry) error {
 		if err := m.Account.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("account")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("account")
 			}
 			return err
 		}
@@ -66,6 +70,37 @@ func (m *V1AwsPolicyArnsSpec) validatePolicyArns(formats strfmt.Registry) error 
 
 	if err := validate.Required("policyArns", "body", m.PolicyArns); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws policy arns spec based on the context it is used
+func (m *V1AwsPolicyArnsSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAccount(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsPolicyArnsSpec) contextValidateAccount(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Account != nil {
+
+		if err := m.Account.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("account")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("account")
+			}
+			return err
+		}
 	}
 
 	return nil

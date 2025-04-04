@@ -55,7 +55,8 @@ func NewV1RolesUIDDeleteParamsWithHTTPClient(client *http.Client) *V1RolesUIDDel
 	}
 }
 
-/*V1RolesUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1RolesUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 roles Uid delete operation typically these are written to a http.Request
 */
 type V1RolesUIDDeleteParams struct {

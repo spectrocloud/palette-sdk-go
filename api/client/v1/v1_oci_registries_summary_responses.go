@@ -40,7 +40,8 @@ func NewV1OciRegistriesSummaryOK() *V1OciRegistriesSummaryOK {
 	return &V1OciRegistriesSummaryOK{}
 }
 
-/*V1OciRegistriesSummaryOK handles this case with default header values.
+/*
+V1OciRegistriesSummaryOK handles this case with default header values.
 
 An array of oci registry items
 */

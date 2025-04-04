@@ -55,7 +55,8 @@ func NewV1TenantUIDAssetsDataSinksGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1TenantUIDAssetsDataSinksGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDAssetsDataSinksGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid assets data sinks get operation typically these are written to a http.Request
 */
 type V1TenantUIDAssetsDataSinksGetParams struct {

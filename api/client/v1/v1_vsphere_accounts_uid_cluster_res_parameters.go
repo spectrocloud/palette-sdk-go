@@ -56,7 +56,8 @@ func NewV1VsphereAccountsUIDClusterResParamsWithHTTPClient(client *http.Client) 
 	}
 }
 
-/*V1VsphereAccountsUIDClusterResParams contains all the parameters to send to the API endpoint
+/*
+V1VsphereAccountsUIDClusterResParams contains all the parameters to send to the API endpoint
 for the v1 vsphere accounts Uid cluster res operation typically these are written to a http.Request
 */
 type V1VsphereAccountsUIDClusterResParams struct {

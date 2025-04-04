@@ -67,7 +67,8 @@ func NewV1ClusterFeatureDriverLogDownloadParamsWithHTTPClient(client *http.Clien
 	}
 }
 
-/*V1ClusterFeatureDriverLogDownloadParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterFeatureDriverLogDownloadParams contains all the parameters to send to the API endpoint
 for the v1 cluster feature driver log download operation typically these are written to a http.Request
 */
 type V1ClusterFeatureDriverLogDownloadParams struct {

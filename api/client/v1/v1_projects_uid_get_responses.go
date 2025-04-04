@@ -40,7 +40,8 @@ func NewV1ProjectsUIDGetOK() *V1ProjectsUIDGetOK {
 	return &V1ProjectsUIDGetOK{}
 }
 
-/*V1ProjectsUIDGetOK handles this case with default header values.
+/*
+V1ProjectsUIDGetOK handles this case with default header values.
 
 OK
 */

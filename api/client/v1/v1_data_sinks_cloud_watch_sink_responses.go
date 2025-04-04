@@ -37,7 +37,8 @@ func NewV1DataSinksCloudWatchSinkNoContent() *V1DataSinksCloudWatchSinkNoContent
 	return &V1DataSinksCloudWatchSinkNoContent{}
 }
 
-/*V1DataSinksCloudWatchSinkNoContent handles this case with default header values.
+/*
+V1DataSinksCloudWatchSinkNoContent handles this case with default header values.
 
 Ok response without content
 */

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -72,7 +73,6 @@ func (m *V1ClusterProfileTemplate) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterProfileTemplate) validatePackServerRefs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PackServerRefs) { // not required
 		return nil
 	}
@@ -86,6 +86,8 @@ func (m *V1ClusterProfileTemplate) validatePackServerRefs(formats strfmt.Registr
 			if err := m.PackServerRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("packServerRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packServerRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -97,7 +99,6 @@ func (m *V1ClusterProfileTemplate) validatePackServerRefs(formats strfmt.Registr
 }
 
 func (m *V1ClusterProfileTemplate) validatePacks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Packs) { // not required
 		return nil
 	}
@@ -111,6 +112,8 @@ func (m *V1ClusterProfileTemplate) validatePacks(formats strfmt.Registry) error 
 			if err := m.Packs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -122,7 +125,6 @@ func (m *V1ClusterProfileTemplate) validatePacks(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterProfileTemplate) validateRelatedObject(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RelatedObject) { // not required
 		return nil
 	}
@@ -131,6 +133,101 @@ func (m *V1ClusterProfileTemplate) validateRelatedObject(formats strfmt.Registry
 		if err := m.RelatedObject.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("relatedObject")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relatedObject")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster profile template based on the context it is used
+func (m *V1ClusterProfileTemplate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePackServerRefs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePacks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRelatedObject(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterProfileTemplate) contextValidatePackServerRefs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PackServerRefs); i++ {
+
+		if m.PackServerRefs[i] != nil {
+
+			if swag.IsZero(m.PackServerRefs[i]) { // not required
+				return nil
+			}
+
+			if err := m.PackServerRefs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("packServerRefs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packServerRefs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileTemplate) contextValidatePacks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Packs); i++ {
+
+		if m.Packs[i] != nil {
+
+			if swag.IsZero(m.Packs[i]) { // not required
+				return nil
+			}
+
+			if err := m.Packs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileTemplate) contextValidateRelatedObject(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RelatedObject != nil {
+
+		if swag.IsZero(m.RelatedObject) { // not required
+			return nil
+		}
+
+		if err := m.RelatedObject.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("relatedObject")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relatedObject")
 			}
 			return err
 		}

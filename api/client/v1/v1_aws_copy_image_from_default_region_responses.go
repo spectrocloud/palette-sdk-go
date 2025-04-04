@@ -40,7 +40,8 @@ func NewV1AwsCopyImageFromDefaultRegionOK() *V1AwsCopyImageFromDefaultRegionOK {
 	return &V1AwsCopyImageFromDefaultRegionOK{}
 }
 
-/*V1AwsCopyImageFromDefaultRegionOK handles this case with default header values.
+/*
+V1AwsCopyImageFromDefaultRegionOK handles this case with default header values.
 
 (empty)
 */

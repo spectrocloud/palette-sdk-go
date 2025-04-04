@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1SpcApplySettings struct {
 
 	// action type
-	// Enum: [DownloadAndInstall DownloadAndInstallLater]
+	// Enum: ["DownloadAndInstall","DownloadAndInstallLater"]
 	ActionType string `json:"actionType,omitempty"`
 }
 
@@ -68,7 +69,6 @@ func (m *V1SpcApplySettings) validateActionTypeEnum(path, location string, value
 }
 
 func (m *V1SpcApplySettings) validateActionType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ActionType) { // not required
 		return nil
 	}
@@ -78,6 +78,11 @@ func (m *V1SpcApplySettings) validateActionType(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 spc apply settings based on context it is used
+func (m *V1SpcApplySettings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

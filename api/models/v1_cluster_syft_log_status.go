@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -74,7 +75,6 @@ func (m *V1ClusterSyftLogStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterSyftLogStatus) validateActor(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -83,6 +83,8 @@ func (m *V1ClusterSyftLogStatus) validateActor(formats strfmt.Registry) error {
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -92,7 +94,6 @@ func (m *V1ClusterSyftLogStatus) validateActor(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterSyftLogStatus) validateLocation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -101,6 +102,8 @@ func (m *V1ClusterSyftLogStatus) validateLocation(formats strfmt.Registry) error
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
 			}
 			return err
 		}
@@ -110,7 +113,6 @@ func (m *V1ClusterSyftLogStatus) validateLocation(formats strfmt.Registry) error
 }
 
 func (m *V1ClusterSyftLogStatus) validateReports(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Reports) { // not required
 		return nil
 	}
@@ -124,6 +126,8 @@ func (m *V1ClusterSyftLogStatus) validateReports(formats strfmt.Registry) error 
 			if err := m.Reports[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("reports" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("reports" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -135,7 +139,6 @@ func (m *V1ClusterSyftLogStatus) validateReports(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterSyftLogStatus) validateScanContext(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ScanContext) { // not required
 		return nil
 	}
@@ -144,6 +147,8 @@ func (m *V1ClusterSyftLogStatus) validateScanContext(formats strfmt.Registry) er
 		if err := m.ScanContext.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scanContext")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanContext")
 			}
 			return err
 		}
@@ -153,7 +158,6 @@ func (m *V1ClusterSyftLogStatus) validateScanContext(formats strfmt.Registry) er
 }
 
 func (m *V1ClusterSyftLogStatus) validateScanTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ScanTime) { // not required
 		return nil
 	}
@@ -162,6 +166,147 @@ func (m *V1ClusterSyftLogStatus) validateScanTime(formats strfmt.Registry) error
 		if err := m.ScanTime.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scanTime")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanTime")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster syft log status based on the context it is used
+func (m *V1ClusterSyftLogStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateActor(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLocation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateReports(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateScanContext(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateScanTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterSyftLogStatus) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Actor != nil {
+
+		if swag.IsZero(m.Actor) { // not required
+			return nil
+		}
+
+		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterSyftLogStatus) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Location != nil {
+
+		if swag.IsZero(m.Location) { // not required
+			return nil
+		}
+
+		if err := m.Location.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterSyftLogStatus) contextValidateReports(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Reports); i++ {
+
+		if m.Reports[i] != nil {
+
+			if swag.IsZero(m.Reports[i]) { // not required
+				return nil
+			}
+
+			if err := m.Reports[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("reports" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("reports" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterSyftLogStatus) contextValidateScanContext(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ScanContext != nil {
+
+		if swag.IsZero(m.ScanContext) { // not required
+			return nil
+		}
+
+		if err := m.ScanContext.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("scanContext")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanContext")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterSyftLogStatus) contextValidateScanTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ScanTime != nil {
+
+		if swag.IsZero(m.ScanTime) { // not required
+			return nil
+		}
+
+		if err := m.ScanTime.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("scanTime")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanTime")
 			}
 			return err
 		}

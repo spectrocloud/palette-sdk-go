@@ -40,7 +40,8 @@ func NewV1TeamsListOK() *V1TeamsListOK {
 	return &V1TeamsListOK{}
 }
 
-/*V1TeamsListOK handles this case with default header values.
+/*
+V1TeamsListOK handles this case with default header values.
 
 An array of teams
 */

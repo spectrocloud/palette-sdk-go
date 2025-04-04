@@ -55,7 +55,8 @@ func NewV1ClusterGroupsUIDGetParamsWithHTTPClient(client *http.Client) *V1Cluste
 	}
 }
 
-/*V1ClusterGroupsUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterGroupsUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups Uid get operation typically these are written to a http.Request
 */
 type V1ClusterGroupsUIDGetParams struct {

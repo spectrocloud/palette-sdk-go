@@ -37,7 +37,8 @@ func NewV1SpectroClustersK8CertificateUpdateNoContent() *V1SpectroClustersK8Cert
 	return &V1SpectroClustersK8CertificateUpdateNoContent{}
 }
 
-/*V1SpectroClustersK8CertificateUpdateNoContent handles this case with default header values.
+/*
+V1SpectroClustersK8CertificateUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

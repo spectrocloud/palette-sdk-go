@@ -37,7 +37,8 @@ func NewV1ClusterFeatureLogFetcherLogUpdateNoContent() *V1ClusterFeatureLogFetch
 	return &V1ClusterFeatureLogFetcherLogUpdateNoContent{}
 }
 
-/*V1ClusterFeatureLogFetcherLogUpdateNoContent handles this case with default header values.
+/*
+V1ClusterFeatureLogFetcherLogUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

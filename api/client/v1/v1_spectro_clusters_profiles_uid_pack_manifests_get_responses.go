@@ -40,7 +40,8 @@ func NewV1SpectroClustersProfilesUIDPackManifestsGetOK() *V1SpectroClustersProfi
 	return &V1SpectroClustersProfilesUIDPackManifestsGetOK{}
 }
 
-/*V1SpectroClustersProfilesUIDPackManifestsGetOK handles this case with default header values.
+/*
+V1SpectroClustersProfilesUIDPackManifestsGetOK handles this case with default header values.
 
 OK
 */

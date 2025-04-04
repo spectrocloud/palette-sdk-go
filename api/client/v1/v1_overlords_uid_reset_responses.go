@@ -40,7 +40,8 @@ func NewV1OverlordsUIDResetOK() *V1OverlordsUIDResetOK {
 	return &V1OverlordsUIDResetOK{}
 }
 
-/*V1OverlordsUIDResetOK handles this case with default header values.
+/*
+V1OverlordsUIDResetOK handles this case with default header values.
 
 (empty)
 */

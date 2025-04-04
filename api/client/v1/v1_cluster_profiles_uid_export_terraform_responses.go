@@ -41,7 +41,8 @@ func NewV1ClusterProfilesUIDExportTerraformOK(writer io.Writer) *V1ClusterProfil
 	}
 }
 
-/*V1ClusterProfilesUIDExportTerraformOK handles this case with default header values.
+/*
+V1ClusterProfilesUIDExportTerraformOK handles this case with default header values.
 
 Downloads cluster profile export file
 */

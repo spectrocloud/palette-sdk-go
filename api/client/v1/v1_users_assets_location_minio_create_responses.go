@@ -40,7 +40,8 @@ func NewV1UsersAssetsLocationMinioCreateCreated() *V1UsersAssetsLocationMinioCre
 	return &V1UsersAssetsLocationMinioCreateCreated{}
 }
 
-/*V1UsersAssetsLocationMinioCreateCreated handles this case with default header values.
+/*
+V1UsersAssetsLocationMinioCreateCreated handles this case with default header values.
 
 Created successfully
 */

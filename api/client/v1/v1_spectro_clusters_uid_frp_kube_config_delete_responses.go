@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDFrpKubeConfigDeleteNoContent() *V1SpectroClustersUID
 	return &V1SpectroClustersUIDFrpKubeConfigDeleteNoContent{}
 }
 
-/*V1SpectroClustersUIDFrpKubeConfigDeleteNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDFrpKubeConfigDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

@@ -40,7 +40,8 @@ func NewV1EventsComponentsCreateBulkCreated() *V1EventsComponentsCreateBulkCreat
 	return &V1EventsComponentsCreateBulkCreated{}
 }
 
-/*V1EventsComponentsCreateBulkCreated handles this case with default header values.
+/*
+V1EventsComponentsCreateBulkCreated handles this case with default header values.
 
 Created successfully
 */

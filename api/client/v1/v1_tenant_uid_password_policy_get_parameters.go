@@ -55,7 +55,8 @@ func NewV1TenantUIDPasswordPolicyGetParamsWithHTTPClient(client *http.Client) *V
 	}
 }
 
-/*V1TenantUIDPasswordPolicyGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDPasswordPolicyGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid password policy get operation typically these are written to a http.Request
 */
 type V1TenantUIDPasswordPolicyGetParams struct {

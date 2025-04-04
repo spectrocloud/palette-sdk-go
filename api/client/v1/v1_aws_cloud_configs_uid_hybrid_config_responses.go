@@ -37,7 +37,8 @@ func NewV1AwsCloudConfigsUIDHybridConfigNoContent() *V1AwsCloudConfigsUIDHybridC
 	return &V1AwsCloudConfigsUIDHybridConfigNoContent{}
 }
 
-/*V1AwsCloudConfigsUIDHybridConfigNoContent handles this case with default header values.
+/*
+V1AwsCloudConfigsUIDHybridConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

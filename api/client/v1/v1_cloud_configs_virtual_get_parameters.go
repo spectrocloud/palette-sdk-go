@@ -55,7 +55,8 @@ func NewV1CloudConfigsVirtualGetParamsWithHTTPClient(client *http.Client) *V1Clo
 	}
 }
 
-/*V1CloudConfigsVirtualGetParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVirtualGetParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual get operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualGetParams struct {

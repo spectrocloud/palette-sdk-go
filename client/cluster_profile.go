@@ -92,9 +92,8 @@ func (h *V1Client) AttachAddonsToCluster(clusterUID string, profileUIDs []string
 				Manifests: nil,
 				Name:      value.Name,
 				Tag:       value.Tag,
-				// Type:      models.NewV1PackType(models.V1PackType(value.Type)),
-				Type:   models.V1PackType(value.Type),
-				Values: value.Values,
+				Type:      apiutil.Ptr(models.V1PackType(value.Type)),
+				Values:    value.Values,
 			})
 		}
 		profileList = append(profileList, &models.V1SpectroClusterProfileEntity{
@@ -161,7 +160,7 @@ func (h *V1Client) RemoveAddonsFromCluster(clusterUID string, profileUIDs []stri
 				Manifests: nil,
 				Name:      value.Name,
 				Tag:       value.Tag,
-				Type:      models.V1PackType(value.Type),
+				Type:      apiutil.Ptr(models.V1PackType(value.Type)),
 				Values:    value.Values,
 			})
 		}

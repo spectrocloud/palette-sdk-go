@@ -37,7 +37,8 @@ func NewV1CloudConfigsAwsPoolMachinesUIDUpdateNoContent() *V1CloudConfigsAwsPool
 	return &V1CloudConfigsAwsPoolMachinesUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsAwsPoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsAwsPoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,7 +40,8 @@ func NewV1ClusterProfilesMetadataOK() *V1ClusterProfilesMetadataOK {
 	return &V1ClusterProfilesMetadataOK{}
 }
 
-/*V1ClusterProfilesMetadataOK handles this case with default header values.
+/*
+V1ClusterProfilesMetadataOK handles this case with default header values.
 
 An array of cluster summary items
 */

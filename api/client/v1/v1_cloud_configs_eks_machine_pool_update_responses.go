@@ -37,7 +37,8 @@ func NewV1CloudConfigsEksMachinePoolUpdateNoContent() *V1CloudConfigsEksMachineP
 	return &V1CloudConfigsEksMachinePoolUpdateNoContent{}
 }
 
-/*V1CloudConfigsEksMachinePoolUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsEksMachinePoolUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

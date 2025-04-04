@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -27,6 +29,11 @@ type V1MaasVlan struct {
 
 // Validate validates this v1 maas vlan
 func (m *V1MaasVlan) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 maas vlan based on context it is used
+func (m *V1MaasVlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

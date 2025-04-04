@@ -40,7 +40,8 @@ func NewV1TenantPrefClusterGroupGetOK() *V1TenantPrefClusterGroupGetOK {
 	return &V1TenantPrefClusterGroupGetOK{}
 }
 
-/*V1TenantPrefClusterGroupGetOK handles this case with default header values.
+/*
+V1TenantPrefClusterGroupGetOK handles this case with default header values.
 
 (empty)
 */

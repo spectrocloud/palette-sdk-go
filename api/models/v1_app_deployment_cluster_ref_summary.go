@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1AppDeploymentClusterRefSummary struct {
 
 	// Application deployment source cluster type[ "virtualCluster", "hostCluster" ]
-	// Enum: [virtual host]
+	// Enum: ["virtual","host"]
 	DeploymentClusterType string `json:"deploymentClusterType,omitempty"`
 
 	// Application deployment source cluster name
@@ -74,7 +75,6 @@ func (m *V1AppDeploymentClusterRefSummary) validateDeploymentClusterTypeEnum(pat
 }
 
 func (m *V1AppDeploymentClusterRefSummary) validateDeploymentClusterType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DeploymentClusterType) { // not required
 		return nil
 	}
@@ -84,6 +84,11 @@ func (m *V1AppDeploymentClusterRefSummary) validateDeploymentClusterType(formats
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 app deployment cluster ref summary based on context it is used
+func (m *V1AppDeploymentClusterRefSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

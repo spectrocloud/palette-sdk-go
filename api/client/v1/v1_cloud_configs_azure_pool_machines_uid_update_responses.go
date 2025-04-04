@@ -37,7 +37,8 @@ func NewV1CloudConfigsAzurePoolMachinesUIDUpdateNoContent() *V1CloudConfigsAzure
 	return &V1CloudConfigsAzurePoolMachinesUIDUpdateNoContent{}
 }
 
-/*V1CloudConfigsAzurePoolMachinesUIDUpdateNoContent handles this case with default header values.
+/*
+V1CloudConfigsAzurePoolMachinesUIDUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

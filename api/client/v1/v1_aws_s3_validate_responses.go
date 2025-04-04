@@ -37,7 +37,8 @@ func NewV1AwsS3ValidateNoContent() *V1AwsS3ValidateNoContent {
 	return &V1AwsS3ValidateNoContent{}
 }
 
-/*V1AwsS3ValidateNoContent handles this case with default header values.
+/*
+V1AwsS3ValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

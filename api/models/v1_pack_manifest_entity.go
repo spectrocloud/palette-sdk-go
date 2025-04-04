@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -36,7 +37,7 @@ type V1PackManifestEntity struct {
 	Tag string `json:"tag,omitempty"`
 
 	// type
-	Type V1PackType `json:"type,omitempty"`
+	Type *V1PackType `json:"type,omitempty"`
 
 	// Pack uid
 	UID string `json:"uid,omitempty"`
@@ -68,7 +69,6 @@ func (m *V1PackManifestEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PackManifestEntity) validateManifests(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Manifests) { // not required
 		return nil
 	}
@@ -82,6 +82,8 @@ func (m *V1PackManifestEntity) validateManifests(formats strfmt.Registry) error 
 			if err := m.Manifests[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -102,16 +104,83 @@ func (m *V1PackManifestEntity) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1PackManifestEntity) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
 
-	if err := m.Type.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("type")
+	if m.Type != nil {
+		if err := m.Type.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("type")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("type")
+			}
+			return err
 		}
-		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 pack manifest entity based on the context it is used
+func (m *V1PackManifestEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateManifests(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PackManifestEntity) contextValidateManifests(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Manifests); i++ {
+
+		if m.Manifests[i] != nil {
+
+			if swag.IsZero(m.Manifests[i]) { // not required
+				return nil
+			}
+
+			if err := m.Manifests[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1PackManifestEntity) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Type != nil {
+
+		if swag.IsZero(m.Type) { // not required
+			return nil
+		}
+
+		if err := m.Type.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("type")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("type")
+			}
+			return err
+		}
 	}
 
 	return nil
