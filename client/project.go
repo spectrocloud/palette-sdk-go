@@ -79,3 +79,13 @@ func (h *V1Client) DeleteProject(uid string) error {
 	_, err := h.Client.V1ProjectsUIDDelete(params)
 	return err
 }
+
+// UpdateMetaProject updates an existing project's metadata.
+func (h *V1Client) UpdateMetaProject(uid string, body *models.V1ObjectMeta) error {
+	// ACL scoped to tenant only
+	params := clientv1.NewV1ProjectsUIDMetaUpdateParams().
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1ProjectsUIDMetaUpdate(params)
+	return err
+}
