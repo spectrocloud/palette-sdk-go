@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -30,7 +31,7 @@ type V1SSHUserStatus struct {
 	Message string `json:"message,omitempty"`
 
 	// State is the state of the SSH tunnel
-	// Enum: [Created Deleted Failed]
+	// Enum: ["Created","Deleted","Failed"]
 	State string `json:"state,omitempty"`
 }
 
@@ -57,7 +58,6 @@ func (m *V1SSHUserStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SSHUserStatus) validateCredentials(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Credentials) { // not required
 		return nil
 	}
@@ -66,6 +66,8 @@ func (m *V1SSHUserStatus) validateCredentials(formats strfmt.Registry) error {
 		if err := m.Credentials.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credentials")
 			}
 			return err
 		}
@@ -75,7 +77,6 @@ func (m *V1SSHUserStatus) validateCredentials(formats strfmt.Registry) error {
 }
 
 func (m *V1SSHUserStatus) validateLastModifiedTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastModifiedTime) { // not required
 		return nil
 	}
@@ -83,6 +84,8 @@ func (m *V1SSHUserStatus) validateLastModifiedTime(formats strfmt.Registry) erro
 	if err := m.LastModifiedTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastModifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastModifiedTime")
 		}
 		return err
 	}
@@ -123,13 +126,69 @@ func (m *V1SSHUserStatus) validateStateEnum(path, location string, value string)
 }
 
 func (m *V1SSHUserStatus) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
 
 	// value enum
 	if err := m.validateStateEnum("state", "body", m.State); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Ssh user status based on the context it is used
+func (m *V1SSHUserStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCredentials(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastModifiedTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SSHUserStatus) contextValidateCredentials(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Credentials != nil {
+
+		if swag.IsZero(m.Credentials) { // not required
+			return nil
+		}
+
+		if err := m.Credentials.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("credentials")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credentials")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SSHUserStatus) contextValidateLastModifiedTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastModifiedTime) { // not required
+		return nil
+	}
+
+	if err := m.LastModifiedTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastModifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastModifiedTime")
+		}
 		return err
 	}
 

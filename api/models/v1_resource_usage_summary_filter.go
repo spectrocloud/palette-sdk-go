@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -106,7 +108,6 @@ func (m *V1ResourceUsageSummaryFilter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateClouds(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Clouds) { // not required
 		return nil
 	}
@@ -119,7 +120,6 @@ func (m *V1ResourceUsageSummaryFilter) validateClouds(formats strfmt.Registry) e
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateClusters(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Clusters) { // not required
 		return nil
 	}
@@ -132,7 +132,6 @@ func (m *V1ResourceUsageSummaryFilter) validateClusters(formats strfmt.Registry)
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateEndTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
 	}
@@ -140,6 +139,8 @@ func (m *V1ResourceUsageSummaryFilter) validateEndTime(formats strfmt.Registry) 
 	if err := m.EndTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("endTime")
 		}
 		return err
 	}
@@ -148,7 +149,6 @@ func (m *V1ResourceUsageSummaryFilter) validateEndTime(formats strfmt.Registry) 
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
@@ -161,7 +161,6 @@ func (m *V1ResourceUsageSummaryFilter) validateNamespaces(formats strfmt.Registr
 }
 
 func (m *V1ResourceUsageSummaryFilter) validatePods(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Pods) { // not required
 		return nil
 	}
@@ -174,7 +173,6 @@ func (m *V1ResourceUsageSummaryFilter) validatePods(formats strfmt.Registry) err
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateProjects(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Projects) { // not required
 		return nil
 	}
@@ -187,7 +185,6 @@ func (m *V1ResourceUsageSummaryFilter) validateProjects(formats strfmt.Registry)
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateStartTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StartTime) { // not required
 		return nil
 	}
@@ -195,6 +192,8 @@ func (m *V1ResourceUsageSummaryFilter) validateStartTime(formats strfmt.Registry
 	if err := m.StartTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("startTime")
 		}
 		return err
 	}
@@ -203,7 +202,6 @@ func (m *V1ResourceUsageSummaryFilter) validateStartTime(formats strfmt.Registry
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateWorkload(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Workload) { // not required
 		return nil
 	}
@@ -212,6 +210,8 @@ func (m *V1ResourceUsageSummaryFilter) validateWorkload(formats strfmt.Registry)
 		if err := m.Workload.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workload")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workload")
 			}
 			return err
 		}
@@ -221,13 +221,91 @@ func (m *V1ResourceUsageSummaryFilter) validateWorkload(formats strfmt.Registry)
 }
 
 func (m *V1ResourceUsageSummaryFilter) validateWorkspaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Workspaces) { // not required
 		return nil
 	}
 
 	if err := validate.UniqueItems("workspaces", "body", m.Workspaces); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 resource usage summary filter based on the context it is used
+func (m *V1ResourceUsageSummaryFilter) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateEndTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStartTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateWorkload(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ResourceUsageSummaryFilter) contextValidateEndTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.EndTime) { // not required
+		return nil
+	}
+
+	if err := m.EndTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("endTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("endTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ResourceUsageSummaryFilter) contextValidateStartTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StartTime) { // not required
+		return nil
+	}
+
+	if err := m.StartTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("startTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("startTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ResourceUsageSummaryFilter) contextValidateWorkload(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Workload != nil {
+
+		if swag.IsZero(m.Workload) { // not required
+			return nil
+		}
+
+		if err := m.Workload.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("workload")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("workload")
+			}
+			return err
+		}
 	}
 
 	return nil

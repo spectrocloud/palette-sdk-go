@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 type V1HybridPoolClusterRef struct {
 
 	// cloud type
-	CloudType V1HybridPoolClusterCloudType `json:"cloudType,omitempty"`
+	CloudType *V1HybridPoolClusterCloudType `json:"cloudType,omitempty"`
 
 	// Cluster uid
 	UID string `json:"uid,omitempty"`
@@ -38,16 +40,54 @@ func (m *V1HybridPoolClusterRef) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1HybridPoolClusterRef) validateCloudType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudType) { // not required
 		return nil
 	}
 
-	if err := m.CloudType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("cloudType")
+	if m.CloudType != nil {
+		if err := m.CloudType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudType")
+			}
+			return err
 		}
-		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 hybrid pool cluster ref based on the context it is used
+func (m *V1HybridPoolClusterRef) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCloudType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1HybridPoolClusterRef) contextValidateCloudType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudType != nil {
+
+		if swag.IsZero(m.CloudType) { // not required
+			return nil
+		}
+
+		if err := m.CloudType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudType")
+			}
+			return err
+		}
 	}
 
 	return nil

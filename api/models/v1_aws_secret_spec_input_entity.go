@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1AwsSecretSpecInputEntity struct {
 
 	// AWS accounts are scoped to a single partition. Allowed values [aws-iso, aws-iso-b], Default values
-	// Enum: [aws-iso aws-iso-b]
+	// Enum: ["aws-iso","aws-iso-b"]
 	Partition *string `json:"partition,omitempty"`
 
 	// AWS secret spec entity
@@ -59,11 +60,11 @@ func init() {
 
 const (
 
-	// V1AwsSecretSpecInputEntityPartitionAwsIso captures enum value "aws-iso"
-	V1AwsSecretSpecInputEntityPartitionAwsIso string = "aws-iso"
+	// V1AwsSecretSpecInputEntityPartitionAwsDashIso captures enum value "aws-iso"
+	V1AwsSecretSpecInputEntityPartitionAwsDashIso string = "aws-iso"
 
-	// V1AwsSecretSpecInputEntityPartitionAwsIsob captures enum value "aws-iso-b"
-	V1AwsSecretSpecInputEntityPartitionAwsIsob string = "aws-iso-b"
+	// V1AwsSecretSpecInputEntityPartitionAwsDashIsoDashb captures enum value "aws-iso-b"
+	V1AwsSecretSpecInputEntityPartitionAwsDashIsoDashb string = "aws-iso-b"
 )
 
 // prop value enum
@@ -75,7 +76,6 @@ func (m *V1AwsSecretSpecInputEntity) validatePartitionEnum(path, location string
 }
 
 func (m *V1AwsSecretSpecInputEntity) validatePartition(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Partition) { // not required
 		return nil
 	}
@@ -89,7 +89,6 @@ func (m *V1AwsSecretSpecInputEntity) validatePartition(formats strfmt.Registry) 
 }
 
 func (m *V1AwsSecretSpecInputEntity) validateSecretSpec(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SecretSpec) { // not required
 		return nil
 	}
@@ -98,6 +97,43 @@ func (m *V1AwsSecretSpecInputEntity) validateSecretSpec(formats strfmt.Registry)
 		if err := m.SecretSpec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("secretSpec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secretSpec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws secret spec input entity based on the context it is used
+func (m *V1AwsSecretSpecInputEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateSecretSpec(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsSecretSpecInputEntity) contextValidateSecretSpec(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecretSpec != nil {
+
+		if swag.IsZero(m.SecretSpec) { // not required
+			return nil
+		}
+
+		if err := m.SecretSpec.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("secretSpec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secretSpec")
 			}
 			return err
 		}

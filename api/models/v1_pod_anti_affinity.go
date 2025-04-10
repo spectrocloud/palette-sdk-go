@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +45,6 @@ func (m *V1PodAntiAffinity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PodAntiAffinity) validatePreferredDuringSchedulingIgnoredDuringExecution(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PreferredDuringSchedulingIgnoredDuringExecution) { // not required
 		return nil
 	}
@@ -58,6 +58,8 @@ func (m *V1PodAntiAffinity) validatePreferredDuringSchedulingIgnoredDuringExecut
 			if err := m.PreferredDuringSchedulingIgnoredDuringExecution[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("preferredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("preferredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -69,7 +71,6 @@ func (m *V1PodAntiAffinity) validatePreferredDuringSchedulingIgnoredDuringExecut
 }
 
 func (m *V1PodAntiAffinity) validateRequiredDuringSchedulingIgnoredDuringExecution(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RequiredDuringSchedulingIgnoredDuringExecution) { // not required
 		return nil
 	}
@@ -83,6 +84,76 @@ func (m *V1PodAntiAffinity) validateRequiredDuringSchedulingIgnoredDuringExecuti
 			if err := m.RequiredDuringSchedulingIgnoredDuringExecution[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("requiredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("requiredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 pod anti affinity based on the context it is used
+func (m *V1PodAntiAffinity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePreferredDuringSchedulingIgnoredDuringExecution(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRequiredDuringSchedulingIgnoredDuringExecution(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PodAntiAffinity) contextValidatePreferredDuringSchedulingIgnoredDuringExecution(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PreferredDuringSchedulingIgnoredDuringExecution); i++ {
+
+		if m.PreferredDuringSchedulingIgnoredDuringExecution[i] != nil {
+
+			if swag.IsZero(m.PreferredDuringSchedulingIgnoredDuringExecution[i]) { // not required
+				return nil
+			}
+
+			if err := m.PreferredDuringSchedulingIgnoredDuringExecution[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("preferredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("preferredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1PodAntiAffinity) contextValidateRequiredDuringSchedulingIgnoredDuringExecution(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.RequiredDuringSchedulingIgnoredDuringExecution); i++ {
+
+		if m.RequiredDuringSchedulingIgnoredDuringExecution[i] != nil {
+
+			if swag.IsZero(m.RequiredDuringSchedulingIgnoredDuringExecution[i]) { // not required
+				return nil
+			}
+
+			if err := m.RequiredDuringSchedulingIgnoredDuringExecution[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("requiredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("requiredDuringSchedulingIgnoredDuringExecution" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -61,7 +63,6 @@ func (m *V1AppDeploymentClusterGroupTargetSpec) validateClusterGroupUID(formats 
 }
 
 func (m *V1AppDeploymentClusterGroupTargetSpec) validateClusterLimits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterLimits) { // not required
 		return nil
 	}
@@ -70,6 +71,8 @@ func (m *V1AppDeploymentClusterGroupTargetSpec) validateClusterLimits(formats st
 		if err := m.ClusterLimits.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterLimits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterLimits")
 			}
 			return err
 		}
@@ -82,6 +85,41 @@ func (m *V1AppDeploymentClusterGroupTargetSpec) validateClusterName(formats strf
 
 	if err := validate.Required("clusterName", "body", m.ClusterName); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 app deployment cluster group target spec based on the context it is used
+func (m *V1AppDeploymentClusterGroupTargetSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterLimits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AppDeploymentClusterGroupTargetSpec) contextValidateClusterLimits(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterLimits != nil {
+
+		if swag.IsZero(m.ClusterLimits) { // not required
+			return nil
+		}
+
+		if err := m.ClusterLimits.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterLimits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterLimits")
+			}
+			return err
+		}
 	}
 
 	return nil

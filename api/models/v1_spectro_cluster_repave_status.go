@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -24,7 +26,7 @@ type V1SpectroClusterRepaveStatus struct {
 	RepaveTransitionTime V1Time `json:"repaveTransitionTime,omitempty"`
 
 	// state
-	State V1ClusterRepaveState `json:"state,omitempty"`
+	State *V1ClusterRepaveState `json:"state,omitempty"`
 }
 
 // Validate validates this v1 spectro cluster repave status
@@ -46,7 +48,6 @@ func (m *V1SpectroClusterRepaveStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterRepaveStatus) validateRepaveTransitionTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RepaveTransitionTime) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1SpectroClusterRepaveStatus) validateRepaveTransitionTime(formats strf
 	if err := m.RepaveTransitionTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("repaveTransitionTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("repaveTransitionTime")
 		}
 		return err
 	}
@@ -62,16 +65,76 @@ func (m *V1SpectroClusterRepaveStatus) validateRepaveTransitionTime(formats strf
 }
 
 func (m *V1SpectroClusterRepaveStatus) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
 
-	if err := m.State.Validate(formats); err != nil {
+	if m.State != nil {
+		if err := m.State.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("state")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("state")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster repave status based on the context it is used
+func (m *V1SpectroClusterRepaveStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRepaveTransitionTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterRepaveStatus) contextValidateRepaveTransitionTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.RepaveTransitionTime) { // not required
+		return nil
+	}
+
+	if err := m.RepaveTransitionTime.ContextValidate(ctx, formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("state")
+			return ve.ValidateName("repaveTransitionTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("repaveTransitionTime")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterRepaveStatus) contextValidateState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.State != nil {
+
+		if swag.IsZero(m.State) { // not required
+			return nil
+		}
+
+		if err := m.State.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("state")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("state")
+			}
+			return err
+		}
 	}
 
 	return nil

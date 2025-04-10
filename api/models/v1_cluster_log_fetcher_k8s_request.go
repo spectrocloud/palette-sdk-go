@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1ClusterLogFetcherK8sRequest) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterLogFetcherK8sRequest) validateLabelSelector(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LabelSelector) { // not required
 		return nil
 	}
@@ -58,7 +59,6 @@ func (m *V1ClusterLogFetcherK8sRequest) validateLabelSelector(formats strfmt.Reg
 }
 
 func (m *V1ClusterLogFetcherK8sRequest) validateNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
@@ -67,6 +67,11 @@ func (m *V1ClusterLogFetcherK8sRequest) validateNamespaces(formats strfmt.Regist
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 cluster log fetcher k8s request based on context it is used
+func (m *V1ClusterLogFetcherK8sRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

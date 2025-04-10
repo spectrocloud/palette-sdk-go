@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,7 +55,6 @@ func (m *V1OverlordVsphereCloudConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OverlordVsphereCloudConfig) validateClusterConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -63,6 +63,8 @@ func (m *V1OverlordVsphereCloudConfig) validateClusterConfig(formats strfmt.Regi
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -72,7 +74,6 @@ func (m *V1OverlordVsphereCloudConfig) validateClusterConfig(formats strfmt.Regi
 }
 
 func (m *V1OverlordVsphereCloudConfig) validateClusterProfiles(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterProfiles) { // not required
 		return nil
 	}
@@ -86,6 +87,8 @@ func (m *V1OverlordVsphereCloudConfig) validateClusterProfiles(formats strfmt.Re
 			if err := m.ClusterProfiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -97,7 +100,6 @@ func (m *V1OverlordVsphereCloudConfig) validateClusterProfiles(formats strfmt.Re
 }
 
 func (m *V1OverlordVsphereCloudConfig) validateClusterSettings(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterSettings) { // not required
 		return nil
 	}
@@ -106,6 +108,97 @@ func (m *V1OverlordVsphereCloudConfig) validateClusterSettings(formats strfmt.Re
 		if err := m.ClusterSettings.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterSettings")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterSettings")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 overlord vsphere cloud config based on the context it is used
+func (m *V1OverlordVsphereCloudConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterProfiles(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterSettings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1OverlordVsphereCloudConfig) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterConfig != nil {
+
+		if swag.IsZero(m.ClusterConfig) { // not required
+			return nil
+		}
+
+		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1OverlordVsphereCloudConfig) contextValidateClusterProfiles(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterProfiles); i++ {
+
+		if m.ClusterProfiles[i] != nil {
+
+			if swag.IsZero(m.ClusterProfiles[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterProfiles[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1OverlordVsphereCloudConfig) contextValidateClusterSettings(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterSettings != nil {
+
+		if swag.IsZero(m.ClusterSettings) { // not required
+			return nil
+		}
+
+		if err := m.ClusterSettings.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterSettings")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterSettings")
 			}
 			return err
 		}

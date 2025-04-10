@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -102,7 +103,6 @@ func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateAws(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Aws) { // not required
 		return nil
 	}
@@ -111,6 +111,8 @@ func (m *V1RateConfig) validateAws(formats strfmt.Registry) error {
 		if err := m.Aws.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("aws")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aws")
 			}
 			return err
 		}
@@ -120,7 +122,6 @@ func (m *V1RateConfig) validateAws(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateAzure(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Azure) { // not required
 		return nil
 	}
@@ -129,6 +130,8 @@ func (m *V1RateConfig) validateAzure(formats strfmt.Registry) error {
 		if err := m.Azure.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("azure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azure")
 			}
 			return err
 		}
@@ -138,7 +141,6 @@ func (m *V1RateConfig) validateAzure(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateCustom(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Custom) { // not required
 		return nil
 	}
@@ -156,6 +158,8 @@ func (m *V1RateConfig) validateCustom(formats strfmt.Registry) error {
 			if err := m.Custom[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("custom" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("custom" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -167,7 +171,6 @@ func (m *V1RateConfig) validateCustom(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateEdge(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Edge) { // not required
 		return nil
 	}
@@ -176,6 +179,8 @@ func (m *V1RateConfig) validateEdge(formats strfmt.Registry) error {
 		if err := m.Edge.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("edge")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("edge")
 			}
 			return err
 		}
@@ -185,7 +190,6 @@ func (m *V1RateConfig) validateEdge(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateEdgeNative(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EdgeNative) { // not required
 		return nil
 	}
@@ -194,6 +198,8 @@ func (m *V1RateConfig) validateEdgeNative(formats strfmt.Registry) error {
 		if err := m.EdgeNative.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("edgeNative")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("edgeNative")
 			}
 			return err
 		}
@@ -203,7 +209,6 @@ func (m *V1RateConfig) validateEdgeNative(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateGcp(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Gcp) { // not required
 		return nil
 	}
@@ -212,6 +217,8 @@ func (m *V1RateConfig) validateGcp(formats strfmt.Registry) error {
 		if err := m.Gcp.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("gcp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcp")
 			}
 			return err
 		}
@@ -221,7 +228,6 @@ func (m *V1RateConfig) validateGcp(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateGeneric(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Generic) { // not required
 		return nil
 	}
@@ -230,6 +236,8 @@ func (m *V1RateConfig) validateGeneric(formats strfmt.Registry) error {
 		if err := m.Generic.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("generic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("generic")
 			}
 			return err
 		}
@@ -239,7 +247,6 @@ func (m *V1RateConfig) validateGeneric(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateMaas(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Maas) { // not required
 		return nil
 	}
@@ -248,6 +255,8 @@ func (m *V1RateConfig) validateMaas(formats strfmt.Registry) error {
 		if err := m.Maas.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("maas")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("maas")
 			}
 			return err
 		}
@@ -257,7 +266,6 @@ func (m *V1RateConfig) validateMaas(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateOpenstack(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Openstack) { // not required
 		return nil
 	}
@@ -266,6 +274,8 @@ func (m *V1RateConfig) validateOpenstack(formats strfmt.Registry) error {
 		if err := m.Openstack.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("openstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("openstack")
 			}
 			return err
 		}
@@ -275,7 +285,6 @@ func (m *V1RateConfig) validateOpenstack(formats strfmt.Registry) error {
 }
 
 func (m *V1RateConfig) validateVsphere(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Vsphere) { // not required
 		return nil
 	}
@@ -284,6 +293,272 @@ func (m *V1RateConfig) validateVsphere(formats strfmt.Registry) error {
 		if err := m.Vsphere.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vsphere")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vsphere")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 rate config based on the context it is used
+func (m *V1RateConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAws(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAzure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCustom(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEdge(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEdgeNative(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGcp(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateGeneric(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMaas(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOpenstack(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVsphere(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateAws(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Aws != nil {
+
+		if swag.IsZero(m.Aws) { // not required
+			return nil
+		}
+
+		if err := m.Aws.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("aws")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("aws")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateAzure(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Azure != nil {
+
+		if swag.IsZero(m.Azure) { // not required
+			return nil
+		}
+
+		if err := m.Azure.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("azure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("azure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateCustom(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Custom); i++ {
+
+		if m.Custom[i] != nil {
+
+			if swag.IsZero(m.Custom[i]) { // not required
+				return nil
+			}
+
+			if err := m.Custom[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("custom" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("custom" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateEdge(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Edge != nil {
+
+		if swag.IsZero(m.Edge) { // not required
+			return nil
+		}
+
+		if err := m.Edge.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("edge")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("edge")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateEdgeNative(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.EdgeNative != nil {
+
+		if swag.IsZero(m.EdgeNative) { // not required
+			return nil
+		}
+
+		if err := m.EdgeNative.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("edgeNative")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("edgeNative")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateGcp(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Gcp != nil {
+
+		if swag.IsZero(m.Gcp) { // not required
+			return nil
+		}
+
+		if err := m.Gcp.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcp")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateGeneric(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Generic != nil {
+
+		if swag.IsZero(m.Generic) { // not required
+			return nil
+		}
+
+		if err := m.Generic.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("generic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("generic")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateMaas(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Maas != nil {
+
+		if swag.IsZero(m.Maas) { // not required
+			return nil
+		}
+
+		if err := m.Maas.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("maas")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("maas")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateOpenstack(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Openstack != nil {
+
+		if swag.IsZero(m.Openstack) { // not required
+			return nil
+		}
+
+		if err := m.Openstack.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("openstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("openstack")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateVsphere(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Vsphere != nil {
+
+		if swag.IsZero(m.Vsphere) { // not required
+			return nil
+		}
+
+		if err := m.Vsphere.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("vsphere")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vsphere")
 			}
 			return err
 		}

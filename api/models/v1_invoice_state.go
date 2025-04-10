@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,7 +24,7 @@ type V1InvoiceState struct {
 	PaymentMsg string `json:"paymentMsg,omitempty"`
 
 	// state
-	// Enum: [Paid PaymentPending PaymentInProgress PaymentFailed]
+	// Enum: ["Paid","PaymentPending","PaymentInProgress","PaymentFailed"]
 	State string `json:"state,omitempty"`
 
 	// Time on which the state has been updated
@@ -85,7 +86,6 @@ func (m *V1InvoiceState) validateStateEnum(path, location string, value string) 
 }
 
 func (m *V1InvoiceState) validateState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
@@ -99,7 +99,6 @@ func (m *V1InvoiceState) validateState(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceState) validateTimestamp(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Timestamp) { // not required
 		return nil
 	}
@@ -107,6 +106,40 @@ func (m *V1InvoiceState) validateTimestamp(formats strfmt.Registry) error {
 	if err := m.Timestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("timestamp")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("timestamp")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 invoice state based on the context it is used
+func (m *V1InvoiceState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTimestamp(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1InvoiceState) contextValidateTimestamp(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Timestamp) { // not required
+		return nil
+	}
+
+	if err := m.Timestamp.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("timestamp")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("timestamp")
 		}
 		return err
 	}

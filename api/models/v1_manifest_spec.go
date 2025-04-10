@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1ManifestSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ManifestSpec) validateDraft(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Draft) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1ManifestSpec) validateDraft(formats strfmt.Registry) error {
 		if err := m.Draft.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("draft")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1ManifestSpec) validateDraft(formats strfmt.Registry) error {
 }
 
 func (m *V1ManifestSpec) validatePublished(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Published) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1ManifestSpec) validatePublished(formats strfmt.Registry) error {
 		if err := m.Published.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("published")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 manifest spec based on the context it is used
+func (m *V1ManifestSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDraft(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePublished(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ManifestSpec) contextValidateDraft(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Draft != nil {
+
+		if swag.IsZero(m.Draft) { // not required
+			return nil
+		}
+
+		if err := m.Draft.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("draft")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ManifestSpec) contextValidatePublished(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Published != nil {
+
+		if swag.IsZero(m.Published) { // not required
+			return nil
+		}
+
+		if err := m.Published.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("published")
 			}
 			return err
 		}

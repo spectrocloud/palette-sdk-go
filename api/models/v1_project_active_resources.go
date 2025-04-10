@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -49,7 +51,6 @@ func (m *V1ProjectActiveResources) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectActiveResources) validateAppDeployments(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AppDeployments) { // not required
 		return nil
 	}
@@ -58,6 +59,8 @@ func (m *V1ProjectActiveResources) validateAppDeployments(formats strfmt.Registr
 		if err := m.AppDeployments.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("appDeployments")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appDeployments")
 			}
 			return err
 		}
@@ -67,7 +70,6 @@ func (m *V1ProjectActiveResources) validateAppDeployments(formats strfmt.Registr
 }
 
 func (m *V1ProjectActiveResources) validateClusters(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Clusters) { // not required
 		return nil
 	}
@@ -76,6 +78,8 @@ func (m *V1ProjectActiveResources) validateClusters(formats strfmt.Registry) err
 		if err := m.Clusters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusters")
 			}
 			return err
 		}
@@ -85,7 +89,6 @@ func (m *V1ProjectActiveResources) validateClusters(formats strfmt.Registry) err
 }
 
 func (m *V1ProjectActiveResources) validateVirtualClusters(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.VirtualClusters) { // not required
 		return nil
 	}
@@ -94,6 +97,93 @@ func (m *V1ProjectActiveResources) validateVirtualClusters(formats strfmt.Regist
 		if err := m.VirtualClusters.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("virtualClusters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("virtualClusters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 project active resources based on the context it is used
+func (m *V1ProjectActiveResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAppDeployments(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusters(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVirtualClusters(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ProjectActiveResources) contextValidateAppDeployments(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AppDeployments != nil {
+
+		if swag.IsZero(m.AppDeployments) { // not required
+			return nil
+		}
+
+		if err := m.AppDeployments.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("appDeployments")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appDeployments")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ProjectActiveResources) contextValidateClusters(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Clusters != nil {
+
+		if swag.IsZero(m.Clusters) { // not required
+			return nil
+		}
+
+		if err := m.Clusters.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusters")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ProjectActiveResources) contextValidateVirtualClusters(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.VirtualClusters != nil {
+
+		if swag.IsZero(m.VirtualClusters) { // not required
+			return nil
+		}
+
+		if err := m.VirtualClusters.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("virtualClusters")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("virtualClusters")
 			}
 			return err
 		}

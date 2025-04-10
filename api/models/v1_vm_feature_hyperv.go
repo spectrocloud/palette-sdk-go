@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -126,7 +128,6 @@ func (m *V1VMFeatureHyperv) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateEvmcs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Evmcs) { // not required
 		return nil
 	}
@@ -135,6 +136,8 @@ func (m *V1VMFeatureHyperv) validateEvmcs(formats strfmt.Registry) error {
 		if err := m.Evmcs.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("evmcs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("evmcs")
 			}
 			return err
 		}
@@ -144,7 +147,6 @@ func (m *V1VMFeatureHyperv) validateEvmcs(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateFrequencies(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Frequencies) { // not required
 		return nil
 	}
@@ -153,6 +155,8 @@ func (m *V1VMFeatureHyperv) validateFrequencies(formats strfmt.Registry) error {
 		if err := m.Frequencies.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("frequencies")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("frequencies")
 			}
 			return err
 		}
@@ -162,7 +166,6 @@ func (m *V1VMFeatureHyperv) validateFrequencies(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateIpi(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Ipi) { // not required
 		return nil
 	}
@@ -171,6 +174,8 @@ func (m *V1VMFeatureHyperv) validateIpi(formats strfmt.Registry) error {
 		if err := m.Ipi.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ipi")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ipi")
 			}
 			return err
 		}
@@ -180,7 +185,6 @@ func (m *V1VMFeatureHyperv) validateIpi(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateReenlightenment(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Reenlightenment) { // not required
 		return nil
 	}
@@ -189,6 +193,8 @@ func (m *V1VMFeatureHyperv) validateReenlightenment(formats strfmt.Registry) err
 		if err := m.Reenlightenment.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("reenlightenment")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reenlightenment")
 			}
 			return err
 		}
@@ -198,7 +204,6 @@ func (m *V1VMFeatureHyperv) validateReenlightenment(formats strfmt.Registry) err
 }
 
 func (m *V1VMFeatureHyperv) validateRelaxed(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Relaxed) { // not required
 		return nil
 	}
@@ -207,6 +212,8 @@ func (m *V1VMFeatureHyperv) validateRelaxed(formats strfmt.Registry) error {
 		if err := m.Relaxed.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("relaxed")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relaxed")
 			}
 			return err
 		}
@@ -216,7 +223,6 @@ func (m *V1VMFeatureHyperv) validateRelaxed(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateReset(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Reset) { // not required
 		return nil
 	}
@@ -225,6 +231,8 @@ func (m *V1VMFeatureHyperv) validateReset(formats strfmt.Registry) error {
 		if err := m.Reset.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("reset")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reset")
 			}
 			return err
 		}
@@ -234,7 +242,6 @@ func (m *V1VMFeatureHyperv) validateReset(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateRuntime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Runtime) { // not required
 		return nil
 	}
@@ -243,6 +250,8 @@ func (m *V1VMFeatureHyperv) validateRuntime(formats strfmt.Registry) error {
 		if err := m.Runtime.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("runtime")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("runtime")
 			}
 			return err
 		}
@@ -252,7 +261,6 @@ func (m *V1VMFeatureHyperv) validateRuntime(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateSpinlocks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Spinlocks) { // not required
 		return nil
 	}
@@ -261,6 +269,8 @@ func (m *V1VMFeatureHyperv) validateSpinlocks(formats strfmt.Registry) error {
 		if err := m.Spinlocks.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spinlocks")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spinlocks")
 			}
 			return err
 		}
@@ -270,7 +280,6 @@ func (m *V1VMFeatureHyperv) validateSpinlocks(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateSynic(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Synic) { // not required
 		return nil
 	}
@@ -279,6 +288,8 @@ func (m *V1VMFeatureHyperv) validateSynic(formats strfmt.Registry) error {
 		if err := m.Synic.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("synic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("synic")
 			}
 			return err
 		}
@@ -288,7 +299,6 @@ func (m *V1VMFeatureHyperv) validateSynic(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateSynictimer(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Synictimer) { // not required
 		return nil
 	}
@@ -297,6 +307,8 @@ func (m *V1VMFeatureHyperv) validateSynictimer(formats strfmt.Registry) error {
 		if err := m.Synictimer.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("synictimer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("synictimer")
 			}
 			return err
 		}
@@ -306,7 +318,6 @@ func (m *V1VMFeatureHyperv) validateSynictimer(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateTlbflush(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Tlbflush) { // not required
 		return nil
 	}
@@ -315,6 +326,8 @@ func (m *V1VMFeatureHyperv) validateTlbflush(formats strfmt.Registry) error {
 		if err := m.Tlbflush.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tlbflush")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tlbflush")
 			}
 			return err
 		}
@@ -324,7 +337,6 @@ func (m *V1VMFeatureHyperv) validateTlbflush(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateVapic(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Vapic) { // not required
 		return nil
 	}
@@ -333,6 +345,8 @@ func (m *V1VMFeatureHyperv) validateVapic(formats strfmt.Registry) error {
 		if err := m.Vapic.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vapic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vapic")
 			}
 			return err
 		}
@@ -342,7 +356,6 @@ func (m *V1VMFeatureHyperv) validateVapic(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateVendorid(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Vendorid) { // not required
 		return nil
 	}
@@ -351,6 +364,8 @@ func (m *V1VMFeatureHyperv) validateVendorid(formats strfmt.Registry) error {
 		if err := m.Vendorid.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vendorid")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vendorid")
 			}
 			return err
 		}
@@ -360,7 +375,6 @@ func (m *V1VMFeatureHyperv) validateVendorid(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFeatureHyperv) validateVpindex(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Vpindex) { // not required
 		return nil
 	}
@@ -369,6 +383,368 @@ func (m *V1VMFeatureHyperv) validateVpindex(formats strfmt.Registry) error {
 		if err := m.Vpindex.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vpindex")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vpindex")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm feature hyperv based on the context it is used
+func (m *V1VMFeatureHyperv) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateEvmcs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFrequencies(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateIpi(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateReenlightenment(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRelaxed(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateReset(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRuntime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpinlocks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSynic(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSynictimer(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTlbflush(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVapic(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVendorid(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVpindex(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateEvmcs(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Evmcs != nil {
+
+		if swag.IsZero(m.Evmcs) { // not required
+			return nil
+		}
+
+		if err := m.Evmcs.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("evmcs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("evmcs")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateFrequencies(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Frequencies != nil {
+
+		if swag.IsZero(m.Frequencies) { // not required
+			return nil
+		}
+
+		if err := m.Frequencies.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("frequencies")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("frequencies")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateIpi(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Ipi != nil {
+
+		if swag.IsZero(m.Ipi) { // not required
+			return nil
+		}
+
+		if err := m.Ipi.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ipi")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ipi")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateReenlightenment(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Reenlightenment != nil {
+
+		if swag.IsZero(m.Reenlightenment) { // not required
+			return nil
+		}
+
+		if err := m.Reenlightenment.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("reenlightenment")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reenlightenment")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateRelaxed(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Relaxed != nil {
+
+		if swag.IsZero(m.Relaxed) { // not required
+			return nil
+		}
+
+		if err := m.Relaxed.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("relaxed")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relaxed")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateReset(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Reset != nil {
+
+		if swag.IsZero(m.Reset) { // not required
+			return nil
+		}
+
+		if err := m.Reset.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("reset")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reset")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateRuntime(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Runtime != nil {
+
+		if swag.IsZero(m.Runtime) { // not required
+			return nil
+		}
+
+		if err := m.Runtime.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("runtime")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("runtime")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateSpinlocks(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Spinlocks != nil {
+
+		if swag.IsZero(m.Spinlocks) { // not required
+			return nil
+		}
+
+		if err := m.Spinlocks.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spinlocks")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spinlocks")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateSynic(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Synic != nil {
+
+		if swag.IsZero(m.Synic) { // not required
+			return nil
+		}
+
+		if err := m.Synic.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("synic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("synic")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateSynictimer(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Synictimer != nil {
+
+		if swag.IsZero(m.Synictimer) { // not required
+			return nil
+		}
+
+		if err := m.Synictimer.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("synictimer")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("synictimer")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateTlbflush(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Tlbflush != nil {
+
+		if swag.IsZero(m.Tlbflush) { // not required
+			return nil
+		}
+
+		if err := m.Tlbflush.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tlbflush")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tlbflush")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateVapic(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Vapic != nil {
+
+		if swag.IsZero(m.Vapic) { // not required
+			return nil
+		}
+
+		if err := m.Vapic.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("vapic")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vapic")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateVendorid(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Vendorid != nil {
+
+		if swag.IsZero(m.Vendorid) { // not required
+			return nil
+		}
+
+		if err := m.Vendorid.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("vendorid")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vendorid")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatureHyperv) contextValidateVpindex(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Vpindex != nil {
+
+		if swag.IsZero(m.Vpindex) { // not required
+			return nil
+		}
+
+		if err := m.Vpindex.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("vpindex")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("vpindex")
 			}
 			return err
 		}

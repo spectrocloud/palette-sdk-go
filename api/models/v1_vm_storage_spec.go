@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -61,7 +63,6 @@ func (m *V1VMStorageSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMStorageSpec) validateDataSource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataSource) { // not required
 		return nil
 	}
@@ -70,6 +71,8 @@ func (m *V1VMStorageSpec) validateDataSource(formats strfmt.Registry) error {
 		if err := m.DataSource.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataSource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSource")
 			}
 			return err
 		}
@@ -79,7 +82,6 @@ func (m *V1VMStorageSpec) validateDataSource(formats strfmt.Registry) error {
 }
 
 func (m *V1VMStorageSpec) validateResources(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Resources) { // not required
 		return nil
 	}
@@ -88,6 +90,8 @@ func (m *V1VMStorageSpec) validateResources(formats strfmt.Registry) error {
 		if err := m.Resources.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resources")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resources")
 			}
 			return err
 		}
@@ -97,7 +101,6 @@ func (m *V1VMStorageSpec) validateResources(formats strfmt.Registry) error {
 }
 
 func (m *V1VMStorageSpec) validateSelector(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Selector) { // not required
 		return nil
 	}
@@ -106,6 +109,93 @@ func (m *V1VMStorageSpec) validateSelector(formats strfmt.Registry) error {
 		if err := m.Selector.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("selector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("selector")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm storage spec based on the context it is used
+func (m *V1VMStorageSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDataSource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResources(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSelector(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMStorageSpec) contextValidateDataSource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataSource != nil {
+
+		if swag.IsZero(m.DataSource) { // not required
+			return nil
+		}
+
+		if err := m.DataSource.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataSource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSource")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMStorageSpec) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Resources != nil {
+
+		if swag.IsZero(m.Resources) { // not required
+			return nil
+		}
+
+		if err := m.Resources.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resources")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resources")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMStorageSpec) contextValidateSelector(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Selector != nil {
+
+		if swag.IsZero(m.Selector) { // not required
+			return nil
+		}
+
+		if err := m.Selector.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("selector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("selector")
 			}
 			return err
 		}

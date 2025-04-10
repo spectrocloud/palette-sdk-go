@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 type V1CustomCloudSpecEntity struct {
 
 	// cloud category
-	CloudCategory V1CloudCategory `json:"cloudCategory,omitempty"`
+	CloudCategory *V1CloudCategory `json:"cloudCategory,omitempty"`
 
 	// Custom cloud displayName
 	DisplayName string `json:"displayName,omitempty"`
@@ -44,16 +46,54 @@ func (m *V1CustomCloudSpecEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1CustomCloudSpecEntity) validateCloudCategory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudCategory) { // not required
 		return nil
 	}
 
-	if err := m.CloudCategory.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("cloudCategory")
+	if m.CloudCategory != nil {
+		if err := m.CloudCategory.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudCategory")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudCategory")
+			}
+			return err
 		}
-		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 custom cloud spec entity based on the context it is used
+func (m *V1CustomCloudSpecEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCloudCategory(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1CustomCloudSpecEntity) contextValidateCloudCategory(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudCategory != nil {
+
+		if swag.IsZero(m.CloudCategory) { // not required
+			return nil
+		}
+
+		if err := m.CloudCategory.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudCategory")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudCategory")
+			}
+			return err
+		}
 	}
 
 	return nil

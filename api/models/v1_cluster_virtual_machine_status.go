@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -87,7 +88,6 @@ func (m *V1ClusterVirtualMachineStatus) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateConditions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Conditions) { // not required
 		return nil
 	}
@@ -101,6 +101,8 @@ func (m *V1ClusterVirtualMachineStatus) validateConditions(formats strfmt.Regist
 			if err := m.Conditions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -112,7 +114,6 @@ func (m *V1ClusterVirtualMachineStatus) validateConditions(formats strfmt.Regist
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateMemoryDumpRequest(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MemoryDumpRequest) { // not required
 		return nil
 	}
@@ -121,6 +122,8 @@ func (m *V1ClusterVirtualMachineStatus) validateMemoryDumpRequest(formats strfmt
 		if err := m.MemoryDumpRequest.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("memoryDumpRequest")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memoryDumpRequest")
 			}
 			return err
 		}
@@ -130,7 +133,6 @@ func (m *V1ClusterVirtualMachineStatus) validateMemoryDumpRequest(formats strfmt
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateStartFailure(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StartFailure) { // not required
 		return nil
 	}
@@ -139,6 +141,8 @@ func (m *V1ClusterVirtualMachineStatus) validateStartFailure(formats strfmt.Regi
 		if err := m.StartFailure.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("startFailure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("startFailure")
 			}
 			return err
 		}
@@ -148,7 +152,6 @@ func (m *V1ClusterVirtualMachineStatus) validateStartFailure(formats strfmt.Regi
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateStateChangeRequests(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StateChangeRequests) { // not required
 		return nil
 	}
@@ -162,6 +165,8 @@ func (m *V1ClusterVirtualMachineStatus) validateStateChangeRequests(formats strf
 			if err := m.StateChangeRequests[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("stateChangeRequests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("stateChangeRequests" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -173,7 +178,6 @@ func (m *V1ClusterVirtualMachineStatus) validateStateChangeRequests(formats strf
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateVolumeRequests(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.VolumeRequests) { // not required
 		return nil
 	}
@@ -187,6 +191,8 @@ func (m *V1ClusterVirtualMachineStatus) validateVolumeRequests(formats strfmt.Re
 			if err := m.VolumeRequests[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("volumeRequests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeRequests" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -198,7 +204,6 @@ func (m *V1ClusterVirtualMachineStatus) validateVolumeRequests(formats strfmt.Re
 }
 
 func (m *V1ClusterVirtualMachineStatus) validateVolumeSnapshotStatuses(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.VolumeSnapshotStatuses) { // not required
 		return nil
 	}
@@ -212,6 +217,184 @@ func (m *V1ClusterVirtualMachineStatus) validateVolumeSnapshotStatuses(formats s
 			if err := m.VolumeSnapshotStatuses[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("volumeSnapshotStatuses" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeSnapshotStatuses" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster virtual machine status based on the context it is used
+func (m *V1ClusterVirtualMachineStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConditions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMemoryDumpRequest(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStartFailure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStateChangeRequests(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVolumeRequests(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVolumeSnapshotStatuses(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateConditions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Conditions); i++ {
+
+		if m.Conditions[i] != nil {
+
+			if swag.IsZero(m.Conditions[i]) { // not required
+				return nil
+			}
+
+			if err := m.Conditions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateMemoryDumpRequest(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MemoryDumpRequest != nil {
+
+		if swag.IsZero(m.MemoryDumpRequest) { // not required
+			return nil
+		}
+
+		if err := m.MemoryDumpRequest.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("memoryDumpRequest")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memoryDumpRequest")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateStartFailure(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.StartFailure != nil {
+
+		if swag.IsZero(m.StartFailure) { // not required
+			return nil
+		}
+
+		if err := m.StartFailure.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("startFailure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("startFailure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateStateChangeRequests(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.StateChangeRequests); i++ {
+
+		if m.StateChangeRequests[i] != nil {
+
+			if swag.IsZero(m.StateChangeRequests[i]) { // not required
+				return nil
+			}
+
+			if err := m.StateChangeRequests[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("stateChangeRequests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("stateChangeRequests" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateVolumeRequests(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.VolumeRequests); i++ {
+
+		if m.VolumeRequests[i] != nil {
+
+			if swag.IsZero(m.VolumeRequests[i]) { // not required
+				return nil
+			}
+
+			if err := m.VolumeRequests[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("volumeRequests" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeRequests" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateVolumeSnapshotStatuses(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.VolumeSnapshotStatuses); i++ {
+
+		if m.VolumeSnapshotStatuses[i] != nil {
+
+			if swag.IsZero(m.VolumeSnapshotStatuses[i]) { // not required
+				return nil
+			}
+
+			if err := m.VolumeSnapshotStatuses[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("volumeSnapshotStatuses" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("volumeSnapshotStatuses" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

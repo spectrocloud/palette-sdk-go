@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1VMBootloader) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMBootloader) validateBios(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Bios) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1VMBootloader) validateBios(formats strfmt.Registry) error {
 		if err := m.Bios.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("bios")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("bios")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1VMBootloader) validateBios(formats strfmt.Registry) error {
 }
 
 func (m *V1VMBootloader) validateEfi(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Efi) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1VMBootloader) validateEfi(formats strfmt.Registry) error {
 		if err := m.Efi.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("efi")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("efi")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm bootloader based on the context it is used
+func (m *V1VMBootloader) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBios(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEfi(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMBootloader) contextValidateBios(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Bios != nil {
+
+		if swag.IsZero(m.Bios) { // not required
+			return nil
+		}
+
+		if err := m.Bios.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("bios")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("bios")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMBootloader) contextValidateEfi(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Efi != nil {
+
+		if swag.IsZero(m.Efi) { // not required
+			return nil
+		}
+
+		if err := m.Efi.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("efi")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("efi")
 			}
 			return err
 		}

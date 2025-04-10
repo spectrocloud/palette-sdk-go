@@ -9672,6 +9672,72 @@
         }
       ]
     },
+    "/v1/clouds/cloudTypes/{cloudType}/content/core": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the custom cloud type core",
+        "operationId": "V1CustomCloudTypeCoreGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CustomCloudTypeContentResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the custom cloud type core",
+        "operationId": "V1CustomCloudTypeCoreUpdate",
+        "parameters": [
+          {
+            "type": "file",
+            "name": "fileName",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Delete the custom cloud type core",
+        "operationId": "V1CustomCloudTypeCoreDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Unique cloud type",
+          "name": "cloudType",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/clouds/cloudTypes/{cloudType}/content/templates/clusterTemplate": {
       "get": {
         "tags": [
@@ -40601,7 +40667,7 @@
           "type": "string"
         },
         "jsonCredentialsFileUid": {
-          "description": "Reference of the credentials stored in the file",
+          "description": "Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file",
           "type": "string"
         }
       }
@@ -40649,7 +40715,7 @@
           "type": "string"
         },
         "jsonCredentialsFileUid": {
-          "description": "Reference of the credentials stored in the file",
+          "description": "Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file",
           "type": "string"
         }
       }
@@ -49786,13 +49852,21 @@
     },
     "v1SearchFilterSchemaSpecProperty": {
       "properties": {
-        "default": {
+        "name": {
           "type": "string",
-          "x-order": 6
+          "x-order": 0
+        },
+        "hideDisplay": {
+          "type": "boolean",
+          "x-order": 1
         },
         "displayName": {
           "type": "string",
           "x-order": 2
+        },
+        "type": {
+          "type": "string",
+          "x-order": 3
         },
         "enum": {
           "type": "array",
@@ -49810,19 +49884,14 @@
           "x-omitempty": true,
           "x-order": 5
         },
-        "hideDisplay": {
-          "type": "boolean",
-          "x-order": 1
+        "default": {
+          "type": "string",
+          "x-order": 6
         },
-        "isDeprecated": {
-          "type": "boolean",
-          "x-omitempty": false,
-          "x-order": 11
-        },
-        "maxFloatVal": {
-          "type": "number",
-          "format": "float64",
-          "x-order": 10
+        "minIntVal": {
+          "type": "integer",
+          "format": "int32",
+          "x-order": 7
         },
         "maxIntVal": {
           "type": "integer",
@@ -49834,18 +49903,15 @@
           "format": "float64",
           "x-order": 9
         },
-        "minIntVal": {
-          "type": "integer",
-          "format": "int32",
-          "x-order": 7
+        "maxFloatVal": {
+          "type": "number",
+          "format": "float64",
+          "x-order": 10
         },
-        "name": {
-          "type": "string",
-          "x-order": 0
-        },
-        "type": {
-          "type": "string",
-          "x-order": 3
+        "isDeprecated": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "x-order": 11
         }
       }
     },

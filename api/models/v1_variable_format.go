@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1VariableFormat
 type V1VariableFormat string
+
+func NewV1VariableFormat(value V1VariableFormat) *V1VariableFormat {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1VariableFormat.
+func (m V1VariableFormat) Pointer() *V1VariableFormat {
+	return &m
+}
 
 const (
 
@@ -74,5 +84,10 @@ func (m V1VariableFormat) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 variable format based on context it is used
+func (m V1VariableFormat) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

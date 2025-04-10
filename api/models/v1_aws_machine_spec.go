@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -90,7 +91,6 @@ func (m *V1AwsMachineSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsMachineSpec) validateAdditionalSecurityGroups(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AdditionalSecurityGroups) { // not required
 		return nil
 	}
@@ -104,6 +104,8 @@ func (m *V1AwsMachineSpec) validateAdditionalSecurityGroups(formats strfmt.Regis
 			if err := m.AdditionalSecurityGroups[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -133,7 +135,6 @@ func (m *V1AwsMachineSpec) validateInstanceType(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsMachineSpec) validateNics(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Nics) { // not required
 		return nil
 	}
@@ -147,6 +148,8 @@ func (m *V1AwsMachineSpec) validateNics(formats strfmt.Registry) error {
 			if err := m.Nics[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -161,6 +164,74 @@ func (m *V1AwsMachineSpec) validateVpcID(formats strfmt.Registry) error {
 
 	if err := validate.Required("vpcId", "body", m.VpcID); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws machine spec based on the context it is used
+func (m *V1AwsMachineSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAdditionalSecurityGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNics(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsMachineSpec) contextValidateAdditionalSecurityGroups(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AdditionalSecurityGroups); i++ {
+
+		if m.AdditionalSecurityGroups[i] != nil {
+
+			if swag.IsZero(m.AdditionalSecurityGroups[i]) { // not required
+				return nil
+			}
+
+			if err := m.AdditionalSecurityGroups[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AwsMachineSpec) contextValidateNics(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Nics); i++ {
+
+		if m.Nics[i] != nil {
+
+			if swag.IsZero(m.Nics[i]) { // not required
+				return nil
+			}
+
+			if err := m.Nics[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 )
 
@@ -55,5 +57,10 @@ type V1VMQuantity string
 
 // Validate validates this v1 Vm quantity
 func (m V1VMQuantity) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 Vm quantity based on context it is used
+func (m V1VMQuantity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -27,6 +29,11 @@ type V1PackDependency struct {
 
 // Validate validates this v1 pack dependency
 func (m *V1PackDependency) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 pack dependency based on context it is used
+func (m *V1PackDependency) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

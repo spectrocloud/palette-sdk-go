@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -48,7 +50,6 @@ func (m *V1VMFirmware) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFirmware) validateBootloader(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Bootloader) { // not required
 		return nil
 	}
@@ -57,6 +58,8 @@ func (m *V1VMFirmware) validateBootloader(formats strfmt.Registry) error {
 		if err := m.Bootloader.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("bootloader")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("bootloader")
 			}
 			return err
 		}
@@ -66,7 +69,6 @@ func (m *V1VMFirmware) validateBootloader(formats strfmt.Registry) error {
 }
 
 func (m *V1VMFirmware) validateKernelBoot(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.KernelBoot) { // not required
 		return nil
 	}
@@ -75,6 +77,68 @@ func (m *V1VMFirmware) validateKernelBoot(formats strfmt.Registry) error {
 		if err := m.KernelBoot.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("kernelBoot")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kernelBoot")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm firmware based on the context it is used
+func (m *V1VMFirmware) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBootloader(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateKernelBoot(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMFirmware) contextValidateBootloader(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Bootloader != nil {
+
+		if swag.IsZero(m.Bootloader) { // not required
+			return nil
+		}
+
+		if err := m.Bootloader.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("bootloader")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("bootloader")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFirmware) contextValidateKernelBoot(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.KernelBoot != nil {
+
+		if swag.IsZero(m.KernelBoot) { // not required
+			return nil
+		}
+
+		if err := m.KernelBoot.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("kernelBoot")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kernelBoot")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1AwsCloudAccountCredentialType
 type V1AwsCloudAccountCredentialType string
+
+func NewV1AwsCloudAccountCredentialType(value V1AwsCloudAccountCredentialType) *V1AwsCloudAccountCredentialType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1AwsCloudAccountCredentialType.
+func (m V1AwsCloudAccountCredentialType) Pointer() *V1AwsCloudAccountCredentialType {
+	return &m
+}
 
 const (
 
@@ -59,5 +69,10 @@ func (m V1AwsCloudAccountCredentialType) Validate(formats strfmt.Registry) error
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 aws cloud account credential type based on context it is used
+func (m V1AwsCloudAccountCredentialType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,7 +24,7 @@ type V1CloudMachineStatus struct {
 	Health *V1MachineHealth `json:"health,omitempty"`
 
 	// instance state
-	// Enum: [Pending Provisioning Provisioned Running Deleting Deleted Failed Unknown]
+	// Enum: ["Pending","Provisioning","Provisioned","Running","Deleting","Deleted","Failed","Unknown"]
 	InstanceState string `json:"instanceState,omitempty"`
 
 	// maintenance status
@@ -53,7 +54,6 @@ func (m *V1CloudMachineStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1CloudMachineStatus) validateHealth(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Health) { // not required
 		return nil
 	}
@@ -62,6 +62,8 @@ func (m *V1CloudMachineStatus) validateHealth(formats strfmt.Registry) error {
 		if err := m.Health.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("health")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("health")
 			}
 			return err
 		}
@@ -118,7 +120,6 @@ func (m *V1CloudMachineStatus) validateInstanceStateEnum(path, location string, 
 }
 
 func (m *V1CloudMachineStatus) validateInstanceState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InstanceState) { // not required
 		return nil
 	}
@@ -132,7 +133,6 @@ func (m *V1CloudMachineStatus) validateInstanceState(formats strfmt.Registry) er
 }
 
 func (m *V1CloudMachineStatus) validateMaintenanceStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MaintenanceStatus) { // not required
 		return nil
 	}
@@ -141,6 +141,68 @@ func (m *V1CloudMachineStatus) validateMaintenanceStatus(formats strfmt.Registry
 		if err := m.MaintenanceStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("maintenanceStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("maintenanceStatus")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cloud machine status based on the context it is used
+func (m *V1CloudMachineStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHealth(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMaintenanceStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1CloudMachineStatus) contextValidateHealth(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Health != nil {
+
+		if swag.IsZero(m.Health) { // not required
+			return nil
+		}
+
+		if err := m.Health.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("health")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("health")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudMachineStatus) contextValidateMaintenanceStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MaintenanceStatus != nil {
+
+		if swag.IsZero(m.MaintenanceStatus) { // not required
+			return nil
+		}
+
+		if err := m.MaintenanceStatus.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("maintenanceStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("maintenanceStatus")
 			}
 			return err
 		}

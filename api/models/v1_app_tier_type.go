@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,6 +19,15 @@ import (
 // swagger:model v1AppTierType
 type V1AppTierType string
 
+func NewV1AppTierType(value V1AppTierType) *V1AppTierType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1AppTierType.
+func (m V1AppTierType) Pointer() *V1AppTierType {
+	return &m
+}
+
 const (
 
 	// V1AppTierTypeManifest captures enum value "manifest"
@@ -26,8 +36,8 @@ const (
 	// V1AppTierTypeHelm captures enum value "helm"
 	V1AppTierTypeHelm V1AppTierType = "helm"
 
-	// V1AppTierTypeOperatorInstance captures enum value "operator-instance"
-	V1AppTierTypeOperatorInstance V1AppTierType = "operator-instance"
+	// V1AppTierTypeOperatorDashInstance captures enum value "operator-instance"
+	V1AppTierTypeOperatorDashInstance V1AppTierType = "operator-instance"
 
 	// V1AppTierTypeContainer captures enum value "container"
 	V1AppTierTypeContainer V1AppTierType = "container"
@@ -65,5 +75,10 @@ func (m V1AppTierType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 app tier type based on context it is used
+func (m V1AppTierType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

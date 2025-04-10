@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1AppDeploymentStatusSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AppDeploymentStatusSummary) validateCluster(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Cluster) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1AppDeploymentStatusSummary) validateCluster(formats strfmt.Registry) 
 		if err := m.Cluster.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cluster")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cluster")
 			}
 			return err
 		}
@@ -63,7 +66,6 @@ func (m *V1AppDeploymentStatusSummary) validateCluster(formats strfmt.Registry) 
 }
 
 func (m *V1AppDeploymentStatusSummary) validateNotifications(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Notifications) { // not required
 		return nil
 	}
@@ -72,6 +74,68 @@ func (m *V1AppDeploymentStatusSummary) validateNotifications(formats strfmt.Regi
 		if err := m.Notifications.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("notifications")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("notifications")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 app deployment status summary based on the context it is used
+func (m *V1AppDeploymentStatusSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCluster(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNotifications(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AppDeploymentStatusSummary) contextValidateCluster(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cluster != nil {
+
+		if swag.IsZero(m.Cluster) { // not required
+			return nil
+		}
+
+		if err := m.Cluster.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cluster")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cluster")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AppDeploymentStatusSummary) contextValidateNotifications(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Notifications != nil {
+
+		if swag.IsZero(m.Notifications) { // not required
+			return nil
+		}
+
+		if err := m.Notifications.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("notifications")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("notifications")
 			}
 			return err
 		}

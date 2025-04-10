@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1AppDeploymentClusterGroupSpec) Validate(formats strfmt.Registry) erro
 }
 
 func (m *V1AppDeploymentClusterGroupSpec) validateConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Config) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1AppDeploymentClusterGroupSpec) validateConfig(formats strfmt.Registry
 		if err := m.Config.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("config")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("config")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1AppDeploymentClusterGroupSpec) validateConfig(formats strfmt.Registry
 }
 
 func (m *V1AppDeploymentClusterGroupSpec) validateProfile(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Profile) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1AppDeploymentClusterGroupSpec) validateProfile(formats strfmt.Registr
 		if err := m.Profile.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("profile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profile")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 app deployment cluster group spec based on the context it is used
+func (m *V1AppDeploymentClusterGroupSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfile(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AppDeploymentClusterGroupSpec) contextValidateConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Config != nil {
+
+		if swag.IsZero(m.Config) { // not required
+			return nil
+		}
+
+		if err := m.Config.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("config")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("config")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AppDeploymentClusterGroupSpec) contextValidateProfile(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Profile != nil {
+
+		if swag.IsZero(m.Profile) { // not required
+			return nil
+		}
+
+		if err := m.Profile.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("profile")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profile")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1SpcApply struct {
 
 	// action type
-	// Enum: [DownloadAndInstall DownloadAndInstallLater]
+	// Enum: ["DownloadAndInstall","DownloadAndInstallLater"]
 	ActionType string `json:"actionType,omitempty"`
 
 	// If it is true then Agent can apply the changes to the palette
@@ -96,7 +97,6 @@ func (m *V1SpcApply) validateActionTypeEnum(path, location string, value string)
 }
 
 func (m *V1SpcApply) validateActionType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ActionType) { // not required
 		return nil
 	}
@@ -110,7 +110,6 @@ func (m *V1SpcApply) validateActionType(formats strfmt.Registry) error {
 }
 
 func (m *V1SpcApply) validateLastModifiedTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastModifiedTime) { // not required
 		return nil
 	}
@@ -118,6 +117,8 @@ func (m *V1SpcApply) validateLastModifiedTime(formats strfmt.Registry) error {
 	if err := m.LastModifiedTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastModifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastModifiedTime")
 		}
 		return err
 	}
@@ -126,7 +127,6 @@ func (m *V1SpcApply) validateLastModifiedTime(formats strfmt.Registry) error {
 }
 
 func (m *V1SpcApply) validatePatchAppliedTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PatchAppliedTime) { // not required
 		return nil
 	}
@@ -134,6 +134,62 @@ func (m *V1SpcApply) validatePatchAppliedTime(formats strfmt.Registry) error {
 	if err := m.PatchAppliedTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("patchAppliedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("patchAppliedTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spc apply based on the context it is used
+func (m *V1SpcApply) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLastModifiedTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePatchAppliedTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpcApply) contextValidateLastModifiedTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastModifiedTime) { // not required
+		return nil
+	}
+
+	if err := m.LastModifiedTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastModifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastModifiedTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SpcApply) contextValidatePatchAppliedTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PatchAppliedTime) { // not required
+		return nil
+	}
+
+	if err := m.PatchAppliedTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("patchAppliedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("patchAppliedTime")
 		}
 		return err
 	}

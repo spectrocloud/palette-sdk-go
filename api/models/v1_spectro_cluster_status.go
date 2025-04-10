@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -132,7 +133,6 @@ func (m *V1SpectroClusterStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterStatus) validateAbortTimestamp(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AbortTimestamp) { // not required
 		return nil
 	}
@@ -140,6 +140,8 @@ func (m *V1SpectroClusterStatus) validateAbortTimestamp(formats strfmt.Registry)
 	if err := m.AbortTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("abortTimestamp")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("abortTimestamp")
 		}
 		return err
 	}
@@ -148,7 +150,6 @@ func (m *V1SpectroClusterStatus) validateAbortTimestamp(formats strfmt.Registry)
 }
 
 func (m *V1SpectroClusterStatus) validateAddOnServices(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AddOnServices) { // not required
 		return nil
 	}
@@ -162,6 +163,8 @@ func (m *V1SpectroClusterStatus) validateAddOnServices(formats strfmt.Registry) 
 			if err := m.AddOnServices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("addOnServices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addOnServices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -173,7 +176,6 @@ func (m *V1SpectroClusterStatus) validateAddOnServices(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterStatus) validateAPIEndpoints(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.APIEndpoints) { // not required
 		return nil
 	}
@@ -187,6 +189,8 @@ func (m *V1SpectroClusterStatus) validateAPIEndpoints(formats strfmt.Registry) e
 			if err := m.APIEndpoints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("apiEndpoints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("apiEndpoints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -198,7 +202,6 @@ func (m *V1SpectroClusterStatus) validateAPIEndpoints(formats strfmt.Registry) e
 }
 
 func (m *V1SpectroClusterStatus) validateClusterImport(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterImport) { // not required
 		return nil
 	}
@@ -207,6 +210,8 @@ func (m *V1SpectroClusterStatus) validateClusterImport(formats strfmt.Registry) 
 		if err := m.ClusterImport.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterImport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterImport")
 			}
 			return err
 		}
@@ -216,7 +221,6 @@ func (m *V1SpectroClusterStatus) validateClusterImport(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterStatus) validateConditions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Conditions) { // not required
 		return nil
 	}
@@ -230,6 +234,8 @@ func (m *V1SpectroClusterStatus) validateConditions(formats strfmt.Registry) err
 			if err := m.Conditions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -241,7 +247,6 @@ func (m *V1SpectroClusterStatus) validateConditions(formats strfmt.Registry) err
 }
 
 func (m *V1SpectroClusterStatus) validateFips(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Fips) { // not required
 		return nil
 	}
@@ -250,6 +255,8 @@ func (m *V1SpectroClusterStatus) validateFips(formats strfmt.Registry) error {
 		if err := m.Fips.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("fips")
 			}
 			return err
 		}
@@ -259,7 +266,6 @@ func (m *V1SpectroClusterStatus) validateFips(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterStatus) validateLocation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -268,6 +274,8 @@ func (m *V1SpectroClusterStatus) validateLocation(formats strfmt.Registry) error
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
 			}
 			return err
 		}
@@ -277,7 +285,6 @@ func (m *V1SpectroClusterStatus) validateLocation(formats strfmt.Registry) error
 }
 
 func (m *V1SpectroClusterStatus) validatePacks(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Packs) { // not required
 		return nil
 	}
@@ -291,6 +298,8 @@ func (m *V1SpectroClusterStatus) validatePacks(formats strfmt.Registry) error {
 			if err := m.Packs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -302,7 +311,6 @@ func (m *V1SpectroClusterStatus) validatePacks(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterStatus) validateProfileStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProfileStatus) { // not required
 		return nil
 	}
@@ -311,6 +319,8 @@ func (m *V1SpectroClusterStatus) validateProfileStatus(formats strfmt.Registry) 
 		if err := m.ProfileStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("profileStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profileStatus")
 			}
 			return err
 		}
@@ -320,7 +330,6 @@ func (m *V1SpectroClusterStatus) validateProfileStatus(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterStatus) validateRepave(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Repave) { // not required
 		return nil
 	}
@@ -329,6 +338,8 @@ func (m *V1SpectroClusterStatus) validateRepave(formats strfmt.Registry) error {
 		if err := m.Repave.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("repave")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("repave")
 			}
 			return err
 		}
@@ -338,7 +349,6 @@ func (m *V1SpectroClusterStatus) validateRepave(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterStatus) validateServices(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Services) { // not required
 		return nil
 	}
@@ -352,6 +362,8 @@ func (m *V1SpectroClusterStatus) validateServices(formats strfmt.Registry) error
 			if err := m.Services[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("services" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("services" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -363,7 +375,6 @@ func (m *V1SpectroClusterStatus) validateServices(formats strfmt.Registry) error
 }
 
 func (m *V1SpectroClusterStatus) validateSpcApply(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpcApply) { // not required
 		return nil
 	}
@@ -372,6 +383,8 @@ func (m *V1SpectroClusterStatus) validateSpcApply(formats strfmt.Registry) error
 		if err := m.SpcApply.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spcApply")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spcApply")
 			}
 			return err
 		}
@@ -381,7 +394,6 @@ func (m *V1SpectroClusterStatus) validateSpcApply(formats strfmt.Registry) error
 }
 
 func (m *V1SpectroClusterStatus) validateUpgrades(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Upgrades) { // not required
 		return nil
 	}
@@ -395,6 +407,8 @@ func (m *V1SpectroClusterStatus) validateUpgrades(formats strfmt.Registry) error
 			if err := m.Upgrades[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("upgrades" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("upgrades" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -406,7 +420,6 @@ func (m *V1SpectroClusterStatus) validateUpgrades(formats strfmt.Registry) error
 }
 
 func (m *V1SpectroClusterStatus) validateVirtual(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Virtual) { // not required
 		return nil
 	}
@@ -415,6 +428,389 @@ func (m *V1SpectroClusterStatus) validateVirtual(formats strfmt.Registry) error 
 		if err := m.Virtual.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("virtual")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("virtual")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster status based on the context it is used
+func (m *V1SpectroClusterStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAbortTimestamp(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAddOnServices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAPIEndpoints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterImport(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateConditions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFips(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLocation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePacks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateProfileStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRepave(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateServices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpcApply(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpgrades(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVirtual(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateAbortTimestamp(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.AbortTimestamp) { // not required
+		return nil
+	}
+
+	if err := m.AbortTimestamp.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("abortTimestamp")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("abortTimestamp")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateAddOnServices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AddOnServices); i++ {
+
+		if m.AddOnServices[i] != nil {
+
+			if swag.IsZero(m.AddOnServices[i]) { // not required
+				return nil
+			}
+
+			if err := m.AddOnServices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("addOnServices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addOnServices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateAPIEndpoints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.APIEndpoints); i++ {
+
+		if m.APIEndpoints[i] != nil {
+
+			if swag.IsZero(m.APIEndpoints[i]) { // not required
+				return nil
+			}
+
+			if err := m.APIEndpoints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("apiEndpoints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("apiEndpoints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateClusterImport(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterImport != nil {
+
+		if swag.IsZero(m.ClusterImport) { // not required
+			return nil
+		}
+
+		if err := m.ClusterImport.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterImport")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterImport")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateConditions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Conditions); i++ {
+
+		if m.Conditions[i] != nil {
+
+			if swag.IsZero(m.Conditions[i]) { // not required
+				return nil
+			}
+
+			if err := m.Conditions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateFips(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Fips != nil {
+
+		if swag.IsZero(m.Fips) { // not required
+			return nil
+		}
+
+		if err := m.Fips.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("fips")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("fips")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Location != nil {
+
+		if swag.IsZero(m.Location) { // not required
+			return nil
+		}
+
+		if err := m.Location.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidatePacks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Packs); i++ {
+
+		if m.Packs[i] != nil {
+
+			if swag.IsZero(m.Packs[i]) { // not required
+				return nil
+			}
+
+			if err := m.Packs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateProfileStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ProfileStatus != nil {
+
+		if swag.IsZero(m.ProfileStatus) { // not required
+			return nil
+		}
+
+		if err := m.ProfileStatus.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("profileStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("profileStatus")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateRepave(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Repave != nil {
+
+		if swag.IsZero(m.Repave) { // not required
+			return nil
+		}
+
+		if err := m.Repave.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("repave")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("repave")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateServices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Services); i++ {
+
+		if m.Services[i] != nil {
+
+			if swag.IsZero(m.Services[i]) { // not required
+				return nil
+			}
+
+			if err := m.Services[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("services" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("services" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateSpcApply(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SpcApply != nil {
+
+		if swag.IsZero(m.SpcApply) { // not required
+			return nil
+		}
+
+		if err := m.SpcApply.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spcApply")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spcApply")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateUpgrades(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Upgrades); i++ {
+
+		if m.Upgrades[i] != nil {
+
+			if swag.IsZero(m.Upgrades[i]) { // not required
+				return nil
+			}
+
+			if err := m.Upgrades[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("upgrades" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("upgrades" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateVirtual(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Virtual != nil {
+
+		if swag.IsZero(m.Virtual) { // not required
+			return nil
+		}
+
+		if err := m.Virtual.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("virtual")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("virtual")
 			}
 			return err
 		}

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1ResourceConsumptionDataPoint) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1ResourceConsumptionDataPoint) validateAllotted(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Allotted) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1ResourceConsumptionDataPoint) validateAllotted(formats strfmt.Registr
 		if err := m.Allotted.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("allotted")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allotted")
 			}
 			return err
 		}
@@ -63,7 +66,6 @@ func (m *V1ResourceConsumptionDataPoint) validateAllotted(formats strfmt.Registr
 }
 
 func (m *V1ResourceConsumptionDataPoint) validateUsage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Usage) { // not required
 		return nil
 	}
@@ -72,6 +74,68 @@ func (m *V1ResourceConsumptionDataPoint) validateUsage(formats strfmt.Registry) 
 		if err := m.Usage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("usage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 resource consumption data point based on the context it is used
+func (m *V1ResourceConsumptionDataPoint) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAllotted(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUsage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ResourceConsumptionDataPoint) contextValidateAllotted(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Allotted != nil {
+
+		if swag.IsZero(m.Allotted) { // not required
+			return nil
+		}
+
+		if err := m.Allotted.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("allotted")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allotted")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ResourceConsumptionDataPoint) contextValidateUsage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Usage != nil {
+
+		if swag.IsZero(m.Usage) { // not required
+			return nil
+		}
+
+		if err := m.Usage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("usage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usage")
 			}
 			return err
 		}

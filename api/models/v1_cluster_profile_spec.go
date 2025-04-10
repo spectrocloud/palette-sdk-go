@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,7 +55,6 @@ func (m *V1ClusterProfileSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterProfileSpec) validateDraft(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Draft) { // not required
 		return nil
 	}
@@ -63,6 +63,8 @@ func (m *V1ClusterProfileSpec) validateDraft(formats strfmt.Registry) error {
 		if err := m.Draft.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("draft")
 			}
 			return err
 		}
@@ -72,7 +74,6 @@ func (m *V1ClusterProfileSpec) validateDraft(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterProfileSpec) validatePublished(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Published) { // not required
 		return nil
 	}
@@ -81,6 +82,8 @@ func (m *V1ClusterProfileSpec) validatePublished(formats strfmt.Registry) error 
 		if err := m.Published.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("published")
 			}
 			return err
 		}
@@ -90,7 +93,6 @@ func (m *V1ClusterProfileSpec) validatePublished(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterProfileSpec) validateVersions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Versions) { // not required
 		return nil
 	}
@@ -104,6 +106,97 @@ func (m *V1ClusterProfileSpec) validateVersions(formats strfmt.Registry) error {
 			if err := m.Versions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("versions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("versions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster profile spec based on the context it is used
+func (m *V1ClusterProfileSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDraft(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePublished(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVersions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterProfileSpec) contextValidateDraft(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Draft != nil {
+
+		if swag.IsZero(m.Draft) { // not required
+			return nil
+		}
+
+		if err := m.Draft.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("draft")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSpec) contextValidatePublished(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Published != nil {
+
+		if swag.IsZero(m.Published) { // not required
+			return nil
+		}
+
+		if err := m.Published.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("published")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSpec) contextValidateVersions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Versions); i++ {
+
+		if m.Versions[i] != nil {
+
+			if swag.IsZero(m.Versions[i]) { // not required
+				return nil
+			}
+
+			if err := m.Versions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("versions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("versions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

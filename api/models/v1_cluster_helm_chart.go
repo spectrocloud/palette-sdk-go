@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,6 @@ func (m *V1ClusterHelmChart) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterHelmChart) validateMatchedRegistries(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MatchedRegistries) { // not required
 		return nil
 	}
@@ -69,6 +69,47 @@ func (m *V1ClusterHelmChart) validateMatchedRegistries(formats strfmt.Registry) 
 			if err := m.MatchedRegistries[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("matchedRegistries" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("matchedRegistries" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster helm chart based on the context it is used
+func (m *V1ClusterHelmChart) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMatchedRegistries(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterHelmChart) contextValidateMatchedRegistries(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.MatchedRegistries); i++ {
+
+		if m.MatchedRegistries[i] != nil {
+
+			if swag.IsZero(m.MatchedRegistries[i]) { // not required
+				return nil
+			}
+
+			if err := m.MatchedRegistries[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("matchedRegistries" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("matchedRegistries" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

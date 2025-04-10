@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,12 +47,11 @@ func (m *V1DashboardWorkspaceQuotaResourceAllocation) Validate(formats strfmt.Re
 }
 
 func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateCPU(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CPU) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("cpu", "body", float64(m.CPU), 0, true); err != nil {
+	if err := validate.Minimum("cpu", "body", m.CPU, 0, true); err != nil {
 		return err
 	}
 
@@ -58,15 +59,19 @@ func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateCPU(formats strfmt
 }
 
 func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateMemory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Memory) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("memory", "body", float64(m.Memory), 0, true); err != nil {
+	if err := validate.Minimum("memory", "body", m.Memory, 0, true); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 dashboard workspace quota resource allocation based on context it is used
+func (m *V1DashboardWorkspaceQuotaResourceAllocation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

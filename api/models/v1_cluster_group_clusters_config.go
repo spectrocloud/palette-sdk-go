@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
@@ -21,7 +22,7 @@ import (
 type V1ClusterGroupClustersConfig struct {
 
 	// Host cluster endpoint type
-	// Enum: [Ingress LoadBalancer]
+	// Enum: ["Ingress","LoadBalancer"]
 	EndpointType string `json:"endpointType,omitempty"`
 
 	// host clusters config
@@ -29,7 +30,7 @@ type V1ClusterGroupClustersConfig struct {
 	HostClustersConfig []*V1ClusterGroupHostClusterConfig `json:"hostClustersConfig"`
 
 	// kubernetes distro type
-	KubernetesDistroType V1ClusterKubernetesDistroType `json:"kubernetesDistroType,omitempty"`
+	KubernetesDistroType *V1ClusterKubernetesDistroType `json:"kubernetesDistroType,omitempty"`
 
 	// limit config
 	LimitConfig *V1ClusterGroupLimitConfig `json:"limitConfig,omitempty"`
@@ -94,7 +95,6 @@ func (m *V1ClusterGroupClustersConfig) validateEndpointTypeEnum(path, location s
 }
 
 func (m *V1ClusterGroupClustersConfig) validateEndpointType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndpointType) { // not required
 		return nil
 	}
@@ -108,7 +108,6 @@ func (m *V1ClusterGroupClustersConfig) validateEndpointType(formats strfmt.Regis
 }
 
 func (m *V1ClusterGroupClustersConfig) validateHostClustersConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HostClustersConfig) { // not required
 		return nil
 	}
@@ -126,6 +125,8 @@ func (m *V1ClusterGroupClustersConfig) validateHostClustersConfig(formats strfmt
 			if err := m.HostClustersConfig[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hostClustersConfig" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hostClustersConfig" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -137,23 +138,25 @@ func (m *V1ClusterGroupClustersConfig) validateHostClustersConfig(formats strfmt
 }
 
 func (m *V1ClusterGroupClustersConfig) validateKubernetesDistroType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.KubernetesDistroType) { // not required
 		return nil
 	}
 
-	if err := m.KubernetesDistroType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("kubernetesDistroType")
+	if m.KubernetesDistroType != nil {
+		if err := m.KubernetesDistroType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("kubernetesDistroType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kubernetesDistroType")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
 func (m *V1ClusterGroupClustersConfig) validateLimitConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LimitConfig) { // not required
 		return nil
 	}
@@ -162,6 +165,97 @@ func (m *V1ClusterGroupClustersConfig) validateLimitConfig(formats strfmt.Regist
 		if err := m.LimitConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("limitConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("limitConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster group clusters config based on the context it is used
+func (m *V1ClusterGroupClustersConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateHostClustersConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateKubernetesDistroType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLimitConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterGroupClustersConfig) contextValidateHostClustersConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HostClustersConfig); i++ {
+
+		if m.HostClustersConfig[i] != nil {
+
+			if swag.IsZero(m.HostClustersConfig[i]) { // not required
+				return nil
+			}
+
+			if err := m.HostClustersConfig[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hostClustersConfig" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hostClustersConfig" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupClustersConfig) contextValidateKubernetesDistroType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.KubernetesDistroType != nil {
+
+		if swag.IsZero(m.KubernetesDistroType) { // not required
+			return nil
+		}
+
+		if err := m.KubernetesDistroType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("kubernetesDistroType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kubernetesDistroType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupClustersConfig) contextValidateLimitConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.LimitConfig != nil {
+
+		if swag.IsZero(m.LimitConfig) { // not required
+			return nil
+		}
+
+		if err := m.LimitConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("limitConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("limitConfig")
 			}
 			return err
 		}

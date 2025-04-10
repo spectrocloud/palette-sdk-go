@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -32,7 +33,7 @@ type V1Notification struct {
 	Source *V1NotificationSource `json:"source,omitempty"`
 
 	// Describes type of notification. Possible values [NotificationPackUpdate, NotificationPackRegistryUpdate, NotificationNone]
-	// Enum: [NotificationPackUpdate NotificationPackRegistryUpdate NotificationNone]
+	// Enum: ["NotificationPackUpdate","NotificationPackRegistryUpdate","NotificationNone"]
 	Type string `json:"type,omitempty"`
 }
 
@@ -67,7 +68,6 @@ func (m *V1Notification) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1Notification) validateAction(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Action) { // not required
 		return nil
 	}
@@ -76,6 +76,8 @@ func (m *V1Notification) validateAction(formats strfmt.Registry) error {
 		if err := m.Action.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("action")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("action")
 			}
 			return err
 		}
@@ -85,7 +87,6 @@ func (m *V1Notification) validateAction(formats strfmt.Registry) error {
 }
 
 func (m *V1Notification) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -94,6 +95,8 @@ func (m *V1Notification) validateMetadata(formats strfmt.Registry) error {
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -103,7 +106,6 @@ func (m *V1Notification) validateMetadata(formats strfmt.Registry) error {
 }
 
 func (m *V1Notification) validateRelatedObject(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RelatedObject) { // not required
 		return nil
 	}
@@ -112,6 +114,8 @@ func (m *V1Notification) validateRelatedObject(formats strfmt.Registry) error {
 		if err := m.RelatedObject.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("relatedObject")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relatedObject")
 			}
 			return err
 		}
@@ -121,7 +125,6 @@ func (m *V1Notification) validateRelatedObject(formats strfmt.Registry) error {
 }
 
 func (m *V1Notification) validateSource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Source) { // not required
 		return nil
 	}
@@ -130,6 +133,8 @@ func (m *V1Notification) validateSource(formats strfmt.Registry) error {
 		if err := m.Source.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
 			}
 			return err
 		}
@@ -171,7 +176,6 @@ func (m *V1Notification) validateTypeEnum(path, location string, value string) e
 }
 
 func (m *V1Notification) validateType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -179,6 +183,116 @@ func (m *V1Notification) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 notification based on the context it is used
+func (m *V1Notification) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAction(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRelatedObject(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1Notification) contextValidateAction(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Action != nil {
+
+		if swag.IsZero(m.Action) { // not required
+			return nil
+		}
+
+		if err := m.Action.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("action")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("action")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1Notification) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1Notification) contextValidateRelatedObject(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RelatedObject != nil {
+
+		if swag.IsZero(m.RelatedObject) { // not required
+			return nil
+		}
+
+		if err := m.RelatedObject.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("relatedObject")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("relatedObject")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1Notification) contextValidateSource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Source != nil {
+
+		if swag.IsZero(m.Source) { // not required
+			return nil
+		}
+
+		if err := m.Source.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
+			}
+			return err
+		}
 	}
 
 	return nil

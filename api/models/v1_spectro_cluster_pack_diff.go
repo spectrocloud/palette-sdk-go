@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1SpectroClusterPackDiff) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterPackDiff) validateCurrent(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Current) { // not required
 		return nil
 	}
@@ -54,6 +55,8 @@ func (m *V1SpectroClusterPackDiff) validateCurrent(formats strfmt.Registry) erro
 		if err := m.Current.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("current")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("current")
 			}
 			return err
 		}
@@ -63,7 +66,6 @@ func (m *V1SpectroClusterPackDiff) validateCurrent(formats strfmt.Registry) erro
 }
 
 func (m *V1SpectroClusterPackDiff) validateTarget(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Target) { // not required
 		return nil
 	}
@@ -72,6 +74,68 @@ func (m *V1SpectroClusterPackDiff) validateTarget(formats strfmt.Registry) error
 		if err := m.Target.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("target")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("target")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster pack diff based on the context it is used
+func (m *V1SpectroClusterPackDiff) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCurrent(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTarget(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterPackDiff) contextValidateCurrent(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Current != nil {
+
+		if swag.IsZero(m.Current) { // not required
+			return nil
+		}
+
+		if err := m.Current.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("current")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("current")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterPackDiff) contextValidateTarget(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Target != nil {
+
+		if swag.IsZero(m.Target) { // not required
+			return nil
+		}
+
+		if err := m.Target.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("target")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("target")
 			}
 			return err
 		}

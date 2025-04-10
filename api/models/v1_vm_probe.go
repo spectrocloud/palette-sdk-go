@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -67,7 +69,6 @@ func (m *V1VMProbe) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMProbe) validateExec(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Exec) { // not required
 		return nil
 	}
@@ -76,6 +77,8 @@ func (m *V1VMProbe) validateExec(formats strfmt.Registry) error {
 		if err := m.Exec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("exec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("exec")
 			}
 			return err
 		}
@@ -85,7 +88,6 @@ func (m *V1VMProbe) validateExec(formats strfmt.Registry) error {
 }
 
 func (m *V1VMProbe) validateHTTPGet(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HTTPGet) { // not required
 		return nil
 	}
@@ -94,6 +96,8 @@ func (m *V1VMProbe) validateHTTPGet(formats strfmt.Registry) error {
 		if err := m.HTTPGet.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("httpGet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("httpGet")
 			}
 			return err
 		}
@@ -103,7 +107,6 @@ func (m *V1VMProbe) validateHTTPGet(formats strfmt.Registry) error {
 }
 
 func (m *V1VMProbe) validateTCPSocket(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TCPSocket) { // not required
 		return nil
 	}
@@ -112,6 +115,93 @@ func (m *V1VMProbe) validateTCPSocket(formats strfmt.Registry) error {
 		if err := m.TCPSocket.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tcpSocket")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tcpSocket")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm probe based on the context it is used
+func (m *V1VMProbe) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateExec(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHTTPGet(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTCPSocket(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMProbe) contextValidateExec(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Exec != nil {
+
+		if swag.IsZero(m.Exec) { // not required
+			return nil
+		}
+
+		if err := m.Exec.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("exec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("exec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMProbe) contextValidateHTTPGet(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HTTPGet != nil {
+
+		if swag.IsZero(m.HTTPGet) { // not required
+			return nil
+		}
+
+		if err := m.HTTPGet.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("httpGet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("httpGet")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMProbe) contextValidateTCPSocket(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.TCPSocket != nil {
+
+		if swag.IsZero(m.TCPSocket) { // not required
+			return nil
+		}
+
+		if err := m.TCPSocket.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tcpSocket")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tcpSocket")
 			}
 			return err
 		}

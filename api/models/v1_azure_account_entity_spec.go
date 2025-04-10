@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,7 +21,7 @@ import (
 type V1AzureAccountEntitySpec struct {
 
 	// Contains configuration for Azure cloud
-	// Enum: [azure-china azure-government public]
+	// Enum: ["azure-china","azure-government","public"]
 	ClientCloud *string `json:"clientCloud,omitempty"`
 
 	// client Id
@@ -64,11 +65,11 @@ func init() {
 
 const (
 
-	// V1AzureAccountEntitySpecClientCloudAzureChina captures enum value "azure-china"
-	V1AzureAccountEntitySpecClientCloudAzureChina string = "azure-china"
+	// V1AzureAccountEntitySpecClientCloudAzureDashChina captures enum value "azure-china"
+	V1AzureAccountEntitySpecClientCloudAzureDashChina string = "azure-china"
 
-	// V1AzureAccountEntitySpecClientCloudAzureGovernment captures enum value "azure-government"
-	V1AzureAccountEntitySpecClientCloudAzureGovernment string = "azure-government"
+	// V1AzureAccountEntitySpecClientCloudAzureDashGovernment captures enum value "azure-government"
+	V1AzureAccountEntitySpecClientCloudAzureDashGovernment string = "azure-government"
 
 	// V1AzureAccountEntitySpecClientCloudPublic captures enum value "public"
 	V1AzureAccountEntitySpecClientCloudPublic string = "public"
@@ -83,7 +84,6 @@ func (m *V1AzureAccountEntitySpec) validateClientCloudEnum(path, location string
 }
 
 func (m *V1AzureAccountEntitySpec) validateClientCloud(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClientCloud) { // not required
 		return nil
 	}
@@ -93,6 +93,11 @@ func (m *V1AzureAccountEntitySpec) validateClientCloud(formats strfmt.Registry) 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 azure account entity spec based on context it is used
+func (m *V1AzureAccountEntitySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
