@@ -75,6 +75,14 @@ func (h *V1Client) UpdateWorkspaceBackupConfig(uid string, config *models.V1Work
 	return err
 }
 
+// UpdateWorkspaceMetadata update an existing workspace metadata.
+func (h *V1Client) UpdateWorkspaceMetadata(uid string, workspaceMeta *models.V1ObjectMeta) error {
+	params := clientv1.NewV1WorkspacesUIDMetaUpdateParamsWithContext(h.ctx).
+		WithUID(uid).WithBody(workspaceMeta)
+	_, err := h.Client.V1WorkspacesUIDMetaUpdate(params)
+	return err
+}
+
 // DeleteWorkspace deletes an existing workspace.
 func (h *V1Client) DeleteWorkspace(uid string) error {
 	params := clientv1.NewV1WorkspacesUIDDeleteParamsWithContext(h.ctx).
