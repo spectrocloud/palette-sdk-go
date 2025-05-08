@@ -32,7 +32,7 @@ check-diff: reviewable ## Execute branch is clean
 	git diff --quiet || ($(ERR) please run 'make reviewable' to include all changes && false)
 	@$(OK) branch is clean
 
-reviewable: fmt vet lint ## Ensure code is ready for review
+reviewable: pre-commit-install fmt vet lint ## Ensure code is ready for review
 	git submodule update --remote
 	go mod tidy
 
