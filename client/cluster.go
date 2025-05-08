@@ -92,6 +92,17 @@ func (h *V1Client) GetClusterSummary(clusterID string) (*models.V1SpectroCluster
 	return resp.Payload, nil
 }
 
+// GetClusterOverview retrieves an existing cluster's overview.
+func (h *V1Client) GetClusterOverview(clusterID string) (*models.V1SpectroClusterUIDSummary, error) {
+	params := clientv1.NewV1SpectroClustersSummaryUIDOverviewParamsWithContext(h.ctx).
+		WithUID(clusterID)
+	resp, err := h.Client.V1SpectroClustersSummaryUIDOverview(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // SearchClusterSummaries retrieves a list of cluster summaries based on the provided filter and sort criteria.
 func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1SpectroClusterSummary, error) {
 	params := clientv1.NewV1SpectroClustersSearchFilterSummaryParamsWithContext(h.ctx).
