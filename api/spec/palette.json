@@ -10079,6 +10079,40 @@
         }
       }
     },
+    "/v1/clouds/eks/region/{regionId}/launchTemplates": {
+      "get": {
+        "description": "Retrieves a list of EKS launch templates available in the specified region",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get EKS launch templates for the specified region",
+        "operationId": "V1EksLaunchTemplate",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "AWS region ID for which launch templates are requested",
+            "name": "regionId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Uid for the specific AWS cloud account",
+            "name": "cloudAccountUid",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1EksLaunchTemplates"
+            }
+          }
+        }
+      }
+    },
     "/v1/clouds/gcp/account/validate": {
       "post": {
         "tags": [
@@ -11079,53 +11113,6 @@
             "description": "(empty)",
             "schema": {
               "$ref": "#/definitions/v1VsphereEnv"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/{cloudType}/instance/spotprice": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves the cloud instance spot price based on zone and timestamp for a specific cloud",
-        "operationId": "V1CloudInstanceSpotPriceGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Cloud type [aws/azure/gcp]",
-            "name": "cloudType",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Instance type for a specific cloud type",
-            "name": "instanceType",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Availability zone for a specific cloud type",
-            "name": "zone",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "string",
-            "format": "date-time",
-            "description": "Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.",
-            "name": "timestamp",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1CloudSpotPrice"
             }
           }
         }
@@ -13249,6 +13236,24 @@
             "description": "An array of cluster summary items",
             "schema": {
               "$ref": "#/definitions/v1SpectroClustersSummary"
+            }
+          }
+        }
+      }
+    },
+    "/v1/dashboard/spectroclusters/meta": {
+      "get": {
+        "description": "Returns metadata information for all clusters",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get all clusters metadata",
+        "operationId": "v1SpectroClustersMetaGet",
+        "responses": {
+          "200": {
+            "description": "An array of cluster metadata items",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClustersMeta"
             }
           }
         }
@@ -22176,6 +22181,35 @@
             "description": "List of edge host device",
             "schema": {
               "$ref": "#/definitions/v1EdgeHostDevices"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/edge/reset": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "reset the edge clusters by deleting machine pools and conditions",
+        "operationId": "V1SpectroClustersUidEdgeReset",
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
             }
           }
         }
@@ -34010,18 +34044,6 @@
         }
       }
     },
-    "v1CloudSpotPrice": {
-      "description": "Spot price entity of a particular cloud type",
-      "type": "object",
-      "properties": {
-        "spotPrice": {
-          "description": "Spot price of a resource for a particular cloud",
-          "type": "number",
-          "format": "float64",
-          "x-omitempty": false
-        }
-      }
-    },
     "v1CloudWatch": {
       "type": "object",
       "properties": {
@@ -39996,6 +40018,44 @@
         }
       }
     },
+    "v1EksLaunchTemplate": {
+      "description": "EKS launch template details",
+      "type": "object",
+      "properties": {
+        "defaultVersion": {
+          "description": "Whether this is the default version of the launch template",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "The ID of the launch template",
+          "type": "string"
+        },
+        "latestVersion": {
+          "description": "The latest version number of the launch template",
+          "type": "integer"
+        },
+        "name": {
+          "description": "The name of the launch template",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version number of the launch template",
+          "type": "integer"
+        }
+      }
+    },
+    "v1EksLaunchTemplates": {
+      "description": "List of EKS launch templates",
+      "type": "object",
+      "properties": {
+        "launchTemplates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1EksLaunchTemplate"
+          }
+        }
+      }
+    },
     "v1EksMachineCloudConfigEntity": {
       "properties": {
         "awsLaunchTemplate": {
@@ -43142,6 +43202,10 @@
           ]
         },
         "privateDNSName": {
+          "type": "string"
+        },
+        "privateDNSZoneResourceGroup": {
+          "description": "PrivateDNSZoneResourceGroup defines the resource group to be used for Azure Private DNS Zone.\nIf not specified, the resource group of the cluster will be used to create the Azure Private DNS Zone.",
           "type": "string"
         },
         "type": {
@@ -50818,6 +50882,72 @@
         }
       }
     },
+    "v1SpectroClusterMeta": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SpectroClusterMetaSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SpectroClusterMetaStatus"
+        }
+      }
+    },
+    "v1SpectroClusterMetaSpec": {
+      "description": "Spectro cluster meta summary",
+      "type": "object",
+      "properties": {
+        "archType": {
+          "description": "Architecture type of the cluster",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ArchType"
+          }
+        },
+        "cloudAccountUid": {
+          "description": "Unique identifier for the cloud account used by this cluster",
+          "type": "string"
+        },
+        "cloudRegion": {
+          "description": "Geographic region where the cluster is deployed",
+          "type": "string"
+        },
+        "cloudType": {
+          "description": "Infrastructure provider type for the cluster",
+          "type": "string"
+        },
+        "clusterType": {
+          "description": "Type classification of the cluster",
+          "type": "string"
+        },
+        "location": {
+          "description": "Geographical location metadata for the cluster",
+          "$ref": "#/definitions/v1ClusterMetaSpecLocation"
+        },
+        "tags": {
+          "description": "User-defined labels associated with this cluster",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1SpectroClusterMetaStatus": {
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "description": "Current state of the cluster",
+          "type": "string"
+        }
+      }
+    },
     "v1SpectroClusterMetaSummary": {
       "description": "Spectro cluster meta summary",
       "type": "object",
@@ -51979,6 +52109,12 @@
           "format": "int32",
           "x-omitempty": false
         }
+      }
+    },
+    "v1SpectroClustersMeta": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/v1SpectroClusterMeta"
       }
     },
     "v1SpectroClustersMetadata": {

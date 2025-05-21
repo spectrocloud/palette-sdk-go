@@ -114,8 +114,6 @@ type ClientService interface {
 
 	V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudComputeRateOK, error)
 
-	V1CloudInstanceSpotPriceGet(params *V1CloudInstanceSpotPriceGetParams) (*V1CloudInstanceSpotPriceGetOK, error)
-
 	V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error)
 
 	V1CloudsAwsCloudWatchValidate(params *V1CloudsAwsCloudWatchValidateParams) (*V1CloudsAwsCloudWatchValidateNoContent, error)
@@ -206,6 +204,8 @@ type ClientService interface {
 
 	V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1EdgeHostsUIDResetNoContent, error)
 
+	V1EksLaunchTemplate(params *V1EksLaunchTemplateParams) (*V1EksLaunchTemplateOK, error)
+
 	V1EksPropertiesValidate(params *V1EksPropertiesValidateParams) (*V1EksPropertiesValidateNoContent, error)
 
 	V1GcpAccountValidate(params *V1GcpAccountValidateParams) (*V1GcpAccountValidateNoContent, error)
@@ -293,6 +293,8 @@ type ClientService interface {
 	V1SamlCallback(params *V1SamlCallbackParams) (*V1SamlCallbackOK, error)
 
 	V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoContent, error)
+
+	V1SpectroClustersUIDEdgeReset(params *V1SpectroClustersUIDEdgeResetParams) (*V1SpectroClustersUIDEdgeResetNoContent, error)
 
 	V1SpectroClustersUIDKubeCtlRedirect(params *V1SpectroClustersUIDKubeCtlRedirectParams) (*V1SpectroClustersUIDKubeCtlRedirectOK, error)
 
@@ -1489,6 +1491,8 @@ type ClientService interface {
 	V1SpectroClustersMaasRate(params *V1SpectroClustersMaasRateParams) (*V1SpectroClustersMaasRateOK, error)
 
 	V1SpectroClustersMaasValidate(params *V1SpectroClustersMaasValidateParams) (*V1SpectroClustersMaasValidateOK, error)
+
+	V1SpectroClustersMetaGet(params *V1SpectroClustersMetaGetParams) (*V1SpectroClustersMetaGetOK, error)
 
 	V1SpectroClustersMetadata(params *V1SpectroClustersMetadataParams) (*V1SpectroClustersMetadataOK, error)
 
@@ -3438,40 +3442,6 @@ func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudC
 }
 
 /*
-V1CloudInstanceSpotPriceGet retrieves the cloud instance spot price based on zone and timestamp for a specific cloud
-*/
-func (a *Client) V1CloudInstanceSpotPriceGet(params *V1CloudInstanceSpotPriceGetParams) (*V1CloudInstanceSpotPriceGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudInstanceSpotPriceGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1CloudInstanceSpotPriceGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/{cloudType}/instance/spotprice",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudInstanceSpotPriceGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudInstanceSpotPriceGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1CloudInstanceSpotPriceGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1CloudStorageRate returns the cloud storage rate
 */
 func (a *Client) V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error) {
@@ -5006,6 +4976,42 @@ func (a *Client) V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1Edge
 }
 
 /*
+V1EksLaunchTemplate gets e k s launch templates for the specified region
+
+Retrieves a list of EKS launch templates available in the specified region
+*/
+func (a *Client) V1EksLaunchTemplate(params *V1EksLaunchTemplateParams) (*V1EksLaunchTemplateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EksLaunchTemplateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1EksLaunchTemplate",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/eks/region/{regionId}/launchTemplates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EksLaunchTemplateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EksLaunchTemplateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1EksLaunchTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1EksPropertiesValidate validates e k s properties
 */
 func (a *Client) V1EksPropertiesValidate(params *V1EksPropertiesValidateParams) (*V1EksPropertiesValidateNoContent, error) {
@@ -6514,6 +6520,40 @@ func (a *Client) V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoConten
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SamlLogout: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersUIDEdgeReset resets the edge clusters by deleting machine pools and conditions
+*/
+func (a *Client) V1SpectroClustersUIDEdgeReset(params *V1SpectroClustersUIDEdgeResetParams) (*V1SpectroClustersUIDEdgeResetNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersUIDEdgeResetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpectroClustersUidEdgeReset",
+		Method:             "POST",
+		PathPattern:        "/v1/spectroclusters/{uid}/edge/reset",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersUIDEdgeResetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersUIDEdgeResetNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpectroClustersUidEdgeReset: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -26924,6 +26964,42 @@ func (a *Client) V1SpectroClustersMaasValidate(params *V1SpectroClustersMaasVali
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersMaasValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersMetaGet gets all clusters metadata
+
+Returns metadata information for all clusters
+*/
+func (a *Client) V1SpectroClustersMetaGet(params *V1SpectroClustersMetaGetParams) (*V1SpectroClustersMetaGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersMetaGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersMetaGet",
+		Method:             "GET",
+		PathPattern:        "/v1/dashboard/spectroclusters/meta",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersMetaGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersMetaGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersMetaGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

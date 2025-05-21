@@ -30,6 +30,10 @@ type V1LoadBalancerSpec struct {
 	// private DNS name
 	PrivateDNSName string `json:"privateDNSName,omitempty"`
 
+	// PrivateDNSZoneResourceGroup defines the resource group to be used for Azure Private DNS Zone.
+	// If not specified, the resource group of the cluster will be used to create the Azure Private DNS Zone.
+	PrivateDNSZoneResourceGroup string `json:"privateDNSZoneResourceGroup,omitempty"`
+
 	// Load Balancer type
 	// Enum: ["Internal","Public"]
 	Type *string `json:"type,omitempty"`
