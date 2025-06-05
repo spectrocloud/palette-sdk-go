@@ -76,7 +76,7 @@ func (h *V1Client) CheckPCG(pcgID string) error {
 		return fmt.Errorf("private cloud gateway not found: %s", pcgID)
 	}
 	// For system PCGs, we assume they are always running. no need to check status.
-	if pcg.Metadata.Name == "System Private Gateway"{
+	if pcg.Metadata.Name == "System Private Gateway" {
 		return nil // system pcg is always running
 	}
 
