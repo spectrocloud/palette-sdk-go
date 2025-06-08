@@ -297,7 +297,10 @@ func (h *V1Client) GetIPPools(pcgUID string) ([]*models.V1IPPoolEntity, error) {
 			return nil, err
 		}
 	}
-	return resp.Payload.Items, nil
+	if resp == nil || resp.Payload == nil || resp.Payload.Items == nil {
+		return resp.Payload.Items, nil
+	}
+	return nil, err
 }
 
 // UpdateIPPool updates an existing Private Cloud Gateway IP pool.
