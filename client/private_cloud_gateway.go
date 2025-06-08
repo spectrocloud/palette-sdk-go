@@ -78,6 +78,10 @@ func (h *V1Client) CheckPCG(pcgID string) error {
 	if pcg.Status == nil {
 		return fmt.Errorf("private cloud gateway status not found: %s", pcgID)
 	}
+	// For system PCGs, we assume they are always running. no need to check status.
+	if pcg.Metadata.Name == "System Private Gateway" {
+		return nil // system pcg is always running
+	}
 	if pcg.Status.State != "Running" {
 		return fmt.Errorf("private cloud gateway is not running: %s", pcgID)
 	}
@@ -297,7 +301,10 @@ func (h *V1Client) GetIPPools(pcgUID string) ([]*models.V1IPPoolEntity, error) {
 			return nil, err
 		}
 	}
-	return resp.Payload.Items, nil
+	if resp != nil {
+		return resp.Payload.Items, nil
+	}
+	return nil, err
 }
 
 // UpdateIPPool updates an existing Private Cloud Gateway IP pool.
