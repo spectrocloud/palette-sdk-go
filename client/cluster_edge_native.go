@@ -340,3 +340,70 @@ func (h *V1Client) UpdateEdgeHostDeviceTunnelConfig(edgeHostID string, remoteSSH
 	_, err := h.Client.V1EdgeHostDevicesUIDTunnelConfigUpdate(params)
 	return err
 }
+
+// UpdateEdgeHostDevice updates an existing edge host device.
+func (h *V1Client) UpdateEdgeHostDevice(edgeHostID string, body *models.V1EdgeHostDevice) error {
+	params := clientv1.NewV1EdgeHostDevicesUIDUpdateParamsWithContext(h.ctx).
+		WithUID(edgeHostID).
+		WithBody(body)
+	_, err := h.Client.V1EdgeHostDevicesUIDUpdate(params)
+	return err
+}
+
+// DeleteEdgeHostDevice deletes an edge host device by UID.
+func (h *V1Client) DeleteEdgeHostDevice(edgeHostID string) error {
+	params := clientv1.NewV1EdgeHostDevicesUIDDeleteParamsWithContext(h.ctx).
+		WithUID(edgeHostID)
+	_, err := h.Client.V1EdgeHostDevicesUIDDelete(params)
+	return err
+}
+
+// GetEdgeHostByName retrieves an existing edge host by name.
+func (h *V1Client) GetEdgeHostByName(edgeHostName string) (*models.V1EdgeHostDevice, error) {
+	params := clientv1.NewV1EdgeHostDevicesUIDGetParamsWithContext(h.ctx)
+	resp, err := h.Client.V1EdgeHostDevicesUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Payload.Metadata.Name == edgeHostName {
+		return resp.Payload, nil
+	}
+	return nil, fmt.Errorf("edge host with name %s not found", edgeHostName)
+}
+
+// UpdateClusterEdgeNative updates an existing edge native cluster.
+func (h *V1Client) UpdateClusterEdgeNative(clusterUID string, cluster *models.V1SpectroEdgeNativeClusterEntity) error {
+	params := clientv1.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	_, err := h.Client.V1SpectroClustersEdgeNativeCreate(params)
+	if err != nil {
+		return fmt.Errorf("failed to update cluster %s: %w", clusterUID, err)
+	}
+	return nil
+}
+
+// DeleteClusterEdgeNative deletes an edge native cluster by UID.
+func (h *V1Client) DeleteClusterEdgeNative(clusterUID string) error {
+	params := clientv1.NewV1SpectroClustersEdgeNativeCreateParamsWithContext(h.ctx)
+	_, err := h.Client.V1SpectroClustersEdgeNativeCreate(params)
+	if err != nil {
+		return fmt.Errorf("failed to delete cluster %s: %w", clusterUID, err)
+	}
+	return nil
+}
+
+// UpdateCloudConfigEdgeNative updates an existing edge native cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigEdgeNative(configUID string, config *models.V1EdgeNativeCloudClusterConfigEntity) error {
+	if config == nil || config.ClusterConfig == nil {
+		return fmt.Errorf("invalid cloud config: missing cluster config")
+	}
+
+	params := clientv1.NewV1CloudConfigsEdgeNativeUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsEdgeNativeUIDClusterConfig(params)
+	if err != nil {
+		return fmt.Errorf("failed to update cloud config %s: %w", configUID, err)
+	}
+	return nil
+}
