@@ -391,3 +391,19 @@ func (h *V1Client) DeleteClusterEdgeNative(clusterUID string) error {
 	}
 	return nil
 }
+
+// UpdateCloudConfigEdgeNative updates an existing edge native cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigEdgeNative(configUID string, config *models.V1EdgeNativeCloudClusterConfigEntity) error {
+	if config == nil || config.ClusterConfig == nil {
+		return fmt.Errorf("invalid cloud config: missing cluster config")
+	}
+
+	params := clientv1.NewV1CloudConfigsEdgeNativeUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsEdgeNativeUIDClusterConfig(params)
+	if err != nil {
+		return fmt.Errorf("failed to update cloud config %s: %w", configUID, err)
+	}
+	return nil
+}
