@@ -1,8 +1,6 @@
 module github.com/spectrocloud/palette-sdk-go
 
-go 1.22.0
-
-toolchain go1.22.2
+go 1.23.8
 
 require (
 	github.com/go-errors/errors v1.5.1
