@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -53,6 +51,7 @@ func (m *V1ResourceUsageDataPoint) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceUsageDataPoint) validateBaremetal(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Baremetal) { // not required
 		return nil
 	}
@@ -61,8 +60,6 @@ func (m *V1ResourceUsageDataPoint) validateBaremetal(formats strfmt.Registry) er
 		if err := m.Baremetal.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("baremetal")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("baremetal")
 			}
 			return err
 		}
@@ -72,6 +69,7 @@ func (m *V1ResourceUsageDataPoint) validateBaremetal(formats strfmt.Registry) er
 }
 
 func (m *V1ResourceUsageDataPoint) validateEdgehost(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Edgehost) { // not required
 		return nil
 	}
@@ -80,68 +78,6 @@ func (m *V1ResourceUsageDataPoint) validateEdgehost(formats strfmt.Registry) err
 		if err := m.Edgehost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("edgehost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("edgehost")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 resource usage data point based on the context it is used
-func (m *V1ResourceUsageDataPoint) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateBaremetal(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateEdgehost(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ResourceUsageDataPoint) contextValidateBaremetal(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Baremetal != nil {
-
-		if swag.IsZero(m.Baremetal) { // not required
-			return nil
-		}
-
-		if err := m.Baremetal.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("baremetal")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("baremetal")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ResourceUsageDataPoint) contextValidateEdgehost(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Edgehost != nil {
-
-		if swag.IsZero(m.Edgehost) { // not required
-			return nil
-		}
-
-		if err := m.Edgehost.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("edgehost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("edgehost")
 			}
 			return err
 		}

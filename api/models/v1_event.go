@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -67,6 +65,7 @@ func (m *V1Event) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1Event) validateInvolvedObject(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InvolvedObject) { // not required
 		return nil
 	}
@@ -75,8 +74,6 @@ func (m *V1Event) validateInvolvedObject(formats strfmt.Registry) error {
 		if err := m.InvolvedObject.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("involvedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("involvedObject")
 			}
 			return err
 		}
@@ -86,6 +83,7 @@ func (m *V1Event) validateInvolvedObject(formats strfmt.Registry) error {
 }
 
 func (m *V1Event) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -94,8 +92,6 @@ func (m *V1Event) validateMetadata(formats strfmt.Registry) error {
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -105,6 +101,7 @@ func (m *V1Event) validateMetadata(formats strfmt.Registry) error {
 }
 
 func (m *V1Event) validateRelatedObject(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RelatedObject) { // not required
 		return nil
 	}
@@ -113,8 +110,6 @@ func (m *V1Event) validateRelatedObject(formats strfmt.Registry) error {
 		if err := m.RelatedObject.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("relatedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("relatedObject")
 			}
 			return err
 		}
@@ -124,6 +119,7 @@ func (m *V1Event) validateRelatedObject(formats strfmt.Registry) error {
 }
 
 func (m *V1Event) validateSource(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Source) { // not required
 		return nil
 	}
@@ -132,118 +128,6 @@ func (m *V1Event) validateSource(formats strfmt.Registry) error {
 		if err := m.Source.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("source")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("source")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 event based on the context it is used
-func (m *V1Event) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateInvolvedObject(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRelatedObject(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSource(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1Event) contextValidateInvolvedObject(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InvolvedObject != nil {
-
-		if swag.IsZero(m.InvolvedObject) { // not required
-			return nil
-		}
-
-		if err := m.InvolvedObject.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("involvedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("involvedObject")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Event) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Event) contextValidateRelatedObject(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.RelatedObject != nil {
-
-		if swag.IsZero(m.RelatedObject) { // not required
-			return nil
-		}
-
-		if err := m.RelatedObject.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("relatedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("relatedObject")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Event) contextValidateSource(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Source != nil {
-
-		if swag.IsZero(m.Source) { // not required
-			return nil
-		}
-
-		if err := m.Source.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("source")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("source")
 			}
 			return err
 		}

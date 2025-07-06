@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -24,7 +23,7 @@ type V1ResourceCostSummaryOptions struct {
 	EnableSummaryView *bool `json:"enableSummaryView,omitempty"`
 
 	// group by
-	// Enum: ["tenant","project","workspace","cluster","namespace","deployment","cloud"]
+	// Enum: [tenant project workspace cluster namespace deployment cloud]
 	GroupBy *string `json:"groupBy,omitempty"`
 
 	// period
@@ -90,6 +89,7 @@ func (m *V1ResourceCostSummaryOptions) validateGroupByEnum(path, location string
 }
 
 func (m *V1ResourceCostSummaryOptions) validateGroupBy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.GroupBy) { // not required
 		return nil
 	}
@@ -99,11 +99,6 @@ func (m *V1ResourceCostSummaryOptions) validateGroupBy(formats strfmt.Registry) 
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 resource cost summary options based on context it is used
-func (m *V1ResourceCostSummaryOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

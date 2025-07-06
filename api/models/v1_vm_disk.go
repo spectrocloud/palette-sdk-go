@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -88,6 +86,7 @@ func (m *V1VMDisk) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDisk) validateBlockSize(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.BlockSize) { // not required
 		return nil
 	}
@@ -96,8 +95,6 @@ func (m *V1VMDisk) validateBlockSize(formats strfmt.Registry) error {
 		if err := m.BlockSize.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("blockSize")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("blockSize")
 			}
 			return err
 		}
@@ -107,6 +104,7 @@ func (m *V1VMDisk) validateBlockSize(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDisk) validateCdrom(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Cdrom) { // not required
 		return nil
 	}
@@ -115,8 +113,6 @@ func (m *V1VMDisk) validateCdrom(formats strfmt.Registry) error {
 		if err := m.Cdrom.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cdrom")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cdrom")
 			}
 			return err
 		}
@@ -126,6 +122,7 @@ func (m *V1VMDisk) validateCdrom(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDisk) validateDisk(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Disk) { // not required
 		return nil
 	}
@@ -134,8 +131,6 @@ func (m *V1VMDisk) validateDisk(formats strfmt.Registry) error {
 		if err := m.Disk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("disk")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("disk")
 			}
 			return err
 		}
@@ -145,6 +140,7 @@ func (m *V1VMDisk) validateDisk(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDisk) validateLun(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Lun) { // not required
 		return nil
 	}
@@ -153,8 +149,6 @@ func (m *V1VMDisk) validateLun(formats strfmt.Registry) error {
 		if err := m.Lun.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lun")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lun")
 			}
 			return err
 		}
@@ -167,116 +161,6 @@ func (m *V1VMDisk) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm disk based on the context it is used
-func (m *V1VMDisk) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateBlockSize(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCdrom(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDisk(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLun(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMDisk) contextValidateBlockSize(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.BlockSize != nil {
-
-		if swag.IsZero(m.BlockSize) { // not required
-			return nil
-		}
-
-		if err := m.BlockSize.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("blockSize")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("blockSize")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDisk) contextValidateCdrom(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Cdrom != nil {
-
-		if swag.IsZero(m.Cdrom) { // not required
-			return nil
-		}
-
-		if err := m.Cdrom.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cdrom")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cdrom")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDisk) contextValidateDisk(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Disk != nil {
-
-		if swag.IsZero(m.Disk) { // not required
-			return nil
-		}
-
-		if err := m.Disk.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("disk")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("disk")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDisk) contextValidateLun(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Lun != nil {
-
-		if swag.IsZero(m.Lun) { // not required
-			return nil
-		}
-
-		if err := m.Lun.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("lun")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lun")
-			}
-			return err
-		}
 	}
 
 	return nil

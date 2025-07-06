@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -96,7 +95,7 @@ func (m V1DataSinkPayload) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 
-	if len(m.V1DataSinkPayload) == 0 { // no additional properties
+	if len(m.V1DataSinkPayload) == 0 {
 		return props, nil
 	}
 
@@ -106,12 +105,13 @@ func (m V1DataSinkPayload) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 
-	if len(props) < 3 { // "{}": only additional properties
+	if len(props) < 3 {
 		return additional, nil
 	}
 
 	// concatenate the 2 objects
-	return swag.ConcatJSON(props, additional), nil
+	props[len(props)-1] = ','
+	return append(props, additional[1:]...), nil
 }
 
 // Validate validates this v1 data sink payload
@@ -129,6 +129,7 @@ func (m *V1DataSinkPayload) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1DataSinkPayload) validateTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Timestamp) { // not required
 		return nil
 	}
@@ -136,40 +137,6 @@ func (m *V1DataSinkPayload) validateTimestamp(formats strfmt.Registry) error {
 	if err := m.Timestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("timestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("timestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 data sink payload based on the context it is used
-func (m *V1DataSinkPayload) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1DataSinkPayload) contextValidateTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Timestamp) { // not required
-		return nil
-	}
-
-	if err := m.Timestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("timestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("timestamp")
 		}
 		return err
 	}

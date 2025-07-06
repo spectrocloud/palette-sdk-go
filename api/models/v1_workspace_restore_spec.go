@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -23,11 +21,6 @@ type V1WorkspaceRestoreSpec struct {
 
 // Validate validates this v1 workspace restore spec
 func (m *V1WorkspaceRestoreSpec) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 workspace restore spec based on context it is used
-func (m *V1WorkspaceRestoreSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

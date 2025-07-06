@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -33,7 +32,7 @@ type V1NotificationEvent struct {
 	Meta map[string]string `json:"meta,omitempty"`
 
 	// Describes notification event type
-	// Enum: ["NotificationPackSync","NotificationClusterProfileSync"]
+	// Enum: [NotificationPackSync NotificationClusterProfileSync]
 	Type string `json:"type,omitempty"`
 }
 
@@ -81,6 +80,7 @@ func (m *V1NotificationEvent) validateTypeEnum(path, location string, value stri
 }
 
 func (m *V1NotificationEvent) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -90,11 +90,6 @@ func (m *V1NotificationEvent) validateType(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 notification event based on context it is used
-func (m *V1NotificationEvent) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

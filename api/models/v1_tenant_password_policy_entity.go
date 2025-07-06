@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -73,6 +71,7 @@ func (m *V1TenantPasswordPolicyEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1TenantPasswordPolicyEntity) validateCreationTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CreationTimestamp) { // not required
 		return nil
 	}
@@ -80,8 +79,6 @@ func (m *V1TenantPasswordPolicyEntity) validateCreationTimestamp(formats strfmt.
 	if err := m.CreationTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
 		}
 		return err
 	}
@@ -90,6 +87,7 @@ func (m *V1TenantPasswordPolicyEntity) validateCreationTimestamp(formats strfmt.
 }
 
 func (m *V1TenantPasswordPolicyEntity) validateUpdateTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UpdateTimestamp) { // not required
 		return nil
 	}
@@ -97,62 +95,6 @@ func (m *V1TenantPasswordPolicyEntity) validateUpdateTimestamp(formats strfmt.Re
 	if err := m.UpdateTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("updateTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("updateTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 tenant password policy entity based on the context it is used
-func (m *V1TenantPasswordPolicyEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCreationTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUpdateTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1TenantPasswordPolicyEntity) contextValidateCreationTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.CreationTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.CreationTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1TenantPasswordPolicyEntity) contextValidateUpdateTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.UpdateTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.UpdateTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("updateTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("updateTimestamp")
 		}
 		return err
 	}

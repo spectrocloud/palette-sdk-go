@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -113,8 +112,6 @@ func (m *V1VsphereMachinePoolConfig) validateInstanceType(formats strfmt.Registr
 		if err := m.InstanceType.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
 			}
 			return err
 		}
@@ -133,6 +130,7 @@ func (m *V1VsphereMachinePoolConfig) validateIsControlPlane(formats strfmt.Regis
 }
 
 func (m *V1VsphereMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePoolProperties) { // not required
 		return nil
 	}
@@ -141,8 +139,6 @@ func (m *V1VsphereMachinePoolConfig) validateMachinePoolProperties(formats strfm
 		if err := m.MachinePoolProperties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
 			}
 			return err
 		}
@@ -152,6 +148,7 @@ func (m *V1VsphereMachinePoolConfig) validateMachinePoolProperties(formats strfm
 }
 
 func (m *V1VsphereMachinePoolConfig) validatePlacements(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Placements) { // not required
 		return nil
 	}
@@ -165,8 +162,6 @@ func (m *V1VsphereMachinePoolConfig) validatePlacements(formats strfmt.Registry)
 			if err := m.Placements[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -178,6 +173,7 @@ func (m *V1VsphereMachinePoolConfig) validatePlacements(formats strfmt.Registry)
 }
 
 func (m *V1VsphereMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Taints) { // not required
 		return nil
 	}
@@ -195,8 +191,6 @@ func (m *V1VsphereMachinePoolConfig) validateTaints(formats strfmt.Registry) err
 			if err := m.Taints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -208,6 +202,7 @@ func (m *V1VsphereMachinePoolConfig) validateTaints(formats strfmt.Registry) err
 }
 
 func (m *V1VsphereMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UpdateStrategy) { // not required
 		return nil
 	}
@@ -216,147 +211,6 @@ func (m *V1VsphereMachinePoolConfig) validateUpdateStrategy(formats strfmt.Regis
 		if err := m.UpdateStrategy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere machine pool config based on the context it is used
-func (m *V1VsphereMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePoolProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePlacements(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTaints(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUpdateStrategy(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereMachinePoolConfig) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InstanceType != nil {
-
-		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachinePoolConfig) contextValidateMachinePoolProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachinePoolProperties != nil {
-
-		if swag.IsZero(m.MachinePoolProperties) { // not required
-			return nil
-		}
-
-		if err := m.MachinePoolProperties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachinePoolConfig) contextValidatePlacements(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Placements); i++ {
-
-		if m.Placements[i] != nil {
-
-			if swag.IsZero(m.Placements[i]) { // not required
-				return nil
-			}
-
-			if err := m.Placements[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachinePoolConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Taints); i++ {
-
-		if m.Taints[i] != nil {
-
-			if swag.IsZero(m.Taints[i]) { // not required
-				return nil
-			}
-
-			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachinePoolConfig) contextValidateUpdateStrategy(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.UpdateStrategy != nil {
-
-		if swag.IsZero(m.UpdateStrategy) { // not required
-			return nil
-		}
-
-		if err := m.UpdateStrategy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
 			}
 			return err
 		}

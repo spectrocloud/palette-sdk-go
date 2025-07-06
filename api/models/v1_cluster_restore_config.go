@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -106,6 +104,7 @@ func (m *V1ClusterRestoreConfig) validateDestinationClusterUID(formats strfmt.Re
 }
 
 func (m *V1ClusterRestoreConfig) validateIncludeClusterResourceMode(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
 		return nil
 	}
@@ -113,8 +112,6 @@ func (m *V1ClusterRestoreConfig) validateIncludeClusterResourceMode(formats strf
 	if err := m.IncludeClusterResourceMode.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("includeClusterResourceMode")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("includeClusterResourceMode")
 		}
 		return err
 	}
@@ -123,43 +120,12 @@ func (m *V1ClusterRestoreConfig) validateIncludeClusterResourceMode(formats strf
 }
 
 func (m *V1ClusterRestoreConfig) validateIncludeNamespaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.IncludeNamespaces) { // not required
 		return nil
 	}
 
 	if err := validate.UniqueItems("includeNamespaces", "body", m.IncludeNamespaces); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster restore config based on the context it is used
-func (m *V1ClusterRestoreConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateIncludeClusterResourceMode(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterRestoreConfig) contextValidateIncludeClusterResourceMode(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.IncludeClusterResourceMode) { // not required
-		return nil
-	}
-
-	if err := m.IncludeClusterResourceMode.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("includeClusterResourceMode")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("includeClusterResourceMode")
-		}
 		return err
 	}
 

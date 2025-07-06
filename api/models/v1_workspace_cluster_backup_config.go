@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -71,6 +70,7 @@ func (m *V1WorkspaceClusterBackupConfig) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1WorkspaceClusterBackupConfig) validateBackupState(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.BackupState) { // not required
 		return nil
 	}
@@ -79,8 +79,6 @@ func (m *V1WorkspaceClusterBackupConfig) validateBackupState(formats strfmt.Regi
 		if err := m.BackupState.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("backupState")
 			}
 			return err
 		}
@@ -90,6 +88,7 @@ func (m *V1WorkspaceClusterBackupConfig) validateBackupState(formats strfmt.Regi
 }
 
 func (m *V1WorkspaceClusterBackupConfig) validateBackupTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.BackupTime) { // not required
 		return nil
 	}
@@ -97,8 +96,6 @@ func (m *V1WorkspaceClusterBackupConfig) validateBackupTime(formats strfmt.Regis
 	if err := m.BackupTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("backupTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("backupTime")
 		}
 		return err
 	}
@@ -107,6 +104,7 @@ func (m *V1WorkspaceClusterBackupConfig) validateBackupTime(formats strfmt.Regis
 }
 
 func (m *V1WorkspaceClusterBackupConfig) validateClusterBackupRefs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterBackupRefs) { // not required
 		return nil
 	}
@@ -120,8 +118,6 @@ func (m *V1WorkspaceClusterBackupConfig) validateClusterBackupRefs(formats strfm
 			if err := m.ClusterBackupRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterBackupRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterBackupRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -133,6 +129,7 @@ func (m *V1WorkspaceClusterBackupConfig) validateClusterBackupRefs(formats strfm
 }
 
 func (m *V1WorkspaceClusterBackupConfig) validateConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Config) { // not required
 		return nil
 	}
@@ -141,8 +138,6 @@ func (m *V1WorkspaceClusterBackupConfig) validateConfig(formats strfmt.Registry)
 		if err := m.Config.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("config")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("config")
 			}
 			return err
 		}
@@ -152,6 +147,7 @@ func (m *V1WorkspaceClusterBackupConfig) validateConfig(formats strfmt.Registry)
 }
 
 func (m *V1WorkspaceClusterBackupConfig) validateRequestTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RequestTime) { // not required
 		return nil
 	}
@@ -159,141 +155,6 @@ func (m *V1WorkspaceClusterBackupConfig) validateRequestTime(formats strfmt.Regi
 	if err := m.RequestTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("requestTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("requestTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace cluster backup config based on the context it is used
-func (m *V1WorkspaceClusterBackupConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateBackupState(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateBackupTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterBackupRefs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRequestTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceClusterBackupConfig) contextValidateBackupState(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.BackupState != nil {
-
-		if swag.IsZero(m.BackupState) { // not required
-			return nil
-		}
-
-		if err := m.BackupState.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("backupState")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("backupState")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterBackupConfig) contextValidateBackupTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.BackupTime) { // not required
-		return nil
-	}
-
-	if err := m.BackupTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("backupTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("backupTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterBackupConfig) contextValidateClusterBackupRefs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterBackupRefs); i++ {
-
-		if m.ClusterBackupRefs[i] != nil {
-
-			if swag.IsZero(m.ClusterBackupRefs[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterBackupRefs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterBackupRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterBackupRefs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterBackupConfig) contextValidateConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Config != nil {
-
-		if swag.IsZero(m.Config) { // not required
-			return nil
-		}
-
-		if err := m.Config.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("config")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("config")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterBackupConfig) contextValidateRequestTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.RequestTime) { // not required
-		return nil
-	}
-
-	if err := m.RequestTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("requestTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("requestTime")
 		}
 		return err
 	}

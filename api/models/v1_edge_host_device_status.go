@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -40,7 +39,7 @@ type V1EdgeHostDeviceStatus struct {
 	ServiceAuthToken string `json:"serviceAuthToken,omitempty"`
 
 	// state
-	// Enum: ["ready","unpaired","in-use"]
+	// Enum: [ready unpaired in-use]
 	State string `json:"state,omitempty"`
 
 	// tunnel status
@@ -86,6 +85,7 @@ func (m *V1EdgeHostDeviceStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceStatus) validateHealth(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Health) { // not required
 		return nil
 	}
@@ -94,8 +94,6 @@ func (m *V1EdgeHostDeviceStatus) validateHealth(formats strfmt.Registry) error {
 		if err := m.Health.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("health")
 			}
 			return err
 		}
@@ -105,6 +103,7 @@ func (m *V1EdgeHostDeviceStatus) validateHealth(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceStatus) validateInUseClusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InUseClusters) { // not required
 		return nil
 	}
@@ -118,8 +117,6 @@ func (m *V1EdgeHostDeviceStatus) validateInUseClusters(formats strfmt.Registry) 
 			if err := m.InUseClusters[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("inUseClusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inUseClusters" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -131,6 +128,7 @@ func (m *V1EdgeHostDeviceStatus) validateInUseClusters(formats strfmt.Registry) 
 }
 
 func (m *V1EdgeHostDeviceStatus) validateInUseClustersRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InUseClustersRef) { // not required
 		return nil
 	}
@@ -144,8 +142,6 @@ func (m *V1EdgeHostDeviceStatus) validateInUseClustersRef(formats strfmt.Registr
 			if err := m.InUseClustersRef[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("inUseClustersRef" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inUseClustersRef" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -157,6 +153,7 @@ func (m *V1EdgeHostDeviceStatus) validateInUseClustersRef(formats strfmt.Registr
 }
 
 func (m *V1EdgeHostDeviceStatus) validatePacks(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Packs) { // not required
 		return nil
 	}
@@ -170,8 +167,6 @@ func (m *V1EdgeHostDeviceStatus) validatePacks(formats strfmt.Registry) error {
 			if err := m.Packs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -183,6 +178,7 @@ func (m *V1EdgeHostDeviceStatus) validatePacks(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceStatus) validateProfileStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProfileStatus) { // not required
 		return nil
 	}
@@ -191,8 +187,6 @@ func (m *V1EdgeHostDeviceStatus) validateProfileStatus(formats strfmt.Registry) 
 		if err := m.ProfileStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("profileStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("profileStatus")
 			}
 			return err
 		}
@@ -221,8 +215,8 @@ const (
 	// V1EdgeHostDeviceStatusStateUnpaired captures enum value "unpaired"
 	V1EdgeHostDeviceStatusStateUnpaired string = "unpaired"
 
-	// V1EdgeHostDeviceStatusStateInDashUse captures enum value "in-use"
-	V1EdgeHostDeviceStatusStateInDashUse string = "in-use"
+	// V1EdgeHostDeviceStatusStateInUse captures enum value "in-use"
+	V1EdgeHostDeviceStatusStateInUse string = "in-use"
 )
 
 // prop value enum
@@ -234,6 +228,7 @@ func (m *V1EdgeHostDeviceStatus) validateStateEnum(path, location string, value 
 }
 
 func (m *V1EdgeHostDeviceStatus) validateState(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.State) { // not required
 		return nil
 	}
@@ -247,6 +242,7 @@ func (m *V1EdgeHostDeviceStatus) validateState(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceStatus) validateTunnelStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TunnelStatus) { // not required
 		return nil
 	}
@@ -255,180 +251,6 @@ func (m *V1EdgeHostDeviceStatus) validateTunnelStatus(formats strfmt.Registry) e
 		if err := m.TunnelStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tunnelStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelStatus")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host device status based on the context it is used
-func (m *V1EdgeHostDeviceStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHealth(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInUseClusters(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInUseClustersRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePacks(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProfileStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTunnelStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidateHealth(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Health != nil {
-
-		if swag.IsZero(m.Health) { // not required
-			return nil
-		}
-
-		if err := m.Health.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("health")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidateInUseClusters(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.InUseClusters); i++ {
-
-		if m.InUseClusters[i] != nil {
-
-			if swag.IsZero(m.InUseClusters[i]) { // not required
-				return nil
-			}
-
-			if err := m.InUseClusters[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("inUseClusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inUseClusters" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidateInUseClustersRef(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.InUseClustersRef); i++ {
-
-		if m.InUseClustersRef[i] != nil {
-
-			if swag.IsZero(m.InUseClustersRef[i]) { // not required
-				return nil
-			}
-
-			if err := m.InUseClustersRef[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("inUseClustersRef" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inUseClustersRef" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidatePacks(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Packs); i++ {
-
-		if m.Packs[i] != nil {
-
-			if swag.IsZero(m.Packs[i]) { // not required
-				return nil
-			}
-
-			if err := m.Packs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("packs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("packs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidateProfileStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ProfileStatus != nil {
-
-		if swag.IsZero(m.ProfileStatus) { // not required
-			return nil
-		}
-
-		if err := m.ProfileStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("profileStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("profileStatus")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceStatus) contextValidateTunnelStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.TunnelStatus != nil {
-
-		if swag.IsZero(m.TunnelStatus) { // not required
-			return nil
-		}
-
-		if err := m.TunnelStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tunnelStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelStatus")
 			}
 			return err
 		}

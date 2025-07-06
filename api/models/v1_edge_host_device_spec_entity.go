@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -20,7 +18,7 @@ import (
 type V1EdgeHostDeviceSpecEntity struct {
 
 	// arch type
-	ArchType *V1ArchType `json:"archType,omitempty"`
+	ArchType V1ArchType `json:"archType,omitempty"`
 
 	// host pairing key
 	// Format: password
@@ -53,25 +51,23 @@ func (m *V1EdgeHostDeviceSpecEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceSpecEntity) validateArchType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ArchType) { // not required
 		return nil
 	}
 
-	if m.ArchType != nil {
-		if err := m.ArchType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("archType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("archType")
-			}
-			return err
+	if err := m.ArchType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("archType")
 		}
+		return err
 	}
 
 	return nil
 }
 
 func (m *V1EdgeHostDeviceSpecEntity) validateHostPairingKey(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostPairingKey) { // not required
 		return nil
 	}
@@ -84,6 +80,7 @@ func (m *V1EdgeHostDeviceSpecEntity) validateHostPairingKey(formats strfmt.Regis
 }
 
 func (m *V1EdgeHostDeviceSpecEntity) validateTunnelConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TunnelConfig) { // not required
 		return nil
 	}
@@ -92,68 +89,6 @@ func (m *V1EdgeHostDeviceSpecEntity) validateTunnelConfig(formats strfmt.Registr
 		if err := m.TunnelConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tunnelConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host device spec entity based on the context it is used
-func (m *V1EdgeHostDeviceSpecEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateArchType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTunnelConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpecEntity) contextValidateArchType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ArchType != nil {
-
-		if swag.IsZero(m.ArchType) { // not required
-			return nil
-		}
-
-		if err := m.ArchType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("archType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("archType")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpecEntity) contextValidateTunnelConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.TunnelConfig != nil {
-
-		if swag.IsZero(m.TunnelConfig) { // not required
-			return nil
-		}
-
-		if err := m.TunnelConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tunnelConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelConfig")
 			}
 			return err
 		}

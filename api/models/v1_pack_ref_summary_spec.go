@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1PackRefSummarySpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRefSummarySpec) validateMacros(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Macros) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1PackRefSummarySpec) validateMacros(formats strfmt.Registry) error {
 		if err := m.Macros.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("macros")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("macros")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1PackRefSummarySpec) validateMacros(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRefSummarySpec) validatePack(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Pack) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1PackRefSummarySpec) validatePack(formats strfmt.Registry) error {
 		if err := m.Pack.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("pack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("pack")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1PackRefSummarySpec) validatePack(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRefSummarySpec) validateRegistry(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Registry) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1PackRefSummarySpec) validateRegistry(formats strfmt.Registry) error {
 		if err := m.Registry.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("registry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("registry")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 pack ref summary spec based on the context it is used
-func (m *V1PackRefSummarySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMacros(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePack(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRegistry(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PackRefSummarySpec) contextValidateMacros(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Macros != nil {
-
-		if swag.IsZero(m.Macros) { // not required
-			return nil
-		}
-
-		if err := m.Macros.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("macros")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("macros")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1PackRefSummarySpec) contextValidatePack(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Pack != nil {
-
-		if swag.IsZero(m.Pack) { // not required
-			return nil
-		}
-
-		if err := m.Pack.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("pack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("pack")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1PackRefSummarySpec) contextValidateRegistry(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Registry != nil {
-
-		if swag.IsZero(m.Registry) { // not required
-			return nil
-		}
-
-		if err := m.Registry.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("registry")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("registry")
 			}
 			return err
 		}

@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -22,7 +20,7 @@ type V1UserAssetsLocationSpec struct {
 	IsDefault bool `json:"isDefault,omitempty"`
 
 	// storage
-	Storage *V1LocationType `json:"storage,omitempty"`
+	Storage V1LocationType `json:"storage,omitempty"`
 
 	// type
 	Type string `json:"type,omitempty"`
@@ -43,54 +41,16 @@ func (m *V1UserAssetsLocationSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1UserAssetsLocationSpec) validateStorage(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Storage) { // not required
 		return nil
 	}
 
-	if m.Storage != nil {
-		if err := m.Storage.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("storage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("storage")
-			}
-			return err
+	if err := m.Storage.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("storage")
 		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 user assets location spec based on the context it is used
-func (m *V1UserAssetsLocationSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateStorage(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1UserAssetsLocationSpec) contextValidateStorage(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Storage != nil {
-
-		if swag.IsZero(m.Storage) { // not required
-			return nil
-		}
-
-		if err := m.Storage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("storage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("storage")
-			}
-			return err
-		}
+		return err
 	}
 
 	return nil

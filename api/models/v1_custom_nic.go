@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -32,11 +30,6 @@ type V1CustomNic struct {
 
 // Validate validates this v1 custom nic
 func (m *V1CustomNic) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 custom nic based on context it is used
-func (m *V1CustomNic) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

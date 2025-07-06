@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -52,6 +51,7 @@ func (m *V1EdgeNativeHybridConfigEntity) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1EdgeNativeHybridConfigEntity) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -60,8 +60,6 @@ func (m *V1EdgeNativeHybridConfigEntity) validateClusterConfig(formats strfmt.Re
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -71,6 +69,7 @@ func (m *V1EdgeNativeHybridConfigEntity) validateClusterConfig(formats strfmt.Re
 }
 
 func (m *V1EdgeNativeHybridConfigEntity) validateMachineCloudConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachineCloudConfig) { // not required
 		return nil
 	}
@@ -79,8 +78,6 @@ func (m *V1EdgeNativeHybridConfigEntity) validateMachineCloudConfig(formats strf
 		if err := m.MachineCloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineCloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineCloudConfig")
 			}
 			return err
 		}
@@ -90,6 +87,7 @@ func (m *V1EdgeNativeHybridConfigEntity) validateMachineCloudConfig(formats strf
 }
 
 func (m *V1EdgeNativeHybridConfigEntity) validateProfiles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Profiles) { // not required
 		return nil
 	}
@@ -103,97 +101,6 @@ func (m *V1EdgeNativeHybridConfigEntity) validateProfiles(formats strfmt.Registr
 			if err := m.Profiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge native hybrid config entity based on the context it is used
-func (m *V1EdgeNativeHybridConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachineCloudConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProfiles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeNativeHybridConfigEntity) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeHybridConfigEntity) contextValidateMachineCloudConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachineCloudConfig != nil {
-
-		if swag.IsZero(m.MachineCloudConfig) { // not required
-			return nil
-		}
-
-		if err := m.MachineCloudConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machineCloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineCloudConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeHybridConfigEntity) contextValidateProfiles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Profiles); i++ {
-
-		if m.Profiles[i] != nil {
-
-			if swag.IsZero(m.Profiles[i]) { // not required
-				return nil
-			}
-
-			if err := m.Profiles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("profiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("profiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

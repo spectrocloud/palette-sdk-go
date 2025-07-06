@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -62,6 +60,7 @@ func (m *V1OverloadStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OverloadStatus) validateHealth(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Health) { // not required
 		return nil
 	}
@@ -70,8 +69,6 @@ func (m *V1OverloadStatus) validateHealth(formats strfmt.Registry) error {
 		if err := m.Health.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("health")
 			}
 			return err
 		}
@@ -81,6 +78,7 @@ func (m *V1OverloadStatus) validateHealth(formats strfmt.Registry) error {
 }
 
 func (m *V1OverloadStatus) validateKubectlCommands(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.KubectlCommands) { // not required
 		return nil
 	}
@@ -93,6 +91,7 @@ func (m *V1OverloadStatus) validateKubectlCommands(formats strfmt.Registry) erro
 }
 
 func (m *V1OverloadStatus) validateNotifications(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Notifications) { // not required
 		return nil
 	}
@@ -101,68 +100,6 @@ func (m *V1OverloadStatus) validateNotifications(formats strfmt.Registry) error 
 		if err := m.Notifications.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("notifications")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("notifications")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 overload status based on the context it is used
-func (m *V1OverloadStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHealth(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNotifications(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1OverloadStatus) contextValidateHealth(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Health != nil {
-
-		if swag.IsZero(m.Health) { // not required
-			return nil
-		}
-
-		if err := m.Health.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("health")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1OverloadStatus) contextValidateNotifications(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Notifications != nil {
-
-		if swag.IsZero(m.Notifications) { // not required
-			return nil
-		}
-
-		if err := m.Notifications.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("notifications")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("notifications")
 			}
 			return err
 		}

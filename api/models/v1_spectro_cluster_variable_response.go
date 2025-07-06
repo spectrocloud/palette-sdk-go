@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -29,7 +27,7 @@ type V1SpectroClusterVariableResponse struct {
 	DisplayName string `json:"displayName,omitempty"`
 
 	// format
-	Format *V1VariableFormat `json:"format,omitempty"`
+	Format V1VariableFormat `json:"format,omitempty"`
 
 	// If true, then variable will be hidden for overriding the value. By default the hidden flag will be set to false
 	Hidden bool `json:"hidden"`
@@ -73,19 +71,16 @@ func (m *V1SpectroClusterVariableResponse) Validate(formats strfmt.Registry) err
 }
 
 func (m *V1SpectroClusterVariableResponse) validateFormat(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Format) { // not required
 		return nil
 	}
 
-	if m.Format != nil {
-		if err := m.Format.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("format")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("format")
-			}
-			return err
+	if err := m.Format.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("format")
 		}
+		return err
 	}
 
 	return nil
@@ -95,41 +90,6 @@ func (m *V1SpectroClusterVariableResponse) validateName(formats strfmt.Registry)
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster variable response based on the context it is used
-func (m *V1SpectroClusterVariableResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFormat(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterVariableResponse) contextValidateFormat(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Format != nil {
-
-		if swag.IsZero(m.Format) { // not required
-			return nil
-		}
-
-		if err := m.Format.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("format")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("format")
-			}
-			return err
-		}
 	}
 
 	return nil

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -59,6 +58,7 @@ func (m *V1ProjectSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectSpec) validateAlerts(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Alerts) { // not required
 		return nil
 	}
@@ -76,8 +76,6 @@ func (m *V1ProjectSpec) validateAlerts(formats strfmt.Registry) error {
 			if err := m.Alerts[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("alerts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("alerts" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -89,6 +87,7 @@ func (m *V1ProjectSpec) validateAlerts(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectSpec) validateTeams(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Teams) { // not required
 		return nil
 	}
@@ -106,8 +105,6 @@ func (m *V1ProjectSpec) validateTeams(formats strfmt.Registry) error {
 			if err := m.Teams[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("teams" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("teams" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -119,6 +116,7 @@ func (m *V1ProjectSpec) validateTeams(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectSpec) validateUsers(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Users) { // not required
 		return nil
 	}
@@ -136,105 +134,6 @@ func (m *V1ProjectSpec) validateUsers(formats strfmt.Registry) error {
 			if err := m.Users[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("users" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("users" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 project spec based on the context it is used
-func (m *V1ProjectSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAlerts(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTeams(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUsers(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ProjectSpec) contextValidateAlerts(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Alerts); i++ {
-
-		if m.Alerts[i] != nil {
-
-			if swag.IsZero(m.Alerts[i]) { // not required
-				return nil
-			}
-
-			if err := m.Alerts[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("alerts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("alerts" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ProjectSpec) contextValidateTeams(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Teams); i++ {
-
-		if m.Teams[i] != nil {
-
-			if swag.IsZero(m.Teams[i]) { // not required
-				return nil
-			}
-
-			if err := m.Teams[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("teams" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("teams" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ProjectSpec) contextValidateUsers(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Users); i++ {
-
-		if m.Users[i] != nil {
-
-			if swag.IsZero(m.Users[i]) { // not required
-				return nil
-			}
-
-			if err := m.Users[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("users" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("users" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

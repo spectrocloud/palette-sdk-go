@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -50,6 +48,7 @@ func (m *V1WorkspaceClusterNamespace) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1WorkspaceClusterNamespace) validateImage(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Image) { // not required
 		return nil
 	}
@@ -58,8 +57,6 @@ func (m *V1WorkspaceClusterNamespace) validateImage(formats strfmt.Registry) err
 		if err := m.Image.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("image")
 			}
 			return err
 		}
@@ -69,6 +66,7 @@ func (m *V1WorkspaceClusterNamespace) validateImage(formats strfmt.Registry) err
 }
 
 func (m *V1WorkspaceClusterNamespace) validateNamespaceResourceAllocation(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.NamespaceResourceAllocation) { // not required
 		return nil
 	}
@@ -77,68 +75,6 @@ func (m *V1WorkspaceClusterNamespace) validateNamespaceResourceAllocation(format
 		if err := m.NamespaceResourceAllocation.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("namespaceResourceAllocation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("namespaceResourceAllocation")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace cluster namespace based on the context it is used
-func (m *V1WorkspaceClusterNamespace) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateImage(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNamespaceResourceAllocation(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceClusterNamespace) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Image != nil {
-
-		if swag.IsZero(m.Image) { // not required
-			return nil
-		}
-
-		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("image")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterNamespace) contextValidateNamespaceResourceAllocation(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.NamespaceResourceAllocation != nil {
-
-		if swag.IsZero(m.NamespaceResourceAllocation) { // not required
-			return nil
-		}
-
-		if err := m.NamespaceResourceAllocation.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("namespaceResourceAllocation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("namespaceResourceAllocation")
 			}
 			return err
 		}

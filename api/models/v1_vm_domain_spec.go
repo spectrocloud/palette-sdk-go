@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -105,6 +103,7 @@ func (m *V1VMDomainSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateChassis(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Chassis) { // not required
 		return nil
 	}
@@ -113,8 +112,6 @@ func (m *V1VMDomainSpec) validateChassis(formats strfmt.Registry) error {
 		if err := m.Chassis.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("chassis")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("chassis")
 			}
 			return err
 		}
@@ -124,6 +121,7 @@ func (m *V1VMDomainSpec) validateChassis(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateClock(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Clock) { // not required
 		return nil
 	}
@@ -132,8 +130,6 @@ func (m *V1VMDomainSpec) validateClock(formats strfmt.Registry) error {
 		if err := m.Clock.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clock")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clock")
 			}
 			return err
 		}
@@ -143,6 +139,7 @@ func (m *V1VMDomainSpec) validateClock(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateCPU(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CPU) { // not required
 		return nil
 	}
@@ -151,8 +148,6 @@ func (m *V1VMDomainSpec) validateCPU(formats strfmt.Registry) error {
 		if err := m.CPU.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cpu")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cpu")
 			}
 			return err
 		}
@@ -171,8 +166,6 @@ func (m *V1VMDomainSpec) validateDevices(formats strfmt.Registry) error {
 		if err := m.Devices.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("devices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("devices")
 			}
 			return err
 		}
@@ -182,6 +175,7 @@ func (m *V1VMDomainSpec) validateDevices(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateFeatures(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Features) { // not required
 		return nil
 	}
@@ -190,8 +184,6 @@ func (m *V1VMDomainSpec) validateFeatures(formats strfmt.Registry) error {
 		if err := m.Features.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("features")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("features")
 			}
 			return err
 		}
@@ -201,6 +193,7 @@ func (m *V1VMDomainSpec) validateFeatures(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateFirmware(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Firmware) { // not required
 		return nil
 	}
@@ -209,8 +202,6 @@ func (m *V1VMDomainSpec) validateFirmware(formats strfmt.Registry) error {
 		if err := m.Firmware.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("firmware")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("firmware")
 			}
 			return err
 		}
@@ -220,6 +211,7 @@ func (m *V1VMDomainSpec) validateFirmware(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateLaunchSecurity(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LaunchSecurity) { // not required
 		return nil
 	}
@@ -228,8 +220,6 @@ func (m *V1VMDomainSpec) validateLaunchSecurity(formats strfmt.Registry) error {
 		if err := m.LaunchSecurity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("launchSecurity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("launchSecurity")
 			}
 			return err
 		}
@@ -239,6 +229,7 @@ func (m *V1VMDomainSpec) validateLaunchSecurity(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateMachine(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Machine) { // not required
 		return nil
 	}
@@ -247,8 +238,6 @@ func (m *V1VMDomainSpec) validateMachine(formats strfmt.Registry) error {
 		if err := m.Machine.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machine")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machine")
 			}
 			return err
 		}
@@ -258,6 +247,7 @@ func (m *V1VMDomainSpec) validateMachine(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateMemory(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Memory) { // not required
 		return nil
 	}
@@ -266,8 +256,6 @@ func (m *V1VMDomainSpec) validateMemory(formats strfmt.Registry) error {
 		if err := m.Memory.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("memory")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("memory")
 			}
 			return err
 		}
@@ -277,6 +265,7 @@ func (m *V1VMDomainSpec) validateMemory(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDomainSpec) validateResources(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Resources) { // not required
 		return nil
 	}
@@ -285,264 +274,6 @@ func (m *V1VMDomainSpec) validateResources(formats strfmt.Registry) error {
 		if err := m.Resources.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resources")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm domain spec based on the context it is used
-func (m *V1VMDomainSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateChassis(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClock(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCPU(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDevices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFeatures(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFirmware(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLaunchSecurity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachine(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMemory(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateResources(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateChassis(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Chassis != nil {
-
-		if swag.IsZero(m.Chassis) { // not required
-			return nil
-		}
-
-		if err := m.Chassis.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("chassis")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("chassis")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateClock(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Clock != nil {
-
-		if swag.IsZero(m.Clock) { // not required
-			return nil
-		}
-
-		if err := m.Clock.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clock")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clock")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateCPU(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CPU != nil {
-
-		if swag.IsZero(m.CPU) { // not required
-			return nil
-		}
-
-		if err := m.CPU.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cpu")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cpu")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateDevices(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Devices != nil {
-
-		if err := m.Devices.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("devices")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("devices")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateFeatures(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Features != nil {
-
-		if swag.IsZero(m.Features) { // not required
-			return nil
-		}
-
-		if err := m.Features.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("features")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("features")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateFirmware(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Firmware != nil {
-
-		if swag.IsZero(m.Firmware) { // not required
-			return nil
-		}
-
-		if err := m.Firmware.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("firmware")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("firmware")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateLaunchSecurity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.LaunchSecurity != nil {
-
-		if swag.IsZero(m.LaunchSecurity) { // not required
-			return nil
-		}
-
-		if err := m.LaunchSecurity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("launchSecurity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("launchSecurity")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateMachine(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Machine != nil {
-
-		if swag.IsZero(m.Machine) { // not required
-			return nil
-		}
-
-		if err := m.Machine.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machine")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machine")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateMemory(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Memory != nil {
-
-		if swag.IsZero(m.Memory) { // not required
-			return nil
-		}
-
-		if err := m.Memory.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("memory")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("memory")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDomainSpec) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Resources != nil {
-
-		if swag.IsZero(m.Resources) { // not required
-			return nil
-		}
-
-		if err := m.Resources.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("resources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resources")
 			}
 			return err
 		}

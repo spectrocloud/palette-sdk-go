@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1PackRegistryStatusSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRegistryStatusSummary) validateSync(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Sync) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1PackRegistryStatusSummary) validateSync(formats strfmt.Registry) erro
 		if err := m.Sync.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sync")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sync")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 pack registry status summary based on the context it is used
-func (m *V1PackRegistryStatusSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateSync(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PackRegistryStatusSummary) contextValidateSync(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Sync != nil {
-
-		if swag.IsZero(m.Sync) { // not required
-			return nil
-		}
-
-		if err := m.Sync.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("sync")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sync")
 			}
 			return err
 		}

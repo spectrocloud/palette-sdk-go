@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1SpectroClusterCloudCostSummarySpec) Validate(formats strfmt.Registry)
 }
 
 func (m *V1SpectroClusterCloudCostSummarySpec) validateFilter(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Filter) { // not required
 		return nil
 	}
@@ -52,8 +51,6 @@ func (m *V1SpectroClusterCloudCostSummarySpec) validateFilter(formats strfmt.Reg
 		if err := m.Filter.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("filter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("filter")
 			}
 			return err
 		}
@@ -63,6 +60,7 @@ func (m *V1SpectroClusterCloudCostSummarySpec) validateFilter(formats strfmt.Reg
 }
 
 func (m *V1SpectroClusterCloudCostSummarySpec) validateOptions(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Options) { // not required
 		return nil
 	}
@@ -71,68 +69,6 @@ func (m *V1SpectroClusterCloudCostSummarySpec) validateOptions(formats strfmt.Re
 		if err := m.Options.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("options")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("options")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster cloud cost summary spec based on the context it is used
-func (m *V1SpectroClusterCloudCostSummarySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFilter(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterCloudCostSummarySpec) contextValidateFilter(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Filter != nil {
-
-		if swag.IsZero(m.Filter) { // not required
-			return nil
-		}
-
-		if err := m.Filter.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("filter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("filter")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterCloudCostSummarySpec) contextValidateOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Options != nil {
-
-		if swag.IsZero(m.Options) { // not required
-			return nil
-		}
-
-		if err := m.Options.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("options")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("options")
 			}
 			return err
 		}

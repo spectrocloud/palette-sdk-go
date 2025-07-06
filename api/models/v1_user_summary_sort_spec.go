@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -22,7 +20,7 @@ type V1UserSummarySortSpec struct {
 	Field *V1UserSummarySortFields `json:"field,omitempty"`
 
 	// order
-	Order *V1SortOrder `json:"order,omitempty"`
+	Order V1SortOrder `json:"order,omitempty"`
 }
 
 // Validate validates this v1 user summary sort spec
@@ -44,6 +42,7 @@ func (m *V1UserSummarySortSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1UserSummarySortSpec) validateField(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Field) { // not required
 		return nil
 	}
@@ -52,8 +51,6 @@ func (m *V1UserSummarySortSpec) validateField(formats strfmt.Registry) error {
 		if err := m.Field.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("field")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("field")
 			}
 			return err
 		}
@@ -63,79 +60,16 @@ func (m *V1UserSummarySortSpec) validateField(formats strfmt.Registry) error {
 }
 
 func (m *V1UserSummarySortSpec) validateOrder(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Order) { // not required
 		return nil
 	}
 
-	if m.Order != nil {
-		if err := m.Order.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("order")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("order")
-			}
-			return err
+	if err := m.Order.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("order")
 		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 user summary sort spec based on the context it is used
-func (m *V1UserSummarySortSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateField(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateOrder(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1UserSummarySortSpec) contextValidateField(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Field != nil {
-
-		if swag.IsZero(m.Field) { // not required
-			return nil
-		}
-
-		if err := m.Field.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("field")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("field")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1UserSummarySortSpec) contextValidateOrder(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Order != nil {
-
-		if swag.IsZero(m.Order) { // not required
-			return nil
-		}
-
-		if err := m.Order.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("order")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("order")
-			}
-			return err
-		}
+		return err
 	}
 
 	return nil

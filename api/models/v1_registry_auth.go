@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -32,7 +31,7 @@ type V1RegistryAuth struct {
 	Token strfmt.Password `json:"token,omitempty"`
 
 	// type
-	// Enum: ["noAuth","basic","token"]
+	// Enum: [noAuth basic token]
 	Type string `json:"type,omitempty"`
 
 	// username
@@ -66,6 +65,7 @@ func (m *V1RegistryAuth) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1RegistryAuth) validatePassword(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Password) { // not required
 		return nil
 	}
@@ -78,6 +78,7 @@ func (m *V1RegistryAuth) validatePassword(formats strfmt.Registry) error {
 }
 
 func (m *V1RegistryAuth) validateTLS(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TLS) { // not required
 		return nil
 	}
@@ -86,8 +87,6 @@ func (m *V1RegistryAuth) validateTLS(formats strfmt.Registry) error {
 		if err := m.TLS.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tls")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tls")
 			}
 			return err
 		}
@@ -97,6 +96,7 @@ func (m *V1RegistryAuth) validateTLS(formats strfmt.Registry) error {
 }
 
 func (m *V1RegistryAuth) validateToken(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Token) { // not required
 		return nil
 	}
@@ -141,6 +141,7 @@ func (m *V1RegistryAuth) validateTypeEnum(path, location string, value string) e
 }
 
 func (m *V1RegistryAuth) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -148,41 +149,6 @@ func (m *V1RegistryAuth) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 registry auth based on the context it is used
-func (m *V1RegistryAuth) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateTLS(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1RegistryAuth) contextValidateTLS(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.TLS != nil {
-
-		if swag.IsZero(m.TLS) { // not required
-			return nil
-		}
-
-		if err := m.TLS.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tls")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tls")
-			}
-			return err
-		}
 	}
 
 	return nil

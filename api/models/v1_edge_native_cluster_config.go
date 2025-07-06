@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,6 +54,7 @@ func (m *V1EdgeNativeClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeNativeClusterConfig) validateControlPlaneEndpoint(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ControlPlaneEndpoint) { // not required
 		return nil
 	}
@@ -64,8 +63,6 @@ func (m *V1EdgeNativeClusterConfig) validateControlPlaneEndpoint(formats strfmt.
 		if err := m.ControlPlaneEndpoint.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
 			}
 			return err
 		}
@@ -75,6 +72,7 @@ func (m *V1EdgeNativeClusterConfig) validateControlPlaneEndpoint(formats strfmt.
 }
 
 func (m *V1EdgeNativeClusterConfig) validateOverlayNetworkConfiguration(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.OverlayNetworkConfiguration) { // not required
 		return nil
 	}
@@ -83,68 +81,6 @@ func (m *V1EdgeNativeClusterConfig) validateOverlayNetworkConfiguration(formats 
 		if err := m.OverlayNetworkConfiguration.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("overlayNetworkConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("overlayNetworkConfiguration")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge native cluster config based on the context it is used
-func (m *V1EdgeNativeClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateControlPlaneEndpoint(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateOverlayNetworkConfiguration(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeNativeClusterConfig) contextValidateControlPlaneEndpoint(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ControlPlaneEndpoint != nil {
-
-		if swag.IsZero(m.ControlPlaneEndpoint) { // not required
-			return nil
-		}
-
-		if err := m.ControlPlaneEndpoint.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeClusterConfig) contextValidateOverlayNetworkConfiguration(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.OverlayNetworkConfiguration != nil {
-
-		if swag.IsZero(m.OverlayNetworkConfiguration) { // not required
-			return nil
-		}
-
-		if err := m.OverlayNetworkConfiguration.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("overlayNetworkConfiguration")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("overlayNetworkConfiguration")
 			}
 			return err
 		}

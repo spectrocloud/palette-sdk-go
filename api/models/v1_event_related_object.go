@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1EventRelatedObject struct {
 
 	// kind
-	// Enum: ["spectrocluster","edgehost"]
+	// Enum: [spectrocluster edgehost]
 	Kind string `json:"kind,omitempty"`
 
 	// name
@@ -75,6 +74,7 @@ func (m *V1EventRelatedObject) validateKindEnum(path, location string, value str
 }
 
 func (m *V1EventRelatedObject) validateKind(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Kind) { // not required
 		return nil
 	}
@@ -84,11 +84,6 @@ func (m *V1EventRelatedObject) validateKind(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 event related object based on context it is used
-func (m *V1EventRelatedObject) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1Taint struct {
 
 	// effect
-	// Enum: ["NoSchedule","PreferNoSchedule","NoExecute"]
+	// Enum: [NoSchedule PreferNoSchedule NoExecute]
 	Effect string `json:"effect,omitempty"`
 
 	// The taint key to be applied to a node
@@ -86,6 +85,7 @@ func (m *V1Taint) validateEffectEnum(path, location string, value string) error 
 }
 
 func (m *V1Taint) validateEffect(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Effect) { // not required
 		return nil
 	}
@@ -99,6 +99,7 @@ func (m *V1Taint) validateEffect(formats strfmt.Registry) error {
 }
 
 func (m *V1Taint) validateTimeAdded(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TimeAdded) { // not required
 		return nil
 	}
@@ -106,40 +107,6 @@ func (m *V1Taint) validateTimeAdded(formats strfmt.Registry) error {
 	if err := m.TimeAdded.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("timeAdded")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("timeAdded")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 taint based on the context it is used
-func (m *V1Taint) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateTimeAdded(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1Taint) contextValidateTimeAdded(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.TimeAdded) { // not required
-		return nil
-	}
-
-	if err := m.TimeAdded.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("timeAdded")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("timeAdded")
 		}
 		return err
 	}

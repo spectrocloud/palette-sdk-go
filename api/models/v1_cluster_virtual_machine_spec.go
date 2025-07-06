@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -67,6 +66,7 @@ func (m *V1ClusterVirtualMachineSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterVirtualMachineSpec) validateDataVolumeTemplates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.DataVolumeTemplates) { // not required
 		return nil
 	}
@@ -80,8 +80,6 @@ func (m *V1ClusterVirtualMachineSpec) validateDataVolumeTemplates(formats strfmt
 			if err := m.DataVolumeTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dataVolumeTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dataVolumeTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -93,6 +91,7 @@ func (m *V1ClusterVirtualMachineSpec) validateDataVolumeTemplates(formats strfmt
 }
 
 func (m *V1ClusterVirtualMachineSpec) validateInstancetype(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Instancetype) { // not required
 		return nil
 	}
@@ -101,8 +100,6 @@ func (m *V1ClusterVirtualMachineSpec) validateInstancetype(formats strfmt.Regist
 		if err := m.Instancetype.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instancetype")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instancetype")
 			}
 			return err
 		}
@@ -112,6 +109,7 @@ func (m *V1ClusterVirtualMachineSpec) validateInstancetype(formats strfmt.Regist
 }
 
 func (m *V1ClusterVirtualMachineSpec) validatePreference(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Preference) { // not required
 		return nil
 	}
@@ -120,8 +118,6 @@ func (m *V1ClusterVirtualMachineSpec) validatePreference(formats strfmt.Registry
 		if err := m.Preference.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("preference")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("preference")
 			}
 			return err
 		}
@@ -140,118 +136,6 @@ func (m *V1ClusterVirtualMachineSpec) validateTemplate(formats strfmt.Registry) 
 		if err := m.Template.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster virtual machine spec based on the context it is used
-func (m *V1ClusterVirtualMachineSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDataVolumeTemplates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInstancetype(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePreference(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTemplate(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterVirtualMachineSpec) contextValidateDataVolumeTemplates(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.DataVolumeTemplates); i++ {
-
-		if m.DataVolumeTemplates[i] != nil {
-
-			if swag.IsZero(m.DataVolumeTemplates[i]) { // not required
-				return nil
-			}
-
-			if err := m.DataVolumeTemplates[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("dataVolumeTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dataVolumeTemplates" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterVirtualMachineSpec) contextValidateInstancetype(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Instancetype != nil {
-
-		if swag.IsZero(m.Instancetype) { // not required
-			return nil
-		}
-
-		if err := m.Instancetype.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instancetype")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instancetype")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterVirtualMachineSpec) contextValidatePreference(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Preference != nil {
-
-		if swag.IsZero(m.Preference) { // not required
-			return nil
-		}
-
-		if err := m.Preference.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("preference")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("preference")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterVirtualMachineSpec) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Template != nil {
-
-		if err := m.Template.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
 			}
 			return err
 		}

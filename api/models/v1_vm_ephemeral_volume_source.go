@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1VMEphemeralVolumeSource) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMEphemeralVolumeSource) validatePersistentVolumeClaim(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PersistentVolumeClaim) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1VMEphemeralVolumeSource) validatePersistentVolumeClaim(formats strfmt
 		if err := m.PersistentVolumeClaim.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("persistentVolumeClaim")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("persistentVolumeClaim")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm ephemeral volume source based on the context it is used
-func (m *V1VMEphemeralVolumeSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePersistentVolumeClaim(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMEphemeralVolumeSource) contextValidatePersistentVolumeClaim(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.PersistentVolumeClaim != nil {
-
-		if swag.IsZero(m.PersistentVolumeClaim) { // not required
-			return nil
-		}
-
-		if err := m.PersistentVolumeClaim.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("persistentVolumeClaim")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("persistentVolumeClaim")
 			}
 			return err
 		}

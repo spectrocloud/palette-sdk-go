@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1AppProfileSortFields
 type V1AppProfileSortFields string
-
-func NewV1AppProfileSortFields(value V1AppProfileSortFields) *V1AppProfileSortFields {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1AppProfileSortFields.
-func (m V1AppProfileSortFields) Pointer() *V1AppProfileSortFields {
-	return &m
-}
 
 const (
 
@@ -72,10 +62,5 @@ func (m V1AppProfileSortFields) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 app profile sort fields based on context it is used
-func (m V1AppProfileSortFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

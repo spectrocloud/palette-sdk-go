@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -59,47 +58,6 @@ func (m *V1ClusterGroupsHostClusterSummary) validateSummaries(formats strfmt.Reg
 			if err := m.Summaries[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("summaries" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("summaries" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster groups host cluster summary based on the context it is used
-func (m *V1ClusterGroupsHostClusterSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateSummaries(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterGroupsHostClusterSummary) contextValidateSummaries(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Summaries); i++ {
-
-		if m.Summaries[i] != nil {
-
-			if swag.IsZero(m.Summaries[i]) { // not required
-				return nil
-			}
-
-			if err := m.Summaries[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("summaries" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("summaries" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,6 +53,7 @@ func (m *V1ResourceUsageSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceUsageSummary) validateAssociatedResources(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AssociatedResources) { // not required
 		return nil
 	}
@@ -67,8 +67,6 @@ func (m *V1ResourceUsageSummary) validateAssociatedResources(formats strfmt.Regi
 			if err := m.AssociatedResources[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("associatedResources" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("associatedResources" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -80,6 +78,7 @@ func (m *V1ResourceUsageSummary) validateAssociatedResources(formats strfmt.Regi
 }
 
 func (m *V1ResourceUsageSummary) validateData(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Data) { // not required
 		return nil
 	}
@@ -97,8 +96,6 @@ func (m *V1ResourceUsageSummary) validateData(formats strfmt.Registry) error {
 			if err := m.Data[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("data" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("data" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -110,6 +107,7 @@ func (m *V1ResourceUsageSummary) validateData(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceUsageSummary) validateEntity(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Entity) { // not required
 		return nil
 	}
@@ -118,101 +116,6 @@ func (m *V1ResourceUsageSummary) validateEntity(formats strfmt.Registry) error {
 		if err := m.Entity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 resource usage summary based on the context it is used
-func (m *V1ResourceUsageSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAssociatedResources(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateData(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateEntity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ResourceUsageSummary) contextValidateAssociatedResources(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AssociatedResources); i++ {
-
-		if m.AssociatedResources[i] != nil {
-
-			if swag.IsZero(m.AssociatedResources[i]) { // not required
-				return nil
-			}
-
-			if err := m.AssociatedResources[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("associatedResources" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("associatedResources" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ResourceUsageSummary) contextValidateData(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Data); i++ {
-
-		if m.Data[i] != nil {
-
-			if swag.IsZero(m.Data[i]) { // not required
-				return nil
-			}
-
-			if err := m.Data[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("data" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("data" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ResourceUsageSummary) contextValidateEntity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Entity != nil {
-
-		if swag.IsZero(m.Entity) { // not required
-			return nil
-		}
-
-		if err := m.Entity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
 			}
 			return err
 		}

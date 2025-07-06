@@ -8021,6 +8021,23 @@
         }
       }
     },
+    "/v1/clouds/aws/amiTypes": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of AWS AMI types",
+        "operationId": "V1AwsAmiTypes",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AmiTypes"
+            }
+          }
+        }
+      }
+    },
     "/v1/clouds/aws/cloudwatch/validate": {
       "post": {
         "description": "Validates aws cloud watch credentials",
@@ -10079,40 +10096,6 @@
         }
       }
     },
-    "/v1/clouds/eks/region/{regionId}/launchTemplates": {
-      "get": {
-        "description": "Retrieves a list of EKS launch templates available in the specified region",
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get EKS launch templates for the specified region",
-        "operationId": "V1EksLaunchTemplate",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "AWS region ID for which launch templates are requested",
-            "name": "regionId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific AWS cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1EksLaunchTemplates"
-            }
-          }
-        }
-      }
-    },
     "/v1/clouds/gcp/account/validate": {
       "post": {
         "tags": [
@@ -11528,6 +11511,12 @@
             "schema": {
               "$ref": "#/definitions/v1ClusterProfileEntity"
             }
+          },
+          {
+            "type": "boolean",
+            "description": "If true then cluster profile will be created and published in a single transaction",
+            "name": "publish",
+            "in": "query"
           }
         ],
         "responses": {
@@ -29266,6 +29255,10 @@
     }
   },
   "definitions": {
+    "URLEncodedBase64": {
+      "type": "string",
+      "format": "url-encoded-base64"
+    },
     "V1AwsAccountSts": {
       "description": "AWS cloud account sts",
       "type": "object",
@@ -29368,6 +29361,10 @@
           "$ref": "#/definitions/v1PasswordsBlockListEntity"
         }
       }
+    },
+    "urlEncodedBase64": {
+      "type": "string",
+      "format": "url-encoded-base64"
     },
     "v1.AzureAccountEntitySpec": {
       "type": "object",
@@ -29561,6 +29558,21 @@
         }
       }
     },
+    "v1ActiveTenantResources": {
+      "description": "Active resources of tenant",
+      "type": "object",
+      "properties": {
+        "activeResources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "v1Address": {
       "description": "Tenant Address",
       "type": "object",
@@ -29622,6 +29634,19 @@
         },
         "time": {
           "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1AmiTypes": {
+      "description": "List of AWS AMI types",
+      "type": "object",
+      "properties": {
+        "amiTypes": {
+          "description": "List of AWS AMI types",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -30302,6 +30327,29 @@
         }
       }
     },
+    "v1AppFeatureFreemium": {
+      "description": "Freemium information",
+      "properties": {
+        "activeClustersLimit": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "isFreemium": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "overageUsageLimit": {
+          "type": "number",
+          "format": "float64",
+          "x-omitempty": false
+        },
+        "totalUsageLimit": {
+          "type": "number",
+          "format": "float64",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1AppProfile": {
       "description": "Application profile response",
       "type": "object",
@@ -30971,6 +31019,21 @@
         }
       }
     },
+    "v1AppVersion": {
+      "description": "spectro application management app version information",
+      "properties": {
+        "intermediateVersions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ReleaseVersion"
+          }
+        },
+        "latestVerson": {
+          "$ref": "#/definitions/v1ReleaseVersion"
+        }
+      }
+    },
     "v1ArchType": {
       "type": "string",
       "default": "amd64",
@@ -30986,6 +31049,20 @@
         "operationId": {
           "description": "OperationId for a particular sync operation id",
           "type": "string"
+        }
+      }
+    },
+    "v1AsyncResult": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "string"
+        },
+        "isSuccess": {
+          "type": "boolean"
         }
       }
     },
@@ -31142,6 +31219,26 @@
           "description": "Describes the password required for the user to authenticate",
           "type": "string",
           "format": "password"
+        }
+      }
+    },
+    "v1AuthLoginEntity": {
+      "description": "Auth login entity",
+      "type": "object",
+      "properties": {
+        "authType": {
+          "type": "string",
+          "enum": [
+            "password",
+            "sso"
+          ]
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "redirectUrl": {
+          "type": "string",
+          "x-omitempty": false
         }
       }
     },
@@ -33656,6 +33753,36 @@
         }
       }
     },
+    "v1Card": {
+      "description": "Card details object",
+      "properties": {
+        "brand": {
+          "description": "Card brand",
+          "type": "string"
+        },
+        "country": {
+          "description": "Country name the card belongs",
+          "type": "string"
+        },
+        "expYear": {
+          "description": "Expiry year of the card",
+          "type": "number",
+          "format": "uint64"
+        },
+        "fingerPrint": {
+          "description": "Finger print",
+          "type": "string"
+        },
+        "funding": {
+          "description": "Funding",
+          "type": "string"
+        },
+        "last4": {
+          "description": "Last 4 digit of the card",
+          "type": "string"
+        }
+      }
+    },
     "v1Cert": {
       "type": "object",
       "properties": {
@@ -35177,6 +35304,36 @@
         }
       }
     },
+    "v1ClusterMeta": {
+      "description": "Active cluster meta",
+      "type": "object",
+      "properties": {
+        "cloudType": {
+          "type": "string"
+        },
+        "clusterType": {
+          "type": "string"
+        },
+        "creationTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/v1ClusterState"
+        },
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
     "v1ClusterMetaAttributeEntity": {
       "description": "Cluster additional metadata entity",
       "type": "object",
@@ -35438,6 +35595,36 @@
         },
         "version": {
           "type": "string"
+        }
+      }
+    },
+    "v1ClusterPairMetadataFilterSpec": {
+      "description": "Edge hosts pair metadata filter spec",
+      "properties": {
+        "localClusterUid": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "state": {
+          "$ref": "#/definitions/v1FilterString"
+        }
+      }
+    },
+    "v1ClusterPairMetadataSortFields": {
+      "type": "string",
+      "enum": [
+        "name",
+        "state",
+        "creationTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v1ClusterPairMetadataSortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v1ClusterPairMetadataSortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
         }
       }
     },
@@ -36663,6 +36850,18 @@
         }
       }
     },
+    "v1ClusterState": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Provisioning",
+        "Running",
+        "Deleting",
+        "Deleted",
+        "Error",
+        "Importing"
+      ]
+    },
     "v1ClusterSyftLogStatus": {
       "description": "Cluster compliance scan Syft Log Status",
       "properties": {
@@ -37555,6 +37754,39 @@
         }
       }
     },
+    "v1ClustersInfo": {
+      "description": "Active clusters information",
+      "type": "object",
+      "properties": {
+        "clustersMeta": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterMeta"
+          }
+        },
+        "totalActiveClusters": {
+          "type": "number",
+          "format": "int64"
+        },
+        "totalActiveGreenFieldClusters": {
+          "type": "number",
+          "format": "int64"
+        },
+        "totalActiveImportedClusters": {
+          "type": "number",
+          "format": "int64"
+        },
+        "totalClustersDeleted": {
+          "type": "number",
+          "format": "int64"
+        },
+        "totalClustersDeployed": {
+          "type": "number",
+          "format": "int64"
+        }
+      }
+    },
     "v1ComplianceScanConfig": {
       "description": "Compliance Scan config",
       "properties": {
@@ -38413,6 +38645,25 @@
         }
       }
     },
+    "v1DatabaseTransferJob": {
+      "description": "database transfer job details",
+      "type": "object",
+      "properties": {
+        "backupStatus": {
+          "$ref": "#/definitions/v1TransferJob"
+        },
+        "backupUid": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "FileSystem",
+            "Ftp"
+          ]
+        }
+      }
+    },
     "v1DeletedMsg": {
       "description": "Deleted response with message",
       "properties": {
@@ -38478,6 +38729,25 @@
             "$ref": "#/definitions/v1GPUDeviceSpec"
           }
         },
+        "hostState": {
+          "description": "State of edge host device",
+          "type": "string",
+          "default": "registration",
+          "enum": [
+            "registration",
+            "cluster",
+            "recovery"
+          ]
+        },
+        "hostType": {
+          "description": "Type of the edge host device",
+          "type": "string",
+          "default": "appliance",
+          "enum": [
+            "appliance",
+            "agent-mode"
+          ]
+        },
         "memory": {
           "$ref": "#/definitions/v1Memory"
         },
@@ -38489,6 +38759,11 @@
         },
         "os": {
           "$ref": "#/definitions/v1OS"
+        },
+        "secureBoot": {
+          "description": "Secure boot configuration",
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -38510,6 +38785,40 @@
           "format": "int32"
         },
         "vendor": {
+          "type": "string"
+        }
+      }
+    },
+    "v1EcrAuthorizationRequestEntity": {
+      "description": "Ecr registry credentials entity",
+      "type": "object",
+      "properties": {
+        "awsCloudAccount": {
+          "$ref": "#/definitions/v1AwsCloudAccount"
+        },
+        "endpoint": {
+          "description": "Endpoint url to make the request",
+          "type": "string"
+        },
+        "isPrivate": {
+          "description": "If it is public or private",
+          "type": "boolean"
+        },
+        "region": {
+          "description": "Name of the region",
+          "type": "string"
+        }
+      }
+    },
+    "v1EcrImageEntity": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Image name",
+          "type": "string"
+        },
+        "tag": {
+          "description": "Image tag",
           "type": "string"
         }
       }
@@ -39281,6 +39590,26 @@
         }
       }
     },
+    "v1EdgeNativeClusterConfigPairEntity": {
+      "type": "object",
+      "properties": {
+        "controlPlaneHealthCheckTimeout": {
+          "type": "string"
+        },
+        "lifecycleConfig": {
+          "$ref": "#/definitions/v1LifecycleConfig"
+        },
+        "machineManagementConfig": {
+          "$ref": "#/definitions/v1MachineManagementConfig"
+        },
+        "resources": {
+          "$ref": "#/definitions/v1ClusterResourcesEntity"
+        },
+        "updateWorkerPoolsInParallel": {
+          "type": "boolean"
+        }
+      }
+    },
     "v1EdgeNativeControlPlaneEndPoint": {
       "type": "object",
       "properties": {
@@ -40018,46 +40347,12 @@
         }
       }
     },
-    "v1EksLaunchTemplate": {
-      "description": "EKS launch template details",
-      "type": "object",
-      "properties": {
-        "defaultVersion": {
-          "description": "Whether this is the default version of the launch template",
-          "type": "boolean"
-        },
-        "id": {
-          "description": "The ID of the launch template",
-          "type": "string"
-        },
-        "latestVersion": {
-          "description": "The latest version number of the launch template",
-          "type": "integer"
-        },
-        "name": {
-          "description": "The name of the launch template",
-          "type": "string"
-        },
-        "version": {
-          "description": "The version number of the launch template",
-          "type": "integer"
-        }
-      }
-    },
-    "v1EksLaunchTemplates": {
-      "description": "List of EKS launch templates",
-      "type": "object",
-      "properties": {
-        "launchTemplates": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1EksLaunchTemplate"
-          }
-        }
-      }
-    },
     "v1EksMachineCloudConfigEntity": {
       "properties": {
+        "amiType": {
+          "description": "ami type",
+          "type": "string"
+        },
         "awsLaunchTemplate": {
           "$ref": "#/definitions/v1AwsLaunchTemplate"
         },
@@ -40122,6 +40417,10 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "amiType": {
+          "description": "ami type",
+          "type": "string"
         },
         "awsLaunchTemplate": {
           "$ref": "#/definitions/v1AwsLaunchTemplate"
@@ -40511,6 +40810,41 @@
         }
       }
     },
+    "v1FilterIntRange": {
+      "type": "object",
+      "properties": {
+        "eq": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "gt": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "gte": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "lt": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "lte": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        },
+        "ne": {
+          "type": "integer",
+          "format": "int32",
+          "x-nullable": true
+        }
+      }
+    },
     "v1FilterMetadata": {
       "description": "Filter metadata object",
       "type": "object",
@@ -40523,6 +40857,35 @@
         },
         "uid": {
           "type": "string"
+        }
+      }
+    },
+    "v1FilterNumberRange": {
+      "type": "object",
+      "properties": {
+        "eq": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "gt": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "gte": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "lt": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "lte": {
+          "type": "number",
+          "x-nullable": true
+        },
+        "ne": {
+          "type": "number",
+          "x-nullable": true
         }
       }
     },
@@ -41670,6 +42033,123 @@
         }
       }
     },
+    "v1GrpcClientMonitoringData": {
+      "type": "object",
+      "properties": {
+        "clientUid": {
+          "type": "string"
+        },
+        "receivedBroadcastCount": {
+          "type": "integer"
+        },
+        "receivedPublishedCount": {
+          "type": "integer"
+        },
+        "sentBroadcastCount": {
+          "type": "integer"
+        },
+        "sentPublishedCount": {
+          "type": "integer"
+        },
+        "subjects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1GrpcEndpoint": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "description": "Describes the URL where the client has to connect to the grpc server",
+          "type": "string"
+        },
+        "tls": {
+          "description": "Describes the Grpc tls config which client will use to make a request to the grpc server",
+          "type": "object",
+          "properties": {
+            "caCert": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "insecureSkipVerify": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "v1GrpcServerMonitoringData": {
+      "type": "object",
+      "properties": {
+        "clients": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1GrpcClientMonitoringData"
+          }
+        },
+        "isError": {
+          "type": "boolean"
+        },
+        "messageLogs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subjects": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1GrpcSubjectMonitoringData"
+          }
+        },
+        "totalClients": {
+          "type": "integer"
+        },
+        "totalSubjects": {
+          "type": "integer"
+        }
+      }
+    },
+    "v1GrpcSubjectMonitoringData": {
+      "type": "object",
+      "properties": {
+        "broadcastCount": {
+          "type": "integer"
+        },
+        "clients": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publishedCount": {
+          "type": "integer"
+        },
+        "subject": {
+          "type": "string"
+        }
+      }
+    },
+    "v1HealthCheck": {
+      "type": "object",
+      "properties": {
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "v1HelmChartOption": {
       "description": "If chart options are provided then the specified chart is validated first and synced immediately. If the specified chart is not found in the specified registry then creation is cancelled.",
       "type": "object",
@@ -42288,6 +42768,22 @@
         }
       }
     },
+    "v1InstallerStatus": {
+      "description": "Spectro cluster installer status",
+      "type": "object",
+      "properties": {
+        "clusterMigration": {
+          "$ref": "#/definitions/v1SpectroClusterMigration"
+        },
+        "clusterState": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1InstanceConfig": {
       "properties": {
         "category": {
@@ -42755,6 +43251,37 @@
           "items": {
             "$ref": "#/definitions/v1IpPoolEntity"
           }
+        }
+      }
+    },
+    "v1JWKResponse": {
+      "type": "object",
+      "properties": {
+        "alg": {
+          "description": "The \"alg\" (algorithm) parameter identifies the algorithm intended for use with the key",
+          "type": "string"
+        },
+        "e": {
+          "type": "string"
+        },
+        "key_ops": {
+          "description": "The \"key_ops\" (key operations) parameter identifies the operation(s) for which the key is intended to be used",
+          "type": "string"
+        },
+        "kid": {
+          "description": "The \"kid\" (key ID) parameter is used to match a specific key",
+          "type": "string"
+        },
+        "kty": {
+          "description": "The \"kty\" (key type) parameter identifies the cryptographic algorithm family used with the key, such as \"RSA\" or \"EC\"",
+          "type": "string"
+        },
+        "n": {
+          "type": "string"
+        },
+        "use": {
+          "description": "The \"use\" (public key use) parameter identifies the intended use of the public key",
+          "type": "string"
         }
       }
     },
@@ -43228,6 +43755,29 @@
         "gcp",
         "minio"
       ]
+    },
+    "v1Lock": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "expireAt": {
+              "x-omitempty": false,
+              "$ref": "#/definitions/v1Time"
+            },
+            "key": {
+              "type": "string",
+              "x-omitempty": false
+            }
+          }
+        }
+      }
     },
     "v1LoginBannerSettings": {
       "properties": {
@@ -44515,6 +45065,781 @@
         }
       }
     },
+    "v1MfaAuthenticationExtensions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "v1MfaAuthenticatorSelection": {
+      "type": "object",
+      "properties": {
+        "authenticatorAttachment": {
+          "type": "string"
+        },
+        "requireResidentKey": {
+          "type": "boolean"
+        },
+        "residentKey": {
+          "type": "string"
+        },
+        "userVerification": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaConveyancePreference": {
+      "type": "string",
+      "enum": [
+        "none",
+        "indirect",
+        "direct",
+        "enterprise"
+      ]
+    },
+    "v1MfaCredentialDescriptor": {
+      "type": "object",
+      "properties": {
+        "attestationType": {
+          "type": "string"
+        },
+        "id": {
+          "$ref": "#/definitions/urlEncodedBase64"
+        },
+        "transports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaCredentialParameter": {
+      "type": "object",
+      "properties": {
+        "alg": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaDeviceMeta": {
+      "type": "object",
+      "properties": {
+        "creationTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "deviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaPublicKeyCredentialCreationOptions": {
+      "type": "object",
+      "properties": {
+        "attestation": {
+          "$ref": "#/definitions/v1MfaConveyancePreference"
+        },
+        "authenticatorSelection": {
+          "$ref": "#/definitions/v1MfaAuthenticatorSelection"
+        },
+        "challenge": {
+          "$ref": "#/definitions/URLEncodedBase64"
+        },
+        "excludeCredentials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MfaCredentialDescriptor"
+          }
+        },
+        "extensions": {
+          "$ref": "#/definitions/v1MfaAuthenticationExtensions"
+        },
+        "pubKeyCredParams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MfaCredentialParameter"
+          }
+        },
+        "rp": {
+          "$ref": "#/definitions/v1MfaRelyingPartyEntity"
+        },
+        "timeout": {
+          "type": "integer"
+        },
+        "user": {
+          "$ref": "#/definitions/v1MfaUserEntity"
+        }
+      }
+    },
+    "v1MfaPublicKeyCredentialRequestOptions": {
+      "type": "object",
+      "properties": {
+        "allowCredentials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MfaCredentialDescriptor"
+          }
+        },
+        "challenge": {
+          "$ref": "#/definitions/urlEncodedBase64"
+        },
+        "extensions": {
+          "$ref": "#/definitions/v1MfaAuthenticationExtensions"
+        },
+        "rpId": {
+          "type": "string"
+        },
+        "timeout": {
+          "type": "integer"
+        },
+        "userVerification": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaRelyingPartyEntity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaUserEntity": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtAppContainersState": {
+      "type": "object",
+      "properties": {
+        "running": {
+          "type": "object",
+          "properties": {
+            "startedAt": {
+              "$ref": "#/definitions/v1Time"
+            }
+          }
+        },
+        "terminated": {
+          "type": "object",
+          "properties": {
+            "exitCode": {
+              "type": "integer"
+            },
+            "finishedAt": {
+              "$ref": "#/definitions/v1Time"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "signal": {
+              "type": "integer"
+            },
+            "startedAt": {
+              "$ref": "#/definitions/v1Time"
+            }
+          }
+        },
+        "waiting": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "v1MgmtAppContainersStatus": {
+      "type": "object",
+      "properties": {
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "numberOfRestarts": {
+          "type": "integer"
+        },
+        "state": {
+          "$ref": "#/definitions/v1MgmtAppContainersState"
+        }
+      }
+    },
+    "v1MgmtAppCronJobStatus": {
+      "type": "object",
+      "properties": {
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "lastScheduleTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastSuccessfulRunTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pods": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppPodsStatus"
+          }
+        }
+      }
+    },
+    "v1MgmtAppNameSpaceStatus": {
+      "type": "object",
+      "properties": {
+        "cronJobs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppCronJobStatus"
+          }
+        },
+        "deployments": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppObjectStatus"
+          }
+        },
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "statefulSets": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppObjectStatus"
+          }
+        }
+      }
+    },
+    "v1MgmtAppObjectStatus": {
+      "type": "object",
+      "properties": {
+        "availableReplicas": {
+          "type": "integer"
+        },
+        "creationTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "desiredReplicaCount": {
+          "type": "integer"
+        },
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "pods": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppPodsStatus"
+          }
+        }
+      }
+    },
+    "v1MgmtAppPodsStatus": {
+      "type": "object",
+      "properties": {
+        "containers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppContainersStatus"
+          }
+        },
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "phase": {
+          "type": "string"
+        },
+        "pvcs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1MgmtAppPvcStatus"
+          }
+        },
+        "reason": {
+          "type": "string"
+        },
+        "startTime": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1MgmtAppPvcStatus": {
+      "type": "object",
+      "properties": {
+        "claimName": {
+          "type": "string"
+        },
+        "creationTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "isHealthy": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtAppSpec": {
+      "description": "spectro application management specifications",
+      "properties": {
+        "appEnv": {
+          "type": "string"
+        },
+        "cloudType": {
+          "type": "string"
+        },
+        "installedVersion": {
+          "type": "string"
+        },
+        "latestVersion": {
+          "type": "string"
+        },
+        "spectroClusterUid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtAppStatus": {
+      "description": "spectro application management status",
+      "properties": {
+        "appVersions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1AppVersion"
+          }
+        },
+        "isFailed": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "messageLogs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string"
+        },
+        "upgradeHistory": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpectroMgmtUpgrade"
+          }
+        }
+      }
+    },
+    "v1MgmtBackupSpec": {
+      "description": "backup spec",
+      "type": "object",
+      "properties": {
+        "backupUid": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "modeUid": {
+          "type": "string"
+        },
+        "proxy": {
+          "description": "proxy information if applicable",
+          "type": "string"
+        },
+        "scheduleTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "scheduleType": {
+          "type": "string",
+          "default": "Automated",
+          "enum": [
+            "OnDemand",
+            "Automated"
+          ]
+        }
+      }
+    },
+    "v1MgmtDbCollectionIndexInfo": {
+      "description": "Database info",
+      "type": "object",
+      "properties": {
+        "key": {
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtDbCollectionInfo": {
+      "description": "Database info",
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MgmtDbCollectionIndexInfo"
+          }
+        },
+        "isCapped": {
+          "type": "boolean"
+        },
+        "isReadOnly": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "storageSize": {
+          "type": "integer"
+        },
+        "totalIndexSize": {
+          "type": "integer"
+        }
+      }
+    },
+    "v1MgmtDbInfo": {
+      "description": "Database info",
+      "type": "object",
+      "properties": {
+        "collections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MgmtDbCollectionInfo"
+          }
+        },
+        "isEmpty": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "totalIndexSize": {
+          "type": "integer"
+        }
+      }
+    },
+    "v1MgmtErrLog": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1MgmtErrSpec"
+        }
+      }
+    },
+    "v1MgmtErrSpec": {
+      "type": "object",
+      "properties": {
+        "causes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "type": "string"
+        },
+        "debug": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "errCode": {
+          "type": "string"
+        },
+        "errMsg": {
+          "type": "string"
+        },
+        "stackTraces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userCtx": {
+          "type": "object",
+          "properties": {
+            "projectUid": {
+              "type": "string"
+            },
+            "serviceResUid": {
+              "type": "string"
+            },
+            "tenantUid": {
+              "type": "string"
+            },
+            "userUid": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "v1MgmtFileTransferFtpEntity": {
+      "description": "file transfer details",
+      "type": "object",
+      "properties": {
+        "backupSpec": {
+          "$ref": "#/definitions/v1MgmtBackupSpec"
+        },
+        "ftp": {
+          "$ref": "#/definitions/v1MgmtFtpConfig"
+        }
+      }
+    },
+    "v1MgmtFileTransferS3Entity": {
+      "description": "file transfer details",
+      "type": "object",
+      "properties": {
+        "backupSpec": {
+          "$ref": "#/definitions/v1MgmtBackupSpec"
+        },
+        "s3": {
+          "$ref": "#/definitions/v1MgmtS3Config"
+        }
+      }
+    },
+    "v1MgmtFtpConfig": {
+      "description": "ftp config",
+      "type": "object",
+      "properties": {
+        "directory": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "server": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtMigrationStatuses": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "finishTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "folderName": {
+          "type": "string"
+        },
+        "isCompleted": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "status": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1MgmtPodHealth": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "isHealthy": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtS3Config": {
+      "description": "s3 config",
+      "type": "object",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "bucket": {
+          "type": "string"
+        },
+        "directory": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MgmtUpgradeState": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        },
+        "endTimestamp": {
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1Time"
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "startTimestamp": {
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1MonthlyUsage": {
+      "description": "Monthly usage object",
+      "properties": {
+        "month": {
+          "description": "Month of usage",
+          "$ref": "#/definitions/v1Time"
+        },
+        "tenantUsages": {
+          "description": "List of tenants usage",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1TenantUsage"
+          }
+        },
+        "usedAlloyCredits": {
+          "description": "Credits used by imported clusters",
+          "type": "number",
+          "format": "float64"
+        },
+        "usedPureCredits": {
+          "description": "Credits used by managed clusters",
+          "type": "number",
+          "format": "float64"
+        }
+      }
+    },
     "v1Nameserver": {
       "description": "Nameserver define search domains and nameserver addresses",
       "type": "object",
@@ -44756,6 +46081,12 @@
       "type": "object",
       "properties": {
         "family": {
+          "type": "string"
+        },
+        "kernel": {
+          "type": "string"
+        },
+        "kernelVersion": {
           "type": "string"
         },
         "version": {
@@ -47772,6 +49103,81 @@
         }
       }
     },
+    "v1PaymentIntent": {
+      "description": "Payment setup object",
+      "properties": {
+        "clientSecret": {
+          "description": "Payment client secret",
+          "type": "string"
+        },
+        "paymentIntentId": {
+          "description": "Payment intent id",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of payment intent",
+          "type": "string"
+        }
+      }
+    },
+    "v1PaymentMethod": {
+      "description": "Payment method object",
+      "properties": {
+        "card": {
+          "$ref": "#/definitions/v1Card"
+        },
+        "customerId": {
+          "description": "Customer uid",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "First name of the user",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Last name of the user",
+          "type": "string"
+        },
+        "paymentMethodId": {
+          "description": "Payment method uid",
+          "type": "string"
+        }
+      }
+    },
+    "v1PaymentPlan": {
+      "description": "Stripe price detail object",
+      "properties": {
+        "billingScheme": {
+          "description": "Billing scheme",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Unit of currency",
+          "type": "string"
+        },
+        "id": {
+          "description": "Stripe payment plan id",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the stripe plan",
+          "type": "string"
+        },
+        "productId": {
+          "description": "Product identifier",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of payment plan",
+          "type": "string"
+        },
+        "unitAmount": {
+          "description": "Unit amount for the product",
+          "type": "number",
+          "format": "int64"
+        }
+      }
+    },
     "v1PcgSelfHostedParams": {
       "properties": {
         "cloudType": {
@@ -47844,6 +49250,35 @@
         "$ref": "#/definitions/v1Permission"
       }
     },
+    "v1Plan": {
+      "description": "Plan",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1PlanSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1PlanStatus"
+        }
+      }
+    },
+    "v1PlanCost": {
+      "description": "Plan Cost",
+      "properties": {
+        "discount": {
+          "type": "number",
+          "format": "float",
+          "x-omitempty": false
+        },
+        "price": {
+          "type": "number",
+          "format": "float",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1PlanCredit": {
       "description": "Plan Credit",
       "required": [
@@ -47875,6 +49310,207 @@
             "Pure",
             "Alloy"
           ]
+        }
+      }
+    },
+    "v1PlanCreditEntity": {
+      "description": "Plan Credit entity for create/update request",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "cpuCoreHours": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "expiry": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Pure",
+            "Alloy"
+          ]
+        }
+      }
+    },
+    "v1PlanLimit": {
+      "description": "Monthly Plan Limit",
+      "properties": {
+        "alloy": {
+          "$ref": "#/definitions/v1PlanLimitSpec"
+        },
+        "isOnDemand": {
+          "description": "is onDemand plan and has no limit",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isUnlimited": {
+          "description": "is unlimited cpu core hours",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "pure": {
+          "$ref": "#/definitions/v1PlanLimitSpec"
+        }
+      }
+    },
+    "v1PlanLimitSpec": {
+      "description": "Monthly Plan Limit spec",
+      "properties": {
+        "cpuCoreHours": {
+          "description": "cpu cores hours",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "overageLimitPercentage": {
+          "description": "overage limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 25,
+          "x-omitempty": false
+        },
+        "warnLimitPercentage": {
+          "description": "warning limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 90,
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1PlanMonthlyUsage": {
+      "description": "Plan monthly usage entity",
+      "properties": {
+        "dailyUsages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ResourceUsage"
+          }
+        },
+        "month": {
+          "description": "usage month",
+          "$ref": "#/definitions/v1Time"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "planType": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        },
+        "planUid": {
+          "type": "string"
+        },
+        "totalMonthlyUsage": {
+          "$ref": "#/definitions/v1TotalResourceUsage"
+        }
+      }
+    },
+    "v1PlanRenewal": {
+      "description": "Plan Renewal",
+      "required": [
+        "type",
+        "start",
+        "expiry"
+      ],
+      "properties": {
+        "expiry": {
+          "description": "credit expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "start": {
+          "description": "credit start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        }
+      }
+    },
+    "v1PlanSpec": {
+      "description": "Plan specifications",
+      "required": [
+        "type",
+        "start",
+        "expiry"
+      ],
+      "properties": {
+        "cost": {
+          "$ref": "#/definitions/v1PlanCost"
+        },
+        "developerCredits": {
+          "$ref": "#/definitions/v1DeveloperCredit"
+        },
+        "expiry": {
+          "description": "plan expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "freeCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PlanCredit"
+          }
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "renewal": {
+          "$ref": "#/definitions/v1PlanRenewal"
+        },
+        "slaCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PlanCredit"
+          }
+        },
+        "start": {
+          "description": "plan start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "tierPricing": {
+          "$ref": "#/definitions/v1TierPrice"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        }
+      }
+    },
+    "v1PlanStatus": {
+      "type": "object",
+      "properties": {
+        "changeLogs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -47929,6 +49565,30 @@
         }
       }
     },
+    "v1PriceRange": {
+      "description": "tier price range",
+      "properties": {
+        "discount": {
+          "type": "number",
+          "format": "int64"
+        },
+        "startFrom": {
+          "type": "number",
+          "format": "float64"
+        },
+        "unitAmount": {
+          "type": "number",
+          "format": "float64"
+        },
+        "upTo": {
+          "type": "number",
+          "format": "float64"
+        },
+        "upToInfinity": {
+          "type": "boolean"
+        }
+      }
+    },
     "v1PrivateCloudRateConfig": {
       "description": "Private cloud rate config",
       "properties": {
@@ -47947,6 +49607,17 @@
         "storageUnitPriceGiBPerHour": {
           "type": "number",
           "format": "float64"
+        }
+      }
+    },
+    "v1ProductUsage": {
+      "description": "Product usage",
+      "properties": {
+        "alloyUsage": {
+          "$ref": "#/definitions/v1SystemProductUsage"
+        },
+        "pureUsage": {
+          "$ref": "#/definitions/v1SystemProductUsage"
         }
       }
     },
@@ -48262,6 +49933,22 @@
       "properties": {
         "metadata": {
           "$ref": "#/definitions/v1ObjectEntity"
+        }
+      }
+    },
+    "v1ProjectResourceUsage": {
+      "description": "project resource usage",
+      "properties": {
+        "alloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "project": {
+          "$ref": "#/definitions/v1ProjectMeta"
+        },
+        "pureCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
         }
       }
     },
@@ -48623,6 +50310,18 @@
         }
       }
     },
+    "v1RegistryConf": {
+      "description": "Registry configuration",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/definitions/v1RegistryAuth"
+        },
+        "endpoint": {
+          "type": "string"
+        }
+      }
+    },
     "v1RegistryConfigEntity": {
       "description": "Registry configuration entity",
       "type": "object",
@@ -48752,6 +50451,40 @@
           "type": "string"
         },
         "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ReleaseDescription": {
+      "description": "spectro application management release description",
+      "properties": {
+        "details": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ReleaseVersion": {
+      "description": "spectro application management release version information",
+      "properties": {
+        "date": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "description": {
+          "type": "string"
+        },
+        "releaseNotes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ReleaseDescription"
+          }
+        },
+        "version": {
           "type": "string"
         }
       }
@@ -49088,6 +50821,23 @@
         }
       }
     },
+    "v1ResourceEntity": {
+      "type": "object",
+      "properties": {
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
     "v1ResourceGroup": {
       "description": "Azure resource Group is a container that holds related resources for an Azure solution",
       "type": "object",
@@ -49266,6 +51016,30 @@
         "total": {
           "type": "number",
           "format": "float64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ResourceUsage": {
+      "description": "ResourceUsage",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ProjectResourceUsage"
+          }
+        },
+        "timestamp": {
+          "description": "resource usage time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "totalAlloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "totalPureCpuCoreHours": {
+          "type": "number",
           "x-omitempty": false
         }
       }
@@ -49678,6 +51452,70 @@
         }
       }
     },
+    "v1SchedulerJob": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "cycles": {
+              "type": "integer",
+              "x-omitempty": false
+            },
+            "interval": {
+              "type": "integer",
+              "x-omitempty": false
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "cycleNumber": {
+              "type": "integer",
+              "x-omitempty": false
+            },
+            "error": {
+              "type": "string",
+              "x-omitempty": false
+            },
+            "forceNextRun": {
+              "type": "boolean",
+              "x-omitempty": false
+            },
+            "isActive": {
+              "type": "boolean",
+              "x-omitempty": false
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "x-omitempty": false
+            },
+            "isLocked": {
+              "type": "boolean",
+              "x-omitempty": false
+            },
+            "lastRunTime": {
+              "x-omitempty": false,
+              "$ref": "#/definitions/v1Time"
+            },
+            "lastSuccessfulRunTime": {
+              "x-omitempty": false,
+              "$ref": "#/definitions/v1Time"
+            },
+            "nextRunTime": {
+              "x-omitempty": false,
+              "$ref": "#/definitions/v1Time"
+            }
+          }
+        }
+      }
+    },
     "v1Scope": {
       "type": "string",
       "enum": [
@@ -49933,21 +51771,13 @@
     },
     "v1SearchFilterSchemaSpecProperty": {
       "properties": {
-        "name": {
+        "default": {
           "type": "string",
-          "x-order": 0
-        },
-        "hideDisplay": {
-          "type": "boolean",
-          "x-order": 1
+          "x-order": 6
         },
         "displayName": {
           "type": "string",
           "x-order": 2
-        },
-        "type": {
-          "type": "string",
-          "x-order": 3
         },
         "enum": {
           "type": "array",
@@ -49965,14 +51795,19 @@
           "x-omitempty": true,
           "x-order": 5
         },
-        "default": {
-          "type": "string",
-          "x-order": 6
+        "hideDisplay": {
+          "type": "boolean",
+          "x-order": 1
         },
-        "minIntVal": {
-          "type": "integer",
-          "format": "int32",
-          "x-order": 7
+        "isDeprecated": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "x-order": 11
+        },
+        "maxFloatVal": {
+          "type": "number",
+          "format": "float64",
+          "x-order": 10
         },
         "maxIntVal": {
           "type": "integer",
@@ -49984,15 +51819,18 @@
           "format": "float64",
           "x-order": 9
         },
-        "maxFloatVal": {
-          "type": "number",
-          "format": "float64",
-          "x-order": 10
+        "minIntVal": {
+          "type": "integer",
+          "format": "int32",
+          "x-order": 7
         },
-        "isDeprecated": {
-          "type": "boolean",
-          "x-omitempty": false,
-          "x-order": 11
+        "name": {
+          "type": "string",
+          "x-order": 0
+        },
+        "type": {
+          "type": "string",
+          "x-order": 3
         }
       }
     },
@@ -50090,6 +51928,24 @@
       "type": "object",
       "properties": {
         "url": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ServiceImage": {
+      "description": "Service image entity",
+      "type": "object",
+      "properties": {
+        "buildId": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "serviceName": {
+          "type": "string"
+        },
+        "version": {
           "type": "string"
         }
       }
@@ -50562,6 +52418,30 @@
         }
       }
     },
+    "v1SpectroClusterActiveAppDeployment": {
+      "description": "Active app deployment",
+      "type": "object",
+      "properties": {
+        "appRef": {
+          "$ref": "#/definitions/v1ObjectEntity"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterActiveCluster": {
+      "description": "Active clusters",
+      "type": "object",
+      "properties": {
+        "clusterRef": {
+          "$ref": "#/definitions/v1ObjectEntity"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
     "v1SpectroClusterAddOnService": {
       "description": "Spectro cluster addon service",
       "properties": {
@@ -50769,6 +52649,137 @@
         },
         "startTime": {
           "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SpectroClusterFilterSpec": {
+      "description": "Spectro cluster filter spec",
+      "properties": {
+        "cloudAccounts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "clusterName": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "clusterProfiles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "clusterState": {
+          "description": "Deprecated. Use clusterStates",
+          "$ref": "#/definitions/v1ClusterState"
+        },
+        "clusterStates": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterState"
+          }
+        },
+        "cpuUsage": {
+          "$ref": "#/definitions/v1FilterIntRange"
+        },
+        "environment": {
+          "description": "Deprecated. Use environments",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "environments": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "healthState": {
+          "type": "string",
+          "default": "all",
+          "enum": [
+            "all",
+            "Healthy",
+            "UnHealthy"
+          ]
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "default": false
+        },
+        "isHostCluster": {
+          "type": "boolean",
+          "default": false,
+          "x-omitempty": false
+        },
+        "memoryUsage": {
+          "$ref": "#/definitions/v1FilterNumberRange"
+        },
+        "metricPeriod": {
+          "description": "Metric period in minutes defines latest metrics by period",
+          "type": "integer",
+          "format": "int32",
+          "default": 60
+        },
+        "projectUids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "$ref": "#/definitions/v1FilterArray"
+        }
+      }
+    },
+    "v1SpectroClusterHealthCheckSpec": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "ownerName": {
+          "type": "string"
+        },
+        "ownerUid": {
+          "type": "string"
+        },
+        "tenantUid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterHealthCheckStatus": {
+      "type": "object",
+      "properties": {
+        "machineHealthChecks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1HealthCheck"
+          }
+        },
+        "msgBrokerHealthChecks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1HealthCheck"
+          }
+        },
+        "spectroClusterHealthChecks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1HealthCheck"
+          }
         }
       }
     },
@@ -51081,6 +53092,22 @@
         }
       }
     },
+    "v1SpectroClusterMigration": {
+      "description": "Spectro cluster migration status",
+      "type": "object",
+      "properties": {
+        "database": {
+          "$ref": "#/definitions/v1MgmtMigrationStatuses"
+        },
+        "state": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "tenant": {
+          "$ref": "#/definitions/v1SpectroTenantMigration"
+        }
+      }
+    },
     "v1SpectroClusterOidcClaims": {
       "type": "object",
       "properties": {
@@ -51267,6 +53294,80 @@
           "items": {
             "$ref": "#/definitions/v1SpectroClusterPackStatusEntity"
           }
+        }
+      }
+    },
+    "v1SpectroClusterPairMeta": {
+      "description": "Spectro cluster meta",
+      "type": "object",
+      "properties": {
+        "localClusterToken": {
+          "description": "Cluster token in the local UI",
+          "type": "string"
+        },
+        "localClusterUid": {
+          "description": "Cluster uid in the local UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Spectro cluster name",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Spectro cluster uid",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterPairStatus": {
+      "description": "Spectro cluster status",
+      "type": "object",
+      "properties": {
+        "pairingClusterName": {
+          "description": "Cluster Name associated to the pairing request",
+          "type": "string"
+        },
+        "pairingClusterUid": {
+          "description": "Cluster UID associated to the pairing request",
+          "type": "string"
+        },
+        "state": {
+          "description": "Spectro cluster status",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterPairingRequestMeta": {
+      "description": "Returns spectro cluster pair meta",
+      "type": "object",
+      "properties": {
+        "cloudType": {
+          "description": "Cluster cloud type",
+          "type": "string"
+        },
+        "clusterUid": {
+          "description": "Spectro cluster uid",
+          "type": "string"
+        },
+        "creationTimestamp": {
+          "description": "Creation time-stamp when the pairing request was raised",
+          "$ref": "#/definitions/v1Time"
+        },
+        "localClusterUid": {
+          "description": "Cluster uid in the local UI",
+          "type": "string"
+        },
+        "name": {
+          "description": "Spectro cluster name",
+          "type": "string"
+        },
+        "pairingUid": {
+          "description": "Cluster pairing uid",
+          "type": "string"
+        },
+        "state": {
+          "description": "State of the spectro cluster pairing request",
+          "type": "string"
         }
       }
     },
@@ -51559,6 +53660,40 @@
           "items": {
             "$ref": "#/definitions/v1SpectroClusterRepaveReason"
           }
+        }
+      }
+    },
+    "v1SpectroClusterRevisionMeta": {
+      "description": "Revision spec uid along with the creationTimestamp for the revision",
+      "type": "object",
+      "properties": {
+        "creationTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "uid": {
+          "description": "The unique id of the spc revision document",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroClusterSortFields": {
+      "type": "string",
+      "enum": [
+        "environment",
+        "clusterName",
+        "healthState",
+        "creationTimestamp",
+        "lastModifiedTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v1SpectroClusterSortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v1SpectroClusterSortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
         }
       }
     },
@@ -52458,6 +54593,32 @@
         }
       }
     },
+    "v1SpectroInstallerEntity": {
+      "description": "Spectro installer entity for create",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "cloudAccountUid": {
+              "type": "string"
+            },
+            "privateGatewayUid": {
+              "type": "string"
+            },
+            "spectroClusterUid": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1InstallerStatus"
+        }
+      }
+    },
     "v1SpectroMaasClusterEntity": {
       "description": "Spectro Maas cluster request payload for create and update",
       "type": "object",
@@ -52535,6 +54696,144 @@
         }
       }
     },
+    "v1SpectroMgmtSpec": {
+      "description": "spectro management specifications",
+      "properties": {
+        "installerMode": {
+          "type": "string"
+        },
+        "spectroClusterUid": {
+          "type": "string"
+        },
+        "targetVersion": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroMgmtStatus": {
+      "description": "spectro management status information",
+      "properties": {
+        "appVersions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1AppVersion"
+          }
+        },
+        "isFailed": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "lastUpdatedTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "message": {
+          "type": "string"
+        },
+        "messageLogs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string"
+        },
+        "upgradeHistory": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpectroMgmtUpgrade"
+          }
+        }
+      }
+    },
+    "v1SpectroMgmtUpgrade": {
+      "description": "spectro management upgrade logs",
+      "properties": {
+        "upgradeTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroMgmtUpgradePack": {
+      "description": "Spectro application management cluster upgrade pack information",
+      "type": "object",
+      "properties": {
+        "diffMessage": {
+          "description": "Spectro application management cluster pack difference message",
+          "type": "string"
+        },
+        "layer": {
+          "description": "Spectro application management cluster pack layer type",
+          "type": "string"
+        },
+        "name": {
+          "description": "Spectro application management cluster pack name",
+          "type": "string"
+        },
+        "registryUid": {
+          "description": "Spectro application management cluster pack registry unique identifier",
+          "type": "string"
+        },
+        "type": {
+          "description": "Spectro application management cluster pack type",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Spectro application management cluster pack unique identifier",
+          "type": "string"
+        },
+        "values": {
+          "description": "Spectro application management cluster pack values",
+          "type": "string"
+        },
+        "version": {
+          "description": "Spectro application management cluster pack version",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroMgmtUpgradeProfile": {
+      "description": "Spectro application management cluster upgrade pack information",
+      "type": "object",
+      "properties": {
+        "packs": {
+          "description": "Spectro application management cluster upgrade packs",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SpectroMgmtUpgradePack"
+          }
+        },
+        "uid": {
+          "description": "Spectro application management cluster profile unique identifier",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroMgmtUpgradeProfiles": {
+      "description": "Spectro application management cluster information",
+      "type": "object",
+      "properties": {
+        "profiles": {
+          "description": "Spectro application management cluster profiles",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SpectroMgmtUpgradeProfile"
+          }
+        },
+        "version": {
+          "description": "Spectro application management cluster version",
+          "type": "string"
+        }
+      }
+    },
     "v1SpectroOpenStackClusterEntity": {
       "description": "OpenStack cluster request payload for create and update",
       "type": "object",
@@ -52608,6 +54907,41 @@
           "items": {
             "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
           }
+        }
+      }
+    },
+    "v1SpectroTenantClusterMigration": {
+      "description": "Spectro tenant cluster migration status",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SpectroTenantMigration": {
+      "description": "Spectro tenant migration status",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpectroTenantClusterMigration"
+          }
+        },
+        "state": {
+          "type": "string",
+          "x-omitempty": false
         }
       }
     },
@@ -53333,6 +55667,237 @@
         }
       }
     },
+    "v1SystemAdmin": {
+      "description": "System Admin information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SystemAdministratorSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SystemAdministratorStatus"
+        }
+      }
+    },
+    "v1SystemAdminActivation": {
+      "description": "System Administrator Activation Specification",
+      "type": "object",
+      "properties": {
+        "expiry": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "link": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdminMfa": {
+      "description": "System Administrator MFA configuration",
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdminProfileSpec": {
+      "description": "System Administrator Profile Specification",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdministratorSpec": {
+      "description": "System Administrator Entity Specification",
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "adminType"
+      ],
+      "properties": {
+        "adminType": {
+          "type": "string",
+          "enum": [
+            "AccountAdmin",
+            "OperationAdmin"
+          ]
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "mfa": {
+          "type": "string",
+          "$ref": "#/definitions/v1SystemAdminMfa"
+        }
+      }
+    },
+    "v1SystemAdministratorStatus": {
+      "description": "System Administrator Status",
+      "type": "object",
+      "properties": {
+        "activation": {
+          "$ref": "#/definitions/v1SystemAdminActivation"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastPasswordUpdate": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastSignIn": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAwsImageSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accountId": {
+          "type": "string"
+        },
+        "goldenImageRegion": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAwsSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAzureSpec": {
+      "description": "system azure account specifications",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAzureStorageSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "container": {
+          "type": "string"
+        },
+        "storageName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemBackupSpec": {
+      "description": "system backup config spec",
+      "type": "object",
+      "properties": {
+        "hourOfTheDay": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "interval": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "retentionPeriod": {
+          "type": "integer",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemCertificatesSpec": {
+      "description": "system certificate in base64 format",
+      "type": "object",
+      "properties": {
+        "caCertificateBase64": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "certificateBase64": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "insecureSkipVerify": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "keyBase64": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemEdgeImageSpec": {
+      "description": "system edge account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemEdgeNativeImageSpec": {
+      "description": "system edge-native account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "stylusImagesEndpoint": {
+          "type": "string"
+        }
+      }
+    },
     "v1SystemFeature": {
       "type": "object",
       "properties": {
@@ -53382,6 +55947,44 @@
         }
       }
     },
+    "v1SystemFtpSpec": {
+      "description": "system ftp config spec",
+      "type": "object",
+      "properties": {
+        "dir": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "password": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "server": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "username": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemGcpImageSpec": {
+      "description": "system gcp account specifications",
+      "properties": {
+        "imageProject": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemGcpSpec": {
+      "description": "system gcp account specifications",
+      "properties": {
+        "json": {
+          "type": "string"
+        }
+      }
+    },
     "v1SystemGitAuthSpec": {
       "description": "system git auth account specifications",
       "properties": {
@@ -53396,6 +55999,238 @@
         },
         "username": {
           "$ref": "#/definitions/v1SystemGitAuthSpec"
+        }
+      }
+    },
+    "v1SystemGithubSsoSpec": {
+      "description": "system sso github config spec",
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecretKey": {
+          "type": "string"
+        },
+        "isEnabled": {
+          "type": "boolean"
+        },
+        "logoUrl": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemMaasImageSpec": {
+      "description": "system maas account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemOidcClaims": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "FirstName": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "LastName": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "SpectroTeam": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemOidcClientSpec": {
+      "description": "system sso oidc config spec",
+      "type": "object",
+      "properties": {
+        "callbackUrl": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "clientId": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "clientSecret": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "issuerUrl": {
+          "description": "the issuer is the URL identifier for the service",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "logoUrl": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "requiredClaims": {
+          "$ref": "#/definitions/v1SystemOidcClaims"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemOpenstackImageSpec": {
+      "description": "system openstack account specifications",
+      "properties": {
+        "imagesHostEndpoint": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemPlanCredit": {
+      "description": "Plan Credit",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "cpuCoreHours": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "creditUid": {
+          "type": "string"
+        },
+        "expiry": {
+          "description": "credit expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "description": "credit start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Pure",
+            "Alloy"
+          ]
+        }
+      }
+    },
+    "v1SystemPlanLimit": {
+      "description": "System Monthly Plan Limit",
+      "properties": {
+        "alloy": {
+          "$ref": "#/definitions/v1SystemPlanLimitSpec"
+        },
+        "isUnlimited": {
+          "description": "is unlimited cpu core hours",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "pure": {
+          "$ref": "#/definitions/v1SystemPlanLimitSpec"
+        }
+      }
+    },
+    "v1SystemPlanLimitSpec": {
+      "description": "Monthly Plan Limit spec",
+      "properties": {
+        "cpuCoreHours": {
+          "description": "cpu cores hours",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "overageLimitPercentage": {
+          "description": "overage limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 25,
+          "x-omitempty": false
+        },
+        "warnLimitPercentage": {
+          "description": "warning limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 90,
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemProductUsage": {
+      "description": "Yearly usage",
+      "properties": {
+        "allocatedCredits": {
+          "description": "Allocated credits",
+          "type": "number",
+          "format": "int64"
+        },
+        "breachedCredits": {
+          "description": "Credits exceeded the allocated and free credits",
+          "type": "number",
+          "format": "float64"
+        },
+        "freeSlaCredits": {
+          "description": "Free allocated SLA credits",
+          "type": "number",
+          "format": "int64"
+        },
+        "usedCredits": {
+          "description": "Used credits",
+          "type": "number",
+          "format": "float64"
+        }
+      }
+    },
+    "v1SystemResourceLimit": {
+      "properties": {
+        "kind": {
+          "type": "string",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ResourceLimitType"
+        },
+        "limit": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "maxLimit": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemRetentionPolicy": {
+      "description": "system retention policy",
+      "type": "object",
+      "properties": {
+        "retentionPeriod": {
+          "type": "integer",
+          "x-omitempty": false
         }
       }
     },
@@ -53429,6 +56264,32 @@
         }
       }
     },
+    "v1SystemS3Spec": {
+      "description": "system backup s3 storage config spec",
+      "type": "object",
+      "properties": {
+        "accessKey": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "bucket": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "folder": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "region": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "secretKey": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1SystemScarSpec": {
       "description": "system scar config spec",
       "type": "object",
@@ -53449,6 +56310,103 @@
           "type": "string"
         },
         "username": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemSsoAuthSpec": {
+      "description": "system sso config spec",
+      "type": "object",
+      "properties": {
+        "github": {
+          "$ref": "#/definitions/v1SystemGithubSsoSpec"
+        },
+        "oidcAuthSpecs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1SystemOidcClientSpec"
+          }
+        }
+      }
+    },
+    "v1SystemTimeseriesMetrics": {
+      "description": "system timeseries metrics config",
+      "type": "object",
+      "properties": {
+        "archivalInterval": {
+          "type": "integer"
+        },
+        "batchInterval": {
+          "type": "integer"
+        },
+        "enabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "retentionPeriod": {
+          "type": "integer"
+        }
+      }
+    },
+    "v1SystemUserMeStatus": {
+      "description": "User status with permissions",
+      "properties": {
+        "isEmailSet": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isEmailVerified": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isMfaEnabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isPasswordReset": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "lastEmailUpdateTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastEmailVerifiedTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastLoginTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastPasswordUpdateTime": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SystemUserSpec": {
+      "description": "User specifications",
+      "properties": {
+        "adminType": {
+          "description": "Admin type",
+          "type": "string"
+        },
+        "emailId": {
+          "description": "System User's email id",
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemVsphereImageSpec": {
+      "description": "system vsphere account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "overlordOvaLocation": {
           "type": "string"
         }
       }
@@ -53761,6 +56719,54 @@
         }
       }
     },
+    "v1Tenant": {
+      "description": "Tenant",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1TenantSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1TenantStatus"
+        }
+      }
+    },
+    "v1TenantActivity": {
+      "description": "Active tenant and clusters data",
+      "type": "object",
+      "properties": {
+        "clustersInfo": {
+          "$ref": "#/definitions/v1ClustersInfo"
+        },
+        "org": {
+          "type": "string"
+        },
+        "planType": {
+          "type": "string"
+        },
+        "totalProjects": {
+          "type": "number",
+          "format": "int64"
+        },
+        "totalUsers": {
+          "type": "number",
+          "format": "int64"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1UserActivityInfo"
+          }
+        }
+      }
+    },
     "v1TenantAddressPatch": {
       "description": "Tenant Address",
       "type": "object",
@@ -53794,6 +56800,35 @@
           "items": {
             "$ref": "#/definitions/v1TenantAssetCert"
           }
+        }
+      }
+    },
+    "v1TenantCleanUpStatus": {
+      "description": "Tenant CleanUp Status",
+      "type": "object",
+      "properties": {
+        "cleanUpError": {
+          "type": "string"
+        },
+        "cleanUpStages": {
+          "type": "string"
+        },
+        "cleanUpTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "cleanedResources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isInProgress": {
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -54188,6 +57223,75 @@
         }
       }
     },
+    "v1TenantSpec": {
+      "description": "Tenant Spec",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/v1Address"
+        },
+        "authType": {
+          "type": "string"
+        },
+        "defaultLoginMode": {
+          "type": "string"
+        },
+        "orgEmailId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "planUid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TenantSpecEntity": {
+      "description": "Tenant Entity input",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/v1Address"
+        },
+        "authType": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "loginMode": {
+          "type": "string",
+          "default": "devops",
+          "enum": [
+            "dev",
+            "devops"
+          ]
+        },
+        "orgEmailId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "ssoApp": {
+          "type": "string"
+        }
+      }
+    },
     "v1TenantSsoAuthProvidersEntity": {
       "type": "object",
       "properties": {
@@ -54200,6 +57304,105 @@
           "uniqueItems": true,
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "v1TenantStatus": {
+      "description": "Tenant Status",
+      "type": "object",
+      "properties": {
+        "cleanUpStatus": {
+          "$ref": "#/definitions/v1TenantCleanUpStatus"
+        },
+        "isActive": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "toBeDeleted": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1TenantUsage": {
+      "description": "Tenant usage object",
+      "properties": {
+        "orgName": {
+          "description": "Organization name",
+          "type": "string"
+        },
+        "tenantUid": {
+          "description": "Tenant uid",
+          "type": "string"
+        },
+        "usedAlloyCredits": {
+          "description": "Credits used by imported clusters",
+          "type": "number",
+          "format": "float64"
+        },
+        "usedPureCredits": {
+          "description": "Credits used by managed clusters",
+          "type": "number",
+          "format": "float64"
+        }
+      }
+    },
+    "v1ThemeMetadata": {
+      "description": "Theme metadata",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "Tells if the theme is active or not",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "name": {
+          "description": "Name of the theme",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Uid of the theme",
+          "type": "string"
+        }
+      }
+    },
+    "v1ThemeSpec": {
+      "required": [
+        "values"
+      ],
+      "properties": {
+        "values": {
+          "description": "Contains the string value of custom properties like logo, name etc.",
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ThemeStatus": {
+      "properties": {
+        "active": {
+          "description": "Specifies if the theme is active or not",
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1TierPrice": {
+      "description": "tier price",
+      "properties": {
+        "alloyPricing": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1PriceRange"
+          }
+        },
+        "purePricing": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1PriceRange"
           }
         }
       }
@@ -54250,6 +57453,83 @@
           "type": "number",
           "format": "float64",
           "x-omitempty": false
+        }
+      }
+    },
+    "v1TotalResourceUsage": {
+      "description": "Total Resource Usage",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ProjectResourceUsage"
+          }
+        },
+        "totalAlloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "totalPureCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1TransferJob": {
+      "description": "transfer job details",
+      "type": "object",
+      "properties": {
+        "finishTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "folder": {
+          "type": "string"
+        },
+        "isCompleted": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "type": "string"
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1TunnelEndpoint": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "description": "Describes the URL where the client has to connect to the tunnel server",
+          "type": "string"
+        },
+        "tls": {
+          "description": "Describes the Tunnel tls config which client will use to make a request to the tunnel server",
+          "type": "object",
+          "properties": {
+            "caCert": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "insecureSkipVerify": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
@@ -54357,6 +57637,24 @@
         },
         "status": {
           "$ref": "#/definitions/v1UserStatus"
+        }
+      }
+    },
+    "v1UserActivityInfo": {
+      "description": "Active user data",
+      "type": "object",
+      "properties": {
+        "lastLogin": {
+          "type": "string"
+        },
+        "lastLoginTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
         }
       }
     },
@@ -54616,6 +57914,61 @@
         }
       }
     },
+    "v1UserMeStatus": {
+      "description": "User status with permissions",
+      "properties": {
+        "activationLink": {
+          "description": "Contains activation link for the user",
+          "type": "string"
+        },
+        "isActive": {
+          "description": "Specifies if user account is active/disabled",
+          "type": "boolean"
+        },
+        "isContractAccepted": {
+          "description": "Specifies if user account has accepted the contract",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "loginMode": {
+          "description": "User's login Mode",
+          "type": "string"
+        },
+        "projectPermissions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "tenant": {
+          "description": "users's tenant information",
+          "$ref": "#/definitions/v1UserMeTenant"
+        },
+        "tenantPermissions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "v1UserMeTenant": {
+      "type": "object",
+      "properties": {
+        "orgName": {
+          "type": "string"
+        },
+        "tenantUid": {
+          "type": "string"
+        }
+      }
+    },
     "v1UserMeta": {
       "type": "object",
       "properties": {
@@ -54655,6 +58008,49 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/v1HttpPatch"
+      }
+    },
+    "v1UserProfile": {
+      "description": "User Profile",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1UserProfileSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1UserProfileStatus"
+        }
+      }
+    },
+    "v1UserProfileSpec": {
+      "description": "User Profile specifications",
+      "properties": {
+        "emailId": {
+          "description": "User's email id",
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1UserProfileStatus": {
+      "description": "User Profile status",
+      "properties": {
+        "lastPasswordPolicyMail": {
+          "description": "user's last password policy time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastPasswordUpdate": {
+          "description": "user's last password update time",
+          "$ref": "#/definitions/v1Time"
+        }
       }
     },
     "v1UserRoleMap": {
@@ -60518,6 +63914,25 @@
           "items": {
             "$ref": "#/definitions/v1WorkspaceRolesPatch"
           }
+        }
+      }
+    },
+    "v1YearlyUsage": {
+      "description": "Yearly usage object",
+      "properties": {
+        "billingPeriod": {
+          "$ref": "#/definitions/v1InvoiceBillingPeriod"
+        },
+        "monthlyUsages": {
+          "description": "List of monthly usages",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1MonthlyUsage"
+          }
+        },
+        "productUsages": {
+          "$ref": "#/definitions/v1ProductUsage"
         }
       }
     },

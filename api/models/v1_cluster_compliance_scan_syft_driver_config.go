@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1ClusterComplianceScanSyftDriverConfig struct {
 
 	// format
-	// Enum: ["cyclonedx-json","github-json","spdx-json","syft-json"]
+	// Enum: [cyclonedx-json github-json spdx-json syft-json]
 	Format string `json:"format,omitempty"`
 
 	// label selector
@@ -37,7 +36,7 @@ type V1ClusterComplianceScanSyftDriverConfig struct {
 	PodName string `json:"podName,omitempty"`
 
 	// scope
-	// Enum: ["cluster","namespace","label-selector","pod"]
+	// Enum: [cluster namespace label-selector pod]
 	Scope string `json:"scope,omitempty"`
 }
 
@@ -77,17 +76,17 @@ func init() {
 
 const (
 
-	// V1ClusterComplianceScanSyftDriverConfigFormatCyclonedxDashJSON captures enum value "cyclonedx-json"
-	V1ClusterComplianceScanSyftDriverConfigFormatCyclonedxDashJSON string = "cyclonedx-json"
+	// V1ClusterComplianceScanSyftDriverConfigFormatCyclonedxJSON captures enum value "cyclonedx-json"
+	V1ClusterComplianceScanSyftDriverConfigFormatCyclonedxJSON string = "cyclonedx-json"
 
-	// V1ClusterComplianceScanSyftDriverConfigFormatGithubDashJSON captures enum value "github-json"
-	V1ClusterComplianceScanSyftDriverConfigFormatGithubDashJSON string = "github-json"
+	// V1ClusterComplianceScanSyftDriverConfigFormatGithubJSON captures enum value "github-json"
+	V1ClusterComplianceScanSyftDriverConfigFormatGithubJSON string = "github-json"
 
-	// V1ClusterComplianceScanSyftDriverConfigFormatSpdxDashJSON captures enum value "spdx-json"
-	V1ClusterComplianceScanSyftDriverConfigFormatSpdxDashJSON string = "spdx-json"
+	// V1ClusterComplianceScanSyftDriverConfigFormatSpdxJSON captures enum value "spdx-json"
+	V1ClusterComplianceScanSyftDriverConfigFormatSpdxJSON string = "spdx-json"
 
-	// V1ClusterComplianceScanSyftDriverConfigFormatSyftDashJSON captures enum value "syft-json"
-	V1ClusterComplianceScanSyftDriverConfigFormatSyftDashJSON string = "syft-json"
+	// V1ClusterComplianceScanSyftDriverConfigFormatSyftJSON captures enum value "syft-json"
+	V1ClusterComplianceScanSyftDriverConfigFormatSyftJSON string = "syft-json"
 )
 
 // prop value enum
@@ -99,6 +98,7 @@ func (m *V1ClusterComplianceScanSyftDriverConfig) validateFormatEnum(path, locat
 }
 
 func (m *V1ClusterComplianceScanSyftDriverConfig) validateFormat(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Format) { // not required
 		return nil
 	}
@@ -112,6 +112,7 @@ func (m *V1ClusterComplianceScanSyftDriverConfig) validateFormat(formats strfmt.
 }
 
 func (m *V1ClusterComplianceScanSyftDriverConfig) validateLocation(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -120,8 +121,6 @@ func (m *V1ClusterComplianceScanSyftDriverConfig) validateLocation(formats strfm
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("location")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("location")
 			}
 			return err
 		}
@@ -150,8 +149,8 @@ const (
 	// V1ClusterComplianceScanSyftDriverConfigScopeNamespace captures enum value "namespace"
 	V1ClusterComplianceScanSyftDriverConfigScopeNamespace string = "namespace"
 
-	// V1ClusterComplianceScanSyftDriverConfigScopeLabelDashSelector captures enum value "label-selector"
-	V1ClusterComplianceScanSyftDriverConfigScopeLabelDashSelector string = "label-selector"
+	// V1ClusterComplianceScanSyftDriverConfigScopeLabelSelector captures enum value "label-selector"
+	V1ClusterComplianceScanSyftDriverConfigScopeLabelSelector string = "label-selector"
 
 	// V1ClusterComplianceScanSyftDriverConfigScopePod captures enum value "pod"
 	V1ClusterComplianceScanSyftDriverConfigScopePod string = "pod"
@@ -166,6 +165,7 @@ func (m *V1ClusterComplianceScanSyftDriverConfig) validateScopeEnum(path, locati
 }
 
 func (m *V1ClusterComplianceScanSyftDriverConfig) validateScope(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Scope) { // not required
 		return nil
 	}
@@ -173,41 +173,6 @@ func (m *V1ClusterComplianceScanSyftDriverConfig) validateScope(formats strfmt.R
 	// value enum
 	if err := m.validateScopeEnum("scope", "body", m.Scope); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster compliance scan syft driver config based on the context it is used
-func (m *V1ClusterComplianceScanSyftDriverConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateLocation(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterComplianceScanSyftDriverConfig) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Location != nil {
-
-		if swag.IsZero(m.Location) { // not required
-			return nil
-		}
-
-		if err := m.Location.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("location")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("location")
-			}
-			return err
-		}
 	}
 
 	return nil

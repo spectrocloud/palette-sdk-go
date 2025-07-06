@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -25,7 +24,7 @@ type V1InvoicePlan struct {
 	FreeCredits []*V1InvoicePlanCredit `json:"freeCredits"`
 
 	// plantype
-	// Enum: ["Trial","MonthlyOnDemand","AnnualSubscription"]
+	// Enum: [Trial MonthlyOnDemand AnnualSubscription]
 	Plantype string `json:"plantype,omitempty"`
 
 	// List of SLA credits
@@ -55,6 +54,7 @@ func (m *V1InvoicePlan) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoicePlan) validateFreeCredits(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FreeCredits) { // not required
 		return nil
 	}
@@ -68,8 +68,6 @@ func (m *V1InvoicePlan) validateFreeCredits(formats strfmt.Registry) error {
 			if err := m.FreeCredits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("freeCredits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("freeCredits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -113,6 +111,7 @@ func (m *V1InvoicePlan) validatePlantypeEnum(path, location string, value string
 }
 
 func (m *V1InvoicePlan) validatePlantype(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Plantype) { // not required
 		return nil
 	}
@@ -126,6 +125,7 @@ func (m *V1InvoicePlan) validatePlantype(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoicePlan) validateSLACredits(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SLACredits) { // not required
 		return nil
 	}
@@ -139,76 +139,6 @@ func (m *V1InvoicePlan) validateSLACredits(formats strfmt.Registry) error {
 			if err := m.SLACredits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("slaCredits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("slaCredits" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 invoice plan based on the context it is used
-func (m *V1InvoicePlan) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFreeCredits(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSLACredits(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1InvoicePlan) contextValidateFreeCredits(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.FreeCredits); i++ {
-
-		if m.FreeCredits[i] != nil {
-
-			if swag.IsZero(m.FreeCredits[i]) { // not required
-				return nil
-			}
-
-			if err := m.FreeCredits[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("freeCredits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("freeCredits" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1InvoicePlan) contextValidateSLACredits(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.SLACredits); i++ {
-
-		if m.SLACredits[i] != nil {
-
-			if swag.IsZero(m.SLACredits[i]) { // not required
-				return nil
-			}
-
-			if err := m.SLACredits[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("slaCredits" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("slaCredits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

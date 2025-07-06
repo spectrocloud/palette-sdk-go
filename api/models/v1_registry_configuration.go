@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -43,6 +41,7 @@ func (m *V1RegistryConfiguration) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1RegistryConfiguration) validateAuth(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Auth) { // not required
 		return nil
 	}
@@ -51,43 +50,6 @@ func (m *V1RegistryConfiguration) validateAuth(formats strfmt.Registry) error {
 		if err := m.Auth.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("auth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("auth")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 registry configuration based on the context it is used
-func (m *V1RegistryConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAuth(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1RegistryConfiguration) contextValidateAuth(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Auth != nil {
-
-		if swag.IsZero(m.Auth) { // not required
-			return nil
-		}
-
-		if err := m.Auth.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("auth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("auth")
 			}
 			return err
 		}

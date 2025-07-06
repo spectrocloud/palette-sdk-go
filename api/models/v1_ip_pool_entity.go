@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1IPPoolEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolEntity) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1IPPoolEntity) validateMetadata(formats strfmt.Registry) error {
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1IPPoolEntity) validateMetadata(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolEntity) validateSpec(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Spec) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1IPPoolEntity) validateSpec(formats strfmt.Registry) error {
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1IPPoolEntity) validateSpec(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolEntity) validateStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1IPPoolEntity) validateStatus(formats strfmt.Registry) error {
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Ip pool entity based on the context it is used
-func (m *V1IPPoolEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSpec(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1IPPoolEntity) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1IPPoolEntity) contextValidateSpec(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Spec != nil {
-
-		if swag.IsZero(m.Spec) { // not required
-			return nil
-		}
-
-		if err := m.Spec.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1IPPoolEntity) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Status != nil {
-
-		if swag.IsZero(m.Status) { // not required
-			return nil
-		}
-
-		if err := m.Status.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -240,6 +150,7 @@ func (m *V1IPPoolEntitySpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolEntitySpec) validatePool(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Pool) { // not required
 		return nil
 	}
@@ -248,43 +159,6 @@ func (m *V1IPPoolEntitySpec) validatePool(formats strfmt.Registry) error {
 		if err := m.Pool.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec" + "." + "pool")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "pool")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 IP pool entity spec based on the context it is used
-func (m *V1IPPoolEntitySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePool(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1IPPoolEntitySpec) contextValidatePool(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Pool != nil {
-
-		if swag.IsZero(m.Pool) { // not required
-			return nil
-		}
-
-		if err := m.Pool.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec" + "." + "pool")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "pool")
 			}
 			return err
 		}

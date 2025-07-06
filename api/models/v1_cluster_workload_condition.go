@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -58,6 +56,7 @@ func (m *V1ClusterWorkloadCondition) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterWorkloadCondition) validateLastTransitionTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LastTransitionTime) { // not required
 		return nil
 	}
@@ -65,8 +64,6 @@ func (m *V1ClusterWorkloadCondition) validateLastTransitionTime(formats strfmt.R
 	if err := m.LastTransitionTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastTransitionTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastTransitionTime")
 		}
 		return err
 	}
@@ -75,6 +72,7 @@ func (m *V1ClusterWorkloadCondition) validateLastTransitionTime(formats strfmt.R
 }
 
 func (m *V1ClusterWorkloadCondition) validateLastUpdateTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LastUpdateTime) { // not required
 		return nil
 	}
@@ -82,62 +80,6 @@ func (m *V1ClusterWorkloadCondition) validateLastUpdateTime(formats strfmt.Regis
 	if err := m.LastUpdateTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastUpdateTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastUpdateTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster workload condition based on the context it is used
-func (m *V1ClusterWorkloadCondition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateLastTransitionTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLastUpdateTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterWorkloadCondition) contextValidateLastTransitionTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.LastTransitionTime) { // not required
-		return nil
-	}
-
-	if err := m.LastTransitionTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("lastTransitionTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastTransitionTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadCondition) contextValidateLastUpdateTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.LastUpdateTime) { // not required
-		return nil
-	}
-
-	if err := m.LastUpdateTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("lastUpdateTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastUpdateTime")
 		}
 		return err
 	}

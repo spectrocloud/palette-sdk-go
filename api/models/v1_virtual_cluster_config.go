@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,6 +45,7 @@ func (m *V1VirtualClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VirtualClusterConfig) validateControlPlaneEndpoint(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ControlPlaneEndpoint) { // not required
 		return nil
 	}
@@ -55,8 +54,6 @@ func (m *V1VirtualClusterConfig) validateControlPlaneEndpoint(formats strfmt.Reg
 		if err := m.ControlPlaneEndpoint.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
 			}
 			return err
 		}
@@ -66,6 +63,7 @@ func (m *V1VirtualClusterConfig) validateControlPlaneEndpoint(formats strfmt.Reg
 }
 
 func (m *V1VirtualClusterConfig) validateHelmRelease(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HelmRelease) { // not required
 		return nil
 	}
@@ -74,68 +72,6 @@ func (m *V1VirtualClusterConfig) validateHelmRelease(formats strfmt.Registry) er
 		if err := m.HelmRelease.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("helmRelease")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("helmRelease")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 virtual cluster config based on the context it is used
-func (m *V1VirtualClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateControlPlaneEndpoint(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHelmRelease(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VirtualClusterConfig) contextValidateControlPlaneEndpoint(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ControlPlaneEndpoint != nil {
-
-		if swag.IsZero(m.ControlPlaneEndpoint) { // not required
-			return nil
-		}
-
-		if err := m.ControlPlaneEndpoint.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VirtualClusterConfig) contextValidateHelmRelease(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HelmRelease != nil {
-
-		if swag.IsZero(m.HelmRelease) { // not required
-			return nil
-		}
-
-		if err := m.HelmRelease.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("helmRelease")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("helmRelease")
 			}
 			return err
 		}

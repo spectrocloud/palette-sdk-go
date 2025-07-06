@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1FipsSettings) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1FipsSettings) validateFipsClusterFeatureConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FipsClusterFeatureConfig) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1FipsSettings) validateFipsClusterFeatureConfig(formats strfmt.Registr
 		if err := m.FipsClusterFeatureConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fipsClusterFeatureConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsClusterFeatureConfig")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1FipsSettings) validateFipsClusterFeatureConfig(formats strfmt.Registr
 }
 
 func (m *V1FipsSettings) validateFipsClusterImportConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FipsClusterImportConfig) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1FipsSettings) validateFipsClusterImportConfig(formats strfmt.Registry
 		if err := m.FipsClusterImportConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fipsClusterImportConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsClusterImportConfig")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1FipsSettings) validateFipsClusterImportConfig(formats strfmt.Registry
 }
 
 func (m *V1FipsSettings) validateFipsPackConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FipsPackConfig) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1FipsSettings) validateFipsPackConfig(formats strfmt.Registry) error {
 		if err := m.FipsPackConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fipsPackConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsPackConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 fips settings based on the context it is used
-func (m *V1FipsSettings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFipsClusterFeatureConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFipsClusterImportConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFipsPackConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1FipsSettings) contextValidateFipsClusterFeatureConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.FipsClusterFeatureConfig != nil {
-
-		if swag.IsZero(m.FipsClusterFeatureConfig) { // not required
-			return nil
-		}
-
-		if err := m.FipsClusterFeatureConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("fipsClusterFeatureConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsClusterFeatureConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1FipsSettings) contextValidateFipsClusterImportConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.FipsClusterImportConfig != nil {
-
-		if swag.IsZero(m.FipsClusterImportConfig) { // not required
-			return nil
-		}
-
-		if err := m.FipsClusterImportConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("fipsClusterImportConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsClusterImportConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1FipsSettings) contextValidateFipsPackConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.FipsPackConfig != nil {
-
-		if swag.IsZero(m.FipsPackConfig) { // not required
-			return nil
-		}
-
-		if err := m.FipsPackConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("fipsPackConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fipsPackConfig")
 			}
 			return err
 		}

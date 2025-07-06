@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -65,6 +64,7 @@ func (m *V1ClusterWorkloadPodMetadata) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterWorkloadPodMetadata) validateAssociatedRefs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AssociatedRefs) { // not required
 		return nil
 	}
@@ -78,8 +78,6 @@ func (m *V1ClusterWorkloadPodMetadata) validateAssociatedRefs(formats strfmt.Reg
 			if err := m.AssociatedRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("associatedRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("associatedRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -91,6 +89,7 @@ func (m *V1ClusterWorkloadPodMetadata) validateAssociatedRefs(formats strfmt.Reg
 }
 
 func (m *V1ClusterWorkloadPodMetadata) validateCreationTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CreationTimestamp) { // not required
 		return nil
 	}
@@ -98,8 +97,6 @@ func (m *V1ClusterWorkloadPodMetadata) validateCreationTimestamp(formats strfmt.
 	if err := m.CreationTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
 		}
 		return err
 	}
@@ -108,6 +105,7 @@ func (m *V1ClusterWorkloadPodMetadata) validateCreationTimestamp(formats strfmt.
 }
 
 func (m *V1ClusterWorkloadPodMetadata) validateEntity(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Entity) { // not required
 		return nil
 	}
@@ -116,94 +114,6 @@ func (m *V1ClusterWorkloadPodMetadata) validateEntity(formats strfmt.Registry) e
 		if err := m.Entity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster workload pod metadata based on the context it is used
-func (m *V1ClusterWorkloadPodMetadata) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAssociatedRefs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCreationTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateEntity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterWorkloadPodMetadata) contextValidateAssociatedRefs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AssociatedRefs); i++ {
-
-		if m.AssociatedRefs[i] != nil {
-
-			if swag.IsZero(m.AssociatedRefs[i]) { // not required
-				return nil
-			}
-
-			if err := m.AssociatedRefs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("associatedRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("associatedRefs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadPodMetadata) contextValidateCreationTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.CreationTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.CreationTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadPodMetadata) contextValidateEntity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Entity != nil {
-
-		if swag.IsZero(m.Entity) { // not required
-			return nil
-		}
-
-		if err := m.Entity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
 			}
 			return err
 		}

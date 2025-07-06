@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1ClusterComplianceScheduleConfig) Validate(formats strfmt.Registry) er
 }
 
 func (m *V1ClusterComplianceScheduleConfig) validateKubeBench(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.KubeBench) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1ClusterComplianceScheduleConfig) validateKubeBench(formats strfmt.Reg
 		if err := m.KubeBench.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("kubeBench")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("kubeBench")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1ClusterComplianceScheduleConfig) validateKubeBench(formats strfmt.Reg
 }
 
 func (m *V1ClusterComplianceScheduleConfig) validateKubeHunter(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.KubeHunter) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1ClusterComplianceScheduleConfig) validateKubeHunter(formats strfmt.Re
 		if err := m.KubeHunter.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("kubeHunter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("kubeHunter")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1ClusterComplianceScheduleConfig) validateKubeHunter(formats strfmt.Re
 }
 
 func (m *V1ClusterComplianceScheduleConfig) validateSonobuoy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Sonobuoy) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1ClusterComplianceScheduleConfig) validateSonobuoy(formats strfmt.Regi
 		if err := m.Sonobuoy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sonobuoy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sonobuoy")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster compliance schedule config based on the context it is used
-func (m *V1ClusterComplianceScheduleConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateKubeBench(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateKubeHunter(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSonobuoy(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterComplianceScheduleConfig) contextValidateKubeBench(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.KubeBench != nil {
-
-		if swag.IsZero(m.KubeBench) { // not required
-			return nil
-		}
-
-		if err := m.KubeBench.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("kubeBench")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("kubeBench")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterComplianceScheduleConfig) contextValidateKubeHunter(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.KubeHunter != nil {
-
-		if swag.IsZero(m.KubeHunter) { // not required
-			return nil
-		}
-
-		if err := m.KubeHunter.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("kubeHunter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("kubeHunter")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterComplianceScheduleConfig) contextValidateSonobuoy(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Sonobuoy != nil {
-
-		if swag.IsZero(m.Sonobuoy) { // not required
-			return nil
-		}
-
-		if err := m.Sonobuoy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("sonobuoy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sonobuoy")
 			}
 			return err
 		}

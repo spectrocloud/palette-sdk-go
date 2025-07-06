@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +44,7 @@ func (m *V1SystemGitAuthSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SystemGitAuthSpec) validateUsername(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Username) { // not required
 		return nil
 	}
@@ -54,43 +53,6 @@ func (m *V1SystemGitAuthSpec) validateUsername(formats strfmt.Registry) error {
 		if err := m.Username.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("username")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("username")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 system git auth spec based on the context it is used
-func (m *V1SystemGitAuthSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateUsername(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SystemGitAuthSpec) contextValidateUsername(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Username != nil {
-
-		if swag.IsZero(m.Username) { // not required
-			return nil
-		}
-
-		if err := m.Username.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("username")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("username")
 			}
 			return err
 		}

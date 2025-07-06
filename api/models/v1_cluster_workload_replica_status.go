@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -32,11 +30,6 @@ type V1ClusterWorkloadReplicaStatus struct {
 
 // Validate validates this v1 cluster workload replica status
 func (m *V1ClusterWorkloadReplicaStatus) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 cluster workload replica status based on context it is used
-func (m *V1ClusterWorkloadReplicaStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

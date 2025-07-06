@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1MachineMaintenance struct {
 
 	// Machine maintenance mode action
-	// Enum: ["cordon","uncordon"]
+	// Enum: [cordon uncordon]
 	Action string `json:"action,omitempty"`
 }
 
@@ -69,6 +68,7 @@ func (m *V1MachineMaintenance) validateActionEnum(path, location string, value s
 }
 
 func (m *V1MachineMaintenance) validateAction(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Action) { // not required
 		return nil
 	}
@@ -78,11 +78,6 @@ func (m *V1MachineMaintenance) validateAction(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 machine maintenance based on context it is used
-func (m *V1MachineMaintenance) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

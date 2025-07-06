@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1ClusterProfileValidatorResponse) Validate(formats strfmt.Registry) er
 }
 
 func (m *V1ClusterProfileValidatorResponse) validatePacks(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Packs) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1ClusterProfileValidatorResponse) validatePacks(formats strfmt.Registr
 		if err := m.Packs.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("packs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("packs")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster profile validator response based on the context it is used
-func (m *V1ClusterProfileValidatorResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePacks(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterProfileValidatorResponse) contextValidatePacks(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Packs != nil {
-
-		if swag.IsZero(m.Packs) { // not required
-			return nil
-		}
-
-		if err := m.Packs.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("packs")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("packs")
 			}
 			return err
 		}

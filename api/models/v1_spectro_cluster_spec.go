@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -34,7 +33,7 @@ type V1SpectroClusterSpec struct {
 	ClusterProfileTemplates []*V1ClusterProfileTemplate `json:"clusterProfileTemplates"`
 
 	// cluster type
-	// Enum: ["PureManage","AlloyMonitor","AlloyAssist","AlloyExtend"]
+	// Enum: [PureManage AlloyMonitor AlloyAssist AlloyExtend]
 	ClusterType string `json:"clusterType,omitempty"`
 }
 
@@ -65,6 +64,7 @@ func (m *V1SpectroClusterSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterSpec) validateCloudConfigRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudConfigRef) { // not required
 		return nil
 	}
@@ -73,8 +73,6 @@ func (m *V1SpectroClusterSpec) validateCloudConfigRef(formats strfmt.Registry) e
 		if err := m.CloudConfigRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudConfigRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudConfigRef")
 			}
 			return err
 		}
@@ -84,6 +82,7 @@ func (m *V1SpectroClusterSpec) validateCloudConfigRef(formats strfmt.Registry) e
 }
 
 func (m *V1SpectroClusterSpec) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -92,8 +91,6 @@ func (m *V1SpectroClusterSpec) validateClusterConfig(formats strfmt.Registry) er
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -103,6 +100,7 @@ func (m *V1SpectroClusterSpec) validateClusterConfig(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroClusterSpec) validateClusterProfileTemplates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterProfileTemplates) { // not required
 		return nil
 	}
@@ -116,8 +114,6 @@ func (m *V1SpectroClusterSpec) validateClusterProfileTemplates(formats strfmt.Re
 			if err := m.ClusterProfileTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -164,6 +160,7 @@ func (m *V1SpectroClusterSpec) validateClusterTypeEnum(path, location string, va
 }
 
 func (m *V1SpectroClusterSpec) validateClusterType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterType) { // not required
 		return nil
 	}
@@ -171,95 +168,6 @@ func (m *V1SpectroClusterSpec) validateClusterType(formats strfmt.Registry) erro
 	// value enum
 	if err := m.validateClusterTypeEnum("clusterType", "body", m.ClusterType); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster spec based on the context it is used
-func (m *V1SpectroClusterSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudConfigRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterSpec) contextValidateCloudConfigRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudConfigRef != nil {
-
-		if swag.IsZero(m.CloudConfigRef) { // not required
-			return nil
-		}
-
-		if err := m.CloudConfigRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudConfigRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudConfigRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterSpec) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterSpec) contextValidateClusterProfileTemplates(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterProfileTemplates); i++ {
-
-		if m.ClusterProfileTemplates[i] != nil {
-
-			if swag.IsZero(m.ClusterProfileTemplates[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterProfileTemplates[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

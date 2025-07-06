@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -19,15 +18,6 @@ import (
 // swagger:model v1ProfileType
 type V1ProfileType string
 
-func NewV1ProfileType(value V1ProfileType) *V1ProfileType {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1ProfileType.
-func (m V1ProfileType) Pointer() *V1ProfileType {
-	return &m
-}
-
 const (
 
 	// V1ProfileTypeCluster captures enum value "cluster"
@@ -36,8 +26,8 @@ const (
 	// V1ProfileTypeInfra captures enum value "infra"
 	V1ProfileTypeInfra V1ProfileType = "infra"
 
-	// V1ProfileTypeAddDashOn captures enum value "add-on"
-	V1ProfileTypeAddDashOn V1ProfileType = "add-on"
+	// V1ProfileTypeAddOn captures enum value "add-on"
+	V1ProfileTypeAddOn V1ProfileType = "add-on"
 
 	// V1ProfileTypeSystem captures enum value "system"
 	V1ProfileTypeSystem V1ProfileType = "system"
@@ -75,10 +65,5 @@ func (m V1ProfileType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 profile type based on context it is used
-func (m V1ProfileType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -75,6 +74,7 @@ func (m *V1VirtualMachineSnapshotStatus) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1VirtualMachineSnapshotStatus) validateConditions(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Conditions) { // not required
 		return nil
 	}
@@ -88,8 +88,6 @@ func (m *V1VirtualMachineSnapshotStatus) validateConditions(formats strfmt.Regis
 			if err := m.Conditions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -101,6 +99,7 @@ func (m *V1VirtualMachineSnapshotStatus) validateConditions(formats strfmt.Regis
 }
 
 func (m *V1VirtualMachineSnapshotStatus) validateCreationTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CreationTime) { // not required
 		return nil
 	}
@@ -108,8 +107,6 @@ func (m *V1VirtualMachineSnapshotStatus) validateCreationTime(formats strfmt.Reg
 	if err := m.CreationTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("creationTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTime")
 		}
 		return err
 	}
@@ -118,6 +115,7 @@ func (m *V1VirtualMachineSnapshotStatus) validateCreationTime(formats strfmt.Reg
 }
 
 func (m *V1VirtualMachineSnapshotStatus) validateError(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Error) { // not required
 		return nil
 	}
@@ -126,8 +124,6 @@ func (m *V1VirtualMachineSnapshotStatus) validateError(formats strfmt.Registry) 
 		if err := m.Error.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("error")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("error")
 			}
 			return err
 		}
@@ -137,6 +133,7 @@ func (m *V1VirtualMachineSnapshotStatus) validateError(formats strfmt.Registry) 
 }
 
 func (m *V1VirtualMachineSnapshotStatus) validateSnapshotVolumes(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SnapshotVolumes) { // not required
 		return nil
 	}
@@ -145,119 +142,6 @@ func (m *V1VirtualMachineSnapshotStatus) validateSnapshotVolumes(formats strfmt.
 		if err := m.SnapshotVolumes.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("snapshotVolumes")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("snapshotVolumes")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 virtual machine snapshot status based on the context it is used
-func (m *V1VirtualMachineSnapshotStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateConditions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCreationTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateError(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSnapshotVolumes(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VirtualMachineSnapshotStatus) contextValidateConditions(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Conditions); i++ {
-
-		if m.Conditions[i] != nil {
-
-			if swag.IsZero(m.Conditions[i]) { // not required
-				return nil
-			}
-
-			if err := m.Conditions[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("conditions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("conditions" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VirtualMachineSnapshotStatus) contextValidateCreationTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.CreationTime) { // not required
-		return nil
-	}
-
-	if err := m.CreationTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("creationTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1VirtualMachineSnapshotStatus) contextValidateError(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Error != nil {
-
-		if swag.IsZero(m.Error) { // not required
-			return nil
-		}
-
-		if err := m.Error.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("error")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("error")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VirtualMachineSnapshotStatus) contextValidateSnapshotVolumes(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.SnapshotVolumes != nil {
-
-		if swag.IsZero(m.SnapshotVolumes) { // not required
-			return nil
-		}
-
-		if err := m.SnapshotVolumes.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("snapshotVolumes")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("snapshotVolumes")
 			}
 			return err
 		}

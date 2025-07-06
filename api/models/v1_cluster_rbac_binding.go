@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -32,7 +31,7 @@ type V1ClusterRbacBinding struct {
 	Subjects []*V1ClusterRbacSubjects `json:"subjects"`
 
 	// type
-	// Enum: ["RoleBinding","ClusterRoleBinding"]
+	// Enum: [RoleBinding ClusterRoleBinding]
 	Type string `json:"type,omitempty"`
 }
 
@@ -59,6 +58,7 @@ func (m *V1ClusterRbacBinding) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterRbacBinding) validateRole(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Role) { // not required
 		return nil
 	}
@@ -67,8 +67,6 @@ func (m *V1ClusterRbacBinding) validateRole(formats strfmt.Registry) error {
 		if err := m.Role.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("role")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("role")
 			}
 			return err
 		}
@@ -78,6 +76,7 @@ func (m *V1ClusterRbacBinding) validateRole(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterRbacBinding) validateSubjects(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Subjects) { // not required
 		return nil
 	}
@@ -95,8 +94,6 @@ func (m *V1ClusterRbacBinding) validateSubjects(formats strfmt.Registry) error {
 			if err := m.Subjects[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("subjects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("subjects" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -137,6 +134,7 @@ func (m *V1ClusterRbacBinding) validateTypeEnum(path, location string, value str
 }
 
 func (m *V1ClusterRbacBinding) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -144,70 +142,6 @@ func (m *V1ClusterRbacBinding) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster rbac binding based on the context it is used
-func (m *V1ClusterRbacBinding) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateRole(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSubjects(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterRbacBinding) contextValidateRole(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Role != nil {
-
-		if swag.IsZero(m.Role) { // not required
-			return nil
-		}
-
-		if err := m.Role.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("role")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("role")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterRbacBinding) contextValidateSubjects(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Subjects); i++ {
-
-		if m.Subjects[i] != nil {
-
-			if swag.IsZero(m.Subjects[i]) { // not required
-				return nil
-			}
-
-			if err := m.Subjects[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("subjects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("subjects" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

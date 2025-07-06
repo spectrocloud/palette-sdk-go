@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,6 +53,7 @@ func (m *V1IPPool) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPool) validateNameserver(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Nameserver) { // not required
 		return nil
 	}
@@ -62,8 +62,6 @@ func (m *V1IPPool) validateNameserver(formats strfmt.Registry) error {
 		if err := m.Nameserver.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("nameserver")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("nameserver")
 			}
 			return err
 		}
@@ -73,6 +71,7 @@ func (m *V1IPPool) validateNameserver(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPool) validatePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Pools) { // not required
 		return nil
 	}
@@ -86,72 +85,6 @@ func (m *V1IPPool) validatePools(formats strfmt.Registry) error {
 			if err := m.Pools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("pools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("pools" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 IP pool based on the context it is used
-func (m *V1IPPool) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateNameserver(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1IPPool) contextValidateNameserver(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Nameserver != nil {
-
-		if swag.IsZero(m.Nameserver) { // not required
-			return nil
-		}
-
-		if err := m.Nameserver.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("nameserver")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("nameserver")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1IPPool) contextValidatePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Pools); i++ {
-
-		if m.Pools[i] != nil {
-
-			if swag.IsZero(m.Pools[i]) { // not required
-				return nil
-			}
-
-			if err := m.Pools[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("pools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("pools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

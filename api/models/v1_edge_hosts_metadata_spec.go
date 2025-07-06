@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -62,6 +61,7 @@ func (m *V1EdgeHostsMetadataSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostsMetadataSpec) validateClusterProfileTemplates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterProfileTemplates) { // not required
 		return nil
 	}
@@ -75,8 +75,6 @@ func (m *V1EdgeHostsMetadataSpec) validateClusterProfileTemplates(formats strfmt
 			if err := m.ClusterProfileTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -88,6 +86,7 @@ func (m *V1EdgeHostsMetadataSpec) validateClusterProfileTemplates(formats strfmt
 }
 
 func (m *V1EdgeHostsMetadataSpec) validateDevice(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Device) { // not required
 		return nil
 	}
@@ -96,8 +95,6 @@ func (m *V1EdgeHostsMetadataSpec) validateDevice(formats strfmt.Registry) error 
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("device")
 			}
 			return err
 		}
@@ -107,6 +104,7 @@ func (m *V1EdgeHostsMetadataSpec) validateDevice(formats strfmt.Registry) error 
 }
 
 func (m *V1EdgeHostsMetadataSpec) validateHost(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Host) { // not required
 		return nil
 	}
@@ -115,8 +113,6 @@ func (m *V1EdgeHostsMetadataSpec) validateHost(formats strfmt.Registry) error {
 		if err := m.Host.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("host")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("host")
 			}
 			return err
 		}
@@ -126,6 +122,7 @@ func (m *V1EdgeHostsMetadataSpec) validateHost(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostsMetadataSpec) validateProjectMeta(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProjectMeta) { // not required
 		return nil
 	}
@@ -134,122 +131,6 @@ func (m *V1EdgeHostsMetadataSpec) validateProjectMeta(formats strfmt.Registry) e
 		if err := m.ProjectMeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("projectMeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("projectMeta")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge hosts metadata spec based on the context it is used
-func (m *V1EdgeHostsMetadataSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDevice(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHost(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProjectMeta(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostsMetadataSpec) contextValidateClusterProfileTemplates(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterProfileTemplates); i++ {
-
-		if m.ClusterProfileTemplates[i] != nil {
-
-			if swag.IsZero(m.ClusterProfileTemplates[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterProfileTemplates[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostsMetadataSpec) contextValidateDevice(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Device != nil {
-
-		if swag.IsZero(m.Device) { // not required
-			return nil
-		}
-
-		if err := m.Device.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("device")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("device")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostsMetadataSpec) contextValidateHost(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Host != nil {
-
-		if swag.IsZero(m.Host) { // not required
-			return nil
-		}
-
-		if err := m.Host.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("host")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("host")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostsMetadataSpec) contextValidateProjectMeta(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ProjectMeta != nil {
-
-		if swag.IsZero(m.ProjectMeta) { // not required
-			return nil
-		}
-
-		if err := m.ProjectMeta.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("projectMeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("projectMeta")
 			}
 			return err
 		}

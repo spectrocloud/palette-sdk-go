@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -71,6 +70,7 @@ func (m *V1PackUIDValues) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PackUIDValues) validateDependencies(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Dependencies) { // not required
 		return nil
 	}
@@ -84,8 +84,6 @@ func (m *V1PackUIDValues) validateDependencies(formats strfmt.Registry) error {
 			if err := m.Dependencies[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dependencies" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -97,6 +95,7 @@ func (m *V1PackUIDValues) validateDependencies(formats strfmt.Registry) error {
 }
 
 func (m *V1PackUIDValues) validatePresets(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Presets) { // not required
 		return nil
 	}
@@ -110,8 +109,6 @@ func (m *V1PackUIDValues) validatePresets(formats strfmt.Registry) error {
 			if err := m.Presets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("presets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("presets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -123,6 +120,7 @@ func (m *V1PackUIDValues) validatePresets(formats strfmt.Registry) error {
 }
 
 func (m *V1PackUIDValues) validateSchema(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Schema) { // not required
 		return nil
 	}
@@ -136,8 +134,6 @@ func (m *V1PackUIDValues) validateSchema(formats strfmt.Registry) error {
 			if err := m.Schema[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("schema" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("schema" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -149,6 +145,7 @@ func (m *V1PackUIDValues) validateSchema(formats strfmt.Registry) error {
 }
 
 func (m *V1PackUIDValues) validateTemplate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Template) { // not required
 		return nil
 	}
@@ -157,130 +154,6 @@ func (m *V1PackUIDValues) validateTemplate(formats strfmt.Registry) error {
 		if err := m.Template.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 pack Uid values based on the context it is used
-func (m *V1PackUIDValues) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDependencies(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePresets(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSchema(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTemplate(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PackUIDValues) contextValidateDependencies(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Dependencies); i++ {
-
-		if m.Dependencies[i] != nil {
-
-			if swag.IsZero(m.Dependencies[i]) { // not required
-				return nil
-			}
-
-			if err := m.Dependencies[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1PackUIDValues) contextValidatePresets(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Presets); i++ {
-
-		if m.Presets[i] != nil {
-
-			if swag.IsZero(m.Presets[i]) { // not required
-				return nil
-			}
-
-			if err := m.Presets[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("presets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("presets" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1PackUIDValues) contextValidateSchema(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Schema); i++ {
-
-		if m.Schema[i] != nil {
-
-			if swag.IsZero(m.Schema[i]) { // not required
-				return nil
-			}
-
-			if err := m.Schema[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("schema" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("schema" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1PackUIDValues) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Template != nil {
-
-		if swag.IsZero(m.Template) { // not required
-			return nil
-		}
-
-		if err := m.Template.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
 			}
 			return err
 		}

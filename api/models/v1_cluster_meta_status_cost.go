@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -23,11 +21,6 @@ type V1ClusterMetaStatusCost struct {
 
 // Validate validates this v1 cluster meta status cost
 func (m *V1ClusterMetaStatusCost) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 cluster meta status cost based on context it is used
-func (m *V1ClusterMetaStatusCost) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -50,6 +48,7 @@ func (m *V1SpectroClusterCost) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterCost) validateCloud(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Cloud) { // not required
 		return nil
 	}
@@ -58,8 +57,6 @@ func (m *V1SpectroClusterCost) validateCloud(formats strfmt.Registry) error {
 		if err := m.Cloud.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloud")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloud")
 			}
 			return err
 		}
@@ -69,6 +66,7 @@ func (m *V1SpectroClusterCost) validateCloud(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterCost) validateCost(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -77,68 +75,6 @@ func (m *V1SpectroClusterCost) validateCost(formats strfmt.Registry) error {
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cost")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster cost based on the context it is used
-func (m *V1SpectroClusterCost) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloud(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCost(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterCost) contextValidateCloud(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Cloud != nil {
-
-		if swag.IsZero(m.Cloud) { // not required
-			return nil
-		}
-
-		if err := m.Cloud.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloud")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloud")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterCost) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Cost != nil {
-
-		if swag.IsZero(m.Cost) { // not required
-			return nil
-		}
-
-		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cost")
 			}
 			return err
 		}

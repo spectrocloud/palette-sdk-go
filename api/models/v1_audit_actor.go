@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1AuditActor struct {
 
 	// actor type
-	// Enum: ["user","system","service"]
+	// Enum: [user system service]
 	ActorType string `json:"actorType,omitempty"`
 
 	// project
@@ -89,6 +88,7 @@ func (m *V1AuditActor) validateActorTypeEnum(path, location string, value string
 }
 
 func (m *V1AuditActor) validateActorType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ActorType) { // not required
 		return nil
 	}
@@ -102,6 +102,7 @@ func (m *V1AuditActor) validateActorType(formats strfmt.Registry) error {
 }
 
 func (m *V1AuditActor) validateProject(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Project) { // not required
 		return nil
 	}
@@ -110,8 +111,6 @@ func (m *V1AuditActor) validateProject(formats strfmt.Registry) error {
 		if err := m.Project.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("project")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("project")
 			}
 			return err
 		}
@@ -121,6 +120,7 @@ func (m *V1AuditActor) validateProject(formats strfmt.Registry) error {
 }
 
 func (m *V1AuditActor) validateUser(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.User) { // not required
 		return nil
 	}
@@ -129,68 +129,6 @@ func (m *V1AuditActor) validateUser(formats strfmt.Registry) error {
 		if err := m.User.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("user")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("user")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 audit actor based on the context it is used
-func (m *V1AuditActor) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateProject(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUser(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AuditActor) contextValidateProject(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Project != nil {
-
-		if swag.IsZero(m.Project) { // not required
-			return nil
-		}
-
-		if err := m.Project.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("project")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("project")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1AuditActor) contextValidateUser(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.User != nil {
-
-		if swag.IsZero(m.User) { // not required
-			return nil
-		}
-
-		if err := m.User.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("user")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("user")
 			}
 			return err
 		}

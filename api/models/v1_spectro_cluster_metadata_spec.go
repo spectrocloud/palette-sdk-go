@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -24,7 +23,7 @@ type V1SpectroClusterMetadataSpec struct {
 	Filter *V1SpectroClusterMetadataFilterSpec `json:"filter,omitempty"`
 
 	// sort
-	// Enum: ["environment","state","name"]
+	// Enum: [environment state name]
 	Sort *string `json:"sort,omitempty"`
 }
 
@@ -47,6 +46,7 @@ func (m *V1SpectroClusterMetadataSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterMetadataSpec) validateFilter(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Filter) { // not required
 		return nil
 	}
@@ -55,8 +55,6 @@ func (m *V1SpectroClusterMetadataSpec) validateFilter(formats strfmt.Registry) e
 		if err := m.Filter.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("filter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("filter")
 			}
 			return err
 		}
@@ -98,6 +96,7 @@ func (m *V1SpectroClusterMetadataSpec) validateSortEnum(path, location string, v
 }
 
 func (m *V1SpectroClusterMetadataSpec) validateSort(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Sort) { // not required
 		return nil
 	}
@@ -105,41 +104,6 @@ func (m *V1SpectroClusterMetadataSpec) validateSort(formats strfmt.Registry) err
 	// value enum
 	if err := m.validateSortEnum("sort", "body", *m.Sort); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster metadata spec based on the context it is used
-func (m *V1SpectroClusterMetadataSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFilter(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterMetadataSpec) contextValidateFilter(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Filter != nil {
-
-		if swag.IsZero(m.Filter) { // not required
-			return nil
-		}
-
-		if err := m.Filter.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("filter")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("filter")
-			}
-			return err
-		}
 	}
 
 	return nil

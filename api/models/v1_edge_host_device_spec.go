@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -43,7 +42,7 @@ type V1EdgeHostDeviceSpec struct {
 	TunnelConfig *V1SpectroTunnelConfig `json:"tunnelConfig,omitempty"`
 
 	// Deprecated. Cloudtype of the provisioned edge host
-	// Enum: ["vsphere","edge-native"]
+	// Enum: [vsphere edge-native]
 	Type string `json:"type,omitempty"`
 
 	// version
@@ -93,6 +92,7 @@ func (m *V1EdgeHostDeviceSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceSpec) validateCloudProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudProperties) { // not required
 		return nil
 	}
@@ -101,8 +101,6 @@ func (m *V1EdgeHostDeviceSpec) validateCloudProperties(formats strfmt.Registry) 
 		if err := m.CloudProperties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudProperties")
 			}
 			return err
 		}
@@ -112,6 +110,7 @@ func (m *V1EdgeHostDeviceSpec) validateCloudProperties(formats strfmt.Registry) 
 }
 
 func (m *V1EdgeHostDeviceSpec) validateClusterProfileTemplates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterProfileTemplates) { // not required
 		return nil
 	}
@@ -125,8 +124,6 @@ func (m *V1EdgeHostDeviceSpec) validateClusterProfileTemplates(formats strfmt.Re
 			if err := m.ClusterProfileTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -138,6 +135,7 @@ func (m *V1EdgeHostDeviceSpec) validateClusterProfileTemplates(formats strfmt.Re
 }
 
 func (m *V1EdgeHostDeviceSpec) validateDevice(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Device) { // not required
 		return nil
 	}
@@ -146,8 +144,6 @@ func (m *V1EdgeHostDeviceSpec) validateDevice(formats strfmt.Registry) error {
 		if err := m.Device.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("device")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("device")
 			}
 			return err
 		}
@@ -157,6 +153,7 @@ func (m *V1EdgeHostDeviceSpec) validateDevice(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceSpec) validateHost(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Host) { // not required
 		return nil
 	}
@@ -165,8 +162,6 @@ func (m *V1EdgeHostDeviceSpec) validateHost(formats strfmt.Registry) error {
 		if err := m.Host.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("host")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("host")
 			}
 			return err
 		}
@@ -176,6 +171,7 @@ func (m *V1EdgeHostDeviceSpec) validateHost(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceSpec) validateProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Properties) { // not required
 		return nil
 	}
@@ -184,8 +180,6 @@ func (m *V1EdgeHostDeviceSpec) validateProperties(formats strfmt.Registry) error
 		if err := m.Properties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("properties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("properties")
 			}
 			return err
 		}
@@ -195,6 +189,7 @@ func (m *V1EdgeHostDeviceSpec) validateProperties(formats strfmt.Registry) error
 }
 
 func (m *V1EdgeHostDeviceSpec) validateService(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Service) { // not required
 		return nil
 	}
@@ -203,8 +198,6 @@ func (m *V1EdgeHostDeviceSpec) validateService(formats strfmt.Registry) error {
 		if err := m.Service.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("service")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("service")
 			}
 			return err
 		}
@@ -214,6 +207,7 @@ func (m *V1EdgeHostDeviceSpec) validateService(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDeviceSpec) validateTunnelConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TunnelConfig) { // not required
 		return nil
 	}
@@ -222,8 +216,6 @@ func (m *V1EdgeHostDeviceSpec) validateTunnelConfig(formats strfmt.Registry) err
 		if err := m.TunnelConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tunnelConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelConfig")
 			}
 			return err
 		}
@@ -249,8 +241,8 @@ const (
 	// V1EdgeHostDeviceSpecTypeVsphere captures enum value "vsphere"
 	V1EdgeHostDeviceSpecTypeVsphere string = "vsphere"
 
-	// V1EdgeHostDeviceSpecTypeEdgeDashNative captures enum value "edge-native"
-	V1EdgeHostDeviceSpecTypeEdgeDashNative string = "edge-native"
+	// V1EdgeHostDeviceSpecTypeEdgeNative captures enum value "edge-native"
+	V1EdgeHostDeviceSpecTypeEdgeNative string = "edge-native"
 )
 
 // prop value enum
@@ -262,6 +254,7 @@ func (m *V1EdgeHostDeviceSpec) validateTypeEnum(path, location string, value str
 }
 
 func (m *V1EdgeHostDeviceSpec) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -269,195 +262,6 @@ func (m *V1EdgeHostDeviceSpec) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host device spec based on the context it is used
-func (m *V1EdgeHostDeviceSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDevice(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHost(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateService(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTunnelConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateCloudProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudProperties != nil {
-
-		if swag.IsZero(m.CloudProperties) { // not required
-			return nil
-		}
-
-		if err := m.CloudProperties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudProperties")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateClusterProfileTemplates(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterProfileTemplates); i++ {
-
-		if m.ClusterProfileTemplates[i] != nil {
-
-			if swag.IsZero(m.ClusterProfileTemplates[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterProfileTemplates[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateDevice(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Device != nil {
-
-		if swag.IsZero(m.Device) { // not required
-			return nil
-		}
-
-		if err := m.Device.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("device")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("device")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateHost(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Host != nil {
-
-		if swag.IsZero(m.Host) { // not required
-			return nil
-		}
-
-		if err := m.Host.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("host")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("host")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Properties != nil {
-
-		if swag.IsZero(m.Properties) { // not required
-			return nil
-		}
-
-		if err := m.Properties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("properties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("properties")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateService(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Service != nil {
-
-		if swag.IsZero(m.Service) { // not required
-			return nil
-		}
-
-		if err := m.Service.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("service")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("service")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDeviceSpec) contextValidateTunnelConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.TunnelConfig != nil {
-
-		if swag.IsZero(m.TunnelConfig) { // not required
-			return nil
-		}
-
-		if err := m.TunnelConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tunnelConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tunnelConfig")
-			}
-			return err
-		}
 	}
 
 	return nil

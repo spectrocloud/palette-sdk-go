@@ -6,12 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1CustomCloudAccount v1 custom cloud account
@@ -40,15 +37,6 @@ func (m *V1CustomCloudAccount) Validate(formats strfmt.Registry) error {
 
 func (m *V1CustomCloudAccount) validateCredentials(formats strfmt.Registry) error {
 
-	if err := validate.Required("credentials", "body", m.Credentials); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validates this v1 custom cloud account based on context it is used
-func (m *V1CustomCloudAccount) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

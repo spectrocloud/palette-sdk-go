@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -38,6 +37,7 @@ func (m *V1AzureVirtualNetworkList) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureVirtualNetworkList) validateVirtualNetworkList(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.VirtualNetworkList) { // not required
 		return nil
 	}
@@ -51,47 +51,6 @@ func (m *V1AzureVirtualNetworkList) validateVirtualNetworkList(formats strfmt.Re
 			if err := m.VirtualNetworkList[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("virtualNetworkList" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("virtualNetworkList" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 azure virtual network list based on the context it is used
-func (m *V1AzureVirtualNetworkList) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateVirtualNetworkList(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AzureVirtualNetworkList) contextValidateVirtualNetworkList(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.VirtualNetworkList); i++ {
-
-		if m.VirtualNetworkList[i] != nil {
-
-			if swag.IsZero(m.VirtualNetworkList[i]) { // not required
-				return nil
-			}
-
-			if err := m.VirtualNetworkList[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("virtualNetworkList" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("virtualNetworkList" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

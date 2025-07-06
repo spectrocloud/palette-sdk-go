@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -35,7 +34,7 @@ type V1PackRef struct {
 
 	// layer
 	// Required: true
-	// Enum: ["kernel","os","k8s","cni","csi","addon"]
+	// Enum: [kernel os k8s cni csi addon]
 	Layer *string `json:"layer"`
 
 	// path to the pack logo
@@ -70,7 +69,7 @@ type V1PackRef struct {
 	Tag string `json:"tag,omitempty"`
 
 	// type of the pack
-	// Enum: ["spectro","helm","manifest","oci"]
+	// Enum: [spectro helm manifest oci]
 	Type string `json:"type,omitempty"`
 
 	// values represents the values.yaml used as input parameters either Params OR Values should be used, not both If both applied at the same time, will only use Values
@@ -170,6 +169,7 @@ func (m *V1PackRef) validateLayer(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRef) validateManifests(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Manifests) { // not required
 		return nil
 	}
@@ -183,8 +183,6 @@ func (m *V1PackRef) validateManifests(formats strfmt.Registry) error {
 			if err := m.Manifests[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -205,6 +203,7 @@ func (m *V1PackRef) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRef) validatePresets(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Presets) { // not required
 		return nil
 	}
@@ -218,8 +217,6 @@ func (m *V1PackRef) validatePresets(formats strfmt.Registry) error {
 			if err := m.Presets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("presets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("presets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -231,6 +228,7 @@ func (m *V1PackRef) validatePresets(formats strfmt.Registry) error {
 }
 
 func (m *V1PackRef) validateSchema(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Schema) { // not required
 		return nil
 	}
@@ -244,8 +242,6 @@ func (m *V1PackRef) validateSchema(formats strfmt.Registry) error {
 			if err := m.Schema[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("schema" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("schema" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -292,6 +288,7 @@ func (m *V1PackRef) validateTypeEnum(path, location string, value string) error 
 }
 
 func (m *V1PackRef) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -299,103 +296,6 @@ func (m *V1PackRef) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 pack ref based on the context it is used
-func (m *V1PackRef) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateManifests(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePresets(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSchema(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PackRef) contextValidateManifests(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Manifests); i++ {
-
-		if m.Manifests[i] != nil {
-
-			if swag.IsZero(m.Manifests[i]) { // not required
-				return nil
-			}
-
-			if err := m.Manifests[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1PackRef) contextValidatePresets(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Presets); i++ {
-
-		if m.Presets[i] != nil {
-
-			if swag.IsZero(m.Presets[i]) { // not required
-				return nil
-			}
-
-			if err := m.Presets[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("presets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("presets" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1PackRef) contextValidateSchema(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Schema); i++ {
-
-		if m.Schema[i] != nil {
-
-			if swag.IsZero(m.Schema[i]) { // not required
-				return nil
-			}
-
-			if err := m.Schema[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("schema" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("schema" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
 	}
 
 	return nil

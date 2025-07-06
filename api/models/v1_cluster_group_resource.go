@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -26,11 +24,6 @@ type V1ClusterGroupResource struct {
 
 // Validate validates this v1 cluster group resource
 func (m *V1ClusterGroupResource) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 cluster group resource based on context it is used
-func (m *V1ClusterGroupResource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

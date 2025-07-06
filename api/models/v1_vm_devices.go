@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -126,6 +125,7 @@ func (m *V1VMDevices) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateDisks(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Disks) { // not required
 		return nil
 	}
@@ -139,8 +139,6 @@ func (m *V1VMDevices) validateDisks(formats strfmt.Registry) error {
 			if err := m.Disks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("disks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("disks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -152,6 +150,7 @@ func (m *V1VMDevices) validateDisks(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateFilesystems(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Filesystems) { // not required
 		return nil
 	}
@@ -165,8 +164,6 @@ func (m *V1VMDevices) validateFilesystems(formats strfmt.Registry) error {
 			if err := m.Filesystems[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("filesystems" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("filesystems" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -178,6 +175,7 @@ func (m *V1VMDevices) validateFilesystems(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateGpus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Gpus) { // not required
 		return nil
 	}
@@ -191,8 +189,6 @@ func (m *V1VMDevices) validateGpus(formats strfmt.Registry) error {
 			if err := m.Gpus[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("gpus" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("gpus" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -204,6 +200,7 @@ func (m *V1VMDevices) validateGpus(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateHostDevices(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostDevices) { // not required
 		return nil
 	}
@@ -217,8 +214,6 @@ func (m *V1VMDevices) validateHostDevices(formats strfmt.Registry) error {
 			if err := m.HostDevices[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hostDevices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hostDevices" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -230,6 +225,7 @@ func (m *V1VMDevices) validateHostDevices(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateInputs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Inputs) { // not required
 		return nil
 	}
@@ -243,8 +239,6 @@ func (m *V1VMDevices) validateInputs(formats strfmt.Registry) error {
 			if err := m.Inputs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("inputs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inputs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -256,6 +250,7 @@ func (m *V1VMDevices) validateInputs(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateInterfaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Interfaces) { // not required
 		return nil
 	}
@@ -269,8 +264,6 @@ func (m *V1VMDevices) validateInterfaces(formats strfmt.Registry) error {
 			if err := m.Interfaces[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("interfaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("interfaces" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -282,6 +275,7 @@ func (m *V1VMDevices) validateInterfaces(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateSound(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Sound) { // not required
 		return nil
 	}
@@ -290,8 +284,6 @@ func (m *V1VMDevices) validateSound(formats strfmt.Registry) error {
 		if err := m.Sound.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sound")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sound")
 			}
 			return err
 		}
@@ -301,6 +293,7 @@ func (m *V1VMDevices) validateSound(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDevices) validateWatchdog(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Watchdog) { // not required
 		return nil
 	}
@@ -309,242 +302,6 @@ func (m *V1VMDevices) validateWatchdog(formats strfmt.Registry) error {
 		if err := m.Watchdog.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("watchdog")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("watchdog")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm devices based on the context it is used
-func (m *V1VMDevices) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDisks(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFilesystems(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateGpus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHostDevices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInputs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInterfaces(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSound(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateWatchdog(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateDisks(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Disks); i++ {
-
-		if m.Disks[i] != nil {
-
-			if swag.IsZero(m.Disks[i]) { // not required
-				return nil
-			}
-
-			if err := m.Disks[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("disks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("disks" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateFilesystems(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Filesystems); i++ {
-
-		if m.Filesystems[i] != nil {
-
-			if swag.IsZero(m.Filesystems[i]) { // not required
-				return nil
-			}
-
-			if err := m.Filesystems[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("filesystems" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("filesystems" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateGpus(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Gpus); i++ {
-
-		if m.Gpus[i] != nil {
-
-			if swag.IsZero(m.Gpus[i]) { // not required
-				return nil
-			}
-
-			if err := m.Gpus[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("gpus" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("gpus" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateHostDevices(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.HostDevices); i++ {
-
-		if m.HostDevices[i] != nil {
-
-			if swag.IsZero(m.HostDevices[i]) { // not required
-				return nil
-			}
-
-			if err := m.HostDevices[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("hostDevices" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hostDevices" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateInputs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Inputs); i++ {
-
-		if m.Inputs[i] != nil {
-
-			if swag.IsZero(m.Inputs[i]) { // not required
-				return nil
-			}
-
-			if err := m.Inputs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("inputs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inputs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateInterfaces(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Interfaces); i++ {
-
-		if m.Interfaces[i] != nil {
-
-			if swag.IsZero(m.Interfaces[i]) { // not required
-				return nil
-			}
-
-			if err := m.Interfaces[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("interfaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("interfaces" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateSound(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Sound != nil {
-
-		if swag.IsZero(m.Sound) { // not required
-			return nil
-		}
-
-		if err := m.Sound.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("sound")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sound")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMDevices) contextValidateWatchdog(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Watchdog != nil {
-
-		if swag.IsZero(m.Watchdog) { // not required
-			return nil
-		}
-
-		if err := m.Watchdog.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("watchdog")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("watchdog")
 			}
 			return err
 		}

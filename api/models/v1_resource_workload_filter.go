@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -25,7 +24,7 @@ type V1ResourceWorkloadFilter struct {
 	Names []string `json:"names"`
 
 	// type
-	// Enum: ["deployment","statefulset","daemonset","all"]
+	// Enum: [deployment statefulset daemonset all]
 	Type *string `json:"type,omitempty"`
 }
 
@@ -48,6 +47,7 @@ func (m *V1ResourceWorkloadFilter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceWorkloadFilter) validateNames(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Names) { // not required
 		return nil
 	}
@@ -95,6 +95,7 @@ func (m *V1ResourceWorkloadFilter) validateTypeEnum(path, location string, value
 }
 
 func (m *V1ResourceWorkloadFilter) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -104,11 +105,6 @@ func (m *V1ResourceWorkloadFilter) validateType(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 resource workload filter based on context it is used
-func (m *V1ResourceWorkloadFilter) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

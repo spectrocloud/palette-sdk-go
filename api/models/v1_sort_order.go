@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1SortOrder
 type V1SortOrder string
-
-func NewV1SortOrder(value V1SortOrder) *V1SortOrder {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1SortOrder.
-func (m V1SortOrder) Pointer() *V1SortOrder {
-	return &m
-}
 
 const (
 
@@ -69,10 +59,5 @@ func (m V1SortOrder) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 sort order based on context it is used
-func (m V1SortOrder) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

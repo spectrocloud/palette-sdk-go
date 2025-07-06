@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -23,11 +21,6 @@ type V1ClusterComplianceScanKubeHunterConfig struct {
 
 // Validate validates this v1 cluster compliance scan kube hunter config
 func (m *V1ClusterComplianceScanKubeHunterConfig) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 cluster compliance scan kube hunter config based on context it is used
-func (m *V1ClusterComplianceScanKubeHunterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

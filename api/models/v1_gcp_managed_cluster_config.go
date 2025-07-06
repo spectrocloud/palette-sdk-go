@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -26,11 +24,6 @@ type V1GcpManagedClusterConfig struct {
 
 // Validate validates this v1 gcp managed cluster config
 func (m *V1GcpManagedClusterConfig) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 gcp managed cluster config based on context it is used
-func (m *V1GcpManagedClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

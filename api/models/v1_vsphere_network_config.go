@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,6 +54,7 @@ func (m *V1VsphereNetworkConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereNetworkConfig) validateIPPool(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.IPPool) { // not required
 		return nil
 	}
@@ -64,8 +63,6 @@ func (m *V1VsphereNetworkConfig) validateIPPool(formats strfmt.Registry) error {
 		if err := m.IPPool.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ipPool")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("ipPool")
 			}
 			return err
 		}
@@ -84,6 +81,7 @@ func (m *V1VsphereNetworkConfig) validateNetworkName(formats strfmt.Registry) er
 }
 
 func (m *V1VsphereNetworkConfig) validateParentPoolRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ParentPoolRef) { // not required
 		return nil
 	}
@@ -92,68 +90,6 @@ func (m *V1VsphereNetworkConfig) validateParentPoolRef(formats strfmt.Registry) 
 		if err := m.ParentPoolRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("parentPoolRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("parentPoolRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere network config based on the context it is used
-func (m *V1VsphereNetworkConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateIPPool(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateParentPoolRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereNetworkConfig) contextValidateIPPool(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.IPPool != nil {
-
-		if swag.IsZero(m.IPPool) { // not required
-			return nil
-		}
-
-		if err := m.IPPool.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("ipPool")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("ipPool")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereNetworkConfig) contextValidateParentPoolRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ParentPoolRef != nil {
-
-		if swag.IsZero(m.ParentPoolRef) { // not required
-			return nil
-		}
-
-		if err := m.ParentPoolRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("parentPoolRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("parentPoolRef")
 			}
 			return err
 		}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1UserSummarySortFields
 type V1UserSummarySortFields string
-
-func NewV1UserSummarySortFields(value V1UserSummarySortFields) *V1UserSummarySortFields {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1UserSummarySortFields.
-func (m V1UserSummarySortFields) Pointer() *V1UserSummarySortFields {
-	return &m
-}
 
 const (
 
@@ -69,10 +59,5 @@ func (m V1UserSummarySortFields) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 user summary sort fields based on context it is used
-func (m V1UserSummarySortFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

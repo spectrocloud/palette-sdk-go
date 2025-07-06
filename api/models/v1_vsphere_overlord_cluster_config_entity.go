@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,6 +53,7 @@ func (m *V1VsphereOverlordClusterConfigEntity) Validate(formats strfmt.Registry)
 }
 
 func (m *V1VsphereOverlordClusterConfigEntity) validateControlPlaneEndpoint(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ControlPlaneEndpoint) { // not required
 		return nil
 	}
@@ -62,8 +62,6 @@ func (m *V1VsphereOverlordClusterConfigEntity) validateControlPlaneEndpoint(form
 		if err := m.ControlPlaneEndpoint.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
 			}
 			return err
 		}
@@ -73,6 +71,7 @@ func (m *V1VsphereOverlordClusterConfigEntity) validateControlPlaneEndpoint(form
 }
 
 func (m *V1VsphereOverlordClusterConfigEntity) validatePlacements(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Placements) { // not required
 		return nil
 	}
@@ -86,72 +85,6 @@ func (m *V1VsphereOverlordClusterConfigEntity) validatePlacements(formats strfmt
 			if err := m.Placements[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere overlord cluster config entity based on the context it is used
-func (m *V1VsphereOverlordClusterConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateControlPlaneEndpoint(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePlacements(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereOverlordClusterConfigEntity) contextValidateControlPlaneEndpoint(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ControlPlaneEndpoint != nil {
-
-		if swag.IsZero(m.ControlPlaneEndpoint) { // not required
-			return nil
-		}
-
-		if err := m.ControlPlaneEndpoint.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereOverlordClusterConfigEntity) contextValidatePlacements(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Placements); i++ {
-
-		if m.Placements[i] != nil {
-
-			if swag.IsZero(m.Placements[i]) { // not required
-				return nil
-			}
-
-			if err := m.Placements[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

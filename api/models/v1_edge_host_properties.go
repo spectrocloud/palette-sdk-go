@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -45,6 +44,7 @@ func (m *V1EdgeHostProperties) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostProperties) validateNetworks(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Networks) { // not required
 		return nil
 	}
@@ -58,8 +58,6 @@ func (m *V1EdgeHostProperties) validateNetworks(formats strfmt.Registry) error {
 			if err := m.Networks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("networks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("networks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -71,6 +69,7 @@ func (m *V1EdgeHostProperties) validateNetworks(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostProperties) validateStoragePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StoragePools) { // not required
 		return nil
 	}
@@ -84,76 +83,6 @@ func (m *V1EdgeHostProperties) validateStoragePools(formats strfmt.Registry) err
 			if err := m.StoragePools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("storagePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("storagePools" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host properties based on the context it is used
-func (m *V1EdgeHostProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateNetworks(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStoragePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostProperties) contextValidateNetworks(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Networks); i++ {
-
-		if m.Networks[i] != nil {
-
-			if swag.IsZero(m.Networks[i]) { // not required
-				return nil
-			}
-
-			if err := m.Networks[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("networks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("networks" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostProperties) contextValidateStoragePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.StoragePools); i++ {
-
-		if m.StoragePools[i] != nil {
-
-			if swag.IsZero(m.StoragePools[i]) { // not required
-				return nil
-			}
-
-			if err := m.StoragePools[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("storagePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("storagePools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

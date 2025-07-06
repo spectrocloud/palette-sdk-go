@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -25,7 +24,7 @@ type V1HTTPPatch struct {
 
 	// The operation to be performed
 	// Required: true
-	// Enum: ["add","remove","replace","move","copy"]
+	// Enum: [add remove replace move copy]
 	Op *string `json:"op"`
 
 	// A path to the pointer on which operation will be done
@@ -112,11 +111,6 @@ func (m *V1HTTPPatch) validatePath(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 Http patch based on context it is used
-func (m *V1HTTPPatch) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

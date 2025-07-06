@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -74,6 +72,7 @@ func (m *V1ObjectMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ObjectMeta) validateCreationTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CreationTimestamp) { // not required
 		return nil
 	}
@@ -81,8 +80,6 @@ func (m *V1ObjectMeta) validateCreationTimestamp(formats strfmt.Registry) error 
 	if err := m.CreationTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
 		}
 		return err
 	}
@@ -91,6 +88,7 @@ func (m *V1ObjectMeta) validateCreationTimestamp(formats strfmt.Registry) error 
 }
 
 func (m *V1ObjectMeta) validateDeletionTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.DeletionTimestamp) { // not required
 		return nil
 	}
@@ -98,8 +96,6 @@ func (m *V1ObjectMeta) validateDeletionTimestamp(formats strfmt.Registry) error 
 	if err := m.DeletionTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("deletionTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("deletionTimestamp")
 		}
 		return err
 	}
@@ -108,6 +104,7 @@ func (m *V1ObjectMeta) validateDeletionTimestamp(formats strfmt.Registry) error 
 }
 
 func (m *V1ObjectMeta) validateLastModifiedTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LastModifiedTimestamp) { // not required
 		return nil
 	}
@@ -115,84 +112,6 @@ func (m *V1ObjectMeta) validateLastModifiedTimestamp(formats strfmt.Registry) er
 	if err := m.LastModifiedTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastModifiedTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastModifiedTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 object meta based on the context it is used
-func (m *V1ObjectMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCreationTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDeletionTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLastModifiedTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ObjectMeta) contextValidateCreationTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.CreationTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.CreationTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("creationTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("creationTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ObjectMeta) contextValidateDeletionTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.DeletionTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.DeletionTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("deletionTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("deletionTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ObjectMeta) contextValidateLastModifiedTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.LastModifiedTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.LastModifiedTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("lastModifiedTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("lastModifiedTimestamp")
 		}
 		return err
 	}

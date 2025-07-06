@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -55,6 +54,7 @@ func (m *V1WorkspaceClusterNamespacesEntity) Validate(formats strfmt.Registry) e
 }
 
 func (m *V1WorkspaceClusterNamespacesEntity) validateClusterNamespaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterNamespaces) { // not required
 		return nil
 	}
@@ -72,8 +72,6 @@ func (m *V1WorkspaceClusterNamespacesEntity) validateClusterNamespaces(formats s
 			if err := m.ClusterNamespaces[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterNamespaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterNamespaces" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -85,6 +83,7 @@ func (m *V1WorkspaceClusterNamespacesEntity) validateClusterNamespaces(formats s
 }
 
 func (m *V1WorkspaceClusterNamespacesEntity) validateClusterRefs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterRefs) { // not required
 		return nil
 	}
@@ -102,8 +101,6 @@ func (m *V1WorkspaceClusterNamespacesEntity) validateClusterRefs(formats strfmt.
 			if err := m.ClusterRefs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -115,6 +112,7 @@ func (m *V1WorkspaceClusterNamespacesEntity) validateClusterRefs(formats strfmt.
 }
 
 func (m *V1WorkspaceClusterNamespacesEntity) validateQuota(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Quota) { // not required
 		return nil
 	}
@@ -123,101 +121,6 @@ func (m *V1WorkspaceClusterNamespacesEntity) validateQuota(formats strfmt.Regist
 		if err := m.Quota.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("quota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("quota")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace cluster namespaces entity based on the context it is used
-func (m *V1WorkspaceClusterNamespacesEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterNamespaces(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterRefs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateQuota(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceClusterNamespacesEntity) contextValidateClusterNamespaces(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterNamespaces); i++ {
-
-		if m.ClusterNamespaces[i] != nil {
-
-			if swag.IsZero(m.ClusterNamespaces[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterNamespaces[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterNamespaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterNamespaces" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterNamespacesEntity) contextValidateClusterRefs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterRefs); i++ {
-
-		if m.ClusterRefs[i] != nil {
-
-			if swag.IsZero(m.ClusterRefs[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterRefs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterRefs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClusterNamespacesEntity) contextValidateQuota(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Quota != nil {
-
-		if swag.IsZero(m.Quota) { // not required
-			return nil
-		}
-
-		if err := m.Quota.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("quota")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("quota")
 			}
 			return err
 		}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1OsType
 type V1OsType string
-
-func NewV1OsType(value V1OsType) *V1OsType {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1OsType.
-func (m V1OsType) Pointer() *V1OsType {
-	return &m
-}
 
 const (
 
@@ -69,10 +59,5 @@ func (m V1OsType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 os type based on context it is used
-func (m V1OsType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

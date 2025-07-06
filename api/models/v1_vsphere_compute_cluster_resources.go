@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -40,6 +38,7 @@ func (m *V1VsphereComputeClusterResources) Validate(formats strfmt.Registry) err
 }
 
 func (m *V1VsphereComputeClusterResources) validateComputecluster(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Computecluster) { // not required
 		return nil
 	}
@@ -48,43 +47,6 @@ func (m *V1VsphereComputeClusterResources) validateComputecluster(formats strfmt
 		if err := m.Computecluster.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("computecluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("computecluster")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere compute cluster resources based on the context it is used
-func (m *V1VsphereComputeClusterResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateComputecluster(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereComputeClusterResources) contextValidateComputecluster(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Computecluster != nil {
-
-		if swag.IsZero(m.Computecluster) { // not required
-			return nil
-		}
-
-		if err := m.Computecluster.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("computecluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("computecluster")
 			}
 			return err
 		}

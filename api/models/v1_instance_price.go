@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -24,7 +23,7 @@ type V1InstancePrice struct {
 	OnDemand float64 `json:"onDemand,omitempty"`
 
 	// Os associated with instance price. Allowed values - [linux, windows]
-	// Enum: ["linux","windows"]
+	// Enum: [linux windows]
 	Os string `json:"os,omitempty"`
 
 	// Spot price of instance
@@ -75,6 +74,7 @@ func (m *V1InstancePrice) validateOsEnum(path, location string, value string) er
 }
 
 func (m *V1InstancePrice) validateOs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Os) { // not required
 		return nil
 	}
@@ -84,11 +84,6 @@ func (m *V1InstancePrice) validateOs(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 instance price based on context it is used
-func (m *V1InstancePrice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

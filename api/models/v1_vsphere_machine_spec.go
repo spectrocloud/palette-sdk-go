@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -73,6 +72,7 @@ func (m *V1VsphereMachineSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereMachineSpec) validateImages(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Images) { // not required
 		return nil
 	}
@@ -86,8 +86,6 @@ func (m *V1VsphereMachineSpec) validateImages(formats strfmt.Registry) error {
 			if err := m.Images[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("images" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("images" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -99,6 +97,7 @@ func (m *V1VsphereMachineSpec) validateImages(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereMachineSpec) validateInstanceType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InstanceType) { // not required
 		return nil
 	}
@@ -107,8 +106,6 @@ func (m *V1VsphereMachineSpec) validateInstanceType(formats strfmt.Registry) err
 		if err := m.InstanceType.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
 			}
 			return err
 		}
@@ -132,8 +129,6 @@ func (m *V1VsphereMachineSpec) validateNics(formats strfmt.Registry) error {
 			if err := m.Nics[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -154,8 +149,6 @@ func (m *V1VsphereMachineSpec) validatePlacement(formats strfmt.Registry) error 
 		if err := m.Placement.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("placement")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("placement")
 			}
 			return err
 		}
@@ -168,120 +161,6 @@ func (m *V1VsphereMachineSpec) validateVcenterServer(formats strfmt.Registry) er
 
 	if err := validate.Required("vcenterServer", "body", m.VcenterServer); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere machine spec based on the context it is used
-func (m *V1VsphereMachineSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateImages(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNics(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePlacement(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereMachineSpec) contextValidateImages(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Images); i++ {
-
-		if m.Images[i] != nil {
-
-			if swag.IsZero(m.Images[i]) { // not required
-				return nil
-			}
-
-			if err := m.Images[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("images" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("images" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachineSpec) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InstanceType != nil {
-
-		if swag.IsZero(m.InstanceType) { // not required
-			return nil
-		}
-
-		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachineSpec) contextValidateNics(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Nics); i++ {
-
-		if m.Nics[i] != nil {
-
-			if swag.IsZero(m.Nics[i]) { // not required
-				return nil
-			}
-
-			if err := m.Nics[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VsphereMachineSpec) contextValidatePlacement(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Placement != nil {
-
-		if err := m.Placement.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("placement")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("placement")
-			}
-			return err
-		}
 	}
 
 	return nil

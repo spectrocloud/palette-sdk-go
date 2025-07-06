@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,8 +54,6 @@ func (m *V1VMSSHPublicKeyAccessCredential) validatePropagationMethod(formats str
 		if err := m.PropagationMethod.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("propagationMethod")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("propagationMethod")
 			}
 			return err
 		}
@@ -76,60 +72,6 @@ func (m *V1VMSSHPublicKeyAccessCredential) validateSource(formats strfmt.Registr
 		if err := m.Source.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("source")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("source")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm Ssh public key access credential based on the context it is used
-func (m *V1VMSSHPublicKeyAccessCredential) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePropagationMethod(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSource(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMSSHPublicKeyAccessCredential) contextValidatePropagationMethod(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.PropagationMethod != nil {
-
-		if err := m.PropagationMethod.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("propagationMethod")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("propagationMethod")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMSSHPublicKeyAccessCredential) contextValidateSource(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Source != nil {
-
-		if err := m.Source.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("source")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("source")
 			}
 			return err
 		}

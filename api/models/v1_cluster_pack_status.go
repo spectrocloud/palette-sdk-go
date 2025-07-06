@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -80,6 +79,7 @@ func (m *V1ClusterPackStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterPackStatus) validateCondition(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Condition) { // not required
 		return nil
 	}
@@ -88,8 +88,6 @@ func (m *V1ClusterPackStatus) validateCondition(formats strfmt.Registry) error {
 		if err := m.Condition.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("condition")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("condition")
 			}
 			return err
 		}
@@ -99,6 +97,7 @@ func (m *V1ClusterPackStatus) validateCondition(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterPackStatus) validateEndTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
 	}
@@ -106,8 +105,6 @@ func (m *V1ClusterPackStatus) validateEndTime(formats strfmt.Registry) error {
 	if err := m.EndTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
 		}
 		return err
 	}
@@ -116,6 +113,7 @@ func (m *V1ClusterPackStatus) validateEndTime(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterPackStatus) validateManifests(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Manifests) { // not required
 		return nil
 	}
@@ -129,8 +127,6 @@ func (m *V1ClusterPackStatus) validateManifests(formats strfmt.Registry) error {
 			if err := m.Manifests[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -142,6 +138,7 @@ func (m *V1ClusterPackStatus) validateManifests(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterPackStatus) validateServices(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Services) { // not required
 		return nil
 	}
@@ -155,8 +152,6 @@ func (m *V1ClusterPackStatus) validateServices(formats strfmt.Registry) error {
 			if err := m.Services[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("services" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("services" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -168,6 +163,7 @@ func (m *V1ClusterPackStatus) validateServices(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterPackStatus) validateStartTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartTime) { // not required
 		return nil
 	}
@@ -175,145 +171,6 @@ func (m *V1ClusterPackStatus) validateStartTime(formats strfmt.Registry) error {
 	if err := m.StartTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster pack status based on the context it is used
-func (m *V1ClusterPackStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCondition(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateEndTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateManifests(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateServices(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStartTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterPackStatus) contextValidateCondition(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Condition != nil {
-
-		if swag.IsZero(m.Condition) { // not required
-			return nil
-		}
-
-		if err := m.Condition.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("condition")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("condition")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterPackStatus) contextValidateEndTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.EndTime) { // not required
-		return nil
-	}
-
-	if err := m.EndTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ClusterPackStatus) contextValidateManifests(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Manifests); i++ {
-
-		if m.Manifests[i] != nil {
-
-			if swag.IsZero(m.Manifests[i]) { // not required
-				return nil
-			}
-
-			if err := m.Manifests[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("manifests" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("manifests" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterPackStatus) contextValidateServices(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Services); i++ {
-
-		if m.Services[i] != nil {
-
-			if swag.IsZero(m.Services[i]) { // not required
-				return nil
-			}
-
-			if err := m.Services[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("services" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("services" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterPackStatus) contextValidateStartTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.StartTime) { // not required
-		return nil
-	}
-
-	if err := m.StartTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("startTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTime")
 		}
 		return err
 	}

@@ -6,12 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1AwsCloudCostSpecFilter Aws cloud account usage cost payload filter. startTime and endTime should be within 12 months range from now.
@@ -29,7 +26,7 @@ type V1AwsCloudCostSpecFilter struct {
 	// start time
 	// Required: true
 	// Format: date-time
-	StartTime *V1Time `json:"startTime"`
+	StartTime V1Time `json:"startTime"`
 }
 
 // Validate validates this v1 aws cloud cost spec filter
@@ -51,6 +48,7 @@ func (m *V1AwsCloudCostSpecFilter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCloudCostSpecFilter) validateEndTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
 	}
@@ -58,8 +56,6 @@ func (m *V1AwsCloudCostSpecFilter) validateEndTime(formats strfmt.Registry) erro
 	if err := m.EndTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
 		}
 		return err
 	}
@@ -69,76 +65,11 @@ func (m *V1AwsCloudCostSpecFilter) validateEndTime(formats strfmt.Registry) erro
 
 func (m *V1AwsCloudCostSpecFilter) validateStartTime(formats strfmt.Registry) error {
 
-	if err := validate.Required("startTime", "body", m.StartTime); err != nil {
-		return err
-	}
-
-	if err := validate.Required("startTime", "body", m.StartTime); err != nil {
-		return err
-	}
-
-	if m.StartTime != nil {
-		if err := m.StartTime.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("startTime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("startTime")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 aws cloud cost spec filter based on the context it is used
-func (m *V1AwsCloudCostSpecFilter) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateEndTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStartTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AwsCloudCostSpecFilter) contextValidateEndTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.EndTime) { // not required
-		return nil
-	}
-
-	if err := m.EndTime.ContextValidate(ctx, formats); err != nil {
+	if err := m.StartTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
+			return ve.ValidateName("startTime")
 		}
 		return err
-	}
-
-	return nil
-}
-
-func (m *V1AwsCloudCostSpecFilter) contextValidateStartTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.StartTime != nil {
-
-		if err := m.StartTime.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("startTime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("startTime")
-			}
-			return err
-		}
 	}
 
 	return nil

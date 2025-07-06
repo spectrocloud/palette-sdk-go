@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1VMMemory) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMMemory) validateGuest(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Guest) { // not required
 		return nil
 	}
@@ -51,8 +50,6 @@ func (m *V1VMMemory) validateGuest(formats strfmt.Registry) error {
 	if err := m.Guest.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("guest")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("guest")
 		}
 		return err
 	}
@@ -61,6 +58,7 @@ func (m *V1VMMemory) validateGuest(formats strfmt.Registry) error {
 }
 
 func (m *V1VMMemory) validateHugepages(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Hugepages) { // not required
 		return nil
 	}
@@ -69,65 +67,6 @@ func (m *V1VMMemory) validateHugepages(formats strfmt.Registry) error {
 		if err := m.Hugepages.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hugepages")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hugepages")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm memory based on the context it is used
-func (m *V1VMMemory) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateGuest(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHugepages(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMMemory) contextValidateGuest(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Guest) { // not required
-		return nil
-	}
-
-	if err := m.Guest.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("guest")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("guest")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1VMMemory) contextValidateHugepages(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Hugepages != nil {
-
-		if swag.IsZero(m.Hugepages) { // not required
-			return nil
-		}
-
-		if err := m.Hugepages.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hugepages")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hugepages")
 			}
 			return err
 		}

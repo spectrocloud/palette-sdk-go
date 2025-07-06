@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -54,6 +53,7 @@ func (m *V1ResourceCloudCostSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceCloudCostSummary) validateData(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Data) { // not required
 		return nil
 	}
@@ -71,8 +71,6 @@ func (m *V1ResourceCloudCostSummary) validateData(formats strfmt.Registry) error
 			if err := m.Data[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("data" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("data" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -84,6 +82,7 @@ func (m *V1ResourceCloudCostSummary) validateData(formats strfmt.Registry) error
 }
 
 func (m *V1ResourceCloudCostSummary) validateEntity(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Entity) { // not required
 		return nil
 	}
@@ -92,8 +91,6 @@ func (m *V1ResourceCloudCostSummary) validateEntity(formats strfmt.Registry) err
 		if err := m.Entity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
 			}
 			return err
 		}
@@ -103,6 +100,7 @@ func (m *V1ResourceCloudCostSummary) validateEntity(formats strfmt.Registry) err
 }
 
 func (m *V1ResourceCloudCostSummary) validateTotal(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Total) { // not required
 		return nil
 	}
@@ -111,97 +109,6 @@ func (m *V1ResourceCloudCostSummary) validateTotal(formats strfmt.Registry) erro
 		if err := m.Total.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("total")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("total")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 resource cloud cost summary based on the context it is used
-func (m *V1ResourceCloudCostSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateData(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateEntity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTotal(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ResourceCloudCostSummary) contextValidateData(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Data); i++ {
-
-		if m.Data[i] != nil {
-
-			if swag.IsZero(m.Data[i]) { // not required
-				return nil
-			}
-
-			if err := m.Data[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("data" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("data" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ResourceCloudCostSummary) contextValidateEntity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Entity != nil {
-
-		if swag.IsZero(m.Entity) { // not required
-			return nil
-		}
-
-		if err := m.Entity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("entity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("entity")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ResourceCloudCostSummary) contextValidateTotal(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Total != nil {
-
-		if swag.IsZero(m.Total) { // not required
-			return nil
-		}
-
-		if err := m.Total.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("total")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("total")
 			}
 			return err
 		}

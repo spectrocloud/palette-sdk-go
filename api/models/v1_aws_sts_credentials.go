@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -26,11 +24,6 @@ type V1AwsStsCredentials struct {
 
 // Validate validates this v1 aws sts credentials
 func (m *V1AwsStsCredentials) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 aws sts credentials based on context it is used
-func (m *V1AwsStsCredentials) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

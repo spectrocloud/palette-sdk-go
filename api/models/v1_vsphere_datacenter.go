@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -50,6 +48,7 @@ func (m *V1VsphereDatacenter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereDatacenter) validateComputeclusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Computeclusters) { // not required
 		return nil
 	}
@@ -62,6 +61,7 @@ func (m *V1VsphereDatacenter) validateComputeclusters(formats strfmt.Registry) e
 }
 
 func (m *V1VsphereDatacenter) validateFolders(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Folders) { // not required
 		return nil
 	}
@@ -70,11 +70,6 @@ func (m *V1VsphereDatacenter) validateFolders(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 vsphere datacenter based on context it is used
-func (m *V1VsphereDatacenter) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

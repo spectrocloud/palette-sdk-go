@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -45,6 +44,7 @@ func (m *V1WorkspaceClustersWorkloadNamespaces) Validate(formats strfmt.Registry
 }
 
 func (m *V1WorkspaceClustersWorkloadNamespaces) validateClusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Clusters) { // not required
 		return nil
 	}
@@ -58,8 +58,6 @@ func (m *V1WorkspaceClustersWorkloadNamespaces) validateClusters(formats strfmt.
 			if err := m.Clusters[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusters" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -71,6 +69,7 @@ func (m *V1WorkspaceClustersWorkloadNamespaces) validateClusters(formats strfmt.
 }
 
 func (m *V1WorkspaceClustersWorkloadNamespaces) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -79,72 +78,6 @@ func (m *V1WorkspaceClustersWorkloadNamespaces) validateMetadata(formats strfmt.
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace clusters workload namespaces based on the context it is used
-func (m *V1WorkspaceClustersWorkloadNamespaces) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusters(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceClustersWorkloadNamespaces) contextValidateClusters(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Clusters); i++ {
-
-		if m.Clusters[i] != nil {
-
-			if swag.IsZero(m.Clusters[i]) { // not required
-				return nil
-			}
-
-			if err := m.Clusters[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusters" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceClustersWorkloadNamespaces) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}

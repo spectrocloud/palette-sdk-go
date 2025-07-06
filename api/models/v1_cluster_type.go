@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1ClusterType
 type V1ClusterType string
-
-func NewV1ClusterType(value V1ClusterType) *V1ClusterType {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1ClusterType.
-func (m V1ClusterType) Pointer() *V1ClusterType {
-	return &m
-}
 
 const (
 
@@ -69,10 +59,5 @@ func (m V1ClusterType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 cluster type based on context it is used
-func (m V1ClusterType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

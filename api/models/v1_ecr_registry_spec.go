@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +43,7 @@ type V1EcrRegistrySpec struct {
 	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
-	// Enum: ["helm","pack"]
+	// Enum: [helm pack]
 	ProviderType *string `json:"providerType,omitempty"`
 
 	// Ecr registry uid
@@ -88,6 +87,7 @@ func (m *V1EcrRegistrySpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EcrRegistrySpec) validateCredentials(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Credentials) { // not required
 		return nil
 	}
@@ -96,8 +96,6 @@ func (m *V1EcrRegistrySpec) validateCredentials(formats strfmt.Registry) error {
 		if err := m.Credentials.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("credentials")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("credentials")
 			}
 			return err
 		}
@@ -154,6 +152,7 @@ func (m *V1EcrRegistrySpec) validateProviderTypeEnum(path, location string, valu
 }
 
 func (m *V1EcrRegistrySpec) validateProviderType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProviderType) { // not required
 		return nil
 	}
@@ -167,6 +166,7 @@ func (m *V1EcrRegistrySpec) validateProviderType(formats strfmt.Registry) error 
 }
 
 func (m *V1EcrRegistrySpec) validateTLS(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TLS) { // not required
 		return nil
 	}
@@ -175,68 +175,6 @@ func (m *V1EcrRegistrySpec) validateTLS(formats strfmt.Registry) error {
 		if err := m.TLS.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tls")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tls")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 ecr registry spec based on the context it is used
-func (m *V1EcrRegistrySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCredentials(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTLS(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EcrRegistrySpec) contextValidateCredentials(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Credentials != nil {
-
-		if swag.IsZero(m.Credentials) { // not required
-			return nil
-		}
-
-		if err := m.Credentials.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("credentials")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("credentials")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EcrRegistrySpec) contextValidateTLS(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.TLS != nil {
-
-		if swag.IsZero(m.TLS) { // not required
-			return nil
-		}
-
-		if err := m.TLS.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tls")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tls")
 			}
 			return err
 		}

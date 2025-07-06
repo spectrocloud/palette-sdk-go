@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -19,19 +18,10 @@ import (
 // swagger:model v1HybridPoolClusterCloudType
 type V1HybridPoolClusterCloudType string
 
-func NewV1HybridPoolClusterCloudType(value V1HybridPoolClusterCloudType) *V1HybridPoolClusterCloudType {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1HybridPoolClusterCloudType.
-func (m V1HybridPoolClusterCloudType) Pointer() *V1HybridPoolClusterCloudType {
-	return &m
-}
-
 const (
 
-	// V1HybridPoolClusterCloudTypeEdgeDashNative captures enum value "edge-native"
-	V1HybridPoolClusterCloudTypeEdgeDashNative V1HybridPoolClusterCloudType = "edge-native"
+	// V1HybridPoolClusterCloudTypeEdgeNative captures enum value "edge-native"
+	V1HybridPoolClusterCloudTypeEdgeNative V1HybridPoolClusterCloudType = "edge-native"
 )
 
 // for schema
@@ -66,10 +56,5 @@ func (m V1HybridPoolClusterCloudType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 hybrid pool cluster cloud type based on context it is used
-func (m V1HybridPoolClusterCloudType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

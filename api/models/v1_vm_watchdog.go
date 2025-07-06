@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -46,6 +44,7 @@ func (m *V1VMWatchdog) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMWatchdog) validateI6300esb(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.I6300esb) { // not required
 		return nil
 	}
@@ -54,8 +53,6 @@ func (m *V1VMWatchdog) validateI6300esb(formats strfmt.Registry) error {
 		if err := m.I6300esb.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("i6300esb")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("i6300esb")
 			}
 			return err
 		}
@@ -68,41 +65,6 @@ func (m *V1VMWatchdog) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm watchdog based on the context it is used
-func (m *V1VMWatchdog) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateI6300esb(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMWatchdog) contextValidateI6300esb(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.I6300esb != nil {
-
-		if swag.IsZero(m.I6300esb) { // not required
-			return nil
-		}
-
-		if err := m.I6300esb.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("i6300esb")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("i6300esb")
-			}
-			return err
-		}
 	}
 
 	return nil

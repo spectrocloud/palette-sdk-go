@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -54,6 +52,7 @@ func (m *V1HostClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1HostClusterConfig) validateClusterEndpoint(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterEndpoint) { // not required
 		return nil
 	}
@@ -62,8 +61,6 @@ func (m *V1HostClusterConfig) validateClusterEndpoint(formats strfmt.Registry) e
 		if err := m.ClusterEndpoint.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterEndpoint")
 			}
 			return err
 		}
@@ -73,6 +70,7 @@ func (m *V1HostClusterConfig) validateClusterEndpoint(formats strfmt.Registry) e
 }
 
 func (m *V1HostClusterConfig) validateClusterGroup(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterGroup) { // not required
 		return nil
 	}
@@ -81,8 +79,6 @@ func (m *V1HostClusterConfig) validateClusterGroup(formats strfmt.Registry) erro
 		if err := m.ClusterGroup.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterGroup")
 			}
 			return err
 		}
@@ -92,6 +88,7 @@ func (m *V1HostClusterConfig) validateClusterGroup(formats strfmt.Registry) erro
 }
 
 func (m *V1HostClusterConfig) validateHostCluster(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostCluster) { // not required
 		return nil
 	}
@@ -100,93 +97,6 @@ func (m *V1HostClusterConfig) validateHostCluster(formats strfmt.Registry) error
 		if err := m.HostCluster.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostCluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostCluster")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 host cluster config based on the context it is used
-func (m *V1HostClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterEndpoint(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterGroup(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHostCluster(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1HostClusterConfig) contextValidateClusterEndpoint(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterEndpoint != nil {
-
-		if swag.IsZero(m.ClusterEndpoint) { // not required
-			return nil
-		}
-
-		if err := m.ClusterEndpoint.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterEndpoint")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1HostClusterConfig) contextValidateClusterGroup(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterGroup != nil {
-
-		if swag.IsZero(m.ClusterGroup) { // not required
-			return nil
-		}
-
-		if err := m.ClusterGroup.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterGroup")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1HostClusterConfig) contextValidateHostCluster(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HostCluster != nil {
-
-		if swag.IsZero(m.HostCluster) { // not required
-			return nil
-		}
-
-		if err := m.HostCluster.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hostCluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostCluster")
 			}
 			return err
 		}

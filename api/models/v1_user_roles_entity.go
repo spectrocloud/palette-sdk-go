@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -45,6 +44,7 @@ func (m *V1UserRolesEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1UserRolesEntity) validateInheritedRoles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InheritedRoles) { // not required
 		return nil
 	}
@@ -58,8 +58,6 @@ func (m *V1UserRolesEntity) validateInheritedRoles(formats strfmt.Registry) erro
 			if err := m.InheritedRoles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("inheritedRoles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inheritedRoles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -71,6 +69,7 @@ func (m *V1UserRolesEntity) validateInheritedRoles(formats strfmt.Registry) erro
 }
 
 func (m *V1UserRolesEntity) validateRoles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Roles) { // not required
 		return nil
 	}
@@ -84,76 +83,6 @@ func (m *V1UserRolesEntity) validateRoles(formats strfmt.Registry) error {
 			if err := m.Roles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("roles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("roles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 user roles entity based on the context it is used
-func (m *V1UserRolesEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateInheritedRoles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRoles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1UserRolesEntity) contextValidateInheritedRoles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.InheritedRoles); i++ {
-
-		if m.InheritedRoles[i] != nil {
-
-			if swag.IsZero(m.InheritedRoles[i]) { // not required
-				return nil
-			}
-
-			if err := m.InheritedRoles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("inheritedRoles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("inheritedRoles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1UserRolesEntity) contextValidateRoles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Roles); i++ {
-
-		if m.Roles[i] != nil {
-
-			if swag.IsZero(m.Roles[i]) { // not required
-				return nil
-			}
-
-			if err := m.Roles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("roles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("roles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

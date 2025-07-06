@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -60,6 +59,7 @@ func (m *V1InvoiceStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceStatus) validateProductInvoice(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProductInvoice) { // not required
 		return nil
 	}
@@ -68,8 +68,6 @@ func (m *V1InvoiceStatus) validateProductInvoice(formats strfmt.Registry) error 
 		if err := m.ProductInvoice.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("productInvoice")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("productInvoice")
 			}
 			return err
 		}
@@ -79,6 +77,7 @@ func (m *V1InvoiceStatus) validateProductInvoice(formats strfmt.Registry) error 
 }
 
 func (m *V1InvoiceStatus) validateProjects(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Projects) { // not required
 		return nil
 	}
@@ -92,8 +91,6 @@ func (m *V1InvoiceStatus) validateProjects(formats strfmt.Registry) error {
 			if err := m.Projects[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("projects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("projects" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -105,6 +102,7 @@ func (m *V1InvoiceStatus) validateProjects(formats strfmt.Registry) error {
 }
 
 func (m *V1InvoiceStatus) validateStates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.States) { // not required
 		return nil
 	}
@@ -122,101 +120,6 @@ func (m *V1InvoiceStatus) validateStates(formats strfmt.Registry) error {
 			if err := m.States[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("states" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("states" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 invoice status based on the context it is used
-func (m *V1InvoiceStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateProductInvoice(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProjects(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1InvoiceStatus) contextValidateProductInvoice(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ProductInvoice != nil {
-
-		if swag.IsZero(m.ProductInvoice) { // not required
-			return nil
-		}
-
-		if err := m.ProductInvoice.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("productInvoice")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("productInvoice")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1InvoiceStatus) contextValidateProjects(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Projects); i++ {
-
-		if m.Projects[i] != nil {
-
-			if swag.IsZero(m.Projects[i]) { // not required
-				return nil
-			}
-
-			if err := m.Projects[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("projects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("projects" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1InvoiceStatus) contextValidateStates(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.States); i++ {
-
-		if m.States[i] != nil {
-
-			if swag.IsZero(m.States[i]) { // not required
-				return nil
-			}
-
-			if err := m.States[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("states" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("states" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

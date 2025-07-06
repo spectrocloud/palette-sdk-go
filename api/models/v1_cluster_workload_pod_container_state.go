@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -55,6 +53,7 @@ func (m *V1ClusterWorkloadPodContainerState) Validate(formats strfmt.Registry) e
 }
 
 func (m *V1ClusterWorkloadPodContainerState) validateFinishedAt(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FinishedAt) { // not required
 		return nil
 	}
@@ -62,8 +61,6 @@ func (m *V1ClusterWorkloadPodContainerState) validateFinishedAt(formats strfmt.R
 	if err := m.FinishedAt.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("finishedAt")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("finishedAt")
 		}
 		return err
 	}
@@ -72,6 +69,7 @@ func (m *V1ClusterWorkloadPodContainerState) validateFinishedAt(formats strfmt.R
 }
 
 func (m *V1ClusterWorkloadPodContainerState) validateStartedAt(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartedAt) { // not required
 		return nil
 	}
@@ -79,62 +77,6 @@ func (m *V1ClusterWorkloadPodContainerState) validateStartedAt(formats strfmt.Re
 	if err := m.StartedAt.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startedAt")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startedAt")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster workload pod container state based on the context it is used
-func (m *V1ClusterWorkloadPodContainerState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFinishedAt(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStartedAt(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterWorkloadPodContainerState) contextValidateFinishedAt(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.FinishedAt) { // not required
-		return nil
-	}
-
-	if err := m.FinishedAt.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("finishedAt")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("finishedAt")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadPodContainerState) contextValidateStartedAt(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.StartedAt) { // not required
-		return nil
-	}
-
-	if err := m.StartedAt.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("startedAt")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startedAt")
 		}
 		return err
 	}

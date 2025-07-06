@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1Scope
 type V1Scope string
-
-func NewV1Scope(value V1Scope) *V1Scope {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1Scope.
-func (m V1Scope) Pointer() *V1Scope {
-	return &m
-}
 
 const (
 
@@ -75,10 +65,5 @@ func (m V1Scope) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 scope based on context it is used
-func (m V1Scope) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

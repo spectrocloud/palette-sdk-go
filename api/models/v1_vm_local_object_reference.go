@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -23,11 +21,6 @@ type V1VMLocalObjectReference struct {
 
 // Validate validates this v1 Vm local object reference
 func (m *V1VMLocalObjectReference) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 Vm local object reference based on context it is used
-func (m *V1VMLocalObjectReference) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

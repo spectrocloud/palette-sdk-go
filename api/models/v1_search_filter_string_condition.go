@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -50,6 +48,7 @@ func (m *V1SearchFilterStringCondition) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1SearchFilterStringCondition) validateMatch(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Match) { // not required
 		return nil
 	}
@@ -58,8 +57,6 @@ func (m *V1SearchFilterStringCondition) validateMatch(formats strfmt.Registry) e
 		if err := m.Match.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("match")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("match")
 			}
 			return err
 		}
@@ -69,6 +66,7 @@ func (m *V1SearchFilterStringCondition) validateMatch(formats strfmt.Registry) e
 }
 
 func (m *V1SearchFilterStringCondition) validateOperator(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Operator) { // not required
 		return nil
 	}
@@ -76,65 +74,6 @@ func (m *V1SearchFilterStringCondition) validateOperator(formats strfmt.Registry
 	if err := m.Operator.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("operator")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("operator")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 search filter string condition based on the context it is used
-func (m *V1SearchFilterStringCondition) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMatch(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateOperator(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SearchFilterStringCondition) contextValidateMatch(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Match != nil {
-
-		if swag.IsZero(m.Match) { // not required
-			return nil
-		}
-
-		if err := m.Match.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("match")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("match")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SearchFilterStringCondition) contextValidateOperator(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Operator) { // not required
-		return nil
-	}
-
-	if err := m.Operator.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("operator")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("operator")
 		}
 		return err
 	}

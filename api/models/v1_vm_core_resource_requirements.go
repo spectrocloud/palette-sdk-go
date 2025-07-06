@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1VMCoreResourceRequirements) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMCoreResourceRequirements) validateLimits(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Limits) { // not required
 		return nil
 	}
@@ -52,11 +51,6 @@ func (m *V1VMCoreResourceRequirements) validateLimits(formats strfmt.Registry) e
 
 		if val, ok := m.Limits[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("limits" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("limits" + "." + k)
-				}
 				return err
 			}
 		}
@@ -67,6 +61,7 @@ func (m *V1VMCoreResourceRequirements) validateLimits(formats strfmt.Registry) e
 }
 
 func (m *V1VMCoreResourceRequirements) validateRequests(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Requests) { // not required
 		return nil
 	}
@@ -75,59 +70,6 @@ func (m *V1VMCoreResourceRequirements) validateRequests(formats strfmt.Registry)
 
 		if val, ok := m.Requests[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("requests" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("requests" + "." + k)
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm core resource requirements based on the context it is used
-func (m *V1VMCoreResourceRequirements) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateLimits(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRequests(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMCoreResourceRequirements) contextValidateLimits(ctx context.Context, formats strfmt.Registry) error {
-
-	for k := range m.Limits {
-
-		if val, ok := m.Limits[k]; ok {
-			if err := val.ContextValidate(ctx, formats); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMCoreResourceRequirements) contextValidateRequests(ctx context.Context, formats strfmt.Registry) error {
-
-	for k := range m.Requests {
-
-		if val, ok := m.Requests[k]; ok {
-			if err := val.ContextValidate(ctx, formats); err != nil {
 				return err
 			}
 		}

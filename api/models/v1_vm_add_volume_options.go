@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -67,8 +65,6 @@ func (m *V1VMAddVolumeOptions) validateDisk(formats strfmt.Registry) error {
 		if err := m.Disk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("disk")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("disk")
 			}
 			return err
 		}
@@ -96,60 +92,6 @@ func (m *V1VMAddVolumeOptions) validateVolumeSource(formats strfmt.Registry) err
 		if err := m.VolumeSource.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("volumeSource")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("volumeSource")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm add volume options based on the context it is used
-func (m *V1VMAddVolumeOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDisk(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVolumeSource(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMAddVolumeOptions) contextValidateDisk(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Disk != nil {
-
-		if err := m.Disk.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("disk")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("disk")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMAddVolumeOptions) contextValidateVolumeSource(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.VolumeSource != nil {
-
-		if err := m.VolumeSource.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("volumeSource")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("volumeSource")
 			}
 			return err
 		}

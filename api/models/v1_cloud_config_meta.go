@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,6 +50,7 @@ func (m *V1CloudConfigMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1CloudConfigMeta) validateHybridMachinePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HybridMachinePools) { // not required
 		return nil
 	}
@@ -64,8 +64,6 @@ func (m *V1CloudConfigMeta) validateHybridMachinePools(formats strfmt.Registry) 
 			if err := m.HybridMachinePools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -77,6 +75,7 @@ func (m *V1CloudConfigMeta) validateHybridMachinePools(formats strfmt.Registry) 
 }
 
 func (m *V1CloudConfigMeta) validateMachinePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePools) { // not required
 		return nil
 	}
@@ -90,76 +89,6 @@ func (m *V1CloudConfigMeta) validateMachinePools(formats strfmt.Registry) error 
 			if err := m.MachinePools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cloud config meta based on the context it is used
-func (m *V1CloudConfigMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHybridMachinePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1CloudConfigMeta) contextValidateHybridMachinePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.HybridMachinePools); i++ {
-
-		if m.HybridMachinePools[i] != nil {
-
-			if swag.IsZero(m.HybridMachinePools[i]) { // not required
-				return nil
-			}
-
-			if err := m.HybridMachinePools[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hybridMachinePools" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1CloudConfigMeta) contextValidateMachinePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.MachinePools); i++ {
-
-		if m.MachinePools[i] != nil {
-
-			if swag.IsZero(m.MachinePools[i]) { // not required
-				return nil
-			}
-
-			if err := m.MachinePools[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

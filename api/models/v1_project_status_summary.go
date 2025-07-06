@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1ProjectStatusSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectStatusSummary) validateClustersHealth(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClustersHealth) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1ProjectStatusSummary) validateClustersHealth(formats strfmt.Registry)
 		if err := m.ClustersHealth.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clustersHealth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clustersHealth")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1ProjectStatusSummary) validateClustersHealth(formats strfmt.Registry)
 }
 
 func (m *V1ProjectStatusSummary) validateStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1ProjectStatusSummary) validateStatus(formats strfmt.Registry) error {
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1ProjectStatusSummary) validateStatus(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectStatusSummary) validateUsage(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Usage) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1ProjectStatusSummary) validateUsage(formats strfmt.Registry) error {
 		if err := m.Usage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("usage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("usage")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 project status summary based on the context it is used
-func (m *V1ProjectStatusSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClustersHealth(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUsage(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ProjectStatusSummary) contextValidateClustersHealth(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClustersHealth != nil {
-
-		if swag.IsZero(m.ClustersHealth) { // not required
-			return nil
-		}
-
-		if err := m.ClustersHealth.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clustersHealth")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clustersHealth")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ProjectStatusSummary) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Status != nil {
-
-		if swag.IsZero(m.Status) { // not required
-			return nil
-		}
-
-		if err := m.Status.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ProjectStatusSummary) contextValidateUsage(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Usage != nil {
-
-		if swag.IsZero(m.Usage) { // not required
-			return nil
-		}
-
-		if err := m.Usage.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("usage")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("usage")
 			}
 			return err
 		}

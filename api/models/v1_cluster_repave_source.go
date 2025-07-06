@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,15 +17,6 @@ import (
 //
 // swagger:model v1ClusterRepaveSource
 type V1ClusterRepaveSource string
-
-func NewV1ClusterRepaveSource(value V1ClusterRepaveSource) *V1ClusterRepaveSource {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1ClusterRepaveSource.
-func (m V1ClusterRepaveSource) Pointer() *V1ClusterRepaveSource {
-	return &m
-}
 
 const (
 
@@ -75,10 +65,5 @@ func (m V1ClusterRepaveSource) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 cluster repave source based on context it is used
-func (m V1ClusterRepaveSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

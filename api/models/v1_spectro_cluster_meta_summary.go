@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -54,6 +53,7 @@ func (m *V1SpectroClusterMetaSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterMetaSummary) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -62,8 +62,6 @@ func (m *V1SpectroClusterMetaSummary) validateMetadata(formats strfmt.Registry) 
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -73,6 +71,7 @@ func (m *V1SpectroClusterMetaSummary) validateMetadata(formats strfmt.Registry) 
 }
 
 func (m *V1SpectroClusterMetaSummary) validateSpecSummary(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SpecSummary) { // not required
 		return nil
 	}
@@ -81,8 +80,6 @@ func (m *V1SpectroClusterMetaSummary) validateSpecSummary(formats strfmt.Registr
 		if err := m.SpecSummary.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary")
 			}
 			return err
 		}
@@ -92,6 +89,7 @@ func (m *V1SpectroClusterMetaSummary) validateSpecSummary(formats strfmt.Registr
 }
 
 func (m *V1SpectroClusterMetaSummary) validateStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -100,93 +98,6 @@ func (m *V1SpectroClusterMetaSummary) validateStatus(formats strfmt.Registry) er
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster meta summary based on the context it is used
-func (m *V1SpectroClusterMetaSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSpecSummary(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummary) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummary) contextValidateSpecSummary(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.SpecSummary != nil {
-
-		if swag.IsZero(m.SpecSummary) { // not required
-			return nil
-		}
-
-		if err := m.SpecSummary.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("specSummary")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummary) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Status != nil {
-
-		if swag.IsZero(m.Status) { // not required
-			return nil
-		}
-
-		if err := m.Status.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -288,6 +199,7 @@ func (m *V1SpectroClusterMetaSummarySpecSummary) validateArchTypeItemsEnum(path,
 }
 
 func (m *V1SpectroClusterMetaSummarySpecSummary) validateArchType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ArchType) { // not required
 		return nil
 	}
@@ -308,6 +220,7 @@ func (m *V1SpectroClusterMetaSummarySpecSummary) validateArchType(formats strfmt
 }
 
 func (m *V1SpectroClusterMetaSummarySpecSummary) validateLocation(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -316,8 +229,6 @@ func (m *V1SpectroClusterMetaSummarySpecSummary) validateLocation(formats strfmt
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "location")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary" + "." + "location")
 			}
 			return err
 		}
@@ -327,6 +238,7 @@ func (m *V1SpectroClusterMetaSummarySpecSummary) validateLocation(formats strfmt
 }
 
 func (m *V1SpectroClusterMetaSummarySpecSummary) validateProjectMeta(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProjectMeta) { // not required
 		return nil
 	}
@@ -335,68 +247,6 @@ func (m *V1SpectroClusterMetaSummarySpecSummary) validateProjectMeta(formats str
 		if err := m.ProjectMeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "projectMeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary" + "." + "projectMeta")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster meta summary spec summary based on the context it is used
-func (m *V1SpectroClusterMetaSummarySpecSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateLocation(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProjectMeta(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummarySpecSummary) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Location != nil {
-
-		if swag.IsZero(m.Location) { // not required
-			return nil
-		}
-
-		if err := m.Location.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("specSummary" + "." + "location")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary" + "." + "location")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummarySpecSummary) contextValidateProjectMeta(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ProjectMeta != nil {
-
-		if swag.IsZero(m.ProjectMeta) { // not required
-			return nil
-		}
-
-		if err := m.ProjectMeta.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("specSummary" + "." + "projectMeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("specSummary" + "." + "projectMeta")
 			}
 			return err
 		}
@@ -471,6 +321,7 @@ func (m *V1SpectroClusterMetaSummaryStatus) Validate(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroClusterMetaSummaryStatus) validateCost(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -479,8 +330,6 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateCost(formats strfmt.Registry
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "cost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "cost")
 			}
 			return err
 		}
@@ -490,6 +339,7 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateCost(formats strfmt.Registry
 }
 
 func (m *V1SpectroClusterMetaSummaryStatus) validateFips(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Fips) { // not required
 		return nil
 	}
@@ -498,8 +348,6 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateFips(formats strfmt.Registry
 		if err := m.Fips.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "fips")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "fips")
 			}
 			return err
 		}
@@ -509,6 +357,7 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateFips(formats strfmt.Registry
 }
 
 func (m *V1SpectroClusterMetaSummaryStatus) validateHealth(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Health) { // not required
 		return nil
 	}
@@ -517,8 +366,6 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateHealth(formats strfmt.Regist
 		if err := m.Health.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "health")
 			}
 			return err
 		}
@@ -528,6 +375,7 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateHealth(formats strfmt.Regist
 }
 
 func (m *V1SpectroClusterMetaSummaryStatus) validateUpdates(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Updates) { // not required
 		return nil
 	}
@@ -536,118 +384,6 @@ func (m *V1SpectroClusterMetaSummaryStatus) validateUpdates(formats strfmt.Regis
 		if err := m.Updates.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status" + "." + "updates")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "updates")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster meta summary status based on the context it is used
-func (m *V1SpectroClusterMetaSummaryStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCost(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFips(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHealth(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUpdates(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummaryStatus) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Cost != nil {
-
-		if swag.IsZero(m.Cost) { // not required
-			return nil
-		}
-
-		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status" + "." + "cost")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "cost")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummaryStatus) contextValidateFips(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Fips != nil {
-
-		if swag.IsZero(m.Fips) { // not required
-			return nil
-		}
-
-		if err := m.Fips.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status" + "." + "fips")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "fips")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummaryStatus) contextValidateHealth(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Health != nil {
-
-		if swag.IsZero(m.Health) { // not required
-			return nil
-		}
-
-		if err := m.Health.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status" + "." + "health")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "health")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterMetaSummaryStatus) contextValidateUpdates(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Updates != nil {
-
-		if swag.IsZero(m.Updates) { // not required
-			return nil
-		}
-
-		if err := m.Updates.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status" + "." + "updates")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status" + "." + "updates")
 			}
 			return err
 		}

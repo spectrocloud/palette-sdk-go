@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -38,6 +37,7 @@ func (m *V1CustomCloudTypes) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1CustomCloudTypes) validateCloudTypes(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudTypes) { // not required
 		return nil
 	}
@@ -51,47 +51,6 @@ func (m *V1CustomCloudTypes) validateCloudTypes(formats strfmt.Registry) error {
 			if err := m.CloudTypes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("cloudTypes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("cloudTypes" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 custom cloud types based on the context it is used
-func (m *V1CustomCloudTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudTypes(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1CustomCloudTypes) contextValidateCloudTypes(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.CloudTypes); i++ {
-
-		if m.CloudTypes[i] != nil {
-
-			if swag.IsZero(m.CloudTypes[i]) { // not required
-				return nil
-			}
-
-			if err := m.CloudTypes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("cloudTypes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("cloudTypes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

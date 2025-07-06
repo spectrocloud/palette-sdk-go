@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 	"strconv"
 
@@ -27,6 +26,9 @@ type V1EksMachinePoolConfig struct {
 	// AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole
 	AdditionalTags map[string]string `json:"additionalTags,omitempty"`
 
+	// ami type
+	AmiType string `json:"amiType,omitempty"`
+
 	// aws launch template
 	AwsLaunchTemplate *V1AwsLaunchTemplate `json:"awsLaunchTemplate,omitempty"`
 
@@ -34,7 +36,7 @@ type V1EksMachinePoolConfig struct {
 	Azs []string `json:"azs"`
 
 	// EC2 instance capacity type
-	// Enum: ["on-demand","spot"]
+	// Enum: [on-demand spot]
 	CapacityType *string `json:"capacityType,omitempty"`
 
 	// flag to know if aws launch template is enabled
@@ -134,6 +136,7 @@ func (m *V1EksMachinePoolConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EksMachinePoolConfig) validateAwsLaunchTemplate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AwsLaunchTemplate) { // not required
 		return nil
 	}
@@ -142,8 +145,6 @@ func (m *V1EksMachinePoolConfig) validateAwsLaunchTemplate(formats strfmt.Regist
 		if err := m.AwsLaunchTemplate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsLaunchTemplate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("awsLaunchTemplate")
 			}
 			return err
 		}
@@ -166,8 +167,8 @@ func init() {
 
 const (
 
-	// V1EksMachinePoolConfigCapacityTypeOnDashDemand captures enum value "on-demand"
-	V1EksMachinePoolConfigCapacityTypeOnDashDemand string = "on-demand"
+	// V1EksMachinePoolConfigCapacityTypeOnDemand captures enum value "on-demand"
+	V1EksMachinePoolConfigCapacityTypeOnDemand string = "on-demand"
 
 	// V1EksMachinePoolConfigCapacityTypeSpot captures enum value "spot"
 	V1EksMachinePoolConfigCapacityTypeSpot string = "spot"
@@ -182,6 +183,7 @@ func (m *V1EksMachinePoolConfig) validateCapacityTypeEnum(path, location string,
 }
 
 func (m *V1EksMachinePoolConfig) validateCapacityType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CapacityType) { // not required
 		return nil
 	}
@@ -195,6 +197,7 @@ func (m *V1EksMachinePoolConfig) validateCapacityType(formats strfmt.Registry) e
 }
 
 func (m *V1EksMachinePoolConfig) validateInstanceConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.InstanceConfig) { // not required
 		return nil
 	}
@@ -203,8 +206,6 @@ func (m *V1EksMachinePoolConfig) validateInstanceConfig(formats strfmt.Registry)
 		if err := m.InstanceConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceConfig")
 			}
 			return err
 		}
@@ -223,6 +224,7 @@ func (m *V1EksMachinePoolConfig) validateIsControlPlane(formats strfmt.Registry)
 }
 
 func (m *V1EksMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePoolProperties) { // not required
 		return nil
 	}
@@ -231,8 +233,6 @@ func (m *V1EksMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Re
 		if err := m.MachinePoolProperties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
 			}
 			return err
 		}
@@ -242,6 +242,7 @@ func (m *V1EksMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Re
 }
 
 func (m *V1EksMachinePoolConfig) validateSpotMarketOptions(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SpotMarketOptions) { // not required
 		return nil
 	}
@@ -250,8 +251,6 @@ func (m *V1EksMachinePoolConfig) validateSpotMarketOptions(formats strfmt.Regist
 		if err := m.SpotMarketOptions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spotMarketOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spotMarketOptions")
 			}
 			return err
 		}
@@ -261,6 +260,7 @@ func (m *V1EksMachinePoolConfig) validateSpotMarketOptions(formats strfmt.Regist
 }
 
 func (m *V1EksMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Taints) { // not required
 		return nil
 	}
@@ -278,8 +278,6 @@ func (m *V1EksMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
 			if err := m.Taints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -291,6 +289,7 @@ func (m *V1EksMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
 }
 
 func (m *V1EksMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UpdateStrategy) { // not required
 		return nil
 	}
@@ -299,172 +298,6 @@ func (m *V1EksMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registry)
 		if err := m.UpdateStrategy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 eks machine pool config based on the context it is used
-func (m *V1EksMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAwsLaunchTemplate(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateInstanceConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePoolProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSpotMarketOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTaints(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUpdateStrategy(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateAwsLaunchTemplate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.AwsLaunchTemplate != nil {
-
-		if swag.IsZero(m.AwsLaunchTemplate) { // not required
-			return nil
-		}
-
-		if err := m.AwsLaunchTemplate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("awsLaunchTemplate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("awsLaunchTemplate")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateInstanceConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InstanceConfig != nil {
-
-		if swag.IsZero(m.InstanceConfig) { // not required
-			return nil
-		}
-
-		if err := m.InstanceConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateMachinePoolProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachinePoolProperties != nil {
-
-		if swag.IsZero(m.MachinePoolProperties) { // not required
-			return nil
-		}
-
-		if err := m.MachinePoolProperties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateSpotMarketOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.SpotMarketOptions != nil {
-
-		if swag.IsZero(m.SpotMarketOptions) { // not required
-			return nil
-		}
-
-		if err := m.SpotMarketOptions.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spotMarketOptions")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spotMarketOptions")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Taints); i++ {
-
-		if m.Taints[i] != nil {
-
-			if swag.IsZero(m.Taints[i]) { // not required
-				return nil
-			}
-
-			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EksMachinePoolConfig) contextValidateUpdateStrategy(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.UpdateStrategy != nil {
-
-		if swag.IsZero(m.UpdateStrategy) { // not required
-			return nil
-		}
-
-		if err := m.UpdateStrategy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
 			}
 			return err
 		}

@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,8 +54,6 @@ func (m *V1VMPreferredSchedulingTerm) validatePreference(formats strfmt.Registry
 		if err := m.Preference.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("preference")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("preference")
 			}
 			return err
 		}
@@ -70,37 +66,6 @@ func (m *V1VMPreferredSchedulingTerm) validateWeight(formats strfmt.Registry) er
 
 	if err := validate.Required("weight", "body", m.Weight); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm preferred scheduling term based on the context it is used
-func (m *V1VMPreferredSchedulingTerm) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePreference(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMPreferredSchedulingTerm) contextValidatePreference(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Preference != nil {
-
-		if err := m.Preference.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("preference")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("preference")
-			}
-			return err
-		}
 	}
 
 	return nil

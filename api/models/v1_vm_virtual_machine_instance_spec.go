@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -130,6 +129,7 @@ func (m *V1VMVirtualMachineInstanceSpec) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateAccessCredentials(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AccessCredentials) { // not required
 		return nil
 	}
@@ -143,8 +143,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateAccessCredentials(formats strfm
 			if err := m.AccessCredentials[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("accessCredentials" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("accessCredentials" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -156,6 +154,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateAccessCredentials(formats strfm
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateAffinity(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Affinity) { // not required
 		return nil
 	}
@@ -164,8 +163,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateAffinity(formats strfmt.Registr
 		if err := m.Affinity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("affinity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("affinity")
 			}
 			return err
 		}
@@ -175,6 +172,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateAffinity(formats strfmt.Registr
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateDNSConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.DNSConfig) { // not required
 		return nil
 	}
@@ -183,8 +181,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateDNSConfig(formats strfmt.Regist
 		if err := m.DNSConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dnsConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("dnsConfig")
 			}
 			return err
 		}
@@ -203,8 +199,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateDomain(formats strfmt.Registry)
 		if err := m.Domain.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("domain")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("domain")
 			}
 			return err
 		}
@@ -214,6 +208,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateDomain(formats strfmt.Registry)
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateLivenessProbe(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LivenessProbe) { // not required
 		return nil
 	}
@@ -222,8 +217,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateLivenessProbe(formats strfmt.Re
 		if err := m.LivenessProbe.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("livenessProbe")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("livenessProbe")
 			}
 			return err
 		}
@@ -233,6 +226,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateLivenessProbe(formats strfmt.Re
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateNetworks(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Networks) { // not required
 		return nil
 	}
@@ -246,8 +240,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateNetworks(formats strfmt.Registr
 			if err := m.Networks[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("networks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("networks" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -259,6 +251,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateNetworks(formats strfmt.Registr
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateReadinessProbe(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ReadinessProbe) { // not required
 		return nil
 	}
@@ -267,8 +260,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateReadinessProbe(formats strfmt.R
 		if err := m.ReadinessProbe.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("readinessProbe")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("readinessProbe")
 			}
 			return err
 		}
@@ -278,6 +269,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateReadinessProbe(formats strfmt.R
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateTolerations(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Tolerations) { // not required
 		return nil
 	}
@@ -291,8 +283,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateTolerations(formats strfmt.Regi
 			if err := m.Tolerations[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("tolerations" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("tolerations" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -304,6 +294,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateTolerations(formats strfmt.Regi
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateTopologySpreadConstraints(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.TopologySpreadConstraints) { // not required
 		return nil
 	}
@@ -317,8 +308,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateTopologySpreadConstraints(forma
 			if err := m.TopologySpreadConstraints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -330,6 +319,7 @@ func (m *V1VMVirtualMachineInstanceSpec) validateTopologySpreadConstraints(forma
 }
 
 func (m *V1VMVirtualMachineInstanceSpec) validateVolumes(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Volumes) { // not required
 		return nil
 	}
@@ -343,284 +333,6 @@ func (m *V1VMVirtualMachineInstanceSpec) validateVolumes(formats strfmt.Registry
 			if err := m.Volumes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("volumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("volumes" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm virtual machine instance spec based on the context it is used
-func (m *V1VMVirtualMachineInstanceSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAccessCredentials(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateAffinity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDNSConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDomain(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLivenessProbe(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNetworks(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateReadinessProbe(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTolerations(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTopologySpreadConstraints(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVolumes(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateAccessCredentials(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AccessCredentials); i++ {
-
-		if m.AccessCredentials[i] != nil {
-
-			if swag.IsZero(m.AccessCredentials[i]) { // not required
-				return nil
-			}
-
-			if err := m.AccessCredentials[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("accessCredentials" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("accessCredentials" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateAffinity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Affinity != nil {
-
-		if swag.IsZero(m.Affinity) { // not required
-			return nil
-		}
-
-		if err := m.Affinity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("affinity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("affinity")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateDNSConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.DNSConfig != nil {
-
-		if swag.IsZero(m.DNSConfig) { // not required
-			return nil
-		}
-
-		if err := m.DNSConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("dnsConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("dnsConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateDomain(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Domain != nil {
-
-		if err := m.Domain.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("domain")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("domain")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateLivenessProbe(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.LivenessProbe != nil {
-
-		if swag.IsZero(m.LivenessProbe) { // not required
-			return nil
-		}
-
-		if err := m.LivenessProbe.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("livenessProbe")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("livenessProbe")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateNetworks(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Networks); i++ {
-
-		if m.Networks[i] != nil {
-
-			if swag.IsZero(m.Networks[i]) { // not required
-				return nil
-			}
-
-			if err := m.Networks[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("networks" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("networks" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateReadinessProbe(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ReadinessProbe != nil {
-
-		if swag.IsZero(m.ReadinessProbe) { // not required
-			return nil
-		}
-
-		if err := m.ReadinessProbe.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("readinessProbe")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("readinessProbe")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateTolerations(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Tolerations); i++ {
-
-		if m.Tolerations[i] != nil {
-
-			if swag.IsZero(m.Tolerations[i]) { // not required
-				return nil
-			}
-
-			if err := m.Tolerations[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("tolerations" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("tolerations" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateTopologySpreadConstraints(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.TopologySpreadConstraints); i++ {
-
-		if m.TopologySpreadConstraints[i] != nil {
-
-			if swag.IsZero(m.TopologySpreadConstraints[i]) { // not required
-				return nil
-			}
-
-			if err := m.TopologySpreadConstraints[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineInstanceSpec) contextValidateVolumes(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Volumes); i++ {
-
-		if m.Volumes[i] != nil {
-
-			if swag.IsZero(m.Volumes[i]) { // not required
-				return nil
-			}
-
-			if err := m.Volumes[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("volumes" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("volumes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

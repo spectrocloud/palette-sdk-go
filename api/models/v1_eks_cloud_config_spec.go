@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -59,6 +58,7 @@ func (m *V1EksCloudConfigSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EksCloudConfigSpec) validateCloudAccountRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudAccountRef) { // not required
 		return nil
 	}
@@ -67,8 +67,6 @@ func (m *V1EksCloudConfigSpec) validateCloudAccountRef(formats strfmt.Registry) 
 		if err := m.CloudAccountRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudAccountRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudAccountRef")
 			}
 			return err
 		}
@@ -78,6 +76,7 @@ func (m *V1EksCloudConfigSpec) validateCloudAccountRef(formats strfmt.Registry) 
 }
 
 func (m *V1EksCloudConfigSpec) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -86,8 +85,6 @@ func (m *V1EksCloudConfigSpec) validateClusterConfig(formats strfmt.Registry) er
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -97,6 +94,7 @@ func (m *V1EksCloudConfigSpec) validateClusterConfig(formats strfmt.Registry) er
 }
 
 func (m *V1EksCloudConfigSpec) validateFargateProfiles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FargateProfiles) { // not required
 		return nil
 	}
@@ -110,8 +108,6 @@ func (m *V1EksCloudConfigSpec) validateFargateProfiles(formats strfmt.Registry) 
 			if err := m.FargateProfiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("fargateProfiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("fargateProfiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -123,6 +119,7 @@ func (m *V1EksCloudConfigSpec) validateFargateProfiles(formats strfmt.Registry) 
 }
 
 func (m *V1EksCloudConfigSpec) validateMachinePoolConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePoolConfig) { // not required
 		return nil
 	}
@@ -136,126 +133,6 @@ func (m *V1EksCloudConfigSpec) validateMachinePoolConfig(formats strfmt.Registry
 			if err := m.MachinePoolConfig[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 eks cloud config spec based on the context it is used
-func (m *V1EksCloudConfigSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudAccountRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateFargateProfiles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePoolConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EksCloudConfigSpec) contextValidateCloudAccountRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudAccountRef != nil {
-
-		if swag.IsZero(m.CloudAccountRef) { // not required
-			return nil
-		}
-
-		if err := m.CloudAccountRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudAccountRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudAccountRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksCloudConfigSpec) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EksCloudConfigSpec) contextValidateFargateProfiles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.FargateProfiles); i++ {
-
-		if m.FargateProfiles[i] != nil {
-
-			if swag.IsZero(m.FargateProfiles[i]) { // not required
-				return nil
-			}
-
-			if err := m.FargateProfiles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("fargateProfiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("fargateProfiles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EksCloudConfigSpec) contextValidateMachinePoolConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.MachinePoolConfig); i++ {
-
-		if m.MachinePoolConfig[i] != nil {
-
-			if swag.IsZero(m.MachinePoolConfig[i]) { // not required
-				return nil
-			}
-
-			if err := m.MachinePoolConfig[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

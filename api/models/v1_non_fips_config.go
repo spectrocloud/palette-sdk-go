@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1NonFipsConfig struct {
 
 	// enable or disable the non FIPS complaint
-	// Enum: ["nonFipsEnabled","nonFipsDisabled"]
+	// Enum: [nonFipsEnabled nonFipsDisabled]
 	Mode *string `json:"mode,omitempty"`
 }
 
@@ -69,6 +68,7 @@ func (m *V1NonFipsConfig) validateModeEnum(path, location string, value string) 
 }
 
 func (m *V1NonFipsConfig) validateMode(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Mode) { // not required
 		return nil
 	}
@@ -78,11 +78,6 @@ func (m *V1NonFipsConfig) validateMode(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 non fips config based on context it is used
-func (m *V1NonFipsConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

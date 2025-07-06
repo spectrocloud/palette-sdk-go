@@ -6,12 +6,9 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1VMEmptyDiskSource EmptyDisk represents a temporary disk which shares the vmis lifecycle.
@@ -21,7 +18,7 @@ type V1VMEmptyDiskSource struct {
 
 	// capacity
 	// Required: true
-	Capacity *V1VMQuantity `json:"capacity"`
+	Capacity V1VMQuantity `json:"capacity"`
 }
 
 // Validate validates this v1 Vm empty disk source
@@ -40,54 +37,11 @@ func (m *V1VMEmptyDiskSource) Validate(formats strfmt.Registry) error {
 
 func (m *V1VMEmptyDiskSource) validateCapacity(formats strfmt.Registry) error {
 
-	if err := validate.Required("capacity", "body", m.Capacity); err != nil {
-		return err
-	}
-
-	if err := validate.Required("capacity", "body", m.Capacity); err != nil {
-		return err
-	}
-
-	if m.Capacity != nil {
-		if err := m.Capacity.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("capacity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("capacity")
-			}
-			return err
+	if err := m.Capacity.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("capacity")
 		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm empty disk source based on the context it is used
-func (m *V1VMEmptyDiskSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCapacity(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMEmptyDiskSource) contextValidateCapacity(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Capacity != nil {
-
-		if err := m.Capacity.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("capacity")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("capacity")
-			}
-			return err
-		}
+		return err
 	}
 
 	return nil

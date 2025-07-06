@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1EdgeNativeMachinePoolConfigEntity) Validate(formats strfmt.Registry) 
 }
 
 func (m *V1EdgeNativeMachinePoolConfigEntity) validateCloudConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudConfig) { // not required
 		return nil
 	}
@@ -52,8 +51,6 @@ func (m *V1EdgeNativeMachinePoolConfigEntity) validateCloudConfig(formats strfmt
 		if err := m.CloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudConfig")
 			}
 			return err
 		}
@@ -63,6 +60,7 @@ func (m *V1EdgeNativeMachinePoolConfigEntity) validateCloudConfig(formats strfmt
 }
 
 func (m *V1EdgeNativeMachinePoolConfigEntity) validatePoolConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PoolConfig) { // not required
 		return nil
 	}
@@ -71,68 +69,6 @@ func (m *V1EdgeNativeMachinePoolConfigEntity) validatePoolConfig(formats strfmt.
 		if err := m.PoolConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("poolConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("poolConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge native machine pool config entity based on the context it is used
-func (m *V1EdgeNativeMachinePoolConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePoolConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfigEntity) contextValidateCloudConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudConfig != nil {
-
-		if swag.IsZero(m.CloudConfig) { // not required
-			return nil
-		}
-
-		if err := m.CloudConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfigEntity) contextValidatePoolConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.PoolConfig != nil {
-
-		if swag.IsZero(m.PoolConfig) { // not required
-			return nil
-		}
-
-		if err := m.PoolConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("poolConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("poolConfig")
 			}
 			return err
 		}

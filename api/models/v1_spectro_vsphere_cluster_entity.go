@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -46,6 +45,7 @@ func (m *V1SpectroVsphereClusterEntity) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1SpectroVsphereClusterEntity) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -54,8 +54,6 @@ func (m *V1SpectroVsphereClusterEntity) validateMetadata(formats strfmt.Registry
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -65,6 +63,7 @@ func (m *V1SpectroVsphereClusterEntity) validateMetadata(formats strfmt.Registry
 }
 
 func (m *V1SpectroVsphereClusterEntity) validateSpec(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Spec) { // not required
 		return nil
 	}
@@ -73,68 +72,6 @@ func (m *V1SpectroVsphereClusterEntity) validateSpec(formats strfmt.Registry) er
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro vsphere cluster entity based on the context it is used
-func (m *V1SpectroVsphereClusterEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSpec(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntity) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntity) contextValidateSpec(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Spec != nil {
-
-		if swag.IsZero(m.Spec) { // not required
-			return nil
-		}
-
-		if err := m.Spec.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
 			}
 			return err
 		}
@@ -229,8 +166,6 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateCloudConfig(formats strfmt.R
 		if err := m.CloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec" + "." + "cloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "cloudConfig")
 			}
 			return err
 		}
@@ -240,6 +175,7 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateCloudConfig(formats strfmt.R
 }
 
 func (m *V1SpectroVsphereClusterEntitySpec) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -248,8 +184,6 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateClusterConfig(formats strfmt
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec" + "." + "clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "clusterConfig")
 			}
 			return err
 		}
@@ -259,6 +193,7 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateClusterConfig(formats strfmt
 }
 
 func (m *V1SpectroVsphereClusterEntitySpec) validateMachinepoolconfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Machinepoolconfig) { // not required
 		return nil
 	}
@@ -272,8 +207,6 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateMachinepoolconfig(formats st
 			if err := m.Machinepoolconfig[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("spec" + "." + "machinepoolconfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("spec" + "." + "machinepoolconfig" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -285,6 +218,7 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateMachinepoolconfig(formats st
 }
 
 func (m *V1SpectroVsphereClusterEntitySpec) validatePolicies(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Policies) { // not required
 		return nil
 	}
@@ -293,8 +227,6 @@ func (m *V1SpectroVsphereClusterEntitySpec) validatePolicies(formats strfmt.Regi
 		if err := m.Policies.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec" + "." + "policies")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "policies")
 			}
 			return err
 		}
@@ -304,6 +236,7 @@ func (m *V1SpectroVsphereClusterEntitySpec) validatePolicies(formats strfmt.Regi
 }
 
 func (m *V1SpectroVsphereClusterEntitySpec) validateProfiles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Profiles) { // not required
 		return nil
 	}
@@ -317,147 +250,6 @@ func (m *V1SpectroVsphereClusterEntitySpec) validateProfiles(formats strfmt.Regi
 			if err := m.Profiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("spec" + "." + "profiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("spec" + "." + "profiles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro vsphere cluster entity spec based on the context it is used
-func (m *V1SpectroVsphereClusterEntitySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinepoolconfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePolicies(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateProfiles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntitySpec) contextValidateCloudConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudConfig != nil {
-
-		if err := m.CloudConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec" + "." + "cloudConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "cloudConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntitySpec) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec" + "." + "clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntitySpec) contextValidateMachinepoolconfig(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Machinepoolconfig); i++ {
-
-		if m.Machinepoolconfig[i] != nil {
-
-			if swag.IsZero(m.Machinepoolconfig[i]) { // not required
-				return nil
-			}
-
-			if err := m.Machinepoolconfig[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("spec" + "." + "machinepoolconfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("spec" + "." + "machinepoolconfig" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntitySpec) contextValidatePolicies(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Policies != nil {
-
-		if swag.IsZero(m.Policies) { // not required
-			return nil
-		}
-
-		if err := m.Policies.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec" + "." + "policies")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec" + "." + "policies")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroVsphereClusterEntitySpec) contextValidateProfiles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Profiles); i++ {
-
-		if m.Profiles[i] != nil {
-
-			if swag.IsZero(m.Profiles[i]) { // not required
-				return nil
-			}
-
-			if err := m.Profiles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("spec" + "." + "profiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("spec" + "." + "profiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

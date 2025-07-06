@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -50,6 +49,7 @@ func (m *V1ClusterProfileSpecImportEntity) Validate(formats strfmt.Registry) err
 }
 
 func (m *V1ClusterProfileSpecImportEntity) validateTemplate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Template) { // not required
 		return nil
 	}
@@ -58,8 +58,6 @@ func (m *V1ClusterProfileSpecImportEntity) validateTemplate(formats strfmt.Regis
 		if err := m.Template.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
 			}
 			return err
 		}
@@ -69,6 +67,7 @@ func (m *V1ClusterProfileSpecImportEntity) validateTemplate(formats strfmt.Regis
 }
 
 func (m *V1ClusterProfileSpecImportEntity) validateVariables(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Variables) { // not required
 		return nil
 	}
@@ -86,72 +85,6 @@ func (m *V1ClusterProfileSpecImportEntity) validateVariables(formats strfmt.Regi
 			if err := m.Variables[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("variables" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("variables" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster profile spec import entity based on the context it is used
-func (m *V1ClusterProfileSpecImportEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateTemplate(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVariables(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterProfileSpecImportEntity) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Template != nil {
-
-		if swag.IsZero(m.Template) { // not required
-			return nil
-		}
-
-		if err := m.Template.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterProfileSpecImportEntity) contextValidateVariables(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Variables); i++ {
-
-		if m.Variables[i] != nil {
-
-			if swag.IsZero(m.Variables[i]) { // not required
-				return nil
-			}
-
-			if err := m.Variables[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("variables" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("variables" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

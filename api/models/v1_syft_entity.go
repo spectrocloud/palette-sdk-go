@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -30,7 +29,7 @@ type V1SyftEntity struct {
 
 	// status
 	// Required: true
-	// Enum: ["Completed","InProgress","Failed","Initiated"]
+	// Enum: [Completed InProgress Failed Initiated]
 	Status *string `json:"status"`
 }
 
@@ -66,8 +65,6 @@ func (m *V1SyftEntity) validateReport(formats strfmt.Registry) error {
 		if err := m.Report.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("report")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("report")
 			}
 			return err
 		}
@@ -129,37 +126,6 @@ func (m *V1SyftEntity) validateStatus(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateStatusEnum("status", "body", *m.Status); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 syft entity based on the context it is used
-func (m *V1SyftEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateReport(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SyftEntity) contextValidateReport(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Report != nil {
-
-		if err := m.Report.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("report")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("report")
-			}
-			return err
-		}
 	}
 
 	return nil

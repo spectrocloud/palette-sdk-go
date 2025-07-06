@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -30,7 +28,7 @@ type V1PackEntity struct {
 	Tag string `json:"tag,omitempty"`
 
 	// type
-	Type *V1PackType `json:"type,omitempty"`
+	Type V1PackType `json:"type,omitempty"`
 
 	// Pack uid
 	// Required: true
@@ -72,19 +70,16 @@ func (m *V1PackEntity) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1PackEntity) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
 
-	if m.Type != nil {
-		if err := m.Type.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("type")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("type")
-			}
-			return err
+	if err := m.Type.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("type")
 		}
+		return err
 	}
 
 	return nil
@@ -94,41 +89,6 @@ func (m *V1PackEntity) validateUID(formats strfmt.Registry) error {
 
 	if err := validate.Required("uid", "body", m.UID); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 pack entity based on the context it is used
-func (m *V1PackEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PackEntity) contextValidateType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Type != nil {
-
-		if swag.IsZero(m.Type) { // not required
-			return nil
-		}
-
-		if err := m.Type.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("type")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("type")
-			}
-			return err
-		}
 	}
 
 	return nil

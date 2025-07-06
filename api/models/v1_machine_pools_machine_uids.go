@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -38,6 +36,7 @@ func (m *V1MachinePoolsMachineUids) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1MachinePoolsMachineUids) validateMachinePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePools) { // not required
 		return nil
 	}
@@ -49,40 +48,6 @@ func (m *V1MachinePoolsMachineUids) validateMachinePools(formats strfmt.Registry
 		}
 		if val, ok := m.MachinePools[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("machinePools" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePools" + "." + k)
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 machine pools machine uids based on the context it is used
-func (m *V1MachinePoolsMachineUids) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMachinePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1MachinePoolsMachineUids) contextValidateMachinePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for k := range m.MachinePools {
-
-		if val, ok := m.MachinePools[k]; ok {
-			if err := val.ContextValidate(ctx, formats); err != nil {
 				return err
 			}
 		}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -24,7 +23,7 @@ type V1DataSinkableSpec struct {
 	CloudWatch *V1CloudWatch `json:"cloudWatch,omitempty"`
 
 	// type
-	// Enum: ["cloudwatch"]
+	// Enum: [cloudwatch]
 	Type string `json:"type,omitempty"`
 }
 
@@ -47,6 +46,7 @@ func (m *V1DataSinkableSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1DataSinkableSpec) validateCloudWatch(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudWatch) { // not required
 		return nil
 	}
@@ -55,8 +55,6 @@ func (m *V1DataSinkableSpec) validateCloudWatch(formats strfmt.Registry) error {
 		if err := m.CloudWatch.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudWatch")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudWatch")
 			}
 			return err
 		}
@@ -92,6 +90,7 @@ func (m *V1DataSinkableSpec) validateTypeEnum(path, location string, value strin
 }
 
 func (m *V1DataSinkableSpec) validateType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Type) { // not required
 		return nil
 	}
@@ -99,41 +98,6 @@ func (m *V1DataSinkableSpec) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", m.Type); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 data sinkable spec based on the context it is used
-func (m *V1DataSinkableSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudWatch(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1DataSinkableSpec) contextValidateCloudWatch(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudWatch != nil {
-
-		if swag.IsZero(m.CloudWatch) { // not required
-			return nil
-		}
-
-		if err := m.CloudWatch.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudWatch")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudWatch")
-			}
-			return err
-		}
 	}
 
 	return nil

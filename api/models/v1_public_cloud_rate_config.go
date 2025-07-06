@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1PublicCloudRateConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PublicCloudRateConfig) validateComputeOptimized(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ComputeOptimized) { // not required
 		return nil
 	}
@@ -52,8 +51,6 @@ func (m *V1PublicCloudRateConfig) validateComputeOptimized(formats strfmt.Regist
 		if err := m.ComputeOptimized.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("computeOptimized")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("computeOptimized")
 			}
 			return err
 		}
@@ -63,6 +60,7 @@ func (m *V1PublicCloudRateConfig) validateComputeOptimized(formats strfmt.Regist
 }
 
 func (m *V1PublicCloudRateConfig) validateMemoryOptimized(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MemoryOptimized) { // not required
 		return nil
 	}
@@ -71,68 +69,6 @@ func (m *V1PublicCloudRateConfig) validateMemoryOptimized(formats strfmt.Registr
 		if err := m.MemoryOptimized.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("memoryOptimized")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("memoryOptimized")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 public cloud rate config based on the context it is used
-func (m *V1PublicCloudRateConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateComputeOptimized(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMemoryOptimized(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1PublicCloudRateConfig) contextValidateComputeOptimized(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ComputeOptimized != nil {
-
-		if swag.IsZero(m.ComputeOptimized) { // not required
-			return nil
-		}
-
-		if err := m.ComputeOptimized.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("computeOptimized")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("computeOptimized")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1PublicCloudRateConfig) contextValidateMemoryOptimized(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MemoryOptimized != nil {
-
-		if swag.IsZero(m.MemoryOptimized) { // not required
-			return nil
-		}
-
-		if err := m.MemoryOptimized.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("memoryOptimized")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("memoryOptimized")
 			}
 			return err
 		}

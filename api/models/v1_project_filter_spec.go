@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1ProjectFilterSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ProjectFilterSpec) validateName(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Name) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1ProjectFilterSpec) validateName(formats strfmt.Registry) error {
 		if err := m.Name.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("name")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("name")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 project filter spec based on the context it is used
-func (m *V1ProjectFilterSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateName(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ProjectFilterSpec) contextValidateName(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Name != nil {
-
-		if swag.IsZero(m.Name) { // not required
-			return nil
-		}
-
-		if err := m.Name.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("name")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("name")
 			}
 			return err
 		}

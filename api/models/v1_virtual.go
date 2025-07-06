@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -69,6 +68,7 @@ func (m *V1Virtual) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1Virtual) validateAppDeployments(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AppDeployments) { // not required
 		return nil
 	}
@@ -82,8 +82,6 @@ func (m *V1Virtual) validateAppDeployments(formats strfmt.Registry) error {
 			if err := m.AppDeployments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("appDeployments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -95,6 +93,7 @@ func (m *V1Virtual) validateAppDeployments(formats strfmt.Registry) error {
 }
 
 func (m *V1Virtual) validateClusterGroup(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterGroup) { // not required
 		return nil
 	}
@@ -103,8 +102,6 @@ func (m *V1Virtual) validateClusterGroup(formats strfmt.Registry) error {
 		if err := m.ClusterGroup.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterGroup")
 			}
 			return err
 		}
@@ -114,6 +111,7 @@ func (m *V1Virtual) validateClusterGroup(formats strfmt.Registry) error {
 }
 
 func (m *V1Virtual) validateHostCluster(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostCluster) { // not required
 		return nil
 	}
@@ -122,8 +120,6 @@ func (m *V1Virtual) validateHostCluster(formats strfmt.Registry) error {
 		if err := m.HostCluster.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostCluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostCluster")
 			}
 			return err
 		}
@@ -133,6 +129,7 @@ func (m *V1Virtual) validateHostCluster(formats strfmt.Registry) error {
 }
 
 func (m *V1Virtual) validateLifecycleStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LifecycleStatus) { // not required
 		return nil
 	}
@@ -141,8 +138,6 @@ func (m *V1Virtual) validateLifecycleStatus(formats strfmt.Registry) error {
 		if err := m.LifecycleStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lifecycleStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lifecycleStatus")
 			}
 			return err
 		}
@@ -152,6 +147,7 @@ func (m *V1Virtual) validateLifecycleStatus(formats strfmt.Registry) error {
 }
 
 func (m *V1Virtual) validateVirtualClusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.VirtualClusters) { // not required
 		return nil
 	}
@@ -165,151 +161,6 @@ func (m *V1Virtual) validateVirtualClusters(formats strfmt.Registry) error {
 			if err := m.VirtualClusters[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("virtualClusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("virtualClusters" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 virtual based on the context it is used
-func (m *V1Virtual) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAppDeployments(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterGroup(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHostCluster(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLifecycleStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVirtualClusters(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1Virtual) contextValidateAppDeployments(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AppDeployments); i++ {
-
-		if m.AppDeployments[i] != nil {
-
-			if swag.IsZero(m.AppDeployments[i]) { // not required
-				return nil
-			}
-
-			if err := m.AppDeployments[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1Virtual) contextValidateClusterGroup(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterGroup != nil {
-
-		if swag.IsZero(m.ClusterGroup) { // not required
-			return nil
-		}
-
-		if err := m.ClusterGroup.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterGroup")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterGroup")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Virtual) contextValidateHostCluster(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HostCluster != nil {
-
-		if swag.IsZero(m.HostCluster) { // not required
-			return nil
-		}
-
-		if err := m.HostCluster.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hostCluster")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostCluster")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Virtual) contextValidateLifecycleStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.LifecycleStatus != nil {
-
-		if swag.IsZero(m.LifecycleStatus) { // not required
-			return nil
-		}
-
-		if err := m.LifecycleStatus.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("lifecycleStatus")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lifecycleStatus")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1Virtual) contextValidateVirtualClusters(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.VirtualClusters); i++ {
-
-		if m.VirtualClusters[i] != nil {
-
-			if swag.IsZero(m.VirtualClusters[i]) { // not required
-				return nil
-			}
-
-			if err := m.VirtualClusters[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("virtualClusters" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("virtualClusters" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

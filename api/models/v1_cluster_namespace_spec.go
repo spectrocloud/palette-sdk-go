@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,6 +45,7 @@ func (m *V1ClusterNamespaceSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterNamespaceSpec) validateRelatedObject(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RelatedObject) { // not required
 		return nil
 	}
@@ -55,8 +54,6 @@ func (m *V1ClusterNamespaceSpec) validateRelatedObject(formats strfmt.Registry) 
 		if err := m.RelatedObject.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("relatedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("relatedObject")
 			}
 			return err
 		}
@@ -66,6 +63,7 @@ func (m *V1ClusterNamespaceSpec) validateRelatedObject(formats strfmt.Registry) 
 }
 
 func (m *V1ClusterNamespaceSpec) validateResourceAllocation(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ResourceAllocation) { // not required
 		return nil
 	}
@@ -74,68 +72,6 @@ func (m *V1ClusterNamespaceSpec) validateResourceAllocation(formats strfmt.Regis
 		if err := m.ResourceAllocation.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resourceAllocation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resourceAllocation")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster namespace spec based on the context it is used
-func (m *V1ClusterNamespaceSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateRelatedObject(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateResourceAllocation(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterNamespaceSpec) contextValidateRelatedObject(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.RelatedObject != nil {
-
-		if swag.IsZero(m.RelatedObject) { // not required
-			return nil
-		}
-
-		if err := m.RelatedObject.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("relatedObject")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("relatedObject")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterNamespaceSpec) contextValidateResourceAllocation(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ResourceAllocation != nil {
-
-		if swag.IsZero(m.ResourceAllocation) { // not required
-			return nil
-		}
-
-		if err := m.ResourceAllocation.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("resourceAllocation")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resourceAllocation")
 			}
 			return err
 		}

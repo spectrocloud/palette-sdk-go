@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -50,6 +48,7 @@ func (m *V1IPPoolStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolStatus) validateAllottedIps(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AllottedIps) { // not required
 		return nil
 	}
@@ -62,6 +61,7 @@ func (m *V1IPPoolStatus) validateAllottedIps(formats strfmt.Registry) error {
 }
 
 func (m *V1IPPoolStatus) validateAssociatedClusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AssociatedClusters) { // not required
 		return nil
 	}
@@ -70,11 +70,6 @@ func (m *V1IPPoolStatus) validateAssociatedClusters(formats strfmt.Registry) err
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 Ip pool status based on context it is used
-func (m *V1IPPoolStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

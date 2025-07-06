@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -55,6 +53,7 @@ func (m *V1VsphereClusterConfigEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VsphereClusterConfigEntity) validateControlPlaneEndpoint(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ControlPlaneEndpoint) { // not required
 		return nil
 	}
@@ -63,8 +62,6 @@ func (m *V1VsphereClusterConfigEntity) validateControlPlaneEndpoint(formats strf
 		if err := m.ControlPlaneEndpoint.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
 			}
 			return err
 		}
@@ -83,64 +80,6 @@ func (m *V1VsphereClusterConfigEntity) validatePlacement(formats strfmt.Registry
 		if err := m.Placement.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("placement")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("placement")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 vsphere cluster config entity based on the context it is used
-func (m *V1VsphereClusterConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateControlPlaneEndpoint(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePlacement(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VsphereClusterConfigEntity) contextValidateControlPlaneEndpoint(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ControlPlaneEndpoint != nil {
-
-		if swag.IsZero(m.ControlPlaneEndpoint) { // not required
-			return nil
-		}
-
-		if err := m.ControlPlaneEndpoint.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("controlPlaneEndpoint")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("controlPlaneEndpoint")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VsphereClusterConfigEntity) contextValidatePlacement(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Placement != nil {
-
-		if err := m.Placement.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("placement")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("placement")
 			}
 			return err
 		}

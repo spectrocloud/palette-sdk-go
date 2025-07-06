@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -47,6 +46,7 @@ func (m *V1VMDHCPOptions) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDHCPOptions) validatePrivateOptions(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.PrivateOptions) { // not required
 		return nil
 	}
@@ -60,47 +60,6 @@ func (m *V1VMDHCPOptions) validatePrivateOptions(formats strfmt.Registry) error 
 			if err := m.PrivateOptions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("privateOptions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("privateOptions" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm d h c p options based on the context it is used
-func (m *V1VMDHCPOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidatePrivateOptions(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMDHCPOptions) contextValidatePrivateOptions(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.PrivateOptions); i++ {
-
-		if m.PrivateOptions[i] != nil {
-
-			if swag.IsZero(m.PrivateOptions[i]) { // not required
-				return nil
-			}
-
-			if err := m.PrivateOptions[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("privateOptions" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("privateOptions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

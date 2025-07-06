@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -38,11 +36,6 @@ type V1KubeHunterLogEntity struct {
 
 // Validate validates this v1 kube hunter log entity
 func (m *V1KubeHunterLogEntity) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this v1 kube hunter log entity based on context it is used
-func (m *V1KubeHunterLogEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

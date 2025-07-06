@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -58,6 +56,7 @@ func (m *V1EdgeHostDevice) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDevice) validateAclmeta(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Aclmeta) { // not required
 		return nil
 	}
@@ -66,8 +65,6 @@ func (m *V1EdgeHostDevice) validateAclmeta(formats strfmt.Registry) error {
 		if err := m.Aclmeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("aclmeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("aclmeta")
 			}
 			return err
 		}
@@ -77,6 +74,7 @@ func (m *V1EdgeHostDevice) validateAclmeta(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDevice) validateMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -85,8 +83,6 @@ func (m *V1EdgeHostDevice) validateMetadata(formats strfmt.Registry) error {
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -96,6 +92,7 @@ func (m *V1EdgeHostDevice) validateMetadata(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDevice) validateSpec(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Spec) { // not required
 		return nil
 	}
@@ -104,8 +101,6 @@ func (m *V1EdgeHostDevice) validateSpec(formats strfmt.Registry) error {
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
 			}
 			return err
 		}
@@ -115,6 +110,7 @@ func (m *V1EdgeHostDevice) validateSpec(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostDevice) validateStatus(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -123,118 +119,6 @@ func (m *V1EdgeHostDevice) validateStatus(formats strfmt.Registry) error {
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host device based on the context it is used
-func (m *V1EdgeHostDevice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAclmeta(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSpec(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStatus(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostDevice) contextValidateAclmeta(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Aclmeta != nil {
-
-		if swag.IsZero(m.Aclmeta) { // not required
-			return nil
-		}
-
-		if err := m.Aclmeta.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("aclmeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("aclmeta")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDevice) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Metadata != nil {
-
-		if swag.IsZero(m.Metadata) { // not required
-			return nil
-		}
-
-		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("metadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("metadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDevice) contextValidateSpec(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Spec != nil {
-
-		if swag.IsZero(m.Spec) { // not required
-			return nil
-		}
-
-		if err := m.Spec.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("spec")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("spec")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeHostDevice) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Status != nil {
-
-		if swag.IsZero(m.Status) { // not required
-			return nil
-		}
-
-		if err := m.Status.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("status")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("status")
 			}
 			return err
 		}

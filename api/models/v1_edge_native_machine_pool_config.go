@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -108,8 +107,6 @@ func (m *V1EdgeNativeMachinePoolConfig) validateHosts(formats strfmt.Registry) e
 			if err := m.Hosts[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hosts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hosts" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -121,6 +118,7 @@ func (m *V1EdgeNativeMachinePoolConfig) validateHosts(formats strfmt.Registry) e
 }
 
 func (m *V1EdgeNativeMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePoolProperties) { // not required
 		return nil
 	}
@@ -129,8 +127,6 @@ func (m *V1EdgeNativeMachinePoolConfig) validateMachinePoolProperties(formats st
 		if err := m.MachinePoolProperties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
 			}
 			return err
 		}
@@ -140,6 +136,7 @@ func (m *V1EdgeNativeMachinePoolConfig) validateMachinePoolProperties(formats st
 }
 
 func (m *V1EdgeNativeMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Taints) { // not required
 		return nil
 	}
@@ -153,8 +150,6 @@ func (m *V1EdgeNativeMachinePoolConfig) validateTaints(formats strfmt.Registry) 
 			if err := m.Taints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -166,6 +161,7 @@ func (m *V1EdgeNativeMachinePoolConfig) validateTaints(formats strfmt.Registry) 
 }
 
 func (m *V1EdgeNativeMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UpdateStrategy) { // not required
 		return nil
 	}
@@ -174,126 +170,6 @@ func (m *V1EdgeNativeMachinePoolConfig) validateUpdateStrategy(formats strfmt.Re
 		if err := m.UpdateStrategy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge native machine pool config based on the context it is used
-func (m *V1EdgeNativeMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateHosts(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePoolProperties(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTaints(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUpdateStrategy(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfig) contextValidateHosts(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Hosts); i++ {
-
-		if m.Hosts[i] != nil {
-
-			if swag.IsZero(m.Hosts[i]) { // not required
-				return nil
-			}
-
-			if err := m.Hosts[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("hosts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("hosts" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfig) contextValidateMachinePoolProperties(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachinePoolProperties != nil {
-
-		if swag.IsZero(m.MachinePoolProperties) { // not required
-			return nil
-		}
-
-		if err := m.MachinePoolProperties.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machinePoolProperties")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machinePoolProperties")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Taints); i++ {
-
-		if m.Taints[i] != nil {
-
-			if swag.IsZero(m.Taints[i]) { // not required
-				return nil
-			}
-
-			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1EdgeNativeMachinePoolConfig) contextValidateUpdateStrategy(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.UpdateStrategy != nil {
-
-		if swag.IsZero(m.UpdateStrategy) { // not required
-			return nil
-		}
-
-		if err := m.UpdateStrategy.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("updateStrategy")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("updateStrategy")
 			}
 			return err
 		}

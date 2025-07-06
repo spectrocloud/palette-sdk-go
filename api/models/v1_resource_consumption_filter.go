@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -93,6 +91,7 @@ func (m *V1ResourceConsumptionFilter) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ResourceConsumptionFilter) validateClouds(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Clouds) { // not required
 		return nil
 	}
@@ -105,6 +104,7 @@ func (m *V1ResourceConsumptionFilter) validateClouds(formats strfmt.Registry) er
 }
 
 func (m *V1ResourceConsumptionFilter) validateClusters(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Clusters) { // not required
 		return nil
 	}
@@ -117,6 +117,7 @@ func (m *V1ResourceConsumptionFilter) validateClusters(formats strfmt.Registry) 
 }
 
 func (m *V1ResourceConsumptionFilter) validateEndTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
 	}
@@ -124,8 +125,6 @@ func (m *V1ResourceConsumptionFilter) validateEndTime(formats strfmt.Registry) e
 	if err := m.EndTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
 		}
 		return err
 	}
@@ -134,6 +133,7 @@ func (m *V1ResourceConsumptionFilter) validateEndTime(formats strfmt.Registry) e
 }
 
 func (m *V1ResourceConsumptionFilter) validateNamespaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
@@ -146,6 +146,7 @@ func (m *V1ResourceConsumptionFilter) validateNamespaces(formats strfmt.Registry
 }
 
 func (m *V1ResourceConsumptionFilter) validateProjects(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Projects) { // not required
 		return nil
 	}
@@ -158,6 +159,7 @@ func (m *V1ResourceConsumptionFilter) validateProjects(formats strfmt.Registry) 
 }
 
 func (m *V1ResourceConsumptionFilter) validateStartTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartTime) { // not required
 		return nil
 	}
@@ -165,8 +167,6 @@ func (m *V1ResourceConsumptionFilter) validateStartTime(formats strfmt.Registry)
 	if err := m.StartTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTime")
 		}
 		return err
 	}
@@ -175,65 +175,12 @@ func (m *V1ResourceConsumptionFilter) validateStartTime(formats strfmt.Registry)
 }
 
 func (m *V1ResourceConsumptionFilter) validateWorkspaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Workspaces) { // not required
 		return nil
 	}
 
 	if err := validate.UniqueItems("workspaces", "body", m.Workspaces); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 resource consumption filter based on the context it is used
-func (m *V1ResourceConsumptionFilter) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateEndTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStartTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ResourceConsumptionFilter) contextValidateEndTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.EndTime) { // not required
-		return nil
-	}
-
-	if err := m.EndTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("endTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTime")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1ResourceConsumptionFilter) contextValidateStartTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.StartTime) { // not required
-		return nil
-	}
-
-	if err := m.StartTime.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("startTime")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTime")
-		}
 		return err
 	}
 

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -30,7 +29,7 @@ type V1KubeBenchEntity struct {
 
 	// status
 	// Required: true
-	// Enum: ["Completed","InProgress","Failed","Initiated"]
+	// Enum: [Completed InProgress Failed Initiated]
 	Status *string `json:"status"`
 }
 
@@ -58,10 +57,6 @@ func (m *V1KubeBenchEntity) Validate(formats strfmt.Registry) error {
 
 func (m *V1KubeBenchEntity) validateReports(formats strfmt.Registry) error {
 
-	if err := validate.Required("reports", "body", m.Reports); err != nil {
-		return err
-	}
-
 	for k := range m.Reports {
 
 		if err := validate.Required("reports"+"."+k, "body", m.Reports[k]); err != nil {
@@ -69,11 +64,6 @@ func (m *V1KubeBenchEntity) validateReports(formats strfmt.Registry) error {
 		}
 		if val, ok := m.Reports[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("reports" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("reports" + "." + k)
-				}
 				return err
 			}
 		}
@@ -136,39 +126,6 @@ func (m *V1KubeBenchEntity) validateStatus(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateStatusEnum("status", "body", *m.Status); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 kube bench entity based on the context it is used
-func (m *V1KubeBenchEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateReports(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1KubeBenchEntity) contextValidateReports(ctx context.Context, formats strfmt.Registry) error {
-
-	if err := validate.Required("reports", "body", m.Reports); err != nil {
-		return err
-	}
-
-	for k := range m.Reports {
-
-		if val, ok := m.Reports[k]; ok {
-			if err := val.ContextValidate(ctx, formats); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	return nil

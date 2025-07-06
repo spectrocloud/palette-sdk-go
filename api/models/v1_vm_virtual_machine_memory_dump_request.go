@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -81,6 +79,7 @@ func (m *V1VMVirtualMachineMemoryDumpRequest) validateClaimName(formats strfmt.R
 }
 
 func (m *V1VMVirtualMachineMemoryDumpRequest) validateEndTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndTimestamp) { // not required
 		return nil
 	}
@@ -88,8 +87,6 @@ func (m *V1VMVirtualMachineMemoryDumpRequest) validateEndTimestamp(formats strfm
 	if err := m.EndTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTimestamp")
 		}
 		return err
 	}
@@ -107,6 +104,7 @@ func (m *V1VMVirtualMachineMemoryDumpRequest) validatePhase(formats strfmt.Regis
 }
 
 func (m *V1VMVirtualMachineMemoryDumpRequest) validateStartTimestamp(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StartTimestamp) { // not required
 		return nil
 	}
@@ -114,62 +112,6 @@ func (m *V1VMVirtualMachineMemoryDumpRequest) validateStartTimestamp(formats str
 	if err := m.StartTimestamp.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm virtual machine memory dump request based on the context it is used
-func (m *V1VMVirtualMachineMemoryDumpRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateEndTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStartTimestamp(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMVirtualMachineMemoryDumpRequest) contextValidateEndTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.EndTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.EndTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("endTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("endTimestamp")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1VMVirtualMachineMemoryDumpRequest) contextValidateStartTimestamp(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.StartTimestamp) { // not required
-		return nil
-	}
-
-	if err := m.StartTimestamp.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("startTimestamp")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("startTimestamp")
 		}
 		return err
 	}

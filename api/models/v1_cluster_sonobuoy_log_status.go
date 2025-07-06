@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -61,6 +59,7 @@ func (m *V1ClusterSonobuoyLogStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterSonobuoyLogStatus) validateActor(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -69,8 +68,6 @@ func (m *V1ClusterSonobuoyLogStatus) validateActor(formats strfmt.Registry) erro
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -80,6 +77,7 @@ func (m *V1ClusterSonobuoyLogStatus) validateActor(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterSonobuoyLogStatus) validateReports(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Reports) { // not required
 		return nil
 	}
@@ -91,11 +89,6 @@ func (m *V1ClusterSonobuoyLogStatus) validateReports(formats strfmt.Registry) er
 		}
 		if val, ok := m.Reports[k]; ok {
 			if err := val.Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("reports" + "." + k)
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("reports" + "." + k)
-				}
 				return err
 			}
 		}
@@ -106,6 +99,7 @@ func (m *V1ClusterSonobuoyLogStatus) validateReports(formats strfmt.Registry) er
 }
 
 func (m *V1ClusterSonobuoyLogStatus) validateScanTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ScanTime) { // not required
 		return nil
 	}
@@ -114,87 +108,6 @@ func (m *V1ClusterSonobuoyLogStatus) validateScanTime(formats strfmt.Registry) e
 		if err := m.ScanTime.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scanTime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("scanTime")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster sonobuoy log status based on the context it is used
-func (m *V1ClusterSonobuoyLogStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateActor(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateReports(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateScanTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterSonobuoyLogStatus) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Actor != nil {
-
-		if swag.IsZero(m.Actor) { // not required
-			return nil
-		}
-
-		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("actor")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("actor")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterSonobuoyLogStatus) contextValidateReports(ctx context.Context, formats strfmt.Registry) error {
-
-	for k := range m.Reports {
-
-		if val, ok := m.Reports[k]; ok {
-			if err := val.ContextValidate(ctx, formats); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterSonobuoyLogStatus) contextValidateScanTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ScanTime != nil {
-
-		if swag.IsZero(m.ScanTime) { // not required
-			return nil
-		}
-
-		if err := m.ScanTime.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("scanTime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("scanTime")
 			}
 			return err
 		}

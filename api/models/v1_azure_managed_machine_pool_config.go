@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -22,7 +20,7 @@ type V1AzureManagedMachinePoolConfig struct {
 	IsSystemNodePool bool `json:"isSystemNodePool"`
 
 	// os type
-	OsType *V1OsType `json:"osType,omitempty"`
+	OsType V1OsType `json:"osType,omitempty"`
 }
 
 // Validate validates this v1 azure managed machine pool config
@@ -40,54 +38,16 @@ func (m *V1AzureManagedMachinePoolConfig) Validate(formats strfmt.Registry) erro
 }
 
 func (m *V1AzureManagedMachinePoolConfig) validateOsType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.OsType) { // not required
 		return nil
 	}
 
-	if m.OsType != nil {
-		if err := m.OsType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("osType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("osType")
-			}
-			return err
+	if err := m.OsType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("osType")
 		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 azure managed machine pool config based on the context it is used
-func (m *V1AzureManagedMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateOsType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AzureManagedMachinePoolConfig) contextValidateOsType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.OsType != nil {
-
-		if swag.IsZero(m.OsType) { // not required
-			return nil
-		}
-
-		if err := m.OsType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("osType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("osType")
-			}
-			return err
-		}
+		return err
 	}
 
 	return nil

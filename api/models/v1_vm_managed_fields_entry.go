@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -60,6 +58,7 @@ func (m *V1VMManagedFieldsEntry) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMManagedFieldsEntry) validateFieldsV1(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.FieldsV1) { // not required
 		return nil
 	}
@@ -68,8 +67,6 @@ func (m *V1VMManagedFieldsEntry) validateFieldsV1(formats strfmt.Registry) error
 		if err := m.FieldsV1.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("fieldsV1")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fieldsV1")
 			}
 			return err
 		}
@@ -79,6 +76,7 @@ func (m *V1VMManagedFieldsEntry) validateFieldsV1(formats strfmt.Registry) error
 }
 
 func (m *V1VMManagedFieldsEntry) validateTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Time) { // not required
 		return nil
 	}
@@ -86,65 +84,6 @@ func (m *V1VMManagedFieldsEntry) validateTime(formats strfmt.Registry) error {
 	if err := m.Time.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("time")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("time")
-		}
-		return err
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm managed fields entry based on the context it is used
-func (m *V1VMManagedFieldsEntry) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFieldsV1(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMManagedFieldsEntry) contextValidateFieldsV1(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.FieldsV1 != nil {
-
-		if swag.IsZero(m.FieldsV1) { // not required
-			return nil
-		}
-
-		if err := m.FieldsV1.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("fieldsV1")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("fieldsV1")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMManagedFieldsEntry) contextValidateTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Time) { // not required
-		return nil
-	}
-
-	if err := m.Time.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("time")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("time")
 		}
 		return err
 	}

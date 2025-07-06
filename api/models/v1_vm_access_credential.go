@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,6 +42,7 @@ func (m *V1VMAccessCredential) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMAccessCredential) validateSSHPublicKey(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SSHPublicKey) { // not required
 		return nil
 	}
@@ -52,8 +51,6 @@ func (m *V1VMAccessCredential) validateSSHPublicKey(formats strfmt.Registry) err
 		if err := m.SSHPublicKey.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sshPublicKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sshPublicKey")
 			}
 			return err
 		}
@@ -63,6 +60,7 @@ func (m *V1VMAccessCredential) validateSSHPublicKey(formats strfmt.Registry) err
 }
 
 func (m *V1VMAccessCredential) validateUserPassword(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UserPassword) { // not required
 		return nil
 	}
@@ -71,68 +69,6 @@ func (m *V1VMAccessCredential) validateUserPassword(formats strfmt.Registry) err
 		if err := m.UserPassword.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("userPassword")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("userPassword")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm access credential based on the context it is used
-func (m *V1VMAccessCredential) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateSSHPublicKey(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateUserPassword(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMAccessCredential) contextValidateSSHPublicKey(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.SSHPublicKey != nil {
-
-		if swag.IsZero(m.SSHPublicKey) { // not required
-			return nil
-		}
-
-		if err := m.SSHPublicKey.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("sshPublicKey")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("sshPublicKey")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMAccessCredential) contextValidateUserPassword(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.UserPassword != nil {
-
-		if swag.IsZero(m.UserPassword) { // not required
-			return nil
-		}
-
-		if err := m.UserPassword.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("userPassword")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("userPassword")
 			}
 			return err
 		}

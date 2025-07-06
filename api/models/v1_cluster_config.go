@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -89,6 +88,7 @@ func (m *V1ClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterConfig) validateClusterRbac(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterRbac) { // not required
 		return nil
 	}
@@ -102,8 +102,6 @@ func (m *V1ClusterConfig) validateClusterRbac(formats strfmt.Registry) error {
 			if err := m.ClusterRbac[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterRbac" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterRbac" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -115,6 +113,7 @@ func (m *V1ClusterConfig) validateClusterRbac(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterConfig) validateClusterResources(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterResources) { // not required
 		return nil
 	}
@@ -123,8 +122,6 @@ func (m *V1ClusterConfig) validateClusterResources(formats strfmt.Registry) erro
 		if err := m.ClusterResources.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterResources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterResources")
 			}
 			return err
 		}
@@ -134,6 +131,7 @@ func (m *V1ClusterConfig) validateClusterResources(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterConfig) validateHostClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HostClusterConfig) { // not required
 		return nil
 	}
@@ -142,8 +140,6 @@ func (m *V1ClusterConfig) validateHostClusterConfig(formats strfmt.Registry) err
 		if err := m.HostClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostClusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostClusterConfig")
 			}
 			return err
 		}
@@ -153,6 +149,7 @@ func (m *V1ClusterConfig) validateHostClusterConfig(formats strfmt.Registry) err
 }
 
 func (m *V1ClusterConfig) validateHybridClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.HybridClusterConfig) { // not required
 		return nil
 	}
@@ -161,8 +158,6 @@ func (m *V1ClusterConfig) validateHybridClusterConfig(formats strfmt.Registry) e
 		if err := m.HybridClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hybridClusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hybridClusterConfig")
 			}
 			return err
 		}
@@ -172,6 +167,7 @@ func (m *V1ClusterConfig) validateHybridClusterConfig(formats strfmt.Registry) e
 }
 
 func (m *V1ClusterConfig) validateLifecycleConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.LifecycleConfig) { // not required
 		return nil
 	}
@@ -180,8 +176,6 @@ func (m *V1ClusterConfig) validateLifecycleConfig(formats strfmt.Registry) error
 		if err := m.LifecycleConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("lifecycleConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lifecycleConfig")
 			}
 			return err
 		}
@@ -191,6 +185,7 @@ func (m *V1ClusterConfig) validateLifecycleConfig(formats strfmt.Registry) error
 }
 
 func (m *V1ClusterConfig) validateMachineHealthConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachineHealthConfig) { // not required
 		return nil
 	}
@@ -199,8 +194,6 @@ func (m *V1ClusterConfig) validateMachineHealthConfig(formats strfmt.Registry) e
 		if err := m.MachineHealthConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineHealthConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineHealthConfig")
 			}
 			return err
 		}
@@ -210,6 +203,7 @@ func (m *V1ClusterConfig) validateMachineHealthConfig(formats strfmt.Registry) e
 }
 
 func (m *V1ClusterConfig) validateMachineManagementConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachineManagementConfig) { // not required
 		return nil
 	}
@@ -218,197 +212,6 @@ func (m *V1ClusterConfig) validateMachineManagementConfig(formats strfmt.Registr
 		if err := m.MachineManagementConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineManagementConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineManagementConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster config based on the context it is used
-func (m *V1ClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterRbac(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterResources(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHostClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateHybridClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateLifecycleConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachineHealthConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachineManagementConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateClusterRbac(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterRbac); i++ {
-
-		if m.ClusterRbac[i] != nil {
-
-			if swag.IsZero(m.ClusterRbac[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterRbac[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterRbac" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterRbac" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateClusterResources(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterResources != nil {
-
-		if swag.IsZero(m.ClusterResources) { // not required
-			return nil
-		}
-
-		if err := m.ClusterResources.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterResources")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterResources")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateHostClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HostClusterConfig != nil {
-
-		if swag.IsZero(m.HostClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.HostClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hostClusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hostClusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateHybridClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.HybridClusterConfig != nil {
-
-		if swag.IsZero(m.HybridClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.HybridClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("hybridClusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("hybridClusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateLifecycleConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.LifecycleConfig != nil {
-
-		if swag.IsZero(m.LifecycleConfig) { // not required
-			return nil
-		}
-
-		if err := m.LifecycleConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("lifecycleConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("lifecycleConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateMachineHealthConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachineHealthConfig != nil {
-
-		if swag.IsZero(m.MachineHealthConfig) { // not required
-			return nil
-		}
-
-		if err := m.MachineHealthConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machineHealthConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineHealthConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1ClusterConfig) contextValidateMachineManagementConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachineManagementConfig != nil {
-
-		if swag.IsZero(m.MachineManagementConfig) { // not required
-			return nil
-		}
-
-		if err := m.MachineManagementConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machineManagementConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineManagementConfig")
 			}
 			return err
 		}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -52,6 +51,7 @@ func (m *V1OpenStackCloudConfigSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OpenStackCloudConfigSpec) validateCloudAccountRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CloudAccountRef) { // not required
 		return nil
 	}
@@ -60,8 +60,6 @@ func (m *V1OpenStackCloudConfigSpec) validateCloudAccountRef(formats strfmt.Regi
 		if err := m.CloudAccountRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudAccountRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudAccountRef")
 			}
 			return err
 		}
@@ -71,6 +69,7 @@ func (m *V1OpenStackCloudConfigSpec) validateCloudAccountRef(formats strfmt.Regi
 }
 
 func (m *V1OpenStackCloudConfigSpec) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -79,8 +78,6 @@ func (m *V1OpenStackCloudConfigSpec) validateClusterConfig(formats strfmt.Regist
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -90,6 +87,7 @@ func (m *V1OpenStackCloudConfigSpec) validateClusterConfig(formats strfmt.Regist
 }
 
 func (m *V1OpenStackCloudConfigSpec) validateMachinePoolConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePoolConfig) { // not required
 		return nil
 	}
@@ -103,97 +101,6 @@ func (m *V1OpenStackCloudConfigSpec) validateMachinePoolConfig(formats strfmt.Re
 			if err := m.MachinePoolConfig[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 open stack cloud config spec based on the context it is used
-func (m *V1OpenStackCloudConfigSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateCloudAccountRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachinePoolConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1OpenStackCloudConfigSpec) contextValidateCloudAccountRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.CloudAccountRef != nil {
-
-		if swag.IsZero(m.CloudAccountRef) { // not required
-			return nil
-		}
-
-		if err := m.CloudAccountRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudAccountRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudAccountRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1OpenStackCloudConfigSpec) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1OpenStackCloudConfigSpec) contextValidateMachinePoolConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.MachinePoolConfig); i++ {
-
-		if m.MachinePoolConfig[i] != nil {
-
-			if swag.IsZero(m.MachinePoolConfig[i]) { // not required
-				return nil
-			}
-
-			if err := m.MachinePoolConfig[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePoolConfig" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

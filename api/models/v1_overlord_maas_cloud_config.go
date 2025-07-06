@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -62,6 +61,7 @@ func (m *V1OverlordMaasCloudConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OverlordMaasCloudConfig) validateClusterConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -70,8 +70,6 @@ func (m *V1OverlordMaasCloudConfig) validateClusterConfig(formats strfmt.Registr
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
 			}
 			return err
 		}
@@ -81,6 +79,7 @@ func (m *V1OverlordMaasCloudConfig) validateClusterConfig(formats strfmt.Registr
 }
 
 func (m *V1OverlordMaasCloudConfig) validateClusterProfiles(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterProfiles) { // not required
 		return nil
 	}
@@ -94,8 +93,6 @@ func (m *V1OverlordMaasCloudConfig) validateClusterProfiles(formats strfmt.Regis
 			if err := m.ClusterProfiles[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -107,6 +104,7 @@ func (m *V1OverlordMaasCloudConfig) validateClusterProfiles(formats strfmt.Regis
 }
 
 func (m *V1OverlordMaasCloudConfig) validateClusterSettings(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterSettings) { // not required
 		return nil
 	}
@@ -115,8 +113,6 @@ func (m *V1OverlordMaasCloudConfig) validateClusterSettings(formats strfmt.Regis
 		if err := m.ClusterSettings.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterSettings")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterSettings")
 			}
 			return err
 		}
@@ -126,6 +122,7 @@ func (m *V1OverlordMaasCloudConfig) validateClusterSettings(formats strfmt.Regis
 }
 
 func (m *V1OverlordMaasCloudConfig) validateMachineConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachineConfig) { // not required
 		return nil
 	}
@@ -134,122 +131,6 @@ func (m *V1OverlordMaasCloudConfig) validateMachineConfig(formats strfmt.Registr
 		if err := m.MachineConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machineConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 overlord maas cloud config based on the context it is used
-func (m *V1OverlordMaasCloudConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterProfiles(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateClusterSettings(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateMachineConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1OverlordMaasCloudConfig) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterConfig != nil {
-
-		if swag.IsZero(m.ClusterConfig) { // not required
-			return nil
-		}
-
-		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1OverlordMaasCloudConfig) contextValidateClusterProfiles(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterProfiles); i++ {
-
-		if m.ClusterProfiles[i] != nil {
-
-			if swag.IsZero(m.ClusterProfiles[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterProfiles[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterProfiles" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1OverlordMaasCloudConfig) contextValidateClusterSettings(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterSettings != nil {
-
-		if swag.IsZero(m.ClusterSettings) { // not required
-			return nil
-		}
-
-		if err := m.ClusterSettings.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterSettings")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterSettings")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1OverlordMaasCloudConfig) contextValidateMachineConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.MachineConfig != nil {
-
-		if swag.IsZero(m.MachineConfig) { // not required
-			return nil
-		}
-
-		if err := m.MachineConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("machineConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("machineConfig")
 			}
 			return err
 		}

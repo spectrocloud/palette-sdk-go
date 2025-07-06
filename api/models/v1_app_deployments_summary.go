@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -47,6 +46,7 @@ func (m *V1AppDeploymentsSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AppDeploymentsSummary) validateAppDeployments(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.AppDeployments) { // not required
 		return nil
 	}
@@ -64,8 +64,6 @@ func (m *V1AppDeploymentsSummary) validateAppDeployments(formats strfmt.Registry
 			if err := m.AppDeployments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("appDeployments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -77,6 +75,7 @@ func (m *V1AppDeploymentsSummary) validateAppDeployments(formats strfmt.Registry
 }
 
 func (m *V1AppDeploymentsSummary) validateListmeta(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Listmeta) { // not required
 		return nil
 	}
@@ -85,72 +84,6 @@ func (m *V1AppDeploymentsSummary) validateListmeta(formats strfmt.Registry) erro
 		if err := m.Listmeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("listmeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("listmeta")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 app deployments summary based on the context it is used
-func (m *V1AppDeploymentsSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateAppDeployments(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateListmeta(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AppDeploymentsSummary) contextValidateAppDeployments(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.AppDeployments); i++ {
-
-		if m.AppDeployments[i] != nil {
-
-			if swag.IsZero(m.AppDeployments[i]) { // not required
-				return nil
-			}
-
-			if err := m.AppDeployments[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("appDeployments" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1AppDeploymentsSummary) contextValidateListmeta(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Listmeta != nil {
-
-		if swag.IsZero(m.Listmeta) { // not required
-			return nil
-		}
-
-		if err := m.Listmeta.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("listmeta")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("listmeta")
 			}
 			return err
 		}

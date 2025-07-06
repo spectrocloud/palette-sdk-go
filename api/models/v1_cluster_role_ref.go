@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1ClusterRoleRef struct {
 
 	// kind
-	// Enum: ["Role","ClusterRole"]
+	// Enum: [Role ClusterRole]
 	Kind string `json:"kind,omitempty"`
 
 	// name
@@ -72,6 +71,7 @@ func (m *V1ClusterRoleRef) validateKindEnum(path, location string, value string)
 }
 
 func (m *V1ClusterRoleRef) validateKind(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Kind) { // not required
 		return nil
 	}
@@ -81,11 +81,6 @@ func (m *V1ClusterRoleRef) validateKind(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 cluster role ref based on context it is used
-func (m *V1ClusterRoleRef) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

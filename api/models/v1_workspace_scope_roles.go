@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -40,6 +39,7 @@ func (m *V1WorkspaceScopeRoles) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1WorkspaceScopeRoles) validateProjects(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Projects) { // not required
 		return nil
 	}
@@ -57,47 +57,6 @@ func (m *V1WorkspaceScopeRoles) validateProjects(formats strfmt.Registry) error 
 			if err := m.Projects[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("projects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("projects" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace scope roles based on the context it is used
-func (m *V1WorkspaceScopeRoles) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateProjects(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceScopeRoles) contextValidateProjects(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Projects); i++ {
-
-		if m.Projects[i] != nil {
-
-			if swag.IsZero(m.Projects[i]) { // not required
-				return nil
-			}
-
-			if err := m.Projects[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("projects" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("projects" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

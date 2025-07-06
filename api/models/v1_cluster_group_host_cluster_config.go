@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -40,6 +38,7 @@ func (m *V1ClusterGroupHostClusterConfig) Validate(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterGroupHostClusterConfig) validateEndpointConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.EndpointConfig) { // not required
 		return nil
 	}
@@ -48,43 +47,6 @@ func (m *V1ClusterGroupHostClusterConfig) validateEndpointConfig(formats strfmt.
 		if err := m.EndpointConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpointConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("endpointConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster group host cluster config based on the context it is used
-func (m *V1ClusterGroupHostClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateEndpointConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterGroupHostClusterConfig) contextValidateEndpointConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.EndpointConfig != nil {
-
-		if swag.IsZero(m.EndpointConfig) { // not required
-			return nil
-		}
-
-		if err := m.EndpointConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("endpointConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("endpointConfig")
 			}
 			return err
 		}

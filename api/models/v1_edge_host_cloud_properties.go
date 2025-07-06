@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1EdgeHostCloudProperties) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostCloudProperties) validateVsphere(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Vsphere) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1EdgeHostCloudProperties) validateVsphere(formats strfmt.Registry) err
 		if err := m.Vsphere.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vsphere")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("vsphere")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 edge host cloud properties based on the context it is used
-func (m *V1EdgeHostCloudProperties) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateVsphere(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1EdgeHostCloudProperties) contextValidateVsphere(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Vsphere != nil {
-
-		if swag.IsZero(m.Vsphere) { // not required
-			return nil
-		}
-
-		if err := m.Vsphere.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("vsphere")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("vsphere")
 			}
 			return err
 		}

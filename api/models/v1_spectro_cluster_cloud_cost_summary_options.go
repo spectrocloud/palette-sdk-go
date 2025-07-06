@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -21,7 +20,7 @@ import (
 type V1SpectroClusterCloudCostSummaryOptions struct {
 
 	// group by
-	// Enum: ["tenant","project","cloud","cluster"]
+	// Enum: [tenant project cloud cluster]
 	GroupBy *string `json:"groupBy,omitempty"`
 
 	// period
@@ -78,6 +77,7 @@ func (m *V1SpectroClusterCloudCostSummaryOptions) validateGroupByEnum(path, loca
 }
 
 func (m *V1SpectroClusterCloudCostSummaryOptions) validateGroupBy(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.GroupBy) { // not required
 		return nil
 	}
@@ -87,11 +87,6 @@ func (m *V1SpectroClusterCloudCostSummaryOptions) validateGroupBy(formats strfmt
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 spectro cluster cloud cost summary options based on context it is used
-func (m *V1SpectroClusterCloudCostSummaryOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

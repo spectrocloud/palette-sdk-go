@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -76,6 +75,7 @@ func (m *V1SyftReport) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SyftReport) validateDependencies(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Dependencies) { // not required
 		return nil
 	}
@@ -89,8 +89,6 @@ func (m *V1SyftReport) validateDependencies(formats strfmt.Registry) error {
 			if err := m.Dependencies[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dependencies" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -102,6 +100,7 @@ func (m *V1SyftReport) validateDependencies(formats strfmt.Registry) error {
 }
 
 func (m *V1SyftReport) validateImageContexts(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ImageContexts) { // not required
 		return nil
 	}
@@ -115,8 +114,6 @@ func (m *V1SyftReport) validateImageContexts(formats strfmt.Registry) error {
 			if err := m.ImageContexts[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("imageContexts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("imageContexts" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -128,6 +125,7 @@ func (m *V1SyftReport) validateImageContexts(formats strfmt.Registry) error {
 }
 
 func (m *V1SyftReport) validateTime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Time) { // not required
 		return nil
 	}
@@ -135,8 +133,6 @@ func (m *V1SyftReport) validateTime(formats strfmt.Registry) error {
 	if err := m.Time.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("time")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("time")
 		}
 		return err
 	}
@@ -145,6 +141,7 @@ func (m *V1SyftReport) validateTime(formats strfmt.Registry) error {
 }
 
 func (m *V1SyftReport) validateVulnerabilities(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Vulnerabilities) { // not required
 		return nil
 	}
@@ -158,8 +155,6 @@ func (m *V1SyftReport) validateVulnerabilities(formats strfmt.Registry) error {
 			if err := m.Vulnerabilities[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("vulnerabilities" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("vulnerabilities" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -171,6 +166,7 @@ func (m *V1SyftReport) validateVulnerabilities(formats strfmt.Registry) error {
 }
 
 func (m *V1SyftReport) validateVulnerabilitySummary(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.VulnerabilitySummary) { // not required
 		return nil
 	}
@@ -179,152 +175,6 @@ func (m *V1SyftReport) validateVulnerabilitySummary(formats strfmt.Registry) err
 		if err := m.VulnerabilitySummary.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("vulnerabilitySummary")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("vulnerabilitySummary")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 syft report based on the context it is used
-func (m *V1SyftReport) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateDependencies(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateImageContexts(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVulnerabilities(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVulnerabilitySummary(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SyftReport) contextValidateDependencies(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Dependencies); i++ {
-
-		if m.Dependencies[i] != nil {
-
-			if swag.IsZero(m.Dependencies[i]) { // not required
-				return nil
-			}
-
-			if err := m.Dependencies[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("dependencies" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1SyftReport) contextValidateImageContexts(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ImageContexts); i++ {
-
-		if m.ImageContexts[i] != nil {
-
-			if swag.IsZero(m.ImageContexts[i]) { // not required
-				return nil
-			}
-
-			if err := m.ImageContexts[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("imageContexts" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("imageContexts" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1SyftReport) contextValidateTime(ctx context.Context, formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Time) { // not required
-		return nil
-	}
-
-	if err := m.Time.ContextValidate(ctx, formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("time")
-		} else if ce, ok := err.(*errors.CompositeError); ok {
-			return ce.ValidateName("time")
-		}
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1SyftReport) contextValidateVulnerabilities(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Vulnerabilities); i++ {
-
-		if m.Vulnerabilities[i] != nil {
-
-			if swag.IsZero(m.Vulnerabilities[i]) { // not required
-				return nil
-			}
-
-			if err := m.Vulnerabilities[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("vulnerabilities" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("vulnerabilities" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1SyftReport) contextValidateVulnerabilitySummary(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.VulnerabilitySummary != nil {
-
-		if swag.IsZero(m.VulnerabilitySummary) { // not required
-			return nil
-		}
-
-		if err := m.VulnerabilitySummary.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("vulnerabilitySummary")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("vulnerabilitySummary")
 			}
 			return err
 		}

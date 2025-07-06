@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -40,23 +38,19 @@ func (m *V1AuditMsgUpdate) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AuditMsgUpdate) validateUserMsg(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.UserMsg) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("userMsg", "body", m.UserMsg, 3); err != nil {
+	if err := validate.MinLength("userMsg", "body", string(m.UserMsg), 3); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("userMsg", "body", m.UserMsg, 255); err != nil {
+	if err := validate.MaxLength("userMsg", "body", string(m.UserMsg), 255); err != nil {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 audit msg update based on context it is used
-func (m *V1AuditMsgUpdate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

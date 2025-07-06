@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -51,6 +49,7 @@ func (m *V1AppProfileFilterSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AppProfileFilterSpec) validateProfileName(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ProfileName) { // not required
 		return nil
 	}
@@ -59,8 +58,6 @@ func (m *V1AppProfileFilterSpec) validateProfileName(formats strfmt.Registry) er
 		if err := m.ProfileName.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("profileName")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("profileName")
 			}
 			return err
 		}
@@ -70,6 +67,7 @@ func (m *V1AppProfileFilterSpec) validateProfileName(formats strfmt.Registry) er
 }
 
 func (m *V1AppProfileFilterSpec) validateTags(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Tags) { // not required
 		return nil
 	}
@@ -78,8 +76,6 @@ func (m *V1AppProfileFilterSpec) validateTags(formats strfmt.Registry) error {
 		if err := m.Tags.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tags")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tags")
 			}
 			return err
 		}
@@ -89,6 +85,7 @@ func (m *V1AppProfileFilterSpec) validateTags(formats strfmt.Registry) error {
 }
 
 func (m *V1AppProfileFilterSpec) validateVersion(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Version) { // not required
 		return nil
 	}
@@ -97,93 +94,6 @@ func (m *V1AppProfileFilterSpec) validateVersion(formats strfmt.Registry) error 
 		if err := m.Version.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("version")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("version")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 app profile filter spec based on the context it is used
-func (m *V1AppProfileFilterSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateProfileName(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTags(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateVersion(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AppProfileFilterSpec) contextValidateProfileName(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ProfileName != nil {
-
-		if swag.IsZero(m.ProfileName) { // not required
-			return nil
-		}
-
-		if err := m.ProfileName.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("profileName")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("profileName")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1AppProfileFilterSpec) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Tags != nil {
-
-		if swag.IsZero(m.Tags) { // not required
-			return nil
-		}
-
-		if err := m.Tags.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("tags")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("tags")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1AppProfileFilterSpec) contextValidateVersion(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Version != nil {
-
-		if swag.IsZero(m.Version) { // not required
-			return nil
-		}
-
-		if err := m.Version.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("version")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("version")
 			}
 			return err
 		}

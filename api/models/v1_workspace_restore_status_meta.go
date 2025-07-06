@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,6 +45,7 @@ func (m *V1WorkspaceRestoreStatusMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1WorkspaceRestoreStatusMeta) validateActor(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -55,8 +54,6 @@ func (m *V1WorkspaceRestoreStatusMeta) validateActor(formats strfmt.Registry) er
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -66,6 +63,7 @@ func (m *V1WorkspaceRestoreStatusMeta) validateActor(formats strfmt.Registry) er
 }
 
 func (m *V1WorkspaceRestoreStatusMeta) validateWorkspaceRestoreConfig(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.WorkspaceRestoreConfig) { // not required
 		return nil
 	}
@@ -74,68 +72,6 @@ func (m *V1WorkspaceRestoreStatusMeta) validateWorkspaceRestoreConfig(formats st
 		if err := m.WorkspaceRestoreConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("workspaceRestoreConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("workspaceRestoreConfig")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace restore status meta based on the context it is used
-func (m *V1WorkspaceRestoreStatusMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateActor(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateWorkspaceRestoreConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceRestoreStatusMeta) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Actor != nil {
-
-		if swag.IsZero(m.Actor) { // not required
-			return nil
-		}
-
-		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("actor")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("actor")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1WorkspaceRestoreStatusMeta) contextValidateWorkspaceRestoreConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.WorkspaceRestoreConfig != nil {
-
-		if swag.IsZero(m.WorkspaceRestoreConfig) { // not required
-			return nil
-		}
-
-		if err := m.WorkspaceRestoreConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("workspaceRestoreConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("workspaceRestoreConfig")
 			}
 			return err
 		}

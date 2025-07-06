@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -38,6 +37,7 @@ func (m *V1WorkspaceBackupStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1WorkspaceBackupStatus) validateWorkspaceBackupStatuses(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.WorkspaceBackupStatuses) { // not required
 		return nil
 	}
@@ -51,47 +51,6 @@ func (m *V1WorkspaceBackupStatus) validateWorkspaceBackupStatuses(formats strfmt
 			if err := m.WorkspaceBackupStatuses[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("workspaceBackupStatuses" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("workspaceBackupStatuses" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 workspace backup status based on the context it is used
-func (m *V1WorkspaceBackupStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateWorkspaceBackupStatuses(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1WorkspaceBackupStatus) contextValidateWorkspaceBackupStatuses(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.WorkspaceBackupStatuses); i++ {
-
-		if m.WorkspaceBackupStatuses[i] != nil {
-
-			if swag.IsZero(m.WorkspaceBackupStatuses[i]) { // not required
-				return nil
-			}
-
-			if err := m.WorkspaceBackupStatuses[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("workspaceBackupStatuses" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("workspaceBackupStatuses" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

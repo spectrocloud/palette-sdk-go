@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -70,6 +69,7 @@ func (m *V1VMCPU) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMCPU) validateFeatures(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Features) { // not required
 		return nil
 	}
@@ -83,8 +83,6 @@ func (m *V1VMCPU) validateFeatures(formats strfmt.Registry) error {
 			if err := m.Features[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("features" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("features" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -96,6 +94,7 @@ func (m *V1VMCPU) validateFeatures(formats strfmt.Registry) error {
 }
 
 func (m *V1VMCPU) validateNuma(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Numa) { // not required
 		return nil
 	}
@@ -104,8 +103,6 @@ func (m *V1VMCPU) validateNuma(formats strfmt.Registry) error {
 		if err := m.Numa.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("numa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("numa")
 			}
 			return err
 		}
@@ -115,6 +112,7 @@ func (m *V1VMCPU) validateNuma(formats strfmt.Registry) error {
 }
 
 func (m *V1VMCPU) validateRealtime(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Realtime) { // not required
 		return nil
 	}
@@ -123,97 +121,6 @@ func (m *V1VMCPU) validateRealtime(formats strfmt.Registry) error {
 		if err := m.Realtime.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("realtime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("realtime")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm Cpu based on the context it is used
-func (m *V1VMCPU) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateFeatures(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateNuma(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRealtime(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMCPU) contextValidateFeatures(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Features); i++ {
-
-		if m.Features[i] != nil {
-
-			if swag.IsZero(m.Features[i]) { // not required
-				return nil
-			}
-
-			if err := m.Features[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("features" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("features" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1VMCPU) contextValidateNuma(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Numa != nil {
-
-		if swag.IsZero(m.Numa) { // not required
-			return nil
-		}
-
-		if err := m.Numa.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("numa")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("numa")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMCPU) contextValidateRealtime(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Realtime != nil {
-
-		if swag.IsZero(m.Realtime) { // not required
-			return nil
-		}
-
-		if err := m.Realtime.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("realtime")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("realtime")
 			}
 			return err
 		}

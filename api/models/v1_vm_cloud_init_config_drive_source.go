@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -56,6 +54,7 @@ func (m *V1VMCloudInitConfigDriveSource) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1VMCloudInitConfigDriveSource) validateNetworkDataSecretRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.NetworkDataSecretRef) { // not required
 		return nil
 	}
@@ -64,8 +63,6 @@ func (m *V1VMCloudInitConfigDriveSource) validateNetworkDataSecretRef(formats st
 		if err := m.NetworkDataSecretRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("networkDataSecretRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("networkDataSecretRef")
 			}
 			return err
 		}
@@ -75,6 +72,7 @@ func (m *V1VMCloudInitConfigDriveSource) validateNetworkDataSecretRef(formats st
 }
 
 func (m *V1VMCloudInitConfigDriveSource) validateSecretRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.SecretRef) { // not required
 		return nil
 	}
@@ -83,68 +81,6 @@ func (m *V1VMCloudInitConfigDriveSource) validateSecretRef(formats strfmt.Regist
 		if err := m.SecretRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("secretRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("secretRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 Vm cloud init config drive source based on the context it is used
-func (m *V1VMCloudInitConfigDriveSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateNetworkDataSecretRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateSecretRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1VMCloudInitConfigDriveSource) contextValidateNetworkDataSecretRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.NetworkDataSecretRef != nil {
-
-		if swag.IsZero(m.NetworkDataSecretRef) { // not required
-			return nil
-		}
-
-		if err := m.NetworkDataSecretRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("networkDataSecretRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("networkDataSecretRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1VMCloudInitConfigDriveSource) contextValidateSecretRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.SecretRef != nil {
-
-		if swag.IsZero(m.SecretRef) { // not required
-			return nil
-		}
-
-		if err := m.SecretRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("secretRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("secretRef")
 			}
 			return err
 		}

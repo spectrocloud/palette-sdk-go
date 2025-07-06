@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -45,6 +44,7 @@ func (m *V1ClusterResources) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterResources) validateNamespaces(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Namespaces) { // not required
 		return nil
 	}
@@ -58,8 +58,6 @@ func (m *V1ClusterResources) validateNamespaces(formats strfmt.Registry) error {
 			if err := m.Namespaces[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("namespaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("namespaces" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -71,6 +69,7 @@ func (m *V1ClusterResources) validateNamespaces(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterResources) validateRbacs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Rbacs) { // not required
 		return nil
 	}
@@ -84,76 +83,6 @@ func (m *V1ClusterResources) validateRbacs(formats strfmt.Registry) error {
 			if err := m.Rbacs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("rbacs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("rbacs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster resources based on the context it is used
-func (m *V1ClusterResources) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateNamespaces(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRbacs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterResources) contextValidateNamespaces(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Namespaces); i++ {
-
-		if m.Namespaces[i] != nil {
-
-			if swag.IsZero(m.Namespaces[i]) { // not required
-				return nil
-			}
-
-			if err := m.Namespaces[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("namespaces" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("namespaces" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterResources) contextValidateRbacs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Rbacs); i++ {
-
-		if m.Rbacs[i] != nil {
-
-			if swag.IsZero(m.Rbacs[i]) { // not required
-				return nil
-			}
-
-			if err := m.Rbacs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("rbacs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("rbacs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

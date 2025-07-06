@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -47,11 +45,12 @@ func (m *V1ClusterNamespaceResourceAllocation) Validate(formats strfmt.Registry)
 }
 
 func (m *V1ClusterNamespaceResourceAllocation) validateCPUCores(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CPUCores) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("cpuCores", "body", m.CPUCores, 0, true); err != nil {
+	if err := validate.Minimum("cpuCores", "body", float64(m.CPUCores), 0, true); err != nil {
 		return err
 	}
 
@@ -59,19 +58,15 @@ func (m *V1ClusterNamespaceResourceAllocation) validateCPUCores(formats strfmt.R
 }
 
 func (m *V1ClusterNamespaceResourceAllocation) validateMemoryMiB(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MemoryMiB) { // not required
 		return nil
 	}
 
-	if err := validate.Minimum("memoryMiB", "body", m.MemoryMiB, 0, true); err != nil {
+	if err := validate.Minimum("memoryMiB", "body", float64(m.MemoryMiB), 0, true); err != nil {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 cluster namespace resource allocation based on context it is used
-func (m *V1ClusterNamespaceResourceAllocation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

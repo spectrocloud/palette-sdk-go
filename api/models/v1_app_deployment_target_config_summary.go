@@ -6,8 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -37,6 +35,7 @@ func (m *V1AppDeploymentTargetConfigSummary) Validate(formats strfmt.Registry) e
 }
 
 func (m *V1AppDeploymentTargetConfigSummary) validateClusterRef(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterRef) { // not required
 		return nil
 	}
@@ -45,43 +44,6 @@ func (m *V1AppDeploymentTargetConfigSummary) validateClusterRef(formats strfmt.R
 		if err := m.ClusterRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("clusterRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterRef")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 app deployment target config summary based on the context it is used
-func (m *V1AppDeploymentTargetConfigSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterRef(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1AppDeploymentTargetConfigSummary) contextValidateClusterRef(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ClusterRef != nil {
-
-		if swag.IsZero(m.ClusterRef) { // not required
-			return nil
-		}
-
-		if err := m.ClusterRef.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("clusterRef")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("clusterRef")
 			}
 			return err
 		}

@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -26,7 +25,7 @@ type V1EdgeHostNetwork struct {
 
 	// NetworkType  specifies the type of network
 	// Required: true
-	// Enum: ["default","bridge"]
+	// Enum: [default bridge]
 	NetworkType *string `json:"networkType"`
 }
 
@@ -97,11 +96,6 @@ func (m *V1EdgeHostNetwork) validateNetworkType(formats strfmt.Registry) error {
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 edge host network based on context it is used
-func (m *V1EdgeHostNetwork) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

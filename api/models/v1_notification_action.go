@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -27,7 +26,7 @@ type V1NotificationAction struct {
 	ActionMessage string `json:"actionMessage,omitempty"`
 
 	// Describes action type for the notification. Possible Values [NotifyActionPacksUpdate, NotifyActionClusterProfileUpdate, NotifyActionPackRegistryUpdate, NotifyActionClusterUpdate, NotifyActionNone]
-	// Enum: ["NotifyActionPacksUpdate","NotifyActionClusterProfileUpdate","NotifyActionPackRegistryUpdate","NotifyActionClusterUpdate","NotifyActionNone"]
+	// Enum: [NotifyActionPacksUpdate NotifyActionClusterProfileUpdate NotifyActionPackRegistryUpdate NotifyActionClusterUpdate NotifyActionNone]
 	ActionType string `json:"actionType,omitempty"`
 
 	// Describes the events happened for the notifications
@@ -96,6 +95,7 @@ func (m *V1NotificationAction) validateActionTypeEnum(path, location string, val
 }
 
 func (m *V1NotificationAction) validateActionType(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ActionType) { // not required
 		return nil
 	}
@@ -105,11 +105,6 @@ func (m *V1NotificationAction) validateActionType(formats strfmt.Registry) error
 		return err
 	}
 
-	return nil
-}
-
-// ContextValidate validates this v1 notification action based on context it is used
-func (m *V1NotificationAction) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

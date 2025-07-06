@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -55,6 +54,7 @@ func (m *V1SpectroClusterRate) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterRate) validateMachinePools(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.MachinePools) { // not required
 		return nil
 	}
@@ -68,8 +68,6 @@ func (m *V1SpectroClusterRate) validateMachinePools(formats strfmt.Registry) err
 			if err := m.MachinePools[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePools" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -81,6 +79,7 @@ func (m *V1SpectroClusterRate) validateMachinePools(formats strfmt.Registry) err
 }
 
 func (m *V1SpectroClusterRate) validateRate(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Rate) { // not required
 		return nil
 	}
@@ -89,8 +88,6 @@ func (m *V1SpectroClusterRate) validateRate(formats strfmt.Registry) error {
 		if err := m.Rate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("rate")
 			}
 			return err
 		}
@@ -100,6 +97,7 @@ func (m *V1SpectroClusterRate) validateRate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterRate) validateResourceMetadata(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ResourceMetadata) { // not required
 		return nil
 	}
@@ -108,97 +106,6 @@ func (m *V1SpectroClusterRate) validateResourceMetadata(formats strfmt.Registry)
 		if err := m.ResourceMetadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resourceMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resourceMetadata")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 spectro cluster rate based on the context it is used
-func (m *V1SpectroClusterRate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateMachinePools(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRate(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateResourceMetadata(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1SpectroClusterRate) contextValidateMachinePools(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.MachinePools); i++ {
-
-		if m.MachinePools[i] != nil {
-
-			if swag.IsZero(m.MachinePools[i]) { // not required
-				return nil
-			}
-
-			if err := m.MachinePools[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("machinePools" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterRate) contextValidateRate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Rate != nil {
-
-		if swag.IsZero(m.Rate) { // not required
-			return nil
-		}
-
-		if err := m.Rate.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("rate")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("rate")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterRate) contextValidateResourceMetadata(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.ResourceMetadata != nil {
-
-		if swag.IsZero(m.ResourceMetadata) { // not required
-			return nil
-		}
-
-		if err := m.ResourceMetadata.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("resourceMetadata")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("resourceMetadata")
 			}
 			return err
 		}

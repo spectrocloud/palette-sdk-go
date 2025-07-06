@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -19,15 +18,6 @@ import (
 // swagger:model v1EdgeHostState
 type V1EdgeHostState string
 
-func NewV1EdgeHostState(value V1EdgeHostState) *V1EdgeHostState {
-	return &value
-}
-
-// Pointer returns a pointer to a freshly-allocated V1EdgeHostState.
-func (m V1EdgeHostState) Pointer() *V1EdgeHostState {
-	return &m
-}
-
 const (
 
 	// V1EdgeHostStateReady captures enum value "ready"
@@ -36,8 +26,8 @@ const (
 	// V1EdgeHostStateUnpaired captures enum value "unpaired"
 	V1EdgeHostStateUnpaired V1EdgeHostState = "unpaired"
 
-	// V1EdgeHostStateInDashUse captures enum value "in-use"
-	V1EdgeHostStateInDashUse V1EdgeHostState = "in-use"
+	// V1EdgeHostStateInUse captures enum value "in-use"
+	V1EdgeHostStateInUse V1EdgeHostState = "in-use"
 )
 
 // for schema
@@ -72,10 +62,5 @@ func (m V1EdgeHostState) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// ContextValidate validates this v1 edge host state based on context it is used
-func (m V1EdgeHostState) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

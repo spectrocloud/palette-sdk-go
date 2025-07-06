@@ -6,7 +6,6 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -87,6 +86,7 @@ func (m *V1ClusterWorkloadSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterWorkloadSpec) validateClusterroleBindings(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.ClusterroleBindings) { // not required
 		return nil
 	}
@@ -100,8 +100,6 @@ func (m *V1ClusterWorkloadSpec) validateClusterroleBindings(formats strfmt.Regis
 			if err := m.ClusterroleBindings[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterroleBindings" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterroleBindings" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -113,6 +111,7 @@ func (m *V1ClusterWorkloadSpec) validateClusterroleBindings(formats strfmt.Regis
 }
 
 func (m *V1ClusterWorkloadSpec) validateCronJobs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.CronJobs) { // not required
 		return nil
 	}
@@ -126,8 +125,6 @@ func (m *V1ClusterWorkloadSpec) validateCronJobs(formats strfmt.Registry) error 
 			if err := m.CronJobs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("cronJobs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("cronJobs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -139,6 +136,7 @@ func (m *V1ClusterWorkloadSpec) validateCronJobs(formats strfmt.Registry) error 
 }
 
 func (m *V1ClusterWorkloadSpec) validateDaemonSets(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.DaemonSets) { // not required
 		return nil
 	}
@@ -152,8 +150,6 @@ func (m *V1ClusterWorkloadSpec) validateDaemonSets(formats strfmt.Registry) erro
 			if err := m.DaemonSets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("daemonSets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("daemonSets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -165,6 +161,7 @@ func (m *V1ClusterWorkloadSpec) validateDaemonSets(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterWorkloadSpec) validateDeployments(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Deployments) { // not required
 		return nil
 	}
@@ -178,8 +175,6 @@ func (m *V1ClusterWorkloadSpec) validateDeployments(formats strfmt.Registry) err
 			if err := m.Deployments[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("deployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("deployments" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -191,6 +186,7 @@ func (m *V1ClusterWorkloadSpec) validateDeployments(formats strfmt.Registry) err
 }
 
 func (m *V1ClusterWorkloadSpec) validateJobs(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Jobs) { // not required
 		return nil
 	}
@@ -204,8 +200,6 @@ func (m *V1ClusterWorkloadSpec) validateJobs(formats strfmt.Registry) error {
 			if err := m.Jobs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("jobs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("jobs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -217,6 +211,7 @@ func (m *V1ClusterWorkloadSpec) validateJobs(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterWorkloadSpec) validatePods(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.Pods) { // not required
 		return nil
 	}
@@ -230,8 +225,6 @@ func (m *V1ClusterWorkloadSpec) validatePods(formats strfmt.Registry) error {
 			if err := m.Pods[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("pods" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("pods" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -243,6 +236,7 @@ func (m *V1ClusterWorkloadSpec) validatePods(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterWorkloadSpec) validateRoleBindings(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.RoleBindings) { // not required
 		return nil
 	}
@@ -256,8 +250,6 @@ func (m *V1ClusterWorkloadSpec) validateRoleBindings(formats strfmt.Registry) er
 			if err := m.RoleBindings[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("roleBindings" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("roleBindings" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -269,6 +261,7 @@ func (m *V1ClusterWorkloadSpec) validateRoleBindings(formats strfmt.Registry) er
 }
 
 func (m *V1ClusterWorkloadSpec) validateStatefulSets(formats strfmt.Registry) error {
+
 	if swag.IsZero(m.StatefulSets) { // not required
 		return nil
 	}
@@ -282,250 +275,6 @@ func (m *V1ClusterWorkloadSpec) validateStatefulSets(formats strfmt.Registry) er
 			if err := m.StatefulSets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("statefulSets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("statefulSets" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this v1 cluster workload spec based on the context it is used
-func (m *V1ClusterWorkloadSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateClusterroleBindings(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCronJobs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDaemonSets(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateDeployments(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateJobs(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidatePods(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateRoleBindings(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateStatefulSets(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateClusterroleBindings(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.ClusterroleBindings); i++ {
-
-		if m.ClusterroleBindings[i] != nil {
-
-			if swag.IsZero(m.ClusterroleBindings[i]) { // not required
-				return nil
-			}
-
-			if err := m.ClusterroleBindings[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("clusterroleBindings" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("clusterroleBindings" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateCronJobs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.CronJobs); i++ {
-
-		if m.CronJobs[i] != nil {
-
-			if swag.IsZero(m.CronJobs[i]) { // not required
-				return nil
-			}
-
-			if err := m.CronJobs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("cronJobs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("cronJobs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateDaemonSets(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.DaemonSets); i++ {
-
-		if m.DaemonSets[i] != nil {
-
-			if swag.IsZero(m.DaemonSets[i]) { // not required
-				return nil
-			}
-
-			if err := m.DaemonSets[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("daemonSets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("daemonSets" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateDeployments(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Deployments); i++ {
-
-		if m.Deployments[i] != nil {
-
-			if swag.IsZero(m.Deployments[i]) { // not required
-				return nil
-			}
-
-			if err := m.Deployments[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("deployments" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("deployments" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateJobs(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Jobs); i++ {
-
-		if m.Jobs[i] != nil {
-
-			if swag.IsZero(m.Jobs[i]) { // not required
-				return nil
-			}
-
-			if err := m.Jobs[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("jobs" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("jobs" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidatePods(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Pods); i++ {
-
-		if m.Pods[i] != nil {
-
-			if swag.IsZero(m.Pods[i]) { // not required
-				return nil
-			}
-
-			if err := m.Pods[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("pods" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("pods" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateRoleBindings(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.RoleBindings); i++ {
-
-		if m.RoleBindings[i] != nil {
-
-			if swag.IsZero(m.RoleBindings[i]) { // not required
-				return nil
-			}
-
-			if err := m.RoleBindings[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("roleBindings" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("roleBindings" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func (m *V1ClusterWorkloadSpec) contextValidateStatefulSets(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.StatefulSets); i++ {
-
-		if m.StatefulSets[i] != nil {
-
-			if swag.IsZero(m.StatefulSets[i]) { // not required
-				return nil
-			}
-
-			if err := m.StatefulSets[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("statefulSets" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("statefulSets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
