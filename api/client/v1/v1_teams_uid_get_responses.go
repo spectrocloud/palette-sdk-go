@@ -40,7 +40,8 @@ func NewV1TeamsUIDGetOK() *V1TeamsUIDGetOK {
 	return &V1TeamsUIDGetOK{}
 }
 
-/*V1TeamsUIDGetOK handles this case with default header values.
+/*
+V1TeamsUIDGetOK handles this case with default header values.
 
 OK
 */

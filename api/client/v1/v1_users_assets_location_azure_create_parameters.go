@@ -57,7 +57,8 @@ func NewV1UsersAssetsLocationAzureCreateParamsWithHTTPClient(client *http.Client
 	}
 }
 
-/*V1UsersAssetsLocationAzureCreateParams contains all the parameters to send to the API endpoint
+/*
+V1UsersAssetsLocationAzureCreateParams contains all the parameters to send to the API endpoint
 for the v1 users assets location azure create operation typically these are written to a http.Request
 */
 type V1UsersAssetsLocationAzureCreateParams struct {

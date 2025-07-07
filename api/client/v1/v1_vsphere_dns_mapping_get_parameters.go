@@ -55,7 +55,8 @@ func NewV1VsphereDNSMappingGetParamsWithHTTPClient(client *http.Client) *V1Vsphe
 	}
 }
 
-/*V1VsphereDNSMappingGetParams contains all the parameters to send to the API endpoint
+/*
+V1VsphereDNSMappingGetParams contains all the parameters to send to the API endpoint
 for the v1 vsphere Dns mapping get operation typically these are written to a http.Request
 */
 type V1VsphereDNSMappingGetParams struct {

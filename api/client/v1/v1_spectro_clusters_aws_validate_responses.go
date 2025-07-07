@@ -40,7 +40,8 @@ func NewV1SpectroClustersAwsValidateOK() *V1SpectroClustersAwsValidateOK {
 	return &V1SpectroClustersAwsValidateOK{}
 }
 
-/*V1SpectroClustersAwsValidateOK handles this case with default header values.
+/*
+V1SpectroClustersAwsValidateOK handles this case with default header values.
 
 Aws Cluster validation response
 */

@@ -37,7 +37,8 @@ func NewV1SpectroClustersUIDEdgeResetNoContent() *V1SpectroClustersUIDEdgeResetN
 	return &V1SpectroClustersUIDEdgeResetNoContent{}
 }
 
-/*V1SpectroClustersUIDEdgeResetNoContent handles this case with default header values.
+/*
+V1SpectroClustersUIDEdgeResetNoContent handles this case with default header values.
 
 Ok response without content
 */

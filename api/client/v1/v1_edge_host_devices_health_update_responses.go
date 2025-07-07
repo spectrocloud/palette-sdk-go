@@ -37,7 +37,8 @@ func NewV1EdgeHostDevicesHealthUpdateNoContent() *V1EdgeHostDevicesHealthUpdateN
 	return &V1EdgeHostDevicesHealthUpdateNoContent{}
 }
 
-/*V1EdgeHostDevicesHealthUpdateNoContent handles this case with default header values.
+/*
+V1EdgeHostDevicesHealthUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

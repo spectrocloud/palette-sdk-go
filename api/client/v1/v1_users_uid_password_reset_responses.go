@@ -37,7 +37,8 @@ func NewV1UsersUIDPasswordResetNoContent() *V1UsersUIDPasswordResetNoContent {
 	return &V1UsersUIDPasswordResetNoContent{}
 }
 
-/*V1UsersUIDPasswordResetNoContent handles this case with default header values.
+/*
+V1UsersUIDPasswordResetNoContent handles this case with default header values.
 
 Ok response without content
 */

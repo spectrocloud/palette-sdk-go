@@ -40,7 +40,8 @@ func NewV1RegistriesPackUIDGetOK() *V1RegistriesPackUIDGetOK {
 	return &V1RegistriesPackUIDGetOK{}
 }
 
-/*V1RegistriesPackUIDGetOK handles this case with default header values.
+/*
+V1RegistriesPackUIDGetOK handles this case with default header values.
 
 OK
 */

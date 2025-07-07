@@ -40,7 +40,8 @@ func NewV1UsersCreateCreated() *V1UsersCreateCreated {
 	return &V1UsersCreateCreated{}
 }
 
-/*V1UsersCreateCreated handles this case with default header values.
+/*
+V1UsersCreateCreated handles this case with default header values.
 
 Created successfully
 */

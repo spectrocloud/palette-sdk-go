@@ -37,7 +37,8 @@ func NewV1AuditsUIDMsgUpdateNoContent() *V1AuditsUIDMsgUpdateNoContent {
 	return &V1AuditsUIDMsgUpdateNoContent{}
 }
 
-/*V1AuditsUIDMsgUpdateNoContent handles this case with default header values.
+/*
+V1AuditsUIDMsgUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

@@ -40,7 +40,8 @@ func NewV1CustomCloudTypeCoreGetOK() *V1CustomCloudTypeCoreGetOK {
 	return &V1CustomCloudTypeCoreGetOK{}
 }
 
-/*V1CustomCloudTypeCoreGetOK handles this case with default header values.
+/*
+V1CustomCloudTypeCoreGetOK handles this case with default header values.
 
 (empty)
 */

@@ -55,7 +55,8 @@ func NewV1TeamsUIDResourceRolesParamsWithHTTPClient(client *http.Client) *V1Team
 	}
 }
 
-/*V1TeamsUIDResourceRolesParams contains all the parameters to send to the API endpoint
+/*
+V1TeamsUIDResourceRolesParams contains all the parameters to send to the API endpoint
 for the v1 teams Uid resource roles operation typically these are written to a http.Request
 */
 type V1TeamsUIDResourceRolesParams struct {

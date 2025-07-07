@@ -40,7 +40,8 @@ func NewV1ClusterFeatureKubeHunterLogGetOK() *V1ClusterFeatureKubeHunterLogGetOK
 	return &V1ClusterFeatureKubeHunterLogGetOK{}
 }
 
-/*V1ClusterFeatureKubeHunterLogGetOK handles this case with default header values.
+/*
+V1ClusterFeatureKubeHunterLogGetOK handles this case with default header values.
 
 OK
 */

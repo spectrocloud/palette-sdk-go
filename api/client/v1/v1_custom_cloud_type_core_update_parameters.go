@@ -55,7 +55,8 @@ func NewV1CustomCloudTypeCoreUpdateParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1CustomCloudTypeCoreUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CustomCloudTypeCoreUpdateParams contains all the parameters to send to the API endpoint
 for the v1 custom cloud type core update operation typically these are written to a http.Request
 */
 type V1CustomCloudTypeCoreUpdateParams struct {

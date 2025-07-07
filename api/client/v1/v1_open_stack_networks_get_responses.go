@@ -40,7 +40,8 @@ func NewV1OpenStackNetworksGetOK() *V1OpenStackNetworksGetOK {
 	return &V1OpenStackNetworksGetOK{}
 }
 
-/*V1OpenStackNetworksGetOK handles this case with default header values.
+/*
+V1OpenStackNetworksGetOK handles this case with default header values.
 
 (empty)
 */

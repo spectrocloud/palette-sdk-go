@@ -40,7 +40,8 @@ func NewV1AppProfilesUIDGetOK() *V1AppProfilesUIDGetOK {
 	return &V1AppProfilesUIDGetOK{}
 }
 
-/*V1AppProfilesUIDGetOK handles this case with default header values.
+/*
+V1AppProfilesUIDGetOK handles this case with default header values.
 
 OK
 */

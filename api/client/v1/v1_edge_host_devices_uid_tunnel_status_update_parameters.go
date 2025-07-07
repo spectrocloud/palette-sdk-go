@@ -57,7 +57,8 @@ func NewV1EdgeHostDevicesUIDTunnelStatusUpdateParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1EdgeHostDevicesUIDTunnelStatusUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1EdgeHostDevicesUIDTunnelStatusUpdateParams contains all the parameters to send to the API endpoint
 for the v1 edge host devices Uid tunnel status update operation typically these are written to a http.Request
 */
 type V1EdgeHostDevicesUIDTunnelStatusUpdateParams struct {

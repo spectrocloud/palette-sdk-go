@@ -68,7 +68,8 @@ func NewV1ClusterNamespacesGetParamsWithHTTPClient(client *http.Client) *V1Clust
 	}
 }
 
-/*V1ClusterNamespacesGetParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterNamespacesGetParams contains all the parameters to send to the API endpoint
 for the v1 cluster namespaces get operation typically these are written to a http.Request
 */
 type V1ClusterNamespacesGetParams struct {

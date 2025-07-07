@@ -37,7 +37,8 @@ func NewV1ClusterProfilesUIDPacksNameDeleteNoContent() *V1ClusterProfilesUIDPack
 	return &V1ClusterProfilesUIDPacksNameDeleteNoContent{}
 }
 
-/*V1ClusterProfilesUIDPacksNameDeleteNoContent handles this case with default header values.
+/*
+V1ClusterProfilesUIDPacksNameDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

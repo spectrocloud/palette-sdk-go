@@ -57,7 +57,8 @@ func NewV1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParamsWithHTTPClient(clie
 	}
 }
 
-/*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams contains all the parameters to send to the API endpoint
 for the v1 aws cloud configs edge native Uid machine pool create operation typically these are written to a http.Request
 */
 type V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams struct {

@@ -40,7 +40,8 @@ func NewV1AppProfilesUIDTiersGetOK() *V1AppProfilesUIDTiersGetOK {
 	return &V1AppProfilesUIDTiersGetOK{}
 }
 
-/*V1AppProfilesUIDTiersGetOK handles this case with default header values.
+/*
+V1AppProfilesUIDTiersGetOK handles this case with default header values.
 
 OK
 */

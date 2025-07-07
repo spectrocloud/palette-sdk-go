@@ -40,7 +40,8 @@ func NewV1AwsAmiTypesOK() *V1AwsAmiTypesOK {
 	return &V1AwsAmiTypesOK{}
 }
 
-/*V1AwsAmiTypesOK handles this case with default header values.
+/*
+V1AwsAmiTypesOK handles this case with default header values.
 
 (empty)
 */

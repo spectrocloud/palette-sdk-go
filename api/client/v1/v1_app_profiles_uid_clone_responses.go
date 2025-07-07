@@ -40,7 +40,8 @@ func NewV1AppProfilesUIDCloneCreated() *V1AppProfilesUIDCloneCreated {
 	return &V1AppProfilesUIDCloneCreated{}
 }
 
-/*V1AppProfilesUIDCloneCreated handles this case with default header values.
+/*
+V1AppProfilesUIDCloneCreated handles this case with default header values.
 
 Created successfully
 */

@@ -40,7 +40,8 @@ func NewV1EcrRegistriesCreateCreated() *V1EcrRegistriesCreateCreated {
 	return &V1EcrRegistriesCreateCreated{}
 }
 
-/*V1EcrRegistriesCreateCreated handles this case with default header values.
+/*
+V1EcrRegistriesCreateCreated handles this case with default header values.
 
 Created successfully
 */

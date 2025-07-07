@@ -40,7 +40,8 @@ func NewV1GcpInstanceTypesOK() *V1GcpInstanceTypesOK {
 	return &V1GcpInstanceTypesOK{}
 }
 
-/*V1GcpInstanceTypesOK handles this case with default header values.
+/*
+V1GcpInstanceTypesOK handles this case with default header values.
 
 (empty)
 */

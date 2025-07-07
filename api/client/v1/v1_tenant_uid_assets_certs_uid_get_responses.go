@@ -40,7 +40,8 @@ func NewV1TenantUIDAssetsCertsUIDGetOK() *V1TenantUIDAssetsCertsUIDGetOK {
 	return &V1TenantUIDAssetsCertsUIDGetOK{}
 }
 
-/*V1TenantUIDAssetsCertsUIDGetOK handles this case with default header values.
+/*
+V1TenantUIDAssetsCertsUIDGetOK handles this case with default header values.
 
 OK
 */

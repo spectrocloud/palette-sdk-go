@@ -40,7 +40,8 @@ func NewV1CloudConfigsGcpPoolMachinesListOK() *V1CloudConfigsGcpPoolMachinesList
 	return &V1CloudConfigsGcpPoolMachinesListOK{}
 }
 
-/*V1CloudConfigsGcpPoolMachinesListOK handles this case with default header values.
+/*
+V1CloudConfigsGcpPoolMachinesListOK handles this case with default header values.
 
 An array of GCP machine items
 */

@@ -55,7 +55,8 @@ func NewV1TenantUIDAuthTokenSettingsGetParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1TenantUIDAuthTokenSettingsGetParams contains all the parameters to send to the API endpoint
+/*
+V1TenantUIDAuthTokenSettingsGetParams contains all the parameters to send to the API endpoint
 for the v1 tenant Uid auth token settings get operation typically these are written to a http.Request
 */
 type V1TenantUIDAuthTokenSettingsGetParams struct {

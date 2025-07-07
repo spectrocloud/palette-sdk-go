@@ -55,7 +55,8 @@ func NewV1ProjectsUIDMacrosListParamsWithHTTPClient(client *http.Client) *V1Proj
 	}
 }
 
-/*V1ProjectsUIDMacrosListParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectsUIDMacrosListParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid macros list operation typically these are written to a http.Request
 */
 type V1ProjectsUIDMacrosListParams struct {

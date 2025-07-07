@@ -40,7 +40,8 @@ func NewV1AuditsUIDGetOK() *V1AuditsUIDGetOK {
 	return &V1AuditsUIDGetOK{}
 }
 
-/*V1AuditsUIDGetOK handles this case with default header values.
+/*
+V1AuditsUIDGetOK handles this case with default header values.
 
 (empty)
 */

@@ -40,7 +40,8 @@ func NewV1EcrRegistriesUIDSyncStatusOK() *V1EcrRegistriesUIDSyncStatusOK {
 	return &V1EcrRegistriesUIDSyncStatusOK{}
 }
 
-/*V1EcrRegistriesUIDSyncStatusOK handles this case with default header values.
+/*
+V1EcrRegistriesUIDSyncStatusOK handles this case with default header values.
 
 Ecr registry sync status
 */

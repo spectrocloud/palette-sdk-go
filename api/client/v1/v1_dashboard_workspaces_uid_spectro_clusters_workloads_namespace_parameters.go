@@ -57,7 +57,8 @@ func NewV1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceParamsWithHTTPC
 	}
 }
 
-/*V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceParams contains all the parameters to send to the API endpoint
 for the v1 dashboard workspaces Uid spectro clusters workloads namespace operation typically these are written to a http.Request
 */
 type V1DashboardWorkspacesUIDSpectroClustersWorkloadsNamespaceParams struct {

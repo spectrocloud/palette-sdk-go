@@ -37,7 +37,8 @@ func NewV1CloudConfigsCustomUIDClusterConfigNoContent() *V1CloudConfigsCustomUID
 	return &V1CloudConfigsCustomUIDClusterConfigNoContent{}
 }
 
-/*V1CloudConfigsCustomUIDClusterConfigNoContent handles this case with default header values.
+/*
+V1CloudConfigsCustomUIDClusterConfigNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

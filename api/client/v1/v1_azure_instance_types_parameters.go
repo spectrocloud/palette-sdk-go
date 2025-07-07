@@ -56,7 +56,8 @@ func NewV1AzureInstanceTypesParamsWithHTTPClient(client *http.Client) *V1AzureIn
 	}
 }
 
-/*V1AzureInstanceTypesParams contains all the parameters to send to the API endpoint
+/*
+V1AzureInstanceTypesParams contains all the parameters to send to the API endpoint
 for the v1 azure instance types operation typically these are written to a http.Request
 */
 type V1AzureInstanceTypesParams struct {

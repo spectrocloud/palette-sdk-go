@@ -55,7 +55,8 @@ func NewV1SystemConfigReverseProxyGetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1SystemConfigReverseProxyGetParams contains all the parameters to send to the API endpoint
+/*
+V1SystemConfigReverseProxyGetParams contains all the parameters to send to the API endpoint
 for the v1 system config reverse proxy get operation typically these are written to a http.Request
 */
 type V1SystemConfigReverseProxyGetParams struct {

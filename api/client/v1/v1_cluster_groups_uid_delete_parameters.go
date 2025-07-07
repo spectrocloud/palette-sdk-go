@@ -55,7 +55,8 @@ func NewV1ClusterGroupsUIDDeleteParamsWithHTTPClient(client *http.Client) *V1Clu
 	}
 }
 
-/*V1ClusterGroupsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1ClusterGroupsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 cluster groups Uid delete operation typically these are written to a http.Request
 */
 type V1ClusterGroupsUIDDeleteParams struct {

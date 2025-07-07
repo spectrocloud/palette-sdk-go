@@ -37,7 +37,8 @@ func NewV1CustomCloudTypeCoreUpdateNoContent() *V1CustomCloudTypeCoreUpdateNoCon
 	return &V1CustomCloudTypeCoreUpdateNoContent{}
 }
 
-/*V1CustomCloudTypeCoreUpdateNoContent handles this case with default header values.
+/*
+V1CustomCloudTypeCoreUpdateNoContent handles this case with default header values.
 
 Ok response without content
 */

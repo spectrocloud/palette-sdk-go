@@ -40,7 +40,8 @@ func NewV1UserAssetsSSHCreateCreated() *V1UserAssetsSSHCreateCreated {
 	return &V1UserAssetsSSHCreateCreated{}
 }
 
-/*V1UserAssetsSSHCreateCreated handles this case with default header values.
+/*
+V1UserAssetsSSHCreateCreated handles this case with default header values.
 
 Created successfully
 */

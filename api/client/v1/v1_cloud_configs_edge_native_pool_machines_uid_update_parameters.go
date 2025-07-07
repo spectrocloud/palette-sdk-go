@@ -57,7 +57,8 @@ func NewV1CloudConfigsEdgeNativePoolMachinesUIDUpdateParamsWithHTTPClient(client
 	}
 }
 
-/*V1CloudConfigsEdgeNativePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsEdgeNativePoolMachinesUIDUpdateParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs edge native pool machines Uid update operation typically these are written to a http.Request
 */
 type V1CloudConfigsEdgeNativePoolMachinesUIDUpdateParams struct {

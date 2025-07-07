@@ -40,7 +40,8 @@ func NewV1SpectroClustersMetaGetOK() *V1SpectroClustersMetaGetOK {
 	return &V1SpectroClustersMetaGetOK{}
 }
 
-/*V1SpectroClustersMetaGetOK handles this case with default header values.
+/*
+V1SpectroClustersMetaGetOK handles this case with default header values.
 
 An array of cluster metadata items
 */

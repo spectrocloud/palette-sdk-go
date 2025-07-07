@@ -57,7 +57,8 @@ func NewV1AwsAccountSecretCredentialsParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1AwsAccountSecretCredentialsParams contains all the parameters to send to the API endpoint
+/*
+V1AwsAccountSecretCredentialsParams contains all the parameters to send to the API endpoint
 for the v1 aws account secret credentials operation typically these are written to a http.Request
 */
 type V1AwsAccountSecretCredentialsParams struct {

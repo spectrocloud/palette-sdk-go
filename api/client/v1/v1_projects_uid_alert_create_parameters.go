@@ -57,7 +57,8 @@ func NewV1ProjectsUIDAlertCreateParamsWithHTTPClient(client *http.Client) *V1Pro
 	}
 }
 
-/*V1ProjectsUIDAlertCreateParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectsUIDAlertCreateParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid alert create operation typically these are written to a http.Request
 */
 type V1ProjectsUIDAlertCreateParams struct {

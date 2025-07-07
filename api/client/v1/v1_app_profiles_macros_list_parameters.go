@@ -55,7 +55,8 @@ func NewV1AppProfilesMacrosListParamsWithHTTPClient(client *http.Client) *V1AppP
 	}
 }
 
-/*V1AppProfilesMacrosListParams contains all the parameters to send to the API endpoint
+/*
+V1AppProfilesMacrosListParams contains all the parameters to send to the API endpoint
 for the v1 app profiles macros list operation typically these are written to a http.Request
 */
 type V1AppProfilesMacrosListParams struct {

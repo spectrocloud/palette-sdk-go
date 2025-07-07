@@ -58,7 +58,8 @@ func NewV1ProjectsUIDDeleteParamsWithHTTPClient(client *http.Client) *V1Projects
 	}
 }
 
-/*V1ProjectsUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1ProjectsUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 projects Uid delete operation typically these are written to a http.Request
 */
 type V1ProjectsUIDDeleteParams struct {

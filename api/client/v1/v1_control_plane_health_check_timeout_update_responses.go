@@ -37,7 +37,8 @@ func NewV1ControlPlaneHealthCheckTimeoutUpdateNoContent() *V1ControlPlaneHealthC
 	return &V1ControlPlaneHealthCheckTimeoutUpdateNoContent{}
 }
 
-/*V1ControlPlaneHealthCheckTimeoutUpdateNoContent handles this case with default header values.
+/*
+V1ControlPlaneHealthCheckTimeoutUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

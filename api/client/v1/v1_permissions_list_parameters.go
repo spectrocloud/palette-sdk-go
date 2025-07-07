@@ -55,7 +55,8 @@ func NewV1PermissionsListParamsWithHTTPClient(client *http.Client) *V1Permission
 	}
 }
 
-/*V1PermissionsListParams contains all the parameters to send to the API endpoint
+/*
+V1PermissionsListParams contains all the parameters to send to the API endpoint
 for the v1 permissions list operation typically these are written to a http.Request
 */
 type V1PermissionsListParams struct {

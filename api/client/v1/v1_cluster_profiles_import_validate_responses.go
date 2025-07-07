@@ -40,7 +40,8 @@ func NewV1ClusterProfilesImportValidateOK() *V1ClusterProfilesImportValidateOK {
 	return &V1ClusterProfilesImportValidateOK{}
 }
 
-/*V1ClusterProfilesImportValidateOK handles this case with default header values.
+/*
+V1ClusterProfilesImportValidateOK handles this case with default header values.
 
 Cluster profile import validated response
 */

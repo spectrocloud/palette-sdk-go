@@ -37,7 +37,8 @@ func NewV1BasicOciRegistriesValidateNoContent() *V1BasicOciRegistriesValidateNoC
 	return &V1BasicOciRegistriesValidateNoContent{}
 }
 
-/*V1BasicOciRegistriesValidateNoContent handles this case with default header values.
+/*
+V1BasicOciRegistriesValidateNoContent handles this case with default header values.
 
 Ok response without content
 */

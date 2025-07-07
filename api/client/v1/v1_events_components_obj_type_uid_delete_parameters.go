@@ -55,7 +55,8 @@ func NewV1EventsComponentsObjTypeUIDDeleteParamsWithHTTPClient(client *http.Clie
 	}
 }
 
-/*V1EventsComponentsObjTypeUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1EventsComponentsObjTypeUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 events components obj type Uid delete operation typically these are written to a http.Request
 */
 type V1EventsComponentsObjTypeUIDDeleteParams struct {

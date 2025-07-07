@@ -37,7 +37,8 @@ func NewV1TagFilterUIDDeleteNoContent() *V1TagFilterUIDDeleteNoContent {
 	return &V1TagFilterUIDDeleteNoContent{}
 }
 
-/*V1TagFilterUIDDeleteNoContent handles this case with default header values.
+/*
+V1TagFilterUIDDeleteNoContent handles this case with default header values.
 
 The resource was deleted successfully
 */

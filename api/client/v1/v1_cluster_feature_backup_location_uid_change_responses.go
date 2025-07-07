@@ -37,7 +37,8 @@ func NewV1ClusterFeatureBackupLocationUIDChangeNoContent() *V1ClusterFeatureBack
 	return &V1ClusterFeatureBackupLocationUIDChangeNoContent{}
 }
 
-/*V1ClusterFeatureBackupLocationUIDChangeNoContent handles this case with default header values.
+/*
+V1ClusterFeatureBackupLocationUIDChangeNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

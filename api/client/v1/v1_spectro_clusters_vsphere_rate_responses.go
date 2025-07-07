@@ -40,7 +40,8 @@ func NewV1SpectroClustersVsphereRateOK() *V1SpectroClustersVsphereRateOK {
 	return &V1SpectroClustersVsphereRateOK{}
 }
 
-/*V1SpectroClustersVsphereRateOK handles this case with default header values.
+/*
+V1SpectroClustersVsphereRateOK handles this case with default header values.
 
 Vsphere Cluster estimated rate response
 */

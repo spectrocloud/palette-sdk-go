@@ -55,7 +55,8 @@ func NewV1WorkspacesUIDDeleteParamsWithHTTPClient(client *http.Client) *V1Worksp
 	}
 }
 
-/*V1WorkspacesUIDDeleteParams contains all the parameters to send to the API endpoint
+/*
+V1WorkspacesUIDDeleteParams contains all the parameters to send to the API endpoint
 for the v1 workspaces Uid delete operation typically these are written to a http.Request
 */
 type V1WorkspacesUIDDeleteParams struct {

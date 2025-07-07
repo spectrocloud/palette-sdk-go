@@ -57,7 +57,8 @@ func NewV1AwsCopyImageFromDefaultRegionParamsWithHTTPClient(client *http.Client)
 	}
 }
 
-/*V1AwsCopyImageFromDefaultRegionParams contains all the parameters to send to the API endpoint
+/*
+V1AwsCopyImageFromDefaultRegionParams contains all the parameters to send to the API endpoint
 for the v1 aws copy image from default region operation typically these are written to a http.Request
 */
 type V1AwsCopyImageFromDefaultRegionParams struct {

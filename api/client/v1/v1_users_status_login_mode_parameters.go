@@ -57,7 +57,8 @@ func NewV1UsersStatusLoginModeParamsWithHTTPClient(client *http.Client) *V1Users
 	}
 }
 
-/*V1UsersStatusLoginModeParams contains all the parameters to send to the API endpoint
+/*
+V1UsersStatusLoginModeParams contains all the parameters to send to the API endpoint
 for the v1 users status login mode operation typically these are written to a http.Request
 */
 type V1UsersStatusLoginModeParams struct {

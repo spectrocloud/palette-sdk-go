@@ -55,7 +55,8 @@ func NewV1SpectroClustersUIDEdgeResetParamsWithHTTPClient(client *http.Client) *
 	}
 }
 
-/*V1SpectroClustersUIDEdgeResetParams contains all the parameters to send to the API endpoint
+/*
+V1SpectroClustersUIDEdgeResetParams contains all the parameters to send to the API endpoint
 for the v1 spectro clusters Uid edge reset operation typically these are written to a http.Request
 */
 type V1SpectroClustersUIDEdgeResetParams struct {

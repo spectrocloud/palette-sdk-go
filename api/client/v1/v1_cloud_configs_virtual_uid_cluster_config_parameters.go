@@ -57,7 +57,8 @@ func NewV1CloudConfigsVirtualUIDClusterConfigParamsWithHTTPClient(client *http.C
 	}
 }
 
-/*V1CloudConfigsVirtualUIDClusterConfigParams contains all the parameters to send to the API endpoint
+/*
+V1CloudConfigsVirtualUIDClusterConfigParams contains all the parameters to send to the API endpoint
 for the v1 cloud configs virtual Uid cluster config operation typically these are written to a http.Request
 */
 type V1CloudConfigsVirtualUIDClusterConfigParams struct {

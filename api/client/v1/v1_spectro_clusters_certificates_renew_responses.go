@@ -37,7 +37,8 @@ func NewV1SpectroClustersCertificatesRenewNoContent() *V1SpectroClustersCertific
 	return &V1SpectroClustersCertificatesRenewNoContent{}
 }
 
-/*V1SpectroClustersCertificatesRenewNoContent handles this case with default header values.
+/*
+V1SpectroClustersCertificatesRenewNoContent handles this case with default header values.
 
 The resource was updated successfully
 */

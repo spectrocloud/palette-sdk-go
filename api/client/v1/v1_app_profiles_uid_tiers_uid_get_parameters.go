@@ -55,7 +55,8 @@ func NewV1AppProfilesUIDTiersUIDGetParamsWithHTTPClient(client *http.Client) *V1
 	}
 }
 
-/*V1AppProfilesUIDTiersUIDGetParams contains all the parameters to send to the API endpoint
+/*
+V1AppProfilesUIDTiersUIDGetParams contains all the parameters to send to the API endpoint
 for the v1 app profiles Uid tiers Uid get operation typically these are written to a http.Request
 */
 type V1AppProfilesUIDTiersUIDGetParams struct {

@@ -69,7 +69,8 @@ func NewV1DashboardClustersSearchSummaryExportParamsWithHTTPClient(client *http.
 	}
 }
 
-/*V1DashboardClustersSearchSummaryExportParams contains all the parameters to send to the API endpoint
+/*
+V1DashboardClustersSearchSummaryExportParams contains all the parameters to send to the API endpoint
 for the v1 dashboard clusters search summary export operation typically these are written to a http.Request
 */
 type V1DashboardClustersSearchSummaryExportParams struct {

@@ -37,7 +37,8 @@ func NewV1ProjectsUIDAlertUpdateNoContent() *V1ProjectsUIDAlertUpdateNoContent {
 	return &V1ProjectsUIDAlertUpdateNoContent{}
 }
 
-/*V1ProjectsUIDAlertUpdateNoContent handles this case with default header values.
+/*
+V1ProjectsUIDAlertUpdateNoContent handles this case with default header values.
 
 The resource was updated successfully
 */
