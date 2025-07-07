@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -55,7 +57,6 @@ func (m *V1BackupStatusMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1BackupStatusMeta) validateBackupState(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BackupState) { // not required
 		return nil
 	}
@@ -64,6 +65,8 @@ func (m *V1BackupStatusMeta) validateBackupState(formats strfmt.Registry) error 
 		if err := m.BackupState.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupState")
 			}
 			return err
 		}
@@ -73,7 +76,6 @@ func (m *V1BackupStatusMeta) validateBackupState(formats strfmt.Registry) error 
 }
 
 func (m *V1BackupStatusMeta) validateBackupedNamespaces(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BackupedNamespaces) { // not required
 		return nil
 	}
@@ -86,7 +88,6 @@ func (m *V1BackupStatusMeta) validateBackupedNamespaces(formats strfmt.Registry)
 }
 
 func (m *V1BackupStatusMeta) validateExpiryDate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ExpiryDate) { // not required
 		return nil
 	}
@@ -94,6 +95,65 @@ func (m *V1BackupStatusMeta) validateExpiryDate(formats strfmt.Registry) error {
 	if err := m.ExpiryDate.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("expiryDate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("expiryDate")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 backup status meta based on the context it is used
+func (m *V1BackupStatusMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBackupState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExpiryDate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1BackupStatusMeta) contextValidateBackupState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupState != nil {
+
+		if swag.IsZero(m.BackupState) { // not required
+			return nil
+		}
+
+		if err := m.BackupState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupState")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1BackupStatusMeta) contextValidateExpiryDate(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ExpiryDate) { // not required
+		return nil
+	}
+
+	if err := m.ExpiryDate.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("expiryDate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("expiryDate")
 		}
 		return err
 	}

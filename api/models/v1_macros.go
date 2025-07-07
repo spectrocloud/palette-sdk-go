@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -39,7 +40,6 @@ func (m *V1Macros) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1Macros) validateMacros(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Macros) { // not required
 		return nil
 	}
@@ -57,6 +57,47 @@ func (m *V1Macros) validateMacros(formats strfmt.Registry) error {
 			if err := m.Macros[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("macros" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("macros" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 macros based on the context it is used
+func (m *V1Macros) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMacros(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1Macros) contextValidateMacros(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Macros); i++ {
+
+		if m.Macros[i] != nil {
+
+			if swag.IsZero(m.Macros[i]) { // not required
+				return nil
+			}
+
+			if err := m.Macros[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("macros" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("macros" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

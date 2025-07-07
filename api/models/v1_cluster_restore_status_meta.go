@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -61,7 +63,6 @@ func (m *V1ClusterRestoreStatusMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterRestoreStatusMeta) validateActor(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -70,6 +71,8 @@ func (m *V1ClusterRestoreStatusMeta) validateActor(formats strfmt.Registry) erro
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -79,7 +82,6 @@ func (m *V1ClusterRestoreStatusMeta) validateActor(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterRestoreStatusMeta) validateRestoreStatusMeta(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RestoreStatusMeta) { // not required
 		return nil
 	}
@@ -88,6 +90,8 @@ func (m *V1ClusterRestoreStatusMeta) validateRestoreStatusMeta(formats strfmt.Re
 		if err := m.RestoreStatusMeta.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("restoreStatusMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("restoreStatusMeta")
 			}
 			return err
 		}
@@ -97,7 +101,6 @@ func (m *V1ClusterRestoreStatusMeta) validateRestoreStatusMeta(formats strfmt.Re
 }
 
 func (m *V1ClusterRestoreStatusMeta) validateSourceClusterRef(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SourceClusterRef) { // not required
 		return nil
 	}
@@ -106,6 +109,93 @@ func (m *V1ClusterRestoreStatusMeta) validateSourceClusterRef(formats strfmt.Reg
 		if err := m.SourceClusterRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sourceClusterRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sourceClusterRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster restore status meta based on the context it is used
+func (m *V1ClusterRestoreStatusMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateActor(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRestoreStatusMeta(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSourceClusterRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterRestoreStatusMeta) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Actor != nil {
+
+		if swag.IsZero(m.Actor) { // not required
+			return nil
+		}
+
+		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterRestoreStatusMeta) contextValidateRestoreStatusMeta(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RestoreStatusMeta != nil {
+
+		if swag.IsZero(m.RestoreStatusMeta) { // not required
+			return nil
+		}
+
+		if err := m.RestoreStatusMeta.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("restoreStatusMeta")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("restoreStatusMeta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterRestoreStatusMeta) contextValidateSourceClusterRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SourceClusterRef != nil {
+
+		if swag.IsZero(m.SourceClusterRef) { // not required
+			return nil
+		}
+
+		if err := m.SourceClusterRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sourceClusterRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sourceClusterRef")
 			}
 			return err
 		}

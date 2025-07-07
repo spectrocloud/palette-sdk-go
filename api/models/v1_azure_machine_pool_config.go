@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -63,7 +64,7 @@ type V1AzureMachinePoolConfig struct {
 	OsDisk *V1AzureOSDisk `json:"osDisk,omitempty"`
 
 	// os type
-	OsType V1OsType `json:"osType,omitempty"`
+	OsType *V1OsType `json:"osType,omitempty"`
 
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
@@ -125,7 +126,6 @@ func (m *V1AzureMachinePoolConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureMachinePoolConfig) validateInstanceConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InstanceConfig) { // not required
 		return nil
 	}
@@ -134,6 +134,8 @@ func (m *V1AzureMachinePoolConfig) validateInstanceConfig(formats strfmt.Registr
 		if err := m.InstanceConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
 			}
 			return err
 		}
@@ -152,7 +154,6 @@ func (m *V1AzureMachinePoolConfig) validateIsControlPlane(formats strfmt.Registr
 }
 
 func (m *V1AzureMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MachinePoolProperties) { // not required
 		return nil
 	}
@@ -161,6 +162,8 @@ func (m *V1AzureMachinePoolConfig) validateMachinePoolProperties(formats strfmt.
 		if err := m.MachinePoolProperties.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("machinePoolProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machinePoolProperties")
 			}
 			return err
 		}
@@ -170,7 +173,6 @@ func (m *V1AzureMachinePoolConfig) validateMachinePoolProperties(formats strfmt.
 }
 
 func (m *V1AzureMachinePoolConfig) validateOsDisk(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.OsDisk) { // not required
 		return nil
 	}
@@ -179,6 +181,8 @@ func (m *V1AzureMachinePoolConfig) validateOsDisk(formats strfmt.Registry) error
 		if err := m.OsDisk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("osDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osDisk")
 			}
 			return err
 		}
@@ -188,23 +192,25 @@ func (m *V1AzureMachinePoolConfig) validateOsDisk(formats strfmt.Registry) error
 }
 
 func (m *V1AzureMachinePoolConfig) validateOsType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.OsType) { // not required
 		return nil
 	}
 
-	if err := m.OsType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("osType")
+	if m.OsType != nil {
+		if err := m.OsType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osType")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
 func (m *V1AzureMachinePoolConfig) validateSpotVMOptions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpotVMOptions) { // not required
 		return nil
 	}
@@ -213,6 +219,8 @@ func (m *V1AzureMachinePoolConfig) validateSpotVMOptions(formats strfmt.Registry
 		if err := m.SpotVMOptions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spotVMOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spotVMOptions")
 			}
 			return err
 		}
@@ -222,7 +230,6 @@ func (m *V1AzureMachinePoolConfig) validateSpotVMOptions(formats strfmt.Registry
 }
 
 func (m *V1AzureMachinePoolConfig) validateTaints(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Taints) { // not required
 		return nil
 	}
@@ -240,6 +247,8 @@ func (m *V1AzureMachinePoolConfig) validateTaints(formats strfmt.Registry) error
 			if err := m.Taints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -251,7 +260,6 @@ func (m *V1AzureMachinePoolConfig) validateTaints(formats strfmt.Registry) error
 }
 
 func (m *V1AzureMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UpdateStrategy) { // not required
 		return nil
 	}
@@ -260,6 +268,197 @@ func (m *V1AzureMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registr
 		if err := m.UpdateStrategy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("updateStrategy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("updateStrategy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 azure machine pool config based on the context it is used
+func (m *V1AzureMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMachinePoolProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOsDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOsType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpotVMOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTaints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpdateStrategy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateInstanceConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstanceConfig != nil {
+
+		if swag.IsZero(m.InstanceConfig) { // not required
+			return nil
+		}
+
+		if err := m.InstanceConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateMachinePoolProperties(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachinePoolProperties != nil {
+
+		if swag.IsZero(m.MachinePoolProperties) { // not required
+			return nil
+		}
+
+		if err := m.MachinePoolProperties.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machinePoolProperties")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machinePoolProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateOsDisk(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OsDisk != nil {
+
+		if swag.IsZero(m.OsDisk) { // not required
+			return nil
+		}
+
+		if err := m.OsDisk.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateOsType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OsType != nil {
+
+		if swag.IsZero(m.OsType) { // not required
+			return nil
+		}
+
+		if err := m.OsType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateSpotVMOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SpotVMOptions != nil {
+
+		if swag.IsZero(m.SpotVMOptions) { // not required
+			return nil
+		}
+
+		if err := m.SpotVMOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spotVMOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spotVMOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Taints); i++ {
+
+		if m.Taints[i] != nil {
+
+			if swag.IsZero(m.Taints[i]) { // not required
+				return nil
+			}
+
+			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateUpdateStrategy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UpdateStrategy != nil {
+
+		if swag.IsZero(m.UpdateStrategy) { // not required
+			return nil
+		}
+
+		if err := m.UpdateStrategy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("updateStrategy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("updateStrategy")
 			}
 			return err
 		}

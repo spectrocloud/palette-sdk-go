@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -45,7 +47,6 @@ func (m *V1OsPatchConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OsPatchConfig) validateOnDemandPatchAfter(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.OnDemandPatchAfter) { // not required
 		return nil
 	}
@@ -53,6 +54,40 @@ func (m *V1OsPatchConfig) validateOnDemandPatchAfter(formats strfmt.Registry) er
 	if err := m.OnDemandPatchAfter.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("onDemandPatchAfter")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("onDemandPatchAfter")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 os patch config based on the context it is used
+func (m *V1OsPatchConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateOnDemandPatchAfter(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1OsPatchConfig) contextValidateOnDemandPatchAfter(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.OnDemandPatchAfter) { // not required
+		return nil
+	}
+
+	if err := m.OnDemandPatchAfter.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("onDemandPatchAfter")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("onDemandPatchAfter")
 		}
 		return err
 	}

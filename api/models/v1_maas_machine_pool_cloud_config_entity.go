@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -60,6 +62,8 @@ func (m *V1MaasMachinePoolCloudConfigEntity) validateInstanceType(formats strfmt
 		if err := m.InstanceType.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceType")
 			}
 			return err
 		}
@@ -72,6 +76,37 @@ func (m *V1MaasMachinePoolCloudConfigEntity) validateResourcePool(formats strfmt
 
 	if err := validate.Required("resourcePool", "body", m.ResourcePool); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 maas machine pool cloud config entity based on the context it is used
+func (m *V1MaasMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1MaasMachinePoolCloudConfigEntity) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstanceType != nil {
+
+		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceType")
+			}
+			return err
+		}
 	}
 
 	return nil

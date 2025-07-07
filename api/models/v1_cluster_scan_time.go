@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -44,7 +46,6 @@ func (m *V1ClusterScanTime) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterScanTime) validateEndTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndTime) { // not required
 		return nil
 	}
@@ -52,6 +53,8 @@ func (m *V1ClusterScanTime) validateEndTime(formats strfmt.Registry) error {
 	if err := m.EndTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("endTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("endTime")
 		}
 		return err
 	}
@@ -60,7 +63,6 @@ func (m *V1ClusterScanTime) validateEndTime(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterScanTime) validateStartTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.StartTime) { // not required
 		return nil
 	}
@@ -68,6 +70,62 @@ func (m *V1ClusterScanTime) validateStartTime(formats strfmt.Registry) error {
 	if err := m.StartTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("startTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("startTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster scan time based on the context it is used
+func (m *V1ClusterScanTime) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateEndTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStartTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterScanTime) contextValidateEndTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.EndTime) { // not required
+		return nil
+	}
+
+	if err := m.EndTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("endTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("endTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1ClusterScanTime) contextValidateStartTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.StartTime) { // not required
+		return nil
+	}
+
+	if err := m.StartTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("startTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("startTime")
 		}
 		return err
 	}

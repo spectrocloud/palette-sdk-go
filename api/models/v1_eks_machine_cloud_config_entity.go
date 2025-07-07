@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
@@ -30,7 +31,7 @@ type V1EksMachineCloudConfigEntity struct {
 	Azs []string `json:"azs"`
 
 	// EC2 instance capacity type
-	// Enum: [on-demand spot]
+	// Enum: ["on-demand","spot"]
 	CapacityType *string `json:"capacityType,omitempty"`
 
 	// flag to know if aws launch template is enabled
@@ -82,7 +83,6 @@ func (m *V1EksMachineCloudConfigEntity) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1EksMachineCloudConfigEntity) validateAwsLaunchTemplate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AwsLaunchTemplate) { // not required
 		return nil
 	}
@@ -91,6 +91,8 @@ func (m *V1EksMachineCloudConfigEntity) validateAwsLaunchTemplate(formats strfmt
 		if err := m.AwsLaunchTemplate.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("awsLaunchTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsLaunchTemplate")
 			}
 			return err
 		}
@@ -113,8 +115,8 @@ func init() {
 
 const (
 
-	// V1EksMachineCloudConfigEntityCapacityTypeOnDemand captures enum value "on-demand"
-	V1EksMachineCloudConfigEntityCapacityTypeOnDemand string = "on-demand"
+	// V1EksMachineCloudConfigEntityCapacityTypeOnDashDemand captures enum value "on-demand"
+	V1EksMachineCloudConfigEntityCapacityTypeOnDashDemand string = "on-demand"
 
 	// V1EksMachineCloudConfigEntityCapacityTypeSpot captures enum value "spot"
 	V1EksMachineCloudConfigEntityCapacityTypeSpot string = "spot"
@@ -129,7 +131,6 @@ func (m *V1EksMachineCloudConfigEntity) validateCapacityTypeEnum(path, location 
 }
 
 func (m *V1EksMachineCloudConfigEntity) validateCapacityType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CapacityType) { // not required
 		return nil
 	}
@@ -143,16 +144,15 @@ func (m *V1EksMachineCloudConfigEntity) validateCapacityType(formats strfmt.Regi
 }
 
 func (m *V1EksMachineCloudConfigEntity) validateRootDeviceSize(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RootDeviceSize) { // not required
 		return nil
 	}
 
-	if err := validate.MinimumInt("rootDeviceSize", "body", int64(m.RootDeviceSize), 1, false); err != nil {
+	if err := validate.MinimumInt("rootDeviceSize", "body", m.RootDeviceSize, 1, false); err != nil {
 		return err
 	}
 
-	if err := validate.MaximumInt("rootDeviceSize", "body", int64(m.RootDeviceSize), 2000, false); err != nil {
+	if err := validate.MaximumInt("rootDeviceSize", "body", m.RootDeviceSize, 2000, false); err != nil {
 		return err
 	}
 
@@ -160,7 +160,6 @@ func (m *V1EksMachineCloudConfigEntity) validateRootDeviceSize(formats strfmt.Re
 }
 
 func (m *V1EksMachineCloudConfigEntity) validateSpotMarketOptions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpotMarketOptions) { // not required
 		return nil
 	}
@@ -169,6 +168,8 @@ func (m *V1EksMachineCloudConfigEntity) validateSpotMarketOptions(formats strfmt
 		if err := m.SpotMarketOptions.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spotMarketOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spotMarketOptions")
 			}
 			return err
 		}
@@ -178,7 +179,6 @@ func (m *V1EksMachineCloudConfigEntity) validateSpotMarketOptions(formats strfmt
 }
 
 func (m *V1EksMachineCloudConfigEntity) validateSubnets(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Subnets) { // not required
 		return nil
 	}
@@ -192,6 +192,97 @@ func (m *V1EksMachineCloudConfigEntity) validateSubnets(formats strfmt.Registry)
 			if err := m.Subnets[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("subnets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("subnets" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 eks machine cloud config entity based on the context it is used
+func (m *V1EksMachineCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAwsLaunchTemplate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpotMarketOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSubnets(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1EksMachineCloudConfigEntity) contextValidateAwsLaunchTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AwsLaunchTemplate != nil {
+
+		if swag.IsZero(m.AwsLaunchTemplate) { // not required
+			return nil
+		}
+
+		if err := m.AwsLaunchTemplate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("awsLaunchTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("awsLaunchTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EksMachineCloudConfigEntity) contextValidateSpotMarketOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SpotMarketOptions != nil {
+
+		if swag.IsZero(m.SpotMarketOptions) { // not required
+			return nil
+		}
+
+		if err := m.SpotMarketOptions.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spotMarketOptions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spotMarketOptions")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EksMachineCloudConfigEntity) contextValidateSubnets(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Subnets); i++ {
+
+		if m.Subnets[i] != nil {
+
+			if swag.IsZero(m.Subnets[i]) { // not required
+				return nil
+			}
+
+			if err := m.Subnets[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("subnets" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("subnets" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

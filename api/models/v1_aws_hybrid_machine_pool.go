@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -17,7 +19,7 @@ import (
 type V1AwsHybridMachinePool struct {
 
 	// pool cloud type
-	PoolCloudType V1HybridPoolClusterCloudType `json:"poolCloudType,omitempty"`
+	PoolCloudType *V1HybridPoolClusterCloudType `json:"poolCloudType,omitempty"`
 
 	// Machine pool name
 	PoolName string `json:"poolName,omitempty"`
@@ -41,16 +43,54 @@ func (m *V1AwsHybridMachinePool) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsHybridMachinePool) validatePoolCloudType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PoolCloudType) { // not required
 		return nil
 	}
 
-	if err := m.PoolCloudType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("poolCloudType")
+	if m.PoolCloudType != nil {
+		if err := m.PoolCloudType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("poolCloudType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("poolCloudType")
+			}
+			return err
 		}
-		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws hybrid machine pool based on the context it is used
+func (m *V1AwsHybridMachinePool) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePoolCloudType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsHybridMachinePool) contextValidatePoolCloudType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PoolCloudType != nil {
+
+		if swag.IsZero(m.PoolCloudType) { // not required
+			return nil
+		}
+
+		if err := m.PoolCloudType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("poolCloudType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("poolCloudType")
+			}
+			return err
+		}
 	}
 
 	return nil

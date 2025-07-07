@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -38,7 +40,6 @@ func (m *V1AwsUserCloudAccount) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsUserCloudAccount) validateCloudAccount(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudAccount) { // not required
 		return nil
 	}
@@ -47,6 +48,43 @@ func (m *V1AwsUserCloudAccount) validateCloudAccount(formats strfmt.Registry) er
 		if err := m.CloudAccount.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudAccount")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws user cloud account based on the context it is used
+func (m *V1AwsUserCloudAccount) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCloudAccount(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsUserCloudAccount) contextValidateCloudAccount(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudAccount != nil {
+
+		if swag.IsZero(m.CloudAccount) { // not required
+			return nil
+		}
+
+		if err := m.CloudAccount.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudAccount")
 			}
 			return err
 		}

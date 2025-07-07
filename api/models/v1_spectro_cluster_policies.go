@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1SpectroClusterPolicies) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterPolicies) validateBackupPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BackupPolicy) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1SpectroClusterPolicies) validateBackupPolicy(formats strfmt.Registry)
 		if err := m.BackupPolicy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupPolicy")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1SpectroClusterPolicies) validateBackupPolicy(formats strfmt.Registry)
 }
 
 func (m *V1SpectroClusterPolicies) validateScanPolicy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ScanPolicy) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1SpectroClusterPolicies) validateScanPolicy(formats strfmt.Registry) e
 		if err := m.ScanPolicy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("scanPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster policies based on the context it is used
+func (m *V1SpectroClusterPolicies) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBackupPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateScanPolicy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterPolicies) contextValidateBackupPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupPolicy != nil {
+
+		if swag.IsZero(m.BackupPolicy) { // not required
+			return nil
+		}
+
+		if err := m.BackupPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupPolicy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterPolicies) contextValidateScanPolicy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ScanPolicy != nil {
+
+		if swag.IsZero(m.ScanPolicy) { // not required
+			return nil
+		}
+
+		if err := m.ScanPolicy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("scanPolicy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("scanPolicy")
 			}
 			return err
 		}

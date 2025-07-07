@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -68,7 +70,6 @@ func (m *V1VMPersistentVolumeClaimSpec) Validate(formats strfmt.Registry) error 
 }
 
 func (m *V1VMPersistentVolumeClaimSpec) validateDataSource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataSource) { // not required
 		return nil
 	}
@@ -77,6 +78,8 @@ func (m *V1VMPersistentVolumeClaimSpec) validateDataSource(formats strfmt.Regist
 		if err := m.DataSource.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataSource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSource")
 			}
 			return err
 		}
@@ -86,7 +89,6 @@ func (m *V1VMPersistentVolumeClaimSpec) validateDataSource(formats strfmt.Regist
 }
 
 func (m *V1VMPersistentVolumeClaimSpec) validateDataSourceRef(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataSourceRef) { // not required
 		return nil
 	}
@@ -95,6 +97,8 @@ func (m *V1VMPersistentVolumeClaimSpec) validateDataSourceRef(formats strfmt.Reg
 		if err := m.DataSourceRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataSourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSourceRef")
 			}
 			return err
 		}
@@ -104,7 +108,6 @@ func (m *V1VMPersistentVolumeClaimSpec) validateDataSourceRef(formats strfmt.Reg
 }
 
 func (m *V1VMPersistentVolumeClaimSpec) validateResources(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Resources) { // not required
 		return nil
 	}
@@ -113,6 +116,8 @@ func (m *V1VMPersistentVolumeClaimSpec) validateResources(formats strfmt.Registr
 		if err := m.Resources.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resources")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resources")
 			}
 			return err
 		}
@@ -122,7 +127,6 @@ func (m *V1VMPersistentVolumeClaimSpec) validateResources(formats strfmt.Registr
 }
 
 func (m *V1VMPersistentVolumeClaimSpec) validateSelector(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Selector) { // not required
 		return nil
 	}
@@ -131,6 +135,118 @@ func (m *V1VMPersistentVolumeClaimSpec) validateSelector(formats strfmt.Registry
 		if err := m.Selector.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("selector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("selector")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm persistent volume claim spec based on the context it is used
+func (m *V1VMPersistentVolumeClaimSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDataSource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDataSourceRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResources(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSelector(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMPersistentVolumeClaimSpec) contextValidateDataSource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataSource != nil {
+
+		if swag.IsZero(m.DataSource) { // not required
+			return nil
+		}
+
+		if err := m.DataSource.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataSource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSource")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMPersistentVolumeClaimSpec) contextValidateDataSourceRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataSourceRef != nil {
+
+		if swag.IsZero(m.DataSourceRef) { // not required
+			return nil
+		}
+
+		if err := m.DataSourceRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataSourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSourceRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMPersistentVolumeClaimSpec) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Resources != nil {
+
+		if swag.IsZero(m.Resources) { // not required
+			return nil
+		}
+
+		if err := m.Resources.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resources")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resources")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMPersistentVolumeClaimSpec) contextValidateSelector(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Selector != nil {
+
+		if swag.IsZero(m.Selector) { // not required
+			return nil
+		}
+
+		if err := m.Selector.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("selector")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("selector")
 			}
 			return err
 		}

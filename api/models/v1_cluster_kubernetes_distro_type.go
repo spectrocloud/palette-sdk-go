@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,6 +19,15 @@ import (
 // swagger:model v1ClusterKubernetesDistroType
 type V1ClusterKubernetesDistroType string
 
+func NewV1ClusterKubernetesDistroType(value V1ClusterKubernetesDistroType) *V1ClusterKubernetesDistroType {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1ClusterKubernetesDistroType.
+func (m V1ClusterKubernetesDistroType) Pointer() *V1ClusterKubernetesDistroType {
+	return &m
+}
+
 const (
 
 	// V1ClusterKubernetesDistroTypeK3s captures enum value "k3s"
@@ -26,8 +36,8 @@ const (
 	// V1ClusterKubernetesDistroTypeCncfK8s captures enum value "cncf_k8s"
 	V1ClusterKubernetesDistroTypeCncfK8s V1ClusterKubernetesDistroType = "cncf_k8s"
 
-	// V1ClusterKubernetesDistroTypeVclusterGeneric captures enum value "vcluster-generic"
-	V1ClusterKubernetesDistroTypeVclusterGeneric V1ClusterKubernetesDistroType = "vcluster-generic"
+	// V1ClusterKubernetesDistroTypeVclusterDashGeneric captures enum value "vcluster-generic"
+	V1ClusterKubernetesDistroTypeVclusterDashGeneric V1ClusterKubernetesDistroType = "vcluster-generic"
 )
 
 // for schema
@@ -62,5 +72,10 @@ func (m V1ClusterKubernetesDistroType) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 cluster kubernetes distro type based on context it is used
+func (m V1ClusterKubernetesDistroType) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

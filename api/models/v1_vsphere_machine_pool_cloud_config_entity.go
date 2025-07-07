@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +45,6 @@ func (m *V1VsphereMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry
 }
 
 func (m *V1VsphereMachinePoolCloudConfigEntity) validateInstanceType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InstanceType) { // not required
 		return nil
 	}
@@ -53,6 +53,8 @@ func (m *V1VsphereMachinePoolCloudConfigEntity) validateInstanceType(formats str
 		if err := m.InstanceType.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("instanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceType")
 			}
 			return err
 		}
@@ -62,7 +64,6 @@ func (m *V1VsphereMachinePoolCloudConfigEntity) validateInstanceType(formats str
 }
 
 func (m *V1VsphereMachinePoolCloudConfigEntity) validatePlacements(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Placements) { // not required
 		return nil
 	}
@@ -76,6 +77,72 @@ func (m *V1VsphereMachinePoolCloudConfigEntity) validatePlacements(formats strfm
 			if err := m.Placements[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 vsphere machine pool cloud config entity based on the context it is used
+func (m *V1VsphereMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePlacements(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VsphereMachinePoolCloudConfigEntity) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstanceType != nil {
+
+		if swag.IsZero(m.InstanceType) { // not required
+			return nil
+		}
+
+		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VsphereMachinePoolCloudConfigEntity) contextValidatePlacements(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Placements); i++ {
+
+		if m.Placements[i] != nil {
+
+			if swag.IsZero(m.Placements[i]) { // not required
+				return nil
+			}
+
+			if err := m.Placements[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("placements" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("placements" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

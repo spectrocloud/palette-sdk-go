@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,7 +24,7 @@ type V1AuditSpec struct {
 	ActionMsg string `json:"actionMsg,omitempty"`
 
 	// action type
-	// Enum: [create update delete publish deploy]
+	// Enum: ["create","update","delete","publish","deploy"]
 	ActionType string `json:"actionType,omitempty"`
 
 	// actor
@@ -100,7 +101,6 @@ func (m *V1AuditSpec) validateActionTypeEnum(path, location string, value string
 }
 
 func (m *V1AuditSpec) validateActionType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ActionType) { // not required
 		return nil
 	}
@@ -114,7 +114,6 @@ func (m *V1AuditSpec) validateActionType(formats strfmt.Registry) error {
 }
 
 func (m *V1AuditSpec) validateActor(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Actor) { // not required
 		return nil
 	}
@@ -123,6 +122,8 @@ func (m *V1AuditSpec) validateActor(formats strfmt.Registry) error {
 		if err := m.Actor.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
 			}
 			return err
 		}
@@ -132,7 +133,6 @@ func (m *V1AuditSpec) validateActor(formats strfmt.Registry) error {
 }
 
 func (m *V1AuditSpec) validateResource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Resource) { // not required
 		return nil
 	}
@@ -141,6 +141,68 @@ func (m *V1AuditSpec) validateResource(formats strfmt.Registry) error {
 		if err := m.Resource.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("resource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resource")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 audit spec based on the context it is used
+func (m *V1AuditSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateActor(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AuditSpec) contextValidateActor(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Actor != nil {
+
+		if swag.IsZero(m.Actor) { // not required
+			return nil
+		}
+
+		if err := m.Actor.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("actor")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("actor")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AuditSpec) contextValidateResource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Resource != nil {
+
+		if swag.IsZero(m.Resource) { // not required
+			return nil
+		}
+
+		if err := m.Resource.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resource")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resource")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -32,7 +33,7 @@ type V1SystemReverseProxy struct {
 	Port int64 `json:"port,omitempty"`
 
 	// protocol
-	// Enum: [http https]
+	// Enum: ["http","https"]
 	Protocol string `json:"protocol,omitempty"`
 
 	// server
@@ -86,7 +87,6 @@ func (m *V1SystemReverseProxy) validateProtocolEnum(path, location string, value
 }
 
 func (m *V1SystemReverseProxy) validateProtocol(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Protocol) { // not required
 		return nil
 	}
@@ -96,6 +96,11 @@ func (m *V1SystemReverseProxy) validateProtocol(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this v1 system reverse proxy based on context it is used
+func (m *V1SystemReverseProxy) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

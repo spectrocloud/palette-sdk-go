@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1ClusterProfileScope
 type V1ClusterProfileScope string
+
+func NewV1ClusterProfileScope(value V1ClusterProfileScope) *V1ClusterProfileScope {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1ClusterProfileScope.
+func (m V1ClusterProfileScope) Pointer() *V1ClusterProfileScope {
+	return &m
+}
 
 const (
 
@@ -62,5 +72,10 @@ func (m V1ClusterProfileScope) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 cluster profile scope based on context it is used
+func (m V1ClusterProfileScope) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

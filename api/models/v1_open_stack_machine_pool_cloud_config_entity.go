@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -59,6 +61,8 @@ func (m *V1OpenStackMachinePoolCloudConfigEntity) validateFlavorConfig(formats s
 		if err := m.FlavorConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("flavorConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("flavorConfig")
 			}
 			return err
 		}
@@ -68,7 +72,6 @@ func (m *V1OpenStackMachinePoolCloudConfigEntity) validateFlavorConfig(formats s
 }
 
 func (m *V1OpenStackMachinePoolCloudConfigEntity) validateSubnet(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Subnet) { // not required
 		return nil
 	}
@@ -77,6 +80,64 @@ func (m *V1OpenStackMachinePoolCloudConfigEntity) validateSubnet(formats strfmt.
 		if err := m.Subnet.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("subnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("subnet")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 open stack machine pool cloud config entity based on the context it is used
+func (m *V1OpenStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFlavorConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSubnet(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1OpenStackMachinePoolCloudConfigEntity) contextValidateFlavorConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.FlavorConfig != nil {
+
+		if err := m.FlavorConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("flavorConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("flavorConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1OpenStackMachinePoolCloudConfigEntity) contextValidateSubnet(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Subnet != nil {
+
+		if swag.IsZero(m.Subnet) { // not required
+			return nil
+		}
+
+		if err := m.Subnet.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("subnet")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("subnet")
 			}
 			return err
 		}

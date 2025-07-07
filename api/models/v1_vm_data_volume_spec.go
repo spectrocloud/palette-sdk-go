@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -77,7 +78,6 @@ func (m *V1VMDataVolumeSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDataVolumeSpec) validateCheckpoints(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Checkpoints) { // not required
 		return nil
 	}
@@ -91,6 +91,8 @@ func (m *V1VMDataVolumeSpec) validateCheckpoints(formats strfmt.Registry) error 
 			if err := m.Checkpoints[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("checkpoints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("checkpoints" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -102,7 +104,6 @@ func (m *V1VMDataVolumeSpec) validateCheckpoints(formats strfmt.Registry) error 
 }
 
 func (m *V1VMDataVolumeSpec) validatePvc(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Pvc) { // not required
 		return nil
 	}
@@ -111,6 +112,8 @@ func (m *V1VMDataVolumeSpec) validatePvc(formats strfmt.Registry) error {
 		if err := m.Pvc.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("pvc")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("pvc")
 			}
 			return err
 		}
@@ -120,7 +123,6 @@ func (m *V1VMDataVolumeSpec) validatePvc(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDataVolumeSpec) validateSource(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Source) { // not required
 		return nil
 	}
@@ -129,6 +131,8 @@ func (m *V1VMDataVolumeSpec) validateSource(formats strfmt.Registry) error {
 		if err := m.Source.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
 			}
 			return err
 		}
@@ -138,7 +142,6 @@ func (m *V1VMDataVolumeSpec) validateSource(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDataVolumeSpec) validateSourceRef(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SourceRef) { // not required
 		return nil
 	}
@@ -147,6 +150,8 @@ func (m *V1VMDataVolumeSpec) validateSourceRef(formats strfmt.Registry) error {
 		if err := m.SourceRef.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sourceRef")
 			}
 			return err
 		}
@@ -156,7 +161,6 @@ func (m *V1VMDataVolumeSpec) validateSourceRef(formats strfmt.Registry) error {
 }
 
 func (m *V1VMDataVolumeSpec) validateStorage(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Storage) { // not required
 		return nil
 	}
@@ -165,6 +169,147 @@ func (m *V1VMDataVolumeSpec) validateStorage(formats strfmt.Registry) error {
 		if err := m.Storage.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("storage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("storage")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm data volume spec based on the context it is used
+func (m *V1VMDataVolumeSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCheckpoints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePvc(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSource(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSourceRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMDataVolumeSpec) contextValidateCheckpoints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Checkpoints); i++ {
+
+		if m.Checkpoints[i] != nil {
+
+			if swag.IsZero(m.Checkpoints[i]) { // not required
+				return nil
+			}
+
+			if err := m.Checkpoints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("checkpoints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("checkpoints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1VMDataVolumeSpec) contextValidatePvc(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Pvc != nil {
+
+		if swag.IsZero(m.Pvc) { // not required
+			return nil
+		}
+
+		if err := m.Pvc.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("pvc")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("pvc")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDataVolumeSpec) contextValidateSource(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Source != nil {
+
+		if swag.IsZero(m.Source) { // not required
+			return nil
+		}
+
+		if err := m.Source.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("source")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("source")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDataVolumeSpec) contextValidateSourceRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SourceRef != nil {
+
+		if swag.IsZero(m.SourceRef) { // not required
+			return nil
+		}
+
+		if err := m.SourceRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sourceRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDataVolumeSpec) contextValidateStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Storage != nil {
+
+		if swag.IsZero(m.Storage) { // not required
+			return nil
+		}
+
+		if err := m.Storage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("storage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("storage")
 			}
 			return err
 		}

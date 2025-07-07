@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +45,6 @@ func (m *V1WorkspaceClusterWorkloadJobs) Validate(formats strfmt.Registry) error
 }
 
 func (m *V1WorkspaceClusterWorkloadJobs) validateJobs(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Jobs) { // not required
 		return nil
 	}
@@ -58,6 +58,8 @@ func (m *V1WorkspaceClusterWorkloadJobs) validateJobs(formats strfmt.Registry) e
 			if err := m.Jobs[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("jobs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("jobs" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -69,7 +71,6 @@ func (m *V1WorkspaceClusterWorkloadJobs) validateJobs(formats strfmt.Registry) e
 }
 
 func (m *V1WorkspaceClusterWorkloadJobs) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -78,6 +79,72 @@ func (m *V1WorkspaceClusterWorkloadJobs) validateMetadata(formats strfmt.Registr
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 workspace cluster workload jobs based on the context it is used
+func (m *V1WorkspaceClusterWorkloadJobs) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateJobs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1WorkspaceClusterWorkloadJobs) contextValidateJobs(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Jobs); i++ {
+
+		if m.Jobs[i] != nil {
+
+			if swag.IsZero(m.Jobs[i]) { // not required
+				return nil
+			}
+
+			if err := m.Jobs[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("jobs" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("jobs" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceClusterWorkloadJobs) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}

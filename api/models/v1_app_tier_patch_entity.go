@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -38,7 +40,6 @@ func (m *V1AppTierPatchEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AppTierPatchEntity) validateAppTier(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AppTier) { // not required
 		return nil
 	}
@@ -47,6 +48,43 @@ func (m *V1AppTierPatchEntity) validateAppTier(formats strfmt.Registry) error {
 		if err := m.AppTier.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("appTier")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appTier")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 app tier patch entity based on the context it is used
+func (m *V1AppTierPatchEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAppTier(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AppTierPatchEntity) contextValidateAppTier(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AppTier != nil {
+
+		if swag.IsZero(m.AppTier) { // not required
+			return nil
+		}
+
+		if err := m.AppTier.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("appTier")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("appTier")
 			}
 			return err
 		}

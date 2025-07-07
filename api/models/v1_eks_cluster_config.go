@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -72,7 +73,6 @@ func (m *V1EksClusterConfig) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EksClusterConfig) validateAddons(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Addons) { // not required
 		return nil
 	}
@@ -86,6 +86,8 @@ func (m *V1EksClusterConfig) validateAddons(formats strfmt.Registry) error {
 			if err := m.Addons[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("addons" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addons" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -97,7 +99,6 @@ func (m *V1EksClusterConfig) validateAddons(formats strfmt.Registry) error {
 }
 
 func (m *V1EksClusterConfig) validateEncryptionConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EncryptionConfig) { // not required
 		return nil
 	}
@@ -106,6 +107,8 @@ func (m *V1EksClusterConfig) validateEncryptionConfig(formats strfmt.Registry) e
 		if err := m.EncryptionConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("encryptionConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("encryptionConfig")
 			}
 			return err
 		}
@@ -115,7 +118,6 @@ func (m *V1EksClusterConfig) validateEncryptionConfig(formats strfmt.Registry) e
 }
 
 func (m *V1EksClusterConfig) validateEndpointAccess(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndpointAccess) { // not required
 		return nil
 	}
@@ -124,6 +126,8 @@ func (m *V1EksClusterConfig) validateEndpointAccess(formats strfmt.Registry) err
 		if err := m.EndpointAccess.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("endpointAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("endpointAccess")
 			}
 			return err
 		}
@@ -136,6 +140,95 @@ func (m *V1EksClusterConfig) validateRegion(formats strfmt.Registry) error {
 
 	if err := validate.Required("region", "body", m.Region); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 eks cluster config based on the context it is used
+func (m *V1EksClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAddons(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEncryptionConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEndpointAccess(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1EksClusterConfig) contextValidateAddons(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Addons); i++ {
+
+		if m.Addons[i] != nil {
+
+			if swag.IsZero(m.Addons[i]) { // not required
+				return nil
+			}
+
+			if err := m.Addons[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("addons" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addons" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1EksClusterConfig) contextValidateEncryptionConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.EncryptionConfig != nil {
+
+		if swag.IsZero(m.EncryptionConfig) { // not required
+			return nil
+		}
+
+		if err := m.EncryptionConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("encryptionConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("encryptionConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EksClusterConfig) contextValidateEndpointAccess(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.EndpointAccess != nil {
+
+		if swag.IsZero(m.EndpointAccess) { // not required
+			return nil
+		}
+
+		if err := m.EndpointAccess.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("endpointAccess")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("endpointAccess")
+			}
+			return err
+		}
 	}
 
 	return nil

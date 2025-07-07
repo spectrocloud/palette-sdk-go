@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
@@ -27,7 +28,7 @@ type V1ClusterGroupSummarySpec struct {
 	CPU *V1ClusterGroupResource `json:"cpu,omitempty"`
 
 	// endpoint type
-	// Enum: [Ingress LoadBalancer]
+	// Enum: ["Ingress","LoadBalancer"]
 	EndpointType string `json:"endpointType,omitempty"`
 
 	// host clusters
@@ -38,7 +39,7 @@ type V1ClusterGroupSummarySpec struct {
 	HostClustersCount int64 `json:"hostClustersCount"`
 
 	// kubernetes distro type
-	KubernetesDistroType V1ClusterKubernetesDistroType `json:"kubernetesDistroType,omitempty"`
+	KubernetesDistroType *V1ClusterKubernetesDistroType `json:"kubernetesDistroType,omitempty"`
 
 	// Deprecated
 	Memory *V1ClusterGroupResource `json:"memory,omitempty"`
@@ -85,7 +86,6 @@ func (m *V1ClusterGroupSummarySpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterGroupSummarySpec) validateClusterProfileTemplates(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterProfileTemplates) { // not required
 		return nil
 	}
@@ -99,6 +99,8 @@ func (m *V1ClusterGroupSummarySpec) validateClusterProfileTemplates(formats strf
 			if err := m.ClusterProfileTemplates[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -110,7 +112,6 @@ func (m *V1ClusterGroupSummarySpec) validateClusterProfileTemplates(formats strf
 }
 
 func (m *V1ClusterGroupSummarySpec) validateCPU(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CPU) { // not required
 		return nil
 	}
@@ -119,6 +120,8 @@ func (m *V1ClusterGroupSummarySpec) validateCPU(formats strfmt.Registry) error {
 		if err := m.CPU.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cpu")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cpu")
 			}
 			return err
 		}
@@ -157,7 +160,6 @@ func (m *V1ClusterGroupSummarySpec) validateEndpointTypeEnum(path, location stri
 }
 
 func (m *V1ClusterGroupSummarySpec) validateEndpointType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EndpointType) { // not required
 		return nil
 	}
@@ -171,7 +173,6 @@ func (m *V1ClusterGroupSummarySpec) validateEndpointType(formats strfmt.Registry
 }
 
 func (m *V1ClusterGroupSummarySpec) validateHostClusters(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HostClusters) { // not required
 		return nil
 	}
@@ -189,6 +190,8 @@ func (m *V1ClusterGroupSummarySpec) validateHostClusters(formats strfmt.Registry
 			if err := m.HostClusters[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("hostClusters" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hostClusters" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -200,23 +203,25 @@ func (m *V1ClusterGroupSummarySpec) validateHostClusters(formats strfmt.Registry
 }
 
 func (m *V1ClusterGroupSummarySpec) validateKubernetesDistroType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.KubernetesDistroType) { // not required
 		return nil
 	}
 
-	if err := m.KubernetesDistroType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("kubernetesDistroType")
+	if m.KubernetesDistroType != nil {
+		if err := m.KubernetesDistroType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("kubernetesDistroType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kubernetesDistroType")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
 func (m *V1ClusterGroupSummarySpec) validateMemory(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Memory) { // not required
 		return nil
 	}
@@ -225,6 +230,151 @@ func (m *V1ClusterGroupSummarySpec) validateMemory(formats strfmt.Registry) erro
 		if err := m.Memory.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("memory")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memory")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster group summary spec based on the context it is used
+func (m *V1ClusterGroupSummarySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCPU(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHostClusters(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateKubernetesDistroType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMemory(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) contextValidateClusterProfileTemplates(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ClusterProfileTemplates); i++ {
+
+		if m.ClusterProfileTemplates[i] != nil {
+
+			if swag.IsZero(m.ClusterProfileTemplates[i]) { // not required
+				return nil
+			}
+
+			if err := m.ClusterProfileTemplates[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("clusterProfileTemplates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) contextValidateCPU(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CPU != nil {
+
+		if swag.IsZero(m.CPU) { // not required
+			return nil
+		}
+
+		if err := m.CPU.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cpu")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cpu")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) contextValidateHostClusters(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.HostClusters); i++ {
+
+		if m.HostClusters[i] != nil {
+
+			if swag.IsZero(m.HostClusters[i]) { // not required
+				return nil
+			}
+
+			if err := m.HostClusters[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("hostClusters" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("hostClusters" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) contextValidateKubernetesDistroType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.KubernetesDistroType != nil {
+
+		if swag.IsZero(m.KubernetesDistroType) { // not required
+			return nil
+		}
+
+		if err := m.KubernetesDistroType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("kubernetesDistroType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("kubernetesDistroType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupSummarySpec) contextValidateMemory(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Memory != nil {
+
+		if swag.IsZero(m.Memory) { // not required
+			return nil
+		}
+
+		if err := m.Memory.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("memory")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memory")
 			}
 			return err
 		}

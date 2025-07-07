@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1ClusterGroupsDeveloperCreditUsage) Validate(formats strfmt.Registry) 
 }
 
 func (m *V1ClusterGroupsDeveloperCreditUsage) validateAllocatedCredit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AllocatedCredit) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1ClusterGroupsDeveloperCreditUsage) validateAllocatedCredit(formats st
 		if err := m.AllocatedCredit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("allocatedCredit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allocatedCredit")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1ClusterGroupsDeveloperCreditUsage) validateAllocatedCredit(formats st
 }
 
 func (m *V1ClusterGroupsDeveloperCreditUsage) validateUsedCredit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.UsedCredit) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1ClusterGroupsDeveloperCreditUsage) validateUsedCredit(formats strfmt.
 		if err := m.UsedCredit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("usedCredit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usedCredit")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster groups developer credit usage based on the context it is used
+func (m *V1ClusterGroupsDeveloperCreditUsage) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAllocatedCredit(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUsedCredit(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterGroupsDeveloperCreditUsage) contextValidateAllocatedCredit(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AllocatedCredit != nil {
+
+		if swag.IsZero(m.AllocatedCredit) { // not required
+			return nil
+		}
+
+		if err := m.AllocatedCredit.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("allocatedCredit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("allocatedCredit")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterGroupsDeveloperCreditUsage) contextValidateUsedCredit(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UsedCredit != nil {
+
+		if swag.IsZero(m.UsedCredit) { // not required
+			return nil
+		}
+
+		if err := m.UsedCredit.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("usedCredit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("usedCredit")
 			}
 			return err
 		}

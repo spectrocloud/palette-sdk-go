@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,10 +21,10 @@ import (
 type V1EdgeHostMeta struct {
 
 	// arch type
-	ArchType V1ArchType `json:"archType,omitempty"`
+	ArchType *V1ArchType `json:"archType,omitempty"`
 
 	// edge host type
-	// Enum: [edge-native vsphere]
+	// Enum: ["edge-native","vsphere"]
 	EdgeHostType string `json:"edgeHostType,omitempty"`
 
 	// health state
@@ -58,16 +59,19 @@ func (m *V1EdgeHostMeta) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EdgeHostMeta) validateArchType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ArchType) { // not required
 		return nil
 	}
 
-	if err := m.ArchType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("archType")
+	if m.ArchType != nil {
+		if err := m.ArchType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("archType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("archType")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
@@ -87,8 +91,8 @@ func init() {
 
 const (
 
-	// V1EdgeHostMetaEdgeHostTypeEdgeNative captures enum value "edge-native"
-	V1EdgeHostMetaEdgeHostTypeEdgeNative string = "edge-native"
+	// V1EdgeHostMetaEdgeHostTypeEdgeDashNative captures enum value "edge-native"
+	V1EdgeHostMetaEdgeHostTypeEdgeDashNative string = "edge-native"
 
 	// V1EdgeHostMetaEdgeHostTypeVsphere captures enum value "vsphere"
 	V1EdgeHostMetaEdgeHostTypeVsphere string = "vsphere"
@@ -103,7 +107,6 @@ func (m *V1EdgeHostMeta) validateEdgeHostTypeEnum(path, location string, value s
 }
 
 func (m *V1EdgeHostMeta) validateEdgeHostType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EdgeHostType) { // not required
 		return nil
 	}
@@ -111,6 +114,41 @@ func (m *V1EdgeHostMeta) validateEdgeHostType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateEdgeHostTypeEnum("edgeHostType", "body", m.EdgeHostType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 edge host meta based on the context it is used
+func (m *V1EdgeHostMeta) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateArchType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1EdgeHostMeta) contextValidateArchType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ArchType != nil {
+
+		if swag.IsZero(m.ArchType) { // not required
+			return nil
+		}
+
+		if err := m.ArchType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("archType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("archType")
+			}
+			return err
+		}
 	}
 
 	return nil

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -51,7 +52,6 @@ func (m *V1ClusterProfileSummary) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1ClusterProfileSummary) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -60,6 +60,8 @@ func (m *V1ClusterProfileSummary) validateMetadata(formats strfmt.Registry) erro
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -69,7 +71,6 @@ func (m *V1ClusterProfileSummary) validateMetadata(formats strfmt.Registry) erro
 }
 
 func (m *V1ClusterProfileSummary) validateSpecSummary(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SpecSummary) { // not required
 		return nil
 	}
@@ -78,6 +79,8 @@ func (m *V1ClusterProfileSummary) validateSpecSummary(formats strfmt.Registry) e
 		if err := m.SpecSummary.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary")
 			}
 			return err
 		}
@@ -87,7 +90,6 @@ func (m *V1ClusterProfileSummary) validateSpecSummary(formats strfmt.Registry) e
 }
 
 func (m *V1ClusterProfileSummary) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Status) { // not required
 		return nil
 	}
@@ -96,6 +98,93 @@ func (m *V1ClusterProfileSummary) validateStatus(formats strfmt.Registry) error 
 		if err := m.Status.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster profile summary based on the context it is used
+func (m *V1ClusterProfileSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpecSummary(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterProfileSummary) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSummary) contextValidateSpecSummary(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SpecSummary != nil {
+
+		if swag.IsZero(m.SpecSummary) { // not required
+			return nil
+		}
+
+		if err := m.SpecSummary.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSummary) contextValidateStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Status != nil {
+
+		if swag.IsZero(m.Status) { // not required
+			return nil
+		}
+
+		if err := m.Status.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("status")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("status")
 			}
 			return err
 		}
@@ -163,7 +252,6 @@ func (m *V1ClusterProfileSummarySpecSummary) Validate(formats strfmt.Registry) e
 }
 
 func (m *V1ClusterProfileSummarySpecSummary) validateDraft(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Draft) { // not required
 		return nil
 	}
@@ -172,6 +260,8 @@ func (m *V1ClusterProfileSummarySpecSummary) validateDraft(formats strfmt.Regist
 		if err := m.Draft.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "draft")
 			}
 			return err
 		}
@@ -181,7 +271,6 @@ func (m *V1ClusterProfileSummarySpecSummary) validateDraft(formats strfmt.Regist
 }
 
 func (m *V1ClusterProfileSummarySpecSummary) validatePublished(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Published) { // not required
 		return nil
 	}
@@ -190,6 +279,8 @@ func (m *V1ClusterProfileSummarySpecSummary) validatePublished(formats strfmt.Re
 		if err := m.Published.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("specSummary" + "." + "published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "published")
 			}
 			return err
 		}
@@ -199,7 +290,6 @@ func (m *V1ClusterProfileSummarySpecSummary) validatePublished(formats strfmt.Re
 }
 
 func (m *V1ClusterProfileSummarySpecSummary) validateVersions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Versions) { // not required
 		return nil
 	}
@@ -213,6 +303,97 @@ func (m *V1ClusterProfileSummarySpecSummary) validateVersions(formats strfmt.Reg
 			if err := m.Versions[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("specSummary" + "." + "versions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "versions" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 cluster profile summary spec summary based on the context it is used
+func (m *V1ClusterProfileSummarySpecSummary) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateDraft(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePublished(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVersions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterProfileSummarySpecSummary) contextValidateDraft(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Draft != nil {
+
+		if swag.IsZero(m.Draft) { // not required
+			return nil
+		}
+
+		if err := m.Draft.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "draft")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "draft")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSummarySpecSummary) contextValidatePublished(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Published != nil {
+
+		if swag.IsZero(m.Published) { // not required
+			return nil
+		}
+
+		if err := m.Published.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("specSummary" + "." + "published")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("specSummary" + "." + "published")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileSummarySpecSummary) contextValidateVersions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Versions); i++ {
+
+		if m.Versions[i] != nil {
+
+			if swag.IsZero(m.Versions[i]) { // not required
+				return nil
+			}
+
+			if err := m.Versions[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("specSummary" + "." + "versions" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("specSummary" + "." + "versions" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -30,6 +32,11 @@ type V1SpectroClustersHealth struct {
 
 // Validate validates this v1 spectro clusters health
 func (m *V1SpectroClustersHealth) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 spectro clusters health based on context it is used
+func (m *V1SpectroClustersHealth) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

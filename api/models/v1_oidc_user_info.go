@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -38,7 +40,6 @@ func (m *V1OidcUserInfo) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1OidcUserInfo) validateClaims(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Claims) { // not required
 		return nil
 	}
@@ -47,6 +48,43 @@ func (m *V1OidcUserInfo) validateClaims(formats strfmt.Registry) error {
 		if err := m.Claims.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("claims")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("claims")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 oidc user info based on the context it is used
+func (m *V1OidcUserInfo) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClaims(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1OidcUserInfo) contextValidateClaims(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Claims != nil {
+
+		if swag.IsZero(m.Claims) { // not required
+			return nil
+		}
+
+		if err := m.Claims.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("claims")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("claims")
 			}
 			return err
 		}

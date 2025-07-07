@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +45,6 @@ func (m *V1SpectroAzureClusterRateEntity) Validate(formats strfmt.Registry) erro
 }
 
 func (m *V1SpectroAzureClusterRateEntity) validateCloudConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudConfig) { // not required
 		return nil
 	}
@@ -53,6 +53,8 @@ func (m *V1SpectroAzureClusterRateEntity) validateCloudConfig(formats strfmt.Reg
 		if err := m.CloudConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudConfig")
 			}
 			return err
 		}
@@ -62,7 +64,6 @@ func (m *V1SpectroAzureClusterRateEntity) validateCloudConfig(formats strfmt.Reg
 }
 
 func (m *V1SpectroAzureClusterRateEntity) validateMachinepoolconfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Machinepoolconfig) { // not required
 		return nil
 	}
@@ -76,6 +77,72 @@ func (m *V1SpectroAzureClusterRateEntity) validateMachinepoolconfig(formats strf
 			if err := m.Machinepoolconfig[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("machinepoolconfig" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("machinepoolconfig" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro azure cluster rate entity based on the context it is used
+func (m *V1SpectroAzureClusterRateEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCloudConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMachinepoolconfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroAzureClusterRateEntity) contextValidateCloudConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudConfig != nil {
+
+		if swag.IsZero(m.CloudConfig) { // not required
+			return nil
+		}
+
+		if err := m.CloudConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroAzureClusterRateEntity) contextValidateMachinepoolconfig(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Machinepoolconfig); i++ {
+
+		if m.Machinepoolconfig[i] != nil {
+
+			if swag.IsZero(m.Machinepoolconfig[i]) { // not required
+				return nil
+			}
+
+			if err := m.Machinepoolconfig[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("machinepoolconfig" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("machinepoolconfig" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

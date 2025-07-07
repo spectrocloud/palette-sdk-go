@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -49,7 +51,6 @@ func (m *V1VMAffinity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMAffinity) validateNodeAffinity(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.NodeAffinity) { // not required
 		return nil
 	}
@@ -58,6 +59,8 @@ func (m *V1VMAffinity) validateNodeAffinity(formats strfmt.Registry) error {
 		if err := m.NodeAffinity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("nodeAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nodeAffinity")
 			}
 			return err
 		}
@@ -67,7 +70,6 @@ func (m *V1VMAffinity) validateNodeAffinity(formats strfmt.Registry) error {
 }
 
 func (m *V1VMAffinity) validatePodAffinity(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PodAffinity) { // not required
 		return nil
 	}
@@ -76,6 +78,8 @@ func (m *V1VMAffinity) validatePodAffinity(formats strfmt.Registry) error {
 		if err := m.PodAffinity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("podAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podAffinity")
 			}
 			return err
 		}
@@ -85,7 +89,6 @@ func (m *V1VMAffinity) validatePodAffinity(formats strfmt.Registry) error {
 }
 
 func (m *V1VMAffinity) validatePodAntiAffinity(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PodAntiAffinity) { // not required
 		return nil
 	}
@@ -94,6 +97,93 @@ func (m *V1VMAffinity) validatePodAntiAffinity(formats strfmt.Registry) error {
 		if err := m.PodAntiAffinity.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("podAntiAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podAntiAffinity")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm affinity based on the context it is used
+func (m *V1VMAffinity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateNodeAffinity(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePodAffinity(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePodAntiAffinity(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMAffinity) contextValidateNodeAffinity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.NodeAffinity != nil {
+
+		if swag.IsZero(m.NodeAffinity) { // not required
+			return nil
+		}
+
+		if err := m.NodeAffinity.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("nodeAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("nodeAffinity")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMAffinity) contextValidatePodAffinity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PodAffinity != nil {
+
+		if swag.IsZero(m.PodAffinity) { // not required
+			return nil
+		}
+
+		if err := m.PodAffinity.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("podAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podAffinity")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMAffinity) contextValidatePodAntiAffinity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PodAntiAffinity != nil {
+
+		if swag.IsZero(m.PodAntiAffinity) { // not required
+			return nil
+		}
+
+		if err := m.PodAntiAffinity.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("podAntiAffinity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podAntiAffinity")
 			}
 			return err
 		}

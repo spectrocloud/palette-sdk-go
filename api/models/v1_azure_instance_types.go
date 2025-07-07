@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -37,7 +38,6 @@ func (m *V1AzureInstanceTypes) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AzureInstanceTypes) validateInstanceTypes(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.InstanceTypes) { // not required
 		return nil
 	}
@@ -51,6 +51,47 @@ func (m *V1AzureInstanceTypes) validateInstanceTypes(formats strfmt.Registry) er
 			if err := m.InstanceTypes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("instanceTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceTypes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 azure instance types based on the context it is used
+func (m *V1AzureInstanceTypes) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInstanceTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AzureInstanceTypes) contextValidateInstanceTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.InstanceTypes); i++ {
+
+		if m.InstanceTypes[i] != nil {
+
+			if swag.IsZero(m.InstanceTypes[i]) { // not required
+				return nil
+			}
+
+			if err := m.InstanceTypes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("instanceTypes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("instanceTypes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -42,7 +44,6 @@ func (m *V1SpectroAzureClusterImportEntity) Validate(formats strfmt.Registry) er
 }
 
 func (m *V1SpectroAzureClusterImportEntity) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -51,6 +52,8 @@ func (m *V1SpectroAzureClusterImportEntity) validateMetadata(formats strfmt.Regi
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}
@@ -60,7 +63,6 @@ func (m *V1SpectroAzureClusterImportEntity) validateMetadata(formats strfmt.Regi
 }
 
 func (m *V1SpectroAzureClusterImportEntity) validateSpec(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Spec) { // not required
 		return nil
 	}
@@ -69,6 +71,68 @@ func (m *V1SpectroAzureClusterImportEntity) validateSpec(formats strfmt.Registry
 		if err := m.Spec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro azure cluster import entity based on the context it is used
+func (m *V1SpectroAzureClusterImportEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSpec(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroAzureClusterImportEntity) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroAzureClusterImportEntity) contextValidateSpec(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Spec != nil {
+
+		if swag.IsZero(m.Spec) { // not required
+			return nil
+		}
+
+		if err := m.Spec.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec")
 			}
 			return err
 		}
@@ -119,7 +183,6 @@ func (m *V1SpectroAzureClusterImportEntitySpec) Validate(formats strfmt.Registry
 }
 
 func (m *V1SpectroAzureClusterImportEntitySpec) validateClusterConfig(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ClusterConfig) { // not required
 		return nil
 	}
@@ -128,6 +191,43 @@ func (m *V1SpectroAzureClusterImportEntitySpec) validateClusterConfig(formats st
 		if err := m.ClusterConfig.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("spec" + "." + "clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro azure cluster import entity spec based on the context it is used
+func (m *V1SpectroAzureClusterImportEntitySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateClusterConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroAzureClusterImportEntitySpec) contextValidateClusterConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterConfig != nil {
+
+		if swag.IsZero(m.ClusterConfig) { // not required
+			return nil
+		}
+
+		if err := m.ClusterConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "clusterConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterConfig")
 			}
 			return err
 		}

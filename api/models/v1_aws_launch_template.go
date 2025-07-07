@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -62,7 +63,6 @@ func (m *V1AwsLaunchTemplate) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsLaunchTemplate) validateAdditionalSecurityGroups(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AdditionalSecurityGroups) { // not required
 		return nil
 	}
@@ -80,6 +80,8 @@ func (m *V1AwsLaunchTemplate) validateAdditionalSecurityGroups(formats strfmt.Re
 			if err := m.AdditionalSecurityGroups[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -91,7 +93,6 @@ func (m *V1AwsLaunchTemplate) validateAdditionalSecurityGroups(formats strfmt.Re
 }
 
 func (m *V1AwsLaunchTemplate) validateAmi(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Ami) { // not required
 		return nil
 	}
@@ -100,6 +101,8 @@ func (m *V1AwsLaunchTemplate) validateAmi(formats strfmt.Registry) error {
 		if err := m.Ami.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ami")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ami")
 			}
 			return err
 		}
@@ -109,7 +112,6 @@ func (m *V1AwsLaunchTemplate) validateAmi(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsLaunchTemplate) validateRootVolume(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.RootVolume) { // not required
 		return nil
 	}
@@ -118,6 +120,97 @@ func (m *V1AwsLaunchTemplate) validateRootVolume(formats strfmt.Registry) error 
 		if err := m.RootVolume.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rootVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rootVolume")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws launch template based on the context it is used
+func (m *V1AwsLaunchTemplate) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAdditionalSecurityGroups(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAmi(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRootVolume(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsLaunchTemplate) contextValidateAdditionalSecurityGroups(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AdditionalSecurityGroups); i++ {
+
+		if m.AdditionalSecurityGroups[i] != nil {
+
+			if swag.IsZero(m.AdditionalSecurityGroups[i]) { // not required
+				return nil
+			}
+
+			if err := m.AdditionalSecurityGroups[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("additionalSecurityGroups" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1AwsLaunchTemplate) contextValidateAmi(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Ami != nil {
+
+		if swag.IsZero(m.Ami) { // not required
+			return nil
+		}
+
+		if err := m.Ami.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ami")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ami")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsLaunchTemplate) contextValidateRootVolume(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.RootVolume != nil {
+
+		if swag.IsZero(m.RootVolume) { // not required
+			return nil
+		}
+
+		if err := m.RootVolume.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("rootVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rootVolume")
 			}
 			return err
 		}

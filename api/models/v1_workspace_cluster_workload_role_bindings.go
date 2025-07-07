@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -44,7 +45,6 @@ func (m *V1WorkspaceClusterWorkloadRoleBindings) Validate(formats strfmt.Registr
 }
 
 func (m *V1WorkspaceClusterWorkloadRoleBindings) validateBindings(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Bindings) { // not required
 		return nil
 	}
@@ -58,6 +58,8 @@ func (m *V1WorkspaceClusterWorkloadRoleBindings) validateBindings(formats strfmt
 			if err := m.Bindings[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("bindings" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("bindings" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -69,7 +71,6 @@ func (m *V1WorkspaceClusterWorkloadRoleBindings) validateBindings(formats strfmt
 }
 
 func (m *V1WorkspaceClusterWorkloadRoleBindings) validateMetadata(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Metadata) { // not required
 		return nil
 	}
@@ -78,6 +79,72 @@ func (m *V1WorkspaceClusterWorkloadRoleBindings) validateMetadata(formats strfmt
 		if err := m.Metadata.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 workspace cluster workload role bindings based on the context it is used
+func (m *V1WorkspaceClusterWorkloadRoleBindings) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBindings(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1WorkspaceClusterWorkloadRoleBindings) contextValidateBindings(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Bindings); i++ {
+
+		if m.Bindings[i] != nil {
+
+			if swag.IsZero(m.Bindings[i]) { // not required
+				return nil
+			}
+
+			if err := m.Bindings[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("bindings" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("bindings" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1WorkspaceClusterWorkloadRoleBindings) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
 			}
 			return err
 		}

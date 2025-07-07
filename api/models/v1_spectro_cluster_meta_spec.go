@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -19,7 +20,7 @@ import (
 type V1SpectroClusterMetaSpec struct {
 
 	// Architecture type of the cluster
-	ArchType []V1ArchType `json:"archType"`
+	ArchType []*V1ArchType `json:"archType"`
 
 	// Unique identifier for the cloud account used by this cluster
 	CloudAccountUID string `json:"cloudAccountUid,omitempty"`
@@ -59,18 +60,24 @@ func (m *V1SpectroClusterMetaSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SpectroClusterMetaSpec) validateArchType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ArchType) { // not required
 		return nil
 	}
 
 	for i := 0; i < len(m.ArchType); i++ {
+		if swag.IsZero(m.ArchType[i]) { // not required
+			continue
+		}
 
-		if err := m.ArchType[i].Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("archType" + "." + strconv.Itoa(i))
+		if m.ArchType[i] != nil {
+			if err := m.ArchType[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("archType" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("archType" + "." + strconv.Itoa(i))
+				}
+				return err
 			}
-			return err
 		}
 
 	}
@@ -79,7 +86,6 @@ func (m *V1SpectroClusterMetaSpec) validateArchType(formats strfmt.Registry) err
 }
 
 func (m *V1SpectroClusterMetaSpec) validateLocation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Location) { // not required
 		return nil
 	}
@@ -88,6 +94,72 @@ func (m *V1SpectroClusterMetaSpec) validateLocation(formats strfmt.Registry) err
 		if err := m.Location.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 spectro cluster meta spec based on the context it is used
+func (m *V1SpectroClusterMetaSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateArchType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLocation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SpectroClusterMetaSpec) contextValidateArchType(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ArchType); i++ {
+
+		if m.ArchType[i] != nil {
+
+			if swag.IsZero(m.ArchType[i]) { // not required
+				return nil
+			}
+
+			if err := m.ArchType[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("archType" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("archType" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterMetaSpec) contextValidateLocation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Location != nil {
+
+		if swag.IsZero(m.Location) { // not required
+			return nil
+		}
+
+		if err := m.Location.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("location")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("location")
 			}
 			return err
 		}

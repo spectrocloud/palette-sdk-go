@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -18,9 +19,17 @@ import (
 // - "Auto": don't specify --include-cluster-resources, which exclude general cluster-wide resources, but includes PersistentVolumes linked to selected namespaces.
 // - "Never": --include-cluster-resources=false, exclude all cluster-wide resources, including PersistentVolumes.
 //
-//
 // swagger:model v1IncludeClusterResourceMode
 type V1IncludeClusterResourceMode string
+
+func NewV1IncludeClusterResourceMode(value V1IncludeClusterResourceMode) *V1IncludeClusterResourceMode {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1IncludeClusterResourceMode.
+func (m V1IncludeClusterResourceMode) Pointer() *V1IncludeClusterResourceMode {
+	return &m
+}
 
 const (
 
@@ -66,5 +75,10 @@ func (m V1IncludeClusterResourceMode) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 include cluster resource mode based on context it is used
+func (m V1IncludeClusterResourceMode) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

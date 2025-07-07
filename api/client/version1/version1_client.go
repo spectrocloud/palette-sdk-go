@@ -40,6 +40,8 @@ type ClientService interface {
 
 	V1AwsAccountValidate(params *V1AwsAccountValidateParams) (*V1AwsAccountValidateNoContent, error)
 
+	V1AwsAmiTypes(params *V1AwsAmiTypesParams) (*V1AwsAmiTypesOK, error)
+
 	V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params *V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams) (*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateCreated, error)
 
 	V1AwsClusterNameValidate(params *V1AwsClusterNameValidateParams) (*V1AwsClusterNameValidateNoContent, error)
@@ -203,8 +205,6 @@ type ClientService interface {
 	V1DataSinksCloudWatchSink(params *V1DataSinksCloudWatchSinkParams) (*V1DataSinksCloudWatchSinkNoContent, error)
 
 	V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1EdgeHostsUIDResetNoContent, error)
-
-	V1EksLaunchTemplate(params *V1EksLaunchTemplateParams) (*V1EksLaunchTemplateOK, error)
 
 	V1EksPropertiesValidate(params *V1EksPropertiesValidateParams) (*V1EksPropertiesValidateNoContent, error)
 
@@ -2160,6 +2160,40 @@ func (a *Client) V1AwsAccountValidate(params *V1AwsAccountValidateParams) (*V1Aw
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1AwsAccountValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1AwsAmiTypes retrieves a list of a w s a m i types
+*/
+func (a *Client) V1AwsAmiTypes(params *V1AwsAmiTypesParams) (*V1AwsAmiTypesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AwsAmiTypesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AwsAmiTypes",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/aws/amiTypes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AwsAmiTypesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AwsAmiTypesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AwsAmiTypes: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -4972,42 +5006,6 @@ func (a *Client) V1EdgeHostsUIDReset(params *V1EdgeHostsUIDResetParams) (*V1Edge
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1EdgeHostsUidReset: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1EksLaunchTemplate gets e k s launch templates for the specified region
-
-Retrieves a list of EKS launch templates available in the specified region
-*/
-func (a *Client) V1EksLaunchTemplate(params *V1EksLaunchTemplateParams) (*V1EksLaunchTemplateOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1EksLaunchTemplateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1EksLaunchTemplate",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/eks/region/{regionId}/launchTemplates",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1EksLaunchTemplateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1EksLaunchTemplateOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1EksLaunchTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -40,7 +41,7 @@ type V1BasicOciRegistrySpec struct {
 	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
-	// Enum: [helm zarf pack]
+	// Enum: ["helm","zarf","pack"]
 	ProviderType *string `json:"providerType,omitempty"`
 
 	// Basic oci registry uid
@@ -82,6 +83,8 @@ func (m *V1BasicOciRegistrySpec) validateAuth(formats strfmt.Registry) error {
 		if err := m.Auth.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("auth")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auth")
 			}
 			return err
 		}
@@ -132,7 +135,6 @@ func (m *V1BasicOciRegistrySpec) validateProviderTypeEnum(path, location string,
 }
 
 func (m *V1BasicOciRegistrySpec) validateProviderType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ProviderType) { // not required
 		return nil
 	}
@@ -140,6 +142,37 @@ func (m *V1BasicOciRegistrySpec) validateProviderType(formats strfmt.Registry) e
 	// value enum
 	if err := m.validateProviderTypeEnum("providerType", "body", *m.ProviderType); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 basic oci registry spec based on the context it is used
+func (m *V1BasicOciRegistrySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAuth(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1BasicOciRegistrySpec) contextValidateAuth(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Auth != nil {
+
+		if err := m.Auth.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("auth")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("auth")
+			}
+			return err
+		}
 	}
 
 	return nil

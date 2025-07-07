@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -17,6 +18,15 @@ import (
 //
 // swagger:model v1CloudCategory
 type V1CloudCategory string
+
+func NewV1CloudCategory(value V1CloudCategory) *V1CloudCategory {
+	return &value
+}
+
+// Pointer returns a pointer to a freshly-allocated V1CloudCategory.
+func (m V1CloudCategory) Pointer() *V1CloudCategory {
+	return &m
+}
 
 const (
 
@@ -62,5 +72,10 @@ func (m V1CloudCategory) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// ContextValidate validates this v1 cloud category based on context it is used
+func (m V1CloudCategory) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -138,7 +140,6 @@ func (m *V1VMVolume) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateCloudInitConfigDrive(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudInitConfigDrive) { // not required
 		return nil
 	}
@@ -147,6 +148,8 @@ func (m *V1VMVolume) validateCloudInitConfigDrive(formats strfmt.Registry) error
 		if err := m.CloudInitConfigDrive.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudInitConfigDrive")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudInitConfigDrive")
 			}
 			return err
 		}
@@ -156,7 +159,6 @@ func (m *V1VMVolume) validateCloudInitConfigDrive(formats strfmt.Registry) error
 }
 
 func (m *V1VMVolume) validateCloudInitNoCloud(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CloudInitNoCloud) { // not required
 		return nil
 	}
@@ -165,6 +167,8 @@ func (m *V1VMVolume) validateCloudInitNoCloud(formats strfmt.Registry) error {
 		if err := m.CloudInitNoCloud.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudInitNoCloud")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudInitNoCloud")
 			}
 			return err
 		}
@@ -174,7 +178,6 @@ func (m *V1VMVolume) validateCloudInitNoCloud(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateConfigMap(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ConfigMap) { // not required
 		return nil
 	}
@@ -183,6 +186,8 @@ func (m *V1VMVolume) validateConfigMap(formats strfmt.Registry) error {
 		if err := m.ConfigMap.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configMap")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configMap")
 			}
 			return err
 		}
@@ -192,7 +197,6 @@ func (m *V1VMVolume) validateConfigMap(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateContainerDisk(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ContainerDisk) { // not required
 		return nil
 	}
@@ -201,6 +205,8 @@ func (m *V1VMVolume) validateContainerDisk(formats strfmt.Registry) error {
 		if err := m.ContainerDisk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("containerDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("containerDisk")
 			}
 			return err
 		}
@@ -210,7 +216,6 @@ func (m *V1VMVolume) validateContainerDisk(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateDataVolume(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DataVolume) { // not required
 		return nil
 	}
@@ -219,6 +224,8 @@ func (m *V1VMVolume) validateDataVolume(formats strfmt.Registry) error {
 		if err := m.DataVolume.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("dataVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolume")
 			}
 			return err
 		}
@@ -228,7 +235,6 @@ func (m *V1VMVolume) validateDataVolume(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateDownwardAPI(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DownwardAPI) { // not required
 		return nil
 	}
@@ -237,6 +243,8 @@ func (m *V1VMVolume) validateDownwardAPI(formats strfmt.Registry) error {
 		if err := m.DownwardAPI.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("downwardAPI")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("downwardAPI")
 			}
 			return err
 		}
@@ -246,7 +254,6 @@ func (m *V1VMVolume) validateDownwardAPI(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateEmptyDisk(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.EmptyDisk) { // not required
 		return nil
 	}
@@ -255,6 +262,8 @@ func (m *V1VMVolume) validateEmptyDisk(formats strfmt.Registry) error {
 		if err := m.EmptyDisk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("emptyDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("emptyDisk")
 			}
 			return err
 		}
@@ -264,7 +273,6 @@ func (m *V1VMVolume) validateEmptyDisk(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateEphemeral(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Ephemeral) { // not required
 		return nil
 	}
@@ -273,6 +281,8 @@ func (m *V1VMVolume) validateEphemeral(formats strfmt.Registry) error {
 		if err := m.Ephemeral.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("ephemeral")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ephemeral")
 			}
 			return err
 		}
@@ -282,7 +292,6 @@ func (m *V1VMVolume) validateEphemeral(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateHostDisk(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.HostDisk) { // not required
 		return nil
 	}
@@ -291,6 +300,8 @@ func (m *V1VMVolume) validateHostDisk(formats strfmt.Registry) error {
 		if err := m.HostDisk.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("hostDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hostDisk")
 			}
 			return err
 		}
@@ -300,7 +311,6 @@ func (m *V1VMVolume) validateHostDisk(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateMemoryDump(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.MemoryDump) { // not required
 		return nil
 	}
@@ -309,6 +319,8 @@ func (m *V1VMVolume) validateMemoryDump(formats strfmt.Registry) error {
 		if err := m.MemoryDump.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("memoryDump")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memoryDump")
 			}
 			return err
 		}
@@ -327,7 +339,6 @@ func (m *V1VMVolume) validateName(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validatePersistentVolumeClaim(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PersistentVolumeClaim) { // not required
 		return nil
 	}
@@ -336,6 +347,8 @@ func (m *V1VMVolume) validatePersistentVolumeClaim(formats strfmt.Registry) erro
 		if err := m.PersistentVolumeClaim.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("persistentVolumeClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("persistentVolumeClaim")
 			}
 			return err
 		}
@@ -345,7 +358,6 @@ func (m *V1VMVolume) validatePersistentVolumeClaim(formats strfmt.Registry) erro
 }
 
 func (m *V1VMVolume) validateSecret(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Secret) { // not required
 		return nil
 	}
@@ -354,6 +366,8 @@ func (m *V1VMVolume) validateSecret(formats strfmt.Registry) error {
 		if err := m.Secret.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("secret")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secret")
 			}
 			return err
 		}
@@ -363,7 +377,6 @@ func (m *V1VMVolume) validateSecret(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateServiceAccount(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ServiceAccount) { // not required
 		return nil
 	}
@@ -372,6 +385,8 @@ func (m *V1VMVolume) validateServiceAccount(formats strfmt.Registry) error {
 		if err := m.ServiceAccount.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("serviceAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("serviceAccount")
 			}
 			return err
 		}
@@ -381,7 +396,6 @@ func (m *V1VMVolume) validateServiceAccount(formats strfmt.Registry) error {
 }
 
 func (m *V1VMVolume) validateSysprep(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Sysprep) { // not required
 		return nil
 	}
@@ -390,6 +404,368 @@ func (m *V1VMVolume) validateSysprep(formats strfmt.Registry) error {
 		if err := m.Sysprep.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sysprep")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sysprep")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm volume based on the context it is used
+func (m *V1VMVolume) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCloudInitConfigDrive(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateCloudInitNoCloud(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateConfigMap(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateContainerDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDataVolume(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDownwardAPI(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEmptyDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateEphemeral(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHostDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMemoryDump(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePersistentVolumeClaim(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecret(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateServiceAccount(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSysprep(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateCloudInitConfigDrive(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudInitConfigDrive != nil {
+
+		if swag.IsZero(m.CloudInitConfigDrive) { // not required
+			return nil
+		}
+
+		if err := m.CloudInitConfigDrive.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudInitConfigDrive")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudInitConfigDrive")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateCloudInitNoCloud(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CloudInitNoCloud != nil {
+
+		if swag.IsZero(m.CloudInitNoCloud) { // not required
+			return nil
+		}
+
+		if err := m.CloudInitNoCloud.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudInitNoCloud")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudInitNoCloud")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateConfigMap(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ConfigMap != nil {
+
+		if swag.IsZero(m.ConfigMap) { // not required
+			return nil
+		}
+
+		if err := m.ConfigMap.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configMap")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configMap")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateContainerDisk(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ContainerDisk != nil {
+
+		if swag.IsZero(m.ContainerDisk) { // not required
+			return nil
+		}
+
+		if err := m.ContainerDisk.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("containerDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("containerDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateDataVolume(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataVolume != nil {
+
+		if swag.IsZero(m.DataVolume) { // not required
+			return nil
+		}
+
+		if err := m.DataVolume.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataVolume")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataVolume")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateDownwardAPI(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DownwardAPI != nil {
+
+		if swag.IsZero(m.DownwardAPI) { // not required
+			return nil
+		}
+
+		if err := m.DownwardAPI.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("downwardAPI")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("downwardAPI")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateEmptyDisk(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.EmptyDisk != nil {
+
+		if swag.IsZero(m.EmptyDisk) { // not required
+			return nil
+		}
+
+		if err := m.EmptyDisk.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("emptyDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("emptyDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateEphemeral(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Ephemeral != nil {
+
+		if swag.IsZero(m.Ephemeral) { // not required
+			return nil
+		}
+
+		if err := m.Ephemeral.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ephemeral")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ephemeral")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateHostDisk(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HostDisk != nil {
+
+		if swag.IsZero(m.HostDisk) { // not required
+			return nil
+		}
+
+		if err := m.HostDisk.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hostDisk")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hostDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateMemoryDump(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MemoryDump != nil {
+
+		if swag.IsZero(m.MemoryDump) { // not required
+			return nil
+		}
+
+		if err := m.MemoryDump.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("memoryDump")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("memoryDump")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidatePersistentVolumeClaim(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PersistentVolumeClaim != nil {
+
+		if swag.IsZero(m.PersistentVolumeClaim) { // not required
+			return nil
+		}
+
+		if err := m.PersistentVolumeClaim.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("persistentVolumeClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("persistentVolumeClaim")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateSecret(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Secret != nil {
+
+		if swag.IsZero(m.Secret) { // not required
+			return nil
+		}
+
+		if err := m.Secret.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("secret")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secret")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateServiceAccount(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ServiceAccount != nil {
+
+		if swag.IsZero(m.ServiceAccount) { // not required
+			return nil
+		}
+
+		if err := m.ServiceAccount.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("serviceAccount")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("serviceAccount")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateSysprep(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Sysprep != nil {
+
+		if swag.IsZero(m.Sysprep) { // not required
+			return nil
+		}
+
+		if err := m.Sysprep.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sysprep")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sysprep")
 			}
 			return err
 		}

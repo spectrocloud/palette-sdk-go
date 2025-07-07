@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -23,10 +24,10 @@ type V1AwsCloudAccount struct {
 	AccessKey string `json:"accessKey,omitempty"`
 
 	// credential type
-	CredentialType V1AwsCloudAccountCredentialType `json:"credentialType,omitempty"`
+	CredentialType *V1AwsCloudAccountCredentialType `json:"credentialType,omitempty"`
 
 	// AWS accounts are scoped to a single partition. Allowed values [aws, aws-us-gov], Default values
-	// Enum: [aws aws-us-gov aws-iso aws-iso-b]
+	// Enum: ["aws","aws-us-gov","aws-iso","aws-iso-b"]
 	Partition *string `json:"partition,omitempty"`
 
 	// List of policy ARNs required in case of credentialType sts.
@@ -72,16 +73,19 @@ func (m *V1AwsCloudAccount) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCloudAccount) validateCredentialType(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.CredentialType) { // not required
 		return nil
 	}
 
-	if err := m.CredentialType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("credentialType")
+	if m.CredentialType != nil {
+		if err := m.CredentialType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("credentialType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credentialType")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
@@ -104,14 +108,14 @@ const (
 	// V1AwsCloudAccountPartitionAws captures enum value "aws"
 	V1AwsCloudAccountPartitionAws string = "aws"
 
-	// V1AwsCloudAccountPartitionAwsUsGov captures enum value "aws-us-gov"
-	V1AwsCloudAccountPartitionAwsUsGov string = "aws-us-gov"
+	// V1AwsCloudAccountPartitionAwsDashUsDashGov captures enum value "aws-us-gov"
+	V1AwsCloudAccountPartitionAwsDashUsDashGov string = "aws-us-gov"
 
-	// V1AwsCloudAccountPartitionAwsIso captures enum value "aws-iso"
-	V1AwsCloudAccountPartitionAwsIso string = "aws-iso"
+	// V1AwsCloudAccountPartitionAwsDashIso captures enum value "aws-iso"
+	V1AwsCloudAccountPartitionAwsDashIso string = "aws-iso"
 
-	// V1AwsCloudAccountPartitionAwsIsob captures enum value "aws-iso-b"
-	V1AwsCloudAccountPartitionAwsIsob string = "aws-iso-b"
+	// V1AwsCloudAccountPartitionAwsDashIsoDashb captures enum value "aws-iso-b"
+	V1AwsCloudAccountPartitionAwsDashIsoDashb string = "aws-iso-b"
 )
 
 // prop value enum
@@ -123,7 +127,6 @@ func (m *V1AwsCloudAccount) validatePartitionEnum(path, location string, value s
 }
 
 func (m *V1AwsCloudAccount) validatePartition(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Partition) { // not required
 		return nil
 	}
@@ -137,7 +140,6 @@ func (m *V1AwsCloudAccount) validatePartition(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCloudAccount) validateSecretSpec(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SecretSpec) { // not required
 		return nil
 	}
@@ -146,6 +148,8 @@ func (m *V1AwsCloudAccount) validateSecretSpec(formats strfmt.Registry) error {
 		if err := m.SecretSpec.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("secretSpec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secretSpec")
 			}
 			return err
 		}
@@ -155,7 +159,6 @@ func (m *V1AwsCloudAccount) validateSecretSpec(formats strfmt.Registry) error {
 }
 
 func (m *V1AwsCloudAccount) validateSts(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Sts) { // not required
 		return nil
 	}
@@ -164,6 +167,93 @@ func (m *V1AwsCloudAccount) validateSts(formats strfmt.Registry) error {
 		if err := m.Sts.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("sts")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sts")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws cloud account based on the context it is used
+func (m *V1AwsCloudAccount) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCredentialType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSecretSpec(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSts(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsCloudAccount) contextValidateCredentialType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.CredentialType != nil {
+
+		if swag.IsZero(m.CredentialType) { // not required
+			return nil
+		}
+
+		if err := m.CredentialType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("credentialType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("credentialType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsCloudAccount) contextValidateSecretSpec(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SecretSpec != nil {
+
+		if swag.IsZero(m.SecretSpec) { // not required
+			return nil
+		}
+
+		if err := m.SecretSpec.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("secretSpec")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("secretSpec")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsCloudAccount) contextValidateSts(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Sts != nil {
+
+		if swag.IsZero(m.Sts) { // not required
+			return nil
+		}
+
+		if err := m.Sts.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sts")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sts")
 			}
 			return err
 		}

@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -46,7 +47,6 @@ func (m *V1UsersSummarySpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1UsersSummarySpec) validateFilter(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Filter) { // not required
 		return nil
 	}
@@ -55,6 +55,8 @@ func (m *V1UsersSummarySpec) validateFilter(formats strfmt.Registry) error {
 		if err := m.Filter.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("filter")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("filter")
 			}
 			return err
 		}
@@ -64,7 +66,6 @@ func (m *V1UsersSummarySpec) validateFilter(formats strfmt.Registry) error {
 }
 
 func (m *V1UsersSummarySpec) validateSort(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Sort) { // not required
 		return nil
 	}
@@ -82,6 +83,72 @@ func (m *V1UsersSummarySpec) validateSort(formats strfmt.Registry) error {
 			if err := m.Sort[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("sort" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("sort" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 users summary spec based on the context it is used
+func (m *V1UsersSummarySpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateFilter(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSort(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1UsersSummarySpec) contextValidateFilter(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Filter != nil {
+
+		if swag.IsZero(m.Filter) { // not required
+			return nil
+		}
+
+		if err := m.Filter.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("filter")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("filter")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1UsersSummarySpec) contextValidateSort(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Sort); i++ {
+
+		if m.Sort[i] != nil {
+
+			if swag.IsZero(m.Sort[i]) { // not required
+				return nil
+			}
+
+			if err := m.Sort[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("sort" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("sort" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
