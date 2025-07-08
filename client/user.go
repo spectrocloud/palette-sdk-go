@@ -76,8 +76,9 @@ func (h *V1Client) GetUserSummaryByEmail(userEmail string) (*models.V1UserSummar
 	if summaryResponse.Payload.Items != nil {
 		if len(summaryResponse.Payload.Items) == 1 {
 			return summaryResponse.Payload.Items[0], nil
+		} else if len(summaryResponse.Payload.Items) > 1 {
+			return nil, errors.New("More than one user found with email: " + userEmail)
 		}
-		return nil, errors.New("More than one user found with email: " + userEmail)
 	}
 	return nil, errors.New("user not found for email: " + userEmail)
 

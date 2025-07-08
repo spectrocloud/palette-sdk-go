@@ -34,6 +34,14 @@ type V1DeviceSpec struct {
 	// gpus
 	Gpus []*V1GPUDeviceSpec `json:"gpus"`
 
+	// State of edge host device
+	// Enum: ["registration","cluster","recovery"]
+	HostState *string `json:"hostState,omitempty"`
+
+	// Type of the edge host device
+	// Enum: ["appliance","agent-mode"]
+	HostType *string `json:"hostType,omitempty"`
+
 	// memory
 	Memory *V1Memory `json:"memory,omitempty"`
 
@@ -42,6 +50,9 @@ type V1DeviceSpec struct {
 
 	// os
 	Os *V1OS `json:"os,omitempty"`
+
+	// Secure boot configuration
+	SecureBoot *bool `json:"secureBoot,omitempty"`
 }
 
 // Validate validates this v1 device spec
@@ -61,6 +72,14 @@ func (m *V1DeviceSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateGpus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHostState(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHostType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -190,6 +209,93 @@ func (m *V1DeviceSpec) validateGpus(formats strfmt.Registry) error {
 			}
 		}
 
+	}
+
+	return nil
+}
+
+var v1DeviceSpecTypeHostStatePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["registration","cluster","recovery"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1DeviceSpecTypeHostStatePropEnum = append(v1DeviceSpecTypeHostStatePropEnum, v)
+	}
+}
+
+const (
+
+	// V1DeviceSpecHostStateRegistration captures enum value "registration"
+	V1DeviceSpecHostStateRegistration string = "registration"
+
+	// V1DeviceSpecHostStateCluster captures enum value "cluster"
+	V1DeviceSpecHostStateCluster string = "cluster"
+
+	// V1DeviceSpecHostStateRecovery captures enum value "recovery"
+	V1DeviceSpecHostStateRecovery string = "recovery"
+)
+
+// prop value enum
+func (m *V1DeviceSpec) validateHostStateEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1DeviceSpecTypeHostStatePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1DeviceSpec) validateHostState(formats strfmt.Registry) error {
+	if swag.IsZero(m.HostState) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateHostStateEnum("hostState", "body", *m.HostState); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var v1DeviceSpecTypeHostTypePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["appliance","agent-mode"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1DeviceSpecTypeHostTypePropEnum = append(v1DeviceSpecTypeHostTypePropEnum, v)
+	}
+}
+
+const (
+
+	// V1DeviceSpecHostTypeAppliance captures enum value "appliance"
+	V1DeviceSpecHostTypeAppliance string = "appliance"
+
+	// V1DeviceSpecHostTypeAgentDashMode captures enum value "agent-mode"
+	V1DeviceSpecHostTypeAgentDashMode string = "agent-mode"
+)
+
+// prop value enum
+func (m *V1DeviceSpec) validateHostTypeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1DeviceSpecTypeHostTypePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1DeviceSpec) validateHostType(formats strfmt.Registry) error {
+	if swag.IsZero(m.HostType) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateHostTypeEnum("hostType", "body", *m.HostType); err != nil {
+		return err
 	}
 
 	return nil

@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$1" ]; then
-    echo "Usage: generate.sh <current_dir_path>"
+    echo "Usage: generate.sh <swagger_binary_path> <current_dir_path>"
     exit
 fi
 

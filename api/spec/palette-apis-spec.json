@@ -8021,6 +8021,23 @@
         }
       }
     },
+    "/v1/clouds/aws/amiTypes": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of AWS AMI types",
+        "operationId": "V1AwsAmiTypes",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AmiTypes"
+            }
+          }
+        }
+      }
+    },
     "/v1/clouds/aws/cloudwatch/validate": {
       "post": {
         "description": "Validates aws cloud watch credentials",
@@ -10079,40 +10096,6 @@
         }
       }
     },
-    "/v1/clouds/eks/region/{regionId}/launchTemplates": {
-      "get": {
-        "description": "Retrieves a list of EKS launch templates available in the specified region",
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get EKS launch templates for the specified region",
-        "operationId": "V1EksLaunchTemplate",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "AWS region ID for which launch templates are requested",
-            "name": "regionId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Uid for the specific AWS cloud account",
-            "name": "cloudAccountUid",
-            "in": "query",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1EksLaunchTemplates"
-            }
-          }
-        }
-      }
-    },
     "/v1/clouds/gcp/account/validate": {
       "post": {
         "tags": [
@@ -11528,6 +11511,12 @@
             "schema": {
               "$ref": "#/definitions/v1ClusterProfileEntity"
             }
+          },
+          {
+            "type": "boolean",
+            "description": "If true then cluster profile will be created and published in a single transaction",
+            "name": "publish",
+            "in": "query"
           }
         ],
         "responses": {
@@ -29608,6 +29597,19 @@
         }
       }
     },
+    "v1AmiTypes": {
+      "description": "List of AWS AMI types",
+      "type": "object",
+      "properties": {
+        "amiTypes": {
+          "description": "List of AWS AMI types",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "v1ApiEndpoint": {
       "description": "APIEndpoint represents a reachable Kubernetes API endpoint.",
       "type": "object",
@@ -38461,6 +38463,25 @@
             "$ref": "#/definitions/v1GPUDeviceSpec"
           }
         },
+        "hostState": {
+          "description": "State of edge host device",
+          "type": "string",
+          "default": "registration",
+          "enum": [
+            "registration",
+            "cluster",
+            "recovery"
+          ]
+        },
+        "hostType": {
+          "description": "Type of the edge host device",
+          "type": "string",
+          "default": "appliance",
+          "enum": [
+            "appliance",
+            "agent-mode"
+          ]
+        },
         "memory": {
           "$ref": "#/definitions/v1Memory"
         },
@@ -38472,6 +38493,11 @@
         },
         "os": {
           "$ref": "#/definitions/v1OS"
+        },
+        "secureBoot": {
+          "description": "Secure boot configuration",
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -40001,46 +40027,12 @@
         }
       }
     },
-    "v1EksLaunchTemplate": {
-      "description": "EKS launch template details",
-      "type": "object",
-      "properties": {
-        "defaultVersion": {
-          "description": "Whether this is the default version of the launch template",
-          "type": "boolean"
-        },
-        "id": {
-          "description": "The ID of the launch template",
-          "type": "string"
-        },
-        "latestVersion": {
-          "description": "The latest version number of the launch template",
-          "type": "integer"
-        },
-        "name": {
-          "description": "The name of the launch template",
-          "type": "string"
-        },
-        "version": {
-          "description": "The version number of the launch template",
-          "type": "integer"
-        }
-      }
-    },
-    "v1EksLaunchTemplates": {
-      "description": "List of EKS launch templates",
-      "type": "object",
-      "properties": {
-        "launchTemplates": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1EksLaunchTemplate"
-          }
-        }
-      }
-    },
     "v1EksMachineCloudConfigEntity": {
       "properties": {
+        "amiType": {
+          "description": "ami type",
+          "type": "string"
+        },
         "awsLaunchTemplate": {
           "$ref": "#/definitions/v1AwsLaunchTemplate"
         },
@@ -40105,6 +40097,10 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "amiType": {
+          "description": "ami type",
+          "type": "string"
         },
         "awsLaunchTemplate": {
           "$ref": "#/definitions/v1AwsLaunchTemplate"
@@ -44739,6 +44735,12 @@
       "type": "object",
       "properties": {
         "family": {
+          "type": "string"
+        },
+        "kernel": {
+          "type": "string"
+        },
+        "kernelVersion": {
           "type": "string"
         },
         "version": {

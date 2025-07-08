@@ -20,6 +20,12 @@ type V1OS struct {
 	// family
 	Family string `json:"family,omitempty"`
 
+	// kernel
+	Kernel string `json:"kernel,omitempty"`
+
+	// kernel version
+	KernelVersion string `json:"kernelVersion,omitempty"`
+
 	// version
 	Version string `json:"version,omitempty"`
 }

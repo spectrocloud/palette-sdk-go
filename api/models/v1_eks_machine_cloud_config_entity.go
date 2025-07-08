@@ -21,6 +21,9 @@ import (
 // swagger:model v1EksMachineCloudConfigEntity
 type V1EksMachineCloudConfigEntity struct {
 
+	// ami type
+	AmiType string `json:"amiType,omitempty"`
+
 	// aws launch template
 	AwsLaunchTemplate *V1AwsLaunchTemplate `json:"awsLaunchTemplate,omitempty"`
 

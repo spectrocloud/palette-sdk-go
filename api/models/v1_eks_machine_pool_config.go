@@ -27,6 +27,9 @@ type V1EksMachinePoolConfig struct {
 	// AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole
 	AdditionalTags map[string]string `json:"additionalTags,omitempty"`
 
+	// ami type
+	AmiType string `json:"amiType,omitempty"`
+
 	// aws launch template
 	AwsLaunchTemplate *V1AwsLaunchTemplate `json:"awsLaunchTemplate,omitempty"`
 

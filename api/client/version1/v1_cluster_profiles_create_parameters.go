@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
@@ -65,6 +66,11 @@ type V1ClusterProfilesCreateParams struct {
 
 	/*Body*/
 	Body *models.V1ClusterProfileEntity
+	/*Publish
+	  If true then cluster profile will be created and published in a single transaction
+
+	*/
+	Publish *bool
 
 	timeout    time.Duration
 	Context    context.Context
@@ -115,6 +121,17 @@ func (o *V1ClusterProfilesCreateParams) SetBody(body *models.V1ClusterProfileEnt
 	o.Body = body
 }
 
+// WithPublish adds the publish to the v1 cluster profiles create params
+func (o *V1ClusterProfilesCreateParams) WithPublish(publish *bool) *V1ClusterProfilesCreateParams {
+	o.SetPublish(publish)
+	return o
+}
+
+// SetPublish adds the publish to the v1 cluster profiles create params
+func (o *V1ClusterProfilesCreateParams) SetPublish(publish *bool) {
+	o.Publish = publish
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *V1ClusterProfilesCreateParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -127,6 +144,22 @@ func (o *V1ClusterProfilesCreateParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
+	}
+
+	if o.Publish != nil {
+
+		// query param publish
+		var qrPublish bool
+		if o.Publish != nil {
+			qrPublish = *o.Publish
+		}
+		qPublish := swag.FormatBool(qrPublish)
+		if qPublish != "" {
+			if err := r.SetQueryParam("publish", qPublish); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if len(res) > 0 {
