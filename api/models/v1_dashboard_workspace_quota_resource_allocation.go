@@ -23,6 +23,9 @@ type V1DashboardWorkspaceQuotaResourceAllocation struct {
 	// Minimum: > 0
 	CPU float64 `json:"cpu,omitempty"`
 
+	// gpu config
+	GpuConfig *V1GpuConfig `json:"gpuConfig,omitempty"`
+
 	// memory
 	// Minimum: > 0
 	Memory float64 `json:"memory,omitempty"`
@@ -33,6 +36,10 @@ func (m *V1DashboardWorkspaceQuotaResourceAllocation) Validate(formats strfmt.Re
 	var res []error
 
 	if err := m.validateCPU(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateGpuConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,6 +65,25 @@ func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateCPU(formats strfmt
 	return nil
 }
 
+func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateGpuConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.GpuConfig) { // not required
+		return nil
+	}
+
+	if m.GpuConfig != nil {
+		if err := m.GpuConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gpuConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gpuConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateMemory(formats strfmt.Registry) error {
 	if swag.IsZero(m.Memory) { // not required
 		return nil
@@ -70,8 +96,38 @@ func (m *V1DashboardWorkspaceQuotaResourceAllocation) validateMemory(formats str
 	return nil
 }
 
-// ContextValidate validates this v1 dashboard workspace quota resource allocation based on context it is used
+// ContextValidate validate this v1 dashboard workspace quota resource allocation based on the context it is used
 func (m *V1DashboardWorkspaceQuotaResourceAllocation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateGpuConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1DashboardWorkspaceQuotaResourceAllocation) contextValidateGpuConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GpuConfig != nil {
+
+		if swag.IsZero(m.GpuConfig) { // not required
+			return nil
+		}
+
+		if err := m.GpuConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gpuConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gpuConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

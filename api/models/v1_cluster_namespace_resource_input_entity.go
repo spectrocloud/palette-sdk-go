@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1ClusterNamespaceResourceInputEntity Cluster Namespace resource defintion
+// V1ClusterNamespaceResourceInputEntity Cluster Namespace resource definition
 //
 // swagger:model v1ClusterNamespaceResourceInputEntity
 type V1ClusterNamespaceResourceInputEntity struct {

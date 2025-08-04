@@ -30,7 +30,8 @@ type V1EdgeNativeHybridMachinePoolHost struct {
 	// Edge native nic
 	Nic *V1Nic `json:"nic,omitempty"`
 
-	// Set the Edge Host candidate priority as primary or secondary, if the Edge Host is nominated as two node candidate
+	// Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.
+	//
 	// Enum: ["primary","secondary"]
 	TwoNodeCandidatePriority string `json:"twoNodeCandidatePriority,omitempty"`
 
