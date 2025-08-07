@@ -12,6 +12,20 @@ func (h *V1Client) UpdateSessionTimeout(tenantUID string, body *models.V1AuthTok
 	return err
 }
 
+// UpdateAutomaticClusterRoleBinding update automatic cluster role binding for tenant
+func (h *V1Client) UpdateAutomaticClusterRoleBinding(tenantUID string, body *models.V1TenantClusterRbacSettings) error {
+	params := clientv1.NewV1TenantClusterRbacSettingsUpdateParamsWithContext(h.ctx).WithTenantUID(tenantUID).WithBody(body)
+	_, err := h.Client.V1TenantClusterRbacSettingsUpdate(params)
+	return err
+}
+
+// GetAutomaticClusterRoleBinding get automatic cluster role binding for tenant
+func (h *V1Client) GetAutomaticClusterRoleBinding(tenantUID string) (*models.V1TenantClusterRbacSettings, error) {
+	params := clientv1.NewV1TenantClusterRbacSettingsGetParamsWithContext(h.ctx).WithTenantUID(tenantUID)
+	resp, err := h.Client.V1TenantClusterRbacSettingsGet(params)
+	return resp.Payload, err
+}
+
 // GetSessionTimeout get session timout for platform
 func (h *V1Client) GetSessionTimeout(tenantUID string) (*models.V1AuthTokenSettings, error) {
 	params := clientv1.NewV1TenantUIDAuthTokenSettingsGetParamsWithContext(h.ctx).WithTenantUID(tenantUID)
@@ -19,7 +33,7 @@ func (h *V1Client) GetSessionTimeout(tenantUID string) (*models.V1AuthTokenSetti
 	return resp.Payload, err
 }
 
-// UpdatePlatformClusterUpgradeSetting update clusters agent upgrade setting for tenant
+// UpdatePlatformClusterUpgradeSetting update automatic cluster role binding setting for tenant
 func (h *V1Client) UpdatePlatformClusterUpgradeSetting(body *models.V1ClusterUpgradeSettingsEntity) error {
 	params := clientv1.NewV1SpectroClustersUpgradeSettingsParamsWithContext(h.ctx).WithBody(body)
 	_, err := h.Client.V1SpectroClustersUpgradeSettings(params)
