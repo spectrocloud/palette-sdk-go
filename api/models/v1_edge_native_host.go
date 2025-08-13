@@ -46,7 +46,8 @@ type V1EdgeNativeHost struct {
 	// Deprecated. Edge host static IP
 	StaticIP string `json:"staticIP,omitempty"`
 
-	// Set the edgehost candidate priority as primary or secondary, if the edgehost is nominated as two node candidate
+	// Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.
+	//
 	// Enum: ["primary","secondary"]
 	TwoNodeCandidatePriority string `json:"twoNodeCandidatePriority,omitempty"`
 }

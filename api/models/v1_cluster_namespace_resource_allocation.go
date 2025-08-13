@@ -23,6 +23,9 @@ type V1ClusterNamespaceResourceAllocation struct {
 	// Minimum: > 0
 	CPUCores float64 `json:"cpuCores,omitempty"`
 
+	// gpu config
+	GpuConfig *V1GpuConfig `json:"gpuConfig,omitempty"`
+
 	// memory mi b
 	// Minimum: > 0
 	MemoryMiB float64 `json:"memoryMiB,omitempty"`
@@ -33,6 +36,10 @@ func (m *V1ClusterNamespaceResourceAllocation) Validate(formats strfmt.Registry)
 	var res []error
 
 	if err := m.validateCPUCores(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateGpuConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -58,6 +65,25 @@ func (m *V1ClusterNamespaceResourceAllocation) validateCPUCores(formats strfmt.R
 	return nil
 }
 
+func (m *V1ClusterNamespaceResourceAllocation) validateGpuConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.GpuConfig) { // not required
+		return nil
+	}
+
+	if m.GpuConfig != nil {
+		if err := m.GpuConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gpuConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gpuConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1ClusterNamespaceResourceAllocation) validateMemoryMiB(formats strfmt.Registry) error {
 	if swag.IsZero(m.MemoryMiB) { // not required
 		return nil
@@ -70,8 +96,38 @@ func (m *V1ClusterNamespaceResourceAllocation) validateMemoryMiB(formats strfmt.
 	return nil
 }
 
-// ContextValidate validates this v1 cluster namespace resource allocation based on context it is used
+// ContextValidate validate this v1 cluster namespace resource allocation based on the context it is used
 func (m *V1ClusterNamespaceResourceAllocation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateGpuConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1ClusterNamespaceResourceAllocation) contextValidateGpuConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.GpuConfig != nil {
+
+		if swag.IsZero(m.GpuConfig) { // not required
+			return nil
+		}
+
+		if err := m.GpuConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gpuConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gpuConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

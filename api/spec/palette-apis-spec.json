@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.6",
+    "title": "Palette APIs - 4.7",
     "version": "v1"
   },
   "paths": {
@@ -19456,7 +19456,12 @@
               "level",
               "edgeconfig",
               "firth",
-              "stylus"
+              "stylus",
+              "provider-k3s",
+              "provider-kubeadm",
+              "provider-rke2",
+              "provider-nodeadm",
+              "provider-canonical"
             ],
             "type": "string",
             "description": "service name",
@@ -19510,7 +19515,12 @@
               "level",
               "edgeconfig",
               "firth",
-              "stylus"
+              "stylus",
+              "provider-k3s",
+              "provider-kubeadm",
+              "provider-rke2",
+              "provider-nodeadm",
+              "provider-canonical"
             ],
             "type": "string",
             "description": "service name",
@@ -26843,6 +26853,58 @@
         }
       ]
     },
+    "/v1/tenants/{tenantUid}/preferences/clusterRbacSettings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get tenant cluster RBAC settings",
+        "operationId": "v1TenantClusterRbacSettingsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1TenantClusterRbacSettings"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update tenant cluster RBAC settings",
+        "operationId": "v1TenantClusterRbacSettingsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantClusterRbacSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/tenants/{tenantUid}/preferences/clusterSettings": {
       "get": {
         "tags": [
@@ -32617,7 +32679,8 @@
             "AzureChinaCloud",
             "AzurePublicCloud",
             "AzureUSGovernment",
-            "AzureUSGovernmentCloud"
+            "AzureUSGovernmentCloud",
+            "AzureUSSecretCloud"
           ]
         },
         "clientId": {
@@ -32639,6 +32702,10 @@
         "tenantName": {
           "description": "Tenant ID is the ID for the Azure AD tenant that the user belongs to.",
           "type": "string"
+        },
+        "tls": {
+          "description": "TLS configuration for the Azure secret",
+          "$ref": "#/definitions/v1AzureSecretTlsConfig"
         }
       }
     },
@@ -33264,6 +33331,16 @@
           "items": {
             "$ref": "#/definitions/v1ResourceGroup"
           }
+        }
+      }
+    },
+    "v1AzureSecretTlsConfig": {
+      "description": "TLS configuration for the AWS secret",
+      "type": "object",
+      "properties": {
+        "cert": {
+          "description": "Certificate is the TLS certificate used to authenticate the Azure secret",
+          "type": "string"
         }
       }
     },
@@ -35243,7 +35320,7 @@
       }
     },
     "v1ClusterNamespaceResource": {
-      "description": "Cluster Namespace resource defintion",
+      "description": "Cluster Namespace resource definition",
       "type": "object",
       "properties": {
         "metadata": {
@@ -35265,6 +35342,9 @@
           "minimum": 0,
           "exclusiveMinimum": true
         },
+        "gpuConfig": {
+          "$ref": "#/definitions/v1GpuConfig"
+        },
         "memoryMiB": {
           "type": "number",
           "minimum": 0,
@@ -35273,7 +35353,7 @@
       }
     },
     "v1ClusterNamespaceResourceInputEntity": {
-      "description": "Cluster Namespace resource defintion",
+      "description": "Cluster Namespace resource definition",
       "type": "object",
       "properties": {
         "metadata": {
@@ -36267,6 +36347,11 @@
           "items": {
             "$ref": "#/definitions/v1ClusterRbacBinding"
           }
+        },
+        "isSystem": {
+          "description": "Set to true when the binding is created automatically by the system, rather than manually by the user",
+          "type": "boolean",
+          "default": false
         },
         "relatedObject": {
           "$ref": "#/definitions/v1RelatedObject"
@@ -38280,6 +38365,9 @@
           "minimum": 0,
           "exclusiveMinimum": true
         },
+        "gpuConfig": {
+          "$ref": "#/definitions/v1GpuConfig"
+        },
         "memory": {
           "type": "number",
           "minimum": 0,
@@ -39359,7 +39447,7 @@
           "type": "string"
         },
         "twoNodeCandidatePriority": {
-          "description": "Set the edgehost candidate priority as primary or secondary, if the edgehost is nominated as two node candidate",
+          "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
           "type": "string",
           "enum": [
             "primary",
@@ -39454,7 +39542,7 @@
           "$ref": "#/definitions/v1Nic"
         },
         "twoNodeCandidatePriority": {
-          "description": "Set the Edge Host candidate priority as primary or secondary, if the Edge Host is nominated as two node candidate",
+          "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
           "type": "string",
           "enum": [
             "primary",
@@ -39650,7 +39738,7 @@
           "type": "string"
         },
         "twoNodeCandidatePriority": {
-          "description": "Set the edgehost candidate priority as primary or secondary, if the edgehost is nominated as two node candidate",
+          "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
           "type": "string",
           "enum": [
             "primary",
@@ -41646,6 +41734,26 @@
         },
         "sha": {
           "type": "string"
+        }
+      }
+    },
+    "v1GpuConfig": {
+      "description": "GPU configuration for resource allocation",
+      "properties": {
+        "limit": {
+          "description": "GPU resource limit",
+          "type": "integer",
+          "format": "int32",
+          "minimum": -1,
+          "x-omitempty": false
+        },
+        "provider": {
+          "description": "GPU provider (only nvidia is supported currently)",
+          "type": "string",
+          "default": "nvidia",
+          "enum": [
+            "nvidia"
+          ]
         }
       }
     },
@@ -53782,6 +53890,23 @@
         }
       }
     },
+    "v1TenantClusterRbacSettings": {
+      "description": "Tenant cluster RBAC settings",
+      "type": "object",
+      "properties": {
+        "automaticClusterRoleBinding": {
+          "description": "Specifies the mode for automatic creation and management of cluster role bindings for tenant clusters",
+          "type": "string",
+          "default": "none",
+          "enum": [
+            "none",
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": false
+        }
+      }
+    },
     "v1TenantClusterSettings": {
       "properties": {
         "nodesAutoRemediationSetting": {
@@ -60243,6 +60368,9 @@
           "type": "number",
           "minimum": -1,
           "x-omitempty": false
+        },
+        "gpuConfig": {
+          "$ref": "#/definitions/v1GpuConfig"
         },
         "memoryMiB": {
           "type": "number",

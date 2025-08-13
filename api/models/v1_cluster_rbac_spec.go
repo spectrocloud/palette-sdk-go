@@ -24,6 +24,9 @@ type V1ClusterRbacSpec struct {
 	// Unique: true
 	Bindings []*V1ClusterRbacBinding `json:"bindings"`
 
+	// Set to true when the binding is created automatically by the system, rather than manually by the user
+	IsSystem *bool `json:"isSystem,omitempty"`
+
 	// related object
 	RelatedObject *V1RelatedObject `json:"relatedObject,omitempty"`
 }

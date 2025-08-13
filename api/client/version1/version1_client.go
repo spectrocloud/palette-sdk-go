@@ -1748,6 +1748,10 @@ type ClientService interface {
 
 	V1TeamsWorkspaceRolesPut(params *V1TeamsWorkspaceRolesPutParams) (*V1TeamsWorkspaceRolesPutNoContent, error)
 
+	V1TenantClusterRbacSettingsGet(params *V1TenantClusterRbacSettingsGetParams) (*V1TenantClusterRbacSettingsGetOK, error)
+
+	V1TenantClusterRbacSettingsUpdate(params *V1TenantClusterRbacSettingsUpdateParams) (*V1TenantClusterRbacSettingsUpdateNoContent, error)
+
 	V1TenantClusterSettingsGet(params *V1TenantClusterSettingsGetParams) (*V1TenantClusterSettingsGetOK, error)
 
 	V1TenantClustersNodesAutoRemediationSettingUpdate(params *V1TenantClustersNodesAutoRemediationSettingUpdateParams) (*V1TenantClustersNodesAutoRemediationSettingUpdateNoContent, error)
@@ -31324,6 +31328,74 @@ func (a *Client) V1TeamsWorkspaceRolesPut(params *V1TeamsWorkspaceRolesPutParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TeamsWorkspaceRolesPut: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantClusterRbacSettingsGet gets tenant cluster r b a c settings
+*/
+func (a *Client) V1TenantClusterRbacSettingsGet(params *V1TenantClusterRbacSettingsGetParams) (*V1TenantClusterRbacSettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantClusterRbacSettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantClusterRbacSettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/preferences/clusterRbacSettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantClusterRbacSettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantClusterRbacSettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantClusterRbacSettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantClusterRbacSettingsUpdate updates tenant cluster r b a c settings
+*/
+func (a *Client) V1TenantClusterRbacSettingsUpdate(params *V1TenantClusterRbacSettingsUpdateParams) (*V1TenantClusterRbacSettingsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantClusterRbacSettingsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantClusterRbacSettingsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/preferences/clusterRbacSettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantClusterRbacSettingsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantClusterRbacSettingsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantClusterRbacSettingsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
