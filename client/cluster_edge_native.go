@@ -151,6 +151,7 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 // GetEdgeHostsByTags returns a list of edge hosts filtered by the provided tags.
 // TODO: expose pagination params
 func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeHostsMetadata, error) {
+	var offset int64
 	continueToken := ""
 	var items []*models.V1EdgeHostsMetadata
 	filter := GetEdgeFilter(nil, tags)
@@ -159,12 +160,14 @@ func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeH
 			WithBody(&models.V1SearchFilterSummarySpec{
 				Filter: filter,
 				Sort:   nil,
-			})
+			}).
+			WithOffset(&offset)
 		resp, err := h.Client.V1DashboardEdgehostsSearch(params)
 		if err != nil {
 			return nil, err
 		}
 		continueToken = resp.Payload.Listmeta.Continue
+		offset = resp.Payload.Listmeta.Offset
 		items = append(items, resp.Payload.Items...)
 	}
 
