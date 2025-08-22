@@ -9351,6 +9351,13 @@
             "name": "vhd",
             "in": "path",
             "required": true
+          },
+          {
+            "type": "string",
+            "description": "Uid for the specific Azure cloud account",
+            "name": "cloudAccountUid",
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -16350,6 +16357,110 @@
         {
           "type": "string",
           "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/maas/{uid}/pools": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of IP Pools for the specified maas private gateway",
+        "operationId": "v1OverlordsUidMaasPoolsList",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1IpPools"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates an IP pool definition for the specified maas private gateway",
+        "operationId": "v1OverlordsUidMaasPoolCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1IpPoolInputEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/maas/{uid}/pools/{poolUid}": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the maas private gateway's specified IP Pool data",
+        "operationId": "v1OverlordsUidMaasPoolUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1IpPoolInputEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the maas private gateway's specified IP Pool data",
+        "operationId": "v1OverlordsUidMaasPoolDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "name": "poolUid",
           "in": "path",
           "required": true
         }
@@ -29492,9 +29603,6 @@
       "properties": {
         "jsonCredentials": {
           "type": "string"
-        },
-        "jsonCredentialsFileUid": {
-          "type": "string"
         }
       }
     },
@@ -40747,6 +40855,23 @@
             "type": "string"
           }
         },
+        "gpuCount": {
+          "description": "Number of GPUs",
+          "type": "integer",
+          "format": "int32"
+        },
+        "memory": {
+          "description": "GPU memory specification",
+          "type": "string"
+        },
+        "migCapable": {
+          "description": "MIG capability flag",
+          "type": "boolean"
+        },
+        "migStrategy": {
+          "description": "MIG strategy configuration",
+          "type": "string"
+        },
         "model": {
           "description": "Model is the model of GPU, for a given vendor, for eg., TU104GL [Tesla T4]",
           "type": "string"
@@ -40809,10 +40934,6 @@
         "jsonCredentials": {
           "description": "Gcp cloud account json credentials",
           "type": "string"
-        },
-        "jsonCredentialsFileUid": {
-          "description": "Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file",
-          "type": "string"
         }
       }
     },
@@ -40856,10 +40977,6 @@
       "properties": {
         "jsonCredentials": {
           "description": "Gcp cloud account json credentials",
-          "type": "string"
-        },
-        "jsonCredentialsFileUid": {
-          "description": "Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file",
           "type": "string"
         }
       }
@@ -43541,12 +43658,22 @@
           "description": "Domain name of the cluster to be provisioned",
           "type": "string"
         },
+        "enableLxdVm": {
+          "description": "enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.\nWhen true, Palette configures MaasMachineTemplate LXD settings so LXD initialization\nis triggered on nodes of this (host) cluster. This does not affect workload clusters.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "sshKeys": {
           "description": "SSH keys specifies a list of ssh authorized keys for the 'spectro' user",
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "staticIp": {
+          "description": "whether this cluster should use dhcp or static IP, if false, use DHCP if this is set, then all machinepools should have staticIP with provided IPPool adding this as an additional standalone flag without relating to placement.Nework main reason is to enable more validation for placement.Network.StaticIP which should come together with valid Network.IPPool and Network.Name",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -43638,8 +43765,16 @@
         "instanceType": {
           "$ref": "#/definitions/v1MaasInstanceType"
         },
+        "network": {
+          "$ref": "#/definitions/v1MaasNetworkConfigEntity"
+        },
         "resourcePool": {
           "type": "string"
+        },
+        "useLxdVm": {
+          "description": "useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).\nWhen true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -43659,6 +43794,10 @@
         "instanceType": {
           "$ref": "#/definitions/v1MaasInstanceType"
         },
+        "network": {
+          "description": "network info",
+          "$ref": "#/definitions/v1MaasNetworkConfigEntity"
+        },
         "resourcePool": {
           "description": "the resource pool",
           "type": "string"
@@ -43669,6 +43808,11 @@
           "items": {
             "type": "string"
           }
+        },
+        "useLxdVm": {
+          "description": "useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).\nWhen true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -43729,6 +43873,10 @@
         "name": {
           "type": "string"
         },
+        "network": {
+          "description": "network info",
+          "$ref": "#/definitions/v1MaasNetworkConfig"
+        },
         "nodeRepaveInterval": {
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
@@ -43764,6 +43912,11 @@
         "useControlPlaneAsWorker": {
           "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean"
+        },
+        "useLxdVm": {
+          "description": "useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).\nWhen true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -43815,6 +43968,52 @@
         },
         "listmeta": {
           "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1MaasNetworkConfig": {
+      "type": "object",
+      "required": [
+        "networkName"
+      ],
+      "properties": {
+        "ipPool": {
+          "description": "when staticIP=true, need to provide IPPool",
+          "$ref": "#/definitions/v1IPPool"
+        },
+        "networkName": {
+          "description": "NetworkName is the name of the network in which VMs are created/located.",
+          "type": "string"
+        },
+        "parentPoolRef": {
+          "description": "ParentPoolRef reference to the ParentPool which allocates IPs for this IPPool",
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "staticIp": {
+          "description": "support dhcp or static IP, if false, use DHCP",
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1MaasNetworkConfigEntity": {
+      "type": "object",
+      "required": [
+        "networkName"
+      ],
+      "properties": {
+        "networkName": {
+          "description": "NetworkName is the name of the network in which VMs are created/located.",
+          "type": "string"
+        },
+        "parentPoolUid": {
+          "description": "ParentPoolRef Uid to the ParentPool which allocates IPs for this IPPool",
+          "type": "string"
+        },
+        "staticIp": {
+          "description": "support dhcp or static IP, if false, use DHCP",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },

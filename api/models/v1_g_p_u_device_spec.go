@@ -27,6 +27,18 @@ type V1GPUDeviceSpec struct {
 	//
 	Addresses map[string]string `json:"addresses,omitempty"`
 
+	// Number of GPUs
+	GpuCount int32 `json:"gpuCount,omitempty"`
+
+	// GPU memory specification
+	Memory string `json:"memory,omitempty"`
+
+	// MIG capability flag
+	MigCapable bool `json:"migCapable,omitempty"`
+
+	// MIG strategy configuration
+	MigStrategy string `json:"migStrategy,omitempty"`
+
 	// Model is the model of GPU, for a given vendor, for eg., TU104GL [Tesla T4]
 	Model string `json:"model,omitempty"`
 

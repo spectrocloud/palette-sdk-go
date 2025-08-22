@@ -23,8 +23,16 @@ type V1MaasClusterConfig struct {
 	// Required: true
 	Domain *string `json:"domain"`
 
+	// enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.
+	// When true, Palette configures MaasMachineTemplate LXD settings so LXD initialization
+	// is triggered on nodes of this (host) cluster. This does not affect workload clusters.
+	EnableLxdVM bool `json:"enableLxdVm"`
+
 	// SSH keys specifies a list of ssh authorized keys for the 'spectro' user
 	SSHKeys []string `json:"sshKeys"`
+
+	// whether this cluster should use dhcp or static IP, if false, use DHCP if this is set, then all machinepools should have staticIP with provided IPPool adding this as an additional standalone flag without relating to placement.Nework main reason is to enable more validation for placement.Network.StaticIP which should come together with valid Network.IPPool and Network.Name
+	StaticIP bool `json:"staticIp"`
 }
 
 // Validate validates this v1 maas cluster config
