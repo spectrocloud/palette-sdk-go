@@ -40981,10 +40981,6 @@
         "jsonCredentials": {
           "description": "Gcp cloud account json credentials",
           "type": "string"
-        },
-        "jsonCredentialsFileName": {
-          "description": "Reference of the credentials stored in the file",
-          "type": "string"
         }
       }
     },
@@ -43676,7 +43672,7 @@
           "type": "string"
         },
         "enableLxdVm": {
-          "description": "enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.\nWhen true, Palette configures MaasMachineTemplate LXD settings so LXD initialization\nis triggered on nodes of this (host) cluster. This does not affect workload clusters.",
+          "description": "enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.\nWhen true, Palette configures MaasMachineTemplate LXD settings so LXD initialization\nis triggered on nodes of this (host) cluster. This does not affect workload clusters.\nCannot be enabled for clusters where useLxdVm is enabled for any of the control plane machine pool configs.",
           "type": "boolean",
           "x-omitempty": false
         },
@@ -43738,6 +43734,11 @@
       "properties": {
         "minCPU": {
           "description": "Minimum CPU cores",
+          "type": "integer",
+          "format": "int32"
+        },
+        "minDiskSizeInGB": {
+          "description": "Minimum disk size in GiB",
           "type": "integer",
           "format": "int32"
         },
@@ -43931,7 +43932,7 @@
           "type": "boolean"
         },
         "useLxdVm": {
-          "description": "useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).\nWhen true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.",
+          "description": "useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).\nWhen true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.\nCannot be enabled for control plane machine pools when enableLxdVm is enabled in the cluster config.",
           "type": "boolean",
           "x-omitempty": false
         }

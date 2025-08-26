@@ -26,6 +26,7 @@ type V1MaasClusterConfig struct {
 	// enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.
 	// When true, Palette configures MaasMachineTemplate LXD settings so LXD initialization
 	// is triggered on nodes of this (host) cluster. This does not affect workload clusters.
+	// Cannot be enabled for clusters where useLxdVm is enabled for any of the control plane machine pool configs.
 	EnableLxdVM bool `json:"enableLxdVm"`
 
 	// SSH keys specifies a list of ssh authorized keys for the 'spectro' user

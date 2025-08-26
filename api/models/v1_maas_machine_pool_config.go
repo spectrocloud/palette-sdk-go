@@ -78,6 +78,7 @@ type V1MaasMachinePoolConfig struct {
 
 	// useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).
 	// When true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.
+	// Cannot be enabled for control plane machine pools when enableLxdVm is enabled in the cluster config.
 	UseLxdVM bool `json:"useLxdVm"`
 }
 
