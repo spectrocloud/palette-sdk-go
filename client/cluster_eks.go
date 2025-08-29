@@ -87,3 +87,12 @@ func (h *V1Client) GetNodeStatusMapEks(configUID, machinePoolName string) (map[s
 	}
 	return nMap, nil
 }
+
+// UpdateCloudConfigEks updates an existing EKS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigEks(configUID string, config *models.V1EksCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsEksUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsEksUIDClusterConfig(params)
+	return err
+}
