@@ -18,6 +18,7 @@ import (
 type V1Client struct {
 	Client clientv1.ClientService
 
+	baseCtx            context.Context
 	ctx                context.Context
 	apikey             string
 	jwt                string
@@ -33,8 +34,10 @@ type V1Client struct {
 
 // New creates a new V1Client.
 func New(options ...func(*V1Client)) *V1Client {
+	ctx := context.Background()
 	client := &V1Client{
-		ctx:           context.Background(),
+		baseCtx:       ctx,
+		ctx:           ctx,
 		retryAttempts: 0,
 		schemes:       []string{"https"},
 	}
@@ -43,6 +46,17 @@ func New(options ...func(*V1Client)) *V1Client {
 	}
 	client.Client = clientv1.New(client.getTransport(), strfmt.Default)
 	return client
+}
+
+// WithContext sets the context for the client.
+//
+// Warning: If you provide a context that is preinitialized with a project UID
+// header, the resulting client will be unable to switch to tenant scope.
+func WithContext(ctx context.Context) func(*V1Client) {
+	return func(v *V1Client) {
+		v.baseCtx = ctx
+		v.ctx = ctx
+	}
 }
 
 // WithAPIKey sets the API key for the client.
@@ -91,14 +105,14 @@ func WithInsecureSkipVerify(insecureSkipVerify bool) func(*V1Client) {
 func WithScopeProject(projectUID string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.projectUID = projectUID
-		v.ctx = ContextForScope("project", projectUID)
+		v.ctx = ContextForScope(v.baseCtx, "project", projectUID)
 	}
 }
 
 // WithScopeTenant sets the tenant scope for the client.
 func WithScopeTenant() func(*V1Client) {
 	return func(v *V1Client) {
-		v.ctx = ContextForScope("tenant", "")
+		v.ctx = ContextForScope(v.baseCtx, "tenant", "")
 	}
 }
 
@@ -124,14 +138,17 @@ func WithTransportDebug() func(*V1Client) {
 }
 
 // ContextForScope returns a context with the given scope and optional project UID.
-func ContextForScope(scope, projectUID string) context.Context {
-	ctx := context.Background()
+func ContextForScope(baseCtx context.Context, scope, projectUID string) context.Context {
+	var ctx context.Context
 	if scope == "project" {
 		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
 			HeaderMap: map[string]string{
 				"ProjectUid": projectUID,
 			}},
 		)
+	} else {
+		// revert to the base context (without headers) if scope is not project
+		ctx = baseCtx
 	}
 	return ctx
 }

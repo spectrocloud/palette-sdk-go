@@ -41,7 +41,7 @@ func (h *V1Client) GetVirtualMachine(uid, namespace, name string) (*models.V1Clu
 func (h *V1Client) UpdateVirtualMachine(cluster *models.V1SpectroCluster, vmName string, body *models.V1ClusterVirtualMachine) (*models.V1ClusterVirtualMachine, error) {
 	clusterUID := cluster.Metadata.UID
 	params := clientv1.NewV1SpectroClustersVMUpdateParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
+		WithContext(ContextForScope(h.baseCtx, cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(clusterUID).
 		WithBody(body).
 		WithNamespace(body.Metadata.Namespace).
