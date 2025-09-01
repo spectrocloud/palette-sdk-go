@@ -139,7 +139,7 @@ func WithTransportDebug() func(*V1Client) {
 
 // ContextForScope returns a context with the given scope and optional project UID.
 func ContextForScope(baseCtx context.Context, scope, projectUID string) context.Context {
-	var ctx context.Context
+	ctx := baseCtx
 	if scope == "project" {
 		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
 			HeaderMap: map[string]string{
@@ -148,7 +148,7 @@ func ContextForScope(baseCtx context.Context, scope, projectUID string) context.
 		)
 	} else {
 		// revert to the base context (without headers) if scope is not project
-		ctx = baseCtx
+		return baseCtx
 	}
 	return ctx
 }
