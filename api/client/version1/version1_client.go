@@ -1220,6 +1220,14 @@ type ClientService interface {
 
 	V1OverlordsUIDMaasClusterProfile(params *V1OverlordsUIDMaasClusterProfileParams) (*V1OverlordsUIDMaasClusterProfileOK, error)
 
+	V1OverlordsUIDMaasPoolCreate(params *V1OverlordsUIDMaasPoolCreateParams) (*V1OverlordsUIDMaasPoolCreateCreated, error)
+
+	V1OverlordsUIDMaasPoolDelete(params *V1OverlordsUIDMaasPoolDeleteParams) (*V1OverlordsUIDMaasPoolDeleteNoContent, error)
+
+	V1OverlordsUIDMaasPoolUpdate(params *V1OverlordsUIDMaasPoolUpdateParams) (*V1OverlordsUIDMaasPoolUpdateNoContent, error)
+
+	V1OverlordsUIDMaasPoolsList(params *V1OverlordsUIDMaasPoolsListParams) (*V1OverlordsUIDMaasPoolsListOK, error)
+
 	V1OverlordsUIDMetadataUpdate(params *V1OverlordsUIDMetadataUpdateParams) (*V1OverlordsUIDMetadataUpdateNoContent, error)
 
 	V1OverlordsUIDOpenStackAccountCreate(params *V1OverlordsUIDOpenStackAccountCreateParams) (*V1OverlordsUIDOpenStackAccountCreateCreated, error)
@@ -22326,6 +22334,142 @@ func (a *Client) V1OverlordsUIDMaasClusterProfile(params *V1OverlordsUIDMaasClus
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMaasClusterProfile: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDMaasPoolCreate creates an IP pool definition for the specified maas private gateway
+*/
+func (a *Client) V1OverlordsUIDMaasPoolCreate(params *V1OverlordsUIDMaasPoolCreateParams) (*V1OverlordsUIDMaasPoolCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDMaasPoolCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidMaasPoolCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/maas/{uid}/pools",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDMaasPoolCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDMaasPoolCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMaasPoolCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDMaasPoolDelete deletes the maas private gateway s specified IP pool data
+*/
+func (a *Client) V1OverlordsUIDMaasPoolDelete(params *V1OverlordsUIDMaasPoolDeleteParams) (*V1OverlordsUIDMaasPoolDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDMaasPoolDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidMaasPoolDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/overlords/maas/{uid}/pools/{poolUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDMaasPoolDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDMaasPoolDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMaasPoolDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDMaasPoolUpdate updates the maas private gateway s specified IP pool data
+*/
+func (a *Client) V1OverlordsUIDMaasPoolUpdate(params *V1OverlordsUIDMaasPoolUpdateParams) (*V1OverlordsUIDMaasPoolUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDMaasPoolUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidMaasPoolUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/overlords/maas/{uid}/pools/{poolUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDMaasPoolUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDMaasPoolUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMaasPoolUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDMaasPoolsList retrieves a list of IP pools for the specified maas private gateway
+*/
+func (a *Client) V1OverlordsUIDMaasPoolsList(params *V1OverlordsUIDMaasPoolsListParams) (*V1OverlordsUIDMaasPoolsListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDMaasPoolsListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidMaasPoolsList",
+		Method:             "GET",
+		PathPattern:        "/v1/overlords/maas/{uid}/pools",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDMaasPoolsListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDMaasPoolsListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMaasPoolsList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

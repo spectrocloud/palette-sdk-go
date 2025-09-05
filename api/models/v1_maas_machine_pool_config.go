@@ -51,6 +51,9 @@ type V1MaasMachinePoolConfig struct {
 	// name
 	Name string `json:"name,omitempty"`
 
+	// network info
+	Network *V1MaasNetworkConfig `json:"network,omitempty"`
+
 	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
 	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
 
@@ -72,6 +75,11 @@ type V1MaasMachinePoolConfig struct {
 
 	// if IsControlPlane==true && useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools
 	UseControlPlaneAsWorker bool `json:"useControlPlaneAsWorker,omitempty"`
+
+	// useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).
+	// When true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.
+	// Cannot be enabled for control plane machine pools when enableLxdVm is enabled in the cluster config.
+	UseLxdVM bool `json:"useLxdVm"`
 }
 
 // Validate validates this v1 maas machine pool config
@@ -83,6 +91,10 @@ func (m *V1MaasMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateMachinePoolProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateNetwork(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -131,6 +143,25 @@ func (m *V1MaasMachinePoolConfig) validateMachinePoolProperties(formats strfmt.R
 				return ve.ValidateName("machinePoolProperties")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("machinePoolProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1MaasMachinePoolConfig) validateNetwork(formats strfmt.Registry) error {
+	if swag.IsZero(m.Network) { // not required
+		return nil
+	}
+
+	if m.Network != nil {
+		if err := m.Network.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
 			}
 			return err
 		}
@@ -200,6 +231,10 @@ func (m *V1MaasMachinePoolConfig) ContextValidate(ctx context.Context, formats s
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateNetwork(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateTaints(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -244,6 +279,27 @@ func (m *V1MaasMachinePoolConfig) contextValidateMachinePoolProperties(ctx conte
 				return ve.ValidateName("machinePoolProperties")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("machinePoolProperties")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1MaasMachinePoolConfig) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Network != nil {
+
+		if swag.IsZero(m.Network) { // not required
+			return nil
+		}
+
+		if err := m.Network.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
 			}
 			return err
 		}

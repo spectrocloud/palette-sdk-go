@@ -20,6 +20,9 @@ type V1MaasInstanceType struct {
 	// Minimum CPU cores
 	MinCPU int32 `json:"minCPU,omitempty"`
 
+	// Minimum disk size in GiB
+	MinDiskSizeInGB int32 `json:"minDiskSizeInGB,omitempty"`
+
 	// Minimum memory in MiB
 	MinMemInMB int32 `json:"minMemInMB,omitempty"`
 }
