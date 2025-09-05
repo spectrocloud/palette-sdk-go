@@ -229,6 +229,14 @@ func (h *V1Client) CreateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeCl
 	return *resp.Payload.UID, nil
 }
 
+// ValidateClusterEdgeNative validates an edge native cluster creation payload.
+func (h *V1Client) ValidateClusterEdgeNative(cluster *models.V1SpectroEdgeNativeClusterEntity) error {
+	params := clientv1.NewV1SpectroClustersEdgeNativeValidateParamsWithContext(h.ctx).
+		WithBody(cluster)
+	_, err := h.Client.V1SpectroClustersEdgeNativeValidate(params)
+	return err
+}
+
 // CreateMachinePoolEdgeNative creates a new edge native machine pool.
 func (h *V1Client) CreateMachinePoolEdgeNative(cloudConfigUID string, machinePool *models.V1EdgeNativeMachinePoolConfigEntity) error {
 	params := clientv1.NewV1CloudConfigsEdgeNativeMachinePoolCreateParamsWithContext(h.ctx).

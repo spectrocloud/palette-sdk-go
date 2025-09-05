@@ -178,7 +178,7 @@ func (h *V1Client) DeleteApplicationProfile(uid string) error {
 		return err
 	}
 	params := clientv1.NewV1AppProfilesUIDDeleteParams().
-		WithContext(ContextForScope(profile.Metadata.Annotations[Scope], h.projectUID)).
+		WithContext(ContextForScope(h.baseCtx, profile.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(uid)
 	_, err = h.Client.V1AppProfilesUIDDelete(params)
 	return err

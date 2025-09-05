@@ -23,7 +23,7 @@ func (h *V1Client) GetLatestServiceVersionCLI(serviceName, clusterUID, edgeHostU
 
 	versionResp, err := h.Client.V1ServiceVersionGet(params)
 	if err != nil {
-		return "", fmt.Errorf("failed to fetch latest version for service '%s'. %s", serviceName, err)
+		return "", fmt.Errorf("failed to fetch latest version for service '%s'. %w", serviceName, err)
 	}
 	if versionResp.Payload != nil &&
 		versionResp.Payload.Spec != nil &&
@@ -55,7 +55,7 @@ func (h *V1Client) GetManifestsForCLI(service, svcVersion, resourceFileName, act
 		if action == "delete" && isDeleteManifestNotExistError(err) {
 			return nil, nil
 		}
-		err = fmt.Errorf("failed to fetch manifest for service '%s' and version %s for action '%s'. %v", service, svcVersion, action, err)
+		err = fmt.Errorf("failed to fetch manifest for service '%s' and version %s for action '%s'. %w", service, svcVersion, action, err)
 		return []*models.V1GitRepoFileContent{}, err
 	}
 

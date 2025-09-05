@@ -33,7 +33,7 @@ func (h *V1Client) GetVirtualMachineWithoutStatus(uid, name, namespace string) (
 // GetVirtualMachines retrieves a list of virtual machines for a given cluster.
 func (h *V1Client) GetVirtualMachines(cluster *models.V1SpectroCluster) ([]*models.V1ClusterVirtualMachine, error) {
 	params := clientv1.NewV1SpectroClustersVMListParams().
-		WithContext(ContextForScope(cluster.Metadata.Annotations[Scope], h.projectUID)).
+		WithContext(ContextForScope(h.baseCtx, cluster.Metadata.Annotations[Scope], h.projectUID)).
 		WithUID(cluster.Metadata.UID)
 	resp, err := h.Client.V1SpectroClustersVMList(params)
 	if err != nil {
