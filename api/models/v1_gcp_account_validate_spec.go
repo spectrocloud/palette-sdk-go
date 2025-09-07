@@ -19,9 +19,6 @@ type V1GcpAccountValidateSpec struct {
 
 	// Gcp cloud account json credentials
 	JSONCredentials string `json:"jsonCredentials,omitempty"`
-
-	// Deprecated - Use jsonCredentials for Gcp account credentials; Reference of the credentials stored in the file
-	JSONCredentialsFileUID string `json:"jsonCredentialsFileUid,omitempty"`
 }
 
 // Validate validates this v1 gcp account validate spec

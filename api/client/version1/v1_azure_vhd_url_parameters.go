@@ -61,6 +61,11 @@ for the v1 azure vhd Url operation typically these are written to a http.Request
 */
 type V1AzureVhdURLParams struct {
 
+	/*CloudAccountUID
+	  Uid for the specific Azure cloud account
+
+	*/
+	CloudAccountUID string
 	/*Vhd
 	  vhd location for which Azure vhd url is requested
 
@@ -105,6 +110,17 @@ func (o *V1AzureVhdURLParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithCloudAccountUID adds the cloudAccountUID to the v1 azure vhd Url params
+func (o *V1AzureVhdURLParams) WithCloudAccountUID(cloudAccountUID string) *V1AzureVhdURLParams {
+	o.SetCloudAccountUID(cloudAccountUID)
+	return o
+}
+
+// SetCloudAccountUID adds the cloudAccountUid to the v1 azure vhd Url params
+func (o *V1AzureVhdURLParams) SetCloudAccountUID(cloudAccountUID string) {
+	o.CloudAccountUID = cloudAccountUID
+}
+
 // WithVhd adds the vhd to the v1 azure vhd Url params
 func (o *V1AzureVhdURLParams) WithVhd(vhd string) *V1AzureVhdURLParams {
 	o.SetVhd(vhd)
@@ -123,6 +139,15 @@ func (o *V1AzureVhdURLParams) WriteToRequest(r runtime.ClientRequest, reg strfmt
 		return err
 	}
 	var res []error
+
+	// query param cloudAccountUid
+	qrCloudAccountUID := o.CloudAccountUID
+	qCloudAccountUID := qrCloudAccountUID
+	if qCloudAccountUID != "" {
+		if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+			return err
+		}
+	}
 
 	// path param vhd
 	if err := r.SetPathParam("vhd", o.Vhd); err != nil {

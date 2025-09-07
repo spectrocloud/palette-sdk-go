@@ -26,12 +26,19 @@ type V1MaasMachinePoolCloudConfigEntity struct {
 	// Required: true
 	InstanceType *V1MaasInstanceType `json:"instanceType"`
 
+	// network info
+	Network *V1MaasNetworkConfigEntity `json:"network,omitempty"`
+
 	// the resource pool
 	// Required: true
 	ResourcePool *string `json:"resourcePool"`
 
 	// Tags in maas environment
 	Tags []string `json:"tags"`
+
+	// useLxdVm enables on-demand LXD VM provisioning for this machine pool (workload clusters only).
+	// When true, machines in this pool are created as MAAS LXD-backed VMs instead of bare metal.
+	UseLxdVM bool `json:"useLxdVm"`
 }
 
 // Validate validates this v1 maas machine pool cloud config entity
@@ -39,6 +46,10 @@ func (m *V1MaasMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry) e
 	var res []error
 
 	if err := m.validateInstanceType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateNetwork(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -72,6 +83,25 @@ func (m *V1MaasMachinePoolCloudConfigEntity) validateInstanceType(formats strfmt
 	return nil
 }
 
+func (m *V1MaasMachinePoolCloudConfigEntity) validateNetwork(formats strfmt.Registry) error {
+	if swag.IsZero(m.Network) { // not required
+		return nil
+	}
+
+	if m.Network != nil {
+		if err := m.Network.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1MaasMachinePoolCloudConfigEntity) validateResourcePool(formats strfmt.Registry) error {
 
 	if err := validate.Required("resourcePool", "body", m.ResourcePool); err != nil {
@@ -86,6 +116,10 @@ func (m *V1MaasMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context
 	var res []error
 
 	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNetwork(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -104,6 +138,27 @@ func (m *V1MaasMachinePoolCloudConfigEntity) contextValidateInstanceType(ctx con
 				return ve.ValidateName("instanceType")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("instanceType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1MaasMachinePoolCloudConfigEntity) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Network != nil {
+
+		if swag.IsZero(m.Network) { // not required
+			return nil
+		}
+
+		if err := m.Network.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("network")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("network")
 			}
 			return err
 		}

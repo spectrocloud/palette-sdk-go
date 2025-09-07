@@ -19,9 +19,6 @@ type V1GcpAccountSpec struct {
 
 	// Gcp cloud account json credentials
 	JSONCredentials string `json:"jsonCredentials,omitempty"`
-
-	// Reference of the credentials stored in the file
-	JSONCredentialsFileName string `json:"jsonCredentialsFileName,omitempty"`
 }
 
 // Validate validates this v1 gcp account spec
