@@ -14,6 +14,7 @@ func toV1AzureCloudAccount(account *models.V1AzureAccount) *models.V1AzureCloudA
 		Settings:         account.Spec.Settings,
 		TenantID:         account.Spec.TenantID,
 		TenantName:       account.Spec.TenantName,
+		TLS:              account.Spec.TLS,
 	}
 }
 
