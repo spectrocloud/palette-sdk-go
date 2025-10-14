@@ -19,12 +19,26 @@ func (h *V1Client) GetPackRegistryCommonByName(registryName string) (*models.V1R
 	if err != nil {
 		return nil, err
 	}
+
+	var matchedRegistry *models.V1RegistryMetadata
+	matchCount := 0
+
+	// Loop through all registries to find matches
 	for _, registry := range registries {
 		if registry.Name == registryName {
-			return registry, nil
+			matchedRegistry = registry
+			matchCount++
 		}
 	}
-	return nil, fmt.Errorf("registry '%s' not found", registryName)
+
+	// Handle different match scenarios
+	if matchCount == 0 {
+		return nil, fmt.Errorf("registry '%s' not found", registryName)
+	} else if matchCount > 1 {
+		return nil, fmt.Errorf("multiple registries found with name '%s'", registryName)
+	}
+
+	return matchedRegistry, nil
 }
 
 func (h *V1Client) getRegistryCommon() ([]*models.V1RegistryMetadata, error) {
