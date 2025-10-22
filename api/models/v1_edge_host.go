@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -48,6 +49,10 @@ type V1EdgeHost struct {
 
 	// ProjectUid where the edgehost will be placed during auto registration
 	Project *V1ObjectEntity `json:"project,omitempty"`
+
+	// RemoteSsh controls the remote SSH access for this edge host
+	// Enum: ["enabled","disabled"]
+	RemoteSSH *string `json:"remoteSsh"`
 }
 
 // Validate validates this v1 edge host
@@ -71,6 +76,10 @@ func (m *V1EdgeHost) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateProject(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRemoteSSH(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -143,6 +152,48 @@ func (m *V1EdgeHost) validateProject(formats strfmt.Registry) error {
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1EdgeHostTypeRemoteSSHPropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1EdgeHostTypeRemoteSSHPropEnum = append(v1EdgeHostTypeRemoteSSHPropEnum, v)
+	}
+}
+
+const (
+
+	// V1EdgeHostRemoteSSHEnabled captures enum value "enabled"
+	V1EdgeHostRemoteSSHEnabled string = "enabled"
+
+	// V1EdgeHostRemoteSSHDisabled captures enum value "disabled"
+	V1EdgeHostRemoteSSHDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1EdgeHost) validateRemoteSSHEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1EdgeHostTypeRemoteSSHPropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1EdgeHost) validateRemoteSSH(formats strfmt.Registry) error {
+	if swag.IsZero(m.RemoteSSH) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateRemoteSSHEnum("remoteSsh", "body", *m.RemoteSSH); err != nil {
+		return err
 	}
 
 	return nil

@@ -49,6 +49,9 @@ type V1VMDevices struct {
 	// Disks describes disks, cdroms and luns which are connected to the vmi.
 	Disks []*V1VMDisk `json:"disks"`
 
+	// DownwardMetrics creates a virtio serials for exposing the downward metrics to the vmi.
+	DownwardMetrics interface{} `json:"downwardMetrics,omitempty"`
+
 	// Filesystems describes filesystem which is connected to the vmi.
 	Filesystems []*V1VMFilesystem `json:"filesystems"`
 
@@ -63,6 +66,9 @@ type V1VMDevices struct {
 
 	// Interfaces describe network interfaces which are added to the vmi.
 	Interfaces []*V1VMInterface `json:"interfaces"`
+
+	// Whether to log the auto-attached default serial console or not. Serial console logs will be collect to a file and then streamed from a named 'guest-console-log'. Not relevant if autoattachSerialConsole is disabled. Defaults to cluster wide setting on VirtualMachineOptions.
+	LogSerialConsole bool `json:"logSerialConsole,omitempty"`
 
 	// If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.
 	NetworkInterfaceMultiqueue bool `json:"networkInterfaceMultiqueue,omitempty"`

@@ -38,6 +38,9 @@ type V1VMDomainSpec struct {
 	// firmware
 	Firmware *V1VMFirmware `json:"firmware,omitempty"`
 
+	// io threads
+	IoThreads *V1VMDomainSpecIoThreads `json:"ioThreads,omitempty"`
+
 	// Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto
 	IoThreadsPolicy string `json:"ioThreadsPolicy,omitempty"`
 
@@ -79,6 +82,10 @@ func (m *V1VMDomainSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateFirmware(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateIoThreads(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -219,6 +226,25 @@ func (m *V1VMDomainSpec) validateFirmware(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1VMDomainSpec) validateIoThreads(formats strfmt.Registry) error {
+	if swag.IsZero(m.IoThreads) { // not required
+		return nil
+	}
+
+	if m.IoThreads != nil {
+		if err := m.IoThreads.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ioThreads")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ioThreads")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1VMDomainSpec) validateLaunchSecurity(formats strfmt.Registry) error {
 	if swag.IsZero(m.LaunchSecurity) { // not required
 		return nil
@@ -320,6 +346,10 @@ func (m *V1VMDomainSpec) ContextValidate(ctx context.Context, formats strfmt.Reg
 	}
 
 	if err := m.contextValidateFirmware(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateIoThreads(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -467,6 +497,27 @@ func (m *V1VMDomainSpec) contextValidateFirmware(ctx context.Context, formats st
 	return nil
 }
 
+func (m *V1VMDomainSpec) contextValidateIoThreads(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.IoThreads != nil {
+
+		if swag.IsZero(m.IoThreads) { // not required
+			return nil
+		}
+
+		if err := m.IoThreads.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("ioThreads")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("ioThreads")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1VMDomainSpec) contextValidateLaunchSecurity(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.LaunchSecurity != nil {
@@ -562,6 +613,43 @@ func (m *V1VMDomainSpec) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *V1VMDomainSpec) UnmarshalBinary(b []byte) error {
 	var res V1VMDomainSpec
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// V1VMDomainSpecIoThreads IOThreads specifies the IOThreads options.
+//
+// swagger:model V1VMDomainSpecIoThreads
+type V1VMDomainSpecIoThreads struct {
+
+	// SupplementalPoolThreadCount specifies how many iothreads are allocated for the supplementalPool policy.
+	SupplementalPoolThreadCount int32 `json:"supplementalPoolThreadCount,omitempty"`
+}
+
+// Validate validates this v1 VM domain spec io threads
+func (m *V1VMDomainSpecIoThreads) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 VM domain spec io threads based on context it is used
+func (m *V1VMDomainSpecIoThreads) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *V1VMDomainSpecIoThreads) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *V1VMDomainSpecIoThreads) UnmarshalBinary(b []byte) error {
+	var res V1VMDomainSpecIoThreads
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

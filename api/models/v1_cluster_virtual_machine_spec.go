@@ -38,6 +38,9 @@ type V1ClusterVirtualMachineSpec struct {
 	// template
 	// Required: true
 	Template *V1VMVirtualMachineInstanceTemplateSpec `json:"template"`
+
+	// UpdateVolumesStrategy is the strategy to apply on volumes updates
+	UpdateVolumesStrategy string `json:"updateVolumesStrategy,omitempty"`
 }
 
 // Validate validates this v1 cluster virtual machine spec

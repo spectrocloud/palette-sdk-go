@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -37,12 +38,18 @@ type V1SpectroClusterVariableResponse struct {
 	// If true, then variable value can't be editable. By default the immutable flag will be set to false
 	Immutable bool `json:"immutable"`
 
+	// Input type for the variable - text or dropdown. Defaults to text for backward compatibility
+	InputType *V1VariableInputType `json:"inputType,omitempty"`
+
 	// If true, then default value will be masked. By default the isSensitive flag will be set to false
 	IsSensitive bool `json:"isSensitive"`
 
 	// Variable name
 	// Required: true
 	Name *string `json:"name"`
+
+	// Available options for dropdown input type
+	Options []*V1VariableOption `json:"options"`
 
 	// Regular expression pattern which the variable value must match
 	Regex string `json:"regex,omitempty"`
@@ -62,7 +69,15 @@ func (m *V1SpectroClusterVariableResponse) Validate(formats strfmt.Registry) err
 		res = append(res, err)
 	}
 
+	if err := m.validateInputType(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -91,10 +106,55 @@ func (m *V1SpectroClusterVariableResponse) validateFormat(formats strfmt.Registr
 	return nil
 }
 
+func (m *V1SpectroClusterVariableResponse) validateInputType(formats strfmt.Registry) error {
+	if swag.IsZero(m.InputType) { // not required
+		return nil
+	}
+
+	if m.InputType != nil {
+		if err := m.InputType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("inputType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("inputType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1SpectroClusterVariableResponse) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterVariableResponse) validateOptions(formats strfmt.Registry) error {
+	if swag.IsZero(m.Options) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Options); i++ {
+		if swag.IsZero(m.Options[i]) { // not required
+			continue
+		}
+
+		if m.Options[i] != nil {
+			if err := m.Options[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("options" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("options" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -105,6 +165,14 @@ func (m *V1SpectroClusterVariableResponse) ContextValidate(ctx context.Context, 
 	var res []error
 
 	if err := m.contextValidateFormat(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInputType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOptions(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -130,6 +198,52 @@ func (m *V1SpectroClusterVariableResponse) contextValidateFormat(ctx context.Con
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterVariableResponse) contextValidateInputType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InputType != nil {
+
+		if swag.IsZero(m.InputType) { // not required
+			return nil
+		}
+
+		if err := m.InputType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("inputType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("inputType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterVariableResponse) contextValidateOptions(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Options); i++ {
+
+		if m.Options[i] != nil {
+
+			if swag.IsZero(m.Options[i]) { // not required
+				return nil
+			}
+
+			if err := m.Options[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("options" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("options" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

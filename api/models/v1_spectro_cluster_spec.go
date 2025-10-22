@@ -33,6 +33,9 @@ type V1SpectroClusterSpec struct {
 	// When a cluster created from a clusterprofile at t1, ClusterProfileTemplate is a copy of the draft version or latest published version of the clusterprofileSpec.clusterprofileTemplate then clusterprofile may evolve to v2 at t2, but before user decide to upgrade the cluster, it will stay as it is when user decide to upgrade, clusterProfileTemplate will be updated from the clusterprofile pointed by ClusterProfileRef
 	ClusterProfileTemplates []*V1ClusterProfileTemplate `json:"clusterProfileTemplates"`
 
+	// cluster template
+	ClusterTemplate *V1SpectroClusterTemplateRef `json:"clusterTemplate,omitempty"`
+
 	// cluster type
 	// Enum: ["PureManage","AlloyMonitor","AlloyAssist","AlloyExtend"]
 	ClusterType string `json:"clusterType,omitempty"`
@@ -51,6 +54,10 @@ func (m *V1SpectroClusterSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateClusterProfileTemplates(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateClusterTemplate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -128,6 +135,25 @@ func (m *V1SpectroClusterSpec) validateClusterProfileTemplates(formats strfmt.Re
 	return nil
 }
 
+func (m *V1SpectroClusterSpec) validateClusterTemplate(formats strfmt.Registry) error {
+	if swag.IsZero(m.ClusterTemplate) { // not required
+		return nil
+	}
+
+	if m.ClusterTemplate != nil {
+		if err := m.ClusterTemplate.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 var v1SpectroClusterSpecTypeClusterTypePropEnum []interface{}
 
 func init() {
@@ -189,6 +215,10 @@ func (m *V1SpectroClusterSpec) ContextValidate(ctx context.Context, formats strf
 	}
 
 	if err := m.contextValidateClusterProfileTemplates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterTemplate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -260,6 +290,27 @@ func (m *V1SpectroClusterSpec) contextValidateClusterProfileTemplates(ctx contex
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSpec) contextValidateClusterTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterTemplate != nil {
+
+		if swag.IsZero(m.ClusterTemplate) { // not required
+			return nil
+		}
+
+		if err := m.ClusterTemplate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterTemplate")
+			}
+			return err
+		}
 	}
 
 	return nil

@@ -19,6 +19,9 @@ type V1ClusterNotificationStatus struct {
 
 	// is available
 	IsAvailable bool `json:"isAvailable"`
+
+	// is template variable resolution pending
+	IsTemplateVariableResolutionPending bool `json:"isTemplateVariableResolutionPending"`
 }
 
 // Validate validates this v1 cluster notification status
