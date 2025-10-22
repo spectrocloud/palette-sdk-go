@@ -141,6 +141,17 @@ func (h *V1Client) DeleteHelmRegistry(uid string) error {
 	return err
 }
 
+// GetHelmRegistrySyncStatus retrieves the sync status of a Helm registry by UID.
+func (h *V1Client) GetHelmRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1RegistriesHelmUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1RegistriesHelmUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // ListOCIRegistries retrieves a list of all OCI registries.
 func (h *V1Client) ListOCIRegistries() ([]*models.V1OciRegistry, error) {
 	params := clientv1.NewV1OciRegistriesSummaryParamsWithContext(h.ctx)
