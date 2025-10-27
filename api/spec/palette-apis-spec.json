@@ -2274,6 +2274,364 @@
         }
       ]
     },
+    "/v1/cloudaccounts/cloudstack": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of CloudStack cloud accounts",
+        "operationId": "v1CloudAccountsCloudStackList",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
+            "name": "fields",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
+            "name": "filters",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of CloudStack cloud account items",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackAccounts"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates a CloudStack cloud account",
+        "operationId": "v1CloudAccountsCloudStackCreate",
+        "parameters": [
+          {
+            "description": "Request payload to validate CloudStack cloud account",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackAccount"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified CloudStack account",
+        "operationId": "v1CloudAccountsCloudStackGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified CloudStack account",
+        "operationId": "v1CloudAccountsCloudStackUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the specified CloudStack account",
+        "operationId": "v1CloudAccountsCloudStackDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "CloudStack cloud account uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/diskofferings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack disk offerings for a given account and zone",
+        "operationId": "v1CloudstackAccountsUidDiskofferings",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackDiskOfferings"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/domains": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack domains for a given account",
+        "operationId": "v1CloudstackAccountsUidDomains",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackDomains"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/networks": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack networks for a given account and zone",
+        "operationId": "v1CloudstackAccountsUidNetworks",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackNetworks"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/offerings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack compute offerings for a given account and zone",
+        "operationId": "v1CloudstackAccountsUidOfferings",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackOfferings"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/projects": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack projects for a given account and domain",
+        "operationId": "v1CloudstackAccountsUidProjects",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "domain",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackProjects"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/templates": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack templates for a given account and zone",
+        "operationId": "v1CloudstackAccountsUidTemplates",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackTemplates"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/zones": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack zones for a given account",
+        "operationId": "v1CloudstackAccountsUidZones",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackZones"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/cloudaccounts/gcp": {
       "get": {
         "tags": [
@@ -4852,6 +5210,292 @@
           "in": "path",
           "required": true
         },
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Machine pool name",
+          "name": "machinePoolName",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Machine uid",
+          "name": "machineUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified CloudStack cloud config",
+        "operationId": "v1CloudConfigsCloudStackGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackCloudConfig"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}/clusterConfig": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the cluster configuration information",
+        "operationId": "v1CloudConfigsCloudStackUidClusterConfig",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackCloudClusterConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}/machinePools": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates a CloudStack cloud config's machine pool",
+        "operationId": "v1CloudConfigsCloudStackMachinePoolCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachinePoolConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified CloudStack cloud config's machine pool",
+        "operationId": "v1CloudConfigsCloudStackMachinePoolUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachinePoolConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the specified machine pool",
+        "operationId": "v1CloudConfigsCloudStackMachinePoolDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Machine pool name",
+          "name": "machinePoolName",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of CloudStack machines",
+        "operationId": "v1CloudConfigsCloudStackPoolMachinesList",
+        "responses": {
+          "200": {
+            "description": "An array of CloudStack machine items",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachines"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Adds the CloudStack machine to cloud config's machine pool",
+        "operationId": "v1CloudConfigsCloudStackPoolMachinesAdd",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachine"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster's cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Machine pool name",
+          "name": "machinePoolName",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified CloudStack machine",
+        "operationId": "v1CloudConfigsCloudStackPoolMachinesUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachine"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified machine to cloud config's machine pool",
+        "operationId": "v1CloudConfigsCloudStackPoolMachinesUidUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackMachine"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the specified CloudStack machine",
+        "operationId": "v1CloudConfigsCloudStackPoolMachinesUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
         {
           "type": "string",
           "description": "Cluster's cloud config uid",
@@ -10083,6 +10727,243 @@
           "required": true
         }
       ]
+    },
+    "/v1/clouds/cloudstack/account/validate": {
+      "post": {
+        "description": "Returns no contents if account is valid else error.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Check if CloudStack account is valid",
+        "operationId": "V1CloudStackAccountValidate",
+        "parameters": [
+          {
+            "description": "Request payload for CloudStack cloud account",
+            "name": "cloudstackCloudAccount",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackCloudAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/diskOfferings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack disk offerings",
+        "operationId": "V1CloudStackDiskOfferingsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Zone for which CloudStack disk offerings are requested",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackDiskOfferings"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/domains": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack domains",
+        "operationId": "V1CloudStackDomainsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackDomains"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/networks": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack networks",
+        "operationId": "V1CloudStackNetworksGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Zone for which CloudStack networks are requested",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackNetworks"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/offerings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack compute offerings",
+        "operationId": "V1CloudStackOfferingsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Zone for which CloudStack offerings are requested",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackOfferings"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/projects": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack projects",
+        "operationId": "V1CloudStackProjectsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain for which CloudStack projects are requested",
+            "name": "domain",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackProjects"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/templates": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack templates",
+        "operationId": "V1CloudStackTemplatesGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Zone for which CloudStack templates are requested",
+            "name": "zone",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackTemplates"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/zones": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack zones",
+        "operationId": "V1CloudStackZonesGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackZones"
+            }
+          }
+        }
+      }
     },
     "/v1/clouds/eks/properties/validate": {
       "post": {
@@ -16714,6 +17595,219 @@
         }
       }
     },
+    "/v1/overlords/cloudstack/manifest": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the manifests required for the private gateway installation",
+        "operationId": "v1OverlordsCloudStackManifest",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordManifest"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "pairingCode",
+          "in": "query",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/cloudstack/{uid}/account": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "update the CloudStack cloudaccount for the private gateway",
+        "operationId": "v1OverlordsUidCloudStackAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordCloudStackAccountEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "create the CloudStack cloudaccount for the private gateway",
+        "operationId": "v1OverlordsUidCloudStackAccountCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordCloudStackAccountCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/cloudstack/{uid}/account/validate": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "validate the CloudStack cloudaccount for the private gateway",
+        "operationId": "v1OverlordsUidCloudStackAccountValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "account": {
+                  "$ref": "#/definitions/v1CloudStackCloudAccount"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/cloudstack/{uid}/cloudconfig": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "update the CloudStack cloud config for the private gateway",
+        "operationId": "v1OverlordsUidCloudStackCloudConfigUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordCloudStackCloudConfig"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "create the CloudStack cloud config for the private gateway",
+        "operationId": "v1OverlordsUidCloudStackCloudConfigCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordCloudStackCloudConfig"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/cloudstack/{uid}/clusterprofile": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified CloudStack private gateway cluster profile",
+        "operationId": "v1OverlordsUidCloudStackClusterProfile",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterProfile"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/overlords/maas/manifest": {
       "get": {
         "tags": [
@@ -17279,7 +18373,8 @@
             "enum": [
               "vsphere",
               "openstack",
-              "maas"
+              "maas",
+              "cloudstack"
             ],
             "type": "string",
             "name": "cloudType",
@@ -20849,6 +21944,133 @@
           "required": true
         }
       ]
+    },
+    "/v1/spectroclusters/cloudstack": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates a CloudStack cluster",
+        "operationId": "v1SpectroClustersCloudStackCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroCloudStackClusterEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/cloudstack/import": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Imports a CloudStack cluster",
+        "operationId": "v1SpectroClustersCloudStackImport",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroCloudStackClusterImportEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/cloudstack/rate": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get CloudStack cluster estimated rate information",
+        "operationId": "v1SpectroClustersCloudStackRate",
+        "parameters": [
+          {
+            "enum": [
+              "hourly",
+              "monthly",
+              "yearly"
+            ],
+            "type": "string",
+            "default": "hourly",
+            "name": "periodType",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroCloudStackClusterRateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CloudStack Cluster estimated rate response",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterRate"
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/cloudstack/validate": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates CloudStack cluster create operation",
+        "operationId": "v1SpectroClustersCloudStackValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroCloudStackClusterEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CloudStack Cluster validation response",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterValidatorResponse"
+            }
+          }
+        }
+      }
     },
     "/v1/spectroclusters/clusterTemplates/{uid}/clusters/upgrade": {
       "patch": {
@@ -35024,6 +36246,741 @@
         }
       }
     },
+    "v1CloudStackAccount": {
+      "description": "CloudStack account information",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "Cloud account api version",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Cloud account kind",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1CloudStackCloudAccount"
+        },
+        "status": {
+          "$ref": "#/definitions/v1CloudAccountStatus"
+        }
+      }
+    },
+    "v1CloudStackAccounts": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackAccount"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1CloudStackCloudAccount": {
+      "description": "CloudStack cloud account credentials",
+      "type": "object",
+      "required": [
+        "apiUrl",
+        "apiKey",
+        "secretKey"
+      ],
+      "properties": {
+        "apiKey": {
+          "description": "API Key for CloudStack authentication",
+          "type": "string"
+        },
+        "apiUrl": {
+          "description": "API URL for CloudStack management server",
+          "type": "string"
+        },
+        "caCert": {
+          "description": "CA certificate for SSL verification (optional)",
+          "type": "string"
+        },
+        "insecure": {
+          "description": "Skip SSL certificate verification (default: false)",
+          "type": "boolean"
+        },
+        "secretKey": {
+          "description": "Secret Key for CloudStack authentication",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackCloudClusterConfigEntity": {
+      "description": "CloudStack cloud cluster config entity",
+      "type": "object",
+      "properties": {
+        "clusterConfig": {
+          "$ref": "#/definitions/v1CloudStackClusterConfig"
+        }
+      }
+    },
+    "v1CloudStackCloudConfig": {
+      "description": "CloudStackCloudConfig is the Schema for the CloudStackcloudconfigs API",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1CloudStackCloudConfigSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1CloudStackCloudConfigStatus"
+        }
+      }
+    },
+    "v1CloudStackCloudConfigSpec": {
+      "description": "CloudStackCloudConfigSpec defines the cloud configuration input by user This will translate to clusterspec/machinespec for cluster-api",
+      "type": "object",
+      "properties": {
+        "cloudAccountRef": {
+          "description": "cloudAccountRef should point to the secret which contains CloudStackCloudAccount",
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "clusterConfig": {
+          "$ref": "#/definitions/v1CloudStackClusterConfig"
+        },
+        "machinePoolConfig": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackMachinePoolConfig"
+          }
+        }
+      }
+    },
+    "v1CloudStackCloudConfigStatus": {
+      "description": "CloudStackCloudConfigStatus defines the observed state of CloudStackCloudConfig The cloudimage info built by Mold is stored here image should be mapped to a specific machinepool",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterCondition"
+          }
+        },
+        "nodeImage": {
+          "type": "string"
+        },
+        "sourceImageId": {
+          "description": "sourceImageId, it can be from packref's annotations or from pack.json",
+          "type": "string"
+        },
+        "useCapiImage": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1CloudStackClusterConfig": {
+      "description": "Cluster level configuration for CloudStack cloud, same for all machinepools",
+      "type": "object",
+      "properties": {
+        "controlPlaneEndpoint": {
+          "description": "Endpoint IP to be used for API server, should only be enabled for static CloudStack network",
+          "type": "string"
+        },
+        "domain": {
+          "description": "Domain name for the cluster",
+          "type": "string"
+        },
+        "project": {
+          "description": "Project name for the cluster (optional)",
+          "type": "string"
+        },
+        "sshKeyName": {
+          "description": "SSH Key name for accessing cluster nodes",
+          "type": "string"
+        },
+        "zones": {
+          "description": "Multiple zones for multi-AZ deployments. If only one zone is specified, it will be treated as single-zone deployment",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackZoneSpec"
+          }
+        }
+      }
+    },
+    "v1CloudStackDiskOffering": {
+      "description": "CloudStack disk offering",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Disk offering ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Disk offering name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackDiskOfferings": {
+      "description": "List of CloudStack disk offerings",
+      "type": "object",
+      "properties": {
+        "diskOfferings": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackDiskOffering"
+          }
+        }
+      }
+    },
+    "v1CloudStackDomain": {
+      "description": "CloudStack domain",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Domain ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Domain name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackDomains": {
+      "description": "List of CloudStack domains",
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackDomain"
+          }
+        }
+      }
+    },
+    "v1CloudStackMachine": {
+      "description": "CloudStack cloud VM definition",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1CloudStackMachineSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1CloudMachineStatus"
+        }
+      }
+    },
+    "v1CloudStackMachineConfig": {
+      "description": "CloudStack-specific machine configuration",
+      "type": "object",
+      "required": [
+        "template",
+        "offering"
+      ],
+      "properties": {
+        "affinityGroupIds": {
+          "description": "Affinity group for VM placement (optional)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "description": "Additional details for instance creation",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "diskOffering": {
+          "description": "Disk offering name for root disk (optional)",
+          "type": "string"
+        },
+        "instanceConfig": {
+          "description": "Instance configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
+        },
+        "networks": {
+          "description": "Network configuration",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackNetworkConfig"
+          }
+        },
+        "offering": {
+          "description": "Service offering (instance type/size) name",
+          "type": "string"
+        },
+        "rootDiskSizeGB": {
+          "description": "Root disk size in GB (optional)",
+          "type": "integer",
+          "format": "int32"
+        },
+        "template": {
+          "description": "Template (VM template/image) name to use for the instances",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackMachineConfigEntity": {
+      "type": "object",
+      "required": [
+        "instanceType",
+        "serviceOffering",
+        "template"
+      ],
+      "properties": {
+        "affinityGroupIds": {
+          "description": "Affinity group for VM placement (optional)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "azs": {
+          "description": "for control plane pool, this will be the failure domains for kcp",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "description": "Additional details for instance creation",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "diskOffering": {
+          "$ref": "#/definitions/v1CloudStackResource"
+        },
+        "instanceType": {
+          "$ref": "#/definitions/v1CloudStackResource"
+        },
+        "networks": {
+          "description": "Network configuration",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackNetworkConfig"
+          }
+        },
+        "rootDiskSizeGB": {
+          "description": "Root disk size in GB",
+          "type": "integer",
+          "format": "int32"
+        },
+        "serviceOffering": {
+          "$ref": "#/definitions/v1CloudStackResource"
+        },
+        "template": {
+          "$ref": "#/definitions/v1CloudStackResource"
+        }
+      }
+    },
+    "v1CloudStackMachineNetwork": {
+      "description": "CloudStack network configuration for machine",
+      "type": "object",
+      "properties": {
+        "networkId": {
+          "description": "Network ID to use for the machine",
+          "type": "string"
+        },
+        "networkName": {
+          "description": "Network name to use for the machine",
+          "type": "string"
+        },
+        "privateIPs": {
+          "description": "Private IP addresses for the machine",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1CloudStackMachinePoolCloudConfigEntity": {
+      "type": "object",
+      "required": [
+        "template",
+        "offering"
+      ],
+      "properties": {
+        "affinityGroupIds": {
+          "description": "Affinity group for VM placement (optional)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "description": "Additional details for instance creation",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "diskOffering": {
+          "description": "Disk offering name for root disk (optional)",
+          "type": "string"
+        },
+        "instanceConfig": {
+          "description": "Instance configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
+        },
+        "networks": {
+          "description": "Network configuration",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackNetworkConfig"
+          }
+        },
+        "offering": {
+          "description": "Service offering (instance type/size) name",
+          "type": "string"
+        },
+        "rootDiskSizeGB": {
+          "description": "Root disk size in GB (optional)",
+          "type": "integer",
+          "format": "int32"
+        },
+        "template": {
+          "description": "Template (VM template/image) name to use for the instances",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackMachinePoolConfig": {
+      "description": "Configuration for a CloudStack machine pool",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/v1MachinePoolBaseConfig"
+        },
+        {
+          "$ref": "#/definitions/v1CloudStackMachineConfig"
+        }
+      ]
+    },
+    "v1CloudStackMachinePoolConfigEntity": {
+      "type": "object",
+      "required": [
+        "cloudConfig"
+      ],
+      "properties": {
+        "cloudConfig": {
+          "$ref": "#/definitions/v1CloudStackMachinePoolCloudConfigEntity"
+        },
+        "poolConfig": {
+          "$ref": "#/definitions/v1MachinePoolConfigEntity"
+        }
+      }
+    },
+    "v1CloudStackMachineSpec": {
+      "description": "CloudStack cloud VM definition spec",
+      "type": "object",
+      "required": [
+        "instanceType",
+        "template",
+        "zone"
+      ],
+      "properties": {
+        "diskOffering": {
+          "description": "Disk offering ID for additional storage",
+          "type": "string"
+        },
+        "instanceType": {
+          "description": "Instance service offering with cpu and memory info",
+          "$ref": "#/definitions/v1GenericInstanceType"
+        },
+        "network": {
+          "description": "Network configuration for the machine",
+          "$ref": "#/definitions/v1CloudStackMachineNetwork"
+        },
+        "rootDiskSizeGB": {
+          "description": "Root disk size in GB",
+          "type": "integer",
+          "format": "int32"
+        },
+        "template": {
+          "description": "Template ID to use for the machine",
+          "type": "string"
+        },
+        "zone": {
+          "description": "Zone where the machine will be deployed",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackMachines": {
+      "description": "CloudStack machine list",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackMachine"
+          }
+        }
+      }
+    },
+    "v1CloudStackNetwork": {
+      "description": "CloudStack network",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Network ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Network name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackNetworkConfig": {
+      "description": "Network configuration for CloudStack instances",
+      "type": "object",
+      "required": [
+        "network"
+      ],
+      "properties": {
+        "ipAddress": {
+          "description": "IP address to assign (optional, for static IP)",
+          "type": "string"
+        },
+        "network": {
+          "description": "Network name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackNetworkSpec": {
+      "description": "Enhanced network configuration for CloudStack",
+      "type": "object",
+      "properties": {
+        "gateway": {
+          "description": "Gateway IP address for the network",
+          "type": "string"
+        },
+        "name": {
+          "description": "Network name",
+          "type": "string"
+        },
+        "netmask": {
+          "description": "Network mask for the network",
+          "type": "string"
+        },
+        "offering": {
+          "description": "Network offering name",
+          "type": "string"
+        },
+        "routingMode": {
+          "description": "Routing mode for the network",
+          "type": "string"
+        },
+        "type": {
+          "description": "Network type: Isolated, Shared, etc.",
+          "type": "string"
+        },
+        "vpc": {
+          "description": "VPC configuration (optional, for VPC networks)",
+          "$ref": "#/definitions/v1CloudStackVPCSpec"
+        }
+      }
+    },
+    "v1CloudStackNetworks": {
+      "description": "List of CloudStack networks",
+      "type": "object",
+      "properties": {
+        "networks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackNetwork"
+          }
+        }
+      }
+    },
+    "v1CloudStackOffering": {
+      "description": "CloudStack compute offering",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Offering ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Offering name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackOfferings": {
+      "description": "List of CloudStack compute offerings",
+      "type": "object",
+      "properties": {
+        "offerings": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackOffering"
+          }
+        }
+      }
+    },
+    "v1CloudStackProject": {
+      "description": "CloudStack project",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Project ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Project name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackProjects": {
+      "description": "List of CloudStack projects",
+      "type": "object",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackProject"
+          }
+        }
+      }
+    },
+    "v1CloudStackResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackTemplate": {
+      "description": "CloudStack template",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Template ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Template name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackTemplates": {
+      "description": "List of CloudStack templates",
+      "type": "object",
+      "properties": {
+        "templates": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackTemplate"
+          }
+        }
+      }
+    },
+    "v1CloudStackVPCSpec": {
+      "description": "VPC configuration for CloudStack networks",
+      "type": "object",
+      "properties": {
+        "cidr": {
+          "description": "CIDR block for the VPC",
+          "type": "string"
+        },
+        "name": {
+          "description": "VPC name",
+          "type": "string"
+        },
+        "offering": {
+          "description": "VPC offering name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackZone": {
+      "description": "CloudStack zone",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Zone ID",
+          "type": "string"
+        },
+        "name": {
+          "description": "Zone name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackZoneSpec": {
+      "description": "CloudStack zone with its network configuration",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Zone name",
+          "type": "string"
+        },
+        "network": {
+          "description": "Network configuration specific to this zone",
+          "$ref": "#/definitions/v1CloudStackNetworkSpec"
+        }
+      }
+    },
+    "v1CloudStackZones": {
+      "description": "List of CloudStack zones",
+      "type": "object",
+      "properties": {
+        "zones": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackZone"
+          }
+        }
+      }
+    },
     "v1CloudType": {
       "type": "string",
       "default": "all",
@@ -45985,6 +47942,62 @@
         }
       }
     },
+    "v1MachinePoolBaseConfig": {
+      "type": "object",
+      "required": [
+        "isControlPlane"
+      ],
+      "properties": {
+        "additionalTags": {
+          "description": "AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "isControlPlane": {
+          "description": "whether this pool is for control plane",
+          "type": "boolean"
+        },
+        "labels": {
+          "description": "labels for this pool, example: control-plane/worker, gpu, windows",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "machinePoolProperties": {
+          "$ref": "#/definitions/v1MachinePoolProperties"
+        },
+        "maxSize": {
+          "description": "max size of the pool, for scaling",
+          "type": "integer",
+          "format": "int32"
+        },
+        "minSize": {
+          "description": "min size of the pool, for scaling",
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "description": "size of the pool, number of machines",
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateStrategy": {
+          "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
+          "$ref": "#/definitions/v1UpdateStrategy"
+        },
+        "useControlPlaneAsWorker": {
+          "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1MachinePoolConfigEntity": {
       "description": "Machine pool configuration for the cluster",
       "type": "object",
@@ -48008,6 +50021,58 @@
         },
         "status": {
           "$ref": "#/definitions/v1OverloadStatus"
+        }
+      }
+    },
+    "v1OverlordCloudStackAccountCreate": {
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1CloudStackCloudAccount"
+        },
+        "name": {
+          "description": "Name for the private gateway \u0026 cloud account",
+          "type": "string"
+        },
+        "shareWithProjects": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1OverlordCloudStackAccountEntity": {
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1CloudStackCloudAccount"
+        },
+        "shareWithProjects": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1OverlordCloudStackCloudConfig": {
+      "properties": {
+        "clusterConfig": {
+          "$ref": "#/definitions/v1CloudStackCloudConfig"
+        },
+        "clusterProfiles": {
+          "description": "Cluster profiles pack configuration for private gateway cluster",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SpectroClusterProfileEntity"
+          }
+        },
+        "clusterSettings": {
+          "description": "clusterSettings is the generic configuration related to a cluster like OS patch, Rbac, Namespace allocation",
+          "$ref": "#/definitions/v1ClusterConfigEntity"
+        },
+        "machineConfig": {
+          "$ref": "#/definitions/v1CloudStackMachineConfigEntity"
+        },
+        "size": {
+          "description": "size of the pool, number of machines",
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -50570,6 +52635,9 @@
         "azure": {
           "$ref": "#/definitions/v1PublicCloudRateConfig"
         },
+        "cloudstack": {
+          "$ref": "#/definitions/v1PrivateCloudRateConfig"
+        },
         "custom": {
           "type": "array",
           "uniqueItems": true,
@@ -52775,6 +54843,83 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1AzureMachinePoolConfigEntity"
+          }
+        }
+      }
+    },
+    "v1SpectroCloudStackClusterEntity": {
+      "description": "CloudStack cluster request payload for create and update",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "required": [
+            "cloudType",
+            "cloudAccountUid",
+            "cloudConfig"
+          ],
+          "properties": {
+            "cloudAccountUid": {
+              "description": "Cloud account uid to be used for cluster provisioning",
+              "type": "string"
+            },
+            "cloudConfig": {
+              "$ref": "#/definitions/v1CloudStackClusterConfig"
+            },
+            "clusterConfig": {
+              "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
+              "$ref": "#/definitions/v1ClusterConfigEntity"
+            },
+            "machinepoolconfig": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1CloudStackMachinePoolConfigEntity"
+              }
+            },
+            "policies": {
+              "$ref": "#/definitions/v1SpectroClusterPolicies"
+            },
+            "profiles": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterProfileEntity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "v1SpectroCloudStackClusterImportEntity": {
+      "description": "Spectro CloudStack cluster import request payload",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "clusterConfig": {
+              "$ref": "#/definitions/v1ImportClusterConfig"
+            }
+          }
+        }
+      }
+    },
+    "v1SpectroCloudStackClusterRateEntity": {
+      "description": "CloudStack cluster request payload for estimating rate",
+      "type": "object",
+      "properties": {
+        "cloudConfig": {
+          "$ref": "#/definitions/v1CloudStackClusterConfig"
+        },
+        "machinepoolconfig": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackMachinePoolConfigEntity"
           }
         }
       }

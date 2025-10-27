@@ -19,6 +19,8 @@ templateDir="${apiDir}/swagger/templates"
 rm -rf hapi && git clone https://github.com/spectrocloud/hapi
 (
     cd hapi
+    git checkout cloudstack
+    git pull
     bash generate_hubble_spec.sh
     go run api/main.go
     cp gen/docs-spec/palette-apis-spec.json ../spec/
