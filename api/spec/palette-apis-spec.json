@@ -2479,6 +2479,39 @@
         }
       ]
     },
+    "/v1/cloudaccounts/cloudstack/{uid}/properties/keypairs": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get the cloudstack SSH key pairs for a given account",
+        "operationId": "v1CloudstackAccountsUidKeypairs",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack SSH key pairs are requested",
+            "name": "projectId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackKeypairs"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/cloudaccounts/cloudstack/{uid}/properties/networks": {
       "get": {
         "tags": [
@@ -10811,6 +10844,37 @@
             "description": "(empty)",
             "schema": {
               "$ref": "#/definitions/v1CloudStackDomains"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/keypairs": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack SSH key pairs",
+        "operationId": "V1CloudStackKeypairsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack SSH key pairs are requested",
+            "name": "projectId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackKeypairs"
             }
           }
         }
@@ -36470,6 +36534,36 @@
           "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/v1CloudStackDomain"
+          }
+        }
+      }
+    },
+    "v1CloudStackKeypair": {
+      "description": "CloudStack SSH key pair",
+      "type": "object",
+      "properties": {
+        "fingerprint": {
+          "description": "SSH key pair fingerprint",
+          "type": "string"
+        },
+        "name": {
+          "description": "SSH key pair name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackKeypairs": {
+      "description": "List of CloudStack SSH key pairs",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackKeypair"
           }
         }
       }

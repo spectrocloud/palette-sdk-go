@@ -122,6 +122,8 @@ type ClientService interface {
 
 	V1CloudStackDomainsGet(params *V1CloudStackDomainsGetParams) (*V1CloudStackDomainsGetOK, error)
 
+	V1CloudStackKeypairsGet(params *V1CloudStackKeypairsGetParams) (*V1CloudStackKeypairsGetOK, error)
+
 	V1CloudStackNetworksGet(params *V1CloudStackNetworksGetParams) (*V1CloudStackNetworksGetOK, error)
 
 	V1CloudStackOfferingsGet(params *V1CloudStackOfferingsGetParams) (*V1CloudStackOfferingsGetOK, error)
@@ -931,6 +933,8 @@ type ClientService interface {
 	V1CloudstackAccountsUIDDiskofferings(params *V1CloudstackAccountsUIDDiskofferingsParams) (*V1CloudstackAccountsUIDDiskofferingsOK, error)
 
 	V1CloudstackAccountsUIDDomains(params *V1CloudstackAccountsUIDDomainsParams) (*V1CloudstackAccountsUIDDomainsOK, error)
+
+	V1CloudstackAccountsUIDKeypairs(params *V1CloudstackAccountsUIDKeypairsParams) (*V1CloudstackAccountsUIDKeypairsOK, error)
 
 	V1CloudstackAccountsUIDNetworks(params *V1CloudstackAccountsUIDNetworksParams) (*V1CloudstackAccountsUIDNetworksOK, error)
 
@@ -3720,6 +3724,40 @@ func (a *Client) V1CloudStackDomainsGet(params *V1CloudStackDomainsGetParams) (*
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1CloudStackDomainsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1CloudStackKeypairsGet returns the cloud stack SSH key pairs
+*/
+func (a *Client) V1CloudStackKeypairsGet(params *V1CloudStackKeypairsGetParams) (*V1CloudStackKeypairsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudStackKeypairsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1CloudStackKeypairsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/cloudstack/keypairs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudStackKeypairsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudStackKeypairsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1CloudStackKeypairsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -17538,6 +17576,40 @@ func (a *Client) V1CloudstackAccountsUIDDomains(params *V1CloudstackAccountsUIDD
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudstackAccountsUidDomains: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1CloudstackAccountsUIDKeypairs gets the cloudstack SSH key pairs for a given account
+*/
+func (a *Client) V1CloudstackAccountsUIDKeypairs(params *V1CloudstackAccountsUIDKeypairsParams) (*V1CloudstackAccountsUIDKeypairsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudstackAccountsUIDKeypairsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1CloudstackAccountsUidKeypairs",
+		Method:             "GET",
+		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/keypairs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudstackAccountsUIDKeypairsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudstackAccountsUIDKeypairsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1CloudstackAccountsUidKeypairs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
