@@ -26,6 +26,9 @@ type V1VMVirtualMachineInstanceSpec struct {
 	// affinity
 	Affinity *V1VMAffinity `json:"affinity,omitempty"`
 
+	// Specifies the architecture of the vm guest you are attempting to run. Defaults to the compiled architecture of the KubeVirt components
+	Architecture string `json:"architecture,omitempty"`
+
 	// dns config
 	DNSConfig *V1VMPodDNSConfig `json:"dnsConfig,omitempty"`
 

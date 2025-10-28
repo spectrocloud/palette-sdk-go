@@ -34,6 +34,9 @@ type V1ClusterProfileFilterSpec struct {
 	// Unique: true
 	ProfileType []*V1ProfileType `json:"profileType"`
 
+	// resource type
+	ResourceType V1ClusterProfileResourceType `json:"resourceType,omitempty"`
+
 	// scope
 	Scope V1ClusterProfileScope `json:"scope,omitempty"`
 
@@ -61,6 +64,10 @@ func (m *V1ClusterProfileFilterSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateProfileType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResourceType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -162,6 +169,23 @@ func (m *V1ClusterProfileFilterSpec) validateProfileType(formats strfmt.Registry
 	return nil
 }
 
+func (m *V1ClusterProfileFilterSpec) validateResourceType(formats strfmt.Registry) error {
+	if swag.IsZero(m.ResourceType) { // not required
+		return nil
+	}
+
+	if err := m.ResourceType.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("resourceType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("resourceType")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *V1ClusterProfileFilterSpec) validateScope(formats strfmt.Registry) error {
 	if swag.IsZero(m.Scope) { // not required
 		return nil
@@ -230,6 +254,10 @@ func (m *V1ClusterProfileFilterSpec) ContextValidate(ctx context.Context, format
 	}
 
 	if err := m.contextValidateProfileType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResourceType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -313,6 +341,24 @@ func (m *V1ClusterProfileFilterSpec) contextValidateProfileType(ctx context.Cont
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileFilterSpec) contextValidateResourceType(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ResourceType) { // not required
+		return nil
+	}
+
+	if err := m.ResourceType.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("resourceType")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("resourceType")
+		}
+		return err
 	}
 
 	return nil

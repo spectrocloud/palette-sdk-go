@@ -50,6 +50,9 @@ const (
 
 	// V1VariableFormatVersion captures enum value "version"
 	V1VariableFormatVersion V1VariableFormat = "version"
+
+	// V1VariableFormatBase64 captures enum value "base64"
+	V1VariableFormatBase64 V1VariableFormat = "base64"
 )
 
 // for schema
@@ -57,7 +60,7 @@ var v1VariableFormatEnum []interface{}
 
 func init() {
 	var res []V1VariableFormat
-	if err := json.Unmarshal([]byte(`["string","number","boolean","ipv4","ipv4cidr","ipv6","version"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["string","number","boolean","ipv4","ipv4cidr","ipv6","version","base64"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

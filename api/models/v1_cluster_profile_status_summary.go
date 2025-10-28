@@ -22,6 +22,9 @@ type V1ClusterProfileStatusSummary struct {
 	// fips
 	Fips *V1ClusterProfileFips `json:"fips,omitempty"`
 
+	// in use cluster templates
+	InUseClusterTemplates []*V1ObjectEntity `json:"inUseClusterTemplates"`
+
 	// Deprecated. Use inUseClusters
 	InUseClusterUids []string `json:"inUseClusterUids"`
 
@@ -40,6 +43,10 @@ func (m *V1ClusterProfileStatusSummary) Validate(formats strfmt.Registry) error 
 	var res []error
 
 	if err := m.validateFips(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInUseClusterTemplates(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -71,6 +78,32 @@ func (m *V1ClusterProfileStatusSummary) validateFips(formats strfmt.Registry) er
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileStatusSummary) validateInUseClusterTemplates(formats strfmt.Registry) error {
+	if swag.IsZero(m.InUseClusterTemplates) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.InUseClusterTemplates); i++ {
+		if swag.IsZero(m.InUseClusterTemplates[i]) { // not required
+			continue
+		}
+
+		if m.InUseClusterTemplates[i] != nil {
+			if err := m.InUseClusterTemplates[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("inUseClusterTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("inUseClusterTemplates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -129,6 +162,10 @@ func (m *V1ClusterProfileStatusSummary) ContextValidate(ctx context.Context, for
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateInUseClusterTemplates(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateInUseClusters(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -159,6 +196,31 @@ func (m *V1ClusterProfileStatusSummary) contextValidateFips(ctx context.Context,
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterProfileStatusSummary) contextValidateInUseClusterTemplates(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.InUseClusterTemplates); i++ {
+
+		if m.InUseClusterTemplates[i] != nil {
+
+			if swag.IsZero(m.InUseClusterTemplates[i]) { // not required
+				return nil
+			}
+
+			if err := m.InUseClusterTemplates[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("inUseClusterTemplates" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("inUseClusterTemplates" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

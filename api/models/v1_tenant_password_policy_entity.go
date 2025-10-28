@@ -31,6 +31,9 @@ type V1TenantPasswordPolicyEntity struct {
 	// is regex
 	IsRegex bool `json:"isRegex,omitempty"`
 
+	// max length
+	MaxLength int64 `json:"maxLength,omitempty"`
+
 	// min length
 	MinLength int64 `json:"minLength,omitempty"`
 

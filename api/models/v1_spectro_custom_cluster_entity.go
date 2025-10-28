@@ -177,13 +177,16 @@ type V1SpectroCustomClusterEntitySpec struct {
 	// General cluster configuration like patching settings, namespace resource allocation, rbac
 	ClusterConfig *V1CustomClusterConfigEntity `json:"clusterConfig,omitempty"`
 
+	// cluster template
+	ClusterTemplate *V1ClusterTemplateRef `json:"clusterTemplate,omitempty"`
+
 	// cluster type
 	ClusterType *V1ClusterType `json:"clusterType,omitempty"`
 
 	// machinepoolconfig
 	Machinepoolconfig []*V1CustomMachinePoolConfigEntity `json:"machinepoolconfig"`
 
-	// profiles
+	// Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.
 	Profiles []*V1SpectroClusterProfileEntity `json:"profiles"`
 }
 
@@ -200,6 +203,10 @@ func (m *V1SpectroCustomClusterEntitySpec) Validate(formats strfmt.Registry) err
 	}
 
 	if err := m.validateClusterConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateClusterTemplate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -261,6 +268,25 @@ func (m *V1SpectroCustomClusterEntitySpec) validateClusterConfig(formats strfmt.
 				return ve.ValidateName("spec" + "." + "clusterConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("spec" + "." + "clusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroCustomClusterEntitySpec) validateClusterTemplate(formats strfmt.Registry) error {
+	if swag.IsZero(m.ClusterTemplate) { // not required
+		return nil
+	}
+
+	if m.ClusterTemplate != nil {
+		if err := m.ClusterTemplate.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "clusterTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterTemplate")
 			}
 			return err
 		}
@@ -352,6 +378,10 @@ func (m *V1SpectroCustomClusterEntitySpec) ContextValidate(ctx context.Context, 
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateClusterTemplate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateClusterType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -400,6 +430,27 @@ func (m *V1SpectroCustomClusterEntitySpec) contextValidateClusterConfig(ctx cont
 				return ve.ValidateName("spec" + "." + "clusterConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("spec" + "." + "clusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroCustomClusterEntitySpec) contextValidateClusterTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterTemplate != nil {
+
+		if swag.IsZero(m.ClusterTemplate) { // not required
+			return nil
+		}
+
+		if err := m.ClusterTemplate.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "clusterTemplate")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterTemplate")
 			}
 			return err
 		}

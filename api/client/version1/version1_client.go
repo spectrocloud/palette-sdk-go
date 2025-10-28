@@ -138,6 +138,30 @@ type ClientService interface {
 
 	V1ClusterProfilesUIDVariablesPut(params *V1ClusterProfilesUIDVariablesPutParams) (*V1ClusterProfilesUIDVariablesPutNoContent, error)
 
+	V1ClusterTemplatesCreate(params *V1ClusterTemplatesCreateParams) (*V1ClusterTemplatesCreateCreated, error)
+
+	V1ClusterTemplatesTagsGet(params *V1ClusterTemplatesTagsGetParams) (*V1ClusterTemplatesTagsGetOK, error)
+
+	V1ClusterTemplatesUIDClusterReconcileClusterUIDGet(params *V1ClusterTemplatesUIDClusterReconcileClusterUIDGetParams) (*V1ClusterTemplatesUIDClusterReconcileClusterUIDGetOK, error)
+
+	V1ClusterTemplatesUIDDelete(params *V1ClusterTemplatesUIDDeleteParams) (*V1ClusterTemplatesUIDDeleteNoContent, error)
+
+	V1ClusterTemplatesUIDGet(params *V1ClusterTemplatesUIDGetParams) (*V1ClusterTemplatesUIDGetOK, error)
+
+	V1ClusterTemplatesUIDMetadataUpdate(params *V1ClusterTemplatesUIDMetadataUpdateParams) (*V1ClusterTemplatesUIDMetadataUpdateNoContent, error)
+
+	V1ClusterTemplatesUIDPoliciesUpdate(params *V1ClusterTemplatesUIDPoliciesUpdateParams) (*V1ClusterTemplatesUIDPoliciesUpdateNoContent, error)
+
+	V1ClusterTemplatesUIDProfilesProfileUIDVariablesGet(params *V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetParams) (*V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetOK, error)
+
+	V1ClusterTemplatesUIDProfilesUpdate(params *V1ClusterTemplatesUIDProfilesUpdateParams) (*V1ClusterTemplatesUIDProfilesUpdateNoContent, error)
+
+	V1ClusterTemplatesUIDProfilesVariablesPatch(params *V1ClusterTemplatesUIDProfilesVariablesPatchParams) (*V1ClusterTemplatesUIDProfilesVariablesPatchNoContent, error)
+
+	V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch(params *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) (*V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent, error)
+
+	V1ClusterTemplatesValidateName(params *V1ClusterTemplatesValidateNameParams) (*V1ClusterTemplatesValidateNameNoContent, error)
+
 	V1ControlPlaneHealthCheckTimeoutUpdate(params *V1ControlPlaneHealthCheckTimeoutUpdateParams) (*V1ControlPlaneHealthCheckTimeoutUpdateNoContent, error)
 
 	V1CustomCloudTypeBootstrapDelete(params *V1CustomCloudTypeBootstrapDeleteParams) (*V1CustomCloudTypeBootstrapDeleteNoContent, error)
@@ -293,6 +317,22 @@ type ClientService interface {
 	V1SamlCallback(params *V1SamlCallbackParams) (*V1SamlCallbackOK, error)
 
 	V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoContent, error)
+
+	V1SpcPoliciesMaintenanceCreate(params *V1SpcPoliciesMaintenanceCreateParams) (*V1SpcPoliciesMaintenanceCreateCreated, error)
+
+	V1SpcPoliciesMaintenanceUIDGet(params *V1SpcPoliciesMaintenanceUIDGetParams) (*V1SpcPoliciesMaintenanceUIDGetOK, error)
+
+	V1SpcPoliciesMaintenanceUIDUpdate(params *V1SpcPoliciesMaintenanceUIDUpdateParams) (*V1SpcPoliciesMaintenanceUIDUpdateNoContent, error)
+
+	V1SpcPoliciesTagsGet(params *V1SpcPoliciesTagsGetParams) (*V1SpcPoliciesTagsGetOK, error)
+
+	V1SpcPoliciesUIDDelete(params *V1SpcPoliciesUIDDeleteParams) (*V1SpcPoliciesUIDDeleteNoContent, error)
+
+	V1SpcPoliciesValidateName(params *V1SpcPoliciesValidateNameParams) (*V1SpcPoliciesValidateNameNoContent, error)
+
+	V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1SpectroClustersClusterTemplatesUIDProfilesGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesGetOK, error)
+
+	V1SpectroClustersTemplatesUIDClustersUpgrade(params *V1SpectroClustersTemplatesUIDClustersUpgradeParams) (*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent, error)
 
 	V1SpectroClustersUIDEdgeReset(params *V1SpectroClustersUIDEdgeResetParams) (*V1SpectroClustersUIDEdgeResetNoContent, error)
 
@@ -994,6 +1034,12 @@ type ClientService interface {
 
 	V1ClusterProfilesValidatePacks(params *V1ClusterProfilesValidatePacksParams) (*V1ClusterProfilesValidatePacksOK, error)
 
+	V1ClusterTemplatesFilterSummary(params *V1ClusterTemplatesFilterSummaryParams) (*V1ClusterTemplatesFilterSummaryOK, error)
+
+	V1ClusterTemplatesMetadataGet(params *V1ClusterTemplatesMetadataGetParams) (*V1ClusterTemplatesMetadataGetOK, error)
+
+	V1ClusterTemplatesUIDSpectroclustersMetaGet(params *V1ClusterTemplatesUIDSpectroclustersMetaGetParams) (*V1ClusterTemplatesUIDSpectroclustersMetaGetOK, error)
+
 	V1ClusterVMSnapshotsList(params *V1ClusterVMSnapshotsListParams) (*V1ClusterVMSnapshotsListOK, error)
 
 	V1DashboardAppDeployments(params *V1DashboardAppDeploymentsParams) (*V1DashboardAppDeploymentsOK, error)
@@ -1409,6 +1455,10 @@ type ClientService interface {
 	V1ServiceManifestGet(params *V1ServiceManifestGetParams) (*V1ServiceManifestGetOK, error)
 
 	V1ServiceVersionGet(params *V1ServiceVersionGetParams) (*V1ServiceVersionGetOK, error)
+
+	V1SpcPoliciesFilterSummary(params *V1SpcPoliciesFilterSummaryParams) (*V1SpcPoliciesFilterSummaryOK, error)
+
+	V1SpcPoliciesMetadataGet(params *V1SpcPoliciesMetadataGetParams) (*V1SpcPoliciesMetadataGetOK, error)
 
 	V1SpectroClustersAksCreate(params *V1SpectroClustersAksCreateParams) (*V1SpectroClustersAksCreateCreated, error)
 
@@ -3860,6 +3910,414 @@ func (a *Client) V1ClusterProfilesUIDVariablesPut(params *V1ClusterProfilesUIDVa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1ClusterProfilesUidVariablesPut: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesCreate creates a new cluster template
+*/
+func (a *Client) V1ClusterTemplatesCreate(params *V1ClusterTemplatesCreateParams) (*V1ClusterTemplatesCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/clusterTemplates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesTagsGet retrieves a list of cluster template tags
+*/
+func (a *Client) V1ClusterTemplatesTagsGet(params *V1ClusterTemplatesTagsGetParams) (*V1ClusterTemplatesTagsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesTagsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesTagsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clusterTemplates/tags",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesTagsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesTagsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesTagsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDClusterReconcileClusterUIDGet returns the cluster reconcile document for a specific cluster launched from a template
+*/
+func (a *Client) V1ClusterTemplatesUIDClusterReconcileClusterUIDGet(params *V1ClusterTemplatesUIDClusterReconcileClusterUIDGetParams) (*V1ClusterTemplatesUIDClusterReconcileClusterUIDGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDClusterReconcileClusterUIDGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidClusterReconcileClusterUidGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/reconcile",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDClusterReconcileClusterUIDGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDClusterReconcileClusterUIDGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidClusterReconcileClusterUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDDelete deletes a cluster template by uid
+*/
+func (a *Client) V1ClusterTemplatesUIDDelete(params *V1ClusterTemplatesUIDDeleteParams) (*V1ClusterTemplatesUIDDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/clusterTemplates/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDGet returns the specified cluster template
+*/
+func (a *Client) V1ClusterTemplatesUIDGet(params *V1ClusterTemplatesUIDGetParams) (*V1ClusterTemplatesUIDGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clusterTemplates/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDMetadataUpdate updates the specified cluster template metadata
+*/
+func (a *Client) V1ClusterTemplatesUIDMetadataUpdate(params *V1ClusterTemplatesUIDMetadataUpdateParams) (*V1ClusterTemplatesUIDMetadataUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDMetadataUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidMetadataUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/clusterTemplates/{uid}/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDMetadataUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDMetadataUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidMetadataUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDPoliciesUpdate updates the specified cluster template policies
+*/
+func (a *Client) V1ClusterTemplatesUIDPoliciesUpdate(params *V1ClusterTemplatesUIDPoliciesUpdateParams) (*V1ClusterTemplatesUIDPoliciesUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDPoliciesUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidPoliciesUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/clusterTemplates/{uid}/policies",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDPoliciesUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDPoliciesUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidPoliciesUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDProfilesProfileUIDVariablesGet retrieves variables for a specific profile in a cluster template
+*/
+func (a *Client) V1ClusterTemplatesUIDProfilesProfileUIDVariablesGet(params *V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetParams) (*V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDProfilesProfileUIDVariablesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidProfilesProfileUidVariablesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clusterTemplates/{uid}/profiles/{profileUid}/variables",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDProfilesProfileUIDVariablesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidProfilesProfileUidVariablesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDProfilesUpdate updates the specified cluster template profiles
+*/
+func (a *Client) V1ClusterTemplatesUIDProfilesUpdate(params *V1ClusterTemplatesUIDProfilesUpdateParams) (*V1ClusterTemplatesUIDProfilesUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDProfilesUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidProfilesUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/clusterTemplates/{uid}/profiles",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDProfilesUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDProfilesUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidProfilesUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDProfilesVariablesPatch updates variables for profiles in a cluster template
+*/
+func (a *Client) V1ClusterTemplatesUIDProfilesVariablesPatch(params *V1ClusterTemplatesUIDProfilesVariablesPatchParams) (*V1ClusterTemplatesUIDProfilesVariablesPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDProfilesVariablesPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidProfilesVariablesPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/clusterTemplates/{uid}/profiles/variables",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDProfilesVariablesPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDProfilesVariablesPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidProfilesVariablesPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch updates the specified cluster s template variables
+*/
+func (a *Client) V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch(params *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) (*V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesUidSpectroClustersUidVariablesPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/variables",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesUidSpectroClustersUidVariablesPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesValidateName validates the cluster template name
+*/
+func (a *Client) V1ClusterTemplatesValidateName(params *V1ClusterTemplatesValidateNameParams) (*V1ClusterTemplatesValidateNameNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesValidateNameParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterTemplatesValidateName",
+		Method:             "GET",
+		PathPattern:        "/v1/clusterTemplates/validate/name",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesValidateNameReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesValidateNameNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterTemplatesValidateName: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -6530,6 +6988,278 @@ func (a *Client) V1SamlLogout(params *V1SamlLogoutParams) (*V1SamlLogoutNoConten
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SamlLogout: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesMaintenanceCreate creates a new maintenance policy
+*/
+func (a *Client) V1SpcPoliciesMaintenanceCreate(params *V1SpcPoliciesMaintenanceCreateParams) (*V1SpcPoliciesMaintenanceCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesMaintenanceCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesMaintenanceCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/spcPolicies/maintenance",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesMaintenanceCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesMaintenanceCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesMaintenanceCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesMaintenanceUIDGet returns the specified maintenance policy
+*/
+func (a *Client) V1SpcPoliciesMaintenanceUIDGet(params *V1SpcPoliciesMaintenanceUIDGetParams) (*V1SpcPoliciesMaintenanceUIDGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesMaintenanceUIDGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesMaintenanceUidGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spcPolicies/maintenance/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesMaintenanceUIDGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesMaintenanceUIDGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesMaintenanceUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesMaintenanceUIDUpdate updates the specified maintenance policy
+*/
+func (a *Client) V1SpcPoliciesMaintenanceUIDUpdate(params *V1SpcPoliciesMaintenanceUIDUpdateParams) (*V1SpcPoliciesMaintenanceUIDUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesMaintenanceUIDUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesMaintenanceUidUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/spcPolicies/maintenance/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesMaintenanceUIDUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesMaintenanceUIDUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesMaintenanceUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesTagsGet retrieves a list of spc policy tags
+*/
+func (a *Client) V1SpcPoliciesTagsGet(params *V1SpcPoliciesTagsGetParams) (*V1SpcPoliciesTagsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesTagsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesTagsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spcPolicies/tags",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesTagsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesTagsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesTagsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesUIDDelete deletes a policy by uid
+*/
+func (a *Client) V1SpcPoliciesUIDDelete(params *V1SpcPoliciesUIDDeleteParams) (*V1SpcPoliciesUIDDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesUIDDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesUidDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/spcPolicies/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesUIDDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesUIDDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesValidateName validates the spc policy name
+*/
+func (a *Client) V1SpcPoliciesValidateName(params *V1SpcPoliciesValidateNameParams) (*V1SpcPoliciesValidateNameNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesValidateNameParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpcPoliciesValidateName",
+		Method:             "GET",
+		PathPattern:        "/v1/spcPolicies/{policyType}/validate/name",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesValidateNameReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesValidateNameNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpcPoliciesValidateName: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersClusterTemplatesUIDProfilesGet returns the associated profiles for all the cluster of launched from the specified cluster template
+*/
+func (a *Client) V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1SpectroClustersClusterTemplatesUIDProfilesGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersClusterTemplatesUIDProfilesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpectroClustersClusterTemplatesUIDProfilesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/clusterTemplates/{uid}/profiles",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersClusterTemplatesUIDProfilesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersClusterTemplatesUIDProfilesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpectroClustersClusterTemplatesUIDProfilesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersTemplatesUIDClustersUpgrade upgrades clusters launched from the specified cluster template
+*/
+func (a *Client) V1SpectroClustersTemplatesUIDClustersUpgrade(params *V1SpectroClustersTemplatesUIDClustersUpgradeParams) (*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersTemplatesUIDClustersUpgradeParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpectroClustersTemplatesUidClustersUpgrade",
+		Method:             "PATCH",
+		PathPattern:        "/v1/spectroclusters/clusterTemplates/{uid}/clusters/upgrade",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersTemplatesUIDClustersUpgradeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpectroClustersTemplatesUidClustersUpgrade: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -17476,7 +18206,7 @@ func (a *Client) V1ClusterProfilesDelete(params *V1ClusterProfilesDeleteParams) 
 }
 
 /*
-V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary supported filter fields profile name tags profile type environment supported sort fields profile name environment profile type creation timestamp last modified timestamp
+V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary supported filter fields profile name tags profile type environment resource type supported sort fields profile name environment profile type creation timestamp last modified timestamp
 */
 func (a *Client) V1ClusterProfilesFilterSummary(params *V1ClusterProfilesFilterSummaryParams) (*V1ClusterProfilesFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -18466,6 +19196,108 @@ func (a *Client) V1ClusterProfilesValidatePacks(params *V1ClusterProfilesValidat
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1ClusterProfilesValidatePacks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesFilterSummary retrieves a list of cluster templates filter summary supported filter fields cluster template name tags cloud type project Uid policy Uid supported sort fields cluster template name creation timestamp last modified timestamp
+*/
+func (a *Client) V1ClusterTemplatesFilterSummary(params *V1ClusterTemplatesFilterSummaryParams) (*V1ClusterTemplatesFilterSummaryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesFilterSummaryParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1ClusterTemplatesFilterSummary",
+		Method:             "POST",
+		PathPattern:        "/v1/dashboard/clusterTemplates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesFilterSummaryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesFilterSummaryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1ClusterTemplatesFilterSummary: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesMetadataGet retrieves a list of all cluster template metadata
+*/
+func (a *Client) V1ClusterTemplatesMetadataGet(params *V1ClusterTemplatesMetadataGetParams) (*V1ClusterTemplatesMetadataGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesMetadataGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1ClusterTemplatesMetadataGet",
+		Method:             "GET",
+		PathPattern:        "/v1/dashboard/clusterTemplates/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesMetadataGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesMetadataGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1ClusterTemplatesMetadataGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterTemplatesUIDSpectroclustersMetaGet retrieves spectroclusters meta information for clusters launched using the specified cluster template
+*/
+func (a *Client) V1ClusterTemplatesUIDSpectroclustersMetaGet(params *V1ClusterTemplatesUIDSpectroclustersMetaGetParams) (*V1ClusterTemplatesUIDSpectroclustersMetaGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterTemplatesUIDSpectroclustersMetaGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1ClusterTemplatesUidSpectroclustersMetaGet",
+		Method:             "GET",
+		PathPattern:        "/v1/dashboard/clusterTemplates/{uid}/spectroclusters/meta",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterTemplatesUIDSpectroclustersMetaGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterTemplatesUIDSpectroclustersMetaGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1ClusterTemplatesUidSpectroclustersMetaGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -25578,6 +26410,74 @@ func (a *Client) V1ServiceVersionGet(params *V1ServiceVersionGetParams) (*V1Serv
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1ServiceVersionGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesFilterSummary retrieves a list of spc policies filter summary supported filter fields policy name tags policy type supported sort fields policy name policy type creation timestamp last modified timestamp
+*/
+func (a *Client) V1SpcPoliciesFilterSummary(params *V1SpcPoliciesFilterSummaryParams) (*V1SpcPoliciesFilterSummaryOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesFilterSummaryParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpcPoliciesFilterSummary",
+		Method:             "POST",
+		PathPattern:        "/v1/dashboard/spcPolicies",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesFilterSummaryReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesFilterSummaryOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpcPoliciesFilterSummary: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpcPoliciesMetadataGet retrieves a list of all spc policies metadata
+*/
+func (a *Client) V1SpcPoliciesMetadataGet(params *V1SpcPoliciesMetadataGetParams) (*V1SpcPoliciesMetadataGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpcPoliciesMetadataGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpcPoliciesMetadataGet",
+		Method:             "GET",
+		PathPattern:        "/v1/dashboard/spcPolicies/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpcPoliciesMetadataGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpcPoliciesMetadataGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpcPoliciesMetadataGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

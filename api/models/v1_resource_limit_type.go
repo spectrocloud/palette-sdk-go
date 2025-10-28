@@ -98,6 +98,12 @@ const (
 
 	// V1ResourceLimitTypeSystemadmin captures enum value "systemadmin"
 	V1ResourceLimitTypeSystemadmin V1ResourceLimitType = "systemadmin"
+
+	// V1ResourceLimitTypeSpcpolicy captures enum value "spcpolicy"
+	V1ResourceLimitTypeSpcpolicy V1ResourceLimitType = "spcpolicy"
+
+	// V1ResourceLimitTypeClustertemplate captures enum value "clustertemplate"
+	V1ResourceLimitTypeClustertemplate V1ResourceLimitType = "clustertemplate"
 )
 
 // for schema
@@ -105,7 +111,7 @@ var v1ResourceLimitTypeEnum []interface{}
 
 func init() {
 	var res []V1ResourceLimitType
-	if err := json.Unmarshal([]byte(`["user","project","apiKey","team","role","cloudaccount","clusterprofile","workspace","registry","privategateway","location","certificate","macro","sshkey","alert","spectrocluster","edgehost","appprofile","appdeployment","edgetoken","clustergroup","filter","systemadmin"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["user","project","apiKey","team","role","cloudaccount","clusterprofile","workspace","registry","privategateway","location","certificate","macro","sshkey","alert","spectrocluster","edgehost","appprofile","appdeployment","edgetoken","clustergroup","filter","systemadmin","spcpolicy","clustertemplate"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

@@ -58,6 +58,15 @@ func (h *V1Client) GetCloudConfigMaas(configUID string) (*models.V1MaasCloudConf
 	return resp.Payload, nil
 }
 
+// UpdateCloudConfigMaas updates an existing MAAS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigMaas(configUID string, config *models.V1MaasCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsMaasUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsMaasUIDClusterConfig(params)
+	return err
+}
+
 // ImportClusterMaas imports an existing MAAS cluster.
 func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersMaasImportParamsWithContext(h.ctx).

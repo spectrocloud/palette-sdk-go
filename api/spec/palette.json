@@ -8917,6 +8917,18 @@
             "required": true
           },
           {
+            "type": "string",
+            "description": "Uid for the specific Azure cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Azure subscription ID (optional - falls back to cloud account subscription if not provided)",
+            "name": "subscriptionId",
+            "in": "query"
+          },
+          {
             "type": "number",
             "format": "double",
             "description": "Filter for instances having cpu greater than or equal",
@@ -11194,6 +11206,390 @@
         }
       }
     },
+    "/v1/clusterTemplates": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Create a new cluster template",
+        "operationId": "V1ClusterTemplatesCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/clusterTemplates/tags": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of cluster template tags",
+        "operationId": "V1ClusterTemplatesTagsGet",
+        "responses": {
+          "200": {
+            "description": "An array of cluster template tags",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateTags"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/clusterTemplates/validate/name": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates the cluster template name",
+        "operationId": "V1ClusterTemplatesValidateName",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Cluster template name",
+            "name": "name",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/clusterTemplates/{uid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified cluster template",
+        "operationId": "V1ClusterTemplatesUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplate"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Delete a cluster template by uid",
+        "operationId": "V1ClusterTemplatesUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/metadata": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the specified cluster template metadata",
+        "operationId": "V1ClusterTemplatesUidMetadataUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ObjectMetaInputEntitySchema"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/policies": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the specified cluster template policies",
+        "operationId": "V1ClusterTemplatesUidPoliciesUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatePoliciesUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/profiles": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the specified cluster template profiles",
+        "operationId": "V1ClusterTemplatesUidProfilesUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateProfilesUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/profiles/variables": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update variables for profiles in a cluster template",
+        "operationId": "V1ClusterTemplatesUidProfilesVariablesPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateProfilesVariablesBatchEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/profiles/{profileUid}/variables": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieve variables for a specific profile in a cluster template",
+        "operationId": "V1ClusterTemplatesUidProfilesProfileUidVariablesGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateProfileVariablesResponse"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Profile uid",
+          "name": "profileUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/reconcile": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the cluster reconcile document for a specific cluster launched from a template",
+        "operationId": "V1ClusterTemplatesUidClusterReconcileClusterUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterReconcile"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "clusterUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/variables": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the specified cluster's template variables",
+        "operationId": "V1ClusterTemplatesUidSpectroClustersUidVariablesPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateVariablesUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "clusterUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/clustergroups": {
       "post": {
         "tags": [
@@ -12777,6 +13173,105 @@
         }
       }
     },
+    "/v1/dashboard/clusterTemplates": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of cluster templates filter summary Supported filter fields - [\"clusterTemplateName\", \"tags\", \"cloudType\",\"projectUid\", \"policyUid\"] Supported sort fields - [\"clusterTemplateName\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "operationId": "v1ClusterTemplatesFilterSummary",
+        "parameters": [
+          {
+            "maximum": 50,
+            "type": "integer",
+            "format": "int64",
+            "description": "limit is a maximum number of responses to return for a list call. Maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatesFilterSummarySpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of cluster template summary items",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatesSummary"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/dashboard/clusterTemplates/metadata": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of all cluster template metadata.",
+        "operationId": "v1ClusterTemplatesMetadataGet",
+        "responses": {
+          "200": {
+            "description": "An array of cluster template metadata",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatesMetadata"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/dashboard/clusterTemplates/{uid}/spectroclusters/meta": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves spectroclusters meta information for clusters launched using the specified cluster template.",
+        "operationId": "v1ClusterTemplatesUidSpectroclustersMetaGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The UID of the cluster template",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of spectrocluster meta information",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClustersMeta"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
     "/v1/dashboard/clustergroups/{uid}/hostClusters": {
       "post": {
         "tags": [
@@ -12888,7 +13383,7 @@
         "tags": [
           "v1"
         ],
-        "summary": "Retrieves a list of cluster profiles filter summary Supported filter fields - [\"profileName\", \"tags\", \"profileType\", \"environment\"] Supported sort fields - [\"profileName\", \"environment\", \"profileType\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "summary": "Retrieves a list of cluster profiles filter summary Supported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'] Supported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp']",
         "operationId": "v1ClusterProfilesFilterSummary",
         "parameters": [
           {
@@ -13169,6 +13664,76 @@
             }
           }
         }
+      }
+    },
+    "/v1/dashboard/spcPolicies": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of spc policies filter summary Supported filter fields - [\"policyName\", \"tags\", \"policyType\"] Supported sort fields - [\"policyName\", \"policyType\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "operationId": "v1SpcPoliciesFilterSummary",
+        "parameters": [
+          {
+            "maximum": 50,
+            "type": "integer",
+            "format": "int64",
+            "description": "limit is a maximum number of responses to return for a list call. Maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPoliciesFilterSpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of spc policies summary items",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPoliciesSummary"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/dashboard/spcPolicies/metadata": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of all spc policies metadata.",
+        "operationId": "v1SpcPoliciesMetadataGet",
+        "responses": {
+          "200": {
+            "description": "An array of spc policies metadata",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPoliciesMetadata"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
       }
     },
     "/v1/dashboard/spectroclusters/cost": {
@@ -19687,6 +20252,179 @@
         }
       }
     },
+    "/v1/spcPolicies/maintenance": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Create a new maintenance policy",
+        "operationId": "V1SpcPoliciesMaintenanceCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPolicyEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/spcPolicies/maintenance/{uid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the specified maintenance policy",
+        "operationId": "V1SpcPoliciesMaintenanceUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPolicyEntity"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified maintenance policy",
+        "operationId": "V1SpcPoliciesMaintenanceUidUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPolicyEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Policy uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spcPolicies/tags": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of spc policy tags",
+        "operationId": "V1SpcPoliciesTagsGet",
+        "responses": {
+          "200": {
+            "description": "An array of spc policy tags",
+            "schema": {
+              "$ref": "#/definitions/v1SpcPolicyTags"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      }
+    },
+    "/v1/spcPolicies/{policyType}/validate/name": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates the spc policy name",
+        "operationId": "V1SpcPoliciesValidateName",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Spc policy name",
+            "name": "name",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Spc policy type",
+          "name": "policyType",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spcPolicies/{uid}": {
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Delete a policy by uid",
+        "operationId": "V1SpcPoliciesUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/spectroclusters/aks": {
       "post": {
         "tags": [
@@ -20107,6 +20845,78 @@
           "type": "string",
           "description": "Cluster's cloud type",
           "name": "cloudType",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/clusterTemplates/{uid}/clusters/upgrade": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Upgrades clusters launched from the specified cluster template",
+        "operationId": "V1SpectroClustersTemplatesUidClustersUpgrade",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateUpgradeSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/clusterTemplates/{uid}/profiles": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the associated profiles for all the cluster of launched from the specified cluster template",
+        "operationId": "V1SpectroClustersClusterTemplatesUIDProfilesGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "includes pack meta such as schema, presets",
+            "name": "includePackMeta",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterProfileList"
+            }
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
           "in": "path",
           "required": true
         }
@@ -34231,6 +35041,27 @@
         }
       }
     },
+    "v1CloudType": {
+      "type": "string",
+      "default": "all",
+      "enum": [
+        "all",
+        "aws",
+        "azure",
+        "gcp",
+        "vsphere",
+        "openstack",
+        "maas",
+        "nested",
+        "baremetal",
+        "eks",
+        "aks",
+        "edge",
+        "edge-native",
+        "generic",
+        "gke"
+      ]
+    },
     "v1CloudWatch": {
       "type": "object",
       "properties": {
@@ -35560,6 +36391,10 @@
         "isAvailable": {
           "type": "boolean",
           "x-omitempty": false
+        },
+        "isTemplateVariableResolutionPending": {
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -35750,6 +36585,9 @@
           "items": {
             "$ref": "#/definitions/v1ProfileType"
           }
+        },
+        "resourceType": {
+          "$ref": "#/definitions/v1ClusterProfileResourceType"
         },
         "scope": {
           "$ref": "#/definitions/v1ClusterProfileScope"
@@ -35945,6 +36783,14 @@
         }
       }
     },
+    "v1ClusterProfileResourceType": {
+      "description": "Filter cluster profiles by target resource type - 'spectrocluster' for profiles suitable to launch clusters, 'clustertemplate' for profiles suitable to create/edit cluster template",
+      "type": "string",
+      "enum": [
+        "spectrocluster",
+        "clustertemplate"
+      ]
+    },
     "v1ClusterProfileScope": {
       "type": "string",
       "enum": [
@@ -36036,6 +36882,12 @@
           "type": "boolean",
           "x-omitempty": false
         },
+        "inUseClusterTemplates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ProjectResourceReference"
+          }
+        },
         "inUseClusterUids": {
           "description": "Deprecated. Use inUseClusters",
           "type": "array",
@@ -36061,6 +36913,12 @@
       "properties": {
         "fips": {
           "$ref": "#/definitions/v1ClusterProfileFips"
+        },
+        "inUseClusterTemplates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ObjectEntity"
+          }
         },
         "inUseClusterUids": {
           "description": "Deprecated. Use inUseClusters",
@@ -36530,6 +37388,136 @@
         }
       }
     },
+    "v1ClusterReconcile": {
+      "description": "Cluster reconcile document containing all reconciliation information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ClusterReconcileSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ClusterReconcileStatus"
+        }
+      }
+    },
+    "v1ClusterReconcileLog": {
+      "description": "Cluster reconciliation log entry",
+      "type": "object",
+      "properties": {
+        "appliedTimestamp": {
+          "description": "Timestamp when this log entry was created",
+          "type": "string",
+          "format": "date-time"
+        },
+        "message": {
+          "description": "Log message",
+          "type": "string"
+        },
+        "profileUids": {
+          "description": "List of profile UIDs involved in this reconciliation",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "description": "Reconciliation state for this log entry",
+          "type": "string",
+          "enum": [
+            "Created",
+            "Pending",
+            "InProgress",
+            "Applied",
+            "Failed"
+          ]
+        }
+      }
+    },
+    "v1ClusterReconcileSpec": {
+      "description": "Cluster reconcile specification",
+      "type": "object",
+      "properties": {
+        "profiles": {
+          "description": "List of cluster profiles with reconciliation information",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfileVariables"
+          }
+        }
+      }
+    },
+    "v1ClusterReconcileStatus": {
+      "description": "Cluster reconcile status",
+      "type": "object",
+      "properties": {
+        "lastAppliedTimestamp": {
+          "description": "Timestamp when reconciliation was last applied",
+          "type": "string",
+          "format": "date-time"
+        },
+        "message": {
+          "description": "Status message",
+          "type": "string"
+        },
+        "state": {
+          "description": "Current reconciliation state",
+          "type": "string",
+          "enum": [
+            "Created",
+            "Pending",
+            "InProgress",
+            "Applied",
+            "Failed"
+          ]
+        },
+        "updateLogs": {
+          "description": "List of reconciliation update logs",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterReconcileLog"
+          }
+        },
+        "variableStatus": {
+          "$ref": "#/definitions/v1ClusterVariableReconcileStatus"
+        }
+      }
+    },
+    "v1ClusterReconcileStatusCounts": {
+      "description": "Cluster reconcile metadata",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "description": "Clusters grouped by reconciliation status",
+          "type": "object",
+          "properties": {
+            "applied": {
+              "description": "List of UIDs for clusters in applied state",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "failed": {
+              "description": "List of UIDs for clusters in failed state",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pending": {
+              "description": "List of UIDs for clusters in pending state",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
     "v1ClusterRefs": {
       "description": "Cluster Object References",
       "properties": {
@@ -36890,6 +37878,621 @@
         }
       }
     },
+    "v1ClusterTemplate": {
+      "description": "Cluster template entity information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ClusterTemplateSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ClusterTemplateStatus"
+        }
+      }
+    },
+    "v1ClusterTemplateEntity": {
+      "description": "Cluster template entity information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ClusterTemplateEntitySpec"
+        }
+      }
+    },
+    "v1ClusterTemplateEntitySpec": {
+      "description": "Cluster template specification",
+      "type": "object",
+      "properties": {
+        "cloudType": {
+          "description": "Type of cloud provider",
+          "type": "string"
+        },
+        "policies": {
+          "description": "List of policy references",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PolicyRef"
+          }
+        },
+        "profiles": {
+          "description": "List of cluster profile references",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfile"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateMaintenanceStatus": {
+      "description": "Cluster template maintenance status",
+      "type": "object",
+      "properties": {
+        "nextWindowEndTime": {
+          "description": "Next maintenance window end time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "nextWindowStartTime": {
+          "description": "Next maintenance window start time",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1ClusterTemplateMetadata": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the cluster template",
+          "type": "string"
+        },
+        "projectUid": {
+          "description": "The project UID of the cluster template",
+          "type": "string"
+        },
+        "uid": {
+          "description": "The uid of the cluster template",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplatePoliciesUpdateEntity": {
+      "description": "Cluster template policies update entity",
+      "type": "object",
+      "required": [
+        "policies"
+      ],
+      "properties": {
+        "policies": {
+          "description": "List of spc policy references to be updated in the cluster template",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PolicyRef"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfile": {
+      "description": "Cluster template profile information",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "description": "UID of the cluster profile",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of cluster profile variable values and assign strategies. This is specified when clusters are launched from the template",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateVariable"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfileVariable": {
+      "description": "Cluster template profile information",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "description": "UID of the cluster profile",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of cluster profile variable values for the cluster to be updated.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SpectroClusterVariable"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfileVariableWithClusters": {
+      "description": "Variable with cluster assignments",
+      "type": "object",
+      "required": [
+        "variable",
+        "clusters"
+      ],
+      "properties": {
+        "clusters": {
+          "description": "List of clusters with variable assignments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateVariableClusterAssignment"
+          }
+        },
+        "variable": {
+          "description": "Variable field with schema definition",
+          "type": "object",
+          "$ref": "#/definitions/v1Variable"
+        }
+      }
+    },
+    "v1ClusterTemplateProfileVariables": {
+      "description": "Profile variables with grouped resolved and unresolved variables",
+      "type": "object",
+      "required": [
+        "uid"
+      ],
+      "properties": {
+        "name": {
+          "description": "Profile name",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Profile UID",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of resolved and unresolved variables belonging to a cluster launched from template",
+          "type": "object",
+          "properties": {
+            "resolvedVariables": {
+              "description": "List of resolved variables",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterVariable"
+              }
+            },
+            "unResolvedVariables": {
+              "description": "List of unresolved variables",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterVariable"
+              }
+            }
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfileVariablesGroup": {
+      "description": "Profile with variables and cluster assignments",
+      "type": "object",
+      "required": [
+        "uid",
+        "variables"
+      ],
+      "properties": {
+        "uid": {
+          "description": "UID of the cluster profile",
+          "type": "string"
+        },
+        "variables": {
+          "description": "List of variables with cluster assignments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateVariableClusterMapping"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfileVariablesResponse": {
+      "description": "Response for retrieving variables for a specific profile in a cluster template",
+      "type": "object",
+      "properties": {
+        "variables": {
+          "description": "List of variables with cluster assignments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfileVariableWithClusters"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfilesUpdateEntity": {
+      "description": "Cluster template profiles update entity",
+      "type": "object",
+      "required": [
+        "profiles"
+      ],
+      "properties": {
+        "profiles": {
+          "description": "List of cluster profile references with updated variable values and assign strategies",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfile"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateProfilesVariablesBatchEntity": {
+      "description": "Cluster template profiles variables batch entity",
+      "type": "object",
+      "required": [
+        "profiles"
+      ],
+      "properties": {
+        "profiles": {
+          "description": "List of profiles with variables and cluster assignments",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfileVariablesGroup"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateRef": {
+      "description": "Cluster template configuration to launch a cluster from a template.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "description": "Uid of the cluster template from which the cluster is created. When a cluster is launched using a template, the packs configuration is automatically derived from the template and does not need to be set manually.",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateSpcRef": {
+      "description": "Cluster template cluster reference",
+      "type": "object",
+      "properties": {
+        "clusterUid": {
+          "description": "UID of the cluster",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the cluster",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateSpec": {
+      "description": "Cluster template specification",
+      "type": "object",
+      "properties": {
+        "cloudType": {
+          "description": "Type of cloud provider",
+          "type": "string"
+        },
+        "clusters": {
+          "description": "Map of cluster references with cluster UID as key",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1ClusterTemplateSpcRef"
+          }
+        },
+        "policies": {
+          "description": "List of policy references",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PolicyRef"
+          }
+        },
+        "profiles": {
+          "description": "List of cluster profile references",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfile"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateSpectroClusterMeta": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the spectro cluster",
+          "type": "string"
+        },
+        "projectUid": {
+          "description": "The project UID of the spectro cluster",
+          "type": "string"
+        },
+        "uid": {
+          "description": "The UID of the spectro cluster",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateStatus": {
+      "description": "Cluster template status",
+      "type": "object",
+      "properties": {
+        "clusterStatusCounts": {
+          "$ref": "#/definitions/v1ClusterReconcileStatusCounts"
+        },
+        "clusterVariables": {
+          "$ref": "#/definitions/v1ClusterVariableStatus"
+        },
+        "maintenance": {
+          "$ref": "#/definitions/v1ClusterTemplateMaintenanceStatus"
+        },
+        "state": {
+          "description": "Current state of the cluster template",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Applied",
+            "Failed",
+            "PartiallyApplied"
+          ]
+        }
+      }
+    },
+    "v1ClusterTemplateSummary": {
+      "description": "Cluster template summary",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ClusterTemplateSummarySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ClusterTemplateSummaryStatus"
+        }
+      }
+    },
+    "v1ClusterTemplateSummarySpec": {
+      "type": "object",
+      "properties": {
+        "cloudType": {
+          "$ref": "#/definitions/v1CloudType"
+        },
+        "clusters": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateSpectroClusterMeta"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateSummaryStatus": {
+      "description": "Provides status information for cluster templates like in use cluster which are launched using the template",
+      "type": "object",
+      "properties": {
+        "inUseClusters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ObjectEntity"
+          }
+        },
+        "state": {
+          "description": "The reconciliation state of the cluster template",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateTags": {
+      "description": "Cluster template tags response",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Array of cluster template tags",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateUpgradeSpec": {
+      "type": "object",
+      "properties": {
+        "clusterUids": {
+          "description": "List of cluster UIDs to upgrade. If no clusterUid's specified then all clusters launched from the specified cluster template will be upgraded",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplateVariable": {
+      "description": "Cluster template variable",
+      "type": "object",
+      "properties": {
+        "assignStrategy": {
+          "description": "Assignment strategy for the variable",
+          "type": "string",
+          "enum": [
+            "all",
+            "cluster"
+          ]
+        },
+        "clusters": {
+          "description": "List of clusters with the specific variable",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterVariableValue"
+          }
+        },
+        "name": {
+          "description": "Name of the variable",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value of the variable to be applied to all clusters launched from this template. This value is specified when assignStrategy is set to all",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateVariableClusterAssignment": {
+      "description": "Cluster variable assignment information",
+      "type": "object",
+      "required": [
+        "uid",
+        "assignmentState"
+      ],
+      "properties": {
+        "assignedValue": {
+          "description": "Value assigned to the variable",
+          "type": "string"
+        },
+        "assignmentState": {
+          "description": "State of the variable assignment",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "Assigned"
+          ]
+        },
+        "uid": {
+          "description": "Cluster UID",
+          "type": "string"
+        },
+        "value": {
+          "description": "Current running value of the variable",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateVariableClusterMapping": {
+      "description": "Variable with cluster assignments",
+      "type": "object",
+      "required": [
+        "name",
+        "clusters"
+      ],
+      "properties": {
+        "clusters": {
+          "description": "List of clusters with variable values",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterVariableValue"
+          }
+        },
+        "name": {
+          "description": "Name of the variable",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateVariablesUpdateEntity": {
+      "description": "Cluster template variables update entity",
+      "type": "object",
+      "required": [
+        "profiles"
+      ],
+      "properties": {
+        "profiles": {
+          "description": "List of cluster profile references belonging to the cluster",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateProfileVariable"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplatesFilterSpec": {
+      "description": "Cluster template filter spec",
+      "properties": {
+        "cloudType": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudType"
+          }
+        },
+        "clusterTemplateName": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "policyUid": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "projectUid": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "tags": {
+          "$ref": "#/definitions/v1FilterArray"
+        }
+      }
+    },
+    "v1ClusterTemplatesFilterSummarySpec": {
+      "description": "Cluster templates filter summary spec",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v1ClusterTemplatesFilterSpec"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplatesSortSpec"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplatesMetadata": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateMetadata"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplatesSortFields": {
+      "type": "string",
+      "enum": [
+        "clusterTemplateName",
+        "cloudType",
+        "creationTimestamp",
+        "lastModifiedTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v1ClusterTemplatesSortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v1ClusterTemplatesSortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
+        }
+      }
+    },
+    "v1ClusterTemplatesSummary": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateSummary"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
     "v1ClusterType": {
       "type": "string",
       "default": "PureManage",
@@ -36925,6 +38528,48 @@
           "type": "string"
         },
         "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterVariableReconcileStatus": {
+      "description": "Cluster variable reconciliation status",
+      "type": "object",
+      "properties": {
+        "state": {
+          "description": "Variable reconciliation state",
+          "type": "string",
+          "enum": [
+            "Resolved",
+            "Unresolved"
+          ]
+        }
+      }
+    },
+    "v1ClusterVariableStatus": {
+      "description": "Cluster variable status counts categorized by resolution state",
+      "type": "object",
+      "properties": {
+        "resolved": {
+          "description": "The number of clusters in which all variables have been successfully resolved",
+          "type": "integer"
+        },
+        "unResolved": {
+          "description": "The number of clusters that have unresolved variables requiring attention",
+          "type": "integer"
+        }
+      }
+    },
+    "v1ClusterVariableValue": {
+      "description": "Cluster along with specific variable value",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "description": "UID of the cluster",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value of the variable",
           "type": "string"
         }
       }
@@ -37010,6 +38655,10 @@
         },
         "template": {
           "$ref": "#/definitions/v1VmVirtualMachineInstanceTemplateSpec"
+        },
+        "updateVolumesStrategy": {
+          "description": "UpdateVolumesStrategy is the strategy to apply on volumes updates",
+          "type": "string"
         }
       }
     },
@@ -38873,6 +40522,16 @@
           "description": "ProjectUid where the edgehost will be placed during auto registration",
           "x-omitempty": false,
           "$ref": "#/definitions/v1ObjectEntity"
+        },
+        "remoteSsh": {
+          "description": "RemoteSsh controls the remote SSH access for this edge host",
+          "type": "string",
+          "default": "enabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": false
         }
       }
     },
@@ -43676,6 +45335,13 @@
           "type": "boolean",
           "x-omitempty": false
         },
+        "ntpServers": {
+          "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "sshKeys": {
           "description": "SSH keys specifies a list of ssh authorized keys for the 'spectro' user",
           "type": "array",
@@ -43966,6 +45632,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1MaasNic"
+          }
+        },
+        "ntpServers": {
+          "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.",
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
@@ -45235,6 +46908,25 @@
           "type": "string"
         },
         "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ObjectStateEntity": {
+      "description": "Object identity meta",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the object",
+          "type": "string"
+        },
+        "state": {
+          "description": "State of the object",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "uid": {
+          "description": "Uid of the object",
           "type": "string"
         }
       }
@@ -48208,6 +49900,20 @@
         }
       }
     },
+    "v1PolicyRef": {
+      "description": "Policy reference",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Kind of the policy",
+          "type": "string"
+        },
+        "uid": {
+          "description": "UID of the policy",
+          "type": "string"
+        }
+      }
+    },
     "v1Pool": {
       "description": "Pool defines IP ranges or with CIDR for available IPs Gateway, Prefix and Nameserver if provided, will overwrite values in IPPool",
       "type": "object",
@@ -48572,6 +50278,28 @@
       "properties": {
         "metadata": {
           "$ref": "#/definitions/v1ObjectEntity"
+        }
+      }
+    },
+    "v1ProjectResourceReference": {
+      "description": "Project-scoped resource reference",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Kind of the referenced resource",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the referenced resource",
+          "type": "string"
+        },
+        "projectUid": {
+          "description": "UID of the Project that scopes this resource",
+          "type": "string"
+        },
+        "uid": {
+          "description": "UID of the referenced resource",
+          "type": "string"
         }
       }
     },
@@ -49441,7 +51169,9 @@
         "edgetoken",
         "clustergroup",
         "filter",
-        "systemadmin"
+        "systemadmin",
+        "spcpolicy",
+        "clustertemplate"
       ]
     },
     "v1ResourceReference": {
@@ -49985,6 +51715,31 @@
           "description": "Set to 'true', to use Restic plugin for the backup",
           "type": "boolean",
           "default": true
+        }
+      }
+    },
+    "v1Schedule": {
+      "description": "Information about a schedule for the policy",
+      "type": "object",
+      "required": [
+        "durationHrs",
+        "startCron",
+        "name"
+      ],
+      "properties": {
+        "durationHrs": {
+          "description": "Specifies the time window in hours during which the system is allowed to start upgrades on eligible clusters. Actual upgrade completion may vary due to cluster-specific factors like bandwidth, capacity, or environment.",
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1
+        },
+        "name": {
+          "description": "Name of the upgrade schedule",
+          "type": "string"
+        },
+        "startCron": {
+          "description": "Cron expression for the start time of the schedule",
+          "type": "string"
         }
       }
     },
@@ -50692,6 +52447,190 @@
         }
       }
     },
+    "v1SpcPoliciesFilterSpec": {
+      "description": "Spc policies filter summary spec",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v1SpcPolicyFilterSpec"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpcPolicySortSpec"
+          }
+        }
+      }
+    },
+    "v1SpcPoliciesMetadata": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpcPolicyMetadata"
+          }
+        }
+      }
+    },
+    "v1SpcPoliciesSummary": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpcPolicySummary"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1SpcPolicyEntity": {
+      "description": "Policy entity information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SpcPolicySpec"
+        }
+      }
+    },
+    "v1SpcPolicyFilterSpec": {
+      "description": "Spc policy filter spec",
+      "properties": {
+        "policyName": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "policyType": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpcPolicyType"
+          }
+        },
+        "tags": {
+          "$ref": "#/definitions/v1FilterArray"
+        }
+      }
+    },
+    "v1SpcPolicyMetadata": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "The kind of the spc policy eg maintenance.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the spc policy",
+          "type": "string"
+        },
+        "projectUid": {
+          "description": "The project UID of the spc policy",
+          "type": "string"
+        },
+        "uid": {
+          "description": "The UID of the spc policy",
+          "type": "string"
+        }
+      }
+    },
+    "v1SpcPolicySortFields": {
+      "type": "string",
+      "enum": [
+        "policyName",
+        "policyType",
+        "creationTimestamp",
+        "lastModifiedTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v1SpcPolicySortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v1SpcPolicySortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
+        }
+      }
+    },
+    "v1SpcPolicySpec": {
+      "description": "Policy specification",
+      "type": "object",
+      "properties": {
+        "schedules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Schedule"
+          }
+        }
+      }
+    },
+    "v1SpcPolicyStatusSummary": {
+      "description": "Provides status information for SpcPolicy like in use templates using the policy",
+      "type": "object",
+      "properties": {
+        "inUseClusterTemplates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ObjectStateEntity"
+          }
+        }
+      }
+    },
+    "v1SpcPolicySummary": {
+      "description": "Spc policy summary",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "description": "The kind of the spc policy eg maintenance.",
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/v1SpcPolicyStatusSummary"
+        }
+      }
+    },
+    "v1SpcPolicyTags": {
+      "description": "Spc policy tags response",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "description": "Array of spc policy tags",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1SpcPolicyType": {
+      "type": "string",
+      "default": "maintenance",
+      "enum": [
+        "maintenance"
+      ]
+    },
     "v1SpectroAwsClusterEntity": {
       "description": "AWS cluster request payload for create and update",
       "type": "object",
@@ -50718,6 +52657,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "clusterType": {
               "$ref": "#/definitions/v1ClusterType"
             },
@@ -50731,6 +52673,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -50798,6 +52741,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -50808,6 +52754,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -51894,6 +53841,9 @@
             "$ref": "#/definitions/v1ClusterProfileTemplate"
           }
         },
+        "clusterTemplate": {
+          "$ref": "#/definitions/v1SpectroClusterTemplateRef"
+        },
         "clusterType": {
           "type": "string",
           "enum": [
@@ -52083,6 +54033,20 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "v1SpectroClusterTemplateRef": {
+      "description": "Reference to the cluster template from which this cluster was created, containing template identification metadata",
+      "type": "object",
+      "properties": {
+        "projectUid": {
+          "description": "Project uid of the cluster template",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Uid of the cluster template from which the cluster is created",
+          "type": "string"
         }
       }
     },
@@ -52328,6 +54292,11 @@
           "type": "boolean",
           "x-omitempty": false
         },
+        "inputType": {
+          "description": "Input type for the variable - text or dropdown. Defaults to text for backward compatibility",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1VariableInputType"
+        },
         "isSensitive": {
           "description": "If true, then default value will be masked. By default the isSensitive flag will be set to false",
           "type": "boolean",
@@ -52336,6 +54305,14 @@
         "name": {
           "description": "Variable name",
           "type": "string"
+        },
+        "options": {
+          "description": "Available options for dropdown input type",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VariableOption"
+          },
+          "x-omitempty": false
         },
         "regex": {
           "description": "Regular expression pattern which the variable value must match",
@@ -52504,6 +54481,9 @@
               "description": "General cluster configuration like patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1CustomClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "clusterType": {
               "$ref": "#/definitions/v1ClusterType"
             },
@@ -52514,6 +54494,7 @@
               }
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52540,6 +54521,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -52550,6 +54534,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52616,6 +54601,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "fargateProfiles": {
               "type": "array",
               "items": {
@@ -52632,6 +54620,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52682,6 +54671,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -52692,6 +54684,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52794,6 +54787,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -52804,6 +54800,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52870,6 +54867,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -52880,6 +54880,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -52976,6 +54977,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "machinepoolconfig": {
               "type": "array",
               "items": {
@@ -52986,6 +54990,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -53019,6 +55024,9 @@
               "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
               "$ref": "#/definitions/v1ClusterConfigEntity"
             },
+            "clusterTemplate": {
+              "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
             "edgeHostUid": {
               "description": "Appliance (Edge Host) uid for Edge env",
               "type": "string"
@@ -53033,6 +55041,7 @@
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
             "profiles": {
+              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/v1SpectroClusterProfileEntity"
@@ -54313,6 +56322,9 @@
         "isRegex": {
           "type": "boolean"
         },
+        "maxLength": {
+          "type": "integer"
+        },
         "minLength": {
           "type": "integer"
         },
@@ -55430,6 +57442,10 @@
           "type": "boolean",
           "x-omitempty": false
         },
+        "inputType": {
+          "description": "Input type for the variable - text or dropdown. Defaults to text for backward compatibility",
+          "$ref": "#/definitions/v1VariableInputType"
+        },
         "isSensitive": {
           "description": "If true, then default value will be masked. By default the isSensitive flag will be set to false",
           "type": "boolean",
@@ -55438,6 +57454,13 @@
         "name": {
           "description": "Variable name",
           "type": "string"
+        },
+        "options": {
+          "description": "Available options for dropdown input type",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VariableOption"
+          }
         },
         "regex": {
           "description": "Regular expression pattern which the variable value must match",
@@ -55461,7 +57484,18 @@
         "ipv4",
         "ipv4cidr",
         "ipv6",
-        "version"
+        "version",
+        "base64"
+      ]
+    },
+    "v1VariableInputType": {
+      "description": "Input type for the variable",
+      "type": "string",
+      "default": "text",
+      "enum": [
+        "text",
+        "dropdown",
+        "multiline"
       ]
     },
     "v1VariableNames": {
@@ -55476,6 +57510,32 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "v1VariableOption": {
+      "description": "Option for dropdown variable input type",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "default": {
+          "description": "Mark this option as the default selection",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "description": {
+          "description": "Optional tooltip/description for the option",
+          "type": "string"
+        },
+        "label": {
+          "description": "Display text for the option",
+          "type": "string"
+        },
+        "value": {
+          "description": "Actual value for the option",
+          "type": "string"
         }
       }
     },
@@ -56779,6 +58839,10 @@
             "$ref": "#/definitions/v1VmDisk"
           }
         },
+        "downwardMetrics": {
+          "description": "DownwardMetrics creates a virtio serials for exposing the downward metrics to the vmi.",
+          "type": "object"
+        },
         "filesystems": {
           "description": "Filesystems describes filesystem which is connected to the vmi.",
           "type": "array",
@@ -56816,6 +58880,10 @@
           "items": {
             "$ref": "#/definitions/v1VmInterface"
           }
+        },
+        "logSerialConsole": {
+          "description": "Whether to log the auto-attached default serial console or not. Serial console logs will be collect to a file and then streamed from a named 'guest-console-log'. Not relevant if autoattachSerialConsole is disabled. Defaults to cluster wide setting on VirtualMachineOptions.",
+          "type": "boolean"
         },
         "networkInterfaceMultiqueue": {
           "description": "If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.",
@@ -56932,6 +59000,17 @@
         },
         "firmware": {
           "$ref": "#/definitions/v1VmFirmware"
+        },
+        "ioThreads": {
+          "description": "IOThreads specifies the IOThreads options.",
+          "type": "object",
+          "properties": {
+            "supplementalPoolThreadCount": {
+              "description": "SupplementalPoolThreadCount specifies how many iothreads are allocated for the supplementalPool policy.",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         },
         "ioThreadsPolicy": {
           "description": "Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto",
@@ -58812,6 +60891,10 @@
         },
         "affinity": {
           "$ref": "#/definitions/v1VmAffinity"
+        },
+        "architecture": {
+          "description": "Specifies the architecture of the vm guest you are attempting to run. Defaults to the compiled architecture of the KubeVirt components",
+          "type": "string"
         },
         "dnsConfig": {
           "$ref": "#/definitions/v1VmPodDnsConfig"

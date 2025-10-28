@@ -62,6 +62,11 @@ for the v1 azure instance types operation typically these are written to a http.
 */
 type V1AzureInstanceTypesParams struct {
 
+	/*CloudAccountUID
+	  Uid for the specific Azure cloud account
+
+	*/
+	CloudAccountUID *string
 	/*CPUGtEq
 	  Filter for instances having cpu greater than or equal
 
@@ -82,6 +87,11 @@ type V1AzureInstanceTypesParams struct {
 
 	*/
 	Region string
+	/*SubscriptionID
+	  Azure subscription ID (optional - falls back to cloud account subscription if not provided)
+
+	*/
+	SubscriptionID *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -119,6 +129,17 @@ func (o *V1AzureInstanceTypesParams) WithHTTPClient(client *http.Client) *V1Azur
 // SetHTTPClient adds the HTTPClient to the v1 azure instance types params
 func (o *V1AzureInstanceTypesParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
+}
+
+// WithCloudAccountUID adds the cloudAccountUID to the v1 azure instance types params
+func (o *V1AzureInstanceTypesParams) WithCloudAccountUID(cloudAccountUID *string) *V1AzureInstanceTypesParams {
+	o.SetCloudAccountUID(cloudAccountUID)
+	return o
+}
+
+// SetCloudAccountUID adds the cloudAccountUid to the v1 azure instance types params
+func (o *V1AzureInstanceTypesParams) SetCloudAccountUID(cloudAccountUID *string) {
+	o.CloudAccountUID = cloudAccountUID
 }
 
 // WithCPUGtEq adds the cPUGtEq to the v1 azure instance types params
@@ -165,6 +186,17 @@ func (o *V1AzureInstanceTypesParams) SetRegion(region string) {
 	o.Region = region
 }
 
+// WithSubscriptionID adds the subscriptionID to the v1 azure instance types params
+func (o *V1AzureInstanceTypesParams) WithSubscriptionID(subscriptionID *string) *V1AzureInstanceTypesParams {
+	o.SetSubscriptionID(subscriptionID)
+	return o
+}
+
+// SetSubscriptionID adds the subscriptionId to the v1 azure instance types params
+func (o *V1AzureInstanceTypesParams) SetSubscriptionID(subscriptionID *string) {
+	o.SubscriptionID = subscriptionID
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *V1AzureInstanceTypesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -172,6 +204,22 @@ func (o *V1AzureInstanceTypesParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
+
+	if o.CloudAccountUID != nil {
+
+		// query param cloudAccountUid
+		var qrCloudAccountUID string
+		if o.CloudAccountUID != nil {
+			qrCloudAccountUID = *o.CloudAccountUID
+		}
+		qCloudAccountUID := qrCloudAccountUID
+		if qCloudAccountUID != "" {
+			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	if o.CPUGtEq != nil {
 
@@ -224,6 +272,22 @@ func (o *V1AzureInstanceTypesParams) WriteToRequest(r runtime.ClientRequest, reg
 	// path param region
 	if err := r.SetPathParam("region", o.Region); err != nil {
 		return err
+	}
+
+	if o.SubscriptionID != nil {
+
+		// query param subscriptionId
+		var qrSubscriptionID string
+		if o.SubscriptionID != nil {
+			qrSubscriptionID = *o.SubscriptionID
+		}
+		qSubscriptionID := qrSubscriptionID
+		if qSubscriptionID != "" {
+			if err := r.SetQueryParam("subscriptionId", qSubscriptionID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if len(res) > 0 {
