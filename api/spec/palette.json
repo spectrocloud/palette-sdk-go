@@ -1117,7 +1117,9 @@
               "update",
               "delete",
               "publish",
-              "deploy"
+              "deploy",
+              "activity",
+              "action"
             ],
             "type": "string",
             "name": "actionType",
@@ -33342,7 +33344,9 @@
             "update",
             "delete",
             "publish",
-            "deploy"
+            "deploy",
+            "activity",
+            "action"
           ]
         },
         "actor": {
@@ -33567,7 +33571,7 @@
       }
     },
     "v1AwsCloudAccount": {
-      "description": "AWS cloud account which includes access key and secret key in case of 'secret' credentials type. It includes policyARNS, ARN and externalId in case of sts. Partition is a group of AWS Region and Service objects",
+      "description": "AWS cloud account which includes access key and secret key in case of 'secret' credentials type. It includes policyARNS, ARN and externalId in case of sts. It includes roleArn and permissionBoundaryArn in case of podIdentity. Partition is a group of AWS Region and Service objects",
       "type": "object",
       "properties": {
         "accessKey": {
@@ -33587,6 +33591,10 @@
             "aws-iso",
             "aws-iso-b"
           ]
+        },
+        "podIdentity": {
+          "description": "AWS EKS Pod Identity credentials in case of credentialType podIdentity, will be empty in case of other credential types",
+          "$ref": "#/definitions/v1AwsPodIdentityCredentials"
         },
         "policyARNs": {
           "description": "List of policy ARNs required in case of credentialType sts.",
@@ -33613,12 +33621,13 @@
       }
     },
     "v1AwsCloudAccountCredentialType": {
-      "description": "Allowed Values [secret, sts]. STS type will be used for role assumption for sts type, accessKey/secretKey contains the source account, Arn is the target account.",
+      "description": "Allowed Values [secret, sts, pod-identity]. STS type will be used for role assumption for sts type, accessKey/secretKey contains the source account, Arn is the target account. Pod Identity type will be used for EKS Pod Identity authentication with roleArn as the target account.",
       "type": "string",
       "default": "secret",
       "enum": [
         "secret",
-        "sts"
+        "sts",
+        "pod-identity"
       ]
     },
     "v1AwsCloudClusterConfigEntity": {
@@ -34390,6 +34399,20 @@
         "aws",
         "aws-us-gov"
       ]
+    },
+    "v1AwsPodIdentityCredentials": {
+      "description": "AWS EKS Pod Identity credentials for role assumption",
+      "type": "object",
+      "properties": {
+        "permissionBoundaryArn": {
+          "description": "Optional Permission Boundary ARN to limit the maximum permissions for roles created by Hubble",
+          "type": "string"
+        },
+        "roleArn": {
+          "description": "IAM Role ARN for the AWS EKS Pod Identity in cloud account",
+          "type": "string"
+        }
+      }
     },
     "v1AwsPolicies": {
       "type": "object",
@@ -40393,6 +40416,14 @@
         "assignmentState"
       ],
       "properties": {
+        "assignedBy": {
+          "description": "Specifies the actor who has made the current variable assignment",
+          "type": "string",
+          "enum": [
+            "spectrocluster",
+            "clustertemplate"
+          ]
+        },
         "assignedValue": {
           "description": "Value assigned to the variable",
           "type": "string"
@@ -57028,6 +57059,9 @@
             },
             "clusterTemplate": {
               "$ref": "#/definitions/v1ClusterTemplateRef"
+            },
+            "clusterType": {
+              "$ref": "#/definitions/v1ClusterType"
             },
             "machinepoolconfig": {
               "type": "array",
