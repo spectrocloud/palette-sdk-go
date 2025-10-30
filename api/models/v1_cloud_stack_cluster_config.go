@@ -31,6 +31,9 @@ type V1CloudStackClusterConfig struct {
 	// SSH Key name for accessing cluster nodes
 	SSHKeyName string `json:"sshKeyName,omitempty"`
 
+	// SyncWithCKS determines if an externalManaged CKS cluster should be created (optional)
+	SyncWithCKS bool `json:"syncWithCKS,omitempty"`
+
 	// Multiple zones for multi-AZ deployments. If only one zone is specified, it will be treated as single-zone deployment
 	Zones []*V1CloudStackZoneSpec `json:"zones"`
 }

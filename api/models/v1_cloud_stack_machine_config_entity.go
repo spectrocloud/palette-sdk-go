@@ -32,10 +32,6 @@ type V1CloudStackMachineConfigEntity struct {
 	// disk offering
 	DiskOffering *V1CloudStackResource `json:"diskOffering,omitempty"`
 
-	// instance type
-	// Required: true
-	InstanceType *V1CloudStackResource `json:"instanceType"`
-
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
@@ -56,10 +52,6 @@ func (m *V1CloudStackMachineConfigEntity) Validate(formats strfmt.Registry) erro
 	var res []error
 
 	if err := m.validateDiskOffering(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateInstanceType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -92,26 +84,6 @@ func (m *V1CloudStackMachineConfigEntity) validateDiskOffering(formats strfmt.Re
 				return ve.ValidateName("diskOffering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("diskOffering")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1CloudStackMachineConfigEntity) validateInstanceType(formats strfmt.Registry) error {
-
-	if err := validate.Required("instanceType", "body", m.InstanceType); err != nil {
-		return err
-	}
-
-	if m.InstanceType != nil {
-		if err := m.InstanceType.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
 			}
 			return err
 		}
@@ -194,10 +166,6 @@ func (m *V1CloudStackMachineConfigEntity) ContextValidate(ctx context.Context, f
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -229,23 +197,6 @@ func (m *V1CloudStackMachineConfigEntity) contextValidateDiskOffering(ctx contex
 				return ve.ValidateName("diskOffering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("diskOffering")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1CloudStackMachineConfigEntity) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InstanceType != nil {
-
-		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceType")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceType")
 			}
 			return err
 		}

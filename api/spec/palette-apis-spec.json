@@ -2345,7 +2345,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/v1CloudStackAccount"
+              "$ref": "#/definitions/v1CloudStackAccountInputEntity"
             }
           }
         ],
@@ -2392,7 +2392,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/v1CloudStackAccount"
+              "$ref": "#/definitions/v1CloudStackAccountUpdateEntity"
             }
           }
         ],
@@ -36458,6 +36458,36 @@
         }
       }
     },
+    "v1CloudStackAccountInputEntity": {
+      "description": "CloudStack account input entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1CloudStackCloudAccount"
+        },
+        "status": {
+          "$ref": "#/definitions/v1CloudAccountStatus"
+        }
+      }
+    },
+    "v1CloudStackAccountUpdateEntity": {
+      "description": "CloudStack account update entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaUpdateEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1CloudStackCloudAccount"
+        },
+        "status": {
+          "$ref": "#/definitions/v1CloudAccountStatus"
+        }
+      }
+    },
     "v1CloudStackAccounts": {
       "type": "object",
       "required": [
@@ -36595,6 +36625,10 @@
         "sshKeyName": {
           "description": "SSH Key name for accessing cluster nodes",
           "type": "string"
+        },
+        "syncWithCKS": {
+          "description": "SyncWithCKS determines if an externalManaged CKS cluster should be created (optional)",
+          "type": "boolean"
         },
         "zones": {
           "description": "Multiple zones for multi-AZ deployments. If only one zone is specified, it will be treated as single-zone deployment",
@@ -36736,10 +36770,6 @@
           "description": "Disk offering name for root disk (optional)",
           "type": "string"
         },
-        "instanceConfig": {
-          "description": "Instance configuration",
-          "$ref": "#/definitions/v1InstanceConfig"
-        },
         "networks": {
           "description": "Network configuration",
           "type": "array",
@@ -36765,7 +36795,6 @@
     "v1CloudStackMachineConfigEntity": {
       "type": "object",
       "required": [
-        "instanceType",
         "serviceOffering",
         "template"
       ],
@@ -36792,9 +36821,6 @@
           }
         },
         "diskOffering": {
-          "$ref": "#/definitions/v1CloudStackResource"
-        },
-        "instanceType": {
           "$ref": "#/definitions/v1CloudStackResource"
         },
         "networks": {
@@ -36841,7 +36867,6 @@
     "v1CloudStackMachinePoolCloudConfigEntity": {
       "type": "object",
       "required": [
-        "template",
         "offering"
       ],
       "properties": {
@@ -36863,10 +36888,6 @@
           "description": "Disk offering name for root disk (optional)",
           "type": "string"
         },
-        "instanceConfig": {
-          "description": "Instance configuration",
-          "$ref": "#/definitions/v1InstanceConfig"
-        },
         "networks": {
           "description": "Network configuration",
           "type": "array",
@@ -36882,10 +36903,6 @@
           "description": "Root disk size in GB (optional)",
           "type": "integer",
           "format": "int32"
-        },
-        "template": {
-          "description": "Template (VM template/image) name to use for the instances",
-          "type": "string"
         }
       }
     },
@@ -36984,15 +37001,12 @@
     "v1CloudStackNetworkConfig": {
       "description": "Network configuration for CloudStack instances",
       "type": "object",
-      "required": [
-        "network"
-      ],
       "properties": {
-        "ipAddress": {
-          "description": "IP address to assign (optional, for static IP)",
+        "id": {
+          "description": "Network id",
           "type": "string"
         },
-        "network": {
+        "name": {
           "description": "Network name",
           "type": "string"
         }
@@ -55105,7 +55119,7 @@
       "type": "object",
       "properties": {
         "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
         },
         "spec": {
           "type": "object",

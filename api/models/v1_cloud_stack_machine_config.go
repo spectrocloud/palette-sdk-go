@@ -29,9 +29,6 @@ type V1CloudStackMachineConfig struct {
 	// Disk offering name for root disk (optional)
 	DiskOffering string `json:"diskOffering,omitempty"`
 
-	// Instance configuration
-	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
-
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
@@ -51,10 +48,6 @@ type V1CloudStackMachineConfig struct {
 func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateInstanceConfig(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateNetworks(formats); err != nil {
 		res = append(res, err)
 	}
@@ -70,25 +63,6 @@ func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *V1CloudStackMachineConfig) validateInstanceConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.InstanceConfig) { // not required
-		return nil
-	}
-
-	if m.InstanceConfig != nil {
-		if err := m.InstanceConfig.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceConfig")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 
@@ -140,10 +114,6 @@ func (m *V1CloudStackMachineConfig) validateTemplate(formats strfmt.Registry) er
 func (m *V1CloudStackMachineConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.contextValidateInstanceConfig(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -151,27 +121,6 @@ func (m *V1CloudStackMachineConfig) ContextValidate(ctx context.Context, formats
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *V1CloudStackMachineConfig) contextValidateInstanceConfig(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.InstanceConfig != nil {
-
-		if swag.IsZero(m.InstanceConfig) { // not required
-			return nil
-		}
-
-		if err := m.InstanceConfig.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("instanceConfig")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("instanceConfig")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 

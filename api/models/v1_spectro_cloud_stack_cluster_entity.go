@@ -21,7 +21,7 @@ import (
 type V1SpectroCloudStackClusterEntity struct {
 
 	// metadata
-	Metadata *V1ObjectMeta `json:"metadata,omitempty"`
+	Metadata *V1ObjectMetaInputEntity `json:"metadata,omitempty"`
 
 	// spec
 	Spec *V1SpectroCloudStackClusterEntitySpec `json:"spec,omitempty"`

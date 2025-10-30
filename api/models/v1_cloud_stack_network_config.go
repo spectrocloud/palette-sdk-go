@@ -8,10 +8,8 @@ package models
 import (
 	"context"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1CloudStackNetworkConfig Network configuration for CloudStack instances
@@ -19,34 +17,15 @@ import (
 // swagger:model v1CloudStackNetworkConfig
 type V1CloudStackNetworkConfig struct {
 
-	// IP address to assign (optional, for static IP)
-	IPAddress string `json:"ipAddress,omitempty"`
+	// Network id
+	ID string `json:"id,omitempty"`
 
 	// Network name
-	// Required: true
-	Network *string `json:"network"`
+	Name string `json:"name,omitempty"`
 }
 
 // Validate validates this v1 cloud stack network config
 func (m *V1CloudStackNetworkConfig) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateNetwork(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *V1CloudStackNetworkConfig) validateNetwork(formats strfmt.Registry) error {
-
-	if err := validate.Required("network", "body", m.Network); err != nil {
-		return err
-	}
-
 	return nil
 }
 
