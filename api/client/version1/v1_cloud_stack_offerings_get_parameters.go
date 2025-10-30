@@ -66,6 +66,21 @@ type V1CloudStackOfferingsGetParams struct {
 
 	*/
 	CloudAccountUID *string
+	/*DomainID
+	  Domain ID for which CloudStack offerings are requested
+
+	*/
+	DomainID *string
+	/*ProjectID
+	  Project ID for which CloudStack offerings are requested
+
+	*/
+	ProjectID *string
+	/*TemplateID
+	  Template ID for which CloudStack offerings are requested
+
+	*/
+	TemplateID *string
 	/*Zone
 	  Zone for which CloudStack offerings are requested
 
@@ -121,6 +136,39 @@ func (o *V1CloudStackOfferingsGetParams) SetCloudAccountUID(cloudAccountUID *str
 	o.CloudAccountUID = cloudAccountUID
 }
 
+// WithDomainID adds the domainID to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) WithDomainID(domainID *string) *V1CloudStackOfferingsGetParams {
+	o.SetDomainID(domainID)
+	return o
+}
+
+// SetDomainID adds the domainId to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) SetDomainID(domainID *string) {
+	o.DomainID = domainID
+}
+
+// WithProjectID adds the projectID to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) WithProjectID(projectID *string) *V1CloudStackOfferingsGetParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
+// WithTemplateID adds the templateID to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) WithTemplateID(templateID *string) *V1CloudStackOfferingsGetParams {
+	o.SetTemplateID(templateID)
+	return o
+}
+
+// SetTemplateID adds the templateId to the v1 cloud stack offerings get params
+func (o *V1CloudStackOfferingsGetParams) SetTemplateID(templateID *string) {
+	o.TemplateID = templateID
+}
+
 // WithZone adds the zone to the v1 cloud stack offerings get params
 func (o *V1CloudStackOfferingsGetParams) WithZone(zone *string) *V1CloudStackOfferingsGetParams {
 	o.SetZone(zone)
@@ -150,6 +198,54 @@ func (o *V1CloudStackOfferingsGetParams) WriteToRequest(r runtime.ClientRequest,
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.DomainID != nil {
+
+		// query param domainId
+		var qrDomainID string
+		if o.DomainID != nil {
+			qrDomainID = *o.DomainID
+		}
+		qDomainID := qrDomainID
+		if qDomainID != "" {
+			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.TemplateID != nil {
+
+		// query param templateId
+		var qrTemplateID string
+		if o.TemplateID != nil {
+			qrTemplateID = *o.TemplateID
+		}
+		qTemplateID := qrTemplateID
+		if qTemplateID != "" {
+			if err := r.SetQueryParam("templateId", qTemplateID); err != nil {
 				return err
 			}
 		}

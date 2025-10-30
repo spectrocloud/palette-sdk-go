@@ -66,6 +66,16 @@ type V1CloudStackDiskOfferingsGetParams struct {
 
 	*/
 	CloudAccountUID *string
+	/*DomainID
+	  Domain ID for which CloudStack disk offerings are requested
+
+	*/
+	DomainID *string
+	/*ProjectID
+	  Project ID for which CloudStack disk offerings are requested
+
+	*/
+	ProjectID *string
 	/*Zone
 	  Zone for which CloudStack disk offerings are requested
 
@@ -121,6 +131,28 @@ func (o *V1CloudStackDiskOfferingsGetParams) SetCloudAccountUID(cloudAccountUID 
 	o.CloudAccountUID = cloudAccountUID
 }
 
+// WithDomainID adds the domainID to the v1 cloud stack disk offerings get params
+func (o *V1CloudStackDiskOfferingsGetParams) WithDomainID(domainID *string) *V1CloudStackDiskOfferingsGetParams {
+	o.SetDomainID(domainID)
+	return o
+}
+
+// SetDomainID adds the domainId to the v1 cloud stack disk offerings get params
+func (o *V1CloudStackDiskOfferingsGetParams) SetDomainID(domainID *string) {
+	o.DomainID = domainID
+}
+
+// WithProjectID adds the projectID to the v1 cloud stack disk offerings get params
+func (o *V1CloudStackDiskOfferingsGetParams) WithProjectID(projectID *string) *V1CloudStackDiskOfferingsGetParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloud stack disk offerings get params
+func (o *V1CloudStackDiskOfferingsGetParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
 // WithZone adds the zone to the v1 cloud stack disk offerings get params
 func (o *V1CloudStackDiskOfferingsGetParams) WithZone(zone *string) *V1CloudStackDiskOfferingsGetParams {
 	o.SetZone(zone)
@@ -150,6 +182,38 @@ func (o *V1CloudStackDiskOfferingsGetParams) WriteToRequest(r runtime.ClientRequ
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.DomainID != nil {
+
+		// query param domainId
+		var qrDomainID string
+		if o.DomainID != nil {
+			qrDomainID = *o.DomainID
+		}
+		qDomainID := qrDomainID
+		if qDomainID != "" {
+			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
 				return err
 			}
 		}

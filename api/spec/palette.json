@@ -10814,6 +10814,18 @@
             "description": "Zone for which CloudStack disk offerings are requested",
             "name": "zone",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack disk offerings are requested",
+            "name": "domainId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack disk offerings are requested",
+            "name": "projectId",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10870,6 +10882,12 @@
             "description": "Project ID for which CloudStack SSH key pairs are requested",
             "name": "projectId",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack SSH key pairs are requested",
+            "name": "domainId",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10901,6 +10919,24 @@
             "description": "Zone for which CloudStack networks are requested",
             "name": "zone",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack networks are requested",
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "VPC ID for which CloudStack networks are requested",
+            "name": "vpcId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack networks are requested",
+            "name": "domainId",
+            "in": "query"
           }
         ],
         "responses": {
@@ -10931,6 +10967,24 @@
             "type": "string",
             "description": "Zone for which CloudStack offerings are requested",
             "name": "zone",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack offerings are requested",
+            "name": "domainId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack offerings are requested",
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Template ID for which CloudStack offerings are requested",
+            "name": "templateId",
             "in": "query"
           }
         ],
@@ -10994,6 +11048,18 @@
             "description": "Zone for which CloudStack templates are requested",
             "name": "zone",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack templates are requested",
+            "name": "domainId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack templates are requested",
+            "name": "projectId",
+            "in": "query"
           }
         ],
         "responses": {
@@ -11001,6 +11067,43 @@
             "description": "(empty)",
             "schema": {
               "$ref": "#/definitions/v1CloudStackTemplates"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/cloudstack/vpcs": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the CloudStack Vpcs",
+        "operationId": "V1CloudStackVpcsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Uid for the specific CloudStack cloud account",
+            "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Project ID for which CloudStack SSH key pairs are requested",
+            "name": "projectId",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack SSH key pairs are requested",
+            "name": "domainId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1CloudStackVpcs"
             }
           }
         }
@@ -11018,6 +11121,12 @@
             "type": "string",
             "description": "Uid for the specific CloudStack cloud account",
             "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain id for which the zones are requested",
+            "name": "domainId",
             "in": "query"
           }
         ],
@@ -12188,6 +12297,41 @@
         ]
       }
     },
+    "/v1/clusterTemplates/spectroclusters/{clusterUid}/variables": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update the specified cluster's template variables",
+        "operationId": "V1ClusterTemplatesUidSpectroClustersUidVariablesPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateVariablesUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        },
+        "x-Features": [
+          "ClusterTemplate"
+        ]
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "clusterUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/clusterTemplates/tags": {
       "get": {
         "tags": [
@@ -12472,48 +12616,6 @@
             "schema": {
               "$ref": "#/definitions/v1ClusterReconcile"
             }
-          }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster template uid",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Cluster uid",
-          "name": "clusterUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/variables": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified cluster's template variables",
-        "operationId": "V1ClusterTemplatesUidSpectroClustersUidVariablesPatch",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1ClusterTemplateVariablesUpdateEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
           }
         },
         "x-Features": [
@@ -36408,10 +36510,6 @@
           "description": "API URL for CloudStack management server",
           "type": "string"
         },
-        "caCert": {
-          "description": "CA certificate for SSL verification (optional)",
-          "type": "string"
-        },
         "insecure": {
           "description": "Skip SSL certificate verification (default: false)",
           "type": "boolean"
@@ -37071,6 +37169,36 @@
         "offering": {
           "description": "VPC offering name",
           "type": "string"
+        }
+      }
+    },
+    "v1CloudStackVpc": {
+      "description": "CloudStack Vpc",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Vpc id",
+          "type": "string"
+        },
+        "name": {
+          "description": "Vpc name",
+          "type": "string"
+        }
+      }
+    },
+    "v1CloudStackVpcs": {
+      "description": "List of CloudStack SSH key pairs",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1CloudStackVpc"
+          }
         }
       }
     },

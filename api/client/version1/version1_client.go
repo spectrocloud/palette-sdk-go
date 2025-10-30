@@ -132,6 +132,8 @@ type ClientService interface {
 
 	V1CloudStackTemplatesGet(params *V1CloudStackTemplatesGetParams) (*V1CloudStackTemplatesGetOK, error)
 
+	V1CloudStackVpcsGet(params *V1CloudStackVpcsGetParams) (*V1CloudStackVpcsGetOK, error)
+
 	V1CloudStackZonesGet(params *V1CloudStackZonesGetParams) (*V1CloudStackZonesGetOK, error)
 
 	V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error)
@@ -3898,6 +3900,40 @@ func (a *Client) V1CloudStackTemplatesGet(params *V1CloudStackTemplatesGetParams
 }
 
 /*
+V1CloudStackVpcsGet returns the cloud stack vpcs
+*/
+func (a *Client) V1CloudStackVpcsGet(params *V1CloudStackVpcsGetParams) (*V1CloudStackVpcsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudStackVpcsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1CloudStackVpcsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/cloudstack/vpcs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudStackVpcsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudStackVpcsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1CloudStackVpcsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1CloudStackZonesGet returns the cloud stack zones
 */
 func (a *Client) V1CloudStackZonesGet(params *V1CloudStackZonesGetParams) (*V1CloudStackZonesGetOK, error) {
@@ -4659,7 +4695,7 @@ func (a *Client) V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch(params *V
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1ClusterTemplatesUidSpectroClustersUidVariablesPatch",
 		Method:             "PATCH",
-		PathPattern:        "/v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/variables",
+		PathPattern:        "/v1/clusterTemplates/spectroclusters/{clusterUid}/variables",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
