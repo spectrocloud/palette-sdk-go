@@ -19,8 +19,18 @@ func (h *V1Client) CreateCloudAccountCloudStack(account *models.V1CloudStackAcco
 		return "", err
 	}
 
+	// Convert to input entity type
+	inputEntity := &models.V1CloudStackAccountInputEntity{
+		Metadata: &models.V1ObjectMetaInputEntity{
+			Name:        account.Metadata.Name,
+			Labels:      account.Metadata.Labels,
+			Annotations: account.Metadata.Annotations,
+		},
+		Spec: account.Spec,
+	}
+
 	params := clientv1.NewV1CloudAccountsCloudStackCreateParamsWithContext(h.ctx).
-		WithBody(account)
+		WithBody(inputEntity)
 	resp, err := h.Client.V1CloudAccountsCloudStackCreate(params)
 	if err != nil {
 		return "", err
@@ -51,9 +61,18 @@ func (h *V1Client) UpdateCloudAccountCloudStack(account *models.V1CloudStackAcco
 		return err
 	}
 
+	// Convert to update entity type
+	updateEntity := &models.V1CloudStackAccountUpdateEntity{
+		Metadata: &models.V1ObjectMetaUpdateEntity{
+			Labels:      account.Metadata.Labels,
+			Annotations: account.Metadata.Annotations,
+		},
+		Spec: account.Spec,
+	}
+
 	params := clientv1.NewV1CloudAccountsCloudStackUpdateParamsWithContext(h.ctx).
 		WithUID(account.Metadata.UID).
-		WithBody(account)
+		WithBody(updateEntity)
 
 	_, err := h.Client.V1CloudAccountsCloudStackUpdate(params)
 	return err
