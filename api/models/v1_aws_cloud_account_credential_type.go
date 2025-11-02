@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// V1AwsCloudAccountCredentialType Allowed Values [secret, sts]. STS type will be used for role assumption for sts type, accessKey/secretKey contains the source account, Arn is the target account.
+// V1AwsCloudAccountCredentialType Allowed Values [secret, sts, pod-identity]. STS type will be used for role assumption for sts type, accessKey/secretKey contains the source account, Arn is the target account. Pod Identity type will be used for EKS Pod Identity authentication with roleArn as the target account.
 //
 // swagger:model v1AwsCloudAccountCredentialType
 type V1AwsCloudAccountCredentialType string
@@ -35,6 +35,9 @@ const (
 
 	// V1AwsCloudAccountCredentialTypeSts captures enum value "sts"
 	V1AwsCloudAccountCredentialTypeSts V1AwsCloudAccountCredentialType = "sts"
+
+	// V1AwsCloudAccountCredentialTypePodDashIdentity captures enum value "pod-identity"
+	V1AwsCloudAccountCredentialTypePodDashIdentity V1AwsCloudAccountCredentialType = "pod-identity"
 )
 
 // for schema
@@ -42,7 +45,7 @@ var v1AwsCloudAccountCredentialTypeEnum []interface{}
 
 func init() {
 	var res []V1AwsCloudAccountCredentialType
-	if err := json.Unmarshal([]byte(`["secret","sts"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["secret","sts","pod-identity"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
