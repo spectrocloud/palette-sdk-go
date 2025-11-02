@@ -46,7 +46,7 @@ type V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent struct {
 }
 
 func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent) Error() string {
-	return fmt.Sprintf("[PATCH /v1/clusterTemplates/{uid}/spectroclusters/{clusterUid}/variables][%d] v1ClusterTemplatesUidSpectroClustersUidVariablesPatchNoContent ", 204)
+	return fmt.Sprintf("[PATCH /v1/clusterTemplates/spectroclusters/{clusterUid}/variables][%d] v1ClusterTemplatesUidSpectroClustersUidVariablesPatchNoContent ", 204)
 }
 
 func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

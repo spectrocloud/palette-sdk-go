@@ -26,6 +26,9 @@ type V1RateConfig struct {
 	// azure
 	Azure *V1PublicCloudRateConfig `json:"azure,omitempty"`
 
+	// cloudstack
+	Cloudstack *V1PrivateCloudRateConfig `json:"cloudstack,omitempty"`
+
 	// custom
 	// Unique: true
 	Custom []*V1CustomCloudRateConfig `json:"custom"`
@@ -61,6 +64,10 @@ func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAzure(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCloudstack(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -132,6 +139,25 @@ func (m *V1RateConfig) validateAzure(formats strfmt.Registry) error {
 				return ve.ValidateName("azure")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) validateCloudstack(formats strfmt.Registry) error {
+	if swag.IsZero(m.Cloudstack) { // not required
+		return nil
+	}
+
+	if m.Cloudstack != nil {
+		if err := m.Cloudstack.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudstack")
 			}
 			return err
 		}
@@ -315,6 +341,10 @@ func (m *V1RateConfig) ContextValidate(ctx context.Context, formats strfmt.Regis
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateCloudstack(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateCustom(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -387,6 +417,27 @@ func (m *V1RateConfig) contextValidateAzure(ctx context.Context, formats strfmt.
 				return ve.ValidateName("azure")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1RateConfig) contextValidateCloudstack(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cloudstack != nil {
+
+		if swag.IsZero(m.Cloudstack) { // not required
+			return nil
+		}
+
+		if err := m.Cloudstack.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cloudstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cloudstack")
 			}
 			return err
 		}

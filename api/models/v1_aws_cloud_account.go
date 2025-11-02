@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// V1AwsCloudAccount AWS cloud account which includes access key and secret key in case of 'secret' credentials type. It includes policyARNS, ARN and externalId in case of sts. Partition is a group of AWS Region and Service objects
+// V1AwsCloudAccount AWS cloud account which includes access key and secret key in case of 'secret' credentials type. It includes policyARNS, ARN and externalId in case of sts. It includes roleArn and permissionBoundaryArn in case of podIdentity. Partition is a group of AWS Region and Service objects
 //
 // swagger:model v1AwsCloudAccount
 type V1AwsCloudAccount struct {
@@ -29,6 +29,9 @@ type V1AwsCloudAccount struct {
 	// AWS accounts are scoped to a single partition. Allowed values [aws, aws-us-gov], Default values
 	// Enum: ["aws","aws-us-gov","aws-iso","aws-iso-b"]
 	Partition *string `json:"partition,omitempty"`
+
+	// AWS EKS Pod Identity credentials in case of credentialType podIdentity, will be empty in case of other credential types
+	PodIdentity *V1AwsPodIdentityCredentials `json:"podIdentity,omitempty"`
 
 	// List of policy ARNs required in case of credentialType sts.
 	PolicyARNs []string `json:"policyARNs"`
@@ -55,6 +58,10 @@ func (m *V1AwsCloudAccount) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validatePartition(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePodIdentity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -139,6 +146,25 @@ func (m *V1AwsCloudAccount) validatePartition(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1AwsCloudAccount) validatePodIdentity(formats strfmt.Registry) error {
+	if swag.IsZero(m.PodIdentity) { // not required
+		return nil
+	}
+
+	if m.PodIdentity != nil {
+		if err := m.PodIdentity.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("podIdentity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podIdentity")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1AwsCloudAccount) validateSecretSpec(formats strfmt.Registry) error {
 	if swag.IsZero(m.SecretSpec) { // not required
 		return nil
@@ -185,6 +211,10 @@ func (m *V1AwsCloudAccount) ContextValidate(ctx context.Context, formats strfmt.
 		res = append(res, err)
 	}
 
+	if err := m.contextValidatePodIdentity(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateSecretSpec(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -212,6 +242,27 @@ func (m *V1AwsCloudAccount) contextValidateCredentialType(ctx context.Context, f
 				return ve.ValidateName("credentialType")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("credentialType")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AwsCloudAccount) contextValidatePodIdentity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PodIdentity != nil {
+
+		if swag.IsZero(m.PodIdentity) { // not required
+			return nil
+		}
+
+		if err := m.PodIdentity.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("podIdentity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("podIdentity")
 			}
 			return err
 		}
