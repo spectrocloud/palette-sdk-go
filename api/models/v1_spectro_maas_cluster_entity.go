@@ -180,6 +180,9 @@ type V1SpectroMaasClusterEntitySpec struct {
 	// cluster template
 	ClusterTemplate *V1ClusterTemplateRef `json:"clusterTemplate,omitempty"`
 
+	// cluster type
+	ClusterType *V1ClusterType `json:"clusterType,omitempty"`
+
 	// machinepoolconfig
 	Machinepoolconfig []*V1MaasMachinePoolConfigEntity `json:"machinepoolconfig"`
 
@@ -207,6 +210,10 @@ func (m *V1SpectroMaasClusterEntitySpec) Validate(formats strfmt.Registry) error
 	}
 
 	if err := m.validateClusterTemplate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateClusterType(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -287,6 +294,25 @@ func (m *V1SpectroMaasClusterEntitySpec) validateClusterTemplate(formats strfmt.
 				return ve.ValidateName("spec" + "." + "clusterTemplate")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("spec" + "." + "clusterTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroMaasClusterEntitySpec) validateClusterType(formats strfmt.Registry) error {
+	if swag.IsZero(m.ClusterType) { // not required
+		return nil
+	}
+
+	if m.ClusterType != nil {
+		if err := m.ClusterType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "clusterType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterType")
 			}
 			return err
 		}
@@ -382,6 +408,10 @@ func (m *V1SpectroMaasClusterEntitySpec) ContextValidate(ctx context.Context, fo
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateClusterType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateMachinepoolconfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -451,6 +481,27 @@ func (m *V1SpectroMaasClusterEntitySpec) contextValidateClusterTemplate(ctx cont
 				return ve.ValidateName("spec" + "." + "clusterTemplate")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("spec" + "." + "clusterTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroMaasClusterEntitySpec) contextValidateClusterType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterType != nil {
+
+		if swag.IsZero(m.ClusterType) { // not required
+			return nil
+		}
+
+		if err := m.ClusterType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "clusterType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "clusterType")
 			}
 			return err
 		}

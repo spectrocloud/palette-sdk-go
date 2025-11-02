@@ -20,6 +20,10 @@ import (
 // swagger:model v1ClusterTemplateVariableClusterAssignment
 type V1ClusterTemplateVariableClusterAssignment struct {
 
+	// Specifies the actor who has made the current variable assignment
+	// Enum: ["spectrocluster","clustertemplate"]
+	AssignedBy string `json:"assignedBy,omitempty"`
+
 	// Value assigned to the variable
 	AssignedValue string `json:"assignedValue,omitempty"`
 
@@ -40,6 +44,10 @@ type V1ClusterTemplateVariableClusterAssignment struct {
 func (m *V1ClusterTemplateVariableClusterAssignment) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAssignedBy(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAssignmentState(formats); err != nil {
 		res = append(res, err)
 	}
@@ -51,6 +59,48 @@ func (m *V1ClusterTemplateVariableClusterAssignment) Validate(formats strfmt.Reg
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+var v1ClusterTemplateVariableClusterAssignmentTypeAssignedByPropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["spectrocluster","clustertemplate"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1ClusterTemplateVariableClusterAssignmentTypeAssignedByPropEnum = append(v1ClusterTemplateVariableClusterAssignmentTypeAssignedByPropEnum, v)
+	}
+}
+
+const (
+
+	// V1ClusterTemplateVariableClusterAssignmentAssignedBySpectrocluster captures enum value "spectrocluster"
+	V1ClusterTemplateVariableClusterAssignmentAssignedBySpectrocluster string = "spectrocluster"
+
+	// V1ClusterTemplateVariableClusterAssignmentAssignedByClustertemplate captures enum value "clustertemplate"
+	V1ClusterTemplateVariableClusterAssignmentAssignedByClustertemplate string = "clustertemplate"
+)
+
+// prop value enum
+func (m *V1ClusterTemplateVariableClusterAssignment) validateAssignedByEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1ClusterTemplateVariableClusterAssignmentTypeAssignedByPropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1ClusterTemplateVariableClusterAssignment) validateAssignedBy(formats strfmt.Registry) error {
+	if swag.IsZero(m.AssignedBy) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateAssignedByEnum("assignedBy", "body", m.AssignedBy); err != nil {
+		return err
+	}
+
 	return nil
 }
 
