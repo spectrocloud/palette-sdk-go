@@ -61,9 +61,27 @@ for the v1 cloudstack accounts Uid offerings operation typically these are writt
 */
 type V1CloudstackAccountsUIDOfferingsParams struct {
 
+	/*DomainID
+	  Domain ID for which CloudStack offerings are requested
+
+	*/
+	DomainID *string
+	/*ProjectID
+	  Project ID for which CloudStack offerings are requested
+
+	*/
+	ProjectID *string
+	/*TemplateID
+	  Template ID for which CloudStack offerings are requested
+
+	*/
+	TemplateID *string
 	/*UID*/
 	UID string
-	/*Zone*/
+	/*Zone
+	  Zone for which CloudStack offerings are requested
+
+	*/
 	Zone *string
 
 	timeout    time.Duration
@@ -104,6 +122,39 @@ func (o *V1CloudstackAccountsUIDOfferingsParams) SetHTTPClient(client *http.Clie
 	o.HTTPClient = client
 }
 
+// WithDomainID adds the domainID to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDOfferingsParams {
+	o.SetDomainID(domainID)
+	return o
+}
+
+// SetDomainID adds the domainId to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) SetDomainID(domainID *string) {
+	o.DomainID = domainID
+}
+
+// WithProjectID adds the projectID to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDOfferingsParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
+// WithTemplateID adds the templateID to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) WithTemplateID(templateID *string) *V1CloudstackAccountsUIDOfferingsParams {
+	o.SetTemplateID(templateID)
+	return o
+}
+
+// SetTemplateID adds the templateId to the v1 cloudstack accounts Uid offerings params
+func (o *V1CloudstackAccountsUIDOfferingsParams) SetTemplateID(templateID *string) {
+	o.TemplateID = templateID
+}
+
 // WithUID adds the uid to the v1 cloudstack accounts Uid offerings params
 func (o *V1CloudstackAccountsUIDOfferingsParams) WithUID(uid string) *V1CloudstackAccountsUIDOfferingsParams {
 	o.SetUID(uid)
@@ -133,6 +184,54 @@ func (o *V1CloudstackAccountsUIDOfferingsParams) WriteToRequest(r runtime.Client
 		return err
 	}
 	var res []error
+
+	if o.DomainID != nil {
+
+		// query param domainId
+		var qrDomainID string
+		if o.DomainID != nil {
+			qrDomainID = *o.DomainID
+		}
+		qDomainID := qrDomainID
+		if qDomainID != "" {
+			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.TemplateID != nil {
+
+		// query param templateId
+		var qrTemplateID string
+		if o.TemplateID != nil {
+			qrTemplateID = *o.TemplateID
+		}
+		qTemplateID := qrTemplateID
+		if qTemplateID != "" {
+			if err := r.SetQueryParam("templateId", qTemplateID); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {

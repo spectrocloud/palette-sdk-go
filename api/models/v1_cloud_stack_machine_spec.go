@@ -11,7 +11,6 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1CloudStackMachineSpec CloudStack cloud VM definition spec
@@ -19,45 +18,45 @@ import (
 // swagger:model v1CloudStackMachineSpec
 type V1CloudStackMachineSpec struct {
 
-	// Disk offering ID for additional storage
-	DiskOffering string `json:"diskOffering,omitempty"`
+	// Disk offering configuration for additional storage
+	DiskOffering *V1CloudStackMachineDiskOffering `json:"diskOffering,omitempty"`
+
+	// Failure domain name (zone) for the machine
+	FailureDomainName string `json:"failureDomainName,omitempty"`
 
 	// Instance service offering with cpu and memory info
-	// Required: true
-	InstanceType *V1GenericInstanceType `json:"instanceType"`
+	InstanceType *V1GenericInstanceType `json:"instanceType,omitempty"`
 
-	// Network configuration for the machine
-	Network *V1CloudStackMachineNetwork `json:"network,omitempty"`
+	// Compute offering configuration
+	Offering *V1CloudStackMachineOffering `json:"offering,omitempty"`
 
-	// Root disk size in GB
-	RootDiskSizeGB int32 `json:"rootDiskSizeGB,omitempty"`
+	// Provider ID for the machine
+	ProviderID string `json:"providerID,omitempty"`
 
-	// Template ID to use for the machine
-	// Required: true
-	Template *string `json:"template"`
+	// SSH key name to use for the machine
+	SSHKey string `json:"sshKey,omitempty"`
 
-	// Zone where the machine will be deployed
-	// Required: true
-	Zone *string `json:"zone"`
+	// Template configuration for the machine
+	Template *V1CloudStackMachineTemplate `json:"template,omitempty"`
 }
 
 // Validate validates this v1 cloud stack machine spec
 func (m *V1CloudStackMachineSpec) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDiskOffering(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateInstanceType(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateNetwork(formats); err != nil {
+	if err := m.validateOffering(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateTemplate(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateZone(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -67,10 +66,28 @@ func (m *V1CloudStackMachineSpec) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1CloudStackMachineSpec) validateInstanceType(formats strfmt.Registry) error {
+func (m *V1CloudStackMachineSpec) validateDiskOffering(formats strfmt.Registry) error {
+	if swag.IsZero(m.DiskOffering) { // not required
+		return nil
+	}
 
-	if err := validate.Required("instanceType", "body", m.InstanceType); err != nil {
-		return err
+	if m.DiskOffering != nil {
+		if err := m.DiskOffering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachineSpec) validateInstanceType(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceType) { // not required
+		return nil
 	}
 
 	if m.InstanceType != nil {
@@ -87,17 +104,17 @@ func (m *V1CloudStackMachineSpec) validateInstanceType(formats strfmt.Registry) 
 	return nil
 }
 
-func (m *V1CloudStackMachineSpec) validateNetwork(formats strfmt.Registry) error {
-	if swag.IsZero(m.Network) { // not required
+func (m *V1CloudStackMachineSpec) validateOffering(formats strfmt.Registry) error {
+	if swag.IsZero(m.Offering) { // not required
 		return nil
 	}
 
-	if m.Network != nil {
-		if err := m.Network.Validate(formats); err != nil {
+	if m.Offering != nil {
+		if err := m.Offering.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("network")
+				return ve.ValidateName("offering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("network")
+				return ce.ValidateName("offering")
 			}
 			return err
 		}
@@ -107,18 +124,19 @@ func (m *V1CloudStackMachineSpec) validateNetwork(formats strfmt.Registry) error
 }
 
 func (m *V1CloudStackMachineSpec) validateTemplate(formats strfmt.Registry) error {
-
-	if err := validate.Required("template", "body", m.Template); err != nil {
-		return err
+	if swag.IsZero(m.Template) { // not required
+		return nil
 	}
 
-	return nil
-}
-
-func (m *V1CloudStackMachineSpec) validateZone(formats strfmt.Registry) error {
-
-	if err := validate.Required("zone", "body", m.Zone); err != nil {
-		return err
+	if m.Template != nil {
+		if err := m.Template.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("template")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("template")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -128,11 +146,19 @@ func (m *V1CloudStackMachineSpec) validateZone(formats strfmt.Registry) error {
 func (m *V1CloudStackMachineSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDiskOffering(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateNetwork(ctx, formats); err != nil {
+	if err := m.contextValidateOffering(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTemplate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -142,9 +168,34 @@ func (m *V1CloudStackMachineSpec) ContextValidate(ctx context.Context, formats s
 	return nil
 }
 
+func (m *V1CloudStackMachineSpec) contextValidateDiskOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DiskOffering != nil {
+
+		if swag.IsZero(m.DiskOffering) { // not required
+			return nil
+		}
+
+		if err := m.DiskOffering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1CloudStackMachineSpec) contextValidateInstanceType(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.InstanceType != nil {
+
+		if swag.IsZero(m.InstanceType) { // not required
+			return nil
+		}
 
 		if err := m.InstanceType.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
@@ -159,19 +210,40 @@ func (m *V1CloudStackMachineSpec) contextValidateInstanceType(ctx context.Contex
 	return nil
 }
 
-func (m *V1CloudStackMachineSpec) contextValidateNetwork(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1CloudStackMachineSpec) contextValidateOffering(ctx context.Context, formats strfmt.Registry) error {
 
-	if m.Network != nil {
+	if m.Offering != nil {
 
-		if swag.IsZero(m.Network) { // not required
+		if swag.IsZero(m.Offering) { // not required
 			return nil
 		}
 
-		if err := m.Network.ContextValidate(ctx, formats); err != nil {
+		if err := m.Offering.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("network")
+				return ve.ValidateName("offering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("network")
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachineSpec) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Template != nil {
+
+		if swag.IsZero(m.Template) { // not required
+			return nil
+		}
+
+		if err := m.Template.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("template")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("template")
 			}
 			return err
 		}

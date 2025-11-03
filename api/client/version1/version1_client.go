@@ -946,6 +946,8 @@ type ClientService interface {
 
 	V1CloudstackAccountsUIDTemplates(params *V1CloudstackAccountsUIDTemplatesParams) (*V1CloudstackAccountsUIDTemplatesOK, error)
 
+	V1CloudstackAccountsUIDVpcs(params *V1CloudstackAccountsUIDVpcsParams) (*V1CloudstackAccountsUIDVpcsOK, error)
+
 	V1CloudstackAccountsUIDZones(params *V1CloudstackAccountsUIDZonesParams) (*V1CloudstackAccountsUIDZonesOK, error)
 
 	V1ClusterFeatureBackupCreate(params *V1ClusterFeatureBackupCreateParams) (*V1ClusterFeatureBackupCreateCreated, error)
@@ -17782,6 +17784,40 @@ func (a *Client) V1CloudstackAccountsUIDTemplates(params *V1CloudstackAccountsUI
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudstackAccountsUidTemplates: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1CloudstackAccountsUIDVpcs gets the cloudstack v p cs for a given account
+*/
+func (a *Client) V1CloudstackAccountsUIDVpcs(params *V1CloudstackAccountsUIDVpcsParams) (*V1CloudstackAccountsUIDVpcsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudstackAccountsUIDVpcsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1CloudstackAccountsUidVpcs",
+		Method:             "GET",
+		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/vpcs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudstackAccountsUIDVpcsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudstackAccountsUIDVpcsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1CloudstackAccountsUidVpcs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

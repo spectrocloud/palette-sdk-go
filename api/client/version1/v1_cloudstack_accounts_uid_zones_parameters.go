@@ -61,6 +61,11 @@ for the v1 cloudstack accounts Uid zones operation typically these are written t
 */
 type V1CloudstackAccountsUIDZonesParams struct {
 
+	/*DomainID
+	  Domain id for which the zones are requested
+
+	*/
+	DomainID *string
 	/*UID*/
 	UID string
 
@@ -102,6 +107,17 @@ func (o *V1CloudstackAccountsUIDZonesParams) SetHTTPClient(client *http.Client) 
 	o.HTTPClient = client
 }
 
+// WithDomainID adds the domainID to the v1 cloudstack accounts Uid zones params
+func (o *V1CloudstackAccountsUIDZonesParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDZonesParams {
+	o.SetDomainID(domainID)
+	return o
+}
+
+// SetDomainID adds the domainId to the v1 cloudstack accounts Uid zones params
+func (o *V1CloudstackAccountsUIDZonesParams) SetDomainID(domainID *string) {
+	o.DomainID = domainID
+}
+
 // WithUID adds the uid to the v1 cloudstack accounts Uid zones params
 func (o *V1CloudstackAccountsUIDZonesParams) WithUID(uid string) *V1CloudstackAccountsUIDZonesParams {
 	o.SetUID(uid)
@@ -120,6 +136,22 @@ func (o *V1CloudstackAccountsUIDZonesParams) WriteToRequest(r runtime.ClientRequ
 		return err
 	}
 	var res []error
+
+	if o.DomainID != nil {
+
+		// query param domainId
+		var qrDomainID string
+		if o.DomainID != nil {
+			qrDomainID = *o.DomainID
+		}
+		qDomainID := qrDomainID
+		if qDomainID != "" {
+			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {

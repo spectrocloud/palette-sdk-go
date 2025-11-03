@@ -21,6 +21,9 @@ type V1CloudStackNetworkSpec struct {
 	// Gateway IP address for the network
 	Gateway string `json:"gateway,omitempty"`
 
+	// Network id
+	ID string `json:"id,omitempty"`
+
 	// Network name
 	Name string `json:"name,omitempty"`
 

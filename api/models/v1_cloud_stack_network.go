@@ -17,11 +17,50 @@ import (
 // swagger:model v1CloudStackNetwork
 type V1CloudStackNetwork struct {
 
+	// CIDR block for the network
+	Cidr string `json:"cidr,omitempty"`
+
+	// Display text for the network
+	DisplayText string `json:"displayText,omitempty"`
+
+	// Gateway IP address for the network
+	Gateway string `json:"gateway,omitempty"`
+
 	// Network ID
 	ID string `json:"id,omitempty"`
 
+	// Whether this is the default network
+	IsDefault bool `json:"isDefault,omitempty"`
+
+	// Whether the network is shared across accounts
+	IsShared bool `json:"isShared,omitempty"`
+
 	// Network name
 	Name string `json:"name,omitempty"`
+
+	// Network mask for the network
+	Netmask string `json:"netmask,omitempty"`
+
+	// Network domain
+	NetworkDomain string `json:"networkDomain,omitempty"`
+
+	// Network offering name
+	NetworkOffering string `json:"networkOffering,omitempty"`
+
+	// Current state of the network (Setup, Allocated, etc.)
+	State string `json:"state,omitempty"`
+
+	// Traffic type of the network (Guest, Management, etc.)
+	TrafficType string `json:"trafficType,omitempty"`
+
+	// Network type - Isolated, Shared, etc.
+	Type string `json:"type,omitempty"`
+
+	// Zone ID where the network is located
+	ZoneID string `json:"zoneId,omitempty"`
+
+	// Zone name where the network is located
+	ZoneName string `json:"zoneName,omitempty"`
 }
 
 // Validate validates this v1 cloud stack network

@@ -61,9 +61,27 @@ for the v1 cloudstack accounts Uid networks operation typically these are writte
 */
 type V1CloudstackAccountsUIDNetworksParams struct {
 
+	/*DomainID
+	  Domain ID for which CloudStack networks are requested
+
+	*/
+	DomainID *string
+	/*ProjectID
+	  Project ID for which CloudStack networks are requested
+
+	*/
+	ProjectID *string
 	/*UID*/
 	UID string
-	/*Zone*/
+	/*VpcID
+	  VPC ID for which CloudStack networks are requested
+
+	*/
+	VpcID *string
+	/*Zone
+	  Zone for which CloudStack networks are requested
+
+	*/
 	Zone *string
 
 	timeout    time.Duration
@@ -104,6 +122,28 @@ func (o *V1CloudstackAccountsUIDNetworksParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
+// WithDomainID adds the domainID to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDNetworksParams {
+	o.SetDomainID(domainID)
+	return o
+}
+
+// SetDomainID adds the domainId to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) SetDomainID(domainID *string) {
+	o.DomainID = domainID
+}
+
+// WithProjectID adds the projectID to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDNetworksParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
 // WithUID adds the uid to the v1 cloudstack accounts Uid networks params
 func (o *V1CloudstackAccountsUIDNetworksParams) WithUID(uid string) *V1CloudstackAccountsUIDNetworksParams {
 	o.SetUID(uid)
@@ -113,6 +153,17 @@ func (o *V1CloudstackAccountsUIDNetworksParams) WithUID(uid string) *V1Cloudstac
 // SetUID adds the uid to the v1 cloudstack accounts Uid networks params
 func (o *V1CloudstackAccountsUIDNetworksParams) SetUID(uid string) {
 	o.UID = uid
+}
+
+// WithVpcID adds the vpcID to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) WithVpcID(vpcID *string) *V1CloudstackAccountsUIDNetworksParams {
+	o.SetVpcID(vpcID)
+	return o
+}
+
+// SetVpcID adds the vpcId to the v1 cloudstack accounts Uid networks params
+func (o *V1CloudstackAccountsUIDNetworksParams) SetVpcID(vpcID *string) {
+	o.VpcID = vpcID
 }
 
 // WithZone adds the zone to the v1 cloudstack accounts Uid networks params
@@ -134,9 +185,57 @@ func (o *V1CloudstackAccountsUIDNetworksParams) WriteToRequest(r runtime.ClientR
 	}
 	var res []error
 
+	if o.DomainID != nil {
+
+		// query param domainId
+		var qrDomainID string
+		if o.DomainID != nil {
+			qrDomainID = *o.DomainID
+		}
+		qDomainID := qrDomainID
+		if qDomainID != "" {
+			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {
 		return err
+	}
+
+	if o.VpcID != nil {
+
+		// query param vpcId
+		var qrVpcID string
+		if o.VpcID != nil {
+			qrVpcID = *o.VpcID
+		}
+		qVpcID := qrVpcID
+		if qVpcID != "" {
+			if err := r.SetQueryParam("vpcId", qVpcID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if o.Zone != nil {

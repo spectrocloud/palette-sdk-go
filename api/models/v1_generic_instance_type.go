@@ -20,6 +20,9 @@ type V1GenericInstanceType struct {
 	// DiskGiB is the size of a virtual machine's disk, in GiB
 	DiskGiB int32 `json:"diskGiB,omitempty"`
 
+	// Instance type ID
+	ID string `json:"id,omitempty"`
+
 	// MemoryMiB is the size of a virtual machine's memory, in MiB
 	MemoryMiB int64 `json:"memoryMiB,omitempty"`
 

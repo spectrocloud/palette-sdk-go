@@ -67,12 +67,12 @@ type V1CloudStackVpcsGetParams struct {
 	*/
 	CloudAccountUID *string
 	/*DomainID
-	  Domain ID for which CloudStack SSH key pairs are requested
+	  Domain ID for which CloudStack VPCs are requested
 
 	*/
 	DomainID *string
 	/*ProjectID
-	  Project ID for which CloudStack SSH key pairs are requested
+	  Project ID for which CloudStack VPCs are requested
 
 	*/
 	ProjectID *string

@@ -23,9 +23,6 @@ type V1CloudStackMachineConfigEntity struct {
 	// Affinity group for VM placement (optional)
 	AffinityGroupIds []string `json:"affinityGroupIds"`
 
-	// for control plane pool, this will be the failure domains for kcp
-	Azs []string `json:"azs"`
-
 	// Additional details for instance creation
 	Details map[string]string `json:"details,omitempty"`
 

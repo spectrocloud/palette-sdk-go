@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -20,6 +21,9 @@ import (
 // swagger:model v1CloudMachineStatus
 type V1CloudMachineStatus struct {
 
+	// List of machine IP addresses
+	Addresses []*V1MachineAddress `json:"addresses"`
+
 	// health
 	Health *V1MachineHealth `json:"health,omitempty"`
 
@@ -27,19 +31,34 @@ type V1CloudMachineStatus struct {
 	// Enum: ["Pending","Provisioning","Provisioned","Running","Deleting","Deleted","Failed","Unknown"]
 	InstanceState string `json:"instanceState,omitempty"`
 
+	// Timestamp of the last instance state update
+	// Format: date-time
+	InstanceStateLastUpdate V1Time `json:"instanceStateLastUpdate,omitempty"`
+
 	// maintenance status
 	MaintenanceStatus *V1MachineMaintenanceStatus `json:"maintenanceStatus,omitempty"`
+
+	// Indicates whether the machine is ready
+	Ready bool `json:"ready,omitempty"`
 }
 
 // Validate validates this v1 cloud machine status
 func (m *V1CloudMachineStatus) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAddresses(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateHealth(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateInstanceState(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInstanceStateLastUpdate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -50,6 +69,32 @@ func (m *V1CloudMachineStatus) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudMachineStatus) validateAddresses(formats strfmt.Registry) error {
+	if swag.IsZero(m.Addresses) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Addresses); i++ {
+		if swag.IsZero(m.Addresses[i]) { // not required
+			continue
+		}
+
+		if m.Addresses[i] != nil {
+			if err := m.Addresses[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("addresses" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addresses" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -132,6 +177,23 @@ func (m *V1CloudMachineStatus) validateInstanceState(formats strfmt.Registry) er
 	return nil
 }
 
+func (m *V1CloudMachineStatus) validateInstanceStateLastUpdate(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceStateLastUpdate) { // not required
+		return nil
+	}
+
+	if err := m.InstanceStateLastUpdate.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceStateLastUpdate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceStateLastUpdate")
+		}
+		return err
+	}
+
+	return nil
+}
+
 func (m *V1CloudMachineStatus) validateMaintenanceStatus(formats strfmt.Registry) error {
 	if swag.IsZero(m.MaintenanceStatus) { // not required
 		return nil
@@ -155,7 +217,15 @@ func (m *V1CloudMachineStatus) validateMaintenanceStatus(formats strfmt.Registry
 func (m *V1CloudMachineStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateAddresses(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateHealth(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateInstanceStateLastUpdate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -166,6 +236,31 @@ func (m *V1CloudMachineStatus) ContextValidate(ctx context.Context, formats strf
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudMachineStatus) contextValidateAddresses(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Addresses); i++ {
+
+		if m.Addresses[i] != nil {
+
+			if swag.IsZero(m.Addresses[i]) { // not required
+				return nil
+			}
+
+			if err := m.Addresses[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("addresses" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("addresses" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 
@@ -185,6 +280,24 @@ func (m *V1CloudMachineStatus) contextValidateHealth(ctx context.Context, format
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudMachineStatus) contextValidateInstanceStateLastUpdate(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.InstanceStateLastUpdate) { // not required
+		return nil
+	}
+
+	if err := m.InstanceStateLastUpdate.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("instanceStateLastUpdate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("instanceStateLastUpdate")
+		}
+		return err
 	}
 
 	return nil
