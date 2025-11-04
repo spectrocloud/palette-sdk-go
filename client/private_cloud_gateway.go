@@ -153,6 +153,54 @@ func (h *V1Client) CreateDDNSSearchDomainVsphere(vsphereDNSMapping *models.V1Vsp
 	return err
 }
 
+// PCG - CloudStack
+
+// CreatePCGCloudStack creates a new CloudStack Private Cloud Gateway.
+func (h *V1Client) CreatePCGCloudStack(overlordUID string, cloudConfig *models.V1OverlordCloudStackCloudConfig) (string, error) {
+	params := clientv1.NewV1OverlordsUIDCloudStackCloudConfigCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
+		WithBody(cloudConfig)
+	resp, err := h.Client.V1OverlordsUIDCloudStackCloudConfigCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// CreatePCGCloudAccountCloudStack creates a new CloudStack PCG cloud account.
+func (h *V1Client) CreatePCGCloudAccountCloudStack(overlordUID string, account *models.V1OverlordCloudStackAccountCreate) (string, error) {
+	params := clientv1.NewV1OverlordsUIDCloudStackAccountCreateParamsWithContext(h.ctx).
+		WithUID(overlordUID).
+		WithBody(account)
+	resp, err := h.Client.V1OverlordsUIDCloudStackAccountCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
+// GetPCGManifestCloudStack retrieves a CloudStack PCG manifest by pairing code.
+func (h *V1Client) GetPCGManifestCloudStack(pairingCode string) (string, error) {
+	params := clientv1.NewV1OverlordsCloudStackManifestParamsWithContext(h.ctx).
+		WithPairingCode(pairingCode)
+	resp, err := h.Client.V1OverlordsCloudStackManifest(params)
+	if err != nil {
+		return "", err
+	}
+	return resp.Payload.Manifest, nil
+}
+
+// GetPCGClusterProfileCloudStack retrieves an CloudStack PCG cluster profile by PCG UID.
+func (h *V1Client) GetPCGClusterProfileCloudStack(uid string) (*models.V1ClusterProfile, error) {
+	params := clientv1.NewV1OverlordsUIDCloudStackClusterProfileParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1OverlordsUIDCloudStackClusterProfile(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // PCG - OpenStack
 
 // CreatePCGCloudAccountOpenStack creates a new OpenStack PCG cloud account.

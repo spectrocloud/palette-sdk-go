@@ -24,7 +24,7 @@ type V1AuditSpec struct {
 	ActionMsg string `json:"actionMsg,omitempty"`
 
 	// action type
-	// Enum: ["create","update","delete","publish","deploy"]
+	// Enum: ["create","update","delete","publish","deploy","activity","action"]
 	ActionType string `json:"actionType,omitempty"`
 
 	// actor
@@ -66,7 +66,7 @@ var v1AuditSpecTypeActionTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["create","update","delete","publish","deploy"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["create","update","delete","publish","deploy","activity","action"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -90,6 +90,12 @@ const (
 
 	// V1AuditSpecActionTypeDeploy captures enum value "deploy"
 	V1AuditSpecActionTypeDeploy string = "deploy"
+
+	// V1AuditSpecActionTypeActivity captures enum value "activity"
+	V1AuditSpecActionTypeActivity string = "activity"
+
+	// V1AuditSpecActionTypeAction captures enum value "action"
+	V1AuditSpecActionTypeAction string = "action"
 )
 
 // prop value enum

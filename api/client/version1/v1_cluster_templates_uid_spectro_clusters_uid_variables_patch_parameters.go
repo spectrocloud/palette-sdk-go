@@ -70,11 +70,6 @@ type V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams struct {
 
 	*/
 	ClusterUID string
-	/*UID
-	  Cluster template uid
-
-	*/
-	UID string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -136,17 +131,6 @@ func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) SetCluster
 	o.ClusterUID = clusterUID
 }
 
-// WithUID adds the uid to the v1 cluster templates Uid spectro clusters Uid variables patch params
-func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) WithUID(uid string) *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams {
-	o.SetUID(uid)
-	return o
-}
-
-// SetUID adds the uid to the v1 cluster templates Uid spectro clusters Uid variables patch params
-func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) SetUID(uid string) {
-	o.UID = uid
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -163,11 +147,6 @@ func (o *V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParams) WriteToReq
 
 	// path param clusterUid
 	if err := r.SetPathParam("clusterUid", o.ClusterUID); err != nil {
-		return err
-	}
-
-	// path param uid
-	if err := r.SetPathParam("uid", o.UID); err != nil {
 		return err
 	}
 
