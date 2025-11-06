@@ -61,8 +61,6 @@ for the v1 cloudstack accounts Uid projects operation typically these are writte
 */
 type V1CloudstackAccountsUIDProjectsParams struct {
 
-	/*Domain*/
-	Domain *string
 	/*UID*/
 	UID string
 
@@ -104,17 +102,6 @@ func (o *V1CloudstackAccountsUIDProjectsParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
-// WithDomain adds the domain to the v1 cloudstack accounts Uid projects params
-func (o *V1CloudstackAccountsUIDProjectsParams) WithDomain(domain *string) *V1CloudstackAccountsUIDProjectsParams {
-	o.SetDomain(domain)
-	return o
-}
-
-// SetDomain adds the domain to the v1 cloudstack accounts Uid projects params
-func (o *V1CloudstackAccountsUIDProjectsParams) SetDomain(domain *string) {
-	o.Domain = domain
-}
-
 // WithUID adds the uid to the v1 cloudstack accounts Uid projects params
 func (o *V1CloudstackAccountsUIDProjectsParams) WithUID(uid string) *V1CloudstackAccountsUIDProjectsParams {
 	o.SetUID(uid)
@@ -133,22 +120,6 @@ func (o *V1CloudstackAccountsUIDProjectsParams) WriteToRequest(r runtime.ClientR
 		return err
 	}
 	var res []error
-
-	if o.Domain != nil {
-
-		// query param domain
-		var qrDomain string
-		if o.Domain != nil {
-			qrDomain = *o.Domain
-		}
-		qDomain := qrDomain
-		if qDomain != "" {
-			if err := r.SetQueryParam("domain", qDomain); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {

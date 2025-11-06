@@ -34,7 +34,7 @@ type V1CloudStackMachineConfigEntity struct {
 
 	// offering
 	// Required: true
-	Offering *string `json:"offering"`
+	Offering *V1CloudStackResource `json:"offering"`
 
 	// Root disk size in GB
 	RootDiskSizeGB int32 `json:"rootDiskSizeGB,omitempty"`
@@ -113,6 +113,17 @@ func (m *V1CloudStackMachineConfigEntity) validateOffering(formats strfmt.Regist
 		return err
 	}
 
+	if m.Offering != nil {
+		if err := m.Offering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -125,6 +136,10 @@ func (m *V1CloudStackMachineConfigEntity) ContextValidate(ctx context.Context, f
 	}
 
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOffering(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -175,6 +190,23 @@ func (m *V1CloudStackMachineConfigEntity) contextValidateNetworks(ctx context.Co
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachineConfigEntity) contextValidateOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Offering != nil {
+
+		if err := m.Offering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
 	}
 
 	return nil

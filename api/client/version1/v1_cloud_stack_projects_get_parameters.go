@@ -66,11 +66,6 @@ type V1CloudStackProjectsGetParams struct {
 
 	*/
 	CloudAccountUID *string
-	/*Domain
-	  Domain for which CloudStack projects are requested
-
-	*/
-	Domain *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -121,17 +116,6 @@ func (o *V1CloudStackProjectsGetParams) SetCloudAccountUID(cloudAccountUID *stri
 	o.CloudAccountUID = cloudAccountUID
 }
 
-// WithDomain adds the domain to the v1 cloud stack projects get params
-func (o *V1CloudStackProjectsGetParams) WithDomain(domain *string) *V1CloudStackProjectsGetParams {
-	o.SetDomain(domain)
-	return o
-}
-
-// SetDomain adds the domain to the v1 cloud stack projects get params
-func (o *V1CloudStackProjectsGetParams) SetDomain(domain *string) {
-	o.Domain = domain
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *V1CloudStackProjectsGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -150,22 +134,6 @@ func (o *V1CloudStackProjectsGetParams) WriteToRequest(r runtime.ClientRequest, 
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Domain != nil {
-
-		// query param domain
-		var qrDomain string
-		if o.Domain != nil {
-			qrDomain = *o.Domain
-		}
-		qDomain := qrDomain
-		if qDomain != "" {
-			if err := r.SetQueryParam("domain", qDomain); err != nil {
 				return err
 			}
 		}

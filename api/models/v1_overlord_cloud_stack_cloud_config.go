@@ -20,7 +20,7 @@ import (
 type V1OverlordCloudStackCloudConfig struct {
 
 	// cluster config
-	ClusterConfig *V1CloudStackCloudConfig `json:"clusterConfig,omitempty"`
+	ClusterConfig *V1CloudStackClusterConfig `json:"clusterConfig,omitempty"`
 
 	// Cluster profiles pack configuration for private gateway cluster
 	ClusterProfiles []*V1SpectroClusterProfileEntity `json:"clusterProfiles"`

@@ -2440,12 +2440,6 @@
           },
           {
             "type": "string",
-            "description": "Domain ID for which CloudStack disk offerings are requested",
-            "name": "domainId",
-            "in": "query"
-          },
-          {
-            "type": "string",
             "description": "Project ID for which CloudStack disk offerings are requested",
             "name": "projectId",
             "in": "query"
@@ -2507,12 +2501,6 @@
             "description": "Project ID for which CloudStack SSH key pairs are requested",
             "name": "projectId",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack SSH key pairs are requested",
-            "name": "domainId",
-            "in": "query"
           }
         ],
         "responses": {
@@ -2558,12 +2546,6 @@
             "description": "VPC ID for which CloudStack networks are requested",
             "name": "vpcId",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack networks are requested",
-            "name": "domainId",
-            "in": "query"
           }
         ],
         "responses": {
@@ -2596,12 +2578,6 @@
             "type": "string",
             "description": "Zone for which CloudStack offerings are requested",
             "name": "zone",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack offerings are requested",
-            "name": "domainId",
             "in": "query"
           },
           {
@@ -2642,13 +2618,6 @@
         ],
         "summary": "Get the cloudstack projects for a given account and domain",
         "operationId": "v1CloudstackAccountsUidProjects",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "(empty)",
@@ -2679,12 +2648,6 @@
             "type": "string",
             "description": "Zone for which CloudStack templates are requested",
             "name": "zone",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack templates are requested",
-            "name": "domainId",
             "in": "query"
           },
           {
@@ -2758,14 +2721,6 @@
         ],
         "summary": "Get the cloudstack zones for a given account",
         "operationId": "v1CloudstackAccountsUidZones",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Domain id for which the zones are requested",
-            "name": "domainId",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "(empty)",
@@ -10882,7 +10837,7 @@
     },
     "/v1/clouds/cloudstack/account/validate": {
       "post": {
-        "description": "Returns no contents if account is valid else error.",
+        "description": "Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists. Returns no contents if account is valid else error.",
         "tags": [
           "v1"
         ],
@@ -10890,7 +10845,7 @@
         "operationId": "V1CloudStackAccountValidate",
         "parameters": [
           {
-            "description": "Request payload for CloudStack cloud account",
+            "description": "Request payload for CloudStack cloud account with required domain field",
             "name": "cloudstackCloudAccount",
             "in": "body",
             "required": true,
@@ -10930,12 +10885,6 @@
             "type": "string",
             "description": "Zone for which CloudStack disk offerings are requested",
             "name": "zone",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack disk offerings are requested",
-            "name": "domainId",
             "in": "query"
           },
           {
@@ -10999,12 +10948,6 @@
             "description": "Project ID for which CloudStack SSH key pairs are requested",
             "name": "projectId",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack SSH key pairs are requested",
-            "name": "domainId",
-            "in": "query"
           }
         ],
         "responses": {
@@ -11048,12 +10991,6 @@
             "description": "VPC ID for which CloudStack networks are requested",
             "name": "vpcId",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack networks are requested",
-            "name": "domainId",
-            "in": "query"
           }
         ],
         "responses": {
@@ -11084,12 +11021,6 @@
             "type": "string",
             "description": "Zone for which CloudStack offerings are requested",
             "name": "zone",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack offerings are requested",
-            "name": "domainId",
             "in": "query"
           },
           {
@@ -11128,12 +11059,6 @@
             "description": "Uid for the specific CloudStack cloud account",
             "name": "cloudAccountUid",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain for which CloudStack projects are requested",
-            "name": "domain",
-            "in": "query"
           }
         ],
         "responses": {
@@ -11164,12 +11089,6 @@
             "type": "string",
             "description": "Zone for which CloudStack templates are requested",
             "name": "zone",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack templates are requested",
-            "name": "domainId",
             "in": "query"
           },
           {
@@ -11208,12 +11127,6 @@
             "description": "Project ID for which CloudStack VPCs are requested",
             "name": "projectId",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain ID for which CloudStack VPCs are requested",
-            "name": "domainId",
-            "in": "query"
           }
         ],
         "responses": {
@@ -11238,12 +11151,6 @@
             "type": "string",
             "description": "Uid for the specific CloudStack cloud account",
             "name": "cloudAccountUid",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Domain id for which the zones are requested",
-            "name": "domainId",
             "in": "query"
           }
         ],
@@ -17968,6 +17875,7 @@
     },
     "/v1/overlords/cloudstack/{uid}/account/validate": {
       "post": {
+        "description": "Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists.",
         "tags": [
           "v1"
         ],
@@ -36661,7 +36569,8 @@
       "required": [
         "apiUrl",
         "apiKey",
-        "secretKey"
+        "secretKey",
+        "domain"
       ],
       "properties": {
         "apiKey": {
@@ -36670,6 +36579,10 @@
         },
         "apiUrl": {
           "description": "API URL for CloudStack management server",
+          "type": "string"
+        },
+        "domain": {
+          "description": "Cloudstack domain",
           "type": "string"
         },
         "insecure": {
@@ -36761,10 +36674,6 @@
       "properties": {
         "controlPlaneEndpoint": {
           "description": "Endpoint IP to be used for API server, should only be enabled for static CloudStack network",
-          "type": "string"
-        },
-        "domain": {
-          "description": "Domain name for the cluster",
           "type": "string"
         },
         "project": {
@@ -36896,10 +36805,6 @@
     "v1CloudStackMachineConfig": {
       "description": "CloudStack-specific machine configuration",
       "type": "object",
-      "required": [
-        "template",
-        "offering"
-      ],
       "properties": {
         "affinityGroupIds": {
           "description": "Affinity group for VM placement (optional)",
@@ -36916,8 +36821,8 @@
           }
         },
         "diskOffering": {
-          "description": "Disk offering name for root disk (optional)",
-          "type": "string"
+          "description": "Disk offering (instance type/size)",
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "networks": {
           "description": "Network configuration",
@@ -36927,17 +36832,13 @@
           }
         },
         "offering": {
-          "description": "Service offering (instance type/size) name",
-          "type": "string"
+          "description": "Service offering (instance type/size)",
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "rootDiskSizeGB": {
           "description": "Root disk size in GB (optional)",
           "type": "integer",
           "format": "int32"
-        },
-        "template": {
-          "description": "Template (VM template/image) name to use for the instances",
-          "type": "string"
         }
       }
     },
@@ -36972,7 +36873,7 @@
           }
         },
         "offering": {
-          "type": "string"
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "rootDiskSizeGB": {
           "description": "Root disk size in GB",
@@ -37039,8 +36940,8 @@
           }
         },
         "diskOffering": {
-          "description": "Disk offering name for root disk (optional)",
-          "type": "string"
+          "description": "Disk offering (instance type/size)",
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "networks": {
           "description": "Network configuration",
@@ -37050,8 +36951,8 @@
           }
         },
         "offering": {
-          "description": "Service offering (instance type/size) name",
-          "type": "string"
+          "description": "Service offering (instance type/size)",
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "rootDiskSizeGB": {
           "description": "Root disk size in GB (optional)",
@@ -37281,12 +37182,70 @@
       "description": "CloudStack compute offering",
       "type": "object",
       "properties": {
+        "cpuNumber": {
+          "description": "Number of CPU cores",
+          "type": "integer",
+          "format": "int32"
+        },
+        "cpuSpeed": {
+          "description": "CPU speed in MHz",
+          "type": "integer",
+          "format": "int32"
+        },
+        "displayText": {
+          "description": "Display text for the offering",
+          "type": "string"
+        },
+        "hypervisorSnapshotReserve": {
+          "description": "Hypervisor snapshot reserve space as percentage",
+          "type": "integer",
+          "format": "int32"
+        },
         "id": {
           "description": "Offering ID",
           "type": "string"
         },
+        "isCustomized": {
+          "description": "Whether the offering allows customization of CPU and memory",
+          "type": "boolean"
+        },
+        "isCustomizedIops": {
+          "description": "Whether the offering allows customization of IOPS",
+          "type": "boolean"
+        },
+        "isVolatile": {
+          "description": "Whether the VM is volatile (data is lost on stop/restart)",
+          "type": "boolean"
+        },
+        "limitCpuUse": {
+          "description": "Whether CPU usage is limited",
+          "type": "boolean"
+        },
+        "maxIops": {
+          "description": "Maximum IOPS for customized offerings",
+          "type": "integer",
+          "format": "int64"
+        },
+        "memory": {
+          "description": "Memory size in MB",
+          "type": "integer",
+          "format": "int64"
+        },
+        "minIops": {
+          "description": "Minimum IOPS for customized offerings",
+          "type": "integer",
+          "format": "int64"
+        },
         "name": {
           "description": "Offering name",
+          "type": "string"
+        },
+        "offerHA": {
+          "description": "Whether the offering supports high availability",
+          "type": "boolean"
+        },
+        "storageType": {
+          "description": "Storage type (local or shared)",
           "type": "string"
         }
       }
@@ -37332,6 +37291,7 @@
       }
     },
     "v1CloudStackResource": {
+      "description": "Cloud stack resource information",
       "type": "object",
       "properties": {
         "id": {
@@ -37375,6 +37335,10 @@
       "properties": {
         "cidr": {
           "description": "CIDR block for the VPC",
+          "type": "string"
+        },
+        "id": {
+          "description": "VPC id",
           "type": "string"
         },
         "name": {
@@ -37435,6 +37399,10 @@
       "description": "CloudStack zone with its network configuration",
       "type": "object",
       "properties": {
+        "id": {
+          "description": "Zone Id",
+          "type": "string"
+        },
         "name": {
           "description": "Zone name",
           "type": "string"
@@ -48062,13 +48030,6 @@
           "items": {
             "$ref": "#/definitions/v1MaasNic"
           }
-        },
-        "ntpServers": {
-          "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
         }
       }
     },
@@ -50556,7 +50517,7 @@
     "v1OverlordCloudStackCloudConfig": {
       "properties": {
         "clusterConfig": {
-          "$ref": "#/definitions/v1CloudStackCloudConfig"
+          "$ref": "#/definitions/v1CloudStackClusterConfig"
         },
         "clusterProfiles": {
           "description": "Cluster profiles pack configuration for private gateway cluster",

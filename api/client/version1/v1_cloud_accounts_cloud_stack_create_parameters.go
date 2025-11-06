@@ -67,7 +67,7 @@ type V1CloudAccountsCloudStackCreateParams struct {
 	  Request payload to validate CloudStack cloud account
 
 	*/
-	Body *models.V1CloudStackAccount
+	Body *models.V1CloudStackAccountInputEntity
 
 	timeout    time.Duration
 	Context    context.Context
@@ -108,13 +108,13 @@ func (o *V1CloudAccountsCloudStackCreateParams) SetHTTPClient(client *http.Clien
 }
 
 // WithBody adds the body to the v1 cloud accounts cloud stack create params
-func (o *V1CloudAccountsCloudStackCreateParams) WithBody(body *models.V1CloudStackAccount) *V1CloudAccountsCloudStackCreateParams {
+func (o *V1CloudAccountsCloudStackCreateParams) WithBody(body *models.V1CloudStackAccountInputEntity) *V1CloudAccountsCloudStackCreateParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the v1 cloud accounts cloud stack create params
-func (o *V1CloudAccountsCloudStackCreateParams) SetBody(body *models.V1CloudStackAccount) {
+func (o *V1CloudAccountsCloudStackCreateParams) SetBody(body *models.V1CloudStackAccountInputEntity) {
 	o.Body = body
 }
 

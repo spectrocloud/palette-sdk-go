@@ -66,6 +66,11 @@ type V1CloudStackTemplatesGetParams struct {
 
 	*/
 	CloudAccountUID *string
+	/*ProjectID
+	  Project ID for which CloudStack templates are requested
+
+	*/
+	ProjectID *string
 	/*Zone
 	  Zone for which CloudStack templates are requested
 
@@ -121,6 +126,17 @@ func (o *V1CloudStackTemplatesGetParams) SetCloudAccountUID(cloudAccountUID *str
 	o.CloudAccountUID = cloudAccountUID
 }
 
+// WithProjectID adds the projectID to the v1 cloud stack templates get params
+func (o *V1CloudStackTemplatesGetParams) WithProjectID(projectID *string) *V1CloudStackTemplatesGetParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloud stack templates get params
+func (o *V1CloudStackTemplatesGetParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
 // WithZone adds the zone to the v1 cloud stack templates get params
 func (o *V1CloudStackTemplatesGetParams) WithZone(zone *string) *V1CloudStackTemplatesGetParams {
 	o.SetZone(zone)
@@ -150,6 +166,22 @@ func (o *V1CloudStackTemplatesGetParams) WriteToRequest(r runtime.ClientRequest,
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
 				return err
 			}
 		}

@@ -27,9 +27,6 @@ type V1MaasMachineSpec struct {
 
 	// nics
 	Nics []*V1MaasNic `json:"nics"`
-
-	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.
-	NtpServers []string `json:"ntpServers"`
 }
 
 // Validate validates this v1 maas machine spec
