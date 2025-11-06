@@ -66,6 +66,16 @@ type V1CloudStackNetworksGetParams struct {
 
 	*/
 	CloudAccountUID *string
+	/*ProjectID
+	  Project ID for which CloudStack networks are requested
+
+	*/
+	ProjectID *string
+	/*VpcID
+	  VPC ID for which CloudStack networks are requested
+
+	*/
+	VpcID *string
 	/*Zone
 	  Zone for which CloudStack networks are requested
 
@@ -121,6 +131,28 @@ func (o *V1CloudStackNetworksGetParams) SetCloudAccountUID(cloudAccountUID *stri
 	o.CloudAccountUID = cloudAccountUID
 }
 
+// WithProjectID adds the projectID to the v1 cloud stack networks get params
+func (o *V1CloudStackNetworksGetParams) WithProjectID(projectID *string) *V1CloudStackNetworksGetParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloud stack networks get params
+func (o *V1CloudStackNetworksGetParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
+// WithVpcID adds the vpcID to the v1 cloud stack networks get params
+func (o *V1CloudStackNetworksGetParams) WithVpcID(vpcID *string) *V1CloudStackNetworksGetParams {
+	o.SetVpcID(vpcID)
+	return o
+}
+
+// SetVpcID adds the vpcId to the v1 cloud stack networks get params
+func (o *V1CloudStackNetworksGetParams) SetVpcID(vpcID *string) {
+	o.VpcID = vpcID
+}
+
 // WithZone adds the zone to the v1 cloud stack networks get params
 func (o *V1CloudStackNetworksGetParams) WithZone(zone *string) *V1CloudStackNetworksGetParams {
 	o.SetZone(zone)
@@ -150,6 +182,38 @@ func (o *V1CloudStackNetworksGetParams) WriteToRequest(r runtime.ClientRequest, 
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.VpcID != nil {
+
+		// query param vpcId
+		var qrVpcID string
+		if o.VpcID != nil {
+			qrVpcID = *o.VpcID
+		}
+		qVpcID := qrVpcID
+		if qVpcID != "" {
+			if err := r.SetQueryParam("vpcId", qVpcID); err != nil {
 				return err
 			}
 		}

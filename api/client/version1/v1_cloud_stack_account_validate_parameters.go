@@ -64,7 +64,7 @@ for the v1 cloud stack account validate operation typically these are written to
 type V1CloudStackAccountValidateParams struct {
 
 	/*CloudstackCloudAccount
-	  Request payload for CloudStack cloud account
+	  Request payload for CloudStack cloud account with required domain field
 
 	*/
 	CloudstackCloudAccount *models.V1CloudStackCloudAccount

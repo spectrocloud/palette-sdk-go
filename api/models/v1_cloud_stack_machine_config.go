@@ -12,7 +12,6 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1CloudStackMachineConfig CloudStack-specific machine configuration
@@ -26,27 +25,26 @@ type V1CloudStackMachineConfig struct {
 	// Additional details for instance creation
 	Details map[string]string `json:"details,omitempty"`
 
-	// Disk offering name for root disk (optional)
-	DiskOffering string `json:"diskOffering,omitempty"`
+	// Disk offering (instance type/size)
+	DiskOffering *V1CloudStackResource `json:"diskOffering,omitempty"`
 
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
-	// Service offering (instance type/size) name
-	// Required: true
-	Offering *string `json:"offering"`
+	// Service offering (instance type/size)
+	Offering *V1CloudStackResource `json:"offering,omitempty"`
 
 	// Root disk size in GB (optional)
 	RootDiskSizeGB int32 `json:"rootDiskSizeGB,omitempty"`
-
-	// Template (VM template/image) name to use for the instances
-	// Required: true
-	Template *string `json:"template"`
 }
 
 // Validate validates this v1 cloud stack machine config
 func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateDiskOffering(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateNetworks(formats); err != nil {
 		res = append(res, err)
@@ -56,13 +54,28 @@ func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateTemplate(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachineConfig) validateDiskOffering(formats strfmt.Registry) error {
+	if swag.IsZero(m.DiskOffering) { // not required
+		return nil
+	}
+
+	if m.DiskOffering != nil {
+		if err := m.DiskOffering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -93,18 +106,19 @@ func (m *V1CloudStackMachineConfig) validateNetworks(formats strfmt.Registry) er
 }
 
 func (m *V1CloudStackMachineConfig) validateOffering(formats strfmt.Registry) error {
-
-	if err := validate.Required("offering", "body", m.Offering); err != nil {
-		return err
+	if swag.IsZero(m.Offering) { // not required
+		return nil
 	}
 
-	return nil
-}
-
-func (m *V1CloudStackMachineConfig) validateTemplate(formats strfmt.Registry) error {
-
-	if err := validate.Required("template", "body", m.Template); err != nil {
-		return err
+	if m.Offering != nil {
+		if err := m.Offering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -114,13 +128,42 @@ func (m *V1CloudStackMachineConfig) validateTemplate(formats strfmt.Registry) er
 func (m *V1CloudStackMachineConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDiskOffering(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOffering(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachineConfig) contextValidateDiskOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DiskOffering != nil {
+
+		if swag.IsZero(m.DiskOffering) { // not required
+			return nil
+		}
+
+		if err := m.DiskOffering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -144,6 +187,27 @@ func (m *V1CloudStackMachineConfig) contextValidateNetworks(ctx context.Context,
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachineConfig) contextValidateOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Offering != nil {
+
+		if swag.IsZero(m.Offering) { // not required
+			return nil
+		}
+
+		if err := m.Offering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
 	}
 
 	return nil

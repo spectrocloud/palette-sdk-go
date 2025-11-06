@@ -64,7 +64,7 @@ for the v1 cloud accounts cloud stack update operation typically these are writt
 type V1CloudAccountsCloudStackUpdateParams struct {
 
 	/*Body*/
-	Body *models.V1CloudStackAccount
+	Body *models.V1CloudStackAccountUpdateEntity
 	/*UID
 	  CloudStack cloud account uid
 
@@ -110,13 +110,13 @@ func (o *V1CloudAccountsCloudStackUpdateParams) SetHTTPClient(client *http.Clien
 }
 
 // WithBody adds the body to the v1 cloud accounts cloud stack update params
-func (o *V1CloudAccountsCloudStackUpdateParams) WithBody(body *models.V1CloudStackAccount) *V1CloudAccountsCloudStackUpdateParams {
+func (o *V1CloudAccountsCloudStackUpdateParams) WithBody(body *models.V1CloudStackAccountUpdateEntity) *V1CloudAccountsCloudStackUpdateParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the v1 cloud accounts cloud stack update params
-func (o *V1CloudAccountsCloudStackUpdateParams) SetBody(body *models.V1CloudStackAccount) {
+func (o *V1CloudAccountsCloudStackUpdateParams) SetBody(body *models.V1CloudStackAccountUpdateEntity) {
 	o.Body = body
 }
 

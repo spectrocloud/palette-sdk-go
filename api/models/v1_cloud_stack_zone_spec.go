@@ -18,6 +18,9 @@ import (
 // swagger:model v1CloudStackZoneSpec
 type V1CloudStackZoneSpec struct {
 
+	// Zone Id
+	ID string `json:"id,omitempty"`
+
 	// Zone name
 	Name string `json:"name,omitempty"`
 

@@ -132,6 +132,8 @@ type ClientService interface {
 
 	V1CloudStackTemplatesGet(params *V1CloudStackTemplatesGetParams) (*V1CloudStackTemplatesGetOK, error)
 
+	V1CloudStackVpcsGet(params *V1CloudStackVpcsGetParams) (*V1CloudStackVpcsGetOK, error)
+
 	V1CloudStackZonesGet(params *V1CloudStackZonesGetParams) (*V1CloudStackZonesGetOK, error)
 
 	V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error)
@@ -943,6 +945,8 @@ type ClientService interface {
 	V1CloudstackAccountsUIDProjects(params *V1CloudstackAccountsUIDProjectsParams) (*V1CloudstackAccountsUIDProjectsOK, error)
 
 	V1CloudstackAccountsUIDTemplates(params *V1CloudstackAccountsUIDTemplatesParams) (*V1CloudstackAccountsUIDTemplatesOK, error)
+
+	V1CloudstackAccountsUIDVpcs(params *V1CloudstackAccountsUIDVpcsParams) (*V1CloudstackAccountsUIDVpcsOK, error)
 
 	V1CloudstackAccountsUIDZones(params *V1CloudstackAccountsUIDZonesParams) (*V1CloudstackAccountsUIDZonesOK, error)
 
@@ -3626,7 +3630,7 @@ func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudC
 /*
 V1CloudStackAccountValidate checks if cloud stack account is valid
 
-Returns no contents if account is valid else error.
+Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists. Returns no contents if account is valid else error.
 */
 func (a *Client) V1CloudStackAccountValidate(params *V1CloudStackAccountValidateParams) (*V1CloudStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -3894,6 +3898,40 @@ func (a *Client) V1CloudStackTemplatesGet(params *V1CloudStackTemplatesGetParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1CloudStackTemplatesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1CloudStackVpcsGet returns the cloud stack vpcs
+*/
+func (a *Client) V1CloudStackVpcsGet(params *V1CloudStackVpcsGetParams) (*V1CloudStackVpcsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudStackVpcsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1CloudStackVpcsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/cloudstack/vpcs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudStackVpcsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudStackVpcsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1CloudStackVpcsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -17750,6 +17788,40 @@ func (a *Client) V1CloudstackAccountsUIDTemplates(params *V1CloudstackAccountsUI
 }
 
 /*
+V1CloudstackAccountsUIDVpcs gets the cloudstack v p cs for a given account
+*/
+func (a *Client) V1CloudstackAccountsUIDVpcs(params *V1CloudstackAccountsUIDVpcsParams) (*V1CloudstackAccountsUIDVpcsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudstackAccountsUIDVpcsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1CloudstackAccountsUidVpcs",
+		Method:             "GET",
+		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/vpcs",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudstackAccountsUIDVpcsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudstackAccountsUIDVpcsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1CloudstackAccountsUidVpcs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1CloudstackAccountsUIDZones gets the cloudstack zones for a given account
 */
 func (a *Client) V1CloudstackAccountsUIDZones(params *V1CloudstackAccountsUIDZonesParams) (*V1CloudstackAccountsUIDZonesOK, error) {
@@ -24245,6 +24317,8 @@ func (a *Client) V1OverlordsUIDCloudStackAccountUpdate(params *V1OverlordsUIDClo
 
 /*
 V1OverlordsUIDCloudStackAccountValidate validates the cloud stack cloudaccount for the private gateway
+
+Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists.
 */
 func (a *Client) V1OverlordsUIDCloudStackAccountValidate(params *V1OverlordsUIDCloudStackAccountValidateParams) (*V1OverlordsUIDCloudStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending

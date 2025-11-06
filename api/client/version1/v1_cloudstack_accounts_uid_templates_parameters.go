@@ -61,9 +61,17 @@ for the v1 cloudstack accounts Uid templates operation typically these are writt
 */
 type V1CloudstackAccountsUIDTemplatesParams struct {
 
+	/*ProjectID
+	  Project ID for which CloudStack templates are requested
+
+	*/
+	ProjectID *string
 	/*UID*/
 	UID string
-	/*Zone*/
+	/*Zone
+	  Zone for which CloudStack templates are requested
+
+	*/
 	Zone *string
 
 	timeout    time.Duration
@@ -104,6 +112,17 @@ func (o *V1CloudstackAccountsUIDTemplatesParams) SetHTTPClient(client *http.Clie
 	o.HTTPClient = client
 }
 
+// WithProjectID adds the projectID to the v1 cloudstack accounts Uid templates params
+func (o *V1CloudstackAccountsUIDTemplatesParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDTemplatesParams {
+	o.SetProjectID(projectID)
+	return o
+}
+
+// SetProjectID adds the projectId to the v1 cloudstack accounts Uid templates params
+func (o *V1CloudstackAccountsUIDTemplatesParams) SetProjectID(projectID *string) {
+	o.ProjectID = projectID
+}
+
 // WithUID adds the uid to the v1 cloudstack accounts Uid templates params
 func (o *V1CloudstackAccountsUIDTemplatesParams) WithUID(uid string) *V1CloudstackAccountsUIDTemplatesParams {
 	o.SetUID(uid)
@@ -133,6 +152,22 @@ func (o *V1CloudstackAccountsUIDTemplatesParams) WriteToRequest(r runtime.Client
 		return err
 	}
 	var res []error
+
+	if o.ProjectID != nil {
+
+		// query param projectId
+		var qrProjectID string
+		if o.ProjectID != nil {
+			qrProjectID = *o.ProjectID
+		}
+		qProjectID := qrProjectID
+		if qProjectID != "" {
+			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {

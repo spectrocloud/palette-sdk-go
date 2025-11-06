@@ -20,6 +20,9 @@ type V1CloudStackVPCSpec struct {
 	// CIDR block for the VPC
 	Cidr string `json:"cidr,omitempty"`
 
+	// VPC id
+	ID string `json:"id,omitempty"`
+
 	// VPC name
 	Name string `json:"name,omitempty"`
 
