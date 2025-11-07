@@ -1,6 +1,8 @@
 # DeepCopy Method Generation
 
-This directory contains scripts to automatically generate `DeepCopy()` and `DeepCopyInto()` methods for all swagger-generated model structs using Kubernetes `controller-gen`.
+This directory contains scripts to automatically generate `DeepCopy()` and `DeepCopyInto()` methods for all viable swagger-generated model structs using Kubernetes `controller-gen`.
+
+DeepCopy generation is integrated into the main `generate.sh` script and runs automatically after swagger code generation.
 
 ## Overview
 
@@ -19,31 +21,6 @@ The DeepCopy methods are generated using the following workflow:
   - Empty loops for `map[string]interface{}` types
 - `models/zz_generated.deepcopy.go` - Generated DeepCopy methods (auto-generated, do not edit)
 - `models/zz_generated_time.deepcopy.go` - Manually maintained DeepCopy methods for V1Time (do not delete)
-
-## Integration with generate.sh
-
-The DeepCopy generation is integrated into the main `generate.sh` script and runs automatically after swagger code generation:
-
-```bash
-# Generate DeepCopy methods for all models
-echo "Generating DeepCopy methods..."
-
-# Step 1: Add markers to struct types (not interface{} aliases)
-echo "  Adding generation markers to struct types..."
-go run scripts/add_deepcopy_markers.go models/
-
-# Step 2: Run controller-gen (it will only generate for marked types)
-echo "  Running controller-gen..."
-$controllerGen object paths=./models/... 2>&1 | grep -v "invalid field type: interface{}" || true
-
-# Step 3: Fix empty loops in generated code
-echo "  Fixing empty loops in generated code..."
-bash scripts/fix_empty_loops.sh
-
-# Step 4: Clean up markers from source files (keep generated file)
-echo "  Cleaning up markers..."
-bash scripts/remove_deepcopy_markers.sh models/
-```
 
 ## Why This Approach?
 
@@ -134,4 +111,3 @@ When swagger regenerates the models:
 - Controller-gen warnings about "invalid field type: interface{}" are expected and filtered out
 - All generation markers are temporary and automatically removed after generation
 - **Important**: `models/zz_generated_time.deepcopy.go` is manually maintained and should NOT be deleted or modified during generation
-
