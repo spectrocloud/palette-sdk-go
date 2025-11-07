@@ -17,6 +17,7 @@ import (
 // V1Time Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
 //
 // swagger:model v1Time
+// +kubebuilder:object:generate=true
 type V1Time strfmt.DateTime
 
 // UnmarshalJSON sets a V1Time value from JSON input

@@ -67,13 +67,16 @@ for key, val := range *in {
 
 ### 2. V1Time Type Alias
 
-`V1Time` is a type alias (`type V1Time strfmt.DateTime`), not a struct, so controller-gen won't generate DeepCopy methods for it. However, many structs have `V1Time` fields and need to call `DeepCopyInto()` on them.
+`V1Time` is a type alias (`type V1Time strfmt.DateTime`) to an external type with unexported fields. Controller-gen cannot automatically generate correct DeepCopy methods for it because it would recurse into `time.Time` which has unexported fields (`wall`, `ext`, `loc`).
 
-**Solution**: Manually maintained `zz_generated_time.deepcopy.go` provides the DeepCopy methods for V1Time. This file:
+**Solution**:
 
-- Is not touched by `generate.sh`
-- Should not be deleted
-- Uses simple assignment (`*out = *in`) which is safe for time values
+1. `v1_time.go` has a permanent `// +kubebuilder:object:generate=true` marker
+2. `zz_generated_time.deepcopy.go` provides manually maintained DeepCopy methods
+3. This tells controller-gen "DeepCopy exists, don't recurse into the type"
+4. The manual implementation uses simple assignment (`*out = *in`) which is safe for time values
+
+**Important**: The marker in `v1_time.go` must remain after generation (it's not removed by cleanup scripts) so external projects importing these models can also generate DeepCopy methods
 
 ## Usage
 
@@ -109,5 +112,6 @@ When swagger regenerates the models:
 
 - Type aliases to `interface{}` (like `V1PackSummaryStatus`, `V1TeamStatus`, `V1Updated`) do NOT get DeepCopy methods - this is intentional and correct
 - Controller-gen warnings about "invalid field type: interface{}" are expected and filtered out
-- All generation markers are temporary and automatically removed after generation
+- Generation markers are temporary and automatically removed after generation, **EXCEPT** for `v1_time.go` which keeps its marker permanently
 - **Important**: `models/zz_generated_time.deepcopy.go` is manually maintained and should NOT be deleted or modified during generation
+- The permanent marker in `v1_time.go` is required so external projects importing these models can generate DeepCopy methods without encountering time.Time unexported field errors
