@@ -28,8 +28,7 @@ type V1CloudStackCloudAccount struct {
 	APIURL *string `json:"apiUrl"`
 
 	// Cloudstack domain
-	// Required: true
-	Domain *string `json:"domain"`
+	Domain string `json:"domain,omitempty"`
 
 	// Skip SSL certificate verification (default: false)
 	Insecure bool `json:"insecure,omitempty"`
@@ -48,10 +47,6 @@ func (m *V1CloudStackCloudAccount) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAPIURL(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateDomain(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -77,15 +72,6 @@ func (m *V1CloudStackCloudAccount) validateAPIKey(formats strfmt.Registry) error
 func (m *V1CloudStackCloudAccount) validateAPIURL(formats strfmt.Registry) error {
 
 	if err := validate.Required("apiUrl", "body", m.APIURL); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *V1CloudStackCloudAccount) validateDomain(formats strfmt.Registry) error {
-
-	if err := validate.Required("domain", "body", m.Domain); err != nil {
 		return err
 	}
 

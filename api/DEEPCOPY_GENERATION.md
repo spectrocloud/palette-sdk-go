@@ -17,9 +17,8 @@ The DeepCopy methods are generated using the following workflow:
 - `scripts/remove_deepcopy_markers.sh` - Shell script that removes markers from source files after generation
 - `scripts/fix_empty_loops.sh` - Shell script that fixes edge cases in generated code:
   - Empty loops for `map[string]interface{}` types
-  - Unexported field access in V1Time
-  - Unused imports
 - `models/zz_generated.deepcopy.go` - Generated DeepCopy methods (auto-generated, do not edit)
+- `models/zz_generated_time.deepcopy.go` - Manually maintained DeepCopy methods for V1Time (do not delete)
 
 ## Integration with generate.sh
 
@@ -89,23 +88,15 @@ for key, val := range *in {
 }
 ```
 
-### 2. V1Time Unexported Fields
+### 2. V1Time Type Alias
 
-`V1Time` is an alias to `strfmt.DateTime` which has an unexported `loc` field. Controller-gen tries to deep copy it:
-```go
-if in.loc != nil {  // ERROR: loc is unexported
-    ...
-}
-```
+`V1Time` is a type alias (`type V1Time strfmt.DateTime`), not a struct, so controller-gen won't generate DeepCopy methods for it. However, many structs have `V1Time` fields and need to call `DeepCopyInto()` on them.
 
-Fixed by replacing with simple assignment:
-```go
-*out = *in  // Shallow copy is safe for time values
-```
+**Solution**: Manually maintained `zz_generated_time.deepcopy.go` provides the DeepCopy methods for V1Time. This file:
 
-### 3. Unused Import
-
-After fixing V1Time, the `timex "time"` import becomes unused and is removed.
+- Is not touched by `generate.sh`
+- Should not be deleted
+- Uses simple assignment (`*out = *in`) which is safe for time values
 
 ## Usage
 
@@ -142,4 +133,5 @@ When swagger regenerates the models:
 - Type aliases to `interface{}` (like `V1PackSummaryStatus`, `V1TeamStatus`, `V1Updated`) do NOT get DeepCopy methods - this is intentional and correct
 - Controller-gen warnings about "invalid field type: interface{}" are expected and filtered out
 - All generation markers are temporary and automatically removed after generation
+- **Important**: `models/zz_generated_time.deepcopy.go` is manually maintained and should NOT be deleted or modified during generation
 

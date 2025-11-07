@@ -29,15 +29,5 @@ awk '
 
 mv "${DEEPCOPY_FILE}.tmp" "$DEEPCOPY_FILE"
 
-echo "Fixed empty loops in $DEEPCOPY_FILE"
-
-# Also fix V1Time DeepCopyInto which tries to access unexported 'loc' field
-echo "Fixing V1Time DeepCopyInto to avoid unexported field..."
-perl -i -0777 -pe 's/(func \(in \*V1Time\) DeepCopyInto\(out \*V1Time\) \{)\n\t\*out = \*in\n\tif in\.loc != nil \{[^\}]*\}/$1\n\t*out = *in/gs' "$DEEPCOPY_FILE"
-
-# Remove unused timex import if V1Time no longer uses it
-echo "Cleaning up unused imports..."
-perl -i -0777 -pe 's/\n\ttimex "time"//' "$DEEPCOPY_FILE"
-
 echo "All fixes applied to $DEEPCOPY_FILE"
 
