@@ -36569,8 +36569,7 @@
       "required": [
         "apiUrl",
         "apiKey",
-        "secretKey",
-        "domain"
+        "secretKey"
       ],
       "properties": {
         "apiKey": {

@@ -2,13 +2,14 @@
 
 set -e
 
-if [ -z "$1" ]; then
-    echo "Usage: generate.sh <swagger_binary_path> <current_dir_path>"
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: generate.sh <swagger_binary_path> <controller_gen_binary_path> <current_dir_path>"
     exit
 fi
 
 swagger=$1
-currentDir=$2
+controllerGen=$2
+currentDir=$3
 
 service="palette-api"
 serviceDir="${currentDir}"
@@ -37,3 +38,22 @@ $swagger generate client \
     --template-dir="$templateDir" \
     -A "$service" -t "$serviceDir" \
     -f spec/palette.json
+
+# Generate DeepCopy methods for all models
+echo "Generating DeepCopy methods..."
+
+# Step 1: Add markers to struct types (not interface{} aliases)
+echo "  Adding generation markers to struct types..."
+go run scripts/add_deepcopy_markers.go models/
+
+# Step 2: Run controller-gen (it will only generate for marked types)
+echo "  Running controller-gen..."
+$controllerGen object paths=./models/... 2>&1 | grep -v "invalid field type: interface{}" || true
+
+# Step 3: Fix empty loops in generated code
+echo "  Fixing empty loops in generated code..."
+bash scripts/fix_empty_loops.sh
+
+# Step 4: Clean up markers from source files (keep generated file)
+echo "  Cleaning up markers..."
+bash scripts/remove_deepcopy_markers.sh models/

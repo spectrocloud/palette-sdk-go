@@ -22,8 +22,8 @@ help:  ## Display this help
 
 ##@ Build Targets
 
-generate: swagger ## Generate models
-	(cd api && ./generate.sh $(SWAGGER) ./)
+generate: swagger controller-gen ## Generate models
+	(cd api && ./generate.sh $(SWAGGER) $(CONTROLLER_GEN) ./)
 
 ##@ Static Analysis Targets
 
@@ -97,6 +97,13 @@ SWAGGER = $(BIN_DIR)/swagger-$(SWAGGER_VERSION)
 swagger: $(SWAGGER) ## Install swagger locally if necessary.
 $(SWAGGER): $(BIN_DIR)
 	$(call go-install-tool,$(SWAGGER),github.com/go-swagger/go-swagger/cmd/swagger,$(SWAGGER_VERSION))
+
+CONTROLLER_GEN_VERSION ?= v0.19.0
+CONTROLLER_GEN = $(BIN_DIR)/controller-gen-$(CONTROLLER_GEN_VERSION)
+.PHONY: controller-gen
+controller-gen: $(CONTROLLER_GEN) ## Install controller-gen locally if necessary.
+$(CONTROLLER_GEN): $(BIN_DIR)
+	$(call go-install-tool,$(CONTROLLER_GEN),sigs.k8s.io/controller-tools/cmd/controller-gen,$(CONTROLLER_GEN_VERSION))
 
 # go-install-tool will 'go install' any package with custom target and name of binary, if it doesn't exist
 # $1 - target path with name of binary (ideally with version)
