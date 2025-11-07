@@ -71,12 +71,12 @@ for key, val := range *in {
 
 **Solution**:
 
-1. `v1_time.go` has a permanent `// +kubebuilder:object:generate=true` marker
+1. `v1_time.go` has a permanent `// +kubebuilder:object:generate=false` marker
 2. `zz_generated_time.deepcopy.go` provides manually maintained DeepCopy methods
-3. This tells controller-gen "DeepCopy exists, don't recurse into the type"
+3. The `generate=false` marker tells controller-gen "DeepCopy methods exist manually, don't generate them, don't recurse into the type"
 4. The manual implementation uses simple assignment (`*out = *in`) which is safe for time values
 
-**Important**: The marker in `v1_time.go` must remain after generation (it's not removed by cleanup scripts) so external projects importing these models can also generate DeepCopy methods
+**Important**: The `generate=false` marker in `v1_time.go` must remain after generation (it's not removed by cleanup scripts) so external projects importing these models can also generate DeepCopy methods without errors
 
 ## Usage
 
@@ -112,6 +112,6 @@ When swagger regenerates the models:
 
 - Type aliases to `interface{}` (like `V1PackSummaryStatus`, `V1TeamStatus`, `V1Updated`) do NOT get DeepCopy methods - this is intentional and correct
 - Controller-gen warnings about "invalid field type: interface{}" are expected and filtered out
-- Generation markers are temporary and automatically removed after generation, **EXCEPT** for `v1_time.go` which keeps its marker permanently
+- Generation markers (`generate=true`) are temporary and automatically removed after generation, **EXCEPT** for `v1_time.go` which keeps its `generate=false` marker permanently
 - **Important**: `models/zz_generated_time.deepcopy.go` is manually maintained and should NOT be deleted or modified during generation
 - The permanent marker in `v1_time.go` is required so external projects importing these models can generate DeepCopy methods without encountering time.Time unexported field errors
