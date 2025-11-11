@@ -66,11 +66,6 @@ type V1CloudStackZonesGetParams struct {
 
 	*/
 	CloudAccountUID *string
-	/*DomainID
-	  Domain id for which the zones are requested
-
-	*/
-	DomainID *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -121,17 +116,6 @@ func (o *V1CloudStackZonesGetParams) SetCloudAccountUID(cloudAccountUID *string)
 	o.CloudAccountUID = cloudAccountUID
 }
 
-// WithDomainID adds the domainID to the v1 cloud stack zones get params
-func (o *V1CloudStackZonesGetParams) WithDomainID(domainID *string) *V1CloudStackZonesGetParams {
-	o.SetDomainID(domainID)
-	return o
-}
-
-// SetDomainID adds the domainId to the v1 cloud stack zones get params
-func (o *V1CloudStackZonesGetParams) SetDomainID(domainID *string) {
-	o.DomainID = domainID
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *V1CloudStackZonesGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -150,22 +134,6 @@ func (o *V1CloudStackZonesGetParams) WriteToRequest(r runtime.ClientRequest, reg
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.DomainID != nil {
-
-		// query param domainId
-		var qrDomainID string
-		if o.DomainID != nil {
-			qrDomainID = *o.DomainID
-		}
-		qDomainID := qrDomainID
-		if qDomainID != "" {
-			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
 				return err
 			}
 		}

@@ -66,11 +66,6 @@ type V1CloudStackVpcsGetParams struct {
 
 	*/
 	CloudAccountUID *string
-	/*DomainID
-	  Domain ID for which CloudStack VPCs are requested
-
-	*/
-	DomainID *string
 	/*ProjectID
 	  Project ID for which CloudStack VPCs are requested
 
@@ -126,17 +121,6 @@ func (o *V1CloudStackVpcsGetParams) SetCloudAccountUID(cloudAccountUID *string) 
 	o.CloudAccountUID = cloudAccountUID
 }
 
-// WithDomainID adds the domainID to the v1 cloud stack vpcs get params
-func (o *V1CloudStackVpcsGetParams) WithDomainID(domainID *string) *V1CloudStackVpcsGetParams {
-	o.SetDomainID(domainID)
-	return o
-}
-
-// SetDomainID adds the domainId to the v1 cloud stack vpcs get params
-func (o *V1CloudStackVpcsGetParams) SetDomainID(domainID *string) {
-	o.DomainID = domainID
-}
-
 // WithProjectID adds the projectID to the v1 cloud stack vpcs get params
 func (o *V1CloudStackVpcsGetParams) WithProjectID(projectID *string) *V1CloudStackVpcsGetParams {
 	o.SetProjectID(projectID)
@@ -166,22 +150,6 @@ func (o *V1CloudStackVpcsGetParams) WriteToRequest(r runtime.ClientRequest, reg 
 		qCloudAccountUID := qrCloudAccountUID
 		if qCloudAccountUID != "" {
 			if err := r.SetQueryParam("cloudAccountUid", qCloudAccountUID); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.DomainID != nil {
-
-		// query param domainId
-		var qrDomainID string
-		if o.DomainID != nil {
-			qrDomainID = *o.DomainID
-		}
-		qDomainID := qrDomainID
-		if qDomainID != "" {
-			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
 				return err
 			}
 		}

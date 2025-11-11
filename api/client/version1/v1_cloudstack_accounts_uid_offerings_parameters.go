@@ -61,11 +61,6 @@ for the v1 cloudstack accounts Uid offerings operation typically these are writt
 */
 type V1CloudstackAccountsUIDOfferingsParams struct {
 
-	/*DomainID
-	  Domain ID for which CloudStack offerings are requested
-
-	*/
-	DomainID *string
 	/*ProjectID
 	  Project ID for which CloudStack offerings are requested
 
@@ -122,17 +117,6 @@ func (o *V1CloudstackAccountsUIDOfferingsParams) SetHTTPClient(client *http.Clie
 	o.HTTPClient = client
 }
 
-// WithDomainID adds the domainID to the v1 cloudstack accounts Uid offerings params
-func (o *V1CloudstackAccountsUIDOfferingsParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDOfferingsParams {
-	o.SetDomainID(domainID)
-	return o
-}
-
-// SetDomainID adds the domainId to the v1 cloudstack accounts Uid offerings params
-func (o *V1CloudstackAccountsUIDOfferingsParams) SetDomainID(domainID *string) {
-	o.DomainID = domainID
-}
-
 // WithProjectID adds the projectID to the v1 cloudstack accounts Uid offerings params
 func (o *V1CloudstackAccountsUIDOfferingsParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDOfferingsParams {
 	o.SetProjectID(projectID)
@@ -184,22 +168,6 @@ func (o *V1CloudstackAccountsUIDOfferingsParams) WriteToRequest(r runtime.Client
 		return err
 	}
 	var res []error
-
-	if o.DomainID != nil {
-
-		// query param domainId
-		var qrDomainID string
-		if o.DomainID != nil {
-			qrDomainID = *o.DomainID
-		}
-		qDomainID := qrDomainID
-		if qDomainID != "" {
-			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	if o.ProjectID != nil {
 

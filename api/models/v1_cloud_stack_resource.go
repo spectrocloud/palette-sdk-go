@@ -12,7 +12,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1CloudStackResource v1 cloud stack resource
+// V1CloudStackResource Cloud stack resource information
 //
 // swagger:model v1CloudStackResource
 type V1CloudStackResource struct {

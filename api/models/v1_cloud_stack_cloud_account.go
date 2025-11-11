@@ -27,6 +27,9 @@ type V1CloudStackCloudAccount struct {
 	// Required: true
 	APIURL *string `json:"apiUrl"`
 
+	// Cloudstack domain
+	Domain string `json:"domain,omitempty"`
+
 	// Skip SSL certificate verification (default: false)
 	Insecure bool `json:"insecure,omitempty"`
 

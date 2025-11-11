@@ -22,9 +22,6 @@ type V1CloudStackClusterConfig struct {
 	// Endpoint IP to be used for API server, should only be enabled for static CloudStack network
 	ControlPlaneEndpoint string `json:"controlPlaneEndpoint,omitempty"`
 
-	// Domain name for the cluster
-	Domain string `json:"domain,omitempty"`
-
 	// Project name for the cluster (optional)
 	Project string `json:"project,omitempty"`
 

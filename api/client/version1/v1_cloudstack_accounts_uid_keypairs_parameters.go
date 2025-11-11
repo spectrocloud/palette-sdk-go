@@ -61,11 +61,6 @@ for the v1 cloudstack accounts Uid keypairs operation typically these are writte
 */
 type V1CloudstackAccountsUIDKeypairsParams struct {
 
-	/*DomainID
-	  Domain ID for which CloudStack SSH key pairs are requested
-
-	*/
-	DomainID *string
 	/*ProjectID
 	  Project ID for which CloudStack SSH key pairs are requested
 
@@ -112,17 +107,6 @@ func (o *V1CloudstackAccountsUIDKeypairsParams) SetHTTPClient(client *http.Clien
 	o.HTTPClient = client
 }
 
-// WithDomainID adds the domainID to the v1 cloudstack accounts Uid keypairs params
-func (o *V1CloudstackAccountsUIDKeypairsParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDKeypairsParams {
-	o.SetDomainID(domainID)
-	return o
-}
-
-// SetDomainID adds the domainId to the v1 cloudstack accounts Uid keypairs params
-func (o *V1CloudstackAccountsUIDKeypairsParams) SetDomainID(domainID *string) {
-	o.DomainID = domainID
-}
-
 // WithProjectID adds the projectID to the v1 cloudstack accounts Uid keypairs params
 func (o *V1CloudstackAccountsUIDKeypairsParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDKeypairsParams {
 	o.SetProjectID(projectID)
@@ -152,22 +136,6 @@ func (o *V1CloudstackAccountsUIDKeypairsParams) WriteToRequest(r runtime.ClientR
 		return err
 	}
 	var res []error
-
-	if o.DomainID != nil {
-
-		// query param domainId
-		var qrDomainID string
-		if o.DomainID != nil {
-			qrDomainID = *o.DomainID
-		}
-		qDomainID := qrDomainID
-		if qDomainID != "" {
-			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	if o.ProjectID != nil {
 

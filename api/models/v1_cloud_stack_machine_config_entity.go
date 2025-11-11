@@ -32,16 +32,12 @@ type V1CloudStackMachineConfigEntity struct {
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
+	// offering
+	// Required: true
+	Offering *V1CloudStackResource `json:"offering"`
+
 	// Root disk size in GB
 	RootDiskSizeGB int32 `json:"rootDiskSizeGB,omitempty"`
-
-	// service offering
-	// Required: true
-	ServiceOffering *V1CloudStackResource `json:"serviceOffering"`
-
-	// template
-	// Required: true
-	Template *V1CloudStackResource `json:"template"`
 }
 
 // Validate validates this v1 cloud stack machine config entity
@@ -56,11 +52,7 @@ func (m *V1CloudStackMachineConfigEntity) Validate(formats strfmt.Registry) erro
 		res = append(res, err)
 	}
 
-	if err := m.validateServiceOffering(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateTemplate(formats); err != nil {
+	if err := m.validateOffering(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -115,38 +107,18 @@ func (m *V1CloudStackMachineConfigEntity) validateNetworks(formats strfmt.Regist
 	return nil
 }
 
-func (m *V1CloudStackMachineConfigEntity) validateServiceOffering(formats strfmt.Registry) error {
+func (m *V1CloudStackMachineConfigEntity) validateOffering(formats strfmt.Registry) error {
 
-	if err := validate.Required("serviceOffering", "body", m.ServiceOffering); err != nil {
+	if err := validate.Required("offering", "body", m.Offering); err != nil {
 		return err
 	}
 
-	if m.ServiceOffering != nil {
-		if err := m.ServiceOffering.Validate(formats); err != nil {
+	if m.Offering != nil {
+		if err := m.Offering.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("serviceOffering")
+				return ve.ValidateName("offering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("serviceOffering")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1CloudStackMachineConfigEntity) validateTemplate(formats strfmt.Registry) error {
-
-	if err := validate.Required("template", "body", m.Template); err != nil {
-		return err
-	}
-
-	if m.Template != nil {
-		if err := m.Template.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
+				return ce.ValidateName("offering")
 			}
 			return err
 		}
@@ -167,11 +139,7 @@ func (m *V1CloudStackMachineConfigEntity) ContextValidate(ctx context.Context, f
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateServiceOffering(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateTemplate(ctx, formats); err != nil {
+	if err := m.contextValidateOffering(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -227,32 +195,15 @@ func (m *V1CloudStackMachineConfigEntity) contextValidateNetworks(ctx context.Co
 	return nil
 }
 
-func (m *V1CloudStackMachineConfigEntity) contextValidateServiceOffering(ctx context.Context, formats strfmt.Registry) error {
+func (m *V1CloudStackMachineConfigEntity) contextValidateOffering(ctx context.Context, formats strfmt.Registry) error {
 
-	if m.ServiceOffering != nil {
+	if m.Offering != nil {
 
-		if err := m.ServiceOffering.ContextValidate(ctx, formats); err != nil {
+		if err := m.Offering.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("serviceOffering")
+				return ve.ValidateName("offering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("serviceOffering")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1CloudStackMachineConfigEntity) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Template != nil {
-
-		if err := m.Template.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("template")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("template")
+				return ce.ValidateName("offering")
 			}
 			return err
 		}

@@ -3630,7 +3630,7 @@ func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudC
 /*
 V1CloudStackAccountValidate checks if cloud stack account is valid
 
-Returns no contents if account is valid else error.
+Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists. Returns no contents if account is valid else error.
 */
 func (a *Client) V1CloudStackAccountValidate(params *V1CloudStackAccountValidateParams) (*V1CloudStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -24317,6 +24317,8 @@ func (a *Client) V1OverlordsUIDCloudStackAccountUpdate(params *V1OverlordsUIDClo
 
 /*
 V1OverlordsUIDCloudStackAccountValidate validates the cloud stack cloudaccount for the private gateway
+
+Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists.
 */
 func (a *Client) V1OverlordsUIDCloudStackAccountValidate(params *V1OverlordsUIDCloudStackAccountValidateParams) (*V1OverlordsUIDCloudStackAccountValidateNoContent, error) {
 	// TODO: Validate the params before sending

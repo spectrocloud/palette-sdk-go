@@ -17,11 +17,50 @@ import (
 // swagger:model v1CloudStackOffering
 type V1CloudStackOffering struct {
 
+	// Number of CPU cores
+	CPUNumber int32 `json:"cpuNumber,omitempty"`
+
+	// CPU speed in MHz
+	CPUSpeed int32 `json:"cpuSpeed,omitempty"`
+
+	// Display text for the offering
+	DisplayText string `json:"displayText,omitempty"`
+
+	// Hypervisor snapshot reserve space as percentage
+	HypervisorSnapshotReserve int32 `json:"hypervisorSnapshotReserve,omitempty"`
+
 	// Offering ID
 	ID string `json:"id,omitempty"`
 
+	// Whether the offering allows customization of CPU and memory
+	IsCustomized bool `json:"isCustomized,omitempty"`
+
+	// Whether the offering allows customization of IOPS
+	IsCustomizedIops bool `json:"isCustomizedIops,omitempty"`
+
+	// Whether the VM is volatile (data is lost on stop/restart)
+	IsVolatile bool `json:"isVolatile,omitempty"`
+
+	// Whether CPU usage is limited
+	LimitCPUUse bool `json:"limitCpuUse,omitempty"`
+
+	// Maximum IOPS for customized offerings
+	MaxIops int64 `json:"maxIops,omitempty"`
+
+	// Memory size in MB
+	Memory int64 `json:"memory,omitempty"`
+
+	// Minimum IOPS for customized offerings
+	MinIops int64 `json:"minIops,omitempty"`
+
 	// Offering name
 	Name string `json:"name,omitempty"`
+
+	// Whether the offering supports high availability
+	OfferHA bool `json:"offerHA,omitempty"`
+
+	// Storage type (local or shared)
+	StorageType string `json:"storageType,omitempty"`
 }
 
 // Validate validates this v1 cloud stack offering

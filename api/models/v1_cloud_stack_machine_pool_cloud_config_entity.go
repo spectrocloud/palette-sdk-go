@@ -26,15 +26,15 @@ type V1CloudStackMachinePoolCloudConfigEntity struct {
 	// Additional details for instance creation
 	Details map[string]string `json:"details,omitempty"`
 
-	// Disk offering name for root disk (optional)
-	DiskOffering string `json:"diskOffering,omitempty"`
+	// Disk offering (instance type/size)
+	DiskOffering *V1CloudStackResource `json:"diskOffering,omitempty"`
 
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
-	// Service offering (instance type/size) name
+	// Service offering (instance type/size)
 	// Required: true
-	Offering *string `json:"offering"`
+	Offering *V1CloudStackResource `json:"offering"`
 
 	// Root disk size in GB (optional)
 	RootDiskSizeGB int32 `json:"rootDiskSizeGB,omitempty"`
@@ -43,6 +43,10 @@ type V1CloudStackMachinePoolCloudConfigEntity struct {
 // Validate validates this v1 cloud stack machine pool cloud config entity
 func (m *V1CloudStackMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateDiskOffering(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateNetworks(formats); err != nil {
 		res = append(res, err)
@@ -55,6 +59,25 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) Validate(formats strfmt.Regis
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) validateDiskOffering(formats strfmt.Registry) error {
+	if swag.IsZero(m.DiskOffering) { // not required
+		return nil
+	}
+
+	if m.DiskOffering != nil {
+		if err := m.DiskOffering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -90,6 +113,17 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) validateOffering(formats strf
 		return err
 	}
 
+	if m.Offering != nil {
+		if err := m.Offering.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -97,13 +131,42 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) validateOffering(formats strf
 func (m *V1CloudStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDiskOffering(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOffering(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateDiskOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DiskOffering != nil {
+
+		if swag.IsZero(m.DiskOffering) { // not required
+			return nil
+		}
+
+		if err := m.DiskOffering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diskOffering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diskOffering")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -127,6 +190,23 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateNetworks(ctx c
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateOffering(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Offering != nil {
+
+		if err := m.Offering.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("offering")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("offering")
+			}
+			return err
+		}
 	}
 
 	return nil
