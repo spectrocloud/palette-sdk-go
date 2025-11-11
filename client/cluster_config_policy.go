@@ -10,7 +10,7 @@ import (
 
 // CreateClusterConfigPolicy creates a new cluster config policy (maintenance policy).
 func (h *V1Client) CreateClusterConfigPolicy(body *models.V1SpcPolicyEntity) (*models.V1UID, error) {
-	params := clientv1.NewV1SpcPoliciesMaintenanceCreateParams().
+	params := clientv1.NewV1SpcPoliciesMaintenanceCreateParamsWithContext(h.ctx).
 		WithBody(body)
 	resp, err := h.Client.V1SpcPoliciesMaintenanceCreate(params)
 	if err != nil {
@@ -21,7 +21,7 @@ func (h *V1Client) CreateClusterConfigPolicy(body *models.V1SpcPolicyEntity) (*m
 
 // UpdateClusterConfigPolicy updates an existing cluster config policy (maintenance policy).
 func (h *V1Client) UpdateClusterConfigPolicy(uid string, body *models.V1SpcPolicyEntity) error {
-	params := clientv1.NewV1SpcPoliciesMaintenanceUIDUpdateParams().
+	params := clientv1.NewV1SpcPoliciesMaintenanceUIDUpdateParamsWithContext(h.ctx).
 		WithUID(uid).
 		WithBody(body)
 	_, err := h.Client.V1SpcPoliciesMaintenanceUIDUpdate(params)
@@ -30,7 +30,7 @@ func (h *V1Client) UpdateClusterConfigPolicy(uid string, body *models.V1SpcPolic
 
 // GetClusterConfigPolicy retrieves an existing cluster config policy by UID.
 func (h *V1Client) GetClusterConfigPolicy(uid string) (*models.V1SpcPolicyEntity, error) {
-	params := clientv1.NewV1SpcPoliciesMaintenanceUIDGetParams().
+	params := clientv1.NewV1SpcPoliciesMaintenanceUIDGetParamsWithContext(h.ctx).
 		WithUID(uid)
 	resp, err := h.Client.V1SpcPoliciesMaintenanceUIDGet(params)
 	if err != nil {
@@ -41,7 +41,7 @@ func (h *V1Client) GetClusterConfigPolicy(uid string) (*models.V1SpcPolicyEntity
 
 // ListClusterConfigPolicies retrieves all cluster config policies.
 func (h *V1Client) ListClusterConfigPolicies() (*models.V1SpcPoliciesSummary, error) {
-	params := clientv1.NewV1SpcPoliciesFilterSummaryParams().
+	params := clientv1.NewV1SpcPoliciesFilterSummaryParamsWithContext(h.ctx).
 		WithLimit(apiutil.Ptr(int64(0)))
 	resp, err := h.Client.V1SpcPoliciesFilterSummary(params)
 	if err != nil {
@@ -66,7 +66,7 @@ func (h *V1Client) GetClusterConfigPolicyByName(name string) (*models.V1SpcPolic
 
 // DeleteClusterConfigPolicy deletes an existing cluster config policy.
 func (h *V1Client) DeleteClusterConfigPolicy(uid string) error {
-	params := clientv1.NewV1SpcPoliciesUIDDeleteParams().
+	params := clientv1.NewV1SpcPoliciesUIDDeleteParamsWithContext(h.ctx).
 		WithUID(uid)
 	_, err := h.Client.V1SpcPoliciesUIDDelete(params)
 	return err
