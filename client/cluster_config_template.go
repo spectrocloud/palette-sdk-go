@@ -71,3 +71,32 @@ func (h *V1Client) DeleteClusterConfigTemplate(uid string) error {
 	_, err := h.Client.V1ClusterTemplatesUIDDelete(params)
 	return err
 }
+
+// UpdateClusterConfigTemplatePolicies updates the policies for a cluster config template.
+func (h *V1Client) UpdateClusterConfigTemplatePolicies(uid string, body *models.V1ClusterTemplatePoliciesUpdateEntity) error {
+	params := clientv1.NewV1ClusterTemplatesUIDPoliciesUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1ClusterTemplatesUIDPoliciesUpdate(params)
+	return err
+}
+
+// UpdateClusterConfigTemplateProfiles updates the profiles list for a cluster config template.
+// Use this when adding/removing profiles or changing profile UIDs.
+func (h *V1Client) UpdateClusterConfigTemplateProfiles(uid string, body *models.V1ClusterTemplateProfilesUpdateEntity) error {
+	params := clientv1.NewV1ClusterTemplatesUIDProfilesUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1ClusterTemplatesUIDProfilesUpdate(params)
+	return err
+}
+
+// UpdateClusterConfigTemplateProfilesVariables updates profile variables for a cluster config template.
+// Use this when only updating variable values within existing profiles.
+func (h *V1Client) UpdateClusterConfigTemplateProfilesVariables(uid string, body *models.V1ClusterTemplateProfilesVariablesBatchEntity) error {
+	params := clientv1.NewV1ClusterTemplatesUIDProfilesVariablesPatchParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
+	_, err := h.Client.V1ClusterTemplatesUIDProfilesVariablesPatch(params)
+	return err
+}
