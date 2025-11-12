@@ -81,6 +81,14 @@ func (h *V1Client) UpdateClusterConfigTemplatePolicies(uid string, body *models.
 	return err
 }
 
+// UpgradeClusterConfigTemplateClusters triggers an upgrade for all clusters launched from this template.
+func (h *V1Client) UpgradeClusterConfigTemplateClusters(uid string) error {
+	params := clientv1.NewV1SpectroClustersTemplatesUIDClustersUpgradeParamsWithContext(h.ctx).
+		WithUID(uid)
+	_, err := h.Client.V1SpectroClustersTemplatesUIDClustersUpgrade(params)
+	return err
+}
+
 // UpdateClusterConfigTemplateProfiles updates the profiles list for a cluster config template.
 // Use this when adding/removing profiles or changing profile UIDs.
 func (h *V1Client) UpdateClusterConfigTemplateProfiles(uid string, body *models.V1ClusterTemplateProfilesUpdateEntity) error {
