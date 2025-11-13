@@ -1,0 +1,33 @@
+#!/bin/bash
+# Fix empty for loops in generated DeepCopy code
+# controller-gen creates empty loops for map[string]interface{} which causes unused variable errors
+
+set -e
+
+DEEPCOPY_FILE="models/zz_generated.deepcopy.go"
+
+if [ ! -f "$DEEPCOPY_FILE" ]; then
+    echo "Error: $DEEPCOPY_FILE not found"
+    exit 1
+fi
+
+echo "Fixing empty loop bodies for map[string]interface{}..."
+
+# Fix: for key, val := range *in { } -> add (*out)[key] = val inside the loop
+awk '
+/for key, val := range \*in \{/ {
+    print
+    getline
+    if ($0 ~ /^[[:space:]]*\}$/) {
+        print "\t\t\t(*out)[key] = val"
+    }
+    print
+    next
+}
+{ print }
+' "$DEEPCOPY_FILE" > "${DEEPCOPY_FILE}.tmp"
+
+mv "${DEEPCOPY_FILE}.tmp" "$DEEPCOPY_FILE"
+
+echo "All fixes applied to $DEEPCOPY_FILE"
+
