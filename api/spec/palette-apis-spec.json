@@ -24277,6 +24277,38 @@
         }
       ]
     },
+    "/v1/spectroclusters/{uid}/clusterConfig/timezone": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the specified cluster's timezone configuration",
+        "operationId": "v1SpectroClustersUidTimezoneUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TimezoneUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/spectroclusters/{uid}/config/namespaces": {
       "get": {
         "tags": [
@@ -37839,6 +37871,10 @@
           "description": "MachineManagementConfig defines the management configurations for the node. Patching OS security updates etc can be configured by user.",
           "$ref": "#/definitions/v1MachineManagementConfig"
         },
+        "timezone": {
+          "description": "Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional",
+          "type": "string"
+        },
         "updateWorkerPoolsInParallel": {
           "description": "UpdateWorkerPoolsInParallel is used to decide if the update of workerpools happen in parallel. When this flag is false, the workerpools are updated sequentially.",
           "type": "boolean"
@@ -37870,6 +37906,10 @@
         "resources": {
           "$ref": "#/definitions/v1ClusterResourcesEntity"
         },
+        "timezone": {
+          "description": "Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional",
+          "type": "string"
+        },
         "updateWorkerPoolsInParallel": {
           "type": "boolean"
         }
@@ -37881,6 +37921,10 @@
         "hostClusterConfig": {
           "description": "HostClusterConfig defines the configuration entity of host clusters config entity",
           "$ref": "#/definitions/v1HostClusterConfigResponse"
+        },
+        "timezone": {
+          "description": "Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional",
+          "type": "string"
         }
       }
     },
@@ -42209,6 +42253,10 @@
         },
         "resources": {
           "$ref": "#/definitions/v1ClusterResourcesEntity"
+        },
+        "timezone": {
+          "description": "The timezone field is mandatory if cluster is deployed through template, else it is optional",
+          "type": "string"
         }
       }
     },
@@ -59134,6 +59182,19 @@
       "description": "Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.",
       "type": "string",
       "format": "date-time"
+    },
+    "v1TimezoneUpdateEntity": {
+      "type": "object",
+      "required": [
+        "timezone"
+      ],
+      "properties": {
+        "timezone": {
+          "description": "The timezone field is mandatory if cluster is deployed through template, else it is optional",
+          "type": "string",
+          "example": "America/New_York"
+        }
+      }
     },
     "v1TlsConfiguration": {
       "description": "TLS configuration",
