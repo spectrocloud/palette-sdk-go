@@ -1774,6 +1774,8 @@ type ClientService interface {
 
 	V1SpectroClustersUIDStatusSpcPatchTime(params *V1SpectroClustersUIDStatusSpcPatchTimeParams) (*V1SpectroClustersUIDStatusSpcPatchTimeNoContent, error)
 
+	V1SpectroClustersUIDTimezoneUpdate(params *V1SpectroClustersUIDTimezoneUpdateParams) (*V1SpectroClustersUIDTimezoneUpdateNoContent, error)
+
 	V1SpectroClustersUIDTokenKubeConfigDelete(params *V1SpectroClustersUIDTokenKubeConfigDeleteParams) (*V1SpectroClustersUIDTokenKubeConfigDeleteNoContent, error)
 
 	V1SpectroClustersUIDTokenKubeConfigGet(params *V1SpectroClustersUIDTokenKubeConfigGetParams, writer io.Writer) (*V1SpectroClustersUIDTokenKubeConfigGetOK, error)
@@ -31914,6 +31916,40 @@ func (a *Client) V1SpectroClustersUIDStatusSpcPatchTime(params *V1SpectroCluster
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidStatusSpcPatchTime: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersUIDTimezoneUpdate updates the specified cluster s timezone configuration
+*/
+func (a *Client) V1SpectroClustersUIDTimezoneUpdate(params *V1SpectroClustersUIDTimezoneUpdateParams) (*V1SpectroClustersUIDTimezoneUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersUIDTimezoneUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersUidTimezoneUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/spectroclusters/{uid}/clusterConfig/timezone",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersUIDTimezoneUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersUIDTimezoneUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidTimezoneUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

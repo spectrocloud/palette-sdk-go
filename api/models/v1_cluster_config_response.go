@@ -20,6 +20,9 @@ type V1ClusterConfigResponse struct {
 
 	// HostClusterConfig defines the configuration entity of host clusters config entity
 	HostClusterConfig *V1HostClusterConfigResponse `json:"hostClusterConfig,omitempty"`
+
+	// Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional
+	Timezone string `json:"timezone,omitempty"`
 }
 
 // Validate validates this v1 cluster config response

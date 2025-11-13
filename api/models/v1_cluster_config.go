@@ -46,6 +46,9 @@ type V1ClusterConfig struct {
 	// MachineManagementConfig defines the management configurations for the node. Patching OS security updates etc can be configured by user.
 	MachineManagementConfig *V1MachineManagementConfig `json:"machineManagementConfig,omitempty"`
 
+	// Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional
+	Timezone string `json:"timezone,omitempty"`
+
 	// UpdateWorkerPoolsInParallel is used to decide if the update of workerpools happen in parallel. When this flag is false, the workerpools are updated sequentially.
 	UpdateWorkerPoolsInParallel bool `json:"updateWorkerPoolsInParallel,omitempty"`
 }

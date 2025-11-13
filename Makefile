@@ -63,7 +63,7 @@ BIN_DIR ?= $(shell pwd)/bin
 bin-dir:
 	test -d $(BIN_DIR) || mkdir $(BIN_DIR)
 
-GOLANGCI_VERSION ?= 1.62.2
+GOLANGCI_VERSION ?= 1.64.6
 .PHONY: golangci-lint
 golangci-lint: bin-dir
 	if ! test -f $(BIN_DIR)/golangci-lint-linux-amd64; then \

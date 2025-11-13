@@ -70,6 +70,11 @@ type V1ClusterProfilesUpdateParams struct {
 
 	*/
 	IncludePackMeta *string
+	/*ResourceType
+	  Filter cluster profiles by target resource type - 'spectrocluster' for profiles suitable to launch/update clusters, 'clustertemplate' for profiles suitable to create/edit cluster template
+
+	*/
+	ResourceType *string
 	/*UID
 	  Cluster profile uid
 
@@ -136,6 +141,17 @@ func (o *V1ClusterProfilesUpdateParams) SetIncludePackMeta(includePackMeta *stri
 	o.IncludePackMeta = includePackMeta
 }
 
+// WithResourceType adds the resourceType to the v1 cluster profiles update params
+func (o *V1ClusterProfilesUpdateParams) WithResourceType(resourceType *string) *V1ClusterProfilesUpdateParams {
+	o.SetResourceType(resourceType)
+	return o
+}
+
+// SetResourceType adds the resourceType to the v1 cluster profiles update params
+func (o *V1ClusterProfilesUpdateParams) SetResourceType(resourceType *string) {
+	o.ResourceType = resourceType
+}
+
 // WithUID adds the uid to the v1 cluster profiles update params
 func (o *V1ClusterProfilesUpdateParams) WithUID(uid string) *V1ClusterProfilesUpdateParams {
 	o.SetUID(uid)
@@ -171,6 +187,22 @@ func (o *V1ClusterProfilesUpdateParams) WriteToRequest(r runtime.ClientRequest, 
 		qIncludePackMeta := qrIncludePackMeta
 		if qIncludePackMeta != "" {
 			if err := r.SetQueryParam("includePackMeta", qIncludePackMeta); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ResourceType != nil {
+
+		// query param resourceType
+		var qrResourceType string
+		if o.ResourceType != nil {
+			qrResourceType = *o.ResourceType
+		}
+		qResourceType := qrResourceType
+		if qResourceType != "" {
+			if err := r.SetQueryParam("resourceType", qResourceType); err != nil {
 				return err
 			}
 		}

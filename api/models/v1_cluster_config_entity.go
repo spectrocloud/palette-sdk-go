@@ -39,6 +39,9 @@ type V1ClusterConfigEntity struct {
 	// resources
 	Resources *V1ClusterResourcesEntity `json:"resources,omitempty"`
 
+	// Timezone of a cluster in IANA standard format. It is mandatory field if cluster is deployed through template, else it is optional
+	Timezone string `json:"timezone,omitempty"`
+
 	// update worker pools in parallel
 	UpdateWorkerPoolsInParallel bool `json:"updateWorkerPoolsInParallel,omitempty"`
 }
