@@ -19,6 +19,9 @@ import (
 // swagger:model v1CloudStackMachineConfig
 type V1CloudStackMachineConfig struct {
 
+	// Instance Configuration
+	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
+
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
@@ -29,6 +32,10 @@ type V1CloudStackMachineConfig struct {
 // Validate validates this v1 cloud stack machine config
 func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateInstanceConfig(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateNetworks(formats); err != nil {
 		res = append(res, err)
@@ -41,6 +48,25 @@ func (m *V1CloudStackMachineConfig) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachineConfig) validateInstanceConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceConfig) { // not required
+		return nil
+	}
+
+	if m.InstanceConfig != nil {
+		if err := m.InstanceConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -93,6 +119,10 @@ func (m *V1CloudStackMachineConfig) validateOffering(formats strfmt.Registry) er
 func (m *V1CloudStackMachineConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateInstanceConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -104,6 +134,27 @@ func (m *V1CloudStackMachineConfig) ContextValidate(ctx context.Context, formats
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachineConfig) contextValidateInstanceConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstanceConfig != nil {
+
+		if swag.IsZero(m.InstanceConfig) { // not required
+			return nil
+		}
+
+		if err := m.InstanceConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

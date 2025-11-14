@@ -36847,6 +36847,10 @@
       "description": "CloudStack-specific machine configuration",
       "type": "object",
       "properties": {
+        "instanceConfig": {
+          "description": "Instance Configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
+        },
         "networks": {
           "description": "Network configuration",
           "type": "array",
@@ -36921,6 +36925,10 @@
         "offering"
       ],
       "properties": {
+        "instanceConfig": {
+          "description": "Instance Configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
+        },
         "networks": {
           "description": "Network configuration",
           "type": "array",

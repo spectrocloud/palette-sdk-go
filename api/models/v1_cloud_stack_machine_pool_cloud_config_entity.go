@@ -20,6 +20,9 @@ import (
 // swagger:model v1CloudStackMachinePoolCloudConfigEntity
 type V1CloudStackMachinePoolCloudConfigEntity struct {
 
+	// Instance Configuration
+	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
+
 	// Network configuration
 	Networks []*V1CloudStackNetworkConfig `json:"networks"`
 
@@ -32,6 +35,10 @@ type V1CloudStackMachinePoolCloudConfigEntity struct {
 func (m *V1CloudStackMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateInstanceConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateNetworks(formats); err != nil {
 		res = append(res, err)
 	}
@@ -43,6 +50,25 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) Validate(formats strfmt.Regis
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) validateInstanceConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstanceConfig) { // not required
+		return nil
+	}
+
+	if m.InstanceConfig != nil {
+		if err := m.InstanceConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -96,6 +122,10 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) validateOffering(formats strf
 func (m *V1CloudStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateInstanceConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNetworks(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -107,6 +137,27 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.C
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateInstanceConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstanceConfig != nil {
+
+		if swag.IsZero(m.InstanceConfig) { // not required
+			return nil
+		}
+
+		if err := m.InstanceConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instanceConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instanceConfig")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
