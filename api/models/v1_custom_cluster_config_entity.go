@@ -26,6 +26,9 @@ type V1CustomClusterConfigEntity struct {
 
 	// resources
 	Resources *V1ClusterResourcesEntity `json:"resources,omitempty"`
+
+	// The timezone field is mandatory if cluster is deployed through template, else it is optional
+	Timezone string `json:"timezone,omitempty"`
 }
 
 // Validate validates this v1 custom cluster config entity
