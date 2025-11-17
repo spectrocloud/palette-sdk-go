@@ -17,11 +17,26 @@ import (
 // swagger:model v1CloudStackVpc
 type V1CloudStackVpc struct {
 
+	// Vpc Cidr
+	Cidr string `json:"cidr,omitempty"`
+
+	// Domain Id associated with Vpc
+	DomainID string `json:"domainId,omitempty"`
+
 	// Vpc id
 	ID string `json:"id,omitempty"`
 
 	// Vpc name
 	Name string `json:"name,omitempty"`
+
+	// Vpc offering Id
+	OfferingID string `json:"offeringId,omitempty"`
+
+	// Project Id associated with Vpc
+	ProjectID string `json:"projectId,omitempty"`
+
+	// Zone Id associated with Vpc
+	ZoneID string `json:"zoneId,omitempty"`
 }
 
 // Validate validates this v1 cloud stack vpc
