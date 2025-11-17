@@ -85,10 +85,10 @@ GOLANGCI_LINT=$(BIN_DIR)/golangci-lint-$(GOOS)-$(GOARCH)
 .PHONY: pre-commit
 pre-commit:
 	@if [ "$(GITHUB_ACTIONS)" != "true" ]; then \
-		@command -v pre-commit >/dev/null 2>&1 || { \
+		command -v pre-commit >/dev/null 2>&1 || { \
 			echo "pre-commit not found, downloading..."; \
 			pip install pre-commit; \
-		} \
+		}; \
 	fi
 
 SWAGGER_VERSION ?= v0.31.0

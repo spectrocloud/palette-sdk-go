@@ -36847,23 +36847,9 @@
       "description": "CloudStack-specific machine configuration",
       "type": "object",
       "properties": {
-        "affinityGroupIds": {
-          "description": "Affinity group for VM placement (optional)",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "details": {
-          "description": "Additional details for instance creation",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "diskOffering": {
-          "description": "Disk offering (instance type/size)",
-          "$ref": "#/definitions/v1CloudStackResource"
+        "instanceConfig": {
+          "description": "Instance Configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
         },
         "networks": {
           "description": "Network configuration",
@@ -36875,11 +36861,6 @@
         "offering": {
           "description": "Service offering (instance type/size)",
           "$ref": "#/definitions/v1CloudStackResource"
-        },
-        "rootDiskSizeGB": {
-          "description": "Root disk size in GB (optional)",
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -36889,23 +36870,6 @@
         "offering"
       ],
       "properties": {
-        "affinityGroupIds": {
-          "description": "Affinity group for VM placement (optional)",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "details": {
-          "description": "Additional details for instance creation",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "diskOffering": {
-          "$ref": "#/definitions/v1CloudStackResource"
-        },
         "networks": {
           "description": "Network configuration",
           "type": "array",
@@ -36915,11 +36879,6 @@
         },
         "offering": {
           "$ref": "#/definitions/v1CloudStackResource"
-        },
-        "rootDiskSizeGB": {
-          "description": "Root disk size in GB",
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -36966,23 +36925,9 @@
         "offering"
       ],
       "properties": {
-        "affinityGroupIds": {
-          "description": "Affinity group for VM placement (optional)",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "details": {
-          "description": "Additional details for instance creation",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "diskOffering": {
-          "description": "Disk offering (instance type/size)",
-          "$ref": "#/definitions/v1CloudStackResource"
+        "instanceConfig": {
+          "description": "Instance Configuration",
+          "$ref": "#/definitions/v1InstanceConfig"
         },
         "networks": {
           "description": "Network configuration",
@@ -36994,11 +36939,6 @@
         "offering": {
           "description": "Service offering (instance type/size)",
           "$ref": "#/definitions/v1CloudStackResource"
-        },
-        "rootDiskSizeGB": {
-          "description": "Root disk size in GB (optional)",
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
