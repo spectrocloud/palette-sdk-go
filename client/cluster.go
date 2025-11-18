@@ -399,6 +399,16 @@ func (h *V1Client) GetTheKubernetesCerts(clusterUID string) (*models.V1MachineCe
 	return certList, nil
 }
 
+// GetClusterVariables retrieves all variables associated with a cluster.
+func (h *V1Client) GetClusterVariables(clusterUID string) ([]*models.V1SpectroClusterVariables, error) {
+	params := clientv1.NewV1SpectroClustersUIDVariablesGetParamsWithContext(h.ctx).WithUID(clusterUID)
+	resp, err := h.Client.V1SpectroClustersUIDVariablesGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // UpdateClusterProfileVariableInCluster Update cluster profile variable in running cluster.
 func (h *V1Client) UpdateClusterProfileVariableInCluster(clusterUID string, body []*models.V1SpectroClusterVariableUpdateEntity) error {
 	params := clientv1.NewV1SpectroClustersUIDVariablesPatchParamsWithContext(h.ctx).WithUID(clusterUID).WithBody(body)
