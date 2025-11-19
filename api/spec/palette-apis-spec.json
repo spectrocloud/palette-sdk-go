@@ -37319,12 +37319,32 @@
       "description": "CloudStack Vpc",
       "type": "object",
       "properties": {
+        "cidr": {
+          "description": "Vpc Cidr",
+          "type": "string"
+        },
+        "domainId": {
+          "description": "Domain Id associated with Vpc",
+          "type": "string"
+        },
         "id": {
           "description": "Vpc id",
           "type": "string"
         },
         "name": {
           "description": "Vpc name",
+          "type": "string"
+        },
+        "offeringId": {
+          "description": "Vpc offering Id",
+          "type": "string"
+        },
+        "projectId": {
+          "description": "Project Id associated with Vpc",
+          "type": "string"
+        },
+        "zoneId": {
+          "description": "Zone Id associated with Vpc",
           "type": "string"
         }
       }
