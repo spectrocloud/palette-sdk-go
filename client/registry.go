@@ -268,3 +268,26 @@ func (h *V1Client) ValidateOciEcrRegistry(body *models.V1EcrRegistrySpec) error 
 	_, err := h.Client.V1EcrRegistriesValidate(params)
 	return err
 }
+
+// GetOciBasicRegistrySyncStatus retrieves the sync status of a basic OCI registry by UID.
+func (h *V1Client) GetOciBasicRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1BasicOciRegistriesUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1BasicOciRegistriesUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetOciEcrRegistrySyncStatus retrieves the sync status of an ECR OCI registry by UID.
+// Note: This may not be needed if ECR registries don't support sync
+func (h *V1Client) GetOciEcrRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1EcrRegistriesUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1EcrRegistriesUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}

@@ -14,6 +14,7 @@ func toV1AwsCloudAccount(account *models.V1AwsAccount) *models.V1AwsCloudAccount
 		PolicyARNs:     account.Spec.PolicyARNs,
 		SecretKey:      account.Spec.SecretKey,
 		Sts:            account.Spec.Sts,
+		PodIdentity:    account.Spec.PodIdentity,
 	}
 }
 
