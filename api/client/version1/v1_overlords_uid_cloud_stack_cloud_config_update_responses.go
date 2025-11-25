@@ -46,7 +46,7 @@ type V1OverlordsUIDCloudStackCloudConfigUpdateNoContent struct {
 }
 
 func (o *V1OverlordsUIDCloudStackCloudConfigUpdateNoContent) Error() string {
-	return fmt.Sprintf("[PUT /v1/overlords/cloudstack/{uid}/cloudconfig][%d] v1OverlordsUidCloudStackCloudConfigUpdateNoContent ", 204)
+	return fmt.Sprintf("[PUT /v1/overlords/apache-cloudstack/{uid}/cloudconfig][%d] v1OverlordsUidCloudStackCloudConfigUpdateNoContent ", 204)
 }
 
 func (o *V1OverlordsUIDCloudStackCloudConfigUpdateNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

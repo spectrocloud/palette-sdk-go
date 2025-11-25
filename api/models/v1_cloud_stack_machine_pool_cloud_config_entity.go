@@ -29,6 +29,9 @@ type V1CloudStackMachinePoolCloudConfigEntity struct {
 	// Service offering (instance type/size)
 	// Required: true
 	Offering *V1CloudStackResource `json:"offering"`
+
+	// CloudStack template override for this machine pool. If not specified, inherits cluster default from profile.
+	Template *V1CloudStackResource `json:"template,omitempty"`
 }
 
 // Validate validates this v1 cloud stack machine pool cloud config entity
@@ -44,6 +47,10 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) Validate(formats strfmt.Regis
 	}
 
 	if err := m.validateOffering(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTemplate(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -118,6 +125,25 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) validateOffering(formats strf
 	return nil
 }
 
+func (m *V1CloudStackMachinePoolCloudConfigEntity) validateTemplate(formats strfmt.Registry) error {
+	if swag.IsZero(m.Template) { // not required
+		return nil
+	}
+
+	if m.Template != nil {
+		if err := m.Template.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("template")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("template")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 cloud stack machine pool cloud config entity based on the context it is used
 func (m *V1CloudStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -131,6 +157,10 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) ContextValidate(ctx context.C
 	}
 
 	if err := m.contextValidateOffering(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTemplate(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -195,6 +225,27 @@ func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateOffering(ctx c
 				return ve.ValidateName("offering")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("offering")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachinePoolCloudConfigEntity) contextValidateTemplate(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Template != nil {
+
+		if swag.IsZero(m.Template) { // not required
+			return nil
+		}
+
+		if err := m.Template.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("template")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("template")
 			}
 			return err
 		}

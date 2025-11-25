@@ -46,7 +46,7 @@ type V1CloudConfigsCloudStackMachinePoolDeleteNoContent struct {
 }
 
 func (o *V1CloudConfigsCloudStackMachinePoolDeleteNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}][%d] v1CloudConfigsCloudStackMachinePoolDeleteNoContent ", 204)
+	return fmt.Sprintf("[DELETE /v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}][%d] v1CloudConfigsCloudStackMachinePoolDeleteNoContent ", 204)
 }
 
 func (o *V1CloudConfigsCloudStackMachinePoolDeleteNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -54,7 +54,7 @@ type V1CloudConfigsCloudStackPoolMachinesAddCreated struct {
 }
 
 func (o *V1CloudConfigsCloudStackPoolMachinesAddCreated) Error() string {
-	return fmt.Sprintf("[POST /v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines][%d] v1CloudConfigsCloudStackPoolMachinesAddCreated  %+v", 201, o.Payload)
+	return fmt.Sprintf("[POST /v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines][%d] v1CloudConfigsCloudStackPoolMachinesAddCreated  %+v", 201, o.Payload)
 }
 
 func (o *V1CloudConfigsCloudStackPoolMachinesAddCreated) GetPayload() *models.V1UID {

@@ -46,7 +46,7 @@ type V1CloudAccountsCloudStackDeleteNoContent struct {
 }
 
 func (o *V1CloudAccountsCloudStackDeleteNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /v1/cloudaccounts/cloudstack/{uid}][%d] v1CloudAccountsCloudStackDeleteNoContent ", 204)
+	return fmt.Sprintf("[DELETE /v1/cloudaccounts/apache-cloudstack/{uid}][%d] v1CloudAccountsCloudStackDeleteNoContent ", 204)
 }
 
 func (o *V1CloudAccountsCloudStackDeleteNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

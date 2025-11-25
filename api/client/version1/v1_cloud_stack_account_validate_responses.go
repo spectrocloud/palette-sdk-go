@@ -49,7 +49,7 @@ type V1CloudStackAccountValidateNoContent struct {
 }
 
 func (o *V1CloudStackAccountValidateNoContent) Error() string {
-	return fmt.Sprintf("[POST /v1/clouds/cloudstack/account/validate][%d] v1CloudStackAccountValidateNoContent ", 204)
+	return fmt.Sprintf("[POST /v1/clouds/apache-cloudstack/account/validate][%d] v1CloudStackAccountValidateNoContent ", 204)
 }
 
 func (o *V1CloudStackAccountValidateNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

@@ -54,7 +54,7 @@ type V1OverlordsUIDCloudStackAccountValidateNoContent struct {
 }
 
 func (o *V1OverlordsUIDCloudStackAccountValidateNoContent) Error() string {
-	return fmt.Sprintf("[POST /v1/overlords/cloudstack/{uid}/account/validate][%d] v1OverlordsUidCloudStackAccountValidateNoContent ", 204)
+	return fmt.Sprintf("[POST /v1/overlords/apache-cloudstack/{uid}/account/validate][%d] v1OverlordsUidCloudStackAccountValidateNoContent ", 204)
 }
 
 func (o *V1OverlordsUIDCloudStackAccountValidateNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

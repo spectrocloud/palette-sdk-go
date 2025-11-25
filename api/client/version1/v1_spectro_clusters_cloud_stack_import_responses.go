@@ -54,7 +54,7 @@ type V1SpectroClustersCloudStackImportCreated struct {
 }
 
 func (o *V1SpectroClustersCloudStackImportCreated) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/cloudstack/import][%d] v1SpectroClustersCloudStackImportCreated  %+v", 201, o.Payload)
+	return fmt.Sprintf("[POST /v1/spectroclusters/apache-cloudstack/import][%d] v1SpectroClustersCloudStackImportCreated  %+v", 201, o.Payload)
 }
 
 func (o *V1SpectroClustersCloudStackImportCreated) GetPayload() *models.V1UID {
