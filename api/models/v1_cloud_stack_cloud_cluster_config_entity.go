@@ -19,7 +19,7 @@ import (
 type V1CloudStackCloudClusterConfigEntity struct {
 
 	// cluster config
-	ClusterConfig *V1CloudStackClusterConfig `json:"clusterConfig,omitempty"`
+	ClusterConfig *V1CloudStackClusterConfigUpdateEntity `json:"clusterConfig,omitempty"`
 }
 
 // Validate validates this v1 cloud stack cloud cluster config entity
