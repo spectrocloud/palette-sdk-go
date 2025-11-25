@@ -3643,7 +3643,7 @@ func (a *Client) V1CloudStackAccountValidate(params *V1CloudStackAccountValidate
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackAccountValidate",
 		Method:             "POST",
-		PathPattern:        "/v1/clouds/cloudstack/account/validate",
+		PathPattern:        "/v1/clouds/apache-cloudstack/account/validate",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3677,7 +3677,7 @@ func (a *Client) V1CloudStackDiskOfferingsGet(params *V1CloudStackDiskOfferingsG
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackDiskOfferingsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/diskOfferings",
+		PathPattern:        "/v1/clouds/apache-cloudstack/diskOfferings",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3711,7 +3711,7 @@ func (a *Client) V1CloudStackDomainsGet(params *V1CloudStackDomainsGetParams) (*
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackDomainsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/domains",
+		PathPattern:        "/v1/clouds/apache-cloudstack/domains",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3745,7 +3745,7 @@ func (a *Client) V1CloudStackKeypairsGet(params *V1CloudStackKeypairsGetParams) 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackKeypairsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/keypairs",
+		PathPattern:        "/v1/clouds/apache-cloudstack/keypairs",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3779,7 +3779,7 @@ func (a *Client) V1CloudStackNetworksGet(params *V1CloudStackNetworksGetParams) 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackNetworksGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/networks",
+		PathPattern:        "/v1/clouds/apache-cloudstack/networks",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3813,7 +3813,7 @@ func (a *Client) V1CloudStackOfferingsGet(params *V1CloudStackOfferingsGetParams
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackOfferingsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/offerings",
+		PathPattern:        "/v1/clouds/apache-cloudstack/offerings",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3847,7 +3847,7 @@ func (a *Client) V1CloudStackProjectsGet(params *V1CloudStackProjectsGetParams) 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackProjectsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/projects",
+		PathPattern:        "/v1/clouds/apache-cloudstack/projects",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3881,7 +3881,7 @@ func (a *Client) V1CloudStackTemplatesGet(params *V1CloudStackTemplatesGetParams
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackTemplatesGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/templates",
+		PathPattern:        "/v1/clouds/apache-cloudstack/templates",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3915,7 +3915,7 @@ func (a *Client) V1CloudStackVpcsGet(params *V1CloudStackVpcsGetParams) (*V1Clou
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackVpcsGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/vpcs",
+		PathPattern:        "/v1/clouds/apache-cloudstack/vpcs",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -3949,7 +3949,7 @@ func (a *Client) V1CloudStackZonesGet(params *V1CloudStackZonesGetParams) (*V1Cl
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "V1CloudStackZonesGet",
 		Method:             "GET",
-		PathPattern:        "/v1/clouds/cloudstack/zones",
+		PathPattern:        "/v1/clouds/apache-cloudstack/zones",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -11541,7 +11541,7 @@ func (a *Client) V1CloudAccountsCloudStackCreate(params *V1CloudAccountsCloudSta
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudAccountsCloudStackCreate",
 		Method:             "POST",
-		PathPattern:        "/v1/cloudaccounts/cloudstack",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -11575,7 +11575,7 @@ func (a *Client) V1CloudAccountsCloudStackDelete(params *V1CloudAccountsCloudSta
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudAccountsCloudStackDelete",
 		Method:             "DELETE",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -11609,7 +11609,7 @@ func (a *Client) V1CloudAccountsCloudStackGet(params *V1CloudAccountsCloudStackG
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudAccountsCloudStackGet",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -11643,7 +11643,7 @@ func (a *Client) V1CloudAccountsCloudStackList(params *V1CloudAccountsCloudStack
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudAccountsCloudStackList",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -11677,7 +11677,7 @@ func (a *Client) V1CloudAccountsCloudStackUpdate(params *V1CloudAccountsCloudSta
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudAccountsCloudStackUpdate",
 		Method:             "PUT",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13653,7 +13653,7 @@ func (a *Client) V1CloudConfigsCloudStackGet(params *V1CloudConfigsCloudStackGet
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackGet",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13687,7 +13687,7 @@ func (a *Client) V1CloudConfigsCloudStackMachinePoolCreate(params *V1CloudConfig
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackMachinePoolCreate",
 		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13721,7 +13721,7 @@ func (a *Client) V1CloudConfigsCloudStackMachinePoolDelete(params *V1CloudConfig
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackMachinePoolDelete",
 		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13755,7 +13755,7 @@ func (a *Client) V1CloudConfigsCloudStackMachinePoolUpdate(params *V1CloudConfig
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackMachinePoolUpdate",
 		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13789,7 +13789,7 @@ func (a *Client) V1CloudConfigsCloudStackPoolMachinesAdd(params *V1CloudConfigsC
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackPoolMachinesAdd",
 		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13823,7 +13823,7 @@ func (a *Client) V1CloudConfigsCloudStackPoolMachinesList(params *V1CloudConfigs
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackPoolMachinesList",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13857,7 +13857,7 @@ func (a *Client) V1CloudConfigsCloudStackPoolMachinesUIDDelete(params *V1CloudCo
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackPoolMachinesUidDelete",
 		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13891,7 +13891,7 @@ func (a *Client) V1CloudConfigsCloudStackPoolMachinesUIDGet(params *V1CloudConfi
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackPoolMachinesUidGet",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13925,7 +13925,7 @@ func (a *Client) V1CloudConfigsCloudStackPoolMachinesUIDUpdate(params *V1CloudCo
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackPoolMachinesUidUpdate",
 		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -13959,7 +13959,7 @@ func (a *Client) V1CloudConfigsCloudStackUIDClusterConfig(params *V1CloudConfigs
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudConfigsCloudStackUidClusterConfig",
 		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/cloudstack/{configUid}/clusterConfig",
+		PathPattern:        "/v1/cloudconfigs/apache-cloudstack/{configUid}/clusterConfig",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17563,7 +17563,7 @@ func (a *Client) V1CloudstackAccountsUIDDiskofferings(params *V1CloudstackAccoun
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidDiskofferings",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/diskofferings",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/diskofferings",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17597,7 +17597,7 @@ func (a *Client) V1CloudstackAccountsUIDDomains(params *V1CloudstackAccountsUIDD
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidDomains",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/domains",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/domains",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17631,7 +17631,7 @@ func (a *Client) V1CloudstackAccountsUIDKeypairs(params *V1CloudstackAccountsUID
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidKeypairs",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/keypairs",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/keypairs",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17665,7 +17665,7 @@ func (a *Client) V1CloudstackAccountsUIDNetworks(params *V1CloudstackAccountsUID
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidNetworks",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/networks",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/networks",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17699,7 +17699,7 @@ func (a *Client) V1CloudstackAccountsUIDOfferings(params *V1CloudstackAccountsUI
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidOfferings",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/offerings",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/offerings",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17733,7 +17733,7 @@ func (a *Client) V1CloudstackAccountsUIDProjects(params *V1CloudstackAccountsUID
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidProjects",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/projects",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/projects",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17767,7 +17767,7 @@ func (a *Client) V1CloudstackAccountsUIDTemplates(params *V1CloudstackAccountsUI
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidTemplates",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/templates",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/templates",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17801,7 +17801,7 @@ func (a *Client) V1CloudstackAccountsUIDVpcs(params *V1CloudstackAccountsUIDVpcs
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidVpcs",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/vpcs",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/vpcs",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -17835,7 +17835,7 @@ func (a *Client) V1CloudstackAccountsUIDZones(params *V1CloudstackAccountsUIDZon
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1CloudstackAccountsUidZones",
 		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/cloudstack/{uid}/properties/zones",
+		PathPattern:        "/v1/cloudaccounts/apache-cloudstack/{uid}/properties/zones",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24125,7 +24125,7 @@ func (a *Client) V1OverlordsCloudStackManifest(params *V1OverlordsCloudStackMani
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsCloudStackManifest",
 		Method:             "GET",
-		PathPattern:        "/v1/overlords/cloudstack/manifest",
+		PathPattern:        "/v1/overlords/apache-cloudstack/manifest",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24261,7 +24261,7 @@ func (a *Client) V1OverlordsUIDCloudStackAccountCreate(params *V1OverlordsUIDClo
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackAccountCreate",
 		Method:             "POST",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/account",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/account",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24295,7 +24295,7 @@ func (a *Client) V1OverlordsUIDCloudStackAccountUpdate(params *V1OverlordsUIDClo
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackAccountUpdate",
 		Method:             "PUT",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/account",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/account",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24331,7 +24331,7 @@ func (a *Client) V1OverlordsUIDCloudStackAccountValidate(params *V1OverlordsUIDC
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackAccountValidate",
 		Method:             "POST",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/account/validate",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/account/validate",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24365,7 +24365,7 @@ func (a *Client) V1OverlordsUIDCloudStackCloudConfigCreate(params *V1OverlordsUI
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackCloudConfigCreate",
 		Method:             "POST",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/cloudconfig",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/cloudconfig",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24399,7 +24399,7 @@ func (a *Client) V1OverlordsUIDCloudStackCloudConfigUpdate(params *V1OverlordsUI
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackCloudConfigUpdate",
 		Method:             "PUT",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/cloudconfig",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/cloudconfig",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -24433,7 +24433,7 @@ func (a *Client) V1OverlordsUIDCloudStackClusterProfile(params *V1OverlordsUIDCl
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1OverlordsUidCloudStackClusterProfile",
 		Method:             "GET",
-		PathPattern:        "/v1/overlords/cloudstack/{uid}/clusterprofile",
+		PathPattern:        "/v1/overlords/apache-cloudstack/{uid}/clusterprofile",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -28391,7 +28391,7 @@ func (a *Client) V1SpectroClustersCloudStackCreate(params *V1SpectroClustersClou
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1SpectroClustersCloudStackCreate",
 		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/cloudstack",
+		PathPattern:        "/v1/spectroclusters/apache-cloudstack",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -28425,7 +28425,7 @@ func (a *Client) V1SpectroClustersCloudStackImport(params *V1SpectroClustersClou
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1SpectroClustersCloudStackImport",
 		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/cloudstack/import",
+		PathPattern:        "/v1/spectroclusters/apache-cloudstack/import",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -28459,7 +28459,7 @@ func (a *Client) V1SpectroClustersCloudStackRate(params *V1SpectroClustersCloudS
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1SpectroClustersCloudStackRate",
 		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/cloudstack/rate",
+		PathPattern:        "/v1/spectroclusters/apache-cloudstack/rate",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
@@ -28493,7 +28493,7 @@ func (a *Client) V1SpectroClustersCloudStackValidate(params *V1SpectroClustersCl
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "v1SpectroClustersCloudStackValidate",
 		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/cloudstack/validate",
+		PathPattern:        "/v1/spectroclusters/apache-cloudstack/validate",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},

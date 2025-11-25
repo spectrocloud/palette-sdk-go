@@ -54,7 +54,7 @@ type V1OverlordsUIDCloudStackCloudConfigCreateCreated struct {
 }
 
 func (o *V1OverlordsUIDCloudStackCloudConfigCreateCreated) Error() string {
-	return fmt.Sprintf("[POST /v1/overlords/cloudstack/{uid}/cloudconfig][%d] v1OverlordsUidCloudStackCloudConfigCreateCreated  %+v", 201, o.Payload)
+	return fmt.Sprintf("[POST /v1/overlords/apache-cloudstack/{uid}/cloudconfig][%d] v1OverlordsUidCloudStackCloudConfigCreateCreated  %+v", 201, o.Payload)
 }
 
 func (o *V1OverlordsUIDCloudStackCloudConfigCreateCreated) GetPayload() *models.V1UID {

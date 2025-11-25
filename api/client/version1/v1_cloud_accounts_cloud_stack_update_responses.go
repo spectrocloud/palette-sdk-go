@@ -46,7 +46,7 @@ type V1CloudAccountsCloudStackUpdateNoContent struct {
 }
 
 func (o *V1CloudAccountsCloudStackUpdateNoContent) Error() string {
-	return fmt.Sprintf("[PUT /v1/cloudaccounts/cloudstack/{uid}][%d] v1CloudAccountsCloudStackUpdateNoContent ", 204)
+	return fmt.Sprintf("[PUT /v1/cloudaccounts/apache-cloudstack/{uid}][%d] v1CloudAccountsCloudStackUpdateNoContent ", 204)
 }
 
 func (o *V1CloudAccountsCloudStackUpdateNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

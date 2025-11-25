@@ -46,7 +46,7 @@ type V1CloudConfigsCloudStackUIDClusterConfigNoContent struct {
 }
 
 func (o *V1CloudConfigsCloudStackUIDClusterConfigNoContent) Error() string {
-	return fmt.Sprintf("[PUT /v1/cloudconfigs/cloudstack/{configUid}/clusterConfig][%d] v1CloudConfigsCloudStackUidClusterConfigNoContent ", 204)
+	return fmt.Sprintf("[PUT /v1/cloudconfigs/apache-cloudstack/{configUid}/clusterConfig][%d] v1CloudConfigsCloudStackUidClusterConfigNoContent ", 204)
 }
 
 func (o *V1CloudConfigsCloudStackUIDClusterConfigNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

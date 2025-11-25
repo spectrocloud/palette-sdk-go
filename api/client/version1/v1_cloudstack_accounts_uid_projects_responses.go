@@ -50,7 +50,7 @@ type V1CloudstackAccountsUIDProjectsOK struct {
 }
 
 func (o *V1CloudstackAccountsUIDProjectsOK) Error() string {
-	return fmt.Sprintf("[GET /v1/cloudaccounts/cloudstack/{uid}/properties/projects][%d] v1CloudstackAccountsUidProjectsOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/cloudaccounts/apache-cloudstack/{uid}/properties/projects][%d] v1CloudstackAccountsUidProjectsOK  %+v", 200, o.Payload)
 }
 
 func (o *V1CloudstackAccountsUIDProjectsOK) GetPayload() *models.V1CloudStackProjects {

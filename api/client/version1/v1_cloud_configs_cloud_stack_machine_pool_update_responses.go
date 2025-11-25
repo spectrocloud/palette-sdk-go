@@ -46,7 +46,7 @@ type V1CloudConfigsCloudStackMachinePoolUpdateNoContent struct {
 }
 
 func (o *V1CloudConfigsCloudStackMachinePoolUpdateNoContent) Error() string {
-	return fmt.Sprintf("[PUT /v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}][%d] v1CloudConfigsCloudStackMachinePoolUpdateNoContent ", 204)
+	return fmt.Sprintf("[PUT /v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}][%d] v1CloudConfigsCloudStackMachinePoolUpdateNoContent ", 204)
 }
 
 func (o *V1CloudConfigsCloudStackMachinePoolUpdateNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {

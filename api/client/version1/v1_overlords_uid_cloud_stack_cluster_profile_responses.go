@@ -50,7 +50,7 @@ type V1OverlordsUIDCloudStackClusterProfileOK struct {
 }
 
 func (o *V1OverlordsUIDCloudStackClusterProfileOK) Error() string {
-	return fmt.Sprintf("[GET /v1/overlords/cloudstack/{uid}/clusterprofile][%d] v1OverlordsUidCloudStackClusterProfileOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/overlords/apache-cloudstack/{uid}/clusterprofile][%d] v1OverlordsUidCloudStackClusterProfileOK  %+v", 200, o.Payload)
 }
 
 func (o *V1OverlordsUIDCloudStackClusterProfileOK) GetPayload() *models.V1ClusterProfile {

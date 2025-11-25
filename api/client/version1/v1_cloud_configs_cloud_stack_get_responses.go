@@ -50,7 +50,7 @@ type V1CloudConfigsCloudStackGetOK struct {
 }
 
 func (o *V1CloudConfigsCloudStackGetOK) Error() string {
-	return fmt.Sprintf("[GET /v1/cloudconfigs/cloudstack/{configUid}][%d] v1CloudConfigsCloudStackGetOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/cloudconfigs/apache-cloudstack/{configUid}][%d] v1CloudConfigsCloudStackGetOK  %+v", 200, o.Payload)
 }
 
 func (o *V1CloudConfigsCloudStackGetOK) GetPayload() *models.V1CloudStackCloudConfig {

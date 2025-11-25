@@ -50,7 +50,7 @@ type V1CloudConfigsCloudStackPoolMachinesListOK struct {
 }
 
 func (o *V1CloudConfigsCloudStackPoolMachinesListOK) Error() string {
-	return fmt.Sprintf("[GET /v1/cloudconfigs/cloudstack/{configUid}/machinePools/{machinePoolName}/machines][%d] v1CloudConfigsCloudStackPoolMachinesListOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/cloudconfigs/apache-cloudstack/{configUid}/machinePools/{machinePoolName}/machines][%d] v1CloudConfigsCloudStackPoolMachinesListOK  %+v", 200, o.Payload)
 }
 
 func (o *V1CloudConfigsCloudStackPoolMachinesListOK) GetPayload() *models.V1CloudStackMachines {

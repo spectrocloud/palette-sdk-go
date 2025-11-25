@@ -50,7 +50,7 @@ type V1SpectroClustersCloudStackRateOK struct {
 }
 
 func (o *V1SpectroClustersCloudStackRateOK) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/cloudstack/rate][%d] v1SpectroClustersCloudStackRateOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[POST /v1/spectroclusters/apache-cloudstack/rate][%d] v1SpectroClustersCloudStackRateOK  %+v", 200, o.Payload)
 }
 
 func (o *V1SpectroClustersCloudStackRateOK) GetPayload() *models.V1SpectroClusterRate {

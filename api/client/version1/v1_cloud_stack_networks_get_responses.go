@@ -50,7 +50,7 @@ type V1CloudStackNetworksGetOK struct {
 }
 
 func (o *V1CloudStackNetworksGetOK) Error() string {
-	return fmt.Sprintf("[GET /v1/clouds/cloudstack/networks][%d] v1CloudStackNetworksGetOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/clouds/apache-cloudstack/networks][%d] v1CloudStackNetworksGetOK  %+v", 200, o.Payload)
 }
 
 func (o *V1CloudStackNetworksGetOK) GetPayload() *models.V1CloudStackNetworks {

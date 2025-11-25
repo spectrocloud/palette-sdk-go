@@ -50,7 +50,7 @@ type V1OverlordsCloudStackManifestOK struct {
 }
 
 func (o *V1OverlordsCloudStackManifestOK) Error() string {
-	return fmt.Sprintf("[GET /v1/overlords/cloudstack/manifest][%d] v1OverlordsCloudStackManifestOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[GET /v1/overlords/apache-cloudstack/manifest][%d] v1OverlordsCloudStackManifestOK  %+v", 200, o.Payload)
 }
 
 func (o *V1OverlordsCloudStackManifestOK) GetPayload() *models.V1OverlordManifest {

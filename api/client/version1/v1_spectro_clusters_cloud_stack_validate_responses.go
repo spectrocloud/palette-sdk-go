@@ -50,7 +50,7 @@ type V1SpectroClustersCloudStackValidateOK struct {
 }
 
 func (o *V1SpectroClustersCloudStackValidateOK) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/cloudstack/validate][%d] v1SpectroClustersCloudStackValidateOK  %+v", 200, o.Payload)
+	return fmt.Sprintf("[POST /v1/spectroclusters/apache-cloudstack/validate][%d] v1SpectroClustersCloudStackValidateOK  %+v", 200, o.Payload)
 }
 
 func (o *V1SpectroClustersCloudStackValidateOK) GetPayload() *models.V1SpectroClusterValidatorResponse {
