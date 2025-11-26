@@ -351,9 +351,9 @@ func (h *V1Client) BulkDeleteClusterProfiles(uids []string) (*models.V1BulkDelet
 }
 
 // ValidateClusterProfileImport validates a cluster profile import.
-func (h *V1Client) ValidateClusterProfileImport(clusterProfile *models.V1ClusterProfileImportEntity) error {
+func (h *V1Client) ValidateClusterProfileImport(clusterProfile *models.V1ClusterProfileImportEntity) (*models.V1ClusterProfileImportEntity, error) {
 	params := clientv1.NewV1ClusterProfilesImportValidateParamsWithContext(h.ctx).
 		WithBody(clusterProfile)
-	_, err := h.Client.V1ClusterProfilesImportValidate(params)
-	return err
+	resp, err := h.Client.V1ClusterProfilesImportValidate(params)
+	return resp.GetPayload(), err
 }
