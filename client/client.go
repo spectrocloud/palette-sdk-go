@@ -4,6 +4,7 @@ package client
 import (
 	"context"
 	"crypto/tls"
+	"crypto/x509"
 	"net/http"
 
 	openapiclient "github.com/go-openapi/runtime/client"
@@ -30,6 +31,7 @@ type V1Client struct {
 	insecureSkipVerify bool
 	transportDebug     bool
 	retryAttempts      int
+	rootCAs            *x509.CertPool
 }
 
 // New creates a new V1Client.
@@ -137,6 +139,13 @@ func WithTransportDebug() func(*V1Client) {
 	}
 }
 
+// WithRootCAs sets root CAs for the client.
+func WithRootCAs(rootCAs *x509.CertPool) func(*V1Client) {
+	return func(v *V1Client) {
+		v.rootCAs = rootCAs
+	}
+}
+
 // ContextForScope returns a context with the given scope and optional project UID.
 func ContextForScope(baseCtx context.Context, scope, projectUID string) context.Context {
 	ctx := baseCtx
@@ -241,6 +250,7 @@ func (h *V1Client) httpClient() *http.Client {
 			Proxy: http.ProxyFromEnvironment,
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: h.insecureSkipVerify, // #nosec G402 - InsecureSkipVerify is enabled via user input
+				RootCAs:            h.rootCAs,
 			},
 		},
 	}
