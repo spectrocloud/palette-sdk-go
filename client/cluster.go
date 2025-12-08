@@ -211,6 +211,19 @@ func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1Spe
 	return err
 }
 
+// PatchClusterProfileValues patches (adds/updates) a cluster's profile values without replacing all profiles.
+// Unlike UpdateClusterProfileValues (PUT), this uses PATCH to only modify specified profiles,
+// preserving any other profiles (like add-ons) attached to the cluster.
+func (h *V1Client) PatchClusterProfileValues(uid string, profiles *models.V1SpectroClusterProfiles) error {
+	resolveNotifications := true
+	params := clientv1.NewV1SpectroClustersPatchProfilesParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(profiles).
+		WithResolveNotification(&resolveNotifications)
+	_, err := h.Client.V1SpectroClustersPatchProfiles(params)
+	return err
+}
+
 // ImportClusterGeneric imports a cluster using a generic import manifest.
 func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
