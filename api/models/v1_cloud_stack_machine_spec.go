@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -26,6 +27,9 @@ type V1CloudStackMachineSpec struct {
 
 	// Instance service offering with cpu and memory info
 	InstanceType *V1GenericInstanceType `json:"instanceType,omitempty"`
+
+	// nics
+	Nics []*V1CloudStackNic `json:"nics"`
 
 	// Compute offering configuration
 	Offering *V1CloudStackMachineOffering `json:"offering,omitempty"`
@@ -49,6 +53,10 @@ func (m *V1CloudStackMachineSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInstanceType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateNics(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -104,6 +112,32 @@ func (m *V1CloudStackMachineSpec) validateInstanceType(formats strfmt.Registry) 
 	return nil
 }
 
+func (m *V1CloudStackMachineSpec) validateNics(formats strfmt.Registry) error {
+	if swag.IsZero(m.Nics) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Nics); i++ {
+		if swag.IsZero(m.Nics[i]) { // not required
+			continue
+		}
+
+		if m.Nics[i] != nil {
+			if err := m.Nics[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1CloudStackMachineSpec) validateOffering(formats strfmt.Registry) error {
 	if swag.IsZero(m.Offering) { // not required
 		return nil
@@ -151,6 +185,10 @@ func (m *V1CloudStackMachineSpec) ContextValidate(ctx context.Context, formats s
 	}
 
 	if err := m.contextValidateInstanceType(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateNics(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -205,6 +243,31 @@ func (m *V1CloudStackMachineSpec) contextValidateInstanceType(ctx context.Contex
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1CloudStackMachineSpec) contextValidateNics(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Nics); i++ {
+
+		if m.Nics[i] != nil {
+
+			if swag.IsZero(m.Nics[i]) { // not required
+				return nil
+			}
+
+			if err := m.Nics[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("nics" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("nics" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

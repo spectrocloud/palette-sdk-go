@@ -2187,6 +2187,15 @@
             "description": "Project ID for which CloudStack templates are requested",
             "name": "projectId",
             "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Template IDs for which CloudStack templates are requested",
+            "name": "templateIds",
+            "in": "query"
           }
         ],
         "responses": {
@@ -8944,6 +8953,15 @@
             "description": "Project ID for which CloudStack templates are requested",
             "name": "projectId",
             "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Template IDs for which CloudStack templates are requested",
+            "name": "templateIds",
+            "in": "query"
           }
         ],
         "responses": {
@@ -12315,10 +12333,7 @@
               }
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/clusterTemplates/spectroclusters/{clusterUid}/variables": {
@@ -12341,10 +12356,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12370,10 +12382,7 @@
               "$ref": "#/definitions/v1ClusterTemplateTags"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/clusterTemplates/validate/name": {
@@ -12401,10 +12410,7 @@
               }
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/clusterTemplates/{uid}": {
@@ -12421,10 +12427,7 @@
               "$ref": "#/definitions/v1ClusterTemplate"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -12436,10 +12439,7 @@
           "204": {
             "description": "The resource was deleted successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12471,10 +12471,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12506,10 +12503,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12541,10 +12535,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12576,10 +12567,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12605,10 +12593,7 @@
               "$ref": "#/definitions/v1ClusterTemplateProfileVariablesResponse"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -12641,10 +12626,7 @@
               "$ref": "#/definitions/v1ClusterReconcile"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -14300,10 +14282,7 @@
               "$ref": "#/definitions/v1ClusterTemplatesSummary"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/dashboard/clusterTemplates/metadata": {
@@ -14320,10 +14299,7 @@
               "$ref": "#/definitions/v1ClusterTemplatesMetadata"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/dashboard/clusterTemplates/{uid}/spectroclusters/meta": {
@@ -14349,10 +14325,7 @@
               "$ref": "#/definitions/v1SpectroClustersMeta"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/dashboard/clustergroups/{uid}/hostClusters": {
@@ -14793,10 +14766,7 @@
               "$ref": "#/definitions/v1SpcPoliciesSummary"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/dashboard/spcPolicies/metadata": {
@@ -14813,10 +14783,7 @@
               "$ref": "#/definitions/v1SpcPoliciesMetadata"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/dashboard/spectroclusters/cost": {
@@ -18577,7 +18544,7 @@
               "vsphere",
               "openstack",
               "maas",
-              "cloudstack"
+              "apache-cloudstack"
             ],
             "type": "string",
             "name": "cloudType",
@@ -21579,10 +21546,7 @@
               }
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/spcPolicies/maintenance/{uid}": {
@@ -21599,10 +21563,7 @@
               "$ref": "#/definitions/v1SpcPolicyEntity"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -21623,10 +21584,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -21652,10 +21610,7 @@
               "$ref": "#/definitions/v1SpcPolicyTags"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       }
     },
     "/v1/spcPolicies/{policyType}/validate/name": {
@@ -21683,10 +21638,7 @@
               }
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -21709,10 +21661,7 @@
           "204": {
             "description": "The resource was deleted successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -22295,10 +22244,7 @@
           "204": {
             "description": "The resource was updated successfully"
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -22332,10 +22278,7 @@
               "$ref": "#/definitions/v1SpectroClusterProfileList"
             }
           }
-        },
-        "x-Features": [
-          "ClusterTemplate"
-        ]
+        }
       },
       "parameters": [
         {
@@ -37010,6 +36953,12 @@
           "description": "Instance service offering with cpu and memory info",
           "$ref": "#/definitions/v1GenericInstanceType"
         },
+        "nics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1CloudStackNic"
+          }
+        },
         "offering": {
           "description": "Compute offering configuration",
           "$ref": "#/definitions/v1CloudStackMachineOffering"
@@ -37181,6 +37130,28 @@
           "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/v1CloudStackNetwork"
+          }
+        }
+      }
+    },
+    "v1CloudStackNic": {
+      "description": "CloudStack network interface",
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "format": "int8"
+        },
+        "macAddress": {
+          "type": "string"
+        },
+        "networkName": {
+          "type": "string"
+        },
+        "privateIPs": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
