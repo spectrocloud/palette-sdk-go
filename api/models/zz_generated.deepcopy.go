@@ -31068,8 +31068,8 @@ func (in *V1RateConfig) DeepCopyInto(out *V1RateConfig) {
 		*out = new(V1PublicCloudRateConfig)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Cloudstack != nil {
-		in, out := &in.Cloudstack, &out.Cloudstack
+	if in.ApacheCloudstack != nil {
+		in, out := &in.ApacheCloudstack, &out.ApacheCloudstack
 		*out = new(V1PrivateCloudRateConfig)
 		**out = **in
 	}

@@ -20,14 +20,14 @@ import (
 // swagger:model v1RateConfig
 type V1RateConfig struct {
 
+	// apache cloudstack
+	ApacheCloudstack *V1PrivateCloudRateConfig `json:"apache-cloudstack,omitempty"`
+
 	// aws
 	Aws *V1PublicCloudRateConfig `json:"aws,omitempty"`
 
 	// azure
 	Azure *V1PublicCloudRateConfig `json:"azure,omitempty"`
-
-	// cloudstack
-	Cloudstack *V1PrivateCloudRateConfig `json:"cloudstack,omitempty"`
 
 	// custom
 	// Unique: true
@@ -59,15 +59,15 @@ type V1RateConfig struct {
 func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateApacheCloudstack(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateAws(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateAzure(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateCloudstack(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -109,6 +109,25 @@ func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1RateConfig) validateApacheCloudstack(formats strfmt.Registry) error {
+	if swag.IsZero(m.ApacheCloudstack) { // not required
+		return nil
+	}
+
+	if m.ApacheCloudstack != nil {
+		if err := m.ApacheCloudstack.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("apache-cloudstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("apache-cloudstack")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1RateConfig) validateAws(formats strfmt.Registry) error {
 	if swag.IsZero(m.Aws) { // not required
 		return nil
@@ -139,25 +158,6 @@ func (m *V1RateConfig) validateAzure(formats strfmt.Registry) error {
 				return ve.ValidateName("azure")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azure")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1RateConfig) validateCloudstack(formats strfmt.Registry) error {
-	if swag.IsZero(m.Cloudstack) { // not required
-		return nil
-	}
-
-	if m.Cloudstack != nil {
-		if err := m.Cloudstack.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudstack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudstack")
 			}
 			return err
 		}
@@ -333,15 +333,15 @@ func (m *V1RateConfig) validateVsphere(formats strfmt.Registry) error {
 func (m *V1RateConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateApacheCloudstack(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateAws(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.contextValidateAzure(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateCloudstack(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -383,6 +383,27 @@ func (m *V1RateConfig) ContextValidate(ctx context.Context, formats strfmt.Regis
 	return nil
 }
 
+func (m *V1RateConfig) contextValidateApacheCloudstack(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ApacheCloudstack != nil {
+
+		if swag.IsZero(m.ApacheCloudstack) { // not required
+			return nil
+		}
+
+		if err := m.ApacheCloudstack.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("apache-cloudstack")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("apache-cloudstack")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1RateConfig) contextValidateAws(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Aws != nil {
@@ -417,27 +438,6 @@ func (m *V1RateConfig) contextValidateAzure(ctx context.Context, formats strfmt.
 				return ve.ValidateName("azure")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("azure")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1RateConfig) contextValidateCloudstack(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Cloudstack != nil {
-
-		if swag.IsZero(m.Cloudstack) { // not required
-			return nil
-		}
-
-		if err := m.Cloudstack.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("cloudstack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("cloudstack")
 			}
 			return err
 		}
