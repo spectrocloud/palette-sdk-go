@@ -36645,7 +36645,7 @@
         },
         "project": {
           "description": "Project name for the cluster (optional)",
-          "type": "string"
+          "$ref": "#/definitions/v1CloudStackResource"
         },
         "sshKeyName": {
           "description": "SSH Key name for accessing cluster nodes",
@@ -37423,6 +37423,7 @@
         "eks",
         "aks",
         "edge",
+        "apache-cloudstack",
         "edge-native",
         "generic",
         "gke"
@@ -53091,14 +53092,14 @@
     "v1RateConfig": {
       "description": "Rate config",
       "properties": {
+        "apache-cloudstack": {
+          "$ref": "#/definitions/v1PrivateCloudRateConfig"
+        },
         "aws": {
           "$ref": "#/definitions/v1PublicCloudRateConfig"
         },
         "azure": {
           "$ref": "#/definitions/v1PublicCloudRateConfig"
-        },
-        "cloudstack": {
-          "$ref": "#/definitions/v1PrivateCloudRateConfig"
         },
         "custom": {
           "type": "array",

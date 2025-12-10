@@ -23,7 +23,7 @@ type V1CloudStackClusterConfig struct {
 	ControlPlaneEndpoint string `json:"controlPlaneEndpoint,omitempty"`
 
 	// Project name for the cluster (optional)
-	Project string `json:"project,omitempty"`
+	Project *V1CloudStackResource `json:"project,omitempty"`
 
 	// SSH Key name for accessing cluster nodes
 	SSHKeyName string `json:"sshKeyName,omitempty"`
@@ -39,6 +39,10 @@ type V1CloudStackClusterConfig struct {
 func (m *V1CloudStackClusterConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateProject(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateZones(formats); err != nil {
 		res = append(res, err)
 	}
@@ -46,6 +50,25 @@ func (m *V1CloudStackClusterConfig) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackClusterConfig) validateProject(formats strfmt.Registry) error {
+	if swag.IsZero(m.Project) { // not required
+		return nil
+	}
+
+	if m.Project != nil {
+		if err := m.Project.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("project")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("project")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -79,6 +102,10 @@ func (m *V1CloudStackClusterConfig) validateZones(formats strfmt.Registry) error
 func (m *V1CloudStackClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateProject(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateZones(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -86,6 +113,27 @@ func (m *V1CloudStackClusterConfig) ContextValidate(ctx context.Context, formats
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1CloudStackClusterConfig) contextValidateProject(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Project != nil {
+
+		if swag.IsZero(m.Project) { // not required
+			return nil
+		}
+
+		if err := m.Project.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("project")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("project")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
