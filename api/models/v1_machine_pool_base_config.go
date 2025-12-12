@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -18,6 +19,9 @@ import (
 //
 // swagger:model v1MachinePoolBaseConfig
 type V1MachinePoolBaseConfig struct {
+
+	// additionalLabels
+	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
 	// AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole
 	AdditionalTags map[string]string `json:"additionalTags,omitempty"`
@@ -41,8 +45,15 @@ type V1MachinePoolBaseConfig struct {
 	// name
 	Name string `json:"name,omitempty"`
 
+	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
+	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
+
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
+
+	// control plane or worker taints
+	// Unique: true
+	Taints []*V1Taint `json:"taints"`
 
 	// rolling update strategy for this machinepool if not specified, will use ScaleOut
 	UpdateStrategy *V1UpdateStrategy `json:"updateStrategy,omitempty"`
@@ -60,6 +71,10 @@ func (m *V1MachinePoolBaseConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateMachinePoolProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTaints(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -101,6 +116,36 @@ func (m *V1MachinePoolBaseConfig) validateMachinePoolProperties(formats strfmt.R
 	return nil
 }
 
+func (m *V1MachinePoolBaseConfig) validateTaints(formats strfmt.Registry) error {
+	if swag.IsZero(m.Taints) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("taints", "body", m.Taints); err != nil {
+		return err
+	}
+
+	for i := 0; i < len(m.Taints); i++ {
+		if swag.IsZero(m.Taints[i]) { // not required
+			continue
+		}
+
+		if m.Taints[i] != nil {
+			if err := m.Taints[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1MachinePoolBaseConfig) validateUpdateStrategy(formats strfmt.Registry) error {
 	if swag.IsZero(m.UpdateStrategy) { // not required
 		return nil
@@ -125,6 +170,10 @@ func (m *V1MachinePoolBaseConfig) ContextValidate(ctx context.Context, formats s
 	var res []error
 
 	if err := m.contextValidateMachinePoolProperties(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTaints(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -154,6 +203,31 @@ func (m *V1MachinePoolBaseConfig) contextValidateMachinePoolProperties(ctx conte
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1MachinePoolBaseConfig) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Taints); i++ {
+
+		if m.Taints[i] != nil {
+
+			if swag.IsZero(m.Taints[i]) { // not required
+				return nil
+			}
+
+			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

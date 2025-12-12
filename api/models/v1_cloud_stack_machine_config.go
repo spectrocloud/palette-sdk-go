@@ -19,6 +19,9 @@ import (
 // swagger:model v1CloudStackMachineConfig
 type V1CloudStackMachineConfig struct {
 
+	// Custom annotations for CAPI machine objects and nodes
+	AdditionalAnnotations map[string]string `json:"additionalAnnotations,omitempty"`
+
 	// Instance Configuration
 	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
 
