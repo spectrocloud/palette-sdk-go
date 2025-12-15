@@ -1863,7 +1863,10 @@
               "$ref": "#/definitions/v1CloudStackAccounts"
             }
           }
-        }
+        },
+        "x-Features": [
+          "ApacheCloudstack"
+        ]
       },
       "post": {
         "tags": [
@@ -1894,7 +1897,10 @@
               }
             }
           }
-        }
+        },
+        "x-Features": [
+          "ApacheCloudstack"
+        ]
       }
     },
     "/v1/cloudaccounts/apache-cloudstack/{uid}": {
@@ -36800,6 +36806,13 @@
       "description": "CloudStack-specific machine configuration",
       "type": "object",
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "instanceConfig": {
           "description": "Instance Configuration",
           "$ref": "#/definitions/v1InstanceConfig"
@@ -36890,6 +36903,13 @@
         "offering"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "instanceConfig": {
           "description": "Instance Configuration",
           "$ref": "#/definitions/v1InstanceConfig"
@@ -48428,6 +48448,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalLabels": {
+          "description": "additionalLabels",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalTags": {
           "description": "AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole",
           "type": "object",
@@ -48462,10 +48489,23 @@
         "name": {
           "type": "string"
         },
+        "nodeRepaveInterval": {
+          "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
+          "type": "integer",
+          "format": "int32"
+        },
         "size": {
           "description": "size of the pool, number of machines",
           "type": "integer",
           "format": "int32"
+        },
+        "taints": {
+          "description": "control plane or worker taints",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1Taint"
+          }
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
