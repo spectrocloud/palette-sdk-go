@@ -216,6 +216,17 @@ func (h *V1Client) DeleteOciBasicRegistry(uid string) error {
 	return err
 }
 
+// GetOciBasicRegistrySyncStatus retrieves the sync status of an OCI Basic registry by UID.
+func (h *V1Client) GetOciBasicRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1BasicOciRegistriesUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1BasicOciRegistriesUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // GetOciEcrRegistry retrieves an existing ECR OCI registry by UID.
 func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) {
 	params := clientv1.NewV1EcrRegistriesUIDGetParamsWithContext(h.ctx).
