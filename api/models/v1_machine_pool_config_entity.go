@@ -20,6 +20,11 @@ import (
 // swagger:model v1MachinePoolConfigEntity
 type V1MachinePoolConfigEntity struct {
 
+	// Custom annotations for CAPI machine objects and nodes.
+	// Currently implemented for CloudStack only.
+	//
+	AdditionalAnnotations map[string]string `json:"additionalAnnotations,omitempty"`
+
 	// Additional labels to be part of the machine pool
 	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
@@ -48,6 +53,12 @@ type V1MachinePoolConfigEntity struct {
 
 	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
 	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
+
+	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
+	// Overrides pack-level settings. Worker pools only.
+	// Currently implemented for CloudStack only.
+	//
+	OverrideKubeadmConfiguration string `json:"overrideKubeadmConfiguration,omitempty"`
 
 	// Size of the pool, number of nodes/machines
 	// Required: true

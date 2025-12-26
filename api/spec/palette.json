@@ -9557,6 +9557,13 @@
             "description": "Uid for the specific AWS cloud account",
             "name": "cloudAccountUid",
             "in": "query"
+          },
+          {
+            "pattern": "^arn:aws[a-z\\-]*:resource-groups:[a-z0-9\\-]+:[0-9]{12}:group/[a-zA-Z0-9\\-_]+$",
+            "type": "string",
+            "description": "Optional HRG ARN to filter instance types by HRG supported families",
+            "name": "hrgArn",
+            "in": "query"
           }
         ],
         "responses": {
@@ -9756,6 +9763,122 @@
                 "type": "string",
                 "description": "Audit uid for the request"
               }
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/aws/regions/{region}/resourceGroups": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves a list of AWS Host Resource Groups for the specified account and region",
+        "operationId": "V1AwsHostResourceGroups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "AWS region",
+            "name": "region",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "UID of the AWS cloud account",
+            "name": "cloudAccountUid",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AwsHostResourceGroups"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/aws/regions/{region}/resourceGroups/licenses": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves license configurations for the specified Host Resource Group",
+        "operationId": "V1AwsHostResourceGroupLicenses",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "AWS region",
+            "name": "region",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "UID of the AWS cloud account",
+            "name": "cloudAccountUid",
+            "in": "query",
+            "required": true
+          },
+          {
+            "pattern": "^arn:aws[a-z\\-]*:resource-groups:[a-z0-9\\-]+:[0-9]{12}:group/[a-zA-Z0-9\\-_]+$",
+            "type": "string",
+            "description": "ARN of the Host Resource Group",
+            "name": "hrgArn",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AwsLicenseConfigurations"
+            }
+          }
+        }
+      }
+    },
+    "/v1/clouds/aws/regions/{region}/resourceGroups/validateCapacity": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates available capacity for an instance type in a Host Resource Group",
+        "operationId": "V1AwsHostResourceGroupCapacityValidation",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "AWS region",
+            "name": "region",
+            "in": "path",
+            "required": true
+          },
+          {
+            "pattern": "^arn:aws[a-z\\-]*:resource-groups:[a-z0-9\\-]+:[0-9]{12}:group/[a-zA-Z0-9\\-_]+$",
+            "type": "string",
+            "description": "ARN of the Host Resource Group",
+            "name": "hrgArn",
+            "in": "query",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AwsHrgCapacityValidationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AwsHrgCapacityValidationResponse"
             }
           }
         }
@@ -34002,6 +34125,87 @@
         }
       }
     },
+    "v1AwsHostResourceGroup": {
+      "description": "AWS Host Resource Group details",
+      "type": "object",
+      "properties": {
+        "arn": {
+          "description": "ARN of the Host Resource Group",
+          "type": "string",
+          "pattern": "^arn:aws[a-z\\-]*:resource-groups:[a-z0-9\\-]+:[0-9]{12}:group/[a-zA-Z0-9\\-_]+$"
+        },
+        "name": {
+          "description": "Name of the resource group",
+          "type": "string"
+        },
+        "supportedInstanceFamilies": {
+          "description": "Supported instance families for this HRG",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1AwsHostResourceGroups": {
+      "description": "List of AWS Host Resource Groups",
+      "type": "object",
+      "required": [
+        "hostResourceGroups"
+      ],
+      "properties": {
+        "hostResourceGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1AwsHostResourceGroup"
+          }
+        }
+      }
+    },
+    "v1AwsHrgCapacityValidationRequest": {
+      "description": "Request body to validate HRG capacity",
+      "type": "object",
+      "required": [
+        "cloudAccountUid",
+        "instanceType",
+        "replicaCount"
+      ],
+      "properties": {
+        "cloudAccountUid": {
+          "description": "UID of the AWS cloud account",
+          "type": "string"
+        },
+        "instanceType": {
+          "description": "EC2 instance type (e.g., m5.large)",
+          "type": "string"
+        },
+        "replicaCount": {
+          "description": "Required number of instances",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1AwsHrgCapacityValidationResponse": {
+      "description": "HRG capacity validation result",
+      "type": "object",
+      "properties": {
+        "availableCapacity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isValid": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "requiredCapacity": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "v1AwsHybridConfig": {
       "description": "AwsHybridConfig specifies the AWS Hybrid configuration for the cluster",
       "type": "object",
@@ -34196,6 +34400,47 @@
         }
       }
     },
+    "v1AwsLicenseConfiguration": {
+      "description": "AWS License Configuration details",
+      "type": "object",
+      "properties": {
+        "arn": {
+          "description": "ARN of the license configuration",
+          "type": "string",
+          "pattern": "^arn:aws[a-z\\-]*:license-manager:[a-z0-9\\-]+:[0-9]{12}:license-configuration:lic-[a-zA-Z0-9\\-]+$"
+        },
+        "consumedCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "licenseType": {
+          "description": "License counting type as returned by AWS License Manager",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "v1AwsLicenseConfigurations": {
+      "description": "List of AWS License Configurations",
+      "type": "object",
+      "required": [
+        "licenseConfigurations"
+      ],
+      "properties": {
+        "licenseConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1AwsLicenseConfiguration"
+          }
+        }
+      }
+    },
     "v1AwsLoginCredentials": {
       "type": "object",
       "properties": {
@@ -34254,12 +34499,25 @@
           "default": "on-demand",
           "enum": [
             "on-demand",
-            "spot"
+            "spot",
+            "host-resource-group"
           ]
+        },
+        "hostResourceGroupArn": {
+          "description": "ARN of AWS Host Resource Group for node placement on dedicated hosts",
+          "type": "string"
         },
         "instanceType": {
           "description": "instance type",
           "type": "string"
+        },
+        "licenseConfigurationArns": {
+          "description": "List of AWS License Configuration ARNs (required when hostResourceGroupArn is specified, max 10)",
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "string"
+          }
         },
         "rootDeviceSize": {
           "description": "rootDeviceSize in GBs",
@@ -34286,6 +34544,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -34323,6 +34588,10 @@
             "spot"
           ]
         },
+        "hostResourceGroupArn": {
+          "description": "ARN of AWS Host Resource Group for node placement on dedicated hosts",
+          "type": "string"
+        },
         "instanceConfig": {
           "$ref": "#/definitions/v1InstanceConfig"
         },
@@ -34337,6 +34606,13 @@
         },
         "labels": {
           "description": "labels for this pool, example: control-plane/worker, gpu, windows",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "licenseConfigurationArns": {
+          "description": "List of AWS License Configuration ARNs (required when hostResourceGroupArn is specified)",
           "type": "array",
           "items": {
             "type": "string"
@@ -34362,6 +34638,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "rootDeviceSize": {
           "description": "rootDeviceSize in GBs",
@@ -35344,6 +35624,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -35415,6 +35702,10 @@
         "osType": {
           "type": "string",
           "$ref": "#/definitions/v1OsType"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "size": {
           "description": "size of the pool, number of machines",
@@ -36806,13 +37097,6 @@
       "description": "CloudStack-specific machine configuration",
       "type": "object",
       "properties": {
-        "additionalAnnotations": {
-          "description": "Custom annotations for CAPI machine objects and nodes",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "instanceConfig": {
           "description": "Instance Configuration",
           "$ref": "#/definitions/v1InstanceConfig"
@@ -36903,13 +37187,6 @@
         "offering"
       ],
       "properties": {
-        "additionalAnnotations": {
-          "description": "Custom annotations for CAPI machine objects and nodes",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
         "instanceConfig": {
           "description": "Instance Configuration",
           "$ref": "#/definitions/v1InstanceConfig"
@@ -42345,6 +42622,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -42358,6 +42642,10 @@
           "x-omitempty": false
         },
         "name": {
+          "type": "string"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
         },
         "size": {
@@ -43833,6 +44121,13 @@
         "hosts"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "AdditionalLabels",
           "type": "object",
@@ -43890,6 +44185,10 @@
         },
         "osType": {
           "description": "the os type for the pool, must be supported by the provider",
+          "type": "string"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
         },
         "size": {
@@ -44349,7 +44648,8 @@
           "default": "on-demand",
           "enum": [
             "on-demand",
-            "spot"
+            "spot",
+            "host-resource-group"
           ]
         },
         "enableAwsLaunchTemplate": {
@@ -44385,6 +44685,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -44465,6 +44772,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "rootDeviceSize": {
           "description": "rootDeviceSize in GBs",
@@ -45334,6 +45645,13 @@
         "instanceType"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -45391,6 +45709,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "rootDeviceSize": {
           "description": "Size of root volume in GB. Default is 30GB",
@@ -47939,6 +48261,13 @@
         "instanceType"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -47998,6 +48327,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "resourcePool": {
           "type": "string"
@@ -48448,6 +48781,13 @@
         "isControlPlane"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\nCurrently implemented for CloudStack only.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -48494,6 +48834,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\nCurrently implemented for CloudStack only.\n",
+          "type": "string"
+        },
         "size": {
           "description": "size of the pool, number of machines",
           "type": "integer",
@@ -48527,6 +48871,13 @@
         "labels"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\nCurrently implemented for CloudStack only.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "Additional labels to be part of the machine pool",
           "type": "object",
@@ -48573,6 +48924,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\nCurrently implemented for CloudStack only.\n",
+          "type": "string"
         },
         "size": {
           "description": "Size of the pool, number of nodes/machines",
@@ -48852,6 +49207,10 @@
       "properties": {
         "content": {
           "description": "Manifest content in yaml",
+          "type": "string"
+        },
+        "digest": {
+          "description": "Manifest digest",
           "type": "string"
         },
         "name": {
@@ -50011,6 +50370,13 @@
         "flavorConfig"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -50079,6 +50445,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "size": {
           "description": "size of the pool, number of machines",
@@ -59309,15 +59679,24 @@
       }
     },
     "v1UpdateStrategy": {
-      "description": "UpdatesStrategy will be used to translate to RollingUpdateStrategy of a MachineDeployment We'll start with default values for the translation, can expose more details later Following is details of parameters translated from the type ScaleOut =\u003e maxSurge=1, maxUnavailable=0 ScaleIn =\u003e maxSurge=0, maxUnavailable=1",
+      "description": "UpdatesStrategy will be used to translate to RollingUpdateStrategy of a MachineDeployment We'll start with default values for the translation, can expose more details later Following is details of parameters translated from the type ScaleOut =\u003e maxSurge=1, maxUnavailable=0 ScaleIn =\u003e maxSurge=0, maxUnavailable=1 OverrideScaling =\u003e maxSurge and maxUnavailable are user-specified (both required)",
       "type": "object",
       "properties": {
+        "maxSurge": {
+          "description": "Max extra nodes during rolling update. Integer or percentage (e.g., \"1\" or \"20%\").\nOnly valid when type=OverrideScaling. Both maxSurge and maxUnavailable are required.\nCurrently implemented for CloudStack only.\n",
+          "type": "string"
+        },
+        "maxUnavailable": {
+          "description": "Max unavailable nodes during rolling update. Integer or percentage (e.g., \"0\" or \"10%\").\nOnly valid when type=OverrideScaling. Both maxSurge and maxUnavailable are required.\nCurrently implemented for CloudStack only.\n",
+          "type": "string"
+        },
         "type": {
-          "description": "update strategy, either ScaleOut or ScaleIn if empty, will default to RollingUpdateScaleOut",
+          "description": "Update strategy type. Defaults to RollingUpdateScaleOut if empty.",
           "type": "string",
           "enum": [
             "RollingUpdateScaleOut",
-            "RollingUpdateScaleIn"
+            "RollingUpdateScaleIn",
+            "OverrideScaling"
           ]
         }
       }
@@ -60431,6 +60810,13 @@
         "instanceType"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -60480,6 +60866,10 @@
           "format": "int32"
         },
         "name": {
+          "type": "string"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
         },
         "resourcePool": {
@@ -61184,11 +61574,14 @@
       }
     },
     "v1VmDataVolumeSource": {
-      "description": "DataVolumeSource represents the source for our Data Volume, this can be HTTP, Imageio, S3, Registry or an existing PVC",
+      "description": "DataVolumeSource represents the source for our Data Volume, this can be HTTP, Imageio, S3, GCS, Registry, Snapshot or an existing PVC",
       "type": "object",
       "properties": {
         "blank": {
           "$ref": "#/definitions/v1VmDataVolumeBlankImage"
+        },
+        "gcs": {
+          "$ref": "#/definitions/v1VmDataVolumeSourceGCS"
         },
         "http": {
           "$ref": "#/definitions/v1VmDataVolumeSourceHttp"
@@ -61205,11 +61598,31 @@
         "s3": {
           "$ref": "#/definitions/v1VmDataVolumeSourceS3"
         },
+        "snapshot": {
+          "$ref": "#/definitions/v1VmDataVolumeSourceSnapshot"
+        },
         "upload": {
           "$ref": "#/definitions/v1VmDataVolumeSourceUpload"
         },
         "vddk": {
           "$ref": "#/definitions/v1VmDataVolumeSourceVDDK"
+        }
+      }
+    },
+    "v1VmDataVolumeSourceGCS": {
+      "description": "DataVolumeSourceGCS provides the parameters to create a Data Volume from a GCS source",
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "secretRef": {
+          "description": "SecretRef provides the secret reference needed to access the GCS source",
+          "type": "string"
+        },
+        "url": {
+          "description": "URL is the url of the GCS source",
+          "type": "string"
         }
       }
     },
@@ -61326,6 +61739,9 @@
           "description": "ImageStream is the name of image stream for import",
           "type": "string"
         },
+        "platform": {
+          "$ref": "#/definitions/v1VmPlatformOptions"
+        },
         "pullMethod": {
           "description": "PullMethod can be either \"pod\" (default import), or \"node\" (node docker cache based import)",
           "type": "string"
@@ -61357,6 +61773,24 @@
         },
         "url": {
           "description": "URL is the url of the S3 source",
+          "type": "string"
+        }
+      }
+    },
+    "v1VmDataVolumeSourceSnapshot": {
+      "description": "DataVolumeSourceSnapshot provides the parameters to create a Data Volume from an existing VolumeSnapshot",
+      "type": "object",
+      "required": [
+        "namespace",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "description": "The name of the source VolumeSnapshot",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "The namespace of the source VolumeSnapshot",
           "type": "string"
         }
       }
@@ -61677,7 +62111,7 @@
           }
         },
         "ioThreadsPolicy": {
-          "description": "Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto",
+          "description": "Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto, supplementalPool",
           "type": "string"
         },
         "launchSecurity": {
@@ -61747,6 +62181,10 @@
       "description": "If set, EFI will be used instead of BIOS.",
       "type": "object",
       "properties": {
+        "persistent": {
+          "description": "If set to true, Persistent will persist the EFI NVRAM across reboots. Defaults to false",
+          "type": "boolean"
+        },
         "secureBoot": {
           "description": "If set, SecureBoot will be enabled and the OVMF roms will be swapped for SecureBoot-enabled ones. Requires SMM to be enabled. Defaults to true",
           "type": "boolean"
@@ -61916,6 +62354,9 @@
         },
         "hyperv": {
           "$ref": "#/definitions/v1VmFeatureHyperv"
+        },
+        "hypervPassthrough": {
+          "$ref": "#/definitions/v1VmHyperVPassthrough"
         },
         "kvm": {
           "$ref": "#/definitions/v1VmFeatureKVm"
@@ -62136,6 +62577,16 @@
         "pageSize": {
           "description": "PageSize specifies the hugepage size, for x86_64 architecture valid values are 1Gi and 2Mi.",
           "type": "string"
+        }
+      }
+    },
+    "v1VmHyperVPassthrough": {
+      "description": "HyperVPassthrough enables all supported hyperv flags automatically. Bear in mind that if this enabled hyperV features cannot be enabled explicitly. In addition, a Virtual Machine using it will be non-migratable.",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Enabled determines if Hyper-V passthrough should be enabled or disabled. Defaults to false.",
+          "type": "boolean"
         }
       }
     },
@@ -62857,6 +63308,16 @@
         }
       }
     },
+    "v1VmPlatformOptions": {
+      "description": "PlatformOptions describes the minimum runtime requirements of the image",
+      "type": "object",
+      "properties": {
+        "architecture": {
+          "description": "Architecture specifies the image target CPU architecture",
+          "type": "string"
+        }
+      }
+    },
     "v1VmPodAffinity": {
       "description": "Pod affinity is a group of inter pod affinity scheduling rules.",
       "type": "object",
@@ -62953,6 +63414,27 @@
         },
         "vmNetworkCIDR": {
           "description": "CIDR for vm network. Default 10.0.2.0/24 if not specified.",
+          "type": "string"
+        }
+      }
+    },
+    "v1VmPodResourceClaim": {
+      "description": "PodResourceClaim defines which ResourceClaims must be allocated and reserved before the Pod is allowed to start. The resources will be made available to the domain which consumes them by name.",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "description": "Name uniquely identifies this resource claim inside the pod. This must be a DNS_LABEL.",
+          "type": "string"
+        },
+        "resourceClaimName": {
+          "description": "ResourceClaimName is the name of a ResourceClaim object in the same namespace as this pod. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set.",
+          "type": "string"
+        },
+        "resourceClaimTemplateName": {
+          "description": "ResourceClaimTemplateName is the name of a ResourceClaimTemplate object in the same namespace as this pod. The template will be used to create a new ResourceClaim, which will be bound to this pod. Exactly one of ResourceClaimName and ResourceClaimTemplateName must be set.",
           "type": "string"
         }
       }
@@ -63293,6 +63775,9 @@
         "dataSource": {
           "$ref": "#/definitions/v1VmTypedLocalObjectReference"
         },
+        "dataSourceRef": {
+          "$ref": "#/definitions/v1VmTypedObjectReference"
+        },
         "resources": {
           "$ref": "#/definitions/v1VmCoreResourceRequirements"
         },
@@ -63456,6 +63941,32 @@
         }
       }
     },
+    "v1VmTypedObjectReference": {
+      "description": "TypedObjectReference contains enough information to let you locate the typed referenced object. It can be used for objects in the same namespace or cluster-scoped objects.",
+      "type": "object",
+      "required": [
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "apiGroup": {
+          "description": "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind is the type of resource being referenced",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of resource being referenced",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Namespace is the namespace of resource being referenced. This field is required when the resource is namespaced and optional when the resource is cluster-scoped.",
+          "type": "string"
+        }
+      }
+    },
     "v1VmUserPasswordAccessCredential": {
       "description": "UserPasswordAccessCredential represents a source and propagation method for injecting user passwords into a vm guest Only one of its members may be specified.",
       "type": "object",
@@ -63601,6 +64112,17 @@
         },
         "readinessProbe": {
           "$ref": "#/definitions/v1VmProbe"
+        },
+        "resourceClaims": {
+          "description": "ResourceClaims define which ResourceClaims must be allocated and reserved before the VMI, hence virt-launcher pod is allowed to start. The resources will be made available to the domain which consumes them by name. This is an alpha field and requires enabling the DynamicResourceAllocation feature gate in kubernetes. This field should only be configured if one of the feature-gates GPUsWithDRA or HostDevicesWithDRA is enabled.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VmPodResourceClaim"
+          },
+          "x-kubernetes-list-map-keys": [
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "schedulerName": {
           "description": "If specified, the VMI will be dispatched by specified scheduler. If not specified, the VMI will be dispatched by default scheduler.",
@@ -64357,6 +64879,13 @@
         "instanceType"
       ],
       "properties": {
+        "additionalAnnotations": {
+          "description": "Custom annotations for CAPI machine objects and nodes.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "additionalLabels": {
           "description": "additionalLabels",
           "type": "object",
@@ -64407,6 +64936,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideKubeadmConfiguration": {
+          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
+          "type": "string"
         },
         "placements": {
           "description": "Placements configuration Placements If defined, will replace default values defined in VsphereClusterConfig Array means one MachinePool can span across multiple vsphere compute cluster",

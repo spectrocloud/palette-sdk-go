@@ -28,12 +28,19 @@ type V1AwsMachinePoolCloudConfigEntity struct {
 	Azs []string `json:"azs"`
 
 	// EC2 instance capacity type
-	// Enum: ["on-demand","spot"]
+	// Enum: ["on-demand","spot","host-resource-group"]
 	CapacityType *string `json:"capacityType,omitempty"`
+
+	// ARN of AWS Host Resource Group for node placement on dedicated hosts
+	HostResourceGroupArn string `json:"hostResourceGroupArn,omitempty"`
 
 	// instance type
 	// Required: true
 	InstanceType *string `json:"instanceType"`
+
+	// List of AWS License Configuration ARNs (required when hostResourceGroupArn is specified, max 10)
+	// Max Items: 10
+	LicenseConfigurationArns []string `json:"licenseConfigurationArns"`
 
 	// rootDeviceSize in GBs
 	// Maximum: 2000
@@ -60,6 +67,10 @@ func (m *V1AwsMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry) er
 	}
 
 	if err := m.validateInstanceType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLicenseConfigurationArns(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -111,7 +122,7 @@ var v1AwsMachinePoolCloudConfigEntityTypeCapacityTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["on-demand","spot"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["on-demand","spot","host-resource-group"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -126,6 +137,9 @@ const (
 
 	// V1AwsMachinePoolCloudConfigEntityCapacityTypeSpot captures enum value "spot"
 	V1AwsMachinePoolCloudConfigEntityCapacityTypeSpot string = "spot"
+
+	// V1AwsMachinePoolCloudConfigEntityCapacityTypeHostDashResourceDashGroup captures enum value "host-resource-group"
+	V1AwsMachinePoolCloudConfigEntityCapacityTypeHostDashResourceDashGroup string = "host-resource-group"
 )
 
 // prop value enum
@@ -152,6 +166,20 @@ func (m *V1AwsMachinePoolCloudConfigEntity) validateCapacityType(formats strfmt.
 func (m *V1AwsMachinePoolCloudConfigEntity) validateInstanceType(formats strfmt.Registry) error {
 
 	if err := validate.Required("instanceType", "body", m.InstanceType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1AwsMachinePoolCloudConfigEntity) validateLicenseConfigurationArns(formats strfmt.Registry) error {
+	if swag.IsZero(m.LicenseConfigurationArns) { // not required
+		return nil
+	}
+
+	iLicenseConfigurationArnsSize := int64(len(m.LicenseConfigurationArns))
+
+	if err := validate.MaxItems("licenseConfigurationArns", "body", iLicenseConfigurationArnsSize, 10); err != nil {
 		return err
 	}
 

@@ -13,13 +13,16 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1VMDataVolumeSource DataVolumeSource represents the source for our Data Volume, this can be HTTP, Imageio, S3, Registry or an existing PVC
+// V1VMDataVolumeSource DataVolumeSource represents the source for our Data Volume, this can be HTTP, Imageio, S3, GCS, Registry, Snapshot or an existing PVC
 //
 // swagger:model v1VmDataVolumeSource
 type V1VMDataVolumeSource struct {
 
 	// blank
 	Blank V1VMDataVolumeBlankImage `json:"blank,omitempty"`
+
+	// gcs
+	Gcs *V1VMDataVolumeSourceGCS `json:"gcs,omitempty"`
 
 	// http
 	HTTP *V1VMDataVolumeSourceHTTP `json:"http,omitempty"`
@@ -36,6 +39,9 @@ type V1VMDataVolumeSource struct {
 	// s3
 	S3 *V1VMDataVolumeSourceS3 `json:"s3,omitempty"`
 
+	// snapshot
+	Snapshot *V1VMDataVolumeSourceSnapshot `json:"snapshot,omitempty"`
+
 	// upload
 	Upload V1VMDataVolumeSourceUpload `json:"upload,omitempty"`
 
@@ -46,6 +52,10 @@ type V1VMDataVolumeSource struct {
 // Validate validates this v1 Vm data volume source
 func (m *V1VMDataVolumeSource) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateGcs(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateHTTP(formats); err != nil {
 		res = append(res, err)
@@ -67,6 +77,10 @@ func (m *V1VMDataVolumeSource) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateSnapshot(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateVddk(formats); err != nil {
 		res = append(res, err)
 	}
@@ -74,6 +88,25 @@ func (m *V1VMDataVolumeSource) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMDataVolumeSource) validateGcs(formats strfmt.Registry) error {
+	if swag.IsZero(m.Gcs) { // not required
+		return nil
+	}
+
+	if m.Gcs != nil {
+		if err := m.Gcs.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcs")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -172,6 +205,25 @@ func (m *V1VMDataVolumeSource) validateS3(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1VMDataVolumeSource) validateSnapshot(formats strfmt.Registry) error {
+	if swag.IsZero(m.Snapshot) { // not required
+		return nil
+	}
+
+	if m.Snapshot != nil {
+		if err := m.Snapshot.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("snapshot")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("snapshot")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1VMDataVolumeSource) validateVddk(formats strfmt.Registry) error {
 	if swag.IsZero(m.Vddk) { // not required
 		return nil
@@ -195,6 +247,10 @@ func (m *V1VMDataVolumeSource) validateVddk(formats strfmt.Registry) error {
 func (m *V1VMDataVolumeSource) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateGcs(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateHTTP(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -215,6 +271,10 @@ func (m *V1VMDataVolumeSource) ContextValidate(ctx context.Context, formats strf
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateSnapshot(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateVddk(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -222,6 +282,27 @@ func (m *V1VMDataVolumeSource) ContextValidate(ctx context.Context, formats strf
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMDataVolumeSource) contextValidateGcs(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Gcs != nil {
+
+		if swag.IsZero(m.Gcs) { // not required
+			return nil
+		}
+
+		if err := m.Gcs.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("gcs")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("gcs")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -322,6 +403,27 @@ func (m *V1VMDataVolumeSource) contextValidateS3(ctx context.Context, formats st
 				return ve.ValidateName("s3")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("s3")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDataVolumeSource) contextValidateSnapshot(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Snapshot != nil {
+
+		if swag.IsZero(m.Snapshot) { // not required
+			return nil
+		}
+
+		if err := m.Snapshot.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("snapshot")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("snapshot")
 			}
 			return err
 		}

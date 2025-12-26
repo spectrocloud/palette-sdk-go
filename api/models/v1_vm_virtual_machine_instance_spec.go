@@ -60,6 +60,9 @@ type V1VMVirtualMachineInstanceSpec struct {
 	// readiness probe
 	ReadinessProbe *V1VMProbe `json:"readinessProbe,omitempty"`
 
+	// ResourceClaims define which ResourceClaims must be allocated and reserved before the VMI, hence virt-launcher pod is allowed to start. The resources will be made available to the domain which consumes them by name. This is an alpha field and requires enabling the DynamicResourceAllocation feature gate in kubernetes. This field should only be configured if one of the feature-gates GPUsWithDRA or HostDevicesWithDRA is enabled.
+	ResourceClaims []*V1VMPodResourceClaim `json:"resourceClaims"`
+
 	// If specified, the VMI will be dispatched by specified scheduler. If not specified, the VMI will be dispatched by default scheduler.
 	SchedulerName string `json:"schedulerName,omitempty"`
 
@@ -111,6 +114,10 @@ func (m *V1VMVirtualMachineInstanceSpec) Validate(formats strfmt.Registry) error
 	}
 
 	if err := m.validateReadinessProbe(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResourceClaims(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -280,6 +287,32 @@ func (m *V1VMVirtualMachineInstanceSpec) validateReadinessProbe(formats strfmt.R
 	return nil
 }
 
+func (m *V1VMVirtualMachineInstanceSpec) validateResourceClaims(formats strfmt.Registry) error {
+	if swag.IsZero(m.ResourceClaims) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.ResourceClaims); i++ {
+		if swag.IsZero(m.ResourceClaims[i]) { // not required
+			continue
+		}
+
+		if m.ResourceClaims[i] != nil {
+			if err := m.ResourceClaims[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resourceClaims" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceClaims" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1VMVirtualMachineInstanceSpec) validateTolerations(formats strfmt.Registry) error {
 	if swag.IsZero(m.Tolerations) { // not required
 		return nil
@@ -387,6 +420,10 @@ func (m *V1VMVirtualMachineInstanceSpec) ContextValidate(ctx context.Context, fo
 	}
 
 	if err := m.contextValidateReadinessProbe(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResourceClaims(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -554,6 +591,31 @@ func (m *V1VMVirtualMachineInstanceSpec) contextValidateReadinessProbe(ctx conte
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVirtualMachineInstanceSpec) contextValidateResourceClaims(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ResourceClaims); i++ {
+
+		if m.ResourceClaims[i] != nil {
+
+			if swag.IsZero(m.ResourceClaims[i]) { // not required
+				return nil
+			}
+
+			if err := m.ResourceClaims[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resourceClaims" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resourceClaims" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

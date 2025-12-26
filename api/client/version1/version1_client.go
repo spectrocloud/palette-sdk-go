@@ -50,6 +50,12 @@ type ClientService interface {
 
 	V1AwsFindImage(params *V1AwsFindImageParams) (*V1AwsFindImageOK, error)
 
+	V1AwsHostResourceGroupCapacityValidation(params *V1AwsHostResourceGroupCapacityValidationParams) (*V1AwsHostResourceGroupCapacityValidationOK, error)
+
+	V1AwsHostResourceGroupLicenses(params *V1AwsHostResourceGroupLicensesParams) (*V1AwsHostResourceGroupLicensesOK, error)
+
+	V1AwsHostResourceGroups(params *V1AwsHostResourceGroupsParams) (*V1AwsHostResourceGroupsOK, error)
+
 	V1AwsIamPolicies(params *V1AwsIamPoliciesParams) (*V1AwsIamPoliciesOK, error)
 
 	V1AwsInstanceTypes(params *V1AwsInstanceTypesParams) (*V1AwsInstanceTypesOK, error)
@@ -2486,6 +2492,108 @@ func (a *Client) V1AwsFindImage(params *V1AwsFindImageParams) (*V1AwsFindImageOK
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1AwsFindImage: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1AwsHostResourceGroupCapacityValidation validates available capacity for an instance type in a host resource group
+*/
+func (a *Client) V1AwsHostResourceGroupCapacityValidation(params *V1AwsHostResourceGroupCapacityValidationParams) (*V1AwsHostResourceGroupCapacityValidationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AwsHostResourceGroupCapacityValidationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AwsHostResourceGroupCapacityValidation",
+		Method:             "POST",
+		PathPattern:        "/v1/clouds/aws/regions/{region}/resourceGroups/validateCapacity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AwsHostResourceGroupCapacityValidationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AwsHostResourceGroupCapacityValidationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AwsHostResourceGroupCapacityValidation: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1AwsHostResourceGroupLicenses retrieves license configurations for the specified host resource group
+*/
+func (a *Client) V1AwsHostResourceGroupLicenses(params *V1AwsHostResourceGroupLicensesParams) (*V1AwsHostResourceGroupLicensesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AwsHostResourceGroupLicensesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AwsHostResourceGroupLicenses",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/aws/regions/{region}/resourceGroups/licenses",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AwsHostResourceGroupLicensesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AwsHostResourceGroupLicensesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AwsHostResourceGroupLicenses: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1AwsHostResourceGroups retrieves a list of a w s host resource groups for the specified account and region
+*/
+func (a *Client) V1AwsHostResourceGroups(params *V1AwsHostResourceGroupsParams) (*V1AwsHostResourceGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AwsHostResourceGroupsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AwsHostResourceGroups",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/aws/regions/{region}/resourceGroups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AwsHostResourceGroupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AwsHostResourceGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AwsHostResourceGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

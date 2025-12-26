@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewV1CloudStackTemplatesGetParams creates a new V1CloudStackTemplatesGetParams object
@@ -71,6 +72,11 @@ type V1CloudStackTemplatesGetParams struct {
 
 	*/
 	ProjectID *string
+	/*TemplateIds
+	  Template IDs for which CloudStack templates are requested
+
+	*/
+	TemplateIds []string
 	/*Zone
 	  Zone for which CloudStack templates are requested
 
@@ -137,6 +143,17 @@ func (o *V1CloudStackTemplatesGetParams) SetProjectID(projectID *string) {
 	o.ProjectID = projectID
 }
 
+// WithTemplateIds adds the templateIds to the v1 cloud stack templates get params
+func (o *V1CloudStackTemplatesGetParams) WithTemplateIds(templateIds []string) *V1CloudStackTemplatesGetParams {
+	o.SetTemplateIds(templateIds)
+	return o
+}
+
+// SetTemplateIds adds the templateIds to the v1 cloud stack templates get params
+func (o *V1CloudStackTemplatesGetParams) SetTemplateIds(templateIds []string) {
+	o.TemplateIds = templateIds
+}
+
 // WithZone adds the zone to the v1 cloud stack templates get params
 func (o *V1CloudStackTemplatesGetParams) WithZone(zone *string) *V1CloudStackTemplatesGetParams {
 	o.SetZone(zone)
@@ -186,6 +203,14 @@ func (o *V1CloudStackTemplatesGetParams) WriteToRequest(r runtime.ClientRequest,
 			}
 		}
 
+	}
+
+	valuesTemplateIds := o.TemplateIds
+
+	joinedTemplateIds := swag.JoinByFormat(valuesTemplateIds, "")
+	// query array param templateIds
+	if err := r.SetQueryParam("templateIds", joinedTemplateIds...); err != nil {
+		return err
 	}
 
 	if o.Zone != nil {

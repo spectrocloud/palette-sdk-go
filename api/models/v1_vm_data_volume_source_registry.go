@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -23,6 +24,9 @@ type V1VMDataVolumeSourceRegistry struct {
 	// ImageStream is the name of image stream for import
 	ImageStream string `json:"imageStream,omitempty"`
 
+	// platform
+	Platform *V1VMPlatformOptions `json:"platform,omitempty"`
+
 	// PullMethod can be either "pod" (default import), or "node" (node docker cache based import)
 	PullMethod string `json:"pullMethod,omitempty"`
 
@@ -35,11 +39,69 @@ type V1VMDataVolumeSourceRegistry struct {
 
 // Validate validates this v1 Vm data volume source registry
 func (m *V1VMDataVolumeSourceRegistry) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validatePlatform(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 Vm data volume source registry based on context it is used
+func (m *V1VMDataVolumeSourceRegistry) validatePlatform(formats strfmt.Registry) error {
+	if swag.IsZero(m.Platform) { // not required
+		return nil
+	}
+
+	if m.Platform != nil {
+		if err := m.Platform.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("platform")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("platform")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm data volume source registry based on the context it is used
 func (m *V1VMDataVolumeSourceRegistry) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePlatform(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMDataVolumeSourceRegistry) contextValidatePlatform(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Platform != nil {
+
+		if swag.IsZero(m.Platform) { // not required
+			return nil
+		}
+
+		if err := m.Platform.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("platform")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("platform")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

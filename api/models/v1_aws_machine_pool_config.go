@@ -21,6 +21,10 @@ import (
 // swagger:model v1AwsMachinePoolConfig
 type V1AwsMachinePoolConfig struct {
 
+	// Custom annotations for CAPI machine objects and nodes.
+	//
+	AdditionalAnnotations map[string]string `json:"additionalAnnotations,omitempty"`
+
 	// additionalLabels
 	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
@@ -37,6 +41,9 @@ type V1AwsMachinePoolConfig struct {
 	// Enum: ["on-demand","spot"]
 	CapacityType *string `json:"capacityType,omitempty"`
 
+	// ARN of AWS Host Resource Group for node placement on dedicated hosts
+	HostResourceGroupArn string `json:"hostResourceGroupArn,omitempty"`
+
 	// instance config
 	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
 
@@ -49,6 +56,9 @@ type V1AwsMachinePoolConfig struct {
 
 	// labels for this pool, example: control-plane/worker, gpu, windows
 	Labels []string `json:"labels"`
+
+	// List of AWS License Configuration ARNs (required when hostResourceGroupArn is specified)
+	LicenseConfigurationArns []string `json:"licenseConfigurationArns"`
 
 	// machine pool properties
 	MachinePoolProperties *V1MachinePoolProperties `json:"machinePoolProperties,omitempty"`
@@ -64,6 +74,11 @@ type V1AwsMachinePoolConfig struct {
 
 	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
 	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
+
+	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
+	// Overrides pack-level settings. Worker pools only.
+	//
+	OverrideKubeadmConfiguration string `json:"overrideKubeadmConfiguration,omitempty"`
 
 	// rootDeviceSize in GBs
 	RootDeviceSize int64 `json:"rootDeviceSize,omitempty"`
