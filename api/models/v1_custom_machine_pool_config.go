@@ -20,6 +20,10 @@ import (
 // swagger:model v1CustomMachinePoolConfig
 type V1CustomMachinePoolConfig struct {
 
+	// Custom annotations for CAPI machine objects and nodes.
+	//
+	AdditionalAnnotations map[string]string `json:"additionalAnnotations,omitempty"`
+
 	// additionalLabels
 	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
@@ -29,6 +33,11 @@ type V1CustomMachinePoolConfig struct {
 
 	// name
 	Name string `json:"name,omitempty"`
+
+	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
+	// Overrides pack-level settings. Worker pools only.
+	//
+	OverrideKubeadmConfiguration string `json:"overrideKubeadmConfiguration,omitempty"`
 
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`

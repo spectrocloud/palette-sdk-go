@@ -20,6 +20,9 @@ type V1ManifestSummary struct {
 	// Manifest content in yaml
 	Content string `json:"content,omitempty"`
 
+	// Manifest digest
+	Digest string `json:"digest,omitempty"`
+
 	// Manifest name
 	Name string `json:"name,omitempty"`
 

@@ -24,6 +24,9 @@ type V1VMStorageSpec struct {
 	// data source
 	DataSource *V1VMTypedLocalObjectReference `json:"dataSource,omitempty"`
 
+	// data source ref
+	DataSourceRef *V1VMTypedObjectReference `json:"dataSourceRef,omitempty"`
+
 	// resources
 	Resources *V1VMCoreResourceRequirements `json:"resources,omitempty"`
 
@@ -45,6 +48,10 @@ func (m *V1VMStorageSpec) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateDataSource(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateDataSourceRef(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -73,6 +80,25 @@ func (m *V1VMStorageSpec) validateDataSource(formats strfmt.Registry) error {
 				return ve.ValidateName("dataSource")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("dataSource")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMStorageSpec) validateDataSourceRef(formats strfmt.Registry) error {
+	if swag.IsZero(m.DataSourceRef) { // not required
+		return nil
+	}
+
+	if m.DataSourceRef != nil {
+		if err := m.DataSourceRef.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataSourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSourceRef")
 			}
 			return err
 		}
@@ -127,6 +153,10 @@ func (m *V1VMStorageSpec) ContextValidate(ctx context.Context, formats strfmt.Re
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateDataSourceRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateResources(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -154,6 +184,27 @@ func (m *V1VMStorageSpec) contextValidateDataSource(ctx context.Context, formats
 				return ve.ValidateName("dataSource")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("dataSource")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMStorageSpec) contextValidateDataSourceRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DataSourceRef != nil {
+
+		if swag.IsZero(m.DataSourceRef) { // not required
+			return nil
+		}
+
+		if err := m.DataSourceRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("dataSourceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("dataSourceRef")
 			}
 			return err
 		}

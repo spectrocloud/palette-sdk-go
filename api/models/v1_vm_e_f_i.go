@@ -17,6 +17,9 @@ import (
 // swagger:model v1VmEFI
 type V1VMEFI struct {
 
+	// If set to true, Persistent will persist the EFI NVRAM across reboots. Defaults to false
+	Persistent bool `json:"persistent,omitempty"`
+
 	// If set, SecureBoot will be enabled and the OVMF roms will be swapped for SecureBoot-enabled ones. Requires SMM to be enabled. Defaults to true
 	SecureBoot bool `json:"secureBoot,omitempty"`
 }

@@ -20,6 +20,10 @@ import (
 // swagger:model v1GcpMachinePoolConfig
 type V1GcpMachinePoolConfig struct {
 
+	// Custom annotations for CAPI machine objects and nodes.
+	//
+	AdditionalAnnotations map[string]string `json:"additionalAnnotations,omitempty"`
+
 	// additionalLabels
 	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
@@ -57,6 +61,11 @@ type V1GcpMachinePoolConfig struct {
 
 	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
 	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
+
+	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
+	// Overrides pack-level settings. Worker pools only.
+	//
+	OverrideKubeadmConfiguration string `json:"overrideKubeadmConfiguration,omitempty"`
 
 	// Size of root volume in GB. Default is 30GB
 	RootDeviceSize int64 `json:"rootDeviceSize,omitempty"`

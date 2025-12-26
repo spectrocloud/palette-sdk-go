@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewV1CloudstackAccountsUIDTemplatesParams creates a new V1CloudstackAccountsUIDTemplatesParams object
@@ -66,6 +67,11 @@ type V1CloudstackAccountsUIDTemplatesParams struct {
 
 	*/
 	ProjectID *string
+	/*TemplateIds
+	  Template IDs for which CloudStack templates are requested
+
+	*/
+	TemplateIds []string
 	/*UID*/
 	UID string
 	/*Zone
@@ -123,6 +129,17 @@ func (o *V1CloudstackAccountsUIDTemplatesParams) SetProjectID(projectID *string)
 	o.ProjectID = projectID
 }
 
+// WithTemplateIds adds the templateIds to the v1 cloudstack accounts Uid templates params
+func (o *V1CloudstackAccountsUIDTemplatesParams) WithTemplateIds(templateIds []string) *V1CloudstackAccountsUIDTemplatesParams {
+	o.SetTemplateIds(templateIds)
+	return o
+}
+
+// SetTemplateIds adds the templateIds to the v1 cloudstack accounts Uid templates params
+func (o *V1CloudstackAccountsUIDTemplatesParams) SetTemplateIds(templateIds []string) {
+	o.TemplateIds = templateIds
+}
+
 // WithUID adds the uid to the v1 cloudstack accounts Uid templates params
 func (o *V1CloudstackAccountsUIDTemplatesParams) WithUID(uid string) *V1CloudstackAccountsUIDTemplatesParams {
 	o.SetUID(uid)
@@ -167,6 +184,14 @@ func (o *V1CloudstackAccountsUIDTemplatesParams) WriteToRequest(r runtime.Client
 			}
 		}
 
+	}
+
+	valuesTemplateIds := o.TemplateIds
+
+	joinedTemplateIds := swag.JoinByFormat(valuesTemplateIds, "")
+	// query array param templateIds
+	if err := r.SetQueryParam("templateIds", joinedTemplateIds...); err != nil {
+		return err
 	}
 
 	// path param uid

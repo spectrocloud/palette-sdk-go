@@ -15,13 +15,25 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// V1UpdateStrategy UpdatesStrategy will be used to translate to RollingUpdateStrategy of a MachineDeployment We'll start with default values for the translation, can expose more details later Following is details of parameters translated from the type ScaleOut => maxSurge=1, maxUnavailable=0 ScaleIn => maxSurge=0, maxUnavailable=1
+// V1UpdateStrategy UpdatesStrategy will be used to translate to RollingUpdateStrategy of a MachineDeployment We'll start with default values for the translation, can expose more details later Following is details of parameters translated from the type ScaleOut => maxSurge=1, maxUnavailable=0 ScaleIn => maxSurge=0, maxUnavailable=1 OverrideScaling => maxSurge and maxUnavailable are user-specified (both required)
 //
 // swagger:model v1UpdateStrategy
 type V1UpdateStrategy struct {
 
-	// update strategy, either ScaleOut or ScaleIn if empty, will default to RollingUpdateScaleOut
-	// Enum: ["RollingUpdateScaleOut","RollingUpdateScaleIn"]
+	// Max extra nodes during rolling update. Integer or percentage (e.g., "1" or "20%").
+	// Only valid when type=OverrideScaling. Both maxSurge and maxUnavailable are required.
+	// Currently implemented for CloudStack only.
+	//
+	MaxSurge string `json:"maxSurge,omitempty"`
+
+	// Max unavailable nodes during rolling update. Integer or percentage (e.g., "0" or "10%").
+	// Only valid when type=OverrideScaling. Both maxSurge and maxUnavailable are required.
+	// Currently implemented for CloudStack only.
+	//
+	MaxUnavailable string `json:"maxUnavailable,omitempty"`
+
+	// Update strategy type. Defaults to RollingUpdateScaleOut if empty.
+	// Enum: ["RollingUpdateScaleOut","RollingUpdateScaleIn","OverrideScaling"]
 	Type string `json:"type,omitempty"`
 }
 
@@ -43,7 +55,7 @@ var v1UpdateStrategyTypeTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["RollingUpdateScaleOut","RollingUpdateScaleIn"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["RollingUpdateScaleOut","RollingUpdateScaleIn","OverrideScaling"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -58,6 +70,9 @@ const (
 
 	// V1UpdateStrategyTypeRollingUpdateScaleIn captures enum value "RollingUpdateScaleIn"
 	V1UpdateStrategyTypeRollingUpdateScaleIn string = "RollingUpdateScaleIn"
+
+	// V1UpdateStrategyTypeOverrideScaling captures enum value "OverrideScaling"
+	V1UpdateStrategyTypeOverrideScaling string = "OverrideScaling"
 )
 
 // prop value enum

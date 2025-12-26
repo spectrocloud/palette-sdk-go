@@ -77,6 +77,11 @@ type V1AwsInstanceTypesParams struct {
 
 	*/
 	GpuGtEq *float64
+	/*HrgArn
+	  Optional HRG ARN to filter instance types by HRG supported families
+
+	*/
+	HrgArn *string
 	/*MemoryGtEq
 	  Filter for instances having memory greater than or equal
 
@@ -159,6 +164,17 @@ func (o *V1AwsInstanceTypesParams) SetGpuGtEq(gpuGtEq *float64) {
 	o.GpuGtEq = gpuGtEq
 }
 
+// WithHrgArn adds the hrgArn to the v1 aws instance types params
+func (o *V1AwsInstanceTypesParams) WithHrgArn(hrgArn *string) *V1AwsInstanceTypesParams {
+	o.SetHrgArn(hrgArn)
+	return o
+}
+
+// SetHrgArn adds the hrgArn to the v1 aws instance types params
+func (o *V1AwsInstanceTypesParams) SetHrgArn(hrgArn *string) {
+	o.HrgArn = hrgArn
+}
+
 // WithMemoryGtEq adds the memoryGtEq to the v1 aws instance types params
 func (o *V1AwsInstanceTypesParams) WithMemoryGtEq(memoryGtEq *float64) *V1AwsInstanceTypesParams {
 	o.SetMemoryGtEq(memoryGtEq)
@@ -231,6 +247,22 @@ func (o *V1AwsInstanceTypesParams) WriteToRequest(r runtime.ClientRequest, reg s
 		qGpuGtEq := swag.FormatFloat64(qrGpuGtEq)
 		if qGpuGtEq != "" {
 			if err := r.SetQueryParam("gpuGtEq", qGpuGtEq); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.HrgArn != nil {
+
+		// query param hrgArn
+		var qrHrgArn string
+		if o.HrgArn != nil {
+			qrHrgArn = *o.HrgArn
+		}
+		qHrgArn := qrHrgArn
+		if qHrgArn != "" {
+			if err := r.SetQueryParam("hrgArn", qHrgArn); err != nil {
 				return err
 			}
 		}

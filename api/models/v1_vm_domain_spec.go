@@ -41,7 +41,7 @@ type V1VMDomainSpec struct {
 	// io threads
 	IoThreads *V1VMDomainSpecIoThreads `json:"ioThreads,omitempty"`
 
-	// Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto
+	// Controls whether or not disks will share IOThreads. Omitting IOThreadsPolicy disables use of IOThreads. One of: shared, auto, supplementalPool
 	IoThreadsPolicy string `json:"ioThreadsPolicy,omitempty"`
 
 	// launch security

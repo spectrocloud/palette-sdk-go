@@ -27,6 +27,9 @@ type V1VMFeatures struct {
 	// hyperv
 	Hyperv *V1VMFeatureHyperv `json:"hyperv,omitempty"`
 
+	// hyperv passthrough
+	HypervPassthrough *V1VMHyperVPassthrough `json:"hypervPassthrough,omitempty"`
+
 	// kvm
 	Kvm *V1VMFeatureKVM `json:"kvm,omitempty"`
 
@@ -50,6 +53,10 @@ func (m *V1VMFeatures) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHyperv(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHypervPassthrough(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -120,6 +127,25 @@ func (m *V1VMFeatures) validateHyperv(formats strfmt.Registry) error {
 				return ve.ValidateName("hyperv")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hyperv")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatures) validateHypervPassthrough(formats strfmt.Registry) error {
+	if swag.IsZero(m.HypervPassthrough) { // not required
+		return nil
+	}
+
+	if m.HypervPassthrough != nil {
+		if err := m.HypervPassthrough.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hypervPassthrough")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hypervPassthrough")
 			}
 			return err
 		}
@@ -201,6 +227,10 @@ func (m *V1VMFeatures) ContextValidate(ctx context.Context, formats strfmt.Regis
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateHypervPassthrough(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateKvm(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -274,6 +304,27 @@ func (m *V1VMFeatures) contextValidateHyperv(ctx context.Context, formats strfmt
 				return ve.ValidateName("hyperv")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hyperv")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMFeatures) contextValidateHypervPassthrough(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HypervPassthrough != nil {
+
+		if swag.IsZero(m.HypervPassthrough) { // not required
+			return nil
+		}
+
+		if err := m.HypervPassthrough.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hypervPassthrough")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hypervPassthrough")
 			}
 			return err
 		}

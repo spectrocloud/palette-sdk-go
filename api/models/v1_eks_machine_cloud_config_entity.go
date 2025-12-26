@@ -31,7 +31,7 @@ type V1EksMachineCloudConfigEntity struct {
 	Azs []string `json:"azs"`
 
 	// EC2 instance capacity type
-	// Enum: ["on-demand","spot"]
+	// Enum: ["on-demand","spot","host-resource-group"]
 	CapacityType *string `json:"capacityType,omitempty"`
 
 	// flag to know if aws launch template is enabled
@@ -105,7 +105,7 @@ var v1EksMachineCloudConfigEntityTypeCapacityTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["on-demand","spot"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["on-demand","spot","host-resource-group"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -120,6 +120,9 @@ const (
 
 	// V1EksMachineCloudConfigEntityCapacityTypeSpot captures enum value "spot"
 	V1EksMachineCloudConfigEntityCapacityTypeSpot string = "spot"
+
+	// V1EksMachineCloudConfigEntityCapacityTypeHostDashResourceDashGroup captures enum value "host-resource-group"
+	V1EksMachineCloudConfigEntityCapacityTypeHostDashResourceDashGroup string = "host-resource-group"
 )
 
 // prop value enum
