@@ -18,16 +18,16 @@ import (
 type V1AwsHrgCapacityValidationResponse struct {
 
 	// available capacity
-	AvailableCapacity int64 `json:"availableCapacity,omitempty"`
+	AvailableCapacity int64 `json:"availableCapacity"`
 
 	// is valid
-	IsValid bool `json:"isValid,omitempty"`
+	IsValid bool `json:"isValid"`
 
 	// message
 	Message string `json:"message,omitempty"`
 
 	// required capacity
-	RequiredCapacity int64 `json:"requiredCapacity,omitempty"`
+	RequiredCapacity int64 `json:"requiredCapacity"`
 }
 
 // Validate validates this v1 aws hrg capacity validation response
