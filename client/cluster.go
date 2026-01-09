@@ -250,6 +250,53 @@ func (h *V1Client) PostSpectroClusterGenericImport(entity *models.V1SpectroGener
 	return *resp.Payload.UID, nil
 }
 
+// GetClusterImportLink retrieves the import link for an imported cluster.
+// It uses the cluster UID to fetch the cluster and extract the ImportLink from cluster status.
+// Works for all cloud types (AWS, Azure, GCP, vSphere, Generic, etc.)
+func (h *V1Client) GetClusterImportLink(clusterUID string) (importLink, manifestURL string, err error) {
+	// Get the cluster using the API client method
+	params := clientv1.NewV1SpectroClustersGetParamsWithContext(h.ctx).
+		WithUID(clusterUID)
+	resp, err := h.Client.V1SpectroClustersGet(params)
+	if err != nil {
+		if apiutil.Is404(err) {
+			return "", "", fmt.Errorf("cluster with UID %s not found", clusterUID)
+		}
+		return "", "", fmt.Errorf("failed to get cluster: %w", err)
+	}
+
+	cluster := resp.Payload
+	if cluster == nil {
+		return "", "", fmt.Errorf("cluster with UID %s not found", clusterUID)
+	}
+
+	// Extract import_link from cluster status
+	if cluster.Status == nil || cluster.Status.ClusterImport == nil {
+		return "", "", fmt.Errorf("import link not available for cluster %s", clusterUID)
+	}
+
+	importLink = cluster.Status.ClusterImport.ImportLink
+	if importLink == "" {
+		return "", "", fmt.Errorf("import link is empty for cluster %s", clusterUID)
+	}
+
+	// Extract manifest URL from importLink
+	// importLink format: "kubectl apply -f https://api.dev.spectrocloud.com/v1/spectroclusters/{uid}/import/manifest"
+	manifestURL = extractManifestURL(importLink)
+	return importLink, manifestURL, nil
+}
+
+// extractManifestURL extracts the manifest URL from the importLink string.
+func extractManifestURL(importLink string) string {
+	// Remove "kubectl apply -f" prefix and trim whitespace
+	prefix := "kubectl apply -f"
+	if strings.HasPrefix(importLink, prefix) {
+		return strings.TrimSpace(strings.TrimPrefix(importLink, prefix))
+	}
+	// If already a URL or no prefix, return as-is
+	return importLink
+}
+
 // ApproveClusterRepave approves a cluster repave.
 func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
