@@ -237,6 +237,106 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 	return *resp.Payload.UID, nil
 }
 
+// BrownfieldClusterRegistrationResult contains the result of registering a brownfield cluster
+type BrownfieldClusterRegistrationResult struct {
+	ClusterUID  string // The UID of the registered cluster
+	ImportLink  string // The import link to download and install ally-lite, palette-lite
+	ManifestURL string // The manifest URL for applying the import manifest
+}
+
+// RegisterBrownfieldCluster registers a brownfield cluster for import.
+// It accepts a cloudType (e.g., "aws", "azure", "gcp", "generic", "vsphere", "maas", "openstack", "cloudstack")
+// and metadata containing the cluster name and optional labels/annotations.
+// Returns the cluster UID, import link, and manifest URL on success.
+func (h *V1Client) RegisterBrownfieldCluster(cloudType string, meta *models.V1ObjectMetaInputEntity) (*BrownfieldClusterRegistrationResult, error) {
+	// Step 1: Import the cluster using the appropriate cloud-specific import method
+	var clusterUID string
+	var err error
+
+	switch strings.ToLower(cloudType) {
+	case "aws":
+		clusterUID, err = h.ImportClusterAws(meta)
+	case "azure":
+		clusterUID, err = h.ImportClusterAzure(meta)
+	case "gcp", "google cloud", "googlecloud":
+		clusterUID, err = h.ImportClusterGcp(meta)
+	case "vsphere", "vmware vsphere", "vmware", "vsphere-vmware":
+		clusterUID, err = h.ImportClusterVsphere(meta)
+	case "openshift":
+		// OpenShift clusters use generic import
+		clusterUID, err = h.ImportClusterGeneric(meta)
+	case "eks-anywhere", "eksanywhere", "eks_anywhere":
+		// EKS-Anywhere clusters use generic import (not AWS-managed EKS)
+		clusterUID, err = h.ImportClusterGeneric(meta)
+	case "generic":
+		clusterUID, err = h.ImportClusterGeneric(meta)
+	default:
+		return nil, fmt.Errorf("unsupported cloud_type: %s. Supported types: generic, aws, azure, gcp, vsphere, maas, openstack, cloudstack", cloudType)
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to import cluster: %w", err)
+	}
+
+	// Step 2: Get the cluster details to retrieve import_link and construct manifest_url
+	result, err := h.GetBrownfieldClusterRegistrationDetails(clusterUID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cluster registration details: %w", err)
+	}
+
+	return result, nil
+}
+
+// GetBrownfieldClusterRegistrationDetails retrieves the import link and manifest URL for a registered brownfield cluster.
+// It uses the cluster UID to fetch the cluster status which contains the ClusterImport information.
+func (h *V1Client) GetBrownfieldClusterRegistrationDetails(clusterUID string) (*BrownfieldClusterRegistrationResult, error) {
+	// Get the cluster to access status.ClusterImport
+	cluster, err := h.GetClusterWithoutStatus(clusterUID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cluster: %w", err)
+	}
+
+	if cluster == nil {
+		return nil, fmt.Errorf("cluster with UID %s not found", clusterUID)
+	}
+
+	result := &BrownfieldClusterRegistrationResult{
+		ClusterUID: clusterUID,
+	}
+
+	// Extract import_link from cluster status
+	if cluster.Status != nil && cluster.Status.ClusterImport != nil {
+		result.ImportLink = cluster.Status.ClusterImport.ImportLink
+	}
+
+	// Construct manifest URL
+	result.ManifestURL = h.GetClusterImportManifestURL(clusterUID)
+
+	return result, nil
+}
+
+// GetClusterImportManifestURL constructs the manifest URL for a cluster import.
+// The manifest URL follows the pattern: {baseURL}/v1/spectroclusters/{uid}/import/manifest
+func (h *V1Client) GetClusterImportManifestURL(clusterUID string) string {
+	baseURL := h.getBaseURL()
+	return fmt.Sprintf("%s/v1/spectroclusters/%s/import/manifest", baseURL, clusterUID)
+}
+
+// getBaseURL returns the base URL for the API.
+// It uses the paletteURI if set, otherwise defaults to the production API endpoint.
+func (h *V1Client) getBaseURL() string {
+	if h.paletteURI != "" {
+		// Ensure the URL doesn't have a trailing slash
+		baseURL := strings.TrimSuffix(h.paletteURI, "/")
+		// If paletteURI doesn't have a scheme, add https
+		if !strings.HasPrefix(baseURL, "http://") && !strings.HasPrefix(baseURL, "https://") {
+			baseURL = "https://" + baseURL
+		}
+		return baseURL
+	}
+	return "https://api.spectrocloud.com"
+}
+
 // ApproveClusterRepave approves a cluster repave.
 func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
