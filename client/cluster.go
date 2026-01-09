@@ -211,108 +211,124 @@ func (h *V1Client) UpdateClusterProfileValues(uid string, profiles *models.V1Spe
 	return err
 }
 
-// PatchClusterProfileValues patches (adds/updates) a cluster's profile values without replacing all profiles.
-// Unlike UpdateClusterProfileValues (PUT), this uses PATCH to only modify specified profiles,
-// preserving any other profiles (like add-ons) attached to the cluster.
-func (h *V1Client) PatchClusterProfileValues(uid string, profiles *models.V1SpectroClusterProfiles) error {
-	resolveNotifications := true
-	params := clientv1.NewV1SpectroClustersPatchProfilesParamsWithContext(h.ctx).
-		WithUID(uid).
-		WithBody(profiles).
-		WithResolveNotification(&resolveNotifications)
-	_, err := h.Client.V1SpectroClustersPatchProfiles(params)
+// ApproveClusterRepave approves a cluster repave.
+func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
+	params := clientv1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
+		WithUID(clusterUID)
+	_, err := h.Client.V1SpectroClustersUIDRepaveApproveUpdate(params)
 	return err
 }
 
-// ImportClusterGeneric imports a cluster using a generic import manifest.
-func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
-	params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
-		WithBody(&models.V1SpectroGenericClusterImportEntity{
-			Metadata: meta,
-		})
-	resp, err := h.Client.V1SpectroClustersGenericImport(params)
-	if err != nil {
-		return "", err
-	}
-	return *resp.Payload.UID, nil
-}
-
-// BrownfieldClusterRegistrationResult contains the result of registering a brownfield cluster
-type BrownfieldClusterRegistrationResult struct {
-	ClusterUID  string // The UID of the registered cluster
-	ImportLink  string // The import link to download and install ally-lite, palette-lite
-	ManifestURL string // The manifest URL for applying the import manifest
-}
-
 // RegisterBrownfieldCluster registers a brownfield cluster for import.
-// It accepts a cloudType (e.g., "aws", "azure", "gcp", "generic", "vsphere", "maas", "openstack", "cloudstack")
-// and metadata containing the cluster name and optional labels/annotations.
-// Returns the cluster UID, import link, and manifest URL on success.
-func (h *V1Client) RegisterBrownfieldCluster(cloudType string, meta *models.V1ObjectMetaInputEntity) (*BrownfieldClusterRegistrationResult, error) {
-	// Step 1: Import the cluster using the appropriate cloud-specific import method
+// Supported cloudTypes: AWS, EKS-Anywhere, Azure, Google Cloud, VMWare VSphere, OpenShift, and Generic.
+// Returns clusterUID, importLink, manifestURL, and error.
+func (h *V1Client) RegisterBrownfieldCluster(cloudType string, meta *models.V1ObjectMetaInputEntity) (string, string, string, error) {
+	// Step 1: Import the cluster using the appropriate cloud-specific import API method
 	var clusterUID string
 	var err error
 
-	switch strings.ToLower(cloudType) {
-	case "aws":
-		clusterUID, err = h.ImportClusterAws(meta)
-	case "azure":
-		clusterUID, err = h.ImportClusterAzure(meta)
-	case "gcp", "google cloud", "googlecloud":
-		clusterUID, err = h.ImportClusterGcp(meta)
-	case "vsphere", "vmware vsphere", "vmware", "vsphere-vmware":
-		clusterUID, err = h.ImportClusterVsphere(meta)
-	case "openshift":
-		// OpenShift clusters use generic import
-		clusterUID, err = h.ImportClusterGeneric(meta)
-	case "eks-anywhere", "eksanywhere", "eks_anywhere":
-		// EKS-Anywhere clusters use generic import (not AWS-managed EKS)
-		clusterUID, err = h.ImportClusterGeneric(meta)
-	case "generic":
-		clusterUID, err = h.ImportClusterGeneric(meta)
-	default:
-		return nil, fmt.Errorf("unsupported cloud_type: %s. Supported types: generic, aws, azure, gcp, vsphere, maas, openstack, cloudstack", cloudType)
-	}
+	// Normalize cloudType to lowercase for case-insensitive matching
+	normalizedType := strings.ToLower(strings.TrimSpace(cloudType))
 
-	if err != nil {
-		return nil, fmt.Errorf("failed to import cluster: %w", err)
+	switch normalizedType {
+	case "aws":
+		params := clientv1.NewV1SpectroClustersAwsImportParamsWithContext(h.ctx).
+			WithBody(&models.V1SpectroAwsClusterImportEntity{
+				Metadata: meta,
+			})
+		resp, err := h.Client.V1SpectroClustersAwsImport(params)
+		if err != nil {
+			return "", "", "", fmt.Errorf("failed to import AWS cluster: %w", err)
+		}
+		clusterUID = *resp.Payload.UID
+
+	case "azure":
+		params := clientv1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
+			WithBody(&models.V1SpectroAzureClusterImportEntity{
+				Metadata: meta,
+			})
+		resp, err := h.Client.V1SpectroClustersAzureImport(params)
+		if err != nil {
+			return "", "", "", fmt.Errorf("failed to import Azure cluster: %w", err)
+		}
+		clusterUID = *resp.Payload.UID
+
+	case "gcp", "google cloud", "googlecloud":
+		params := clientv1.NewV1SpectroClustersGcpImportParamsWithContext(h.ctx).
+			WithBody(&models.V1SpectroGcpClusterImportEntity{
+				Metadata: meta,
+			})
+		resp, err := h.Client.V1SpectroClustersGcpImport(params)
+		if err != nil {
+			return "", "", "", fmt.Errorf("failed to import GCP cluster: %w", err)
+		}
+		clusterUID = *resp.Payload.UID
+
+	case "vsphere", "vmware vsphere", "vmware", "vsphere-vmware":
+		params := clientv1.NewV1SpectroClustersVsphereImportParamsWithContext(h.ctx).
+			WithBody(&models.V1SpectroVsphereClusterImportEntity{
+				Metadata: meta,
+			})
+		resp, err := h.Client.V1SpectroClustersVsphereImport(params)
+		if err != nil {
+			return "", "", "", fmt.Errorf("failed to import vSphere cluster: %w", err)
+		}
+		clusterUID = *resp.Payload.UID
+
+	case "openshift", "eks-anywhere", "eksanywhere", "eks_anywhere", "generic":
+		// OpenShift, EKS-Anywhere, and Generic clusters use generic import
+		params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
+			WithBody(&models.V1SpectroGenericClusterImportEntity{
+				Metadata: meta,
+			})
+		resp, err := h.Client.V1SpectroClustersGenericImport(params)
+		if err != nil {
+			return "", "", "", fmt.Errorf("failed to import cluster: %w", err)
+		}
+		clusterUID = *resp.Payload.UID
+
+	default:
+		return "", "", "", fmt.Errorf("unsupported cloud_type: %s. Supported types: AWS, EKS-Anywhere, Azure, Google Cloud, VMWare VSphere, OpenShift, Generic", cloudType)
 	}
 
 	// Step 2: Get the cluster details to retrieve import_link and construct manifest_url
-	result, err := h.GetBrownfieldClusterRegistrationDetails(clusterUID)
+	importLink, manifestURL, err := h.GetBrownfieldClusterRegistrationDetails(clusterUID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get cluster registration details: %w", err)
+		return "", "", "", fmt.Errorf("failed to get cluster registration details: %w", err)
 	}
 
-	return result, nil
+	return clusterUID, importLink, manifestURL, nil
 }
 
 // GetBrownfieldClusterRegistrationDetails retrieves the import link and manifest URL for a registered brownfield cluster.
-// It uses the cluster UID to fetch the cluster status which contains the ClusterImport information.
-func (h *V1Client) GetBrownfieldClusterRegistrationDetails(clusterUID string) (*BrownfieldClusterRegistrationResult, error) {
-	// Get the cluster to access status.ClusterImport
-	cluster, err := h.GetClusterWithoutStatus(clusterUID)
+// Returns importLink, manifestURL, and error.
+func (h *V1Client) GetBrownfieldClusterRegistrationDetails(clusterUID string) (string, string, error) {
+	// Get the cluster to access status.ClusterImport using the API client method
+	params := clientv1.NewV1SpectroClustersGetParamsWithContext(h.ctx).
+		WithUID(clusterUID)
+	resp, err := h.Client.V1SpectroClustersGet(params)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get cluster: %w", err)
+		if apiutil.Is404(err) {
+			return "", "", fmt.Errorf("cluster with UID %s not found", clusterUID)
+		}
+		return "", "", fmt.Errorf("failed to get cluster: %w", err)
 	}
 
+	cluster := resp.Payload
 	if cluster == nil {
-		return nil, fmt.Errorf("cluster with UID %s not found", clusterUID)
+		return "", "", fmt.Errorf("cluster with UID %s not found", clusterUID)
 	}
 
-	result := &BrownfieldClusterRegistrationResult{
-		ClusterUID: clusterUID,
-	}
-
+	var importLink string
 	// Extract import_link from cluster status
 	if cluster.Status != nil && cluster.Status.ClusterImport != nil {
-		result.ImportLink = cluster.Status.ClusterImport.ImportLink
+		importLink = cluster.Status.ClusterImport.ImportLink
 	}
 
 	// Construct manifest URL
-	result.ManifestURL = h.GetClusterImportManifestURL(clusterUID)
+	manifestURL := h.GetClusterImportManifestURL(clusterUID)
 
-	return result, nil
+	return importLink, manifestURL, nil
 }
 
 // GetClusterImportManifestURL constructs the manifest URL for a cluster import.
@@ -335,14 +351,6 @@ func (h *V1Client) getBaseURL() string {
 		return baseURL
 	}
 	return "https://api.spectrocloud.com"
-}
-
-// ApproveClusterRepave approves a cluster repave.
-func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
-	params := clientv1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
-		WithUID(clusterUID)
-	_, err := h.Client.V1SpectroClustersUIDRepaveApproveUpdate(params)
-	return err
 }
 
 // ValidateClusterRepave validates if cluster gets repaved for the specified packs.
