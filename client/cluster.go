@@ -237,6 +237,19 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 	return *resp.Payload.UID, nil
 }
 
+// PostSpectroClusterGenericImport performs a POST operation to import a generic cluster.
+// This is an abstract method that accepts the full V1SpectroGenericClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) PostSpectroClusterGenericImport(entity *models.V1SpectroGenericClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersGenericImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // ApproveClusterRepave approves a cluster repave.
 func (h *V1Client) ApproveClusterRepave(clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersUIDRepaveApproveUpdateParamsWithContext(h.ctx).
