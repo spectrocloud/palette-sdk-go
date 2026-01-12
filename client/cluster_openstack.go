@@ -72,6 +72,19 @@ func (h *V1Client) ImportClusterOpenStack(meta *models.V1ObjectMetaInputEntity) 
 	return *resp.Payload.UID, nil
 }
 
+// PostSpectroClusterOpenStackImport performs a POST operation to import an OpenStack cluster.
+// This is an abstract method that accepts the full V1SpectroOpenStackClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) PostSpectroClusterOpenStackImport(entity *models.V1SpectroOpenStackClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersOpenStackImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersOpenStackImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetNodeStatusMapOpenStack retrieves the status of all nodes in an OpenStack machine pool.
 func (h *V1Client) GetNodeStatusMapOpenStack(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).

@@ -72,6 +72,19 @@ func (h *V1Client) ImportClusterCloudStack(meta *models.V1ObjectMetaInputEntity)
 	return *resp.Payload.UID, nil
 }
 
+// PostSpectroClusterCloudStackImport performs a POST operation to import a CloudStack cluster.
+// This is an abstract method that accepts the full V1SpectroCloudStackClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) PostSpectroClusterCloudStackImport(entity *models.V1SpectroCloudStackClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersCloudStackImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersCloudStackImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetNodeStatusMapCloudStack retrieves the status of all nodes in a CloudStack machine pool.
 func (h *V1Client) GetNodeStatusMapCloudStack(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsCloudStackPoolMachinesListParamsWithContext(h.ctx).

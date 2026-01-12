@@ -74,6 +74,19 @@ func (h *V1Client) ImportClusterEdgeVsphere(meta *models.V1ObjectMetaInputEntity
 	return *resp.Payload.UID, nil
 }
 
+// PostSpectroClusterVsphereImport performs a POST operation to import a vSphere cluster.
+// This is an abstract method that accepts the full V1SpectroVsphereClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) PostSpectroClusterVsphereImport(entity *models.V1SpectroVsphereClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersVsphereImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersVsphereImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetNodeStatusMapEdgeVsphere retrieves the status of all nodes in a vSphere edge machine pool.
 func (h *V1Client) GetNodeStatusMapEdgeVsphere(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
