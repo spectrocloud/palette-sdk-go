@@ -72,10 +72,10 @@ func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (strin
 	return *resp.Payload.UID, nil
 }
 
-// PostSpectroClusterAwsImport performs a POST operation to import an AWS cluster.
+// ImportSpectroClusterAws performs a POST operation to import an AWS cluster.
 // This is an abstract method that accepts the full V1SpectroAwsClusterImportEntity model.
 // Returns the created cluster UID on success.
-func (h *V1Client) PostSpectroClusterAwsImport(entity *models.V1SpectroAwsClusterImportEntity) (string, error) {
+func (h *V1Client) ImportSpectroClusterAws(entity *models.V1SpectroAwsClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersAwsImportParamsWithContext(h.ctx).
 		WithBody(entity)
 	resp, err := h.Client.V1SpectroClustersAwsImport(params)

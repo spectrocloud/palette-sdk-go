@@ -72,10 +72,10 @@ func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (strin
 	return *resp.Payload.UID, nil
 }
 
-// PostSpectroClusterGcpImport performs a POST operation to import a GCP cluster.
+// ImportSpectroClusterGcp performs a POST operation to import a GCP cluster.
 // This is an abstract method that accepts the full V1SpectroGcpClusterImportEntity model.
 // Returns the created cluster UID on success.
-func (h *V1Client) PostSpectroClusterGcpImport(entity *models.V1SpectroGcpClusterImportEntity) (string, error) {
+func (h *V1Client) ImportSpectroClusterGcp(entity *models.V1SpectroGcpClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersGcpImportParamsWithContext(h.ctx).
 		WithBody(entity)
 	resp, err := h.Client.V1SpectroClustersGcpImport(params)

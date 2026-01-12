@@ -81,10 +81,10 @@ func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (stri
 	return *resp.Payload.UID, nil
 }
 
-// PostSpectroClusterMaasImport performs a POST operation to import a MAAS cluster.
+// ImportSpectroClusterMaas performs a POST operation to import a MAAS cluster.
 // This is an abstract method that accepts the full V1SpectroMaasClusterImportEntity model.
 // Returns the created cluster UID on success.
-func (h *V1Client) PostSpectroClusterMaasImport(entity *models.V1SpectroMaasClusterImportEntity) (string, error) {
+func (h *V1Client) ImportSpectroClusterMaas(entity *models.V1SpectroMaasClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersMaasImportParamsWithContext(h.ctx).
 		WithBody(entity)
 	resp, err := h.Client.V1SpectroClustersMaasImport(params)

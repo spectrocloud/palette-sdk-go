@@ -72,10 +72,10 @@ func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (str
 	return *resp.Payload.UID, nil
 }
 
-// PostSpectroClusterAzureImport performs a POST operation to import an Azure cluster.
+// ImportSpectroClusterAzure performs a POST operation to import an Azure cluster.
 // This is an abstract method that accepts the full V1SpectroAzureClusterImportEntity model.
 // Returns the created cluster UID on success.
-func (h *V1Client) PostSpectroClusterAzureImport(entity *models.V1SpectroAzureClusterImportEntity) (string, error) {
+func (h *V1Client) ImportSpectroClusterAzure(entity *models.V1SpectroAzureClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
 		WithBody(entity)
 	resp, err := h.Client.V1SpectroClustersAzureImport(params)
