@@ -81,6 +81,19 @@ func (h *V1Client) ImportClusterMaas(meta *models.V1ObjectMetaInputEntity) (stri
 	return *resp.Payload.UID, nil
 }
 
+// ImportSpectroClusterMaas performs a POST operation to import a MAAS cluster.
+// This is an abstract method that accepts the full V1SpectroMaasClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) ImportSpectroClusterMaas(entity *models.V1SpectroMaasClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersMaasImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersMaasImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetNodeStatusMapMaas retrieves the status of all nodes in a MAAS machine pool.
 func (h *V1Client) GetNodeStatusMapMaas(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsMaasPoolMachinesListParamsWithContext(h.ctx).
