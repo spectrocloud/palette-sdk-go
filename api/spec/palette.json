@@ -34192,17 +34192,20 @@
       "properties": {
         "availableCapacity": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-omitempty": false
         },
         "isValid": {
-          "type": "boolean"
+          "type": "boolean",
+          "x-omitempty": false
         },
         "message": {
           "type": "string"
         },
         "requiredCapacity": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-omitempty": false
         }
       }
     },
