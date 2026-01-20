@@ -8,6 +8,10 @@ import (
 // GetMaintenanceStatus defines a function type that retrieves the maintenance status of a machine.
 type GetMaintenanceStatus func(string, string, string) (*models.V1MachineMaintenanceStatus, error)
 
+// GetMachinesList defines a function type that retrieves a list of machines from a machine pool.
+// Returns a map where key is the machine name (Metadata.Name) and value is the machine UID (Metadata.UID).
+type GetMachinesList func(string, string) (map[string]string, error)
+
 // ToggleMaintenanceOnNode updates maintenance configuration for a node.
 func (h *V1Client) ToggleMaintenanceOnNode(nodeMaintenance *models.V1MachineMaintenance, cloudType, configUID, machineName, nodeID string) error {
 	params := clientv1.NewV1CloudConfigsMachinePoolsMachineUIDMaintenanceUpdateParamsWithContext(h.ctx).
@@ -245,4 +249,104 @@ func (h *V1Client) DeleteNodeInEdgeNativeMachinePool(configUID, machinePoolName,
 		return err
 	}
 	return nil
+}
+
+// GetMachinesList retrieves a list of machines from a machine pool using the provided function.
+func (h *V1Client) GetMachinesList(fn GetMachinesList, configUID, machinePoolName string) (map[string]string, error) {
+	return fn(configUID, machinePoolName)
+}
+
+// GetMachinesListAws retrieves a list of AWS machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListAws(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsAwsPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsAwsPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListAzure retrieves a list of Azure machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListAzure(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsAzurePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListGcp retrieves a list of GCP machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListGcp(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsGcpPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsGcpPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListVsphere retrieves a list of vSphere machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListVsphere(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsVspherePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsVspherePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListGeneric retrieves a list of Generic machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListGeneric(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsGenericPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsGenericPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
 }
