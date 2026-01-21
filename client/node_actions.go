@@ -365,9 +365,9 @@ func (h *V1Client) GetMachinesListGeneric(configUID, machinePoolName string) (ma
 	return machinesMap, nil
 }
 
-// GetMachinesListCloudStack retrieves a list of CloudStack machines from a machine pool.
+// GetMachinesListApacheCloudstack retrieves a list of CloudStack machines from a machine pool.
 // Returns a map where key is the machine name and value is the machine UID.
-func (h *V1Client) GetMachinesListCloudStack(configUID, machinePoolName string) (map[string]string, error) {
+func (h *V1Client) GetMachinesListApacheCloudstack(configUID, machinePoolName string) (map[string]string, error) {
 	params := clientv1.NewV1CloudConfigsCloudStackPoolMachinesListParamsWithContext(h.ctx).
 		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
