@@ -148,6 +148,19 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 	return items, nil
 }
 
+// ImportSpectroClusterEdgeNative performs a POST operation to import an Edge Native cluster.
+// This is an abstract method that accepts the full V1SpectroEdgeNativeClusterImportEntity model.
+// Returns the created cluster UID on success.
+func (h *V1Client) ImportSpectroClusterEdgeNative(entity *models.V1SpectroEdgeNativeClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersEdgeNativeImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersEdgeNativeImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetEdgeHostsByTags returns a list of edge hosts filtered by the provided tags.
 // TODO: expose pagination params
 func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeHostsMetadata, error) {
