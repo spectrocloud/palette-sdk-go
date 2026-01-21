@@ -73,8 +73,6 @@ func (h *V1Client) ImportClusterCloudStack(meta *models.V1ObjectMetaInputEntity)
 }
 
 // ImportSpectroClusterCloudStack performs a POST operation to import a CloudStack cluster.
-// This is an abstract method that accepts the full V1SpectroCloudStackClusterImportEntity model.
-// Returns the created cluster UID on success.
 func (h *V1Client) ImportSpectroClusterCloudStack(entity *models.V1SpectroCloudStackClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersCloudStackImportParamsWithContext(h.ctx).
 		WithBody(entity)

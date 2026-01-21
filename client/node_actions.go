@@ -44,6 +44,20 @@ func (h *V1Client) GetNodeMaintenanceStatusAws(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
+// GetNodeMaintenanceStatusCloudStack retrieves maintenance status for a CloudStack node.
+func (h *V1Client) GetNodeMaintenanceStatusCloudStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
+	params := clientv1.NewV1CloudConfigsCloudStackPoolMachinesUIDGetParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machineName).
+		WithMachineUID(nodeID)
+
+	resp, err := h.Client.V1CloudConfigsCloudStackPoolMachinesUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Status.MaintenanceStatus, nil
+}
+
 // GetNodeMaintenanceStatusMaas retrieves maintenance status for a MAAS node.
 func (h *V1Client) GetNodeMaintenanceStatusMaas(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
 	params := clientv1.NewV1CloudConfigsMaasPoolMachinesUIDGetParamsWithContext(h.ctx).

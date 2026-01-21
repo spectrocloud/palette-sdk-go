@@ -238,8 +238,6 @@ func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (s
 }
 
 // ImportSpectroClusterGeneric performs a POST operation to import a generic cluster.
-// This is an abstract method that accepts the full V1SpectroGenericClusterImportEntity model.
-// Returns the created cluster UID on success.
 func (h *V1Client) ImportSpectroClusterGeneric(entity *models.V1SpectroGenericClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
 		WithBody(entity)

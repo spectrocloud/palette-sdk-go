@@ -149,8 +149,6 @@ func (h *V1Client) ListEdgeHosts() ([]*models.V1EdgeHostsMetadata, error) {
 }
 
 // ImportSpectroClusterEdgeNative performs a POST operation to import an Edge Native cluster.
-// This is an abstract method that accepts the full V1SpectroEdgeNativeClusterImportEntity model.
-// Returns the created cluster UID on success.
 func (h *V1Client) ImportSpectroClusterEdgeNative(entity *models.V1SpectroEdgeNativeClusterImportEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersEdgeNativeImportParamsWithContext(h.ctx).
 		WithBody(entity)
