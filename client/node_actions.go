@@ -383,3 +383,117 @@ func (h *V1Client) GetMachinesListApacheCloudstack(configUID, machinePoolName st
 	}
 	return machinesMap, nil
 }
+
+// GetMachinesListMaas retrieves a list of MAAS machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListMaas(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsMaasPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsMaasPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListEdgeNative retrieves a list of Edge Native machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListEdgeNative(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsEdgeNativePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListOpenStack retrieves a list of OpenStack machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListOpenStack(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsOpenStackPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListEks retrieves a list of EKS machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListEks(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsEksPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsEksPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListAks retrieves a list of AKS machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListAks(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsAksPoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsAksPoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
+
+// GetMachinesListGke retrieves a list of GKE machines from a machine pool.
+// Returns a map where key is the machine name and value is the machine UID.
+func (h *V1Client) GetMachinesListGke(configUID, machinePoolName string) (map[string]string, error) {
+	params := clientv1.NewV1CloudConfigsGkePoolMachinesListParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithMachinePoolName(machinePoolName)
+	mpList, err := h.Client.V1CloudConfigsGkePoolMachinesList(params)
+	if err != nil {
+		return nil, err
+	}
+	machinesMap := make(map[string]string)
+	for _, machine := range mpList.Payload.Items {
+		if machine.Metadata != nil && machine.Metadata.Name != "" {
+			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
+		}
+	}
+	return machinesMap, nil
+}
