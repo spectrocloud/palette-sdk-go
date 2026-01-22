@@ -72,6 +72,17 @@ func (h *V1Client) ImportClusterAzure(meta *models.V1ObjectMetaInputEntity) (str
 	return *resp.Payload.UID, nil
 }
 
+// ImportSpectroClusterAzure performs a POST operation to import an Azure cluster.
+func (h *V1Client) ImportSpectroClusterAzure(entity *models.V1SpectroAzureClusterImportEntity) (string, error) {
+	params := clientv1.NewV1SpectroClustersAzureImportParamsWithContext(h.ctx).
+		WithBody(entity)
+	resp, err := h.Client.V1SpectroClustersAzureImport(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // GetNodeStatusMapAzure retrieves the status of all nodes in an Azure IaaS machine pool.
 func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).
