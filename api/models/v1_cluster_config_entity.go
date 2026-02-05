@@ -27,6 +27,9 @@ type V1ClusterConfigEntity struct {
 	// host cluster config
 	HostClusterConfig *V1HostClusterConfig `json:"hostClusterConfig,omitempty"`
 
+	// hyper shift config
+	HyperShiftConfig *V1HyperShiftConfig `json:"hyperShiftConfig,omitempty"`
+
 	// lifecycle config
 	LifecycleConfig *V1LifecycleConfig `json:"lifecycleConfig,omitempty"`
 
@@ -51,6 +54,10 @@ func (m *V1ClusterConfigEntity) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateHostClusterConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHyperShiftConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -87,6 +94,25 @@ func (m *V1ClusterConfigEntity) validateHostClusterConfig(formats strfmt.Registr
 				return ve.ValidateName("hostClusterConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hostClusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterConfigEntity) validateHyperShiftConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.HyperShiftConfig) { // not required
+		return nil
+	}
+
+	if m.HyperShiftConfig != nil {
+		if err := m.HyperShiftConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hyperShiftConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hyperShiftConfig")
 			}
 			return err
 		}
@@ -179,6 +205,10 @@ func (m *V1ClusterConfigEntity) ContextValidate(ctx context.Context, formats str
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateHyperShiftConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateLifecycleConfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -214,6 +244,27 @@ func (m *V1ClusterConfigEntity) contextValidateHostClusterConfig(ctx context.Con
 				return ve.ValidateName("hostClusterConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hostClusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterConfigEntity) contextValidateHyperShiftConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HyperShiftConfig != nil {
+
+		if swag.IsZero(m.HyperShiftConfig) { // not required
+			return nil
+		}
+
+		if err := m.HyperShiftConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hyperShiftConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hyperShiftConfig")
 			}
 			return err
 		}

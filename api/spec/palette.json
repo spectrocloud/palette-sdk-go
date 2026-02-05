@@ -9142,6 +9142,24 @@
         }
       }
     },
+    "/v1/clouds/aws/apiEndpoints": {
+      "get": {
+        "description": "Retrieves all AWS partition endpoint configurations.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get AWS API endpoints configuration",
+        "operationId": "V1CloudsAwsApiEndpointsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AwsApiEndpointsConfig"
+            }
+          }
+        }
+      }
+    },
     "/v1/clouds/aws/cloudwatch/validate": {
       "post": {
         "description": "Validates aws cloud watch credentials",
@@ -15010,7 +15028,8 @@
           {
             "enum": [
               "hostclusters",
-              "strictHostclusters"
+              "strictHostclusters",
+              "hypershiftClusters"
             ],
             "type": "string",
             "name": "quickFilter",
@@ -22405,6 +22424,41 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/v1SpectroClusterProfileList"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/clusterTemplates/{uid}/validate/repave": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates if cluster template profile update triggers repave",
+        "operationId": "V1SpectroClustersClusterTemplatesUIDValidateRepave",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplateRepaveValidationSpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cluster template repave validation response",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterRepaveValidationResponse"
             }
           }
         }
@@ -33778,6 +33832,19 @@
         }
       }
     },
+    "v1AwsApiEndpointsConfig": {
+      "description": "AWS API endpoints configuration containing all partition settings",
+      "type": "object",
+      "properties": {
+        "partitions": {
+          "description": "Map of partition name to AWS endpoint configuration",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1AwsPartitionEndpoints"
+          }
+        }
+      }
+    },
     "v1AwsAvailabilityZone": {
       "description": "Distinct locations within an AWS Region that are engineered to be isolated from failures in other Zones",
       "type": "object",
@@ -34656,6 +34723,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "spotMarketOptions": {
           "description": "SpotMarketOptions allows users to configure instances to be run using AWS Spot instances.",
           "$ref": "#/definitions/v1SpotMarketOptions"
@@ -34800,6 +34877,16 @@
         "aws",
         "aws-us-gov"
       ]
+    },
+    "v1AwsPartitionEndpoints": {
+      "description": "AWS partition endpoint configuration",
+      "type": "object",
+      "properties": {
+        "credentialsEndpoint": {
+          "description": "Credentials URL for obtaining temporary AWS credentials",
+          "type": "string"
+        }
+      }
     },
     "v1AwsPodIdentityCredentials": {
       "description": "AWS EKS Pod Identity credentials for role assumption",
@@ -38135,6 +38222,10 @@
           "description": "HybridClusterConfiguration defines the configuration of hybrid clusters and clusters deployed through hybrid clusters",
           "$ref": "#/definitions/v1HybridClusterConfig"
         },
+        "hyperShiftConfig": {
+          "description": "HyperShiftConfig defines the configuration for hypershift clusters",
+          "$ref": "#/definitions/v1HyperShiftConfig"
+        },
         "lifecycleConfig": {
           "$ref": "#/definitions/v1LifecycleConfig"
         },
@@ -38168,6 +38259,9 @@
         },
         "hostClusterConfig": {
           "$ref": "#/definitions/v1HostClusterConfig"
+        },
+        "hyperShiftConfig": {
+          "$ref": "#/definitions/v1HyperShiftConfig"
         },
         "lifecycleConfig": {
           "$ref": "#/definitions/v1LifecycleConfig"
@@ -38256,6 +38350,14 @@
           }
         }
       }
+    },
+    "v1ClusterDeploymentType": {
+      "description": "Defines the deployment type for HyperShift-enabled clusters.\n- 'hypershift': Indicates a HyperShift management cluster that hosts control planes for other clusters.\n- 'openshift': Indicates an OpenShift cluster whose control plane is hosted on a HyperShift management cluster.",
+      "type": "string",
+      "enum": [
+        "hypershift",
+        "openshift"
+      ]
     },
     "v1ClusterEdgeInstallerConfig": {
       "properties": {
@@ -40840,6 +40942,33 @@
         "uid": {
           "description": "Uid of the cluster template from which the cluster is created. When a cluster is launched using a template, the packs configuration is automatically derived from the template and does not need to be set manually.",
           "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateRepaveProfile": {
+      "description": "Cluster template profile reference for repave validation",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "description": "Cluster profile uid",
+          "type": "string"
+        }
+      }
+    },
+    "v1ClusterTemplateRepaveValidationSpec": {
+      "description": "Cluster template repave validation request spec",
+      "type": "object",
+      "properties": {
+        "isUpgradeNow": {
+          "description": "If true, validates repave for immediate upgrade, otherwise for scheduled upgrade",
+          "type": "boolean"
+        },
+        "profiles": {
+          "description": "List of cluster profile UIDs to validate for repave",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateRepaveProfile"
+          }
         }
       }
     },
@@ -46785,6 +46914,19 @@
         }
       }
     },
+    "v1HyperShiftConfig": {
+      "description": "HyperShiftConfig defines the configuration for HyperShift and OpenShift clusters.\nThis configuration is only applicable to MaaS clusters.\n",
+      "type": "object",
+      "properties": {
+        "clusterDeploymentType": {
+          "$ref": "#/definitions/v1ClusterDeploymentType"
+        },
+        "hostClusterUid": {
+          "description": "The UID of the host HyperShift cluster.\nThis field is required only when clusterDeploymentType is set to 'openshift'.\nMust reference a valid HyperShift cluster.\n",
+          "type": "string"
+        }
+      }
+    },
     "v1IPPool": {
       "description": "IPPool defines static IPs available. Gateway, Prefix, Nameserver, if defined, will be default values for all Pools",
       "type": "object",
@@ -48936,6 +49078,16 @@
           "description": "Size of the pool, number of nodes/machines",
           "type": "integer",
           "format": "int32"
+        },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
         },
         "taints": {
           "description": "control plane or worker taints",
@@ -62186,11 +62338,13 @@
       "properties": {
         "persistent": {
           "description": "If set to true, Persistent will persist the EFI NVRAM across reboots. Defaults to false",
-          "type": "boolean"
+          "type": "boolean",
+          "x-nullable": true
         },
         "secureBoot": {
           "description": "If set, SecureBoot will be enabled and the OVMF roms will be swapped for SecureBoot-enabled ones. Requires SMM to be enabled. Defaults to true",
-          "type": "boolean"
+          "type": "boolean",
+          "x-nullable": true
         }
       }
     },

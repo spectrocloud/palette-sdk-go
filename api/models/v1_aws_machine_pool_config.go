@@ -86,6 +86,13 @@ type V1AwsMachinePoolConfig struct {
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
 
+	// Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.
+	// - enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is >3 minor versions behind
+	// - disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)
+	//
+	// Enum: ["enabled","disabled"]
+	SkipK8sUpgrade *string `json:"skipK8sUpgrade,omitempty"`
+
 	// SpotMarketOptions allows users to configure instances to be run using AWS Spot instances.
 	SpotMarketOptions *V1SpotMarketOptions `json:"spotMarketOptions,omitempty"`
 
@@ -124,6 +131,10 @@ func (m *V1AwsMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateMachinePoolProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSkipK8sUpgrade(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -255,6 +266,48 @@ func (m *V1AwsMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Re
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1AwsMachinePoolConfigTypeSkipK8sUpgradePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1AwsMachinePoolConfigTypeSkipK8sUpgradePropEnum = append(v1AwsMachinePoolConfigTypeSkipK8sUpgradePropEnum, v)
+	}
+}
+
+const (
+
+	// V1AwsMachinePoolConfigSkipK8sUpgradeEnabled captures enum value "enabled"
+	V1AwsMachinePoolConfigSkipK8sUpgradeEnabled string = "enabled"
+
+	// V1AwsMachinePoolConfigSkipK8sUpgradeDisabled captures enum value "disabled"
+	V1AwsMachinePoolConfigSkipK8sUpgradeDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1AwsMachinePoolConfig) validateSkipK8sUpgradeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1AwsMachinePoolConfigTypeSkipK8sUpgradePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1AwsMachinePoolConfig) validateSkipK8sUpgrade(formats strfmt.Registry) error {
+	if swag.IsZero(m.SkipK8sUpgrade) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSkipK8sUpgradeEnum("skipK8sUpgrade", "body", *m.SkipK8sUpgrade); err != nil {
+		return err
 	}
 
 	return nil

@@ -37,6 +37,9 @@ type V1ClusterConfig struct {
 	// HybridClusterConfiguration defines the configuration of hybrid clusters and clusters deployed through hybrid clusters
 	HybridClusterConfig *V1HybridClusterConfig `json:"hybridClusterConfig,omitempty"`
 
+	// HyperShiftConfig defines the configuration for hypershift clusters
+	HyperShiftConfig *V1HyperShiftConfig `json:"hyperShiftConfig,omitempty"`
+
 	// lifecycle config
 	LifecycleConfig *V1LifecycleConfig `json:"lifecycleConfig,omitempty"`
 
@@ -70,6 +73,10 @@ func (m *V1ClusterConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHybridClusterConfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateHyperShiftConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -174,6 +181,25 @@ func (m *V1ClusterConfig) validateHybridClusterConfig(formats strfmt.Registry) e
 	return nil
 }
 
+func (m *V1ClusterConfig) validateHyperShiftConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.HyperShiftConfig) { // not required
+		return nil
+	}
+
+	if m.HyperShiftConfig != nil {
+		if err := m.HyperShiftConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hyperShiftConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hyperShiftConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1ClusterConfig) validateLifecycleConfig(formats strfmt.Registry) error {
 	if swag.IsZero(m.LifecycleConfig) { // not required
 		return nil
@@ -248,6 +274,10 @@ func (m *V1ClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Re
 	}
 
 	if err := m.contextValidateHybridClusterConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateHyperShiftConfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -349,6 +379,27 @@ func (m *V1ClusterConfig) contextValidateHybridClusterConfig(ctx context.Context
 				return ve.ValidateName("hybridClusterConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hybridClusterConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterConfig) contextValidateHyperShiftConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.HyperShiftConfig != nil {
+
+		if swag.IsZero(m.HyperShiftConfig) { // not required
+			return nil
+		}
+
+		if err := m.HyperShiftConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("hyperShiftConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("hyperShiftConfig")
 			}
 			return err
 		}
