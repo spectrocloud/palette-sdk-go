@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -64,6 +65,13 @@ type V1MachinePoolConfigEntity struct {
 	// Required: true
 	Size *int32 `json:"size"`
 
+	// Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.
+	// - enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is >3 minor versions behind
+	// - disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)
+	//
+	// Enum: ["enabled","disabled"]
+	SkipK8sUpgrade *string `json:"skipK8sUpgrade,omitempty"`
+
 	// control plane or worker taints
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
@@ -92,6 +100,10 @@ func (m *V1MachinePoolConfigEntity) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateSize(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSkipK8sUpgrade(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -149,6 +161,48 @@ func (m *V1MachinePoolConfigEntity) validateName(formats strfmt.Registry) error 
 func (m *V1MachinePoolConfigEntity) validateSize(formats strfmt.Registry) error {
 
 	if err := validate.Required("size", "body", m.Size); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var v1MachinePoolConfigEntityTypeSkipK8sUpgradePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1MachinePoolConfigEntityTypeSkipK8sUpgradePropEnum = append(v1MachinePoolConfigEntityTypeSkipK8sUpgradePropEnum, v)
+	}
+}
+
+const (
+
+	// V1MachinePoolConfigEntitySkipK8sUpgradeEnabled captures enum value "enabled"
+	V1MachinePoolConfigEntitySkipK8sUpgradeEnabled string = "enabled"
+
+	// V1MachinePoolConfigEntitySkipK8sUpgradeDisabled captures enum value "disabled"
+	V1MachinePoolConfigEntitySkipK8sUpgradeDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1MachinePoolConfigEntity) validateSkipK8sUpgradeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1MachinePoolConfigEntityTypeSkipK8sUpgradePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1MachinePoolConfigEntity) validateSkipK8sUpgrade(formats strfmt.Registry) error {
+	if swag.IsZero(m.SkipK8sUpgrade) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSkipK8sUpgradeEnum("skipK8sUpgrade", "body", *m.SkipK8sUpgrade); err != nil {
 		return err
 	}
 
