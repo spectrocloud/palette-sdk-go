@@ -238,6 +238,17 @@ func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) 
 	return resp.Payload, nil
 }
 
+// GetOciEcrRegistrySyncStatus retrieves the sync status of an ECR OCI registry by UID.
+func (h *V1Client) GetOciEcrRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1EcrRegistriesUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1EcrRegistriesUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // CreateOciEcrRegistry creates a new ECR OCI registry.
 func (h *V1Client) CreateOciEcrRegistry(registry *models.V1EcrRegistry) (string, error) {
 	params := clientv1.NewV1EcrRegistriesCreateParamsWithContext(h.ctx).
