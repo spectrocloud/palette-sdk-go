@@ -227,6 +227,17 @@ func (h *V1Client) GetOciBasicRegistrySyncStatus(uid string) (*models.V1Registry
 	return resp.Payload, nil
 }
 
+// GetPackRegistrySyncStatus retrieves the sync status of a Pack registry by UID.
+func (h *V1Client) GetPackRegistrySyncStatus(uid string) (*models.V1RegistrySyncStatus, error) {
+	params := clientv1.NewV1RegistriesPackUIDSyncStatusParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1RegistriesPackUIDSyncStatus(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // GetOciEcrRegistry retrieves an existing ECR OCI registry by UID.
 func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) {
 	params := clientv1.NewV1EcrRegistriesUIDGetParamsWithContext(h.ctx).
