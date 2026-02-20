@@ -10,3 +10,5 @@ api/hapi
 # Lint/test output
 golangci-report.xml
 profile.cov
+
+.DS_Store
