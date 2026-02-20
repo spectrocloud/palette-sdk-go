@@ -355,5 +355,8 @@ func (h *V1Client) ValidateClusterProfileImport(clusterProfile *models.V1Cluster
 	params := clientv1.NewV1ClusterProfilesImportValidateParamsWithContext(h.ctx).
 		WithBody(clusterProfile)
 	resp, err := h.Client.V1ClusterProfilesImportValidate(params)
-	return resp.GetPayload(), err
+	if err != nil {
+		return nil, err
+	}
+	return resp.GetPayload(), nil
 }
