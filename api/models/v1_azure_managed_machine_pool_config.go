@@ -21,6 +21,9 @@ type V1AzureManagedMachinePoolConfig struct {
 	// whether this pool is for system node Pool
 	IsSystemNodePool bool `json:"isSystemNodePool"`
 
+	// os sku
+	OsSku *V1OsSku `json:"osSku,omitempty"`
+
 	// os type
 	OsType *V1OsType `json:"osType,omitempty"`
 }
@@ -29,6 +32,10 @@ type V1AzureManagedMachinePoolConfig struct {
 func (m *V1AzureManagedMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateOsSku(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOsType(formats); err != nil {
 		res = append(res, err)
 	}
@@ -36,6 +43,25 @@ func (m *V1AzureManagedMachinePoolConfig) Validate(formats strfmt.Registry) erro
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1AzureManagedMachinePoolConfig) validateOsSku(formats strfmt.Registry) error {
+	if swag.IsZero(m.OsSku) { // not required
+		return nil
+	}
+
+	if m.OsSku != nil {
+		if err := m.OsSku.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osSku")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osSku")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -62,6 +88,10 @@ func (m *V1AzureManagedMachinePoolConfig) validateOsType(formats strfmt.Registry
 func (m *V1AzureManagedMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateOsSku(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateOsType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -69,6 +99,27 @@ func (m *V1AzureManagedMachinePoolConfig) ContextValidate(ctx context.Context, f
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1AzureManagedMachinePoolConfig) contextValidateOsSku(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OsSku != nil {
+
+		if swag.IsZero(m.OsSku) { // not required
+			return nil
+		}
+
+		if err := m.OsSku.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osSku")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osSku")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
