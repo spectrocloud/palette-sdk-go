@@ -33,8 +33,17 @@ const (
 	// V1OsSkuUbuntu captures enum value "Ubuntu"
 	V1OsSkuUbuntu V1OsSku = "Ubuntu"
 
+	// V1OsSkuUbuntu2204 captures enum value "Ubuntu2204"
+	V1OsSkuUbuntu2204 V1OsSku = "Ubuntu2204"
+
+	// V1OsSkuUbuntu2404 captures enum value "Ubuntu2404"
+	V1OsSkuUbuntu2404 V1OsSku = "Ubuntu2404"
+
 	// V1OsSkuAzureLinux captures enum value "AzureLinux"
 	V1OsSkuAzureLinux V1OsSku = "AzureLinux"
+
+	// V1OsSkuAzureLinux3 captures enum value "AzureLinux3"
+	V1OsSkuAzureLinux3 V1OsSku = "AzureLinux3"
 
 	// V1OsSkuCBLMariner captures enum value "CBLMariner"
 	V1OsSkuCBLMariner V1OsSku = "CBLMariner"
@@ -51,7 +60,7 @@ var v1OsSkuEnum []interface{}
 
 func init() {
 	var res []V1OsSku
-	if err := json.Unmarshal([]byte(`["Ubuntu","AzureLinux","CBLMariner","Windows2019","Windows2022"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["Ubuntu","Ubuntu2204","Ubuntu2404","AzureLinux","AzureLinux3","CBLMariner","Windows2019","Windows2022"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
