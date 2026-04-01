@@ -40,6 +40,9 @@ type V1AzureMachineSpec struct {
 	// Required: true
 	Location *string `json:"location"`
 
+	// machine metadata
+	MachineMetadata *V1MachineMetadata `json:"machineMetadata,omitempty"`
+
 	// nics
 	Nics []*V1AzureNic `json:"nics"`
 
@@ -68,6 +71,10 @@ func (m *V1AzureMachineSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateLocation(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMachineMetadata(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -141,6 +148,25 @@ func (m *V1AzureMachineSpec) validateLocation(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1AzureMachineSpec) validateMachineMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.MachineMetadata) { // not required
+		return nil
+	}
+
+	if m.MachineMetadata != nil {
+		if err := m.MachineMetadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1AzureMachineSpec) validateNics(formats strfmt.Registry) error {
 	if swag.IsZero(m.Nics) { // not required
 		return nil
@@ -199,6 +225,10 @@ func (m *V1AzureMachineSpec) ContextValidate(ctx context.Context, formats strfmt
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateMachineMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNics(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -247,6 +277,27 @@ func (m *V1AzureMachineSpec) contextValidateImage(ctx context.Context, formats s
 				return ve.ValidateName("image")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("image")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachineSpec) contextValidateMachineMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachineMetadata != nil {
+
+		if swag.IsZero(m.MachineMetadata) { // not required
+			return nil
+		}
+
+		if err := m.MachineMetadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
 			}
 			return err
 		}

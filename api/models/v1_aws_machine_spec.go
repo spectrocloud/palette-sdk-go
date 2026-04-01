@@ -40,6 +40,9 @@ type V1AwsMachineSpec struct {
 	// Required: true
 	InstanceType *string `json:"instanceType"`
 
+	// machine metadata
+	MachineMetadata *V1MachineMetadata `json:"machineMetadata,omitempty"`
+
 	// nics
 	Nics []*V1AwsNic `json:"nics"`
 
@@ -73,6 +76,10 @@ func (m *V1AwsMachineSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInstanceType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMachineMetadata(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -134,6 +141,25 @@ func (m *V1AwsMachineSpec) validateInstanceType(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1AwsMachineSpec) validateMachineMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.MachineMetadata) { // not required
+		return nil
+	}
+
+	if m.MachineMetadata != nil {
+		if err := m.MachineMetadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1AwsMachineSpec) validateNics(formats strfmt.Registry) error {
 	if swag.IsZero(m.Nics) { // not required
 		return nil
@@ -177,6 +203,10 @@ func (m *V1AwsMachineSpec) ContextValidate(ctx context.Context, formats strfmt.R
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateMachineMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateNics(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -207,6 +237,27 @@ func (m *V1AwsMachineSpec) contextValidateAdditionalSecurityGroups(ctx context.C
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1AwsMachineSpec) contextValidateMachineMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachineMetadata != nil {
+
+		if swag.IsZero(m.MachineMetadata) { // not required
+			return nil
+		}
+
+		if err := m.MachineMetadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
+			}
+			return err
+		}
 	}
 
 	return nil
