@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -19,15 +20,76 @@ type V1VirtualMachineSpec struct {
 
 	// hostname
 	Hostname string `json:"hostname,omitempty"`
+
+	// machine metadata
+	MachineMetadata *V1MachineMetadata `json:"machineMetadata,omitempty"`
 }
 
 // Validate validates this v1 virtual machine spec
 func (m *V1VirtualMachineSpec) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateMachineMetadata(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 virtual machine spec based on context it is used
+func (m *V1VirtualMachineSpec) validateMachineMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.MachineMetadata) { // not required
+		return nil
+	}
+
+	if m.MachineMetadata != nil {
+		if err := m.MachineMetadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 virtual machine spec based on the context it is used
 func (m *V1VirtualMachineSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateMachineMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VirtualMachineSpec) contextValidateMachineMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MachineMetadata != nil {
+
+		if swag.IsZero(m.MachineMetadata) { // not required
+			return nil
+		}
+
+		if err := m.MachineMetadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("machineMetadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("machineMetadata")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

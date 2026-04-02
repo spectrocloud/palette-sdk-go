@@ -21,7 +21,7 @@ import (
 // swagger:model v1EksMachineCloudConfigEntity
 type V1EksMachineCloudConfigEntity struct {
 
-	// ami type
+	// AMI type for the node pool. AL2 types (AL2_x86_64, AL2_x86_64_GPU) are deprecated and disabled for new node pools. Default is AL2023_x86_64_STANDARD.
 	AmiType string `json:"amiType,omitempty"`
 
 	// aws launch template

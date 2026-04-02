@@ -31,7 +31,7 @@ type V1EksMachinePoolConfig struct {
 	// AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole
 	AdditionalTags map[string]string `json:"additionalTags,omitempty"`
 
-	// ami type
+	// AMI type for the node pool. AL2 types (AL2_x86_64, AL2_x86_64_GPU) are deprecated and disabled for new node pools. Supported values: AL2023_x86_64_STANDARD, AL2023_x86_64_NEURON, AL2023_x86_64_NVIDIA
 	AmiType string `json:"amiType,omitempty"`
 
 	// aws launch template

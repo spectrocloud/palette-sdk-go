@@ -31375,11 +31375,6 @@ func (in *V1RateConfig) DeepCopyInto(out *V1RateConfig) {
 		*out = new(V1PrivateCloudRateConfig)
 		**out = **in
 	}
-	if in.Openstack != nil {
-		in, out := &in.Openstack, &out.Openstack
-		*out = new(V1PrivateCloudRateConfig)
-		**out = **in
-	}
 	if in.Vsphere != nil {
 		in, out := &in.Vsphere, &out.Vsphere
 		*out = new(V1PrivateCloudRateConfig)
