@@ -2036,6 +2036,12 @@
         "parameters": [
           {
             "type": "string",
+            "description": "Domain ID for which CloudStack SSH key pairs are requested",
+            "name": "domainId",
+            "in": "query"
+          },
+          {
+            "type": "string",
             "description": "Project ID for which CloudStack SSH key pairs are requested",
             "name": "projectId",
             "in": "query"
@@ -2232,14 +2238,14 @@
         "parameters": [
           {
             "type": "string",
-            "description": "Project ID for which CloudStack VPCs are requested",
-            "name": "projectId",
+            "description": "Zone ID for which CloudStack VPCs are requested",
+            "name": "zoneId",
             "in": "query"
           },
           {
             "type": "string",
-            "description": "Domain ID for which CloudStack VPCs are requested",
-            "name": "domainId",
+            "description": "Project ID for which CloudStack VPCs are requested",
+            "name": "projectId",
             "in": "query"
           }
         ],
@@ -3185,372 +3191,6 @@
             "description": "(empty)",
             "schema": {
               "$ref": "#/definitions/v1MaasTags"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of OpenStack cloud accounts",
-        "operationId": "v1CloudAccountsOpenStackList",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
-            "name": "fields",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
-            "name": "filters",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
-            "name": "orderBy",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "default": 50,
-            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
-            "name": "limit",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
-            "name": "offset",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "continue token to paginate the subsequent data items",
-            "name": "continue",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of cloud account items",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAccounts"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates a OpenStack cloud account",
-        "operationId": "v1CloudAccountsOpenStackCreate",
-        "parameters": [
-          {
-            "description": "Request payload to validate OpenStack cloud account",
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAccount"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/cloudaccounts/openstack/{uid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified OpenStack account",
-        "operationId": "v1CloudAccountsOpenStackGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAccount"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified OpenStack account",
-        "operationId": "v1CloudAccountsOpenStackUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAccount"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified OpenStack account",
-        "operationId": "v1CloudAccountsOpenStackDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "OpenStack cloud account uid",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/azs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack azs for a given account and region",
-        "operationId": "v1OpenstackAccountsUidAzs",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAzs"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/flavors": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack keypairs for a given account and scope",
-        "operationId": "v1OpenstackAccountsUidFlavors",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackFlavors"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/keypairs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack keypairs for a given account and scope",
-        "operationId": "v1OpenstackAccountsUidKeypairs",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackKeypairs"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/networks": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack networks for a given account and scope",
-        "operationId": "v1OpenstackAccountsUidNetworks",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackNetworks"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/projects": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack projects for a given account",
-        "operationId": "v1OpenstackAccountsUidProjects",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackProjects"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudaccounts/openstack/{uid}/properties/regions": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the openstack regions for a given account",
-        "operationId": "v1OpenstackAccountsUidRegions",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackRegions"
             }
           }
         }
@@ -7594,292 +7234,6 @@
         }
       ]
     },
-    "/v1/cloudconfigs/openstack/{configUid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified OpenStack cloud config",
-        "operationId": "v1CloudConfigsOpenStackGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackCloudConfig"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/openstack/{configUid}/clusterConfig": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the cluster configuration information",
-        "operationId": "v1CloudConfigsOpenStackUidClusterConfig",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackCloudClusterConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/openstack/{configUid}/machinePools": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates a OpenStack cloud config's machine pool",
-        "operationId": "v1CloudConfigsOpenStackMachinePoolCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified OpenStack cloud config's machine pool",
-        "operationId": "v1CloudConfigsOpenStackMachinePoolUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified machine pool",
-        "operationId": "v1CloudConfigsOpenStackMachinePoolDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of OpenStack machines",
-        "operationId": "v1CloudConfigsOpenStackPoolMachinesList",
-        "responses": {
-          "200": {
-            "description": "An array of OpenStack machine items",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachines"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Adds the OpenStack machine to cloud config's machine pool",
-        "operationId": "v1CloudConfigsOpenStackPoolMachinesAdd",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachine"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified OpenStack machine",
-        "operationId": "v1CloudConfigsOpenStackPoolMachinesUidGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachine"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified machine to cloud config's machine pool",
-        "operationId": "v1CloudConfigsOpenStackPoolMachinesUidUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackMachine"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified OpenStack machine",
-        "operationId": "v1CloudConfigsOpenStackPoolMachinesUidDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine pool name",
-          "name": "machinePoolName",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Machine uid",
-          "name": "machineUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/cloudconfigs/virtual/{configUid}": {
       "get": {
         "tags": [
@@ -8698,6 +8052,40 @@
         }
       ]
     },
+    "/v1/cloudconfigs/{configUid}/machines/health": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the health status of machines for the specified cloud config",
+        "operationId": "v1CloudConfigsUidMachinesHealthPatch",
+        "parameters": [
+          {
+            "description": "Machines health information containing the list of machine health states to update",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1MachinesHealthEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cloud config uid",
+          "name": "configUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/clouds/apache-cloudstack/account/validate": {
       "post": {
         "description": "Validates CloudStack account credentials and domain. Verifies API connectivity and that the specified domain exists. Returns no contents if account is valid else error.",
@@ -8804,6 +8192,12 @@
             "type": "string",
             "description": "Uid for the specific CloudStack cloud account",
             "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Domain ID for which CloudStack SSH key pairs are requested",
+            "name": "domainId",
             "in": "query"
           },
           {
@@ -8992,6 +8386,12 @@
             "type": "string",
             "description": "Uid for the specific CloudStack cloud account",
             "name": "cloudAccountUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Zone ID for which CloudStack VPCs are requested",
+            "name": "zoneId",
             "in": "query"
           },
           {
@@ -11986,260 +11386,6 @@
         }
       }
     },
-    "/v1/clouds/openstack/account/validate": {
-      "post": {
-        "description": "Returns no contents if account is valid else error.",
-        "tags": [
-          "v1"
-        ],
-        "summary": "Check if OpenStack account is valid",
-        "operationId": "V1OpenStackAccountValidate",
-        "parameters": [
-          {
-            "description": "Request payload for OpenStack cloud account",
-            "name": "openstackCloudAccount",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackCloudAccount"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Ok response without content",
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/azs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of OpenStack azs for a particular account uid",
-        "operationId": "V1OpenStackAzsGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "project for which OpenStack azs are requested",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "region for which OpenStack azs are requested",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "domain for which OpenStack azs are requested",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackAzs"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/flavors": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the OpenStack flavors",
-        "operationId": "V1OpenStackFlavorsGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "project for which OpenStack flavors are requested",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "region for which OpenStack flavors are requested",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "domain for which OpenStack flavors are requested",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackFlavors"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/keypairs": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the OpenStack keypair",
-        "operationId": "V1OpenStackKeypairsGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "project for which OpenStack keypairs are requested",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "region for which OpenStack keypairs are requested",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "domain for which OpenStack keypairs are requested",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackKeypairs"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/networks": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the OpenStack networks",
-        "operationId": "V1OpenStackNetworksGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "project for which OpenStack networks are requested",
-            "name": "project",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "region for which OpenStack networks are requested",
-            "name": "region",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "domain for which OpenStack networks are requested",
-            "name": "domain",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackNetworks"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/projects": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the OpenStack projects",
-        "operationId": "V1OpenStackProjectsGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackProjects"
-            }
-          }
-        }
-      }
-    },
-    "/v1/clouds/openstack/regions": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the OpenStack regions",
-        "operationId": "V1OpenStackRegionsGet",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
-            "name": "cloudAccountUid",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OpenStackRegions"
-            }
-          }
-        }
-      }
-    },
     "/v1/clouds/vsphere/account/validate": {
       "post": {
         "description": "Returns no contents if account is valid else error.",
@@ -12282,7 +11428,7 @@
         "parameters": [
           {
             "type": "string",
-            "description": "Uid for the specific OpenStack cloud account",
+            "description": "Uid for the specific cloud account",
             "name": "cloudAccountUid",
             "in": "query"
           }
@@ -13430,6 +12576,12 @@
           "type": "string",
           "description": "Filter cluster profiles by target resource type - 'spectrocluster' for profiles suitable to launch/update clusters, 'clustertemplate' for profiles suitable to create/edit cluster template",
           "name": "resourceType",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "description": "If true, includes pack annotations like OCI registry provider type and OCI pack archive URL",
+          "name": "includePackAnnotations",
           "in": "query"
         }
       ]
@@ -18466,219 +17618,6 @@
         }
       }
     },
-    "/v1/overlords/openstack/manifest": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the manifests required for the private gateway installation",
-        "operationId": "v1OverlordsOpenStackManifest",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1OverlordManifest"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "pairingCode",
-          "in": "query",
-          "required": true
-        }
-      ]
-    },
-    "/v1/overlords/openstack/{uid}/account": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "update the OpenStack cloudaccount for the private gateway",
-        "operationId": "v1OverlordsUidOpenStackAccountUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OverlordOpenStackAccountEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "create the OpenStack cloudaccount for the private gateway",
-        "operationId": "v1OverlordsUidOpenStackAccountCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OverlordOpenStackAccountCreate"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/overlords/openstack/{uid}/account/validate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "validate the OpenStack cloudaccount for the private gateway",
-        "operationId": "v1OverlordsUidOpenStackAccountValidate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "properties": {
-                "account": {
-                  "$ref": "#/definitions/v1OpenStackCloudAccount"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Ok response without content",
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/overlords/openstack/{uid}/cloudconfig": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "update the OpenStack cloud config for the private gateway",
-        "operationId": "v1OverlordsUidOpenStackCloudConfigUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OverlordOpenStackCloudConfig"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "create the OpenStack cloud config for the private gateway",
-        "operationId": "v1OverlordsUidOpenStackCloudConfigCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1OverlordOpenStackCloudConfig"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/overlords/openstack/{uid}/clusterprofile": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified OpenStack private gateway cluster profile",
-        "operationId": "v1OverlordsUidOpenStackClusterProfile",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1ClusterProfile"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/overlords/pairing/code": {
       "get": {
         "tags": [
@@ -18690,7 +17629,6 @@
           {
             "enum": [
               "vsphere",
-              "openstack",
               "maas",
               "apache-cloudstack"
             ],
@@ -23267,133 +22205,6 @@
         }
       }
     },
-    "/v1/spectroclusters/openstack": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates a OpenStack cluster",
-        "operationId": "v1SpectroClustersOpenStackCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroOpenStackClusterEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/spectroclusters/openstack/import": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Imports an OpenStack cluster",
-        "operationId": "v1SpectroClustersOpenStackImport",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroOpenStackClusterImportEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/spectroclusters/openstack/rate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get openstack cluster estimated rate information",
-        "operationId": "v1SpectroClustersOpenStackRate",
-        "parameters": [
-          {
-            "enum": [
-              "hourly",
-              "monthly",
-              "yearly"
-            ],
-            "type": "string",
-            "default": "hourly",
-            "name": "periodType",
-            "in": "query"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroOpenStackClusterRateEntity"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Openstack Cluster estimated rate response",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterRate"
-            }
-          }
-        }
-      }
-    },
-    "/v1/spectroclusters/openstack/validate": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Validates OpenStack cluster create operation",
-        "operationId": "v1SpectroClustersOpenStackValidate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroOpenStackClusterEntity"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "vSphere Cluster validation response",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterValidatorResponse"
-            }
-          }
-        }
-      }
-    },
     "/v1/spectroclusters/spc/download": {
       "post": {
         "produces": [
@@ -25892,6 +24703,42 @@
                 "type": "string",
                 "description": "Audit uid for the request"
               }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/manifests": {
+      "get": {
+        "description": "Returns a flat list of manifests from all cluster profiles and packs. When resolveValues is true, macros, variables, and template placeholders in manifest content are resolved.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns all manifests attached to the cluster",
+        "operationId": "v1SpectroClustersUidManifestsGet",
+        "parameters": [
+          {
+            "type": "boolean",
+            "default": false,
+            "description": "Resolve macros, variables, and template values in manifest content when true",
+            "name": "resolveValues",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterManifestsList"
             }
           }
         }
@@ -32065,8 +30912,7 @@
           "description": "AuthorizedIPRanges - Authorized IP Ranges to kubernetes API server.",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "enablePrivateCluster": {
@@ -34808,6 +33654,9 @@
         "instanceType": {
           "type": "string"
         },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
+        },
         "nics": {
           "type": "array",
           "items": {
@@ -34885,6 +33734,17 @@
         "credentialsEndpoint": {
           "description": "Credentials URL for obtaining temporary AWS credentials",
           "type": "string"
+        },
+        "description": {
+          "description": "Description of the AWS partition",
+          "type": "string"
+        },
+        "regions": {
+          "description": "Map of region name to region endpoint configuration",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1AwsRegionEndpoints"
+          }
         }
       }
     },
@@ -34950,6 +33810,23 @@
         "optInStatus": {
           "description": "Enable your account to operate in the particular regions",
           "type": "string"
+        }
+      }
+    },
+    "v1AwsRegionEndpoints": {
+      "description": "AWS region endpoint configuration containing DNS suffix and service endpoints",
+      "type": "object",
+      "properties": {
+        "dnsSuffix": {
+          "description": "DNS suffix for the region (e.g., sc2s.sgov.gov)",
+          "type": "string"
+        },
+        "services": {
+          "description": "Map of service name to service endpoint configuration",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1AwsServiceEndpoint"
+          }
         }
       }
     },
@@ -35169,6 +34046,20 @@
           "type": "string"
         },
         "ownerId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1AwsServiceEndpoint": {
+      "description": "AWS service endpoint configuration",
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "description": "The service endpoint URL",
+          "type": "string"
+        },
+        "endpointFips": {
+          "description": "The FIPS-compliant service endpoint URL",
           "type": "string"
         }
       }
@@ -35871,6 +34762,9 @@
         },
         "location": {
           "type": "string"
+        },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
         },
         "nics": {
           "type": "array",
@@ -37340,6 +36234,9 @@
           "description": "Instance service offering with cpu and memory info",
           "$ref": "#/definitions/v1GenericInstanceType"
         },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
+        },
         "nics": {
           "type": "array",
           "items": {
@@ -37820,7 +36717,6 @@
         "azure",
         "gcp",
         "vsphere",
-        "openstack",
         "maas",
         "nested",
         "baremetal",
@@ -39058,6 +37954,19 @@
         "isUpdatesPending": {
           "type": "boolean",
           "x-omitempty": false
+        }
+      }
+    },
+    "v1ClusterMigrationConfig": {
+      "description": "Migration configuration for converting existing cluster to new cloud type",
+      "type": "object",
+      "required": [
+        "clusterUid"
+      ],
+      "properties": {
+        "clusterUid": {
+          "description": "UID of the source Custom CloudStack (CAPI Manager) cluster to migrate.\n",
+          "type": "string"
         }
       }
     },
@@ -42833,6 +41742,9 @@
         "instanceType": {
           "$ref": "#/definitions/v1CustomInstanceType"
         },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
+        },
         "nics": {
           "type": "array",
           "items": {
@@ -43989,8 +42901,7 @@
           "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "overlayNetworkConfiguration": {
@@ -44001,8 +42912,7 @@
           "description": "SSHKeys specifies a list of ssh authorized keys to access the vms as a 'spectro' user",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "staticIp": {
@@ -44054,18 +42964,15 @@
         },
         "hostAddress": {
           "description": "HostAddress is a FQDN or IP address of the Host",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "hostName": {
           "description": "Qualified name of host",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "hostUid": {
           "description": "HostUid is the ID of the EdgeHost",
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "nic": {
           "description": "Edge native nic",
@@ -44101,16 +43008,14 @@
           "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "sshKeys": {
           "description": "SSHKeys specifies a list of ssh authorized keys to access the vms as a 'spectro' user",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         }
       }
@@ -44264,16 +43169,14 @@
           "description": "AdditionalLabels",
           "type": "object",
           "additionalProperties": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "additionalTags": {
           "description": "AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole",
           "type": "object",
           "additionalProperties": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "hosts": {
@@ -44290,8 +43193,7 @@
           "description": "labels for this pool, example: control-plane/worker, gpu, windows",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         },
         "machinePoolProperties": {
@@ -44400,6 +43302,9 @@
         },
         "instanceType": {
           "$ref": "#/definitions/v1EdgeNativeInstanceType"
+        },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
         },
         "nics": {
           "type": "array",
@@ -44762,7 +43667,7 @@
     "v1EksMachineCloudConfigEntity": {
       "properties": {
         "amiType": {
-          "description": "ami type",
+          "description": "AMI type for the node pool. AL2 types (AL2_x86_64, AL2_x86_64_GPU) are deprecated and disabled for new node pools. Default is AL2023_x86_64_STANDARD.",
           "type": "string"
         },
         "awsLaunchTemplate": {
@@ -44839,7 +43744,7 @@
           }
         },
         "amiType": {
-          "description": "ami type",
+          "description": "AMI type for the node pool. AL2 types (AL2_x86_64, AL2_x86_64_GPU) are deprecated and disabled for new node pools. Supported values: AL2023_x86_64_STANDARD, AL2023_x86_64_NEURON, AL2023_x86_64_NVIDIA",
           "type": "string"
         },
         "awsLaunchTemplate": {
@@ -45915,6 +44820,9 @@
         "instanceType": {
           "type": "string"
         },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
+        },
         "nics": {
           "type": "array",
           "items": {
@@ -46322,6 +45230,9 @@
         },
         "instanceType": {
           "$ref": "#/definitions/v1GenericInstanceType"
+        },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
         },
         "nics": {
           "type": "array",
@@ -48124,8 +47035,7 @@
           "description": "list of preferred subnets order in the list reflects order in which subnets will be selected for ip address selection in apiserver dns endpoint this way user can specify external or preferable subnet \"10.11.130.0/24,10.10.10.0/24\"",
           "type": "array",
           "items": {
-            "type": "string",
-            "default": ""
+            "type": "string"
           }
         }
       }
@@ -48539,6 +47449,9 @@
         "hostname": {
           "type": "string"
         },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
+        },
         "nics": {
           "type": "array",
           "items": {
@@ -48883,6 +47796,36 @@
         }
       }
     },
+    "v1MachineHealthEntity": {
+      "description": "Machine health information for a single machine",
+      "type": "object",
+      "properties": {
+        "diskPressure": {
+          "description": "Disk pressure condition state indicating if the machine is under disk pressure",
+          "$ref": "#/definitions/v1MachineHealthCondition"
+        },
+        "memoryPressure": {
+          "description": "Memory pressure condition state indicating if the machine is under memory pressure",
+          "$ref": "#/definitions/v1MachineHealthCondition"
+        },
+        "networkUnavailable": {
+          "description": "Network unavailable condition state indicating if the machine network is unavailable",
+          "$ref": "#/definitions/v1MachineHealthCondition"
+        },
+        "pidPressure": {
+          "description": "PID pressure condition state indicating if the machine is under process ID pressure",
+          "$ref": "#/definitions/v1MachineHealthCondition"
+        },
+        "ready": {
+          "description": "Ready condition state indicating if the machine is ready to accept workloads",
+          "$ref": "#/definitions/v1MachineHealthCondition"
+        },
+        "uid": {
+          "description": "Machine unique identifier",
+          "type": "string"
+        }
+      }
+    },
     "v1MachineMaintenance": {
       "type": "object",
       "properties": {
@@ -48917,6 +47860,16 @@
         "osPatchConfig": {
           "description": "OS patch config contains properties to patch node os with latest security packages. \nIf OsPatchConfig is not provided then node os will not be patched with latest security updates.\nNote: For edge based cluster (like edge-native type) the osPatchConfig is NOT applicable, the values will be ignored.\n",
           "$ref": "#/definitions/v1OsPatchConfig"
+        }
+      }
+    },
+    "v1MachineMetadata": {
+      "description": "Machine metadata that holds information about the actual machine/node as reported by the cloud provider or orchestrator.",
+      "type": "object",
+      "properties": {
+        "creationTimestamp": {
+          "description": "The actual creation timestamp of the node as reported by the cloud provider or orchestrator. This is used to calculate the node age.",
+          "$ref": "#/definitions/v1Time"
         }
       }
     },
@@ -49193,6 +48146,19 @@
           "type": "array",
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "v1MachinesHealthEntity": {
+      "description": "Machine health information for a list of machines",
+      "type": "object",
+      "properties": {
+        "machines": {
+          "description": "List of machine health information for each machine in the cluster",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MachineHealthEntity"
           }
         }
       }
@@ -50137,773 +49103,6 @@
         }
       }
     },
-    "v1OpenStackAccount": {
-      "description": "OpenStack account information",
-      "type": "object",
-      "properties": {
-        "apiVersion": {
-          "description": "Cloud account api version",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Cloud account kind",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1OpenStackCloudAccount"
-        },
-        "status": {
-          "$ref": "#/definitions/v1CloudAccountStatus"
-        }
-      }
-    },
-    "v1OpenStackAccounts": {
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackAccount"
-          }
-        },
-        "listmeta": {
-          "$ref": "#/definitions/v1ListMetaData"
-        }
-      }
-    },
-    "v1OpenStackAz": {
-      "description": "OpenStack az entity",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Name of OpenStack az",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackAzs": {
-      "description": "List of OpenStack azs",
-      "type": "object",
-      "required": [
-        "azs"
-      ],
-      "properties": {
-        "azs": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackAz"
-          }
-        }
-      }
-    },
-    "v1OpenStackCloudAccount": {
-      "description": "auth-url,project,username,password,domain,cacert etc",
-      "type": "object",
-      "required": [
-        "identityEndpoint",
-        "username",
-        "password"
-      ],
-      "properties": {
-        "caCert": {
-          "description": "Ca cert for OpenStack",
-          "type": "string"
-        },
-        "defaultDomain": {
-          "description": "Default Domain name",
-          "type": "string"
-        },
-        "defaultProject": {
-          "description": "Default Project name",
-          "type": "string"
-        },
-        "identityEndpoint": {
-          "description": "Identity endpoint for OpenStack",
-          "type": "string"
-        },
-        "insecure": {
-          "description": "For self signed certs in IdentityEndpoint",
-          "type": "boolean"
-        },
-        "parentRegion": {
-          "description": "Parent region of OpenStack",
-          "type": "string"
-        },
-        "password": {
-          "description": "Password of OpenStack account",
-          "type": "string"
-        },
-        "username": {
-          "description": "Username of OpenStack account",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackCloudClusterConfigEntity": {
-      "description": "Openstack cloud cluster config entity",
-      "type": "object",
-      "properties": {
-        "clusterConfig": {
-          "$ref": "#/definitions/v1OpenStackClusterConfig"
-        }
-      }
-    },
-    "v1OpenStackCloudConfig": {
-      "description": "OpenStackCloudConfig is the Schema for the OpenStackcloudconfigs API",
-      "type": "object",
-      "properties": {
-        "apiVersion": {
-          "description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-          "type": "string"
-        },
-        "kind": {
-          "description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1OpenStackCloudConfigSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/v1OpenStackCloudConfigStatus"
-        }
-      }
-    },
-    "v1OpenStackCloudConfigSpec": {
-      "description": "OpenStackCloudConfigSpec defines the cloud configuration input by user This will translate to clusterspec/machinespec for cluster-api",
-      "type": "object",
-      "properties": {
-        "cloudAccountRef": {
-          "description": "cloudAccountRef should point to the secret which contains OpenStackCloudAccount",
-          "$ref": "#/definitions/v1ObjectReference"
-        },
-        "clusterConfig": {
-          "$ref": "#/definitions/v1OpenStackClusterConfig"
-        },
-        "machinePoolConfig": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1OpenStackMachinePoolConfig"
-          }
-        }
-      }
-    },
-    "v1OpenStackCloudConfigStatus": {
-      "description": "OpenStackCloudConfigStatus defines the observed state of OpenStackCloudConfig The cloudimage info built by Mold is stored here image should be mapped to a specific machinepool",
-      "type": "object",
-      "properties": {
-        "conditions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ClusterCondition"
-          }
-        },
-        "nodeImage": {
-          "type": "string"
-        },
-        "sourceImageId": {
-          "description": "sourceImageId, it can be from packref's annotations or from pack.json",
-          "type": "string"
-        },
-        "useCapiImage": {
-          "type": "boolean"
-        }
-      }
-    },
-    "v1OpenStackClusterConfig": {
-      "description": "Cluster level configuration for OpenStack cloud and applicable for all the machine pools",
-      "type": "object",
-      "properties": {
-        "bastionDisabled": {
-          "description": "Create bastion node option we have earlier supported creation of bastion by default",
-          "type": "boolean"
-        },
-        "dnsNameservers": {
-          "description": "DNSNameservers is the list of nameservers for OpenStack Subnet being created. Set this value when you need create a new network/subnet while the access through DNS is required.",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "domain": {
-          "$ref": "#/definitions/v1OpenStackResource"
-        },
-        "network": {
-          "description": "For static placement",
-          "$ref": "#/definitions/v1OpenStackResource"
-        },
-        "nodeCidr": {
-          "description": "For dynamic provision NodeCIDR is the OpenStack Subnet to be created. Cluster actuator will create a network, a subnet with NodeCIDR, and a router connected to this subnet. If you leave this empty, no network will be created.",
-          "type": "string"
-        },
-        "project": {
-          "$ref": "#/definitions/v1OpenStackResource"
-        },
-        "region": {
-          "type": "string"
-        },
-        "sshKeyName": {
-          "type": "string"
-        },
-        "subnet": {
-          "$ref": "#/definitions/v1OpenStackResource"
-        }
-      }
-    },
-    "v1OpenStackDomain": {
-      "description": "OpenStack domain. A Domain is a collection of projects, users, and roles",
-      "type": "object",
-      "properties": {
-        "description": {
-          "description": "Description is the description of the Domain",
-          "type": "string"
-        },
-        "id": {
-          "description": "ID is the unique ID of the domain",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the domain",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackFlavor": {
-      "description": "OpenStack flavor entity. Flavor represent (virtual) hardware configurations for server resources",
-      "type": "object",
-      "properties": {
-        "disk": {
-          "description": "Disk is the amount of root disk, measured in GB",
-          "type": "integer"
-        },
-        "ephemeral": {
-          "description": "Ephemeral is the amount of ephemeral disk space, measured in GB",
-          "type": "integer"
-        },
-        "id": {
-          "description": "ID is the flavor's unique ID",
-          "type": "string"
-        },
-        "memory": {
-          "description": "Amount of memory, measured in MB",
-          "type": "integer"
-        },
-        "name": {
-          "description": "Name is the name of the flavor",
-          "type": "string"
-        },
-        "vcpus": {
-          "description": "VCPUs indicates how many (virtual) CPUs are available for this flavor",
-          "type": "integer"
-        }
-      }
-    },
-    "v1OpenStackFlavors": {
-      "description": "List of OpenStack flavours",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackFlavor"
-          }
-        }
-      }
-    },
-    "v1OpenStackKeypair": {
-      "description": "OpenStack keypair. KeyPair is an SSH key known to the OpenStack Cloud that is available to be injected into servers",
-      "type": "object",
-      "properties": {
-        "name": {
-          "description": "Name is used to refer to this keypair from other services within this region",
-          "type": "string"
-        },
-        "publicKey": {
-          "description": "PublicKey is the public key from this pair, in OpenSSH format",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackKeypairs": {
-      "description": "List of OpenStack keypairs",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackKeypair"
-          }
-        }
-      }
-    },
-    "v1OpenStackMachine": {
-      "description": "OpenStack cloud VM definition",
-      "type": "object",
-      "properties": {
-        "apiVersion": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1OpenStackMachineSpec"
-        },
-        "status": {
-          "$ref": "#/definitions/v1CloudMachineStatus"
-        }
-      }
-    },
-    "v1OpenStackMachineConfigEntity": {
-      "type": "object",
-      "required": [
-        "flavorConfig"
-      ],
-      "properties": {
-        "azs": {
-          "description": "for control plane pool, this will be the failure domains for kcp",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "flavorConfig": {
-          "$ref": "#/definitions/v1OpenstackFlavorConfig"
-        }
-      }
-    },
-    "v1OpenStackMachinePoolCloudConfigEntity": {
-      "type": "object",
-      "required": [
-        "flavorConfig"
-      ],
-      "properties": {
-        "azs": {
-          "description": "for control plane pool, this will be the failure domains for kcp",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "diskGiB": {
-          "description": "Root disk size",
-          "type": "integer",
-          "format": "int32"
-        },
-        "flavorConfig": {
-          "$ref": "#/definitions/v1OpenstackFlavorConfig"
-        },
-        "subnet": {
-          "$ref": "#/definitions/v1OpenStackResource"
-        }
-      }
-    },
-    "v1OpenStackMachinePoolConfig": {
-      "type": "object",
-      "required": [
-        "flavorConfig"
-      ],
-      "properties": {
-        "additionalAnnotations": {
-          "description": "Custom annotations for CAPI machine objects and nodes.\n",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "additionalLabels": {
-          "description": "additionalLabels",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "additionalTags": {
-          "description": "AdditionalTags is an optional set of tags to add to resources managed by the provider, in addition to the ones added by default. For eg., tags for EKS nodeGroup or EKS NodegroupIAMRole",
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "azs": {
-          "description": "for control plane pool, this will be the failure domains for kcp",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "diskGiB": {
-          "description": "DiskGiB is used to configure rootVolume, the volume metadata to boot from",
-          "type": "integer",
-          "format": "int32"
-        },
-        "flavor": {
-          "description": "Openstack flavor name, only return argument",
-          "type": "string"
-        },
-        "flavorConfig": {
-          "description": "Openstack flavor configuration, input argument",
-          "$ref": "#/definitions/v1OpenstackFlavorConfig"
-        },
-        "image": {
-          "type": "string"
-        },
-        "isControlPlane": {
-          "description": "whether this pool is for control plane",
-          "type": "boolean"
-        },
-        "labels": {
-          "description": "labels for this pool, example: control-plane/worker, gpu, windows",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "machinePoolProperties": {
-          "$ref": "#/definitions/v1MachinePoolProperties"
-        },
-        "maxSize": {
-          "description": "max size of the pool, for scaling",
-          "type": "integer",
-          "format": "int32"
-        },
-        "minSize": {
-          "description": "min size of the pool, for scaling",
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "nodeRepaveInterval": {
-          "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
-          "type": "integer",
-          "format": "int32"
-        },
-        "overrideKubeadmConfiguration": {
-          "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
-          "type": "string"
-        },
-        "size": {
-          "description": "size of the pool, number of machines",
-          "type": "integer",
-          "format": "int32"
-        },
-        "subnet": {
-          "$ref": "#/definitions/v1OpenStackResource"
-        },
-        "taints": {
-          "description": "control plane or worker taints",
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1Taint"
-          }
-        },
-        "updateStrategy": {
-          "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
-          "$ref": "#/definitions/v1UpdateStrategy"
-        },
-        "useControlPlaneAsWorker": {
-          "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
-          "type": "boolean"
-        }
-      }
-    },
-    "v1OpenStackMachinePoolConfigEntity": {
-      "type": "object",
-      "required": [
-        "cloudConfig"
-      ],
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1OpenStackMachinePoolCloudConfigEntity"
-        },
-        "poolConfig": {
-          "$ref": "#/definitions/v1MachinePoolConfigEntity"
-        }
-      }
-    },
-    "v1OpenStackMachineSpec": {
-      "description": "OpenStack cloud VM definition spec",
-      "type": "object",
-      "required": [
-        "instanceType",
-        "nics"
-      ],
-      "properties": {
-        "az": {
-          "type": "string"
-        },
-        "image": {
-          "type": "string"
-        },
-        "instanceType": {
-          "description": "Instance flavor of the machine with cpu and memory info",
-          "$ref": "#/definitions/v1GenericInstanceType"
-        },
-        "nics": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1OpenStackNic"
-          }
-        },
-        "projectId": {
-          "type": "string"
-        },
-        "securityGroups": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "sshKeyName": {
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackMachines": {
-      "description": "OpenStack machine list",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackMachine"
-          }
-        }
-      }
-    },
-    "v1OpenStackNetwork": {
-      "description": "OpenStack network",
-      "type": "object",
-      "properties": {
-        "description": {
-          "description": "Description of OpenStack network",
-          "type": "string"
-        },
-        "id": {
-          "description": "Id of OpenStack network",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name of OpenStack network",
-          "type": "string"
-        },
-        "subnets": {
-          "description": "Subnets associated with OpenStack network",
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackSubnet"
-          }
-        }
-      }
-    },
-    "v1OpenStackNetworks": {
-      "description": "List of OpenStack networks",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackNetwork"
-          }
-        }
-      }
-    },
-    "v1OpenStackNic": {
-      "description": "OpenStack network interface",
-      "type": "object",
-      "required": [
-        "networkName"
-      ],
-      "properties": {
-        "index": {
-          "type": "integer",
-          "format": "int8"
-        },
-        "networkName": {
-          "type": "string"
-        },
-        "privateIPs": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "v1OpenStackProject": {
-      "description": "Project represents an OpenStack Identity Project",
-      "type": "object",
-      "properties": {
-        "description": {
-          "description": "Description is the description of the project",
-          "type": "string"
-        },
-        "domainId": {
-          "description": "DomainID is the domain ID the project belongs to",
-          "type": "string"
-        },
-        "id": {
-          "description": "ID is the unique ID of the project",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name is the name of the project",
-          "type": "string"
-        },
-        "parentProjectId": {
-          "description": "ParentID is the parent_id of the project",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackProjects": {
-      "description": "Array of OpenStack projects",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackProject"
-          }
-        }
-      }
-    },
-    "v1OpenStackRegion": {
-      "description": "OpenStack region entity",
-      "type": "object",
-      "properties": {
-        "description": {
-          "description": "Description of OpenStack region",
-          "type": "string"
-        },
-        "id": {
-          "description": "Id of OpenStack region",
-          "type": "string"
-        },
-        "parentRegionId": {
-          "description": "Parent region id of OpenStack region",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackRegions": {
-      "description": "List of OpenStack regions and domains",
-      "type": "object",
-      "required": [
-        "regions",
-        "domains"
-      ],
-      "properties": {
-        "domains": {
-          "description": "List of OpenStack domains",
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackDomain"
-          }
-        },
-        "regions": {
-          "description": "List of OpenStack regions",
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1OpenStackRegion"
-          }
-        }
-      }
-    },
-    "v1OpenStackResource": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenStackSubnet": {
-      "description": "OpenStack subnet entity",
-      "type": "object",
-      "properties": {
-        "description": {
-          "description": "Description for the network",
-          "type": "string"
-        },
-        "id": {
-          "description": "UUID for the network",
-          "type": "string"
-        },
-        "name": {
-          "description": "Human-readable name for the network. Might not be unique",
-          "type": "string"
-        }
-      }
-    },
-    "v1OpenstackFlavorConfig": {
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "diskGiB": {
-          "description": "DiskGiB is the size of a virtual machine's disk, in GiB.",
-          "type": "integer",
-          "format": "int32"
-        },
-        "memoryMiB": {
-          "description": "MemoryMiB is the size of a virtual machine's memory, in MiB.",
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "description": "Openstack flavor name",
-          "type": "string"
-        },
-        "numCPUs": {
-          "description": "NumCPUs is the number of virtual processors in a virtual machine.",
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
     "v1Organization": {
       "description": "Describes user's organization details",
       "type": "object",
@@ -51189,58 +49388,6 @@
         },
         "targetUid": {
           "type": "string"
-        }
-      }
-    },
-    "v1OverlordOpenStackAccountCreate": {
-      "properties": {
-        "account": {
-          "$ref": "#/definitions/v1OpenStackCloudAccount"
-        },
-        "name": {
-          "description": "Name for the private gateway \u0026 cloud account",
-          "type": "string"
-        },
-        "shareWithProjects": {
-          "type": "boolean",
-          "x-omitempty": false
-        }
-      }
-    },
-    "v1OverlordOpenStackAccountEntity": {
-      "properties": {
-        "account": {
-          "$ref": "#/definitions/v1OpenStackCloudAccount"
-        },
-        "shareWithProjects": {
-          "type": "boolean",
-          "x-omitempty": false
-        }
-      }
-    },
-    "v1OverlordOpenStackCloudConfig": {
-      "properties": {
-        "clusterConfig": {
-          "$ref": "#/definitions/v1OpenStackClusterConfig"
-        },
-        "clusterProfiles": {
-          "description": "Cluster profiles pack configuration for private gateway cluster",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1SpectroClusterProfileEntity"
-          }
-        },
-        "clusterSettings": {
-          "description": "clusterSettings is the generic configuration related to a cluster like OS patch, Rbac, Namespace allocation",
-          "$ref": "#/definitions/v1ClusterConfigEntity"
-        },
-        "machineConfig": {
-          "$ref": "#/definitions/v1OpenStackMachineConfigEntity"
-        },
-        "size": {
-          "description": "size of the pool, number of machines",
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -53705,9 +51852,6 @@
         "maas": {
           "$ref": "#/definitions/v1PrivateCloudRateConfig"
         },
-        "openstack": {
-          "$ref": "#/definitions/v1PrivateCloudRateConfig"
-        },
         "vsphere": {
           "$ref": "#/definitions/v1PrivateCloudRateConfig"
         }
@@ -55924,6 +54068,10 @@
                 "$ref": "#/definitions/v1CloudStackMachinePoolConfigEntity"
               }
             },
+            "migrationConfig": {
+              "description": "Optional. Configuration for migrating an existing Custom CloudStack (CAPI Manager) cluster to Native Apache CloudStack (CAPI v1).\n",
+              "$ref": "#/definitions/v1ClusterMigrationConfig"
+            },
             "policies": {
               "$ref": "#/definitions/v1SpectroClusterPolicies"
             },
@@ -56309,6 +54457,22 @@
       "properties": {
         "location": {
           "$ref": "#/definitions/v1ClusterLocation"
+        }
+      }
+    },
+    "v1SpectroClusterManifestsList": {
+      "description": "List of manifests attached to a spectro cluster",
+      "type": "object",
+      "required": [
+        "manifests"
+      ],
+      "properties": {
+        "manifests": {
+          "description": "List of manifest summaries from all cluster profiles and packs",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ManifestSummary"
+          }
         }
       }
     },
@@ -58014,86 +56178,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1MaasMachinePoolConfigEntity"
-          }
-        }
-      }
-    },
-    "v1SpectroOpenStackClusterEntity": {
-      "description": "OpenStack cluster request payload for create and update",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "type": "object",
-          "required": [
-            "cloudAccountUid",
-            "cloudConfig"
-          ],
-          "properties": {
-            "cloudAccountUid": {
-              "description": "Cloud account uid to be used for cluster provisioning",
-              "type": "string"
-            },
-            "cloudConfig": {
-              "$ref": "#/definitions/v1OpenStackClusterConfig"
-            },
-            "clusterConfig": {
-              "description": "General cluster configuration like health, patching settings, namespace resource allocation, rbac",
-              "$ref": "#/definitions/v1ClusterConfigEntity"
-            },
-            "clusterTemplate": {
-              "$ref": "#/definitions/v1ClusterTemplateRef"
-            },
-            "machinepoolconfig": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
-              }
-            },
-            "policies": {
-              "$ref": "#/definitions/v1SpectroClusterPolicies"
-            },
-            "profiles": {
-              "description": "Cluster profile references that specify which profiles to apply to the cluster. Supports overriding pack values and variables. When template references are used, pack values cannot be overridden as they are retrieved from the template's pre-configured definitions.",
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/v1SpectroClusterProfileEntity"
-              }
-            }
-          }
-        }
-      }
-    },
-    "v1SpectroOpenStackClusterImportEntity": {
-      "description": "Spectro OpenStack cluster import request payload",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMetaInputEntity"
-        },
-        "spec": {
-          "type": "object",
-          "properties": {
-            "clusterConfig": {
-              "$ref": "#/definitions/v1ImportClusterConfig"
-            }
-          }
-        }
-      }
-    },
-    "v1SpectroOpenStackClusterRateEntity": {
-      "description": "Openstack cluster request payload for estimating rate",
-      "type": "object",
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1OpenStackClusterConfig"
-        },
-        "machinepoolconfig": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1OpenStackMachinePoolConfigEntity"
           }
         }
       }
@@ -60850,8 +58934,7 @@
           "$ref": "#/definitions/v1VirtualClusterHelmRelease"
         },
         "kubernetesVersion": {
-          "type": "string",
-          "default": ""
+          "type": "string"
         }
       }
     },
@@ -60859,16 +58942,13 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "repo": {
-          "type": "string",
-          "default": ""
+          "type": "string"
         },
         "version": {
-          "type": "string",
-          "default": ""
+          "type": "string"
         }
       }
     },
@@ -60879,8 +58959,7 @@
           "$ref": "#/definitions/v1VirtualClusterHelmChart"
         },
         "values": {
-          "type": "string",
-          "default": ""
+          "type": "string"
         }
       }
     },
@@ -61182,6 +59261,9 @@
       "properties": {
         "hostname": {
           "type": "string"
+        },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
         }
       }
     },
@@ -65160,6 +63242,9 @@
         },
         "instanceType": {
           "$ref": "#/definitions/v1VsphereInstanceType"
+        },
+        "machineMetadata": {
+          "$ref": "#/definitions/v1MachineMetadata"
         },
         "nics": {
           "type": "array",

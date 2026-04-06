@@ -48,9 +48,6 @@ type V1RateConfig struct {
 	// maas
 	Maas *V1PrivateCloudRateConfig `json:"maas,omitempty"`
 
-	// openstack
-	Openstack *V1PrivateCloudRateConfig `json:"openstack,omitempty"`
-
 	// vsphere
 	Vsphere *V1PrivateCloudRateConfig `json:"vsphere,omitempty"`
 }
@@ -92,10 +89,6 @@ func (m *V1RateConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateMaas(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateOpenstack(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -291,25 +284,6 @@ func (m *V1RateConfig) validateMaas(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *V1RateConfig) validateOpenstack(formats strfmt.Registry) error {
-	if swag.IsZero(m.Openstack) { // not required
-		return nil
-	}
-
-	if m.Openstack != nil {
-		if err := m.Openstack.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("openstack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("openstack")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
 func (m *V1RateConfig) validateVsphere(formats strfmt.Registry) error {
 	if swag.IsZero(m.Vsphere) { // not required
 		return nil
@@ -366,10 +340,6 @@ func (m *V1RateConfig) ContextValidate(ctx context.Context, formats strfmt.Regis
 	}
 
 	if err := m.contextValidateMaas(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.contextValidateOpenstack(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -568,27 +538,6 @@ func (m *V1RateConfig) contextValidateMaas(ctx context.Context, formats strfmt.R
 				return ve.ValidateName("maas")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("maas")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1RateConfig) contextValidateOpenstack(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Openstack != nil {
-
-		if swag.IsZero(m.Openstack) { // not required
-			return nil
-		}
-
-		if err := m.Openstack.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("openstack")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("openstack")
 			}
 			return err
 		}

@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1AwsPartitionEndpoints AWS partition endpoint configuration
@@ -19,15 +21,80 @@ type V1AwsPartitionEndpoints struct {
 
 	// Credentials URL for obtaining temporary AWS credentials
 	CredentialsEndpoint string `json:"credentialsEndpoint,omitempty"`
+
+	// Description of the AWS partition
+	Description string `json:"description,omitempty"`
+
+	// Map of region name to region endpoint configuration
+	Regions map[string]V1AwsRegionEndpoints `json:"regions,omitempty"`
 }
 
 // Validate validates this v1 aws partition endpoints
 func (m *V1AwsPartitionEndpoints) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateRegions(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 aws partition endpoints based on context it is used
+func (m *V1AwsPartitionEndpoints) validateRegions(formats strfmt.Registry) error {
+	if swag.IsZero(m.Regions) { // not required
+		return nil
+	}
+
+	for k := range m.Regions {
+
+		if err := validate.Required("regions"+"."+k, "body", m.Regions[k]); err != nil {
+			return err
+		}
+		if val, ok := m.Regions[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("regions" + "." + k)
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("regions" + "." + k)
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 aws partition endpoints based on the context it is used
 func (m *V1AwsPartitionEndpoints) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateRegions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1AwsPartitionEndpoints) contextValidateRegions(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.Regions {
+
+		if val, ok := m.Regions[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

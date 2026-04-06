@@ -45,9 +45,6 @@ const (
 	// V1CloudTypeVsphere captures enum value "vsphere"
 	V1CloudTypeVsphere V1CloudType = "vsphere"
 
-	// V1CloudTypeOpenstack captures enum value "openstack"
-	V1CloudTypeOpenstack V1CloudType = "openstack"
-
 	// V1CloudTypeMaas captures enum value "maas"
 	V1CloudTypeMaas V1CloudType = "maas"
 
@@ -84,7 +81,7 @@ var v1CloudTypeEnum []interface{}
 
 func init() {
 	var res []V1CloudType
-	if err := json.Unmarshal([]byte(`["all","aws","azure","gcp","vsphere","openstack","maas","nested","baremetal","eks","aks","edge","apache-cloudstack","edge-native","generic","gke"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["all","aws","azure","gcp","vsphere","maas","nested","baremetal","eks","aks","edge","apache-cloudstack","edge-native","generic","gke"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {

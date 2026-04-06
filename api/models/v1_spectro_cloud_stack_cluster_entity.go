@@ -180,6 +180,10 @@ type V1SpectroCloudStackClusterEntitySpec struct {
 	// machinepoolconfig
 	Machinepoolconfig []*V1CloudStackMachinePoolConfigEntity `json:"machinepoolconfig"`
 
+	// Optional. Configuration for migrating an existing Custom CloudStack (CAPI Manager) cluster to Native Apache CloudStack (CAPI v1).
+	//
+	MigrationConfig *V1ClusterMigrationConfig `json:"migrationConfig,omitempty"`
+
 	// policies
 	Policies *V1SpectroClusterPolicies `json:"policies,omitempty"`
 
@@ -204,6 +208,10 @@ func (m *V1SpectroCloudStackClusterEntitySpec) Validate(formats strfmt.Registry)
 	}
 
 	if err := m.validateMachinepoolconfig(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMigrationConfig(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -295,6 +303,25 @@ func (m *V1SpectroCloudStackClusterEntitySpec) validateMachinepoolconfig(formats
 	return nil
 }
 
+func (m *V1SpectroCloudStackClusterEntitySpec) validateMigrationConfig(formats strfmt.Registry) error {
+	if swag.IsZero(m.MigrationConfig) { // not required
+		return nil
+	}
+
+	if m.MigrationConfig != nil {
+		if err := m.MigrationConfig.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "migrationConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "migrationConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1SpectroCloudStackClusterEntitySpec) validatePolicies(formats strfmt.Registry) error {
 	if swag.IsZero(m.Policies) { // not required
 		return nil
@@ -353,6 +380,10 @@ func (m *V1SpectroCloudStackClusterEntitySpec) ContextValidate(ctx context.Conte
 	}
 
 	if err := m.contextValidateMachinepoolconfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMigrationConfig(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -428,6 +459,27 @@ func (m *V1SpectroCloudStackClusterEntitySpec) contextValidateMachinepoolconfig(
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1SpectroCloudStackClusterEntitySpec) contextValidateMigrationConfig(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.MigrationConfig != nil {
+
+		if swag.IsZero(m.MigrationConfig) { // not required
+			return nil
+		}
+
+		if err := m.MigrationConfig.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("spec" + "." + "migrationConfig")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("spec" + "." + "migrationConfig")
+			}
+			return err
+		}
 	}
 
 	return nil
