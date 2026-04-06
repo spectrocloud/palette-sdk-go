@@ -50,6 +50,9 @@ type V1AzureMachineSpec struct {
 	// Required: true
 	OsDisk *V1AzureOSDisk `json:"osDisk"`
 
+	// OS SKU of the machine as reported by the node
+	OsSku *V1OsSku `json:"osSku,omitempty"`
+
 	// ssh public key
 	SSHPublicKey string `json:"sshPublicKey,omitempty"`
 }
@@ -83,6 +86,10 @@ func (m *V1AzureMachineSpec) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateOsDisk(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateOsSku(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -193,6 +200,25 @@ func (m *V1AzureMachineSpec) validateNics(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1AzureMachineSpec) validateOsSku(formats strfmt.Registry) error {
+	if swag.IsZero(m.OsSku) { // not required
+		return nil
+	}
+
+	if m.OsSku != nil {
+		if err := m.OsSku.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osSku")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osSku")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1AzureMachineSpec) validateOsDisk(formats strfmt.Registry) error {
 
 	if err := validate.Required("osDisk", "body", m.OsDisk); err != nil {
@@ -234,6 +260,10 @@ func (m *V1AzureMachineSpec) ContextValidate(ctx context.Context, formats strfmt
 	}
 
 	if err := m.contextValidateOsDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateOsSku(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -326,6 +356,27 @@ func (m *V1AzureMachineSpec) contextValidateNics(ctx context.Context, formats st
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachineSpec) contextValidateOsSku(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.OsSku != nil {
+
+		if swag.IsZero(m.OsSku) { // not required
+			return nil
+		}
+
+		if err := m.OsSku.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("osSku")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("osSku")
+			}
+			return err
+		}
 	}
 
 	return nil
