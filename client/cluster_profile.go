@@ -75,6 +75,18 @@ func (h *V1Client) UpgradeClusterProfile(clusterUID string, body *models.V1Spect
 	return err
 }
 
+// CloneClusterProfile clones an existing cluster profile to create a new version.
+func (h *V1Client) CloneClusterProfile(uid string, body *models.V1ClusterProfileCloneEntity) (string, error) {
+	params := clientv1.NewV1ClusterProfilesUIDCloneParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(body)
+	resp, err := h.Client.V1ClusterProfilesUIDClone(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // AttachAddonsToCluster attaches one or more addon profiles to a cluster.
 func (h *V1Client) AttachAddonsToCluster(clusterUID string, profileUIDs []string) error {
 	// get existing cluster profile uid list on the cluster
