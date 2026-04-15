@@ -564,6 +564,16 @@ func printMsg(m string) string {
 	return m
 }
 
+// redactedError wraps an original error with a redacted message string.
+// Unwrap returns the original so errors.Is/As continue to work.
+type redactedError struct {
+	original error
+	message  string
+}
+
+func (e *redactedError) Error() string  { return e.message }
+func (e *redactedError) Unwrap() error  { return e.original }
+
 // AddSensitiveValue registers a value that should be redacted from error messages.
 func (r *Runtime) AddSensitiveValue(value string) {
 	if value != "" {
@@ -571,31 +581,60 @@ func (r *Runtime) AddSensitiveValue(value string) {
 	}
 }
 
+// redactString replaces all sensitive values in s with [REDACTED].
+func redactString(s string, sensitiveValues []string) string {
+	for _, v := range sensitiveValues {
+		s = strings.ReplaceAll(s, v, "[REDACTED]")
+	}
+	return s
+}
+
+// redactValue recursively redacts sensitive values from JSON-like structures
+// (string, map[string]any, []any) that may have been decoded into interface{}.
+func redactValue(v interface{}, sensitiveValues []string) interface{} {
+	switch val := v.(type) {
+	case string:
+		return redactString(val, sensitiveValues)
+	case map[string]interface{}:
+		for k, mv := range val {
+			val[k] = redactValue(mv, sensitiveValues)
+		}
+		return val
+	case []interface{}:
+		for i, item := range val {
+			val[i] = redactValue(item, sensitiveValues)
+		}
+		return val
+	}
+	return v
+}
+
 // redactError replaces any registered sensitive values in err with [REDACTED].
-// For TransportError, the payload fields are also redacted in-place.
+// For TransportError, a shallow copy is returned with a redacted payload so the
+// original error object is never mutated.
+// Non-TransportError errors are wrapped in a redactedError that preserves Unwrap.
 func (r *Runtime) redactError(err error) error {
 	if err == nil || len(r.sensitiveValues) == 0 {
 		return err
 	}
 	if te, ok := err.(*TransportError); ok {
-		if te.Payload != nil {
-			for _, v := range r.sensitiveValues {
-				te.Payload.Message = strings.ReplaceAll(te.Payload.Message, v, "[REDACTED]")
-				if s, ok := te.Payload.Details.(string); ok {
-					te.Payload.Details = strings.ReplaceAll(s, v, "[REDACTED]")
-				}
-			}
+		if te.Payload == nil {
+			return te
 		}
-		return te
+		redactedPayload := *te.Payload
+		redactedPayload.Message = redactString(te.Payload.Message, r.sensitiveValues)
+		redactedPayload.Details = redactValue(te.Payload.Details, r.sensitiveValues)
+		return &TransportError{
+			Payload:  &redactedPayload,
+			HttpCode: te.HttpCode,
+		}
 	}
-	msg := err.Error()
-	for _, v := range r.sensitiveValues {
-		msg = strings.ReplaceAll(msg, v, "[REDACTED]")
-	}
-	if msg == err.Error() {
+	original := err.Error()
+	redacted := redactString(original, r.sensitiveValues)
+	if redacted == original {
 		return err
 	}
-	return errors.New(msg)
+	return &redactedError{original: err, message: redacted}
 }
 
 // SetDebug changes the debug flag.
