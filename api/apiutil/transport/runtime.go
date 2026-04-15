@@ -219,9 +219,10 @@ type Runtime struct {
 	Formats  strfmt.Registry
 	Context  context.Context
 
-	RetryAttempts int
-	Debug         bool
-	logger        logger.Logger
+	RetryAttempts   int
+	Debug           bool
+	logger          logger.Logger
+	sensitiveValues []string
 
 	clientOnce *sync.Once
 	client     *http.Client
@@ -542,9 +543,11 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 	if res.StatusCode >= 200 && res.StatusCode <= 399 {
 		return readResponse.ReadResponse(response{res}, cons)
 	} else if res.StatusCode == http.StatusTooManyRequests {
-		return ReadTooManyRequestError(req.Method, req.URL.Path)
+		result, err := ReadTooManyRequestError(req.Method, req.URL.Path)
+		return result, r.redactError(err)
 	} else {
-		return ReadErrorResponse(response{res}, cons)
+		result, err := ReadErrorResponse(response{res}, cons)
+		return result, r.redactError(err)
 	}
 }
 
@@ -559,6 +562,40 @@ func (r *Runtime) getDefaultTimeOut(request *request) time.Duration {
 func printMsg(m string) string {
 	fmt.Println(m)
 	return m
+}
+
+// AddSensitiveValue registers a value that should be redacted from error messages.
+func (r *Runtime) AddSensitiveValue(value string) {
+	if value != "" {
+		r.sensitiveValues = append(r.sensitiveValues, value)
+	}
+}
+
+// redactError replaces any registered sensitive values in err with [REDACTED].
+// For TransportError, the payload fields are also redacted in-place.
+func (r *Runtime) redactError(err error) error {
+	if err == nil || len(r.sensitiveValues) == 0 {
+		return err
+	}
+	if te, ok := err.(*TransportError); ok {
+		if te.Payload != nil {
+			for _, v := range r.sensitiveValues {
+				te.Payload.Message = strings.ReplaceAll(te.Payload.Message, v, "[REDACTED]")
+				if s, ok := te.Payload.Details.(string); ok {
+					te.Payload.Details = strings.ReplaceAll(s, v, "[REDACTED]")
+				}
+			}
+		}
+		return te
+	}
+	msg := err.Error()
+	for _, v := range r.sensitiveValues {
+		msg = strings.ReplaceAll(msg, v, "[REDACTED]")
+	}
+	if msg == err.Error() {
+		return err
+	}
+	return errors.New(msg)
 }
 
 // SetDebug changes the debug flag.
