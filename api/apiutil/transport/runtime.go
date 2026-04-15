@@ -571,8 +571,8 @@ type redactedError struct {
 	message  string
 }
 
-func (e *redactedError) Error() string  { return e.message }
-func (e *redactedError) Unwrap() error  { return e.original }
+func (e *redactedError) Error() string { return e.message }
+func (e *redactedError) Unwrap() error { return e.original }
 
 // AddSensitiveValue registers a value that should be redacted from error messages.
 func (r *Runtime) AddSensitiveValue(value string) {
