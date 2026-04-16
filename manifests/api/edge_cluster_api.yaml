@@ -1,0 +1,25 @@
+kind: api
+name: edge_cluster_api
+description: "Create Edge Native clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_edge_native:
+    description: "Create a new Edge Native cluster"
+    method: CreateEdgeNative
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroEdgeNativeClusterEntity"
+        required: true
+        description: "V1SpectroEdgeNativeClusterEntity — full Edge Native cluster specification"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "edge-site-01"}, "spec": {"profiles": [{"uid": "..."}], "cloudConfig": {"edgeHosts": [{"hostUid": "..."}]}}}}'
+    notes:
+      - "No cloud account required — uses pre-registered Edge Hosts"
+      - "Uses Appliance Mode (Kairos immutable OS) or Agent Mode"
+      - "Edge Hosts must be registered with Palette before cluster creation"
+      - "Supports K3S and PXK-E Kubernetes distributions"

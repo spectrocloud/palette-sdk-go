@@ -1,0 +1,88 @@
+kind: api
+name: project_api
+description: "Create, get, list, update, and delete Palette projects"
+service: platform
+agent: platform_admin
+
+modes:
+  list_projects:
+    description: "List all projects in the tenant"
+    method: ListProjects
+    inputs: []
+    output:
+      list: projects
+      fields:
+        uid: "Metadata.UID"
+        name: "Metadata.Name"
+      table: [name, uid]
+    example: '{}'
+
+  get_project:
+    description: "Get project details by UID"
+    method: GetProject
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Project UID"
+    output:
+      single: project
+    example: '{"uid": "project-uid-here"}'
+
+  get_project_uid:
+    description: "Get project UID by name"
+    method: GetProjectUID
+    returns: "string_error"
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Project name"
+    output:
+      single: project_uid
+    example: '{"name": "production"}'
+
+  create_project:
+    description: "Create a new project"
+    method: CreateProject
+    returns: "string_error"
+    inputs:
+      - name: project
+        type: object
+        go_type: "*models.V1ProjectEntity"
+        required: true
+        description: "V1ProjectEntity with metadata.name and spec"
+    output:
+      single: project_uid
+    example: '{"project": {"metadata": {"name": "staging"}, "spec": {}}}'
+
+  update_project:
+    description: "Update an existing project"
+    method: UpdateProject
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Project UID"
+      - name: project
+        type: object
+        go_type: "*models.V1ProjectEntity"
+        required: true
+        description: "V1ProjectEntity with updated fields"
+    output:
+      single: project_uid
+    example: '{"uid": "project-uid", "project": {"metadata": {"name": "staging-v2"}, "spec": {}}}'
+
+  delete_project:
+    description: "Delete a project"
+    method: DeleteProject
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Project UID"
+    output:
+      single: project_uid
+    example: '{"uid": "project-uid-here"}'

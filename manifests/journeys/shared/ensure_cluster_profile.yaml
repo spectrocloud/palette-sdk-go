@@ -1,0 +1,23 @@
+kind: journey
+name: ensure_cluster_profile
+description: "Ensure a cluster profile exists — list existing, let user pick, or create new with a single form"
+agent: app_workload
+references:
+  - profile_api
+
+variants:
+  default:
+    description: "Check for cluster profiles, create if none exist"
+    steps:
+      - description: "List existing infra profiles for the target cloud type"
+        tool: profile_api
+        note: "Use search_profiles with interactive mode. Filter by the target environment and profileType 'cluster'. Example: {\"mode\": \"search_profiles\", \"filter\": {\"filter\": {\"environment\": [\"eks\"], \"profileType\": [\"cluster\"]}}, \"interactive\": true}. If profiles exist, let user pick and SKIP the creation step below."
+
+      - description: "If no profiles found — create one using the profile builder"
+        tool: profile_api
+        note: "Call with {\"build_profile\": \"<cloud_type>\"}. This shows a single form with pre-filtered pack dropdowns and smart defaults. The user reviews, adjusts if needed, and submits. The profile is created and published automatically."
+
+notes:
+  - "This is a shared sub-journey — referenced by deploy journeys that need a cluster profile"
+  - "If profiles exist and user picks one, SKIP the build step"
+  - "build_profile handles: pack fetching, form building, defaults, creation, and publishing — all in one step"

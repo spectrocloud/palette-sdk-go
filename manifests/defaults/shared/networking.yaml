@@ -1,0 +1,15 @@
+endpoint_access:
+  public:
+    description: "Cluster API endpoint is publicly accessible"
+    use_when: "Development, testing, non-sensitive workloads"
+  private:
+    description: "Cluster API endpoint is only accessible within the VPC"
+    use_when: "Production, regulated environments"
+  public_and_private:
+    description: "Both public and private endpoints enabled"
+    use_when: "Transitioning from public to private"
+
+proxy:
+  http_proxy: ""
+  https_proxy: ""
+  no_proxy: "localhost,127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local"

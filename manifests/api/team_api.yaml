@@ -1,0 +1,111 @@
+kind: api
+name: team_api
+description: "Create, get, update, delete teams, and assign roles"
+service: access
+agent: access_admin
+
+modes:
+  create_team:
+    description: "Create a new team"
+    method: CreateTeam
+    returns: "string_error"
+    inputs:
+      - name: team
+        type: object
+        go_type: "*models.V1Team"
+        required: true
+        description: "V1Team with metadata.name and spec.users (array of user UIDs)"
+    output:
+      single: team_uid
+    example: '{"team": {"metadata": {"name": "dev-team"}, "spec": {"users": ["user-uid-1"]}}}'
+
+  get_team:
+    description: "Get team details by UID"
+    method: GetTeam
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Team UID"
+    output:
+      single: team
+    example: '{"uid": "team-uid-here"}'
+
+  get_team_by_name:
+    description: "Get team details by name"
+    method: GetTeamByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Team name"
+    output:
+      single: team
+    example: '{"name": "dev-team"}'
+
+  update_team:
+    description: "Update an existing team"
+    method: UpdateTeam
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Team UID"
+      - name: team
+        type: object
+        go_type: "*models.V1Team"
+        required: true
+        description: "V1Team with updated fields"
+    output:
+      single: team_uid
+    example: '{"uid": "team-uid", "team": {"metadata": {"name": "dev-team"}, "spec": {"users": ["user-1", "user-2"]}}}'
+
+  delete_team:
+    description: "Delete a team"
+    method: DeleteTeam
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Team UID"
+    output:
+      single: team_uid
+    example: '{"uid": "team-uid-here"}'
+
+  assign_team_project_role:
+    description: "Assign project roles to a team"
+    method: AssociateTeamProjectRole
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Team UID"
+      - name: project_roles
+        type: object
+        go_type: "*models.V1ProjectRolesPatch"
+        required: true
+        description: "V1ProjectRolesPatch with project and role UIDs"
+    output:
+      single: team_uid
+    example: '{"uid": "team-uid", "project_roles": {"projects": [{"projectUid": "proj-uid", "roles": [{"uid": "role-uid"}]}]}}'
+
+  assign_team_tenant_role:
+    description: "Assign tenant roles to a team"
+    method: AssociateTeamTenantRole
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Team UID"
+      - name: tenant_roles
+        type: object
+        go_type: "*models.V1TeamTenantRolesUpdate"
+        required: true
+        description: "V1TeamTenantRolesUpdate with role UIDs"
+    output:
+      single: team_uid
+    example: '{"uid": "team-uid", "tenant_roles": {"roleUids": ["role-uid-1"]}}'

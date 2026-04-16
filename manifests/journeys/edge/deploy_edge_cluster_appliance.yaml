@@ -1,0 +1,57 @@
+kind: journey
+name: deploy_edge_cluster_appliance
+description: "Deploy an edge cluster using appliance mode — launches AWS VMs from CanvOS AMI, registers hosts, creates cluster"
+agent: infra
+references:
+  - edge_api
+  - edge_cluster_api
+  - aws_infra_api
+  - profile_api
+includes:
+  - ensure_edge_registration_token
+  - prepare_aws_edge_host_appliance
+  - register_edge_hosts
+  - ensure_edge_cluster_profile
+
+variants:
+  default:
+    description: "Appliance mode edge cluster on AWS"
+    prerequisites:
+      - description: "CanvOS appliance AMI must be built and available in the target AWS region"
+        manual: true
+        if_missing: "Build the appliance ISO using the CanvOS Edge Forge process, then create an AMI from it."
+
+    steps:
+      - description: "Create edge registration token"
+        use: ensure_edge_registration_token
+
+      - description: "Ensure edge cluster profile exists"
+        use: ensure_edge_cluster_profile
+        context: "Cloud type is edge-native, appliance mode. The OS layer must have system:uri pointing to the provider image built by CanvOS."
+
+      - description: "Collect deployment configuration"
+        note: "Collect: CanvOS AMI ID, number of hosts, CP/worker counts, VIP IP, AWS region, site name/tags"
+
+      - description: "Prepare AWS edge hosts with appliance AMI"
+        use: prepare_aws_edge_host_appliance
+        context: "Launch N EC2 instances from the CanvOS AMI with appliance mode user-data (cloud-config YAML)."
+
+      - description: "Wait for hosts to register"
+        use: register_edge_hosts
+
+      - description: "Create edge cluster"
+        tool: edge_cluster_api
+        note: "Create the edge native cluster with profile, VIP, and edge host assignments."
+
+    post_steps:
+      - "Appliance mode clusters have immutable OS — updates are delivered as new image layers"
+      - "OS upgrades are managed by building new provider images via CanvOS"
+      - "The system:uri in the OS layer profile pack controls which provider image is used"
+
+notes:
+  - "Appliance mode: Kairos-based immutable OS, managed by Palette"
+  - "Requires pre-built CanvOS ISO/AMI via Edge Forge (github.com/spectrocloud/CanvOS)"
+  - "Provider images with desired K8s distro/version are built via CanvOS and hosted in a registry"
+  - "OS layer in cluster profile needs system:uri pointing to the provider image"
+  - "No cloud account needed for edge native clusters"
+  - "VIP required for cluster API endpoint"

@@ -1,0 +1,37 @@
+kind: journey
+name: prepare_aws_edge_host_appliance
+description: "Launch AWS EC2 instances from a CanvOS appliance AMI for edge clusters"
+agent: infra
+references:
+  - aws_infra_api
+  - edge_api
+
+variants:
+  default:
+    description: "Launch EC2 VMs from pre-built appliance AMI"
+    steps:
+      - description: "Collect appliance AMI ID"
+        note: "The user must provide the AMI ID of the CanvOS appliance image built via Edge Forge. This is customer-specific."
+
+      - description: "Select VPC for edge hosts"
+        tool: aws_infra_api
+        input: '{"mode": "list_vpcs", "interactive": true}'
+
+      - description: "Select subnet"
+        tool: aws_infra_api
+        note: 'Use list_subnets with the selected VPC'
+
+      - description: "Select SSH key pair"
+        tool: aws_infra_api
+        input: '{"mode": "list_key_pairs", "interactive": true}'
+
+      - description: "Launch EC2 instances with appliance AMI and user-data"
+        tool: aws_infra_api
+        note: "Launch instances using the CanvOS AMI. The appliance user-data is in cloud-config YAML format with stylus site configuration."
+
+notes:
+  - "Requires a pre-built CanvOS appliance AMI (built via Edge Forge process)"
+  - "The AMI contains the immutable Kairos OS + K8s distribution"
+  - "User-data is cloud-config YAML format (not bash script)"
+  - "Instance type should be t3.xlarge or larger for production"
+  - "Disk size should be 100GB+ for appliance mode"

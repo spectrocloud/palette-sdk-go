@@ -1,0 +1,23 @@
+kind: api
+name: gcp_cluster_api
+description: "Create GCP IaaS clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_gcp:
+    description: "Create a new GCP IaaS cluster"
+    method: CreateGcp
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroGcpClusterEntity"
+        required: true
+        description: "V1SpectroGcpClusterEntity — full GCP cluster specification"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-gcp"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}], "cloudConfig": {"project": "my-gcp-project", "region": "us-central1"}}}}'
+    notes:
+      - "Requires a valid GCP cloud account UID (service account JSON credentials)"
+      - "Uses Controller Mode"

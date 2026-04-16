@@ -12,3 +12,20 @@ golangci-report.xml
 profile.cov
 
 .DS_Store
+
+# Environment and secrets
+.env
+
+# Build artifacts
+toolserver
+generate
+.next/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
+# Node
+node_modules/

@@ -1,0 +1,23 @@
+kind: api
+name: gke_cluster_api
+description: "Create GKE (Google managed Kubernetes) clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_gke:
+    description: "Create a new GKE cluster"
+    method: CreateGke
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroGcpClusterEntity"
+        required: true
+        description: "V1SpectroGcpClusterEntity — GKE uses the GCP cluster entity type"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-gke"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}], "cloudConfig": {"project": "my-gcp-project", "region": "us-central1"}}}}'
+    notes:
+      - "GKE uses GCP cloud account credentials"
+      - "Google manages the control plane, Palette manages worker node pools"

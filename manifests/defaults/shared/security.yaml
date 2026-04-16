@@ -1,0 +1,12 @@
+oidc:
+  palette:
+    issuer_tpl: "https://{palette_host}/v1/oidc"
+    scopes: ["openid", "profile", "email"]
+    callback_tpl: "https://{palette_host}/v1/oidc/callback"
+
+rbac:
+  default_project_role: "Project Viewer"
+  default_tenant_role: "Tenant Viewer"
+
+api_keys:
+  default_expiry_hours: 720

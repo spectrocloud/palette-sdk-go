@@ -1,0 +1,222 @@
+kind: api
+name: cloud_account_api
+description: "List, create, update, and delete cloud accounts for all providers"
+service: cloudaccounts
+agent: infra
+
+modes:
+  list_accounts:
+    description: "List all cloud accounts"
+    method: List
+    inputs: []
+    output:
+      list: accounts
+      fields:
+        uid: "UID"
+        name: "Name"
+      table: [name, uid]
+    example: '{}'
+
+  get_account:
+    description: "Get cloud account summary by UID"
+    method: Get
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cloud account UID"
+    output:
+      single: account
+    example: '{"uid": "account-uid-here"}'
+
+  # AWS
+  create_aws:
+    description: "Create an AWS cloud account"
+    method: CreateAws
+    returns: "string_error"
+    inputs:
+      - name: account
+        type: object
+        go_type: "*models.V1AwsAccount"
+        required: true
+        description: "V1AwsAccount with metadata.name, spec.accessKeyId, spec.secretAccessKey, optionally spec.arn"
+    output:
+      single: account_uid
+    example: '{"account": {"metadata": {"name": "my-aws"}, "spec": {"accessKeyId": "AKIA...", "secretAccessKey": "..."}}}'
+
+  get_aws_by_name:
+    description: "Get AWS account by name"
+    method: GetAwsByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Account name"
+      - name: scope
+        type: string
+        required: false
+        description: "Scope: tenant or project (default: project)"
+        default: "project"
+        enum: [tenant, project]
+    output:
+      single: account
+    example: '{"name": "my-aws-account", "scope": "project"}'
+
+  delete_aws:
+    description: "Delete an AWS cloud account"
+    method: DeleteAws
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Account UID"
+    output:
+      single: account_uid
+    example: '{"uid": "account-uid-here"}'
+
+  # Azure
+  create_azure:
+    description: "Create an Azure cloud account"
+    method: CreateAzure
+    returns: "string_error"
+    inputs:
+      - name: account
+        type: object
+        go_type: "*models.V1AzureAccount"
+        required: true
+        description: "V1AzureAccount with metadata.name, spec.tenantId, clientId, clientSecret, subscriptionId"
+    output:
+      single: account_uid
+    example: '{"account": {"metadata": {"name": "my-azure"}, "spec": {"tenantId": "...", "clientId": "...", "clientSecret": "...", "subscriptionId": "..."}}}'
+
+  get_azure_by_name:
+    description: "Get Azure account by name"
+    method: GetAzureByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Account name"
+      - name: scope
+        type: string
+        required: false
+        description: "Scope: tenant or project"
+        default: "project"
+    output:
+      single: account
+    example: '{"name": "my-azure-account"}'
+
+  delete_azure:
+    description: "Delete an Azure cloud account"
+    method: DeleteAzure
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Account UID"
+    output:
+      single: account_uid
+    example: '{"uid": "account-uid-here"}'
+
+  # GCP
+  create_gcp:
+    description: "Create a GCP cloud account"
+    method: CreateGcp
+    returns: "string_error"
+    inputs:
+      - name: account
+        type: object
+        go_type: "*models.V1GcpAccountEntity"
+        required: true
+        description: "V1GcpAccountEntity with metadata.name, spec.jsonCredentials"
+    output:
+      single: account_uid
+    example: '{"account": {"metadata": {"name": "my-gcp"}, "spec": {"jsonCredentials": "{...service account key...}"}}}'
+
+  get_gcp_by_name:
+    description: "Get GCP account by name"
+    method: GetGcpByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Account name"
+      - name: scope
+        type: string
+        required: false
+        description: "Scope: tenant or project"
+        default: "project"
+    output:
+      single: account
+    example: '{"name": "my-gcp-account"}'
+
+  delete_gcp:
+    description: "Delete a GCP cloud account"
+    method: DeleteGcp
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Account UID"
+    output:
+      single: account_uid
+    example: '{"uid": "account-uid-here"}'
+
+  # vSphere
+  create_vsphere:
+    description: "Create a vSphere cloud account"
+    method: CreateVsphere
+    returns: "string_error"
+    inputs:
+      - name: account
+        type: object
+        go_type: "*models.V1VsphereAccount"
+        required: true
+        description: "V1VsphereAccount with metadata.name, spec.vcenterServer, username, password"
+    output:
+      single: account_uid
+    example: '{"account": {"metadata": {"name": "my-vsphere"}, "spec": {"vcenterServer": "vcenter.example.com", "username": "admin", "password": "..."}}}'
+
+  delete_vsphere:
+    description: "Delete a vSphere cloud account"
+    method: DeleteVsphere
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Account UID"
+    output:
+      single: account_uid
+    example: '{"uid": "account-uid-here"}'
+
+  # MAAS
+  create_maas:
+    description: "Create a MAAS cloud account"
+    method: CreateMaas
+    returns: "string_error"
+    inputs:
+      - name: account
+        type: object
+        go_type: "*models.V1MaasAccount"
+        required: true
+        description: "V1MaasAccount with metadata.name, spec.apiEndpoint, apiKey"
+    output:
+      single: account_uid
+    example: '{"account": {"metadata": {"name": "my-maas"}, "spec": {"apiEndpoint": "http://maas:5240/MAAS", "apiKey": "..."}}}'
+
+  delete_maas:
+    description: "Delete a MAAS cloud account"
+    method: DeleteMaas
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Account UID"
+    output:
+      single: account_uid
+    example: '{"uid": "account-uid-here"}'

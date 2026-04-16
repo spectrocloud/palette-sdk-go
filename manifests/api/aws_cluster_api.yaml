@@ -1,0 +1,24 @@
+kind: api
+name: aws_cluster_api
+description: "Create AWS IaaS clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_aws:
+    description: "Create a new AWS IaaS cluster"
+    method: CreateAws
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroAwsClusterEntity"
+        required: true
+        description: "V1SpectroAwsClusterEntity — full AWS cluster specification"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-aws"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}], "cloudConfig": {"region": "us-east-1", "sshKeyName": "my-key"}}}}'
+    notes:
+      - "Requires a valid AWS cloud account UID"
+      - "Requires an AWS-compatible infra cluster profile UID"
+      - "Uses Controller Mode (CAPI-based orchestration)"

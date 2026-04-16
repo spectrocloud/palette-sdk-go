@@ -12,6 +12,17 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
 
+// SearchClusterProfiles returns filtered cluster profile summaries.
+func (h *V1Client) SearchClusterProfiles(filter *models.V1ClusterProfilesFilterSpec) ([]*models.V1ClusterProfileSummary, error) {
+	params := clientv1.NewV1ClusterProfilesFilterSummaryParamsWithContext(h.ctx).
+		WithBody(filter)
+	resp, err := h.Client.V1ClusterProfilesFilterSummary(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
 // GetClusterProfileSummary returns a summary for an existing cluster profile.
 func (h *V1Client) GetClusterProfileSummary(uid string) (*models.V1ClusterProfileSummary, error) {
 	params := clientv1.NewV1ClusterProfilesUIDSummaryParamsWithContext(h.ctx).

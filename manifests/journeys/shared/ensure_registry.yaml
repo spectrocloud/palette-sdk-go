@@ -1,0 +1,28 @@
+kind: journey
+name: ensure_registry
+description: "Ensure a container registry exists — list existing, let user pick, or create new"
+agent: app_workload
+references:
+  - registry_api
+
+variants:
+  default:
+    description: "Check for registries, create if none exist"
+    steps:
+      - description: "List existing registries"
+        tool: registry_api
+        note: "Use the appropriate list mode with interactive: true. For Helm: {\"mode\": \"list_helm_registries\", \"interactive\": true}. For OCI: {\"mode\": \"list_oci_registries\", \"interactive\": true}."
+
+      - description: "If no registries found, collect details for new registry"
+        tool: registry_api
+        input_helm: '{"collect": {"_title": "Create Helm Registry", "registry_name": {"type": "string", "label": "Registry Name", "required": true}, "endpoint": {"type": "string", "label": "Endpoint URL", "required": true}, "username": {"type": "string", "label": "Username"}, "password": {"type": "password", "label": "Password"}}}'
+        input_ecr: '{"collect": {"_title": "Create ECR Registry", "registry_name": {"type": "string", "label": "Registry Name", "required": true}, "access_key": {"type": "string", "label": "AWS Access Key", "required": true}, "secret_key": {"type": "password", "label": "AWS Secret Key", "required": true}, "region": {"type": "string", "label": "AWS Region", "required": true, "default": "us-east-1"}}}'
+
+      - description: "Create the registry"
+        note: "Use the collected data to call the appropriate create mode: create_helm_registry, create_oci_basic_registry, or create_ecr_registry."
+        tool: registry_api
+
+notes:
+  - "This is a shared sub-journey — referenced by airgapped deploy journeys"
+  - "Registry type (helm, oci_basic, ecr) should be determined by the parent journey context"
+  - "If registries exist and user picks one, skip the create steps"

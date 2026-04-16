@@ -1,0 +1,50 @@
+kind: api
+name: api_key_api
+description: "Create, list, and delete API keys"
+service: access
+agent: access_admin
+
+modes:
+  list_api_keys:
+    description: "List all API keys"
+    method: GetAPIKeys
+    inputs: []
+    output:
+      list: api_keys
+      table: [name, uid]
+    example: '{}'
+
+  create_api_key:
+    description: "Create a new API key"
+    method: CreateAPIKey
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "API key name"
+      - name: annotations
+        type: object
+        required: false
+        description: "Key-value annotations for the API key"
+      - name: expiry_hours
+        type: number
+        required: false
+        description: "Expiry in hours (0 for no expiry)"
+    output:
+      single: api_key
+    example: '{"name": "ci-deploy-key", "expiry_hours": 720}'
+    notes:
+      - "The API key value is only shown once at creation — save it securely"
+
+  delete_api_key:
+    description: "Delete an API key"
+    method: DeleteAPIKey
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "API key UID"
+    output:
+      single: api_key_uid
+    example: '{"uid": "key-uid-here"}'

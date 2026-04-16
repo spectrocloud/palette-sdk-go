@@ -1,0 +1,19 @@
+cloud_type: vmware
+display_name: "VMware vSphere"
+
+packs:
+  os: "ubuntu-vsphere"
+  k8s: "kubernetes"
+  cni: "cni-calico"
+  csi: "csi-vsphere-csi"
+
+cluster:
+  datacenter: ""
+  folder: ""
+  resource_pool: ""
+  datastore: ""
+  network: ""
+  num_cpus: 4
+  memory_mb: 8192
+  disk_gb: 60
+  node_count: 3

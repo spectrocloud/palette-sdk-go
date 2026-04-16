@@ -1,0 +1,199 @@
+kind: api
+name: platform_settings_api
+description: "Configure platform settings: SSO, session timeout, login banner, password policy, FIPS"
+service: platform
+agent: platform_admin
+
+modes:
+  get_tenant_uid:
+    description: "Get the current tenant UID"
+    method: GetTenantUID
+    returns: "string_error"
+    inputs: []
+    output:
+      single: tenant_uid
+    example: '{}'
+
+  get_oidc:
+    description: "Get OIDC SSO configuration"
+    method: GetOIDC
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: oidc
+    example: '{"tenant_uid": "tenant-uid-here"}'
+
+  update_oidc:
+    description: "Update OIDC SSO configuration"
+    method: UpdateOIDC
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1TenantOidcClientSpec"
+        required: true
+        description: "V1TenantOidcClientSpec with issuerUrl, clientId, clientSecret, etc."
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"issuerUrl": "https://idp.example.com", "clientId": "...", "clientSecret": "..."}}'
+
+  get_saml:
+    description: "Get SAML SSO configuration"
+    method: GetSAML
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: saml
+    example: '{"tenant_uid": "tenant-uid-here"}'
+
+  update_saml:
+    description: "Update SAML SSO configuration"
+    method: UpdateSAML
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1TenantSamlRequestSpec"
+        required: true
+        description: "V1TenantSamlRequestSpec with idpMetadata, entityId, etc."
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"idpMetadataUrl": "https://idp.example.com/metadata"}}'
+
+  get_session_timeout:
+    description: "Get session timeout settings"
+    method: GetSessionTimeout
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: session_timeout
+    example: '{"tenant_uid": "tenant-uid-here"}'
+
+  update_session_timeout:
+    description: "Update session timeout settings"
+    method: UpdateSessionTimeout
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1AuthTokenSettings"
+        required: true
+        description: "V1AuthTokenSettings with accessTokenExpiry, refreshTokenExpiry"
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"accessTokenExpiry": 60, "refreshTokenExpiry": 1440}}'
+
+  get_login_banner:
+    description: "Get login banner settings"
+    method: GetLoginBanner
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: login_banner
+    example: '{"tenant_uid": "tenant-uid-here"}'
+
+  update_login_banner:
+    description: "Update login banner settings"
+    method: UpdateLoginBanner
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1LoginBannerSettings"
+        required: true
+        description: "V1LoginBannerSettings with message and isEnabled"
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"message": "Authorized users only", "isEnabled": true}}'
+
+  get_password_policy:
+    description: "Get password policy"
+    method: GetPasswordPolicy
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: password_policy
+    example: '{"tenant_uid": "tenant-uid-here"}'
+
+  update_password_policy:
+    description: "Update password policy"
+    method: UpdatePasswordPolicy
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1TenantPasswordPolicyEntity"
+        required: true
+        description: "V1TenantPasswordPolicyEntity with minLength, requireUppercase, etc."
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"minLength": 12, "requireUppercase": true, "requireNumber": true}}'
+
+  get_fips:
+    description: "Get FIPS compliance preference"
+    method: GetFIPSPreference
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+    output:
+      single: fips
+    example: '{"tenant_uid": "tenant-uid-here"}'
+    notes:
+      - "FIPS cannot be disabled once enabled"
+
+  update_fips:
+    description: "Enable FIPS compliance (cannot be undone)"
+    method: UpdateFIPSPreference
+    returns: "error_only"
+    inputs:
+      - name: tenant_uid
+        type: string
+        required: true
+        description: "Tenant UID"
+      - name: spec
+        type: object
+        go_type: "*models.V1FipsSettings"
+        required: true
+        description: "V1FipsSettings with isFipsEnabled"
+    output:
+      single: tenant_uid
+    example: '{"tenant_uid": "tenant-uid", "spec": {"isFipsEnabled": true}}'
+    notes:
+      - "WARNING: FIPS cannot be disabled once enabled"

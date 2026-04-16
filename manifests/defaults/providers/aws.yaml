@@ -1,0 +1,18 @@
+cloud_type: aws
+display_name: "AWS IaaS"
+
+packs:
+  os: "ubuntu-aws"
+  k8s: "kubernetes"
+  cni: "cni-calico"
+  csi: "csi-aws-ebs"
+
+cluster:
+  region: "us-east-1"
+  instance_type: "t3.large"
+  node_count: 3
+  ssh_key_name: ""
+
+networking:
+  vpc: "auto"
+  subnet_type: "public"

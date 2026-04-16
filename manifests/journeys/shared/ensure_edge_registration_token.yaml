@@ -1,0 +1,20 @@
+kind: journey
+name: ensure_edge_registration_token
+description: "Get or create an edge registration token for the tenant"
+agent: infra
+references:
+  - edge_api
+
+variants:
+  default:
+    description: "Check for existing tokens, create if none"
+    steps:
+      - description: "Create a registration token"
+        tool: edge_api
+        input: '{"mode": "create_token", "token_name": "edge-token"}'
+        note: "Creates a new token. Returns token_uid and token_value. The token_value is needed for edge host user-data."
+
+notes:
+  - "Edge registration tokens are tenant-scoped"
+  - "The token_value is a secret — used in user-data to register edge hosts with Palette"
+  - "A single token can be reused for multiple edge hosts"

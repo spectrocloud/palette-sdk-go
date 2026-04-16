@@ -1,0 +1,24 @@
+kind: api
+name: azure_cluster_api
+description: "Create Azure IaaS clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_azure:
+    description: "Create a new Azure IaaS cluster"
+    method: CreateAzure
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroAzureClusterEntity"
+        required: true
+        description: "V1SpectroAzureClusterEntity — full Azure cluster specification"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-azure"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}], "cloudConfig": {"region": "eastus", "subscriptionId": "..."}}}}'
+    notes:
+      - "Requires a valid Azure cloud account UID"
+      - "Requires an Azure-compatible infra cluster profile UID"
+      - "Uses Controller Mode (CAPI-based orchestration)"

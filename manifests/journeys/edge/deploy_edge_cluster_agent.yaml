@@ -1,0 +1,53 @@
+kind: journey
+name: deploy_edge_cluster_agent
+description: "Deploy an edge cluster using agent mode — launches AWS VMs with stylus agent, registers hosts, creates cluster"
+agent: infra
+references:
+  - edge_api
+  - edge_cluster_api
+  - aws_infra_api
+  - profile_api
+includes:
+  - ensure_edge_registration_token
+  - prepare_aws_edge_host_agent
+  - register_edge_hosts
+  - ensure_edge_cluster_profile
+
+variants:
+  default:
+    description: "Agent mode edge cluster on AWS"
+    steps:
+      - description: "Create edge registration token"
+        use: ensure_edge_registration_token
+        note: "Get or create a registration token for this deployment"
+
+      - description: "Ensure edge cluster profile exists"
+        use: ensure_edge_cluster_profile
+        context: "Cloud type is edge-native, agent mode. OS layer is standard (no provider image URI). K8s should be K3S or PXK-E."
+
+      - description: "Collect deployment configuration"
+        note: "Collect: number of hosts (min 1), how many CP nodes, how many workers, VIP IP address, AWS region, site name/tags"
+
+      - description: "Prepare AWS edge hosts with agent"
+        use: prepare_aws_edge_host_agent
+        context: "Launch N EC2 instances with Ubuntu AMI and stylus agent user-data. Use the registration token from step 1."
+
+      - description: "Wait for hosts to register"
+        use: register_edge_hosts
+        context: "Poll until all N hosts appear as registered in Palette"
+
+      - description: "Create edge cluster"
+        tool: edge_cluster_api
+        note: "Create the edge native cluster with: profile UID, VIP, edge host UIDs assigned to CP and worker pools based on user's counts."
+
+    post_steps:
+      - "Edge cluster provisioning takes 5-10 minutes after hosts are assigned"
+      - "Monitor status with cluster_common_api"
+      - "For single-node clusters, the same host serves as both CP and worker"
+
+notes:
+  - "Agent mode: end users manage the OS lifecycle"
+  - "The stylus agent is installed on first boot via user-data bash script"
+  - "Hosts auto-register with Palette using the edge registration token"
+  - "No cloud account is needed for edge native clusters"
+  - "A VIP (Virtual IP) is required for the cluster API endpoint"

@@ -1,0 +1,17 @@
+cloud_type: azure
+display_name: "Azure IaaS"
+
+packs:
+  os: "ubuntu-azure"
+  k8s: "kubernetes"
+  cni: "cni-calico-azure"
+  csi: "csi-azure"
+
+cluster:
+  region: "eastus"
+  instance_type: "Standard_D2s_v3"
+  node_count: 3
+
+networking:
+  vnet: "auto"
+  subnet_type: "public"

@@ -1,0 +1,23 @@
+cloud_type: eks
+display_name: "Amazon EKS"
+
+packs:
+  os: "amazon-linux-eks"
+  k8s: "kubernetes-eks"
+  cni: "cni-aws-vpc-eks"
+  csi: "csi-aws-ebs"
+
+cluster:
+  region: "us-east-1"
+  instance_type: "t3.large"
+  node_count: 3
+  endpoint_access: "public"
+  kubernetes_version: "1.28"
+
+networking:
+  vpc: "auto"
+  subnet_type: "public"
+
+oidc:
+  enabled: true
+  provider: "palette"

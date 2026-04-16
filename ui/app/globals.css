@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette Brand */
+  --color-brand: #1F7A78;
+  --color-brand-hover: #135757;
+  --color-brand-pressed: #0C403F;
+  --color-brand-boldest: #0B3433;
+  --color-sidebar-bg: #012121;
+  --color-sidebar-text: #ffffff;
+
+  /* Purple accent */
+  --color-purple: #827CC5;
+  --color-lavender: #4A4398;
+
+  /* Semantic */
+  --color-success: #219653;
+  --color-warning: #F2994A;
+  --color-error: #EB5757;
+  --color-danger: #DD314F;
+  --color-info: #409BF6;
+  --color-healthy: #2D864E;
+
+  /* Neutral */
+  --color-text-primary: #111626;
+  --color-text-subtle: #545f7e;
+  --color-text-muted: #3E4856;
+  --color-gray: #777777;
+  --color-border: #DEE1EA;
+  --color-input-border: #E1DDDA;
+  --color-concrete: #E8EBEE;
+  --color-surface: #ffffff;
+  --color-surface-subtlest: #FAF9F8;
+  --color-surface-subtler: #F3F0EE;
+  --color-bg: #F7F9FF;
+  --color-bg-neutral: rgba(1, 33, 33, 0.06);
+
+  /* Link & Focus */
+  --color-link: #1F7A78;
+  --color-focus: #268D8B;
+
+  /* Font */
+  --font-sans: "Poppins", Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #F7F9FF;
+  color: #111626;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+*:focus-visible {
+  outline: 3px solid #268D8B;
+  outline-offset: 2px;
+}

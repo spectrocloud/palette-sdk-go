@@ -1,0 +1,109 @@
+kind: api
+name: user_api
+description: "List, look up, delete, and assign roles to platform users"
+service: access
+agent: access_admin
+
+modes:
+  list_users:
+    description: "List all users in the tenant"
+    method: GetUsers
+    inputs: []
+    output:
+      list: users
+      fields:
+        uid: "Metadata.UID"
+        name: "Metadata.Name"
+        email: "Spec.EmailID"
+      table: [name, email, uid]
+    example: '{}'
+
+  get_user_by_id:
+    description: "Find a user by their UID"
+    method: GetUserByID
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "User UID"
+    output:
+      single: user
+    example: '{"uid": "user-uid-here"}'
+
+  get_user_by_email:
+    description: "Find a user by their email address"
+    method: GetUserByEmail
+    inputs:
+      - name: email
+        type: string
+        required: true
+        description: "User email address"
+    output:
+      single: user
+    example: '{"email": "jane@example.com"}'
+
+  get_user_by_name:
+    description: "Find a user by their display name"
+    method: GetUserByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "User display name"
+    output:
+      single: user
+    example: '{"name": "Jane Doe"}'
+
+  delete_user:
+    description: "Delete a user by UID"
+    method: DeleteUser
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "User UID to delete"
+    output:
+      single: user_uid
+    example: '{"uid": "user-uid-here"}'
+
+  assign_tenant_role:
+    description: "Assign tenant-level roles to an existing user"
+    method: AssociateUserTenantRole
+    returns: "error_only"
+    inputs:
+      - name: tenant_roles
+        type: object
+        go_type: "*models.V1UserRoleUIDs"
+        required: true
+        description: "V1UserRoleUIDs — object with roleUids array"
+    resolve:
+      field: uid
+      from: [uid, email, name]
+      methods: [GetUserByID, GetUserByEmail, GetUserByName]
+    output:
+      single: user_uid
+    example: '{"email": "jane@example.com", "tenant_roles": {"roleUids": ["role-uid-1"]}}'
+    notes:
+      - "User can be identified by uid, email, or name — resolved automatically"
+      - "Role UIDs are required — ask the user if unknown"
+
+  assign_project_role:
+    description: "Assign project-level roles to an existing user"
+    method: AssociateUserProjectRole
+    returns: "error_only"
+    inputs:
+      - name: project_roles
+        type: object
+        go_type: "*models.V1ProjectRolesPatch"
+        required: true
+        description: "V1ProjectRolesPatch — object with projects array containing projectUid and roles"
+    resolve:
+      field: uid
+      from: [uid, email, name]
+      methods: [GetUserByID, GetUserByEmail, GetUserByName]
+    output:
+      single: user_uid
+    example: '{"email": "jane@example.com", "project_roles": {"projects": [{"projectUid": "proj-uid", "roles": [{"uid": "role-uid"}]}]}}'
+    notes:
+      - "User can be identified by uid, email, or name — resolved automatically"

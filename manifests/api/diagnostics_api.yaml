@@ -1,0 +1,125 @@
+kind: api
+name: diagnostics_api
+description: "Compliance scans, alerts, events, and tag filters"
+service: diagnostics
+agent: operations
+
+modes:
+  get_scan_config:
+    description: "Get cluster compliance scan configuration"
+    method: GetClusterScanConfig
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: scan_config
+    example: '{"uid": "cluster-uid-here"}'
+
+  create_scan_config:
+    description: "Create cluster compliance scan configuration"
+    method: CreateClusterScanConfig
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: config
+        type: object
+        go_type: "*models.V1ClusterComplianceScheduleConfig"
+        required: true
+        description: "V1ClusterComplianceScheduleConfig"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "config": {"schedule": {"scheduledRunTime": "0 3 * * 0"}, "driverSpec": {"kubeBench": {"enabled": true}}}}'
+
+  update_scan_config:
+    description: "Update cluster compliance scan configuration"
+    method: UpdateClusterScanConfig
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: config
+        type: object
+        go_type: "*models.V1ClusterComplianceScheduleConfig"
+        required: true
+        description: "V1ClusterComplianceScheduleConfig"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "config": {"schedule": {"scheduledRunTime": "0 3 * * 0"}}}'
+
+  create_alert:
+    description: "Create an alert channel"
+    method: CreateAlert
+    inputs:
+      - name: alert
+        type: object
+        go_type: "*models.V1Channel"
+        required: true
+        description: "V1Channel alert definition"
+      - name: project_uid
+        type: string
+        required: true
+        description: "Project UID"
+      - name: component
+        type: string
+        required: true
+        description: "Component name"
+    output:
+      single: alert_uid
+    example: '{"alert": {"metadata": {"name": "cpu-alert"}}, "project_uid": "proj-uid", "component": "cluster"}'
+
+  get_alert:
+    description: "Get an alert by UID"
+    method: GetAlert
+    inputs:
+      - name: project_uid
+        type: string
+        required: true
+        description: "Project UID"
+      - name: component
+        type: string
+        required: true
+        description: "Component name"
+      - name: alert_uid
+        type: string
+        required: true
+        description: "Alert UID"
+    output:
+      single: alert
+    example: '{"project_uid": "proj-uid", "component": "cluster", "alert_uid": "alert-uid"}'
+
+  delete_alert:
+    description: "Delete an alert"
+    method: DeleteAlert
+    returns: "error_only"
+    inputs:
+      - name: project_uid
+        type: string
+        required: true
+        description: "Project UID"
+      - name: component
+        type: string
+        required: true
+        description: "Component name"
+      - name: alert_uid
+        type: string
+        required: true
+        description: "Alert UID"
+    output:
+      single: alert_uid
+    example: '{"project_uid": "proj-uid", "component": "cluster", "alert_uid": "alert-uid"}'
+
+  list_tag_filters:
+    description: "List all tag filters"
+    method: ListTagFilters
+    inputs: []
+    output:
+      list: filters
+      table: [name, uid]
+    example: '{}'

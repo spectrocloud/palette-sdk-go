@@ -1,0 +1,25 @@
+kind: journey
+name: ensure_cloud_account
+description: "Ensure a cloud account exists — list existing, let user pick, or create new with a form"
+agent: infra
+references:
+  - cloud_account_api
+
+variants:
+  default:
+    description: "Check for cloud accounts, create if none exist"
+    steps:
+      - description: "List existing cloud accounts"
+        tool: cloud_account_api
+        input: '{"mode": "list_accounts", "interactive": true}'
+        note: "Present accounts as a pick list. If user picks an existing account, use it. If no accounts exist, proceed to create one."
+
+      - description: "If no accounts found — create one using the account builder"
+        tool: cloud_account_api
+        note: "Call with {\"build_account\": \"<provider>\"}. This shows a single form with the right credential fields for the provider (AWS: access key + secret, Azure: tenant/client/subscription, GCP: JSON key). The account is created automatically."
+
+notes:
+  - "This is a shared sub-journey — referenced by deploy journeys that need a cloud account"
+  - "build_account handles: form building, credential collection, and account creation — all in one step"
+  - "For EKS/AKS/GKE journeys, the provider is mapped automatically (EKS→AWS, AKS→Azure, GKE→GCP)"
+  - "If accounts exist and user picks one, SKIP the build step"

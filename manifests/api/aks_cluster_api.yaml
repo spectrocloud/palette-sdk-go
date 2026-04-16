@@ -1,0 +1,23 @@
+kind: api
+name: aks_cluster_api
+description: "Create AKS (Azure managed Kubernetes) clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_aks:
+    description: "Create a new AKS cluster"
+    method: CreateAks
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroAzureClusterEntity"
+        required: true
+        description: "V1SpectroAzureClusterEntity — AKS uses the Azure cluster entity type"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-aks"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}], "cloudConfig": {"region": "eastus"}}}}'
+    notes:
+      - "AKS uses Azure cloud account credentials"
+      - "Uses Controller Mode — Azure manages the control plane, Palette manages worker nodes"

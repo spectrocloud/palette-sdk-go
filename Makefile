@@ -57,6 +57,36 @@ pre-commit-install: pre-commit ## Install pre-commit hooks
 test: ## Run acceptance tests
 	go test -covermode=atomic -coverpkg=./... -coverprofile=profile.cov ./... -timeout 10m
 
+.PHONY: generate-tools
+generate-tools: ## Generate workflows and skills from YAML manifests, then compile
+	go run ./tools/generate/
+	go build ./workflows/generated/
+	go build ./cmd/toolserver
+	@$(OK) generated and compiled
+
+##@ Agent Targets
+
+.PHONY: toolserver
+toolserver: ## Build and run the Go tool server
+	go build -o bin/toolserver ./cmd/toolserver
+	./bin/toolserver
+
+.PHONY: agent
+agent: ## Run the Python agent backend
+	cd agent && uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+
+.PHONY: ui-dev
+ui-dev: ## Run the Next.js frontend in dev mode
+	cd ui && npm run dev
+
+.PHONY: docker-up
+docker-up: ## Start all services via docker compose
+	docker compose up --build
+
+.PHONY: docker-down
+docker-down: ## Stop all docker compose services
+	docker compose down
+
 ##@ Tools Targets
 
 BIN_DIR ?= $(shell pwd)/bin

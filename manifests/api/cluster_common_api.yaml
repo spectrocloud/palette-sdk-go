@@ -1,0 +1,357 @@
+kind: api
+name: cluster_common_api
+description: "Provider-agnostic cluster operations: list, get, delete, kubeconfig, variables, profiles, backup, certs, metadata, OS patch"
+service: clusters
+agent: infra
+
+modes:
+  list_clusters:
+    description: "List all clusters across all providers"
+    method: Search
+    inputs:
+      - name: filter
+        type: object
+        go_type: "*models.V1SearchFilterSpec"
+        required: false
+        description: "Search filter (empty for all clusters)"
+      - name: sort
+        type: array
+        go_type: "[]*models.V1SearchFilterSortSpec"
+        required: false
+        description: "Sort order (optional)"
+    output:
+      list: clusters
+      table: [name, uid, cloud_type, status]
+    example: '{"filter": {"conjunction": "and", "filterGroups": []}, "sort": []}'
+    notes:
+      - "To filter results client-side: add client_filter, e.g. {\"mode\": \"list_clusters\", \"client_filter\": {\"cloudType\": \"eks\"}}"
+
+  get_cluster:
+    description: "Get cluster details by UID"
+    method: Get
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: cluster
+    example: '{"uid": "cluster-uid-here"}'
+
+  get_cluster_by_name:
+    description: "Get cluster details by name"
+    method: GetByName
+    args: ["name", "false"]
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Cluster name"
+    output:
+      single: cluster
+    example: '{"name": "my-cluster"}'
+
+  get_cluster_summary:
+    description: "Get cluster summary including health, status, and node counts"
+    method: GetSummary
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: summary
+    example: '{"uid": "cluster-uid-here"}'
+
+  search_clusters:
+    description: "Search clusters with filter and sort"
+    method: Search
+    inputs:
+      - name: filter
+        type: object
+        go_type: "*models.V1SearchFilterSpec"
+        required: true
+        description: "V1SearchFilterSpec with filter conditions"
+      - name: sort
+        type: array
+        go_type: "[]*models.V1SearchFilterSortSpec"
+        required: false
+        description: "Array of V1SearchFilterSortSpec"
+    output:
+      list: clusters
+      table: [name, uid, cloud_type, status]
+    example: '{"filter": {"conjunction": "and", "filterGroups": []}}'
+
+  delete_cluster:
+    description: "Delete a cluster by UID"
+    method: Delete
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid-here"}'
+
+  force_delete_cluster:
+    description: "Force delete a cluster (use when normal delete fails or cluster is stuck)"
+    method: ForceDelete
+    returns: "error_only"
+    args: ["uid", "true"]
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid-here"}'
+    notes:
+      - "Use only when normal delete fails or cluster is stuck in deleting state"
+
+  get_client_kubeconfig:
+    description: "Get client kubeconfig for kubectl access"
+    method: GetClientKubeConfig
+    returns: "string_error"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: kubeconfig
+    example: '{"uid": "cluster-uid-here"}'
+
+  get_admin_kubeconfig:
+    description: "Get admin kubeconfig (elevated privileges)"
+    method: GetAdminKubeConfig
+    returns: "string_error"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: kubeconfig
+    example: '{"uid": "cluster-uid-here"}'
+    notes:
+      - "Admin kubeconfig has elevated privileges — use with caution"
+
+  get_variables:
+    description: "Get cluster profile variables"
+    method: GetVariables
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: variables
+    example: '{"uid": "cluster-uid-here"}'
+
+  update_variables:
+    description: "Update cluster profile variable values"
+    method: UpdateVariables
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: variables
+        type: array
+        go_type: "[]*models.V1SpectroClusterVariableUpdateEntity"
+        required: true
+        description: "Array of V1SpectroClusterVariableUpdateEntity with name and value"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "variables": [{"name": "replica_count", "value": "3"}]}'
+
+  update_profile_values:
+    description: "Update cluster profile values (full replacement)"
+    method: UpdateProfileValues
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: profiles
+        type: object
+        go_type: "*models.V1SpectroClusterProfiles"
+        required: true
+        description: "V1SpectroClusterProfiles"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "profiles": {"profiles": [{"uid": "profile-uid"}]}}'
+
+  patch_profile_values:
+    description: "Patch cluster profile values (incremental update)"
+    method: PatchProfileValues
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: profiles
+        type: object
+        go_type: "*models.V1SpectroClusterProfiles"
+        required: true
+        description: "V1SpectroClusterProfiles"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "profiles": {"profiles": [{"uid": "profile-uid"}]}}'
+    notes:
+      - "Use patch for incremental changes, update_profile_values for full replacement"
+
+  get_backup_config:
+    description: "Get cluster backup configuration"
+    method: GetBackupConfig
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: backup
+    example: '{"uid": "cluster-uid-here"}'
+
+  create_backup_config:
+    description: "Create backup configuration for a cluster"
+    method: CreateBackupConfig
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: config
+        type: object
+        go_type: "*models.V1ClusterBackupConfig"
+        required: true
+        description: "V1ClusterBackupConfig"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "config": {"backupLocationName": "s3-backup", "schedule": {"scheduledRunTime": "0 2 * * *"}}}'
+
+  update_backup_config:
+    description: "Update backup configuration for a cluster"
+    method: UpdateBackupConfig
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: config
+        type: object
+        go_type: "*models.V1ClusterBackupConfig"
+        required: true
+        description: "V1ClusterBackupConfig"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "config": {"backupLocationName": "s3-backup", "schedule": {"scheduledRunTime": "0 3 * * *"}}}'
+
+  get_certificates:
+    description: "Get Kubernetes certificates for a cluster"
+    method: GetKubernetesCerts
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: certificates
+    example: '{"uid": "cluster-uid-here"}'
+
+  renew_certificates:
+    description: "Initiate certificate renewal for a cluster"
+    method: InitiateCertRenewal
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid-here"}'
+
+  update_metadata:
+    description: "Update cluster metadata (labels, annotations)"
+    method: UpdateMetadata
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: metadata
+        type: object
+        go_type: "*models.V1ObjectMetaInputEntitySchema"
+        required: true
+        description: "V1ObjectMetaInputEntitySchema with labels, annotations"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "metadata": {"labels": {"env": "production"}, "annotations": {"team": "platform"}}}'
+
+  update_os_patch:
+    description: "Configure OS patching schedule"
+    method: UpdateOsPatchConfig
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: config
+        type: object
+        go_type: "*models.V1OsPatchEntity"
+        required: true
+        description: "V1OsPatchEntity with schedule"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid", "config": {"schedule": "0 3 * * 0"}}'
+    notes:
+      - "Schedule is a cron expression"
+      - "Patches are applied during the maintenance window, one node at a time"
+
+  approve_repave:
+    description: "Approve a pending cluster repave operation"
+    method: ApproveRepave
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: cluster_uid
+    example: '{"uid": "cluster-uid-here"}'
+
+  get_namespace_config:
+    description: "Get cluster namespace configuration"
+    method: GetNamespaceConfig
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: namespaces
+    example: '{"uid": "cluster-uid-here"}'
+
+  get_rbac_config:
+    description: "Get cluster RBAC configuration"
+    method: GetRbacConfig
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Cluster UID"
+    output:
+      single: rbac
+    example: '{"uid": "cluster-uid-here"}'

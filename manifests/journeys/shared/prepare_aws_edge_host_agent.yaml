@@ -1,0 +1,34 @@
+kind: journey
+name: prepare_aws_edge_host_agent
+description: "Launch AWS EC2 instances as edge hosts with stylus agent installed via user-data"
+agent: infra
+references:
+  - aws_infra_api
+  - edge_api
+
+variants:
+  default:
+    description: "Launch EC2 VMs with agent mode user-data"
+    steps:
+      - description: "Select VPC for edge hosts"
+        tool: aws_infra_api
+        input: '{"mode": "list_vpcs", "interactive": true}'
+
+      - description: "Select subnet"
+        tool: aws_infra_api
+        note: 'Use list_subnets with the selected VPC ID: {"mode": "list_subnets", "vpc_id": "<vpc_id>", "interactive": true}'
+
+      - description: "Select SSH key pair"
+        tool: aws_infra_api
+        input: '{"mode": "list_key_pairs", "interactive": true}'
+
+      - description: "Launch EC2 instances with agent user-data"
+        tool: aws_infra_api
+        note: "For each host, call launch_instance with the Ubuntu AMI, selected subnet, key pair, and the agent install user-data script as user-data. The user-data installs the stylus agent which auto-registers the host with Palette."
+
+notes:
+  - "Default AMI: Ubuntu 22.04 LTS"
+  - "Default instance type: t3.xlarge"
+  - "The stylus agent is installed via user-data bash script on first boot"
+  - "Hosts auto-register with Palette using the edge registration token"
+  - "Tags on the EC2 instance help identify hosts later"

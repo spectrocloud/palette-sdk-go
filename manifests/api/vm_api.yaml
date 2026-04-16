@@ -1,0 +1,231 @@
+kind: api
+name: vm_api
+description: "Create, manage, and control virtual machines on clusters"
+service: vmo
+agent: app_workload
+
+modes:
+  list_vms:
+    description: "List all VMs on a cluster"
+    method: ListVMs
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroCluster"
+        required: true
+        description: "V1SpectroCluster object (use get_cluster to obtain)"
+    output:
+      list: vms
+      table: [name, namespace, status]
+    example: '{"cluster": {"metadata": {"uid": "cluster-uid"}}}'
+    notes:
+      - "Requires the full cluster object — use eks_cluster_api get_cluster first"
+
+  get_vm:
+    description: "Get VM details"
+    method: GetVM
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: namespace
+        type: string
+        required: true
+        description: "Kubernetes namespace"
+      - name: name
+        type: string
+        required: true
+        description: "VM name"
+    output:
+      single: vm
+    example: '{"cluster_uid": "cluster-uid", "namespace": "default", "name": "my-vm"}'
+
+  create_vm:
+    description: "Create a new virtual machine"
+    method: CreateVM
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm
+        type: object
+        go_type: "*models.V1ClusterVirtualMachine"
+        required: true
+        description: "V1ClusterVirtualMachine spec"
+    output:
+      single: vm
+    example: '{"cluster_uid": "cluster-uid", "vm": {"metadata": {"name": "my-vm", "namespace": "default"}, "spec": {"running": true, "template": {"spec": {"domain": {"cpu": {"cores": 2}, "memory": {"guest": "4Gi"}}}}}}}'
+
+  delete_vm:
+    description: "Delete a virtual machine"
+    method: DeleteVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: namespace
+        type: string
+        required: true
+        description: "Kubernetes namespace"
+      - name: name
+        type: string
+        required: true
+        description: "VM name"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "namespace": "default", "name": "my-vm"}'
+
+  start_vm:
+    description: "Start a stopped VM"
+    method: StartVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  stop_vm:
+    description: "Stop a running VM"
+    method: StopVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  pause_vm:
+    description: "Pause a running VM"
+    method: PauseVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  resume_vm:
+    description: "Resume a paused VM"
+    method: ResumeVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  restart_vm:
+    description: "Restart a VM"
+    method: RestartVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  migrate_vm:
+    description: "Live-migrate a VM to another node"
+    method: MigrateVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: vm_name
+        type: string
+        required: true
+        description: "VM name"
+      - name: vm_namespace
+        type: string
+        required: true
+        description: "VM namespace"
+    output:
+      single: vm_name
+    example: '{"cluster_uid": "cluster-uid", "vm_name": "my-vm", "vm_namespace": "default"}'
+
+  clone_vm:
+    description: "Clone an existing VM"
+    method: CloneVM
+    returns: "error_only"
+    inputs:
+      - name: cluster_uid
+        type: string
+        required: true
+        description: "Cluster UID"
+      - name: source_vm_name
+        type: string
+        required: true
+        description: "Source VM name"
+      - name: clone_vm_name
+        type: string
+        required: true
+        description: "Name for the cloned VM"
+      - name: namespace
+        type: string
+        required: true
+        description: "Kubernetes namespace"
+    output:
+      single: clone_vm_name
+    example: '{"cluster_uid": "cluster-uid", "source_vm_name": "my-vm", "clone_vm_name": "my-vm-clone", "namespace": "default"}'

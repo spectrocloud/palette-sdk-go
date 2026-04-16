@@ -1,0 +1,11 @@
+cloud_type: maas
+display_name: "MAAS Bare Metal"
+
+packs:
+  os: "ubuntu-maas"
+  k8s: "kubernetes"
+  cni: "cni-calico"
+  csi: "longhorn"
+
+cluster:
+  node_count: 3

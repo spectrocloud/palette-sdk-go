@@ -1,0 +1,24 @@
+kind: api
+name: maas_cluster_api
+description: "Create MAAS bare-metal clusters"
+service: clusters
+agent: infra
+
+modes:
+  create_maas:
+    description: "Create a new MAAS bare-metal cluster"
+    method: CreateMaas
+    returns: "string_error"
+    inputs:
+      - name: cluster
+        type: object
+        go_type: "*models.V1SpectroMaasClusterEntity"
+        required: true
+        description: "V1SpectroMaasClusterEntity — full MAAS cluster specification"
+    output:
+      single: cluster_uid
+    example: '{"cluster": {"metadata": {"name": "prod-maas"}, "spec": {"cloudAccountUid": "...", "profiles": [{"uid": "..."}]}}}'
+    notes:
+      - "Requires a valid MAAS cloud account (api_endpoint, api_key)"
+      - "Uses Controller Mode"
+      - "Can serve as foundation for VMO (KubeVirt) workloads"

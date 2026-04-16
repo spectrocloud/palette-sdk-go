@@ -1,0 +1,36 @@
+cloud_type: edge-native
+display_name: "Edge Native"
+
+packs:
+  os: "edge-native-byoi"
+  os_version: "2.1.0"
+  k8s: "edge-k3s"
+  cni: "cni-calico"
+
+cluster:
+  node_count: 1
+  single_node: true
+  vip: ""
+
+# Appliance mode defaults
+appliance:
+  instance_type: "t3.xlarge"
+  disk_size_gb: 100
+  canvos_ami: ""  # Customer-built AMI via CanvOS Edge Forge
+
+# Agent mode defaults
+agent:
+  instance_type: "t3.xlarge"
+  disk_size_gb: 100
+  base_ami: "ami-00de3875b03809ec5"  # Ubuntu 22.04 LTS (us-east-1) - March 2026
+  install_script_url: "https://github.com/spectrocloud/agent-mode/releases/latest/download/palette-agent-install.sh"
+  install_script_url_fips: "https://github.com/spectrocloud/agent-mode/releases/latest/download/palette-agent-install-fips.sh"
+
+# User-data template fields
+userdata:
+  palette_endpoint: "https://api.spectrocloud.com"
+  ntp_servers: []
+  proxy:
+    http_proxy: ""
+    https_proxy: ""
+    no_proxy: ""

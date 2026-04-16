@@ -1,0 +1,75 @@
+kind: api
+name: role_api
+description: "Create, get, update, and delete roles"
+service: access
+agent: access_admin
+
+modes:
+  get_role:
+    description: "Get role by name"
+    method: GetRole
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Role name"
+    output:
+      single: role
+    example: '{"name": "Tenant Admin"}'
+
+  get_role_by_id:
+    description: "Get role by UID"
+    method: GetRoleByID
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Role UID"
+    output:
+      single: role
+    example: '{"uid": "role-uid-here"}'
+
+  create_role:
+    description: "Create a custom role"
+    method: CreateRole
+    returns: "string_error"
+    inputs:
+      - name: role
+        type: object
+        go_type: "*models.V1Role"
+        required: true
+        description: "V1Role with metadata.name and spec.permissions"
+    output:
+      single: role_uid
+    example: '{"role": {"metadata": {"name": "custom-viewer"}, "spec": {"permissions": ["cluster.get", "cluster.list"]}}}'
+
+  update_role:
+    description: "Update an existing role"
+    method: UpdateRole
+    returns: "error_only"
+    inputs:
+      - name: role
+        type: object
+        go_type: "*models.V1Role"
+        required: true
+        description: "V1Role with updated spec"
+      - name: uid
+        type: string
+        required: true
+        description: "Role UID"
+    output:
+      single: role_uid
+    example: '{"uid": "role-uid", "role": {"metadata": {"name": "custom-viewer"}, "spec": {"permissions": ["cluster.get"]}}}'
+
+  delete_role:
+    description: "Delete a role"
+    method: DeleteRole
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Role UID"
+    output:
+      single: role_uid
+    example: '{"uid": "role-uid-here"}'

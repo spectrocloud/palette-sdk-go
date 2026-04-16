@@ -1,0 +1,42 @@
+services:
+  toolserver:
+    build:
+      context: .
+      dockerfile: cmd/toolserver/Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      - PALETTE_HOST=${PALETTE_HOST}
+      - PALETTE_API_KEY=${PALETTE_API_KEY}
+      - PALETTE_PROJECT_UID=${PALETTE_PROJECT_UID}
+      - TOOL_SERVER_PORT=8090
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8090/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  agent:
+    build:
+      context: agent
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - TOOL_SERVER_URL=http://toolserver:8090
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4o}
+    depends_on:
+      toolserver:
+        condition: service_healthy
+
+  ui:
+    build:
+      context: ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws/chat
+    depends_on:
+      - agent

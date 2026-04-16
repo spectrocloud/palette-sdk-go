@@ -1,0 +1,19 @@
+schedules:
+  daily:
+    cron: "0 2 * * *"
+    description: "Daily at 2:00 AM UTC"
+  weekly:
+    cron: "0 2 * * 0"
+    description: "Weekly on Sunday at 2:00 AM UTC"
+  monthly:
+    cron: "0 2 1 * *"
+    description: "Monthly on the 1st at 2:00 AM UTC"
+
+retention:
+  default_days: 30
+  minimum_days: 7
+  maximum_days: 365
+
+namespaces:
+  default: ["*"]
+  description: "Backup all namespaces by default"

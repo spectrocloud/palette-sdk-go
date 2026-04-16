@@ -1,0 +1,143 @@
+kind: api
+name: registry_api
+description: "List, create, update, and delete container registries (Helm, OCI, ECR)"
+service: registries
+agent: app_workload
+
+modes:
+  list_pack_registries:
+    description: "List all pack registries"
+    method: ListPackRegistries
+    inputs: []
+    output:
+      list: registries
+      table: [name, uid]
+    example: '{}'
+
+  list_helm_registries:
+    description: "List all Helm registries"
+    method: ListHelmRegistries
+    inputs:
+      - name: scope
+        type: string
+        required: false
+        description: "Scope: project or tenant"
+        default: "project"
+    output:
+      list: registries
+      table: [name, uid]
+    example: '{"scope": "project"}'
+
+  list_oci_registries:
+    description: "List all OCI registries"
+    method: ListOCIRegistries
+    inputs: []
+    output:
+      list: registries
+      table: [name, uid]
+    example: '{}'
+
+  get_helm_registry:
+    description: "Get Helm registry by UID"
+    method: GetHelmRegistry
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Registry UID"
+    output:
+      single: registry
+    example: '{"uid": "registry-uid-here"}'
+
+  get_helm_registry_by_name:
+    description: "Get Helm registry by name"
+    method: GetHelmRegistryByName
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Registry name"
+    output:
+      single: registry
+    example: '{"name": "my-helm-registry"}'
+
+  create_helm_registry:
+    description: "Create a Helm registry"
+    method: CreateHelmRegistry
+    returns: "string_error"
+    inputs:
+      - name: registry
+        type: object
+        go_type: "*models.V1HelmRegistryEntity"
+        required: true
+        description: "V1HelmRegistryEntity with metadata.name, spec.endpoint, auth config"
+    output:
+      single: registry_uid
+    example: '{"registry": {"metadata": {"name": "my-helm"}, "spec": {"endpoint": "https://charts.example.com", "auth": {"username": "...", "password": "..."}}}}'
+
+  delete_helm_registry:
+    description: "Delete a Helm registry"
+    method: DeleteHelmRegistry
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Registry UID"
+    output:
+      single: registry_uid
+    example: '{"uid": "registry-uid-here"}'
+
+  create_oci_basic_registry:
+    description: "Create an OCI basic registry"
+    method: CreateOciBasicRegistry
+    returns: "string_error"
+    inputs:
+      - name: registry
+        type: object
+        go_type: "*models.V1BasicOciRegistry"
+        required: true
+        description: "V1BasicOciRegistry with metadata.name, spec.endpoint, auth config"
+    output:
+      single: registry_uid
+    example: '{"registry": {"metadata": {"name": "my-oci"}, "spec": {"endpoint": "https://registry.example.com"}}}'
+
+  delete_oci_basic_registry:
+    description: "Delete an OCI basic registry"
+    method: DeleteOciBasicRegistry
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Registry UID"
+    output:
+      single: registry_uid
+    example: '{"uid": "registry-uid-here"}'
+
+  create_ecr_registry:
+    description: "Create an ECR registry"
+    method: CreateOciEcrRegistry
+    returns: "string_error"
+    inputs:
+      - name: registry
+        type: object
+        go_type: "*models.V1EcrRegistry"
+        required: true
+        description: "V1EcrRegistry with metadata.name, spec with AWS credentials and region"
+    output:
+      single: registry_uid
+    example: '{"registry": {"metadata": {"name": "my-ecr"}, "spec": {"accessKey": "...", "secretKey": "...", "region": "us-east-1"}}}'
+
+  delete_ecr_registry:
+    description: "Delete an ECR registry"
+    method: DeleteOciEcrRegistry
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Registry UID"
+    output:
+      single: registry_uid
+    example: '{"uid": "registry-uid-here"}'

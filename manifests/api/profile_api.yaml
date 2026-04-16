@@ -1,0 +1,191 @@
+kind: api
+name: profile_api
+description: "Create, list, update, delete, publish, import, and export cluster profiles"
+service: profiles
+agent: app_workload
+
+modes:
+  list_profiles:
+    description: "List all cluster profiles (unfiltered)"
+    method: List
+    inputs: []
+    output:
+      list: profiles
+      fields:
+        uid: "UID"
+        name: "Name"
+      table: [name, uid]
+    example: '{}'
+
+  search_profiles:
+    description: "Search cluster profiles with filters (by cloud type, profile type, name, scope)"
+    method: SearchProfiles
+    inputs:
+      - name: filter
+        type: object
+        go_type: "*models.V1ClusterProfilesFilterSpec"
+        required: true
+        description: "Filter with optional fields: filter.environment (cloud types array, e.g. ['aws','eks']), filter.profileType (array, e.g. ['cluster','infra','add-on']), filter.profileName (object with eq/contains), filter.scope (string)"
+    output:
+      list: profiles
+      table: [name, uid, cloudType, type, version]
+    example: '{"filter": {"filter": {"environment": ["aws"]}}}'
+    notes:
+      - "To list AWS profiles: {\"mode\": \"search_profiles\", \"filter\": {\"filter\": {\"environment\": [\"aws\"]}}}"
+      - "To list infra (cluster type) profiles: {\"mode\": \"search_profiles\", \"filter\": {\"filter\": {\"profileType\": [\"infra\"]}}}"
+      - "To list add-on profiles: {\"mode\": \"search_profiles\", \"filter\": {\"filter\": {\"profileType\": [\"add-on\"]}}}"
+      - "To list AWS infra profiles: {\"mode\": \"search_profiles\", \"filter\": {\"filter\": {\"environment\": [\"aws\"], \"profileType\": [\"infra\"]}}}"
+      - "Profile types: infra, add-on, cluster (full stack), system"
+      - "Environment values: aws, eks, azure, aks, gcp, gke, edge-native, vsphere, maas, all"
+      - "Use this instead of list_profiles when filtering is needed"
+
+  get_profile:
+    description: "Get full cluster profile details"
+    method: Get
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Profile UID"
+    output:
+      single: profile
+    example: '{"uid": "profile-uid-here"}'
+
+  get_profile_summary:
+    description: "Get cluster profile summary"
+    method: GetSummary
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Profile UID"
+    output:
+      single: summary
+    example: '{"uid": "profile-uid-here"}'
+
+  get_profile_uid:
+    description: "Get profile UID by name and optional version"
+    method: GetUID
+    returns: "string_error"
+    inputs:
+      - name: name
+        type: string
+        required: true
+        description: "Profile name"
+      - name: version
+        type: string
+        required: false
+        description: "Profile version (latest if omitted)"
+    output:
+      single: profile_uid
+    example: '{"name": "eks-default", "version": "1.0.0"}'
+
+  create_profile:
+    description: "Create a new cluster profile"
+    method: Create
+    returns: "string_error"
+    inputs:
+      - name: profile
+        type: object
+        go_type: "*models.V1ClusterProfileEntity"
+        required: true
+        description: "V1ClusterProfileEntity with metadata and spec"
+    output:
+      single: profile_uid
+    example: '{"profile": {"metadata": {"name": "my-profile"}, "spec": {"type": "cluster"}}}'
+
+  update_profile:
+    description: "Update an existing cluster profile"
+    method: Update
+    returns: "error_only"
+    inputs:
+      - name: profile
+        type: object
+        go_type: "*models.V1ClusterProfileUpdateEntity"
+        required: true
+        description: "V1ClusterProfileUpdateEntity"
+    output:
+      single: profile_uid
+    example: '{"profile": {"metadata": {"uid": "profile-uid", "name": "my-profile"}, "spec": {}}}'
+
+  delete_profile:
+    description: "Delete a cluster profile"
+    method: Delete
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Profile UID"
+    output:
+      single: profile_uid
+    example: '{"uid": "profile-uid-here"}'
+
+  publish_profile:
+    description: "Publish a draft cluster profile"
+    method: Publish
+    returns: "error_only"
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Profile UID to publish"
+    output:
+      single: profile_uid
+    example: '{"uid": "profile-uid-here"}'
+
+  import_profile:
+    description: "Import a cluster profile from content string"
+    method: Import
+    returns: "string_error"
+    inputs:
+      - name: content
+        type: string
+        required: true
+        description: "Exported profile content string"
+    output:
+      single: profile_uid
+    example: '{"content": "...exported profile data..."}'
+
+  get_profile_variables:
+    description: "Get profile variables"
+    method: GetVariables
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Profile UID"
+    output:
+      single: variables
+    example: '{"uid": "profile-uid-here"}'
+
+  get_pack:
+    description: "Get pack details including values.yaml"
+    method: GetPack
+    inputs:
+      - name: uid
+        type: string
+        required: true
+        description: "Pack UID"
+    output:
+      single: pack
+    example: '{"uid": "pack-uid-here"}'
+
+  search_packs:
+    description: "Search available packs with filters"
+    method: SearchPacks
+    inputs:
+      - name: filter
+        type: object
+        go_type: "*models.V1PackFilterSpec"
+        required: true
+        description: "V1PackFilterSpec for filtering packs"
+      - name: sort
+        type: array
+        go_type: "[]*models.V1PackSortSpec"
+        required: false
+        description: "Sort specifications (optional)"
+    output:
+      list: packs
+      table: [name, version, type]
+    example: '{"filter": {"type": ["kubernetes"], "registryUid": ["registry-uid"]}}'

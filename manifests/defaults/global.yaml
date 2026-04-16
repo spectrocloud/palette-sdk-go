@@ -1,0 +1,27 @@
+preferred_registry: "Palette Repo"
+
+naming:
+  profile: "{cloud_type}-infra-profile"
+  cluster: "{cloud_type}-cluster"
+
+profile:
+  version: "1.0.0"
+
+cluster:
+  node_count: 3
+
+session:
+  access_token_expiry_minutes: 60
+  refresh_token_expiry_minutes: 1440
+
+password_policy:
+  min_length: 12
+  require_uppercase: true
+  require_number: true
+  require_special: true
+  expiry_days: 90
+
+backup:
+  enabled: false
+  schedule: "0 2 * * *"
+  retention_days: 30

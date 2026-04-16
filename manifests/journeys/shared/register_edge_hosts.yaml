@@ -1,0 +1,24 @@
+kind: journey
+name: register_edge_hosts
+description: "Wait for edge hosts to register with Palette and verify their status"
+agent: infra
+references:
+  - edge_api
+
+variants:
+  default:
+    description: "Poll for registered hosts matching tags"
+    steps:
+      - description: "List registered edge hosts"
+        tool: edge_api
+        input: '{"mode": "list_edge_hosts"}'
+        note: "Check if expected number of hosts have registered. If using tags, filter with get_edge_hosts_by_tags."
+
+      - description: "Verify all hosts are healthy"
+        note: "Each host should show status=registered and health=healthy. If hosts are missing, they may still be booting and installing the agent."
+
+notes:
+  - "Edge hosts register automatically after the stylus agent starts"
+  - "Registration typically takes 2-5 minutes after VM boot"
+  - "If hosts don't appear, check: network connectivity, token validity, user-data correctness"
+  - "Use tags to filter hosts belonging to a specific deployment"

@@ -1,0 +1,98 @@
+kind: journey
+name: create_cluster_profile
+description: "Create a new infra cluster profile with a single form — packs are auto-fetched and pre-filtered"
+agent: app_workload
+references:
+  - profile_api
+
+decision:
+  question: "What cloud type is this profile for?"
+  signals:
+    - keywords: [eks]
+      variant: eks
+    - keywords: [aws]
+      variant: aws
+    - keywords: [azure, aks]
+      variant: azure
+    - keywords: [gcp, gke]
+      variant: gcp
+    - keywords: [vmware, vsphere]
+      variant: vmware
+    - keywords: [edge]
+      variant: edge
+    - keywords: [maas]
+      variant: maas
+  default: ask
+
+variants:
+  ask:
+    description: "Cloud type not specified — ask first, then build"
+    steps:
+      - description: "Ask the user which cloud type, then trigger the profile builder"
+        tool: profile_api
+        input: '{"collect": {"_title": "New Cluster Profile", "cloud_type": {"type": "select", "label": "Cloud Type", "required": true, "enum": ["eks", "aws", "azure", "aks", "gcp", "gke", "vmware", "edge-native", "maas"]}}}'
+        note: "After collecting the cloud type, call profile_api with build_profile set to the cloud type."
+
+      - description: "Build the profile"
+        tool: profile_api
+        note: "Call with: {\"build_profile\": \"<cloud_type from previous step>\"}. This fetches available packs, shows a single form with pre-filtered dropdowns and smart defaults, and creates + publishes the profile."
+
+  eks:
+    description: "Create an EKS infra profile"
+    steps:
+      - description: "Build EKS profile with auto-fetched packs and defaults"
+        tool: profile_api
+        input: '{"build_profile": "eks"}'
+        note: "This single call fetches all available EKS packs, presents a form with OS/K8s/CNI/CSI dropdowns (pre-filtered for EKS, with best defaults selected), collects the user's choices, creates the profile, and publishes it."
+
+    post_steps:
+      - "Profile is ready for EKS cluster deployments"
+      - "Deploy a cluster with: 'deploy an EKS cluster'"
+
+  aws:
+    description: "Create an AWS IaaS infra profile"
+    steps:
+      - description: "Build AWS profile"
+        tool: profile_api
+        input: '{"build_profile": "aws"}'
+
+  azure:
+    description: "Create an Azure infra profile"
+    steps:
+      - description: "Build Azure profile"
+        tool: profile_api
+        input: '{"build_profile": "azure"}'
+
+  gcp:
+    description: "Create a GCP infra profile"
+    steps:
+      - description: "Build GCP profile"
+        tool: profile_api
+        input: '{"build_profile": "gcp"}'
+
+  vmware:
+    description: "Create a VMware infra profile"
+    steps:
+      - description: "Build VMware profile"
+        tool: profile_api
+        input: '{"build_profile": "vmware"}'
+
+  edge:
+    description: "Create an Edge Native infra profile"
+    steps:
+      - description: "Build Edge profile"
+        tool: profile_api
+        input: '{"build_profile": "edge-native"}'
+
+  maas:
+    description: "Create a MAAS infra profile"
+    steps:
+      - description: "Build MAAS profile"
+        tool: profile_api
+        input: '{"build_profile": "maas"}'
+
+notes:
+  - "build_profile triggers a smart form that auto-fetches packs filtered for the cloud type"
+  - "Defaults are pre-selected — user just reviews and submits"
+  - "Profile is automatically published after creation"
+  - "The profile builder shows one form with all 4 layers (OS, K8s, CNI, CSI) as dropdowns"

@@ -1,0 +1,14 @@
+cloud_type: aks
+display_name: "Azure AKS"
+
+packs:
+  os: "ubuntu-azure"
+  k8s: "kubernetes-aks"
+  cni: "cni-calico-azure"
+  csi: "csi-azure"
+
+cluster:
+  region: "eastus"
+  instance_type: "Standard_D2s_v3"
+  node_count: 3
+  kubernetes_version: "1.28"
