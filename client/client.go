@@ -209,12 +209,14 @@ func (h *V1Client) getTransport() *transport.Runtime {
 func (h *V1Client) apiKeyTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
 	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authAPIKey, authTokenInput, h.apikey)
+	httpTransport.AddSensitiveValue(h.apikey)
 	return httpTransport
 }
 
 func (h *V1Client) jwtTransport() *transport.Runtime {
 	httpTransport := h.baseTransport()
 	httpTransport.DefaultAuthentication = openapiclient.APIKeyAuth(authJwt, authTokenInput, h.jwt)
+	httpTransport.AddSensitiveValue(h.jwt)
 	return httpTransport
 }
 
