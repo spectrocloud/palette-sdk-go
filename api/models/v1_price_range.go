@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -33,6 +35,11 @@ type V1PriceRange struct {
 
 // Validate validates this v1 price range
 func (m *V1PriceRange) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 price range based on context it is used
+func (m *V1PriceRange) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

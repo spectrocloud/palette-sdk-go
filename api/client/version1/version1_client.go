@@ -28,6 +28,8 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
+	V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error)
+
 	V1AuthOrgs(params *V1AuthOrgsParams) (*V1AuthOrgsOK, error)
 
 	V1AuthSsoProviders(params *V1AuthSsoProvidersParams) (*V1AuthSsoProvidersOK, error)
@@ -120,6 +122,10 @@ type ClientService interface {
 
 	V1AzureZones(params *V1AzureZonesParams) (*V1AzureZonesOK, error)
 
+	V1BillingPreferenceGet(params *V1BillingPreferenceGetParams) (*V1BillingPreferenceGetOK, error)
+
+	V1BillingPreferenceUpdate(params *V1BillingPreferenceUpdateParams) (*V1BillingPreferenceUpdateNoContent, error)
+
 	V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudComputeRateOK, error)
 
 	V1CloudStackAccountValidate(params *V1CloudStackAccountValidateParams) (*V1CloudStackAccountValidateNoContent, error)
@@ -144,11 +150,17 @@ type ClientService interface {
 
 	V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudStorageRateOK, error)
 
+	V1CloudsAwsAPIEndpointsGet(params *V1CloudsAwsAPIEndpointsGetParams) (*V1CloudsAwsAPIEndpointsGetOK, error)
+
 	V1CloudsAwsCloudWatchValidate(params *V1CloudsAwsCloudWatchValidateParams) (*V1CloudsAwsCloudWatchValidateNoContent, error)
 
 	V1ClusterFeatureBackupLocationUIDChange(params *V1ClusterFeatureBackupLocationUIDChangeParams) (*V1ClusterFeatureBackupLocationUIDChangeNoContent, error)
 
 	V1ClusterFeatureBackupLocationUIDGet(params *V1ClusterFeatureBackupLocationUIDGetParams) (*V1ClusterFeatureBackupLocationUIDGetOK, error)
+
+	V1ClusterPreferenceGet(params *V1ClusterPreferenceGetParams) (*V1ClusterPreferenceGetOK, error)
+
+	V1ClusterPreferenceUpdate(params *V1ClusterPreferenceUpdateParams) (*V1ClusterPreferenceUpdateNoContent, error)
 
 	V1ClusterProfilesUIDExport(params *V1ClusterProfilesUIDExportParams, writer io.Writer) (*V1ClusterProfilesUIDExportOK, error)
 
@@ -286,6 +298,12 @@ type ClientService interface {
 
 	V1GcpZones(params *V1GcpZonesParams) (*V1GcpZonesOK, error)
 
+	V1GrpcConfiguration(params *V1GrpcConfigurationParams) (*V1GrpcConfigurationOK, error)
+
+	V1HealthPing(params *V1HealthPingParams) (*V1HealthPingOK, error)
+
+	V1HealthReady(params *V1HealthReadyParams) (*V1HealthReadyOK, error)
+
 	V1HostClusterConfigUpdate(params *V1HostClusterConfigUpdateParams) (*V1HostClusterConfigUpdateNoContent, error)
 
 	V1InvoiceUIDReportInvoicePdf(params *V1InvoiceUIDReportInvoicePdfParams, writer io.Writer) (*V1InvoiceUIDReportInvoicePdfOK, error)
@@ -310,20 +328,6 @@ type ClientService interface {
 
 	V1OidcLogout(params *V1OidcLogoutParams) (*V1OidcLogoutNoContent, error)
 
-	V1OpenStackAccountValidate(params *V1OpenStackAccountValidateParams) (*V1OpenStackAccountValidateNoContent, error)
-
-	V1OpenStackAzsGet(params *V1OpenStackAzsGetParams) (*V1OpenStackAzsGetOK, error)
-
-	V1OpenStackFlavorsGet(params *V1OpenStackFlavorsGetParams) (*V1OpenStackFlavorsGetOK, error)
-
-	V1OpenStackKeypairsGet(params *V1OpenStackKeypairsGetParams) (*V1OpenStackKeypairsGetOK, error)
-
-	V1OpenStackNetworksGet(params *V1OpenStackNetworksGetParams) (*V1OpenStackNetworksGetOK, error)
-
-	V1OpenStackProjectsGet(params *V1OpenStackProjectsGetParams) (*V1OpenStackProjectsGetOK, error)
-
-	V1OpenStackRegionsGet(params *V1OpenStackRegionsGetParams) (*V1OpenStackRegionsGetOK, error)
-
 	V1OverlordsMaasManifest(params *V1OverlordsMaasManifestParams) (*V1OverlordsMaasManifestOK, error)
 
 	V1OverlordsMigrate(params *V1OverlordsMigrateParams) (*V1OverlordsMigrateNoContent, error)
@@ -335,6 +339,8 @@ type ClientService interface {
 	V1PasswordsBlockListDelete(params *V1PasswordsBlockListDeleteParams) (*V1PasswordsBlockListDeleteNoContent, error)
 
 	V1PasswordsBlockListUpdate(params *V1PasswordsBlockListUpdateParams) (*V1PasswordsBlockListUpdateNoContent, error)
+
+	V1PaymentSecretsUpdate(params *V1PaymentSecretsUpdateParams) (*V1PaymentSecretsUpdateNoContent, error)
 
 	V1RegistriesHelmValidate(params *V1RegistriesHelmValidateParams) (*V1RegistriesHelmValidateNoContent, error)
 
@@ -358,6 +364,8 @@ type ClientService interface {
 
 	V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1SpectroClustersClusterTemplatesUIDProfilesGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesGetOK, error)
 
+	V1SpectroClustersClusterTemplatesUIDValidateRepave(params *V1SpectroClustersClusterTemplatesUIDValidateRepaveParams) (*V1SpectroClustersClusterTemplatesUIDValidateRepaveOK, error)
+
 	V1SpectroClustersTemplatesUIDClustersUpgrade(params *V1SpectroClustersTemplatesUIDClustersUpgradeParams) (*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent, error)
 
 	V1SpectroClustersUIDEdgeReset(params *V1SpectroClustersUIDEdgeResetParams) (*V1SpectroClustersUIDEdgeResetNoContent, error)
@@ -376,9 +384,193 @@ type ClientService interface {
 
 	V1SsoLogins(params *V1SsoLoginsParams) (*V1SsoLoginsOK, error)
 
+	V1SystemAdminEmail(params *V1SystemAdminEmailParams) (*V1SystemAdminEmailNoContent, error)
+
+	V1SystemAdminPasswordReset(params *V1SystemAdminPasswordResetParams) (*V1SystemAdminPasswordResetNoContent, error)
+
+	V1SystemConfigAuthGet(params *V1SystemConfigAuthGetParams) (*V1SystemConfigAuthGetOK, error)
+
+	V1SystemConfigAuthUpdate(params *V1SystemConfigAuthUpdateParams) (*V1SystemConfigAuthUpdateNoContent, error)
+
+	V1SystemConfigAwsAccountGet(params *V1SystemConfigAwsAccountGetParams) (*V1SystemConfigAwsAccountGetOK, error)
+
+	V1SystemConfigAwsAccountUpdate(params *V1SystemConfigAwsAccountUpdateParams) (*V1SystemConfigAwsAccountUpdateNoContent, error)
+
+	V1SystemConfigAwsAPIEndpointsGet(params *V1SystemConfigAwsAPIEndpointsGetParams) (*V1SystemConfigAwsAPIEndpointsGetOK, error)
+
+	V1SystemConfigAwsAPIEndpointsUpdate(params *V1SystemConfigAwsAPIEndpointsUpdateParams) (*V1SystemConfigAwsAPIEndpointsUpdateNoContent, error)
+
+	V1SystemConfigAwsGovStsAccountCreate(params *V1SystemConfigAwsGovStsAccountCreateParams) (*V1SystemConfigAwsGovStsAccountCreateNoContent, error)
+
+	V1SystemConfigAwsGovStsAccountGet(params *V1SystemConfigAwsGovStsAccountGetParams) (*V1SystemConfigAwsGovStsAccountGetOK, error)
+
+	V1SystemConfigAwsGovStsAccountUpdate(params *V1SystemConfigAwsGovStsAccountUpdateParams) (*V1SystemConfigAwsGovStsAccountUpdateNoContent, error)
+
+	V1SystemConfigAwsImageGet(params *V1SystemConfigAwsImageGetParams) (*V1SystemConfigAwsImageGetOK, error)
+
+	V1SystemConfigAwsImageUpdate(params *V1SystemConfigAwsImageUpdateParams) (*V1SystemConfigAwsImageUpdateNoContent, error)
+
+	V1SystemConfigAwsStsAccountGet(params *V1SystemConfigAwsStsAccountGetParams) (*V1SystemConfigAwsStsAccountGetOK, error)
+
+	V1SystemConfigAwsStsAccountUpdate(params *V1SystemConfigAwsStsAccountUpdateParams) (*V1SystemConfigAwsStsAccountUpdateNoContent, error)
+
+	V1SystemConfigAzureAccountGet(params *V1SystemConfigAzureAccountGetParams) (*V1SystemConfigAzureAccountGetOK, error)
+
+	V1SystemConfigAzureAccountUpdate(params *V1SystemConfigAzureAccountUpdateParams) (*V1SystemConfigAzureAccountUpdateNoContent, error)
+
+	V1SystemConfigAzureStorageGet(params *V1SystemConfigAzureStorageGetParams) (*V1SystemConfigAzureStorageGetOK, error)
+
+	V1SystemConfigAzureStorageUpdate(params *V1SystemConfigAzureStorageUpdateParams) (*V1SystemConfigAzureStorageUpdateNoContent, error)
+
+	V1SystemConfigCloudstackImageGet(params *V1SystemConfigCloudstackImageGetParams) (*V1SystemConfigCloudstackImageGetOK, error)
+
+	V1SystemConfigCloudstackImageUpdate(params *V1SystemConfigCloudstackImageUpdateParams) (*V1SystemConfigCloudstackImageUpdateNoContent, error)
+
+	V1SystemConfigClusterGet(params *V1SystemConfigClusterGetParams) (*V1SystemConfigClusterGetOK, error)
+
+	V1SystemConfigClusterUpdate(params *V1SystemConfigClusterUpdateParams) (*V1SystemConfigClusterUpdateNoContent, error)
+
+	V1SystemConfigDatabaseBackupFtpGet(params *V1SystemConfigDatabaseBackupFtpGetParams) (*V1SystemConfigDatabaseBackupFtpGetOK, error)
+
+	V1SystemConfigDatabaseBackupFtpUpdate(params *V1SystemConfigDatabaseBackupFtpUpdateParams) (*V1SystemConfigDatabaseBackupFtpUpdateNoContent, error)
+
+	V1SystemConfigDatabaseBackupS3Get(params *V1SystemConfigDatabaseBackupS3GetParams) (*V1SystemConfigDatabaseBackupS3GetOK, error)
+
+	V1SystemConfigDatabaseBackupS3Update(params *V1SystemConfigDatabaseBackupS3UpdateParams) (*V1SystemConfigDatabaseBackupS3UpdateNoContent, error)
+
+	V1SystemConfigDomainCertificatesGet(params *V1SystemConfigDomainCertificatesGetParams) (*V1SystemConfigDomainCertificatesGetOK, error)
+
+	V1SystemConfigDomainCertificatesPut(params *V1SystemConfigDomainCertificatesPutParams) (*V1SystemConfigDomainCertificatesPutNoContent, error)
+
+	V1SystemConfigEdgeImageGet(params *V1SystemConfigEdgeImageGetParams) (*V1SystemConfigEdgeImageGetOK, error)
+
+	V1SystemConfigEdgeImageUpdate(params *V1SystemConfigEdgeImageUpdateParams) (*V1SystemConfigEdgeImageUpdateNoContent, error)
+
+	V1SystemConfigEdgeNativeImageGet(params *V1SystemConfigEdgeNativeImageGetParams) (*V1SystemConfigEdgeNativeImageGetOK, error)
+
+	V1SystemConfigEdgeNativeImageUpdate(params *V1SystemConfigEdgeNativeImageUpdateParams) (*V1SystemConfigEdgeNativeImageUpdateNoContent, error)
+
+	V1SystemConfigFtpValidate(params *V1SystemConfigFtpValidateParams) (*V1SystemConfigFtpValidateNoContent, error)
+
+	V1SystemConfigGcpAccountGet(params *V1SystemConfigGcpAccountGetParams) (*V1SystemConfigGcpAccountGetOK, error)
+
+	V1SystemConfigGcpAccountUpdate(params *V1SystemConfigGcpAccountUpdateParams) (*V1SystemConfigGcpAccountUpdateNoContent, error)
+
+	V1SystemConfigGcpImageGet(params *V1SystemConfigGcpImageGetParams) (*V1SystemConfigGcpImageGetOK, error)
+
+	V1SystemConfigGcpImageUpdate(params *V1SystemConfigGcpImageUpdateParams) (*V1SystemConfigGcpImageUpdateNoContent, error)
+
+	V1SystemConfigKubectlGet(params *V1SystemConfigKubectlGetParams) (*V1SystemConfigKubectlGetOK, error)
+
+	V1SystemConfigKubectlUpdate(params *V1SystemConfigKubectlUpdateParams) (*V1SystemConfigKubectlUpdateNoContent, error)
+
+	V1SystemConfigLoggerGet(params *V1SystemConfigLoggerGetParams) (*V1SystemConfigLoggerGetOK, error)
+
+	V1SystemConfigLoggerUpdate(params *V1SystemConfigLoggerUpdateParams) (*V1SystemConfigLoggerUpdateNoContent, error)
+
+	V1SystemConfigMaasImageGet(params *V1SystemConfigMaasImageGetParams) (*V1SystemConfigMaasImageGetOK, error)
+
+	V1SystemConfigMaasImageUpdate(params *V1SystemConfigMaasImageUpdateParams) (*V1SystemConfigMaasImageUpdateNoContent, error)
+
+	V1SystemConfigProxyGet(params *V1SystemConfigProxyGetParams) (*V1SystemConfigProxyGetOK, error)
+
+	V1SystemConfigProxyUpdate(params *V1SystemConfigProxyUpdateParams) (*V1SystemConfigProxyUpdateNoContent, error)
+
+	V1SystemConfigRegistriesOciImageGet(params *V1SystemConfigRegistriesOciImageGetParams) (*V1SystemConfigRegistriesOciImageGetOK, error)
+
+	V1SystemConfigRegistriesOciImageUpdate(params *V1SystemConfigRegistriesOciImageUpdateParams) (*V1SystemConfigRegistriesOciImageUpdateNoContent, error)
+
 	V1SystemConfigReverseProxyGet(params *V1SystemConfigReverseProxyGetParams) (*V1SystemConfigReverseProxyGetOK, error)
 
 	V1SystemConfigReverseProxyUpdate(params *V1SystemConfigReverseProxyUpdateParams) (*V1SystemConfigReverseProxyUpdateNoContent, error)
+
+	V1SystemConfigS3Validate(params *V1SystemConfigS3ValidateParams) (*V1SystemConfigS3ValidateNoContent, error)
+
+	V1SystemConfigScarGet(params *V1SystemConfigScarGetParams) (*V1SystemConfigScarGetOK, error)
+
+	V1SystemConfigScarUpdate(params *V1SystemConfigScarUpdateParams) (*V1SystemConfigScarUpdateNoContent, error)
+
+	V1SystemConfigScarValidate(params *V1SystemConfigScarValidateParams) (*V1SystemConfigScarValidateOK, error)
+
+	V1SystemConfigSMTPGet(params *V1SystemConfigSMTPGetParams) (*V1SystemConfigSMTPGetOK, error)
+
+	V1SystemConfigSMTPUpdate(params *V1SystemConfigSMTPUpdateParams) (*V1SystemConfigSMTPUpdateNoContent, error)
+
+	V1SystemConfigSMTPValidate(params *V1SystemConfigSMTPValidateParams) (*V1SystemConfigSMTPValidateNoContent, error)
+
+	V1SystemConfigSsoGet(params *V1SystemConfigSsoGetParams) (*V1SystemConfigSsoGetOK, error)
+
+	V1SystemConfigSsoGithubValidate(params *V1SystemConfigSsoGithubValidateParams) (*V1SystemConfigSsoGithubValidateNoContent, error)
+
+	V1SystemConfigSsoOidcValidate(params *V1SystemConfigSsoOidcValidateParams) (*V1SystemConfigSsoOidcValidateNoContent, error)
+
+	V1SystemConfigSsoUpdate(params *V1SystemConfigSsoUpdateParams) (*V1SystemConfigSsoUpdateNoContent, error)
+
+	V1SystemConfigStorageS3Get(params *V1SystemConfigStorageS3GetParams) (*V1SystemConfigStorageS3GetOK, error)
+
+	V1SystemConfigStorageS3Update(params *V1SystemConfigStorageS3UpdateParams) (*V1SystemConfigStorageS3UpdateNoContent, error)
+
+	V1SystemConfigStoreDelete(params *V1SystemConfigStoreDeleteParams) (*V1SystemConfigStoreDeleteNoContent, error)
+
+	V1SystemConfigStoreGet(params *V1SystemConfigStoreGetParams) (*V1SystemConfigStoreGetOK, error)
+
+	V1SystemConfigStoreUpdate(params *V1SystemConfigStoreUpdateParams) (*V1SystemConfigStoreUpdateNoContent, error)
+
+	V1SystemConfigTimeseriesGet(params *V1SystemConfigTimeseriesGetParams) (*V1SystemConfigTimeseriesGetOK, error)
+
+	V1SystemConfigTimeseriesUpdate(params *V1SystemConfigTimeseriesUpdateParams) (*V1SystemConfigTimeseriesUpdateNoContent, error)
+
+	V1SystemConfigVsphereImageGet(params *V1SystemConfigVsphereImageGetParams) (*V1SystemConfigVsphereImageGetOK, error)
+
+	V1SystemConfigVsphereImageUpdate(params *V1SystemConfigVsphereImageUpdateParams) (*V1SystemConfigVsphereImageUpdateNoContent, error)
+
+	V1SystemDbBackup(params *V1SystemDbBackupParams) (*V1SystemDbBackupNoContent, error)
+
+	V1SystemDbBackups(params *V1SystemDbBackupsParams) (*V1SystemDbBackupsOK, error)
+
+	V1SystemDbBackupsBackupUID(params *V1SystemDbBackupsBackupUIDParams) (*V1SystemDbBackupsBackupUIDNoContent, error)
+
+	V1SystemDbRecover(params *V1SystemDbRecoverParams) (*V1SystemDbRecoverNoContent, error)
+
+	V1SystemDbRestore(params *V1SystemDbRestoreParams) (*V1SystemDbRestoreNoContent, error)
+
+	V1SystemEncrypt(params *V1SystemEncryptParams) (*V1SystemEncryptOK, error)
+
+	V1SystemFeaturesGet(params *V1SystemFeaturesGetParams) (*V1SystemFeaturesGetOK, error)
+
+	V1SystemFeaturesUIDUpdate(params *V1SystemFeaturesUIDUpdateParams) (*V1SystemFeaturesUIDUpdateNoContent, error)
+
+	V1SystemPasswordPolicyGet(params *V1SystemPasswordPolicyGetParams) (*V1SystemPasswordPolicyGetOK, error)
+
+	V1SystemPasswordPolicyUpdate(params *V1SystemPasswordPolicyUpdateParams) (*V1SystemPasswordPolicyUpdateNoContent, error)
+
+	V1SystemPlanGet(params *V1SystemPlanGetParams) (*V1SystemPlanGetOK, error)
+
+	V1SystemRateLimitGet(params *V1SystemRateLimitGetParams) (*V1SystemRateLimitGetOK, error)
+
+	V1SystemRateLimitPatch(params *V1SystemRateLimitPatchParams) (*V1SystemRateLimitPatchOK, error)
+
+	V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDeleteParams) (*V1SystemRegistriesNameDeleteNoContent, error)
+
+	V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error)
+
+	V1SystemRegistriesNameUpdate(params *V1SystemRegistriesNameUpdateParams) (*V1SystemRegistriesNameUpdateNoContent, error)
+
+	V1SystemSecurityModeGet(params *V1SystemSecurityModeGetParams) (*V1SystemSecurityModeGetOK, error)
+
+	V1SystemServiceModeUpdate(params *V1SystemServiceModeUpdateParams) (*V1SystemServiceModeUpdateNoContent, error)
+
+	V1SystemStartDatePatch(params *V1SystemStartDatePatchParams) (*V1SystemStartDatePatchNoContent, error)
+
+	V1SystemUsersEmailVerify(params *V1SystemUsersEmailVerifyParams) (*V1SystemUsersEmailVerifyNoContent, error)
+
+	V1SystemUsersEmailVerifyReSend(params *V1SystemUsersEmailVerifyReSendParams) (*V1SystemUsersEmailVerifyReSendNoContent, error)
+
+	V1SystemUsersMe(params *V1SystemUsersMeParams) (*V1SystemUsersMeOK, error)
+
+	V1SystemVersionInstalled(params *V1SystemVersionInstalledParams) (*V1SystemVersionInstalledOK, error)
+
+	V1SystemVersionLatest(params *V1SystemVersionLatestParams) (*V1SystemVersionLatestOK, error)
 
 	V1TeamsUIDTenantRolesGet(params *V1TeamsUIDTenantRolesGetParams) (*V1TeamsUIDTenantRolesGetOK, error)
 
@@ -430,9 +622,23 @@ type ClientService interface {
 
 	V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthProvidersUpdateParams) (*V1TenantUIDSsoAuthProvidersUpdateNoContent, error)
 
+	V1TenantsUIDActivate(params *V1TenantsUIDActivateParams) (*V1TenantsUIDActivateNoContent, error)
+
+	V1TunnelConfiguration(params *V1TunnelConfigurationParams) (*V1TunnelConfigurationOK, error)
+
 	V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error)
 
 	V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams) (*V1UsersKubectlSessionUIDOK, error)
+
+	V1UsersMfaDevicesList(params *V1UsersMfaDevicesListParams) (*V1UsersMfaDevicesListOK, error)
+
+	V1UsersMfaDevicesNameDelete(params *V1UsersMfaDevicesNameDeleteParams) (*V1UsersMfaDevicesNameDeleteNoContent, error)
+
+	V1UsersMfaDevicesNameGet(params *V1UsersMfaDevicesNameGetParams) (*V1UsersMfaDevicesNameGetOK, error)
+
+	V1UsersMfaRegisterDeviceFinish(params *V1UsersMfaRegisterDeviceFinishParams) (*V1UsersMfaRegisterDeviceFinishNoContent, error)
+
+	V1UsersMfaRegisterDeviceStart(params *V1UsersMfaRegisterDeviceStartParams) (*V1UsersMfaRegisterDeviceStartOK, error)
 
 	V1UsersPasswordChange(params *V1UsersPasswordChangeParams) (*V1UsersPasswordChangeNoContent, error)
 
@@ -445,6 +651,8 @@ type ClientService interface {
 	V1VsphereEnv(params *V1VsphereEnvParams) (*V1VsphereEnvOK, error)
 
 	V1AccountsGeolocationPatch(params *V1AccountsGeolocationPatchParams) (*V1AccountsGeolocationPatchNoContent, error)
+
+	V1ActivationsSystemGet(params *V1ActivationsSystemGetParams) (*V1ActivationsSystemGetOK, error)
 
 	V1APIKeysCreate(params *V1APIKeysCreateParams) (*V1APIKeysCreateCreated, error)
 
@@ -627,16 +835,6 @@ type ClientService interface {
 	V1CloudAccountsMaasPatch(params *V1CloudAccountsMaasPatchParams) (*V1CloudAccountsMaasPatchNoContent, error)
 
 	V1CloudAccountsMaasUpdate(params *V1CloudAccountsMaasUpdateParams) (*V1CloudAccountsMaasUpdateNoContent, error)
-
-	V1CloudAccountsOpenStackCreate(params *V1CloudAccountsOpenStackCreateParams) (*V1CloudAccountsOpenStackCreateCreated, error)
-
-	V1CloudAccountsOpenStackDelete(params *V1CloudAccountsOpenStackDeleteParams) (*V1CloudAccountsOpenStackDeleteNoContent, error)
-
-	V1CloudAccountsOpenStackGet(params *V1CloudAccountsOpenStackGetParams) (*V1CloudAccountsOpenStackGetOK, error)
-
-	V1CloudAccountsOpenStackList(params *V1CloudAccountsOpenStackListParams) (*V1CloudAccountsOpenStackListOK, error)
-
-	V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStackUpdateParams) (*V1CloudAccountsOpenStackUpdateNoContent, error)
 
 	V1CloudAccountsVsphereCreate(params *V1CloudAccountsVsphereCreateParams) (*V1CloudAccountsVsphereCreateCreated, error)
 
@@ -876,25 +1074,7 @@ type ClientService interface {
 
 	V1CloudConfigsMachinePoolsMachineUidsGet(params *V1CloudConfigsMachinePoolsMachineUidsGetParams) (*V1CloudConfigsMachinePoolsMachineUidsGetOK, error)
 
-	V1CloudConfigsOpenStackGet(params *V1CloudConfigsOpenStackGetParams) (*V1CloudConfigsOpenStackGetOK, error)
-
-	V1CloudConfigsOpenStackMachinePoolCreate(params *V1CloudConfigsOpenStackMachinePoolCreateParams) (*V1CloudConfigsOpenStackMachinePoolCreateCreated, error)
-
-	V1CloudConfigsOpenStackMachinePoolDelete(params *V1CloudConfigsOpenStackMachinePoolDeleteParams) (*V1CloudConfigsOpenStackMachinePoolDeleteNoContent, error)
-
-	V1CloudConfigsOpenStackMachinePoolUpdate(params *V1CloudConfigsOpenStackMachinePoolUpdateParams) (*V1CloudConfigsOpenStackMachinePoolUpdateNoContent, error)
-
-	V1CloudConfigsOpenStackPoolMachinesAdd(params *V1CloudConfigsOpenStackPoolMachinesAddParams) (*V1CloudConfigsOpenStackPoolMachinesAddCreated, error)
-
-	V1CloudConfigsOpenStackPoolMachinesList(params *V1CloudConfigsOpenStackPoolMachinesListParams) (*V1CloudConfigsOpenStackPoolMachinesListOK, error)
-
-	V1CloudConfigsOpenStackPoolMachinesUIDDelete(params *V1CloudConfigsOpenStackPoolMachinesUIDDeleteParams) (*V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent, error)
-
-	V1CloudConfigsOpenStackPoolMachinesUIDGet(params *V1CloudConfigsOpenStackPoolMachinesUIDGetParams) (*V1CloudConfigsOpenStackPoolMachinesUIDGetOK, error)
-
-	V1CloudConfigsOpenStackPoolMachinesUIDUpdate(params *V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams) (*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent, error)
-
-	V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsOpenStackUIDClusterConfigParams) (*V1CloudConfigsOpenStackUIDClusterConfigNoContent, error)
+	V1CloudConfigsUIDMachinesHealthPatch(params *V1CloudConfigsUIDMachinesHealthPatchParams) (*V1CloudConfigsUIDMachinesHealthPatchNoContent, error)
 
 	V1CloudConfigsVirtualGet(params *V1CloudConfigsVirtualGetParams) (*V1CloudConfigsVirtualGetOK, error)
 
@@ -1310,25 +1490,13 @@ type ClientService interface {
 
 	V1OciRegistriesSummary(params *V1OciRegistriesSummaryParams) (*V1OciRegistriesSummaryOK, error)
 
-	V1OpenstackAccountsUIDAzs(params *V1OpenstackAccountsUIDAzsParams) (*V1OpenstackAccountsUIDAzsOK, error)
-
-	V1OpenstackAccountsUIDFlavors(params *V1OpenstackAccountsUIDFlavorsParams) (*V1OpenstackAccountsUIDFlavorsOK, error)
-
-	V1OpenstackAccountsUIDKeypairs(params *V1OpenstackAccountsUIDKeypairsParams) (*V1OpenstackAccountsUIDKeypairsOK, error)
-
-	V1OpenstackAccountsUIDNetworks(params *V1OpenstackAccountsUIDNetworksParams) (*V1OpenstackAccountsUIDNetworksOK, error)
-
-	V1OpenstackAccountsUIDProjects(params *V1OpenstackAccountsUIDProjectsParams) (*V1OpenstackAccountsUIDProjectsOK, error)
-
-	V1OpenstackAccountsUIDRegions(params *V1OpenstackAccountsUIDRegionsParams) (*V1OpenstackAccountsUIDRegionsOK, error)
-
 	V1OverlordsCloudStackManifest(params *V1OverlordsCloudStackManifestParams) (*V1OverlordsCloudStackManifestOK, error)
 
 	V1OverlordsList(params *V1OverlordsListParams) (*V1OverlordsListOK, error)
 
-	V1OverlordsOpenStackManifest(params *V1OverlordsOpenStackManifestParams) (*V1OverlordsOpenStackManifestOK, error)
-
 	V1OverlordsPairingCode(params *V1OverlordsPairingCodeParams) (*V1OverlordsPairingCodeOK, error)
+
+	V1OverlordsSystem(params *V1OverlordsSystemParams) (*V1OverlordsSystemCreated, error)
 
 	V1OverlordsUIDCloudStackAccountCreate(params *V1OverlordsUIDCloudStackAccountCreateParams) (*V1OverlordsUIDCloudStackAccountCreateCreated, error)
 
@@ -1363,18 +1531,6 @@ type ClientService interface {
 	V1OverlordsUIDMaasPoolsList(params *V1OverlordsUIDMaasPoolsListParams) (*V1OverlordsUIDMaasPoolsListOK, error)
 
 	V1OverlordsUIDMetadataUpdate(params *V1OverlordsUIDMetadataUpdateParams) (*V1OverlordsUIDMetadataUpdateNoContent, error)
-
-	V1OverlordsUIDOpenStackAccountCreate(params *V1OverlordsUIDOpenStackAccountCreateParams) (*V1OverlordsUIDOpenStackAccountCreateCreated, error)
-
-	V1OverlordsUIDOpenStackAccountUpdate(params *V1OverlordsUIDOpenStackAccountUpdateParams) (*V1OverlordsUIDOpenStackAccountUpdateNoContent, error)
-
-	V1OverlordsUIDOpenStackAccountValidate(params *V1OverlordsUIDOpenStackAccountValidateParams) (*V1OverlordsUIDOpenStackAccountValidateNoContent, error)
-
-	V1OverlordsUIDOpenStackCloudConfigCreate(params *V1OverlordsUIDOpenStackCloudConfigCreateParams) (*V1OverlordsUIDOpenStackCloudConfigCreateCreated, error)
-
-	V1OverlordsUIDOpenStackCloudConfigUpdate(params *V1OverlordsUIDOpenStackCloudConfigUpdateParams) (*V1OverlordsUIDOpenStackCloudConfigUpdateNoContent, error)
-
-	V1OverlordsUIDOpenStackClusterProfile(params *V1OverlordsUIDOpenStackClusterProfileParams) (*V1OverlordsUIDOpenStackClusterProfileOK, error)
 
 	V1OverlordsUIDPoolCreate(params *V1OverlordsUIDPoolCreateParams) (*V1OverlordsUIDPoolCreateCreated, error)
 
@@ -1437,6 +1593,30 @@ type ClientService interface {
 	V1PcgUIDRegister(params *V1PcgUIDRegisterParams) (*V1PcgUIDRegisterNoContent, error)
 
 	V1PermissionsList(params *V1PermissionsListParams) (*V1PermissionsListOK, error)
+
+	V1PlansCreate(params *V1PlansCreateParams) (*V1PlansCreateCreated, error)
+
+	V1PlansList(params *V1PlansListParams) (*V1PlansListOK, error)
+
+	V1PlansUIDCreditsUIDDelete(params *V1PlansUIDCreditsUIDDeleteParams) (*V1PlansUIDCreditsUIDDeleteNoContent, error)
+
+	V1PlansUIDCreditsUIDUpdate(params *V1PlansUIDCreditsUIDUpdateParams) (*V1PlansUIDCreditsUIDUpdateNoContent, error)
+
+	V1PlansUIDExpiryPatch(params *V1PlansUIDExpiryPatchParams) (*V1PlansUIDExpiryPatchNoContent, error)
+
+	V1PlansUIDFreeCreditAdd(params *V1PlansUIDFreeCreditAddParams) (*V1PlansUIDFreeCreditAddCreated, error)
+
+	V1PlansUIDGet(params *V1PlansUIDGetParams) (*V1PlansUIDGetOK, error)
+
+	V1PlansUIDPlanLimitUpdate(params *V1PlansUIDPlanLimitUpdateParams) (*V1PlansUIDPlanLimitUpdateNoContent, error)
+
+	V1PlansUIDPlanTypeUpdate(params *V1PlansUIDPlanTypeUpdateParams) (*V1PlansUIDPlanTypeUpdateNoContent, error)
+
+	V1PlansUIDRenewal(params *V1PlansUIDRenewalParams) (*V1PlansUIDRenewalNoContent, error)
+
+	V1PlansUIDSLACreditAdd(params *V1PlansUIDSLACreditAddParams) (*V1PlansUIDSLACreditAddCreated, error)
+
+	V1PlansUsageMonthlyGet(params *V1PlansUsageMonthlyGetParams) (*V1PlansUsageMonthlyGetOK, error)
 
 	V1ProjectClusterSettingsGet(params *V1ProjectClusterSettingsGetParams) (*V1ProjectClusterSettingsGetOK, error)
 
@@ -1656,14 +1836,6 @@ type ClientService interface {
 
 	V1SpectroClustersMetadataSearchSchema(params *V1SpectroClustersMetadataSearchSchemaParams) (*V1SpectroClustersMetadataSearchSchemaOK, error)
 
-	V1SpectroClustersOpenStackCreate(params *V1SpectroClustersOpenStackCreateParams) (*V1SpectroClustersOpenStackCreateCreated, error)
-
-	V1SpectroClustersOpenStackImport(params *V1SpectroClustersOpenStackImportParams) (*V1SpectroClustersOpenStackImportCreated, error)
-
-	V1SpectroClustersOpenStackRate(params *V1SpectroClustersOpenStackRateParams) (*V1SpectroClustersOpenStackRateOK, error)
-
-	V1SpectroClustersOpenStackValidate(params *V1SpectroClustersOpenStackValidateParams) (*V1SpectroClustersOpenStackValidateOK, error)
-
 	V1SpectroClustersPacksRefUpdate(params *V1SpectroClustersPacksRefUpdateParams) (*V1SpectroClustersPacksRefUpdateNoContent, error)
 
 	V1SpectroClustersPatchProfiles(params *V1SpectroClustersPatchProfilesParams) (*V1SpectroClustersPatchProfilesNoContent, error)
@@ -1749,6 +1921,8 @@ type ClientService interface {
 	V1SpectroClustersUIDManifestGet(params *V1SpectroClustersUIDManifestGetParams) (*V1SpectroClustersUIDManifestGetOK, error)
 
 	V1SpectroClustersUIDManifestUpdate(params *V1SpectroClustersUIDManifestUpdateParams) (*V1SpectroClustersUIDManifestUpdateNoContent, error)
+
+	V1SpectroClustersUIDManifestsGet(params *V1SpectroClustersUIDManifestsGetParams) (*V1SpectroClustersUIDManifestsGetOK, error)
 
 	V1SpectroClustersUIDMetadataUpdate(params *V1SpectroClustersUIDMetadataUpdateParams) (*V1SpectroClustersUIDMetadataUpdateNoContent, error)
 
@@ -1864,7 +2038,87 @@ type ClientService interface {
 
 	V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphereValidateParams) (*V1SpectroClustersVsphereValidateOK, error)
 
+	V1SpectrospectroInstallerCreate(params *V1SpectrospectroInstallerCreateParams) (*V1SpectrospectroInstallerCreateCreated, error)
+
 	V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetParams, writer io.Writer) (*V1SyftScanLogImageSBOMGetOK, error)
+
+	V1SystemActivate(params *V1SystemActivateParams) (*V1SystemActivateOK, *V1SystemActivateCreated, error)
+
+	V1SystemActivationGet(params *V1SystemActivationGetParams) (*V1SystemActivationGetOK, error)
+
+	V1SystemAdminsCreate(params *V1SystemAdminsCreateParams) (*V1SystemAdminsCreateCreated, error)
+
+	V1SystemAdminsList(params *V1SystemAdminsListParams) (*V1SystemAdminsListOK, error)
+
+	V1SystemAdminsPasswordActivate(params *V1SystemAdminsPasswordActivateParams) (*V1SystemAdminsPasswordActivateNoContent, error)
+
+	V1SystemAdminsUIDDelete(params *V1SystemAdminsUIDDeleteParams) (*V1SystemAdminsUIDDeleteNoContent, error)
+
+	V1SystemAdminsUIDGet(params *V1SystemAdminsUIDGetParams) (*V1SystemAdminsUIDGetOK, error)
+
+	V1SystemAdminsUIDPasswordChange(params *V1SystemAdminsUIDPasswordChangeParams) (*V1SystemAdminsUIDPasswordChangeNoContent, error)
+
+	V1SystemAdminsUIDPasswordResetLink(params *V1SystemAdminsUIDPasswordResetLinkParams) (*V1SystemAdminsUIDPasswordResetLinkNoContent, error)
+
+	V1SystemAdminsUIDProfileUpdate(params *V1SystemAdminsUIDProfileUpdateParams) (*V1SystemAdminsUIDProfileUpdateNoContent, error)
+
+	V1SystemAlertDelete(params *V1SystemAlertDeleteParams) (*V1SystemAlertDeleteNoContent, error)
+
+	V1SystemAlertUpdate(params *V1SystemAlertUpdateParams) (*V1SystemAlertUpdateNoContent, error)
+
+	V1SystemAlertsGet(params *V1SystemAlertsGetParams) (*V1SystemAlertsGetOK, error)
+
+	V1SystemAppFeaturesGet(params *V1SystemAppFeaturesGetParams) (*V1SystemAppFeaturesGetOK, error)
+
+	V1SystemAppFeaturesUpdate(params *V1SystemAppFeaturesUpdateParams) (*V1SystemAppFeaturesUpdateNoContent, error)
+
+	V1SystemAuthTokenSettingsGet(params *V1SystemAuthTokenSettingsGetParams) (*V1SystemAuthTokenSettingsGetOK, error)
+
+	V1SystemAuthTokenSettingsUpdate(params *V1SystemAuthTokenSettingsUpdateParams) (*V1SystemAuthTokenSettingsUpdateNoContent, error)
+
+	V1SystemClassificationBannerGet(params *V1SystemClassificationBannerGetParams) (*V1SystemClassificationBannerGetOK, error)
+
+	V1SystemClassificationBannerUpdate(params *V1SystemClassificationBannerUpdateParams) (*V1SystemClassificationBannerUpdateNoContent, error)
+
+	V1SystemCreditsUIDDelete(params *V1SystemCreditsUIDDeleteParams) (*V1SystemCreditsUIDDeleteNoContent, error)
+
+	V1SystemCreditsUIDUpdate(params *V1SystemCreditsUIDUpdateParams) (*V1SystemCreditsUIDUpdateNoContent, error)
+
+	V1SystemFreeCreditAdd(params *V1SystemFreeCreditAddParams) (*V1SystemFreeCreditAddCreated, error)
+
+	V1SystemLoginBannerGet(params *V1SystemLoginBannerGetParams) (*V1SystemLoginBannerGetOK, error)
+
+	V1SystemLoginBannerUpdate(params *V1SystemLoginBannerUpdateParams) (*V1SystemLoginBannerUpdateNoContent, error)
+
+	V1SystemPlanLimitUpdate(params *V1SystemPlanLimitUpdateParams) (*V1SystemPlanLimitUpdateNoContent, error)
+
+	V1SystemResourceLimitsGet(params *V1SystemResourceLimitsGetParams) (*V1SystemResourceLimitsGetOK, error)
+
+	V1SystemResourceLimitsUpdate(params *V1SystemResourceLimitsUpdateParams) (*V1SystemResourceLimitsUpdateNoContent, error)
+
+	V1SystemSLACreditAdd(params *V1SystemSLACreditAddParams) (*V1SystemSLACreditAddCreated, error)
+
+	V1SystemSysplanGet(params *V1SystemSysplanGetParams) (*V1SystemSysplanGetOK, error)
+
+	V1SystemThemeActivate(params *V1SystemThemeActivateParams) (*V1SystemThemeActivateNoContent, error)
+
+	V1SystemThemeActiveGet(params *V1SystemThemeActiveGetParams) (*V1SystemThemeActiveGetOK, error)
+
+	V1SystemThemeCreate(params *V1SystemThemeCreateParams) (*V1SystemThemeCreateNoContent, error)
+
+	V1SystemThemeDeactivate(params *V1SystemThemeDeactivateParams) (*V1SystemThemeDeactivateNoContent, error)
+
+	V1SystemThemeDelete(params *V1SystemThemeDeleteParams) (*V1SystemThemeDeleteNoContent, error)
+
+	V1SystemThemeGet(params *V1SystemThemeGetParams) (*V1SystemThemeGetOK, error)
+
+	V1SystemThemeUpdate(params *V1SystemThemeUpdateParams) (*V1SystemThemeUpdateNoContent, error)
+
+	V1SystemThemesMetadataGet(params *V1SystemThemesMetadataGetParams) (*V1SystemThemesMetadataGetOK, error)
+
+	V1SystemUsersPasswordReset(params *V1SystemUsersPasswordResetParams) (*V1SystemUsersPasswordResetNoContent, error)
+
+	V1SystemUsersPasswordResetRequest(params *V1SystemUsersPasswordResetRequestParams) (*V1SystemUsersPasswordResetRequestNoContent, error)
 
 	V1TagFilterUIDDelete(params *V1TagFilterUIDDeleteParams) (*V1TagFilterUIDDeleteNoContent, error)
 
@@ -1934,11 +2188,29 @@ type ClientService interface {
 
 	V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpdateParams) (*V1TenantUIDLoginBannerUpdateNoContent, error)
 
+	V1TenantsCleanUp(params *V1TenantsCleanUpParams) (*V1TenantsCleanUpNoContent, error)
+
+	V1TenantsCreate(params *V1TenantsCreateParams) (*V1TenantsCreateCreated, error)
+
 	V1TenantsCreditAccountDelete(params *V1TenantsCreditAccountDeleteParams) (*V1TenantsCreditAccountDeleteNoContent, error)
 
 	V1TenantsCreditAccountGet(params *V1TenantsCreditAccountGetParams) (*V1TenantsCreditAccountGetOK, error)
 
+	V1TenantsDelete(params *V1TenantsDeleteParams) (*V1TenantsDeleteNoContent, error)
+
+	V1TenantsGet(params *V1TenantsGetParams) (*V1TenantsGetOK, error)
+
+	V1TenantsIsCleanedUp(params *V1TenantsIsCleanedUpParams) (*V1TenantsIsCleanedUpOK, error)
+
+	V1TenantsList(params *V1TenantsListParams) (*V1TenantsListOK, error)
+
+	V1TenantsSelfSignUp(params *V1TenantsSelfSignUpParams) (*V1TenantsSelfSignUpNoContent, error)
+
+	V1TenantsSelfSignUpActivate(params *V1TenantsSelfSignUpActivateParams) (*V1TenantsSelfSignUpActivateNoContent, error)
+
 	V1TenantsUIDContractAccept(params *V1TenantsUIDContractAcceptParams) (*V1TenantsUIDContractAcceptNoContent, error)
+
+	V1TenantsUIDContractUpdate(params *V1TenantsUIDContractUpdateParams) (*V1TenantsUIDContractUpdateNoContent, error)
 
 	V1TenantsUIDMacrosCreate(params *V1TenantsUIDMacrosCreateParams) (*V1TenantsUIDMacrosCreateNoContent, error)
 
@@ -1949,6 +2221,14 @@ type ClientService interface {
 	V1TenantsUIDMacrosUpdate(params *V1TenantsUIDMacrosUpdateParams) (*V1TenantsUIDMacrosUpdateNoContent, error)
 
 	V1TenantsUIDMacrosUpdateByMacroName(params *V1TenantsUIDMacrosUpdateByMacroNameParams) (*V1TenantsUIDMacrosUpdateByMacroNameNoContent, error)
+
+	V1TenantsUIDPlanGet(params *V1TenantsUIDPlanGetParams) (*V1TenantsUIDPlanGetOK, error)
+
+	V1TenantsUserGet(params *V1TenantsUserGetParams) (*V1TenantsUserGetOK, error)
+
+	V1TenantsValidate(params *V1TenantsValidateParams) (*V1TenantsValidateNoContent, error)
+
+	V1UsageCPUCoreHours(params *V1UsageCPUCoreHoursParams) (*V1UsageCPUCoreHoursOK, error)
 
 	V1UserAssetsSSHCreate(params *V1UserAssetsSSHCreateParams) (*V1UserAssetsSSHCreateCreated, error)
 
@@ -2111,6 +2391,40 @@ type ClientService interface {
 	V1WorkspacesValidateName(params *V1WorkspacesValidateNameParams) (*V1WorkspacesValidateNameNoContent, error)
 
 	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+V1AuthMfaDevicesList v1s auth mfa devices list
+*/
+func (a *Client) V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1AuthMfaDevicesListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1AuthMfaDevicesList",
+		Method:             "GET",
+		PathPattern:        "/v1/auth/mfa/devices",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1AuthMfaDevicesListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1AuthMfaDevicesListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1AuthMfaDevicesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
@@ -3704,6 +4018,74 @@ func (a *Client) V1AzureZones(params *V1AzureZonesParams) (*V1AzureZonesOK, erro
 }
 
 /*
+V1BillingPreferenceGet gets the billing preference
+*/
+func (a *Client) V1BillingPreferenceGet(params *V1BillingPreferenceGetParams) (*V1BillingPreferenceGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1BillingPreferenceGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1BillingPreferenceGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/preferences/billing",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1BillingPreferenceGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1BillingPreferenceGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1BillingPreferenceGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1BillingPreferenceUpdate updates the billing preference
+*/
+func (a *Client) V1BillingPreferenceUpdate(params *V1BillingPreferenceUpdateParams) (*V1BillingPreferenceUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1BillingPreferenceUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1BillingPreferenceUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/preferences/billing",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1BillingPreferenceUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1BillingPreferenceUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1BillingPreferenceUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1CloudComputeRate returns the cloud compute rate
 */
 func (a *Client) V1CloudComputeRate(params *V1CloudComputeRateParams) (*V1CloudComputeRateOK, error) {
@@ -4114,6 +4496,42 @@ func (a *Client) V1CloudStorageRate(params *V1CloudStorageRateParams) (*V1CloudS
 }
 
 /*
+V1CloudsAwsAPIEndpointsGet gets a w s API endpoints configuration
+
+Retrieves all AWS partition endpoint configurations.
+*/
+func (a *Client) V1CloudsAwsAPIEndpointsGet(params *V1CloudsAwsAPIEndpointsGetParams) (*V1CloudsAwsAPIEndpointsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudsAwsAPIEndpointsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1CloudsAwsApiEndpointsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/clouds/aws/apiEndpoints",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudsAwsAPIEndpointsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudsAwsAPIEndpointsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1CloudsAwsApiEndpointsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1CloudsAwsCloudWatchValidate validates aws cloud watch credentials
 
 Validates aws cloud watch credentials
@@ -4214,6 +4632,74 @@ func (a *Client) V1ClusterFeatureBackupLocationUIDGet(params *V1ClusterFeatureBa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1ClusterFeatureBackupLocationUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterPreferenceGet gets the cluster preference
+*/
+func (a *Client) V1ClusterPreferenceGet(params *V1ClusterPreferenceGetParams) (*V1ClusterPreferenceGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterPreferenceGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterPreferenceGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/preferences/cluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterPreferenceGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterPreferenceGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterPreferenceGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ClusterPreferenceUpdate updates the cluster preference
+*/
+func (a *Client) V1ClusterPreferenceUpdate(params *V1ClusterPreferenceUpdateParams) (*V1ClusterPreferenceUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ClusterPreferenceUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1ClusterPreferenceUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/preferences/cluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ClusterPreferenceUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ClusterPreferenceUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1ClusterPreferenceUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -6532,6 +7018,114 @@ func (a *Client) V1GcpZones(params *V1GcpZonesParams) (*V1GcpZonesOK, error) {
 }
 
 /*
+V1GrpcConfiguration gets grpc configuration
+
+Returns Grpc Configuration
+*/
+func (a *Client) V1GrpcConfiguration(params *V1GrpcConfigurationParams) (*V1GrpcConfigurationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1GrpcConfigurationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1GrpcConfiguration",
+		Method:             "GET",
+		PathPattern:        "/v1/grpc/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1GrpcConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1GrpcConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1GrpcConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1HealthPing pings service
+
+Ping Service
+*/
+func (a *Client) V1HealthPing(params *V1HealthPingParams) (*V1HealthPingOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1HealthPingParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1HealthPing",
+		Method:             "GET",
+		PathPattern:        "/v1/health/ping",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1HealthPingReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1HealthPingOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1HealthPing: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1HealthReady readies service
+
+Ready Service
+*/
+func (a *Client) V1HealthReady(params *V1HealthReadyParams) (*V1HealthReadyOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1HealthReadyParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1HealthReady",
+		Method:             "GET",
+		PathPattern:        "/v1/health/ready",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1HealthReadyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1HealthReadyOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1HealthReady: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1HostClusterConfigUpdate updates the specified cluster host config
 */
 func (a *Client) V1HostClusterConfigUpdate(params *V1HostClusterConfigUpdateParams) (*V1HostClusterConfigUpdateNoContent, error) {
@@ -6946,246 +7540,6 @@ func (a *Client) V1OidcLogout(params *V1OidcLogoutParams) (*V1OidcLogoutNoConten
 }
 
 /*
-V1OpenStackAccountValidate checks if open stack account is valid
-
-Returns no contents if account is valid else error.
-*/
-func (a *Client) V1OpenStackAccountValidate(params *V1OpenStackAccountValidateParams) (*V1OpenStackAccountValidateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackAccountValidateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackAccountValidate",
-		Method:             "POST",
-		PathPattern:        "/v1/clouds/openstack/account/validate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackAccountValidateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackAccountValidateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackAccountValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackAzsGet retrieves a list of open stack azs for a particular account uid
-*/
-func (a *Client) V1OpenStackAzsGet(params *V1OpenStackAzsGetParams) (*V1OpenStackAzsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackAzsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackAzsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/azs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackAzsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackAzsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackAzsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackFlavorsGet returns the open stack flavors
-*/
-func (a *Client) V1OpenStackFlavorsGet(params *V1OpenStackFlavorsGetParams) (*V1OpenStackFlavorsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackFlavorsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackFlavorsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/flavors",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackFlavorsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackFlavorsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackFlavorsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackKeypairsGet returns the open stack keypair
-*/
-func (a *Client) V1OpenStackKeypairsGet(params *V1OpenStackKeypairsGetParams) (*V1OpenStackKeypairsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackKeypairsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackKeypairsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/keypairs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackKeypairsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackKeypairsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackKeypairsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackNetworksGet returns the open stack networks
-*/
-func (a *Client) V1OpenStackNetworksGet(params *V1OpenStackNetworksGetParams) (*V1OpenStackNetworksGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackNetworksGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackNetworksGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/networks",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackNetworksGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackNetworksGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackNetworksGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackProjectsGet returns the open stack projects
-*/
-func (a *Client) V1OpenStackProjectsGet(params *V1OpenStackProjectsGetParams) (*V1OpenStackProjectsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackProjectsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackProjectsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/projects",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackProjectsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackProjectsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackProjectsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenStackRegionsGet returns the open stack regions
-*/
-func (a *Client) V1OpenStackRegionsGet(params *V1OpenStackRegionsGetParams) (*V1OpenStackRegionsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenStackRegionsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1OpenStackRegionsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/clouds/openstack/regions",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenStackRegionsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenStackRegionsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1OpenStackRegionsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1OverlordsMaasManifest returns the manifests required for the private gateway installation
 */
 func (a *Client) V1OverlordsMaasManifest(params *V1OverlordsMaasManifestParams) (*V1OverlordsMaasManifestOK, error) {
@@ -7386,6 +7740,40 @@ func (a *Client) V1PasswordsBlockListUpdate(params *V1PasswordsBlockListUpdatePa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1PasswordsBlockListUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PaymentSecretsUpdate updates the payment secrets
+*/
+func (a *Client) V1PaymentSecretsUpdate(params *V1PaymentSecretsUpdateParams) (*V1PaymentSecretsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PaymentSecretsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1PaymentSecretsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/paymentsecrets",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PaymentSecretsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PaymentSecretsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1PaymentSecretsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -7772,6 +8160,40 @@ func (a *Client) V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1Spect
 }
 
 /*
+V1SpectroClustersClusterTemplatesUIDValidateRepave validates if cluster template profile update triggers repave
+*/
+func (a *Client) V1SpectroClustersClusterTemplatesUIDValidateRepave(params *V1SpectroClustersClusterTemplatesUIDValidateRepaveParams) (*V1SpectroClustersClusterTemplatesUIDValidateRepaveOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersClusterTemplatesUIDValidateRepaveParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpectroClustersClusterTemplatesUIDValidateRepave",
+		Method:             "POST",
+		PathPattern:        "/v1/spectroclusters/clusterTemplates/{uid}/validate/repave",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersClusterTemplatesUIDValidateRepaveReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersClusterTemplatesUIDValidateRepaveOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpectroClustersClusterTemplatesUIDValidateRepave: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersTemplatesUIDClustersUpgrade upgrades clusters launched from the specified cluster template
 */
 func (a *Client) V1SpectroClustersTemplatesUIDClustersUpgrade(params *V1SpectroClustersTemplatesUIDClustersUpgradeParams) (*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent, error) {
@@ -8084,6 +8506,1642 @@ func (a *Client) V1SsoLogins(params *V1SsoLoginsParams) (*V1SsoLoginsOK, error) 
 }
 
 /*
+V1SystemAdminEmail emails reset for system admin
+*/
+func (a *Client) V1SystemAdminEmail(params *V1SystemAdminEmailParams) (*V1SystemAdminEmailNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminEmailParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemAdminEmail",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/admin/email",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminEmailReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminEmailNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemAdminEmail: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminPasswordReset passwords reset for system admin
+*/
+func (a *Client) V1SystemAdminPasswordReset(params *V1SystemAdminPasswordResetParams) (*V1SystemAdminPasswordResetNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminPasswordResetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemAdminPasswordReset",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/admin/password/reset",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminPasswordResetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminPasswordResetNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemAdminPasswordReset: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAuthGet gets the system config auth
+*/
+func (a *Client) V1SystemConfigAuthGet(params *V1SystemConfigAuthGetParams) (*V1SystemConfigAuthGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAuthGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAuthGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/auth",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAuthGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAuthGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAuthGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAuthUpdate updates the system config auth
+*/
+func (a *Client) V1SystemConfigAuthUpdate(params *V1SystemConfigAuthUpdateParams) (*V1SystemConfigAuthUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAuthUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAuthUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/auth",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAuthUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAuthUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAuthUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsAccountGet gets the system config aws devops account
+*/
+func (a *Client) V1SystemConfigAwsAccountGet(params *V1SystemConfigAwsAccountGetParams) (*V1SystemConfigAwsAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/aws/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsAccountUpdate updates the system config aws devops account
+*/
+func (a *Client) V1SystemConfigAwsAccountUpdate(params *V1SystemConfigAwsAccountUpdateParams) (*V1SystemConfigAwsAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/aws/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsAPIEndpointsGet gets a w s API endpoints configuration
+
+Retrieves all AWS partition endpoint configurations.
+*/
+func (a *Client) V1SystemConfigAwsAPIEndpointsGet(params *V1SystemConfigAwsAPIEndpointsGetParams) (*V1SystemConfigAwsAPIEndpointsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsAPIEndpointsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsApiEndpointsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/aws/apiEndpoints",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsAPIEndpointsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsAPIEndpointsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsApiEndpointsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsAPIEndpointsUpdate updates a w s API endpoints configuration
+
+Creates or replaces all AWS partition endpoint configurations.
+*/
+func (a *Client) V1SystemConfigAwsAPIEndpointsUpdate(params *V1SystemConfigAwsAPIEndpointsUpdateParams) (*V1SystemConfigAwsAPIEndpointsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsAPIEndpointsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsApiEndpointsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/aws/apiEndpoints",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsAPIEndpointsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsAPIEndpointsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsApiEndpointsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsGovStsAccountCreate creates the system config a w s gov sts devops account
+*/
+func (a *Client) V1SystemConfigAwsGovStsAccountCreate(params *V1SystemConfigAwsGovStsAccountCreateParams) (*V1SystemConfigAwsGovStsAccountCreateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsGovStsAccountCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsGovStsAccountCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/config/awsgov/sts/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsGovStsAccountCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsGovStsAccountCreateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsGovStsAccountCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsGovStsAccountGet gets the system config a w s gov sts devops account
+*/
+func (a *Client) V1SystemConfigAwsGovStsAccountGet(params *V1SystemConfigAwsGovStsAccountGetParams) (*V1SystemConfigAwsGovStsAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsGovStsAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsGovStsAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/awsgov/sts/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsGovStsAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsGovStsAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsGovStsAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsGovStsAccountUpdate updates the system config a w s gov sts devops account
+*/
+func (a *Client) V1SystemConfigAwsGovStsAccountUpdate(params *V1SystemConfigAwsGovStsAccountUpdateParams) (*V1SystemConfigAwsGovStsAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsGovStsAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsGovStsAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/awsgov/sts/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsGovStsAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsGovStsAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsGovStsAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsImageGet gets the system aws image
+*/
+func (a *Client) V1SystemConfigAwsImageGet(params *V1SystemConfigAwsImageGetParams) (*V1SystemConfigAwsImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/aws/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsImageUpdate updates the system default aws devops image
+*/
+func (a *Client) V1SystemConfigAwsImageUpdate(params *V1SystemConfigAwsImageUpdateParams) (*V1SystemConfigAwsImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/aws/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsStsAccountGet gets the system config aws sts devops account
+*/
+func (a *Client) V1SystemConfigAwsStsAccountGet(params *V1SystemConfigAwsStsAccountGetParams) (*V1SystemConfigAwsStsAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsStsAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsStsAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/aws/sts/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsStsAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsStsAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsStsAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsStsAccountUpdate updates the system config a w s sts devops account
+*/
+func (a *Client) V1SystemConfigAwsStsAccountUpdate(params *V1SystemConfigAwsStsAccountUpdateParams) (*V1SystemConfigAwsStsAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsStsAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsStsAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/aws/sts/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsStsAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsStsAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsStsAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAzureAccountGet gets the system azure account
+*/
+func (a *Client) V1SystemConfigAzureAccountGet(params *V1SystemConfigAzureAccountGetParams) (*V1SystemConfigAzureAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAzureAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAzureAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/azure/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAzureAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAzureAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAzureAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAzureAccountUpdate updates the system default azure devops account
+*/
+func (a *Client) V1SystemConfigAzureAccountUpdate(params *V1SystemConfigAzureAccountUpdateParams) (*V1SystemConfigAzureAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAzureAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAzureAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/azure/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAzureAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAzureAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAzureAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAzureStorageGet gets the system azure storage
+*/
+func (a *Client) V1SystemConfigAzureStorageGet(params *V1SystemConfigAzureStorageGetParams) (*V1SystemConfigAzureStorageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAzureStorageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAzureStorageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/azure/storage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAzureStorageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAzureStorageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAzureStorageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAzureStorageUpdate updates the system default azure devops storage
+*/
+func (a *Client) V1SystemConfigAzureStorageUpdate(params *V1SystemConfigAzureStorageUpdateParams) (*V1SystemConfigAzureStorageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAzureStorageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAzureStorageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/azure/storage",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAzureStorageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAzureStorageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAzureStorageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigCloudstackImageGet gets the system cloudstack image
+*/
+func (a *Client) V1SystemConfigCloudstackImageGet(params *V1SystemConfigCloudstackImageGetParams) (*V1SystemConfigCloudstackImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigCloudstackImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigCloudstackImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/apache-cloudstack/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigCloudstackImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigCloudstackImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigCloudstackImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigCloudstackImageUpdate updates the system default cloudstack devops image
+*/
+func (a *Client) V1SystemConfigCloudstackImageUpdate(params *V1SystemConfigCloudstackImageUpdateParams) (*V1SystemConfigCloudstackImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigCloudstackImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigCloudstackImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/apache-cloudstack/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigCloudstackImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigCloudstackImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigCloudstackImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigClusterGet gets the system config cluster
+*/
+func (a *Client) V1SystemConfigClusterGet(params *V1SystemConfigClusterGetParams) (*V1SystemConfigClusterGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigClusterGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigClusterGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/cluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigClusterGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigClusterGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigClusterGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigClusterUpdate updates the system config cluster
+*/
+func (a *Client) V1SystemConfigClusterUpdate(params *V1SystemConfigClusterUpdateParams) (*V1SystemConfigClusterUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigClusterUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigClusterUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/cluster",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigClusterUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigClusterUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigClusterUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDatabaseBackupFtpGet gets the system backup interval config
+*/
+func (a *Client) V1SystemConfigDatabaseBackupFtpGet(params *V1SystemConfigDatabaseBackupFtpGetParams) (*V1SystemConfigDatabaseBackupFtpGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDatabaseBackupFtpGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDatabaseBackupFtpGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/database/backup/ftp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDatabaseBackupFtpGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDatabaseBackupFtpGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDatabaseBackupFtpGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDatabaseBackupFtpUpdate updates the system backup interval config
+*/
+func (a *Client) V1SystemConfigDatabaseBackupFtpUpdate(params *V1SystemConfigDatabaseBackupFtpUpdateParams) (*V1SystemConfigDatabaseBackupFtpUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDatabaseBackupFtpUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDatabaseBackupFtpUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/database/backup/ftp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDatabaseBackupFtpUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDatabaseBackupFtpUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDatabaseBackupFtpUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDatabaseBackupS3Get gets the system backup s3 config
+*/
+func (a *Client) V1SystemConfigDatabaseBackupS3Get(params *V1SystemConfigDatabaseBackupS3GetParams) (*V1SystemConfigDatabaseBackupS3GetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDatabaseBackupS3GetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDatabaseBackupS3Get",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/database/backup/s3",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDatabaseBackupS3GetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDatabaseBackupS3GetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDatabaseBackupS3Get: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDatabaseBackupS3Update updates the system backup ftp storage config
+*/
+func (a *Client) V1SystemConfigDatabaseBackupS3Update(params *V1SystemConfigDatabaseBackupS3UpdateParams) (*V1SystemConfigDatabaseBackupS3UpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDatabaseBackupS3UpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDatabaseBackupS3Update",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/database/backup/s3",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDatabaseBackupS3UpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDatabaseBackupS3UpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDatabaseBackupS3Update: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDomainCertificatesGet gets the system domain config
+*/
+func (a *Client) V1SystemConfigDomainCertificatesGet(params *V1SystemConfigDomainCertificatesGetParams) (*V1SystemConfigDomainCertificatesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDomainCertificatesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDomainCertificatesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/domain/certificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDomainCertificatesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDomainCertificatesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDomainCertificatesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigDomainCertificatesPut updates domain host url and its certificates
+*/
+func (a *Client) V1SystemConfigDomainCertificatesPut(params *V1SystemConfigDomainCertificatesPutParams) (*V1SystemConfigDomainCertificatesPutNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigDomainCertificatesPutParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigDomainCertificatesPut",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/domain/certificates",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigDomainCertificatesPutReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigDomainCertificatesPutNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigDomainCertificatesPut: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigEdgeImageGet gets the system edge image
+*/
+func (a *Client) V1SystemConfigEdgeImageGet(params *V1SystemConfigEdgeImageGetParams) (*V1SystemConfigEdgeImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigEdgeImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigEdgeImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/edge/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigEdgeImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigEdgeImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigEdgeImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigEdgeImageUpdate updates the system default edge devops image
+*/
+func (a *Client) V1SystemConfigEdgeImageUpdate(params *V1SystemConfigEdgeImageUpdateParams) (*V1SystemConfigEdgeImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigEdgeImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigEdgeImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/edge/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigEdgeImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigEdgeImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigEdgeImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigEdgeNativeImageGet gets the system edge native image
+*/
+func (a *Client) V1SystemConfigEdgeNativeImageGet(params *V1SystemConfigEdgeNativeImageGetParams) (*V1SystemConfigEdgeNativeImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigEdgeNativeImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigEdgeNativeImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/edgeNative/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigEdgeNativeImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigEdgeNativeImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigEdgeNativeImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigEdgeNativeImageUpdate updates the system default edge native devops image
+*/
+func (a *Client) V1SystemConfigEdgeNativeImageUpdate(params *V1SystemConfigEdgeNativeImageUpdateParams) (*V1SystemConfigEdgeNativeImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigEdgeNativeImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigEdgeNativeImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/edgeNative/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigEdgeNativeImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigEdgeNativeImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigEdgeNativeImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigFtpValidate validates the ftp config
+*/
+func (a *Client) V1SystemConfigFtpValidate(params *V1SystemConfigFtpValidateParams) (*V1SystemConfigFtpValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigFtpValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigFtpValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/config/ftp/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigFtpValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigFtpValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigFtpValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigGcpAccountGet gets the system gcp account
+*/
+func (a *Client) V1SystemConfigGcpAccountGet(params *V1SystemConfigGcpAccountGetParams) (*V1SystemConfigGcpAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigGcpAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigGcpAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/gcp/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigGcpAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigGcpAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigGcpAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigGcpAccountUpdate updates the system default gcp devops account
+*/
+func (a *Client) V1SystemConfigGcpAccountUpdate(params *V1SystemConfigGcpAccountUpdateParams) (*V1SystemConfigGcpAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigGcpAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigGcpAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/gcp/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigGcpAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigGcpAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigGcpAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigGcpImageGet gets the system gcp image
+*/
+func (a *Client) V1SystemConfigGcpImageGet(params *V1SystemConfigGcpImageGetParams) (*V1SystemConfigGcpImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigGcpImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigGcpImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/gcp/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigGcpImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigGcpImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigGcpImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigGcpImageUpdate updates the system default gcp devops image
+*/
+func (a *Client) V1SystemConfigGcpImageUpdate(params *V1SystemConfigGcpImageUpdateParams) (*V1SystemConfigGcpImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigGcpImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigGcpImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/gcp/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigGcpImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigGcpImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigGcpImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigKubectlGet gets the system web kubectl config
+*/
+func (a *Client) V1SystemConfigKubectlGet(params *V1SystemConfigKubectlGetParams) (*V1SystemConfigKubectlGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigKubectlGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigKubectlGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/kubectl",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigKubectlGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigKubectlGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigKubectlGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigKubectlUpdate updates the system web kubectl config
+*/
+func (a *Client) V1SystemConfigKubectlUpdate(params *V1SystemConfigKubectlUpdateParams) (*V1SystemConfigKubectlUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigKubectlUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigKubectlUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/kubectl",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigKubectlUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigKubectlUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigKubectlUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigLoggerGet gets the system logger
+*/
+func (a *Client) V1SystemConfigLoggerGet(params *V1SystemConfigLoggerGetParams) (*V1SystemConfigLoggerGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigLoggerGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigLoggerGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/logger",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigLoggerGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigLoggerGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigLoggerGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigLoggerUpdate updates the system logger
+*/
+func (a *Client) V1SystemConfigLoggerUpdate(params *V1SystemConfigLoggerUpdateParams) (*V1SystemConfigLoggerUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigLoggerUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigLoggerUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/logger",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigLoggerUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigLoggerUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigLoggerUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigMaasImageGet gets the system maas image
+*/
+func (a *Client) V1SystemConfigMaasImageGet(params *V1SystemConfigMaasImageGetParams) (*V1SystemConfigMaasImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigMaasImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigMaasImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/maas/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigMaasImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigMaasImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigMaasImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigMaasImageUpdate updates the system default maas devops image
+*/
+func (a *Client) V1SystemConfigMaasImageUpdate(params *V1SystemConfigMaasImageUpdateParams) (*V1SystemConfigMaasImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigMaasImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigMaasImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/maas/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigMaasImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigMaasImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigMaasImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigProxyGet gets the system proxy
+*/
+func (a *Client) V1SystemConfigProxyGet(params *V1SystemConfigProxyGetParams) (*V1SystemConfigProxyGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigProxyGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigProxyGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/proxy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigProxyGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigProxyGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigProxyGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigProxyUpdate updates the system proxy
+*/
+func (a *Client) V1SystemConfigProxyUpdate(params *V1SystemConfigProxyUpdateParams) (*V1SystemConfigProxyUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigProxyUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigProxyUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/proxy",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigProxyUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigProxyUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigProxyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigRegistriesOciImageGet gets the system config oci image registry
+*/
+func (a *Client) V1SystemConfigRegistriesOciImageGet(params *V1SystemConfigRegistriesOciImageGetParams) (*V1SystemConfigRegistriesOciImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigRegistriesOciImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigRegistriesOciImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/registries/oci/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigRegistriesOciImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigRegistriesOciImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigRegistriesOciImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigRegistriesOciImageUpdate updates the system config oci image registry
+*/
+func (a *Client) V1SystemConfigRegistriesOciImageUpdate(params *V1SystemConfigRegistriesOciImageUpdateParams) (*V1SystemConfigRegistriesOciImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigRegistriesOciImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigRegistriesOciImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/registries/oci/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigRegistriesOciImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigRegistriesOciImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigRegistriesOciImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SystemConfigReverseProxyGet gets the system config reverse proxy
 */
 func (a *Client) V1SystemConfigReverseProxyGet(params *V1SystemConfigReverseProxyGetParams) (*V1SystemConfigReverseProxyGetOK, error) {
@@ -8148,6 +10206,1508 @@ func (a *Client) V1SystemConfigReverseProxyUpdate(params *V1SystemConfigReverseP
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemConfigReverseProxyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigS3Validate validates the s3 config
+*/
+func (a *Client) V1SystemConfigS3Validate(params *V1SystemConfigS3ValidateParams) (*V1SystemConfigS3ValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigS3ValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigS3Validate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/config/s3/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigS3ValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigS3ValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigS3Validate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigScarGet gets the system spectro repository
+*/
+func (a *Client) V1SystemConfigScarGet(params *V1SystemConfigScarGetParams) (*V1SystemConfigScarGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigScarGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigScarGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/scar",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigScarGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigScarGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigScarGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigScarUpdate updates the system spectro repository
+*/
+func (a *Client) V1SystemConfigScarUpdate(params *V1SystemConfigScarUpdateParams) (*V1SystemConfigScarUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigScarUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigScarUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/scar",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigScarUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigScarUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigScarUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigScarValidate validates existing scar config
+*/
+func (a *Client) V1SystemConfigScarValidate(params *V1SystemConfigScarValidateParams) (*V1SystemConfigScarValidateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigScarValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigScarValidate",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/scar/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigScarValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigScarValidateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigScarValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSMTPGet gets the system smtp
+*/
+func (a *Client) V1SystemConfigSMTPGet(params *V1SystemConfigSMTPGetParams) (*V1SystemConfigSMTPGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSMTPGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSmtpGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/smtp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSMTPGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSMTPGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSmtpGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSMTPUpdate updates the system smtp
+*/
+func (a *Client) V1SystemConfigSMTPUpdate(params *V1SystemConfigSMTPUpdateParams) (*V1SystemConfigSMTPUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSMTPUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSmtpUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/smtp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSMTPUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSMTPUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSmtpUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSMTPValidate validates the system smtp
+*/
+func (a *Client) V1SystemConfigSMTPValidate(params *V1SystemConfigSMTPValidateParams) (*V1SystemConfigSMTPValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSMTPValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSmtpValidate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/smtp/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSMTPValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSMTPValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSmtpValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSsoGet gets the system sso
+*/
+func (a *Client) V1SystemConfigSsoGet(params *V1SystemConfigSsoGetParams) (*V1SystemConfigSsoGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSsoGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSsoGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/sso",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSsoGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSsoGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSsoGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSsoGithubValidate validates the system sso for github
+*/
+func (a *Client) V1SystemConfigSsoGithubValidate(params *V1SystemConfigSsoGithubValidateParams) (*V1SystemConfigSsoGithubValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSsoGithubValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSsoGithubValidate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/sso/github/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSsoGithubValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSsoGithubValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSsoGithubValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSsoOidcValidate validates the system sso for oidc based logins
+*/
+func (a *Client) V1SystemConfigSsoOidcValidate(params *V1SystemConfigSsoOidcValidateParams) (*V1SystemConfigSsoOidcValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSsoOidcValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSsoOidcValidate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/sso/oidc/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSsoOidcValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSsoOidcValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSsoOidcValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigSsoUpdate updates the system sso
+*/
+func (a *Client) V1SystemConfigSsoUpdate(params *V1SystemConfigSsoUpdateParams) (*V1SystemConfigSsoUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigSsoUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigSsoUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/sso",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigSsoUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigSsoUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigSsoUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigStorageS3Get gets the system storage s3 config
+*/
+func (a *Client) V1SystemConfigStorageS3Get(params *V1SystemConfigStorageS3GetParams) (*V1SystemConfigStorageS3GetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigStorageS3GetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigStorageS3Get",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/storage/s3",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigStorageS3GetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigStorageS3GetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigStorageS3Get: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigStorageS3Update updates the system storage config
+*/
+func (a *Client) V1SystemConfigStorageS3Update(params *V1SystemConfigStorageS3UpdateParams) (*V1SystemConfigStorageS3UpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigStorageS3UpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigStorageS3Update",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/storage/s3",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigStorageS3UpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigStorageS3UpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigStorageS3Update: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigStoreDelete deletes the specified property for the key
+*/
+func (a *Client) V1SystemConfigStoreDelete(params *V1SystemConfigStoreDeleteParams) (*V1SystemConfigStoreDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigStoreDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigStoreDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/config/keyValueStore/{key}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigStoreDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigStoreDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigStoreDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigStoreGet gets the specified property for the key
+*/
+func (a *Client) V1SystemConfigStoreGet(params *V1SystemConfigStoreGetParams) (*V1SystemConfigStoreGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigStoreGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigStoreGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/keyValueStore/{key}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigStoreGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigStoreGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigStoreGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigStoreUpdate updates the specified property for the key
+*/
+func (a *Client) V1SystemConfigStoreUpdate(params *V1SystemConfigStoreUpdateParams) (*V1SystemConfigStoreUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigStoreUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigStoreUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/keyValueStore",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigStoreUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigStoreUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigStoreUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigTimeseriesGet gets the system timeseries
+*/
+func (a *Client) V1SystemConfigTimeseriesGet(params *V1SystemConfigTimeseriesGetParams) (*V1SystemConfigTimeseriesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigTimeseriesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigTimeseriesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/timeseries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigTimeseriesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigTimeseriesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigTimeseriesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigTimeseriesUpdate updates the system timeseries
+*/
+func (a *Client) V1SystemConfigTimeseriesUpdate(params *V1SystemConfigTimeseriesUpdateParams) (*V1SystemConfigTimeseriesUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigTimeseriesUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigTimeseriesUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/timeseries",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigTimeseriesUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigTimeseriesUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigTimeseriesUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigVsphereImageGet gets the system vsphere image
+*/
+func (a *Client) V1SystemConfigVsphereImageGet(params *V1SystemConfigVsphereImageGetParams) (*V1SystemConfigVsphereImageGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigVsphereImageGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigVsphereImageGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/vsphere/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigVsphereImageGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigVsphereImageGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigVsphereImageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigVsphereImageUpdate updates the system default vsphere devops image
+*/
+func (a *Client) V1SystemConfigVsphereImageUpdate(params *V1SystemConfigVsphereImageUpdateParams) (*V1SystemConfigVsphereImageUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigVsphereImageUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigVsphereImageUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/vsphere/image",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigVsphereImageUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigVsphereImageUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigVsphereImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemDbBackup backups the database
+*/
+func (a *Client) V1SystemDbBackup(params *V1SystemDbBackupParams) (*V1SystemDbBackupNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemDbBackupParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemDbBackup",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/database/backup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemDbBackupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemDbBackupNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemDbBackup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemDbBackups gets the database status
+*/
+func (a *Client) V1SystemDbBackups(params *V1SystemDbBackupsParams) (*V1SystemDbBackupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemDbBackupsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemDbBackups",
+		Method:             "GET",
+		PathPattern:        "/v1/system/database/backups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemDbBackupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemDbBackupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemDbBackups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemDbBackupsBackupUID deletes the database backup
+*/
+func (a *Client) V1SystemDbBackupsBackupUID(params *V1SystemDbBackupsBackupUIDParams) (*V1SystemDbBackupsBackupUIDNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemDbBackupsBackupUIDParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemDbBackupsBackupUid",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/database/backups/{backupUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemDbBackupsBackupUIDReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemDbBackupsBackupUIDNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemDbBackupsBackupUid: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemDbRecover recovers the database
+*/
+func (a *Client) V1SystemDbRecover(params *V1SystemDbRecoverParams) (*V1SystemDbRecoverNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemDbRecoverParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemDbRecover",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/database/recovery/{backupUid}/{mode}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemDbRecoverReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemDbRecoverNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemDbRecover: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemDbRestore restores the database
+*/
+func (a *Client) V1SystemDbRestore(params *V1SystemDbRestoreParams) (*V1SystemDbRestoreNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemDbRestoreParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemDbRestore",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/database/restore/{backupUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemDbRestoreReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemDbRestoreNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemDbRestore: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemEncrypt encrypts the system data
+*/
+func (a *Client) V1SystemEncrypt(params *V1SystemEncryptParams) (*V1SystemEncryptOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemEncryptParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemEncrypt",
+		Method:             "POST",
+		PathPattern:        "/v1/system/encrypt",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemEncryptReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemEncryptOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemEncrypt: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemFeaturesGet lists all feature flags
+*/
+func (a *Client) V1SystemFeaturesGet(params *V1SystemFeaturesGetParams) (*V1SystemFeaturesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemFeaturesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemFeaturesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/features",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemFeaturesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemFeaturesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemFeaturesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemFeaturesUIDUpdate updates the feature permission
+*/
+func (a *Client) V1SystemFeaturesUIDUpdate(params *V1SystemFeaturesUIDUpdateParams) (*V1SystemFeaturesUIDUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemFeaturesUIDUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemFeaturesUidUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/features/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemFeaturesUIDUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemFeaturesUIDUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemFeaturesUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemPasswordPolicyGet gets the system password policy
+*/
+func (a *Client) V1SystemPasswordPolicyGet(params *V1SystemPasswordPolicyGetParams) (*V1SystemPasswordPolicyGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemPasswordPolicyGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemPasswordPolicyGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/password/policy/default",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemPasswordPolicyGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemPasswordPolicyGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemPasswordPolicyGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemPasswordPolicyUpdate updates the system admin
+*/
+func (a *Client) V1SystemPasswordPolicyUpdate(params *V1SystemPasswordPolicyUpdateParams) (*V1SystemPasswordPolicyUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemPasswordPolicyUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemPasswordPolicyUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/password/policy/default",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemPasswordPolicyUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemPasswordPolicyUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemPasswordPolicyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemPlanGet gets the system plan
+*/
+func (a *Client) V1SystemPlanGet(params *V1SystemPlanGetParams) (*V1SystemPlanGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemPlanGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemPlanGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/plan",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemPlanGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemPlanGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemPlanGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRateLimitGet gets the system plan
+*/
+func (a *Client) V1SystemRateLimitGet(params *V1SystemRateLimitGetParams) (*V1SystemRateLimitGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRateLimitGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRateLimitGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/ratelimit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRateLimitGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRateLimitGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRateLimitGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRateLimitPatch toggles the rate limit
+*/
+func (a *Client) V1SystemRateLimitPatch(params *V1SystemRateLimitPatchParams) (*V1SystemRateLimitPatchOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRateLimitPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRateLimitPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/ratelimit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRateLimitPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRateLimitPatchOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRateLimitPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRegistriesNameDelete deletes the specified registry
+*/
+func (a *Client) V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDeleteParams) (*V1SystemRegistriesNameDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRegistriesNameDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRegistriesNameDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/config/registries/{registryName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRegistriesNameDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRegistriesNameDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRegistriesNameGet gets the specified registry
+*/
+func (a *Client) V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRegistriesNameGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRegistriesNameGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/registries/{registryName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRegistriesNameGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRegistriesNameGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRegistriesNameUpdate updates the specified registry
+*/
+func (a *Client) V1SystemRegistriesNameUpdate(params *V1SystemRegistriesNameUpdateParams) (*V1SystemRegistriesNameUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRegistriesNameUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRegistriesNameUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/registries/{registryName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRegistriesNameUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRegistriesNameUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemSecurityModeGet gets the system security mode
+*/
+func (a *Client) V1SystemSecurityModeGet(params *V1SystemSecurityModeGetParams) (*V1SystemSecurityModeGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemSecurityModeGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemSecurityModeGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/security/mode",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemSecurityModeGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemSecurityModeGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemSecurityModeGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemServiceModeUpdate updates the system security mode
+*/
+func (a *Client) V1SystemServiceModeUpdate(params *V1SystemServiceModeUpdateParams) (*V1SystemServiceModeUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemServiceModeUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemServiceModeUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/security/mode",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemServiceModeUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemServiceModeUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemServiceModeUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemStartDatePatch updates the system start date
+*/
+func (a *Client) V1SystemStartDatePatch(params *V1SystemStartDatePatchParams) (*V1SystemStartDatePatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemStartDatePatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemStartDatePatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/plan/startDate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemStartDatePatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemStartDatePatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemStartDatePatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemUsersEmailVerify verifies the system user email using the email token
+
+Verifies the system user email with the help of email token
+*/
+func (a *Client) V1SystemUsersEmailVerify(params *V1SystemUsersEmailVerifyParams) (*V1SystemUsersEmailVerifyNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemUsersEmailVerifyParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemUsersEmailVerify",
+		Method:             "GET",
+		PathPattern:        "/v1/system/users/email/{emailToken}/verify",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemUsersEmailVerifyReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemUsersEmailVerifyNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemUsersEmailVerify: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemUsersEmailVerifyReSend res send the email to the user to be able to verify the email
+
+Re-send the email to the user to be able to verify the email
+*/
+func (a *Client) V1SystemUsersEmailVerifyReSend(params *V1SystemUsersEmailVerifyReSendParams) (*V1SystemUsersEmailVerifyReSendNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemUsersEmailVerifyReSendParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemUsersEmailVerifyReSend",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/users/email/verify/resend",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemUsersEmailVerifyReSendReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemUsersEmailVerifyReSendNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemUsersEmailVerifyReSend: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemUsersMe verifies the system user email using the email token
+
+Verifies the system user email with the help of email token
+*/
+func (a *Client) V1SystemUsersMe(params *V1SystemUsersMeParams) (*V1SystemUsersMeOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemUsersMeParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemUsersMe",
+		Method:             "GET",
+		PathPattern:        "/v1/system/users/me",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemUsersMeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemUsersMeOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemUsersMe: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemVersionInstalled gets the system installed version
+*/
+func (a *Client) V1SystemVersionInstalled(params *V1SystemVersionInstalledParams) (*V1SystemVersionInstalledOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemVersionInstalledParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemVersionInstalled",
+		Method:             "GET",
+		PathPattern:        "/v1/system/version/installed",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemVersionInstalledReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemVersionInstalledOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemVersionInstalled: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemVersionLatest gets the system latest available version
+*/
+func (a *Client) V1SystemVersionLatest(params *V1SystemVersionLatestParams) (*V1SystemVersionLatestOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemVersionLatestParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemVersionLatest",
+		Method:             "GET",
+		PathPattern:        "/v1/system/version/latest",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemVersionLatestReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemVersionLatestOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemVersionLatest: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -9002,6 +12562,76 @@ func (a *Client) V1TenantUIDSsoAuthProvidersUpdate(params *V1TenantUIDSsoAuthPro
 }
 
 /*
+V1TenantsUIDActivate activates the specified tenant
+*/
+func (a *Client) V1TenantsUIDActivate(params *V1TenantsUIDActivateParams) (*V1TenantsUIDActivateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsUIDActivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantsUidActivate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/tenants/{tenantUid}/activate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsUIDActivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsUIDActivateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantsUidActivate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TunnelConfiguration gets tunnel configuration
+
+Returns Tunnel Configuration
+*/
+func (a *Client) V1TunnelConfiguration(params *V1TunnelConfigurationParams) (*V1TunnelConfigurationOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TunnelConfigurationParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TunnelConfiguration",
+		Method:             "GET",
+		PathPattern:        "/v1/tunnel/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TunnelConfigurationReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TunnelConfigurationOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TunnelConfiguration: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1UsersConfigScarGet gets the system spectro repository restricted to edge services
 */
 func (a *Client) V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error) {
@@ -9068,6 +12698,176 @@ func (a *Client) V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1UsersKubectlSessionUid: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsersMfaDevicesList v1s users mfa devices list
+*/
+func (a *Client) V1UsersMfaDevicesList(params *V1UsersMfaDevicesListParams) (*V1UsersMfaDevicesListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsersMfaDevicesListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1UsersMfaDevicesList",
+		Method:             "GET",
+		PathPattern:        "/v1/users/mfa/devices",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsersMfaDevicesListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsersMfaDevicesListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1UsersMfaDevicesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsersMfaDevicesNameDelete v1s users mfa devices name delete
+*/
+func (a *Client) V1UsersMfaDevicesNameDelete(params *V1UsersMfaDevicesNameDeleteParams) (*V1UsersMfaDevicesNameDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsersMfaDevicesNameDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1UsersMfaDevicesNameDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/users/mfa/devices/{deviceName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsersMfaDevicesNameDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsersMfaDevicesNameDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1UsersMfaDevicesNameDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsersMfaDevicesNameGet v1s users mfa devices name get
+*/
+func (a *Client) V1UsersMfaDevicesNameGet(params *V1UsersMfaDevicesNameGetParams) (*V1UsersMfaDevicesNameGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsersMfaDevicesNameGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1UsersMfaDevicesNameGet",
+		Method:             "GET",
+		PathPattern:        "/v1/users/mfa/devices/{deviceName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsersMfaDevicesNameGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsersMfaDevicesNameGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1UsersMfaDevicesNameGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsersMfaRegisterDeviceFinish v1s users mfa register device finish
+*/
+func (a *Client) V1UsersMfaRegisterDeviceFinish(params *V1UsersMfaRegisterDeviceFinishParams) (*V1UsersMfaRegisterDeviceFinishNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsersMfaRegisterDeviceFinishParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1UsersMfaRegisterDeviceFinish",
+		Method:             "POST",
+		PathPattern:        "/v1/users/mfa/register/device/finish",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsersMfaRegisterDeviceFinishReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsersMfaRegisterDeviceFinishNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1UsersMfaRegisterDeviceFinish: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsersMfaRegisterDeviceStart v1s users mfa register device start
+*/
+func (a *Client) V1UsersMfaRegisterDeviceStart(params *V1UsersMfaRegisterDeviceStartParams) (*V1UsersMfaRegisterDeviceStartOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsersMfaRegisterDeviceStartParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1UsersMfaRegisterDeviceStart",
+		Method:             "POST",
+		PathPattern:        "/v1/users/mfa/register/device/start",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsersMfaRegisterDeviceStartReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsersMfaRegisterDeviceStartOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1UsersMfaRegisterDeviceStart: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -9276,6 +13076,42 @@ func (a *Client) V1AccountsGeolocationPatch(params *V1AccountsGeolocationPatchPa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1AccountsGeolocationPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1ActivationsSystemGet returns system activation state from in memory cache for UI banner
+
+Only for UI to show the banner
+*/
+func (a *Client) V1ActivationsSystemGet(params *V1ActivationsSystemGetParams) (*V1ActivationsSystemGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1ActivationsSystemGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1ActivationsSystemGet",
+		Method:             "GET",
+		PathPattern:        "/v1/activations/system",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1ActivationsSystemGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1ActivationsSystemGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1ActivationsSystemGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -12382,176 +16218,6 @@ func (a *Client) V1CloudAccountsMaasUpdate(params *V1CloudAccountsMaasUpdatePara
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsMaasUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsOpenStackCreate creates a open stack cloud account
-*/
-func (a *Client) V1CloudAccountsOpenStackCreate(params *V1CloudAccountsOpenStackCreateParams) (*V1CloudAccountsOpenStackCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsOpenStackCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsOpenStackCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudaccounts/openstack",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsOpenStackCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsOpenStackCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsOpenStackDelete deletes the specified open stack account
-*/
-func (a *Client) V1CloudAccountsOpenStackDelete(params *V1CloudAccountsOpenStackDeleteParams) (*V1CloudAccountsOpenStackDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsOpenStackDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsOpenStackDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsOpenStackDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsOpenStackDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsOpenStackGet returns the specified open stack account
-*/
-func (a *Client) V1CloudAccountsOpenStackGet(params *V1CloudAccountsOpenStackGetParams) (*V1CloudAccountsOpenStackGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsOpenStackGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsOpenStackGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsOpenStackGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsOpenStackGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsOpenStackList retrieves a list of open stack cloud accounts
-*/
-func (a *Client) V1CloudAccountsOpenStackList(params *V1CloudAccountsOpenStackListParams) (*V1CloudAccountsOpenStackListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsOpenStackListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsOpenStackList",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsOpenStackListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsOpenStackListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudAccountsOpenStackUpdate updates the specified open stack account
-*/
-func (a *Client) V1CloudAccountsOpenStackUpdate(params *V1CloudAccountsOpenStackUpdateParams) (*V1CloudAccountsOpenStackUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudAccountsOpenStackUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudAccountsOpenStackUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudAccountsOpenStackUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudAccountsOpenStackUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudAccountsOpenStackUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -16606,342 +20272,36 @@ func (a *Client) V1CloudConfigsMachinePoolsMachineUidsGet(params *V1CloudConfigs
 }
 
 /*
-V1CloudConfigsOpenStackGet returns the specified open stack cloud config
+V1CloudConfigsUIDMachinesHealthPatch updates the health status of machines for the specified cloud config
 */
-func (a *Client) V1CloudConfigsOpenStackGet(params *V1CloudConfigsOpenStackGetParams) (*V1CloudConfigsOpenStackGetOK, error) {
+func (a *Client) V1CloudConfigsUIDMachinesHealthPatch(params *V1CloudConfigsUIDMachinesHealthPatchParams) (*V1CloudConfigsUIDMachinesHealthPatchNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewV1CloudConfigsOpenStackGetParams()
+		params = NewV1CloudConfigsUIDMachinesHealthPatchParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}",
+		ID:                 "v1CloudConfigsUidMachinesHealthPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/cloudconfigs/{configUid}/machines/health",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"http", "https"},
 		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackGetReader{formats: a.formats},
+		Reader:             &V1CloudConfigsUIDMachinesHealthPatchReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*V1CloudConfigsOpenStackGetOK)
+	success, ok := result.(*V1CloudConfigsUIDMachinesHealthPatchNoContent)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackMachinePoolCreate creates a open stack cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsOpenStackMachinePoolCreate(params *V1CloudConfigsOpenStackMachinePoolCreateParams) (*V1CloudConfigsOpenStackMachinePoolCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackMachinePoolCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackMachinePoolCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackMachinePoolCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackMachinePoolCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackMachinePoolCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackMachinePoolDelete deletes the specified machine pool
-*/
-func (a *Client) V1CloudConfigsOpenStackMachinePoolDelete(params *V1CloudConfigsOpenStackMachinePoolDeleteParams) (*V1CloudConfigsOpenStackMachinePoolDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackMachinePoolDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackMachinePoolDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackMachinePoolDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackMachinePoolDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackMachinePoolDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackMachinePoolUpdate updates the specified open stack cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsOpenStackMachinePoolUpdate(params *V1CloudConfigsOpenStackMachinePoolUpdateParams) (*V1CloudConfigsOpenStackMachinePoolUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackMachinePoolUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackMachinePoolUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackMachinePoolUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackMachinePoolUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackMachinePoolUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackPoolMachinesAdd adds the open stack machine to cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsOpenStackPoolMachinesAdd(params *V1CloudConfigsOpenStackPoolMachinesAddParams) (*V1CloudConfigsOpenStackPoolMachinesAddCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackPoolMachinesAddParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackPoolMachinesAdd",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackPoolMachinesAddReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackPoolMachinesAddCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackPoolMachinesAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackPoolMachinesList retrieves a list of open stack machines
-*/
-func (a *Client) V1CloudConfigsOpenStackPoolMachinesList(params *V1CloudConfigsOpenStackPoolMachinesListParams) (*V1CloudConfigsOpenStackPoolMachinesListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackPoolMachinesListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackPoolMachinesList",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackPoolMachinesListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackPoolMachinesListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackPoolMachinesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackPoolMachinesUIDDelete deletes the specified open stack machine
-*/
-func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDDelete(params *V1CloudConfigsOpenStackPoolMachinesUIDDeleteParams) (*V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackPoolMachinesUIDDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackPoolMachinesUidDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackPoolMachinesUIDDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackPoolMachinesUIDDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackPoolMachinesUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackPoolMachinesUIDGet returns the specified open stack machine
-*/
-func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDGet(params *V1CloudConfigsOpenStackPoolMachinesUIDGetParams) (*V1CloudConfigsOpenStackPoolMachinesUIDGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackPoolMachinesUIDGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackPoolMachinesUidGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackPoolMachinesUIDGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackPoolMachinesUIDGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackPoolMachinesUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackPoolMachinesUIDUpdate updates the specified machine to cloud config s machine pool
-*/
-func (a *Client) V1CloudConfigsOpenStackPoolMachinesUIDUpdate(params *V1CloudConfigsOpenStackPoolMachinesUIDUpdateParams) (*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackPoolMachinesUIDUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackPoolMachinesUidUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/machinePools/{machinePoolName}/machines/{machineUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackPoolMachinesUIDUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackPoolMachinesUIDUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackPoolMachinesUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1CloudConfigsOpenStackUIDClusterConfig updates the cluster configuration information
-*/
-func (a *Client) V1CloudConfigsOpenStackUIDClusterConfig(params *V1CloudConfigsOpenStackUIDClusterConfigParams) (*V1CloudConfigsOpenStackUIDClusterConfigNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1CloudConfigsOpenStackUIDClusterConfigParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1CloudConfigsOpenStackUidClusterConfig",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/openstack/{configUid}/clusterConfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1CloudConfigsOpenStackUIDClusterConfigReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1CloudConfigsOpenStackUIDClusterConfigNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsOpenStackUidClusterConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsUidMachinesHealthPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -24018,210 +27378,6 @@ func (a *Client) V1OciRegistriesSummary(params *V1OciRegistriesSummaryParams) (*
 }
 
 /*
-V1OpenstackAccountsUIDAzs gets the openstack azs for a given account and region
-*/
-func (a *Client) V1OpenstackAccountsUIDAzs(params *V1OpenstackAccountsUIDAzsParams) (*V1OpenstackAccountsUIDAzsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDAzsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidAzs",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/azs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDAzsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDAzsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidAzs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenstackAccountsUIDFlavors gets the openstack keypairs for a given account and scope
-*/
-func (a *Client) V1OpenstackAccountsUIDFlavors(params *V1OpenstackAccountsUIDFlavorsParams) (*V1OpenstackAccountsUIDFlavorsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDFlavorsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidFlavors",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/flavors",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDFlavorsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDFlavorsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidFlavors: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenstackAccountsUIDKeypairs gets the openstack keypairs for a given account and scope
-*/
-func (a *Client) V1OpenstackAccountsUIDKeypairs(params *V1OpenstackAccountsUIDKeypairsParams) (*V1OpenstackAccountsUIDKeypairsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDKeypairsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidKeypairs",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/keypairs",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDKeypairsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDKeypairsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidKeypairs: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenstackAccountsUIDNetworks gets the openstack networks for a given account and scope
-*/
-func (a *Client) V1OpenstackAccountsUIDNetworks(params *V1OpenstackAccountsUIDNetworksParams) (*V1OpenstackAccountsUIDNetworksOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDNetworksParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidNetworks",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/networks",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDNetworksReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDNetworksOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidNetworks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenstackAccountsUIDProjects gets the openstack projects for a given account
-*/
-func (a *Client) V1OpenstackAccountsUIDProjects(params *V1OpenstackAccountsUIDProjectsParams) (*V1OpenstackAccountsUIDProjectsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDProjectsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidProjects",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/projects",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDProjectsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDProjectsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidProjects: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OpenstackAccountsUIDRegions gets the openstack regions for a given account
-*/
-func (a *Client) V1OpenstackAccountsUIDRegions(params *V1OpenstackAccountsUIDRegionsParams) (*V1OpenstackAccountsUIDRegionsOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OpenstackAccountsUIDRegionsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OpenstackAccountsUidRegions",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudaccounts/openstack/{uid}/properties/regions",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OpenstackAccountsUIDRegionsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OpenstackAccountsUIDRegionsOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OpenstackAccountsUidRegions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1OverlordsCloudStackManifest returns the manifests required for the private gateway installation
 */
 func (a *Client) V1OverlordsCloudStackManifest(params *V1OverlordsCloudStackManifestParams) (*V1OverlordsCloudStackManifestOK, error) {
@@ -24290,40 +27446,6 @@ func (a *Client) V1OverlordsList(params *V1OverlordsListParams) (*V1OverlordsLis
 }
 
 /*
-V1OverlordsOpenStackManifest returns the manifests required for the private gateway installation
-*/
-func (a *Client) V1OverlordsOpenStackManifest(params *V1OverlordsOpenStackManifestParams) (*V1OverlordsOpenStackManifestOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsOpenStackManifestParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsOpenStackManifest",
-		Method:             "GET",
-		PathPattern:        "/v1/overlords/openstack/manifest",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsOpenStackManifestReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsOpenStackManifestOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsOpenStackManifest: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1OverlordsPairingCode returns the pairing code for the private gateway
 */
 func (a *Client) V1OverlordsPairingCode(params *V1OverlordsPairingCodeParams) (*V1OverlordsPairingCodeOK, error) {
@@ -24354,6 +27476,40 @@ func (a *Client) V1OverlordsPairingCode(params *V1OverlordsPairingCodeParams) (*
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1OverlordsPairingCode: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsSystem creates the system private gateway for the specified tenant
+*/
+func (a *Client) V1OverlordsSystem(params *V1OverlordsSystemParams) (*V1OverlordsSystemCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsSystemParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsSystem",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/vsphere/tenants/{tenantUid}/system",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsSystemReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsSystemCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsSystem: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -24934,210 +28090,6 @@ func (a *Client) V1OverlordsUIDMetadataUpdate(params *V1OverlordsUIDMetadataUpda
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidMetadataUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackAccountCreate creates the open stack cloudaccount for the private gateway
-*/
-func (a *Client) V1OverlordsUIDOpenStackAccountCreate(params *V1OverlordsUIDOpenStackAccountCreateParams) (*V1OverlordsUIDOpenStackAccountCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackAccountCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackAccountCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/overlords/openstack/{uid}/account",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackAccountCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackAccountCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackAccountCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackAccountUpdate updates the open stack cloudaccount for the private gateway
-*/
-func (a *Client) V1OverlordsUIDOpenStackAccountUpdate(params *V1OverlordsUIDOpenStackAccountUpdateParams) (*V1OverlordsUIDOpenStackAccountUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackAccountUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackAccountUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/overlords/openstack/{uid}/account",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackAccountUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackAccountUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackAccountValidate validates the open stack cloudaccount for the private gateway
-*/
-func (a *Client) V1OverlordsUIDOpenStackAccountValidate(params *V1OverlordsUIDOpenStackAccountValidateParams) (*V1OverlordsUIDOpenStackAccountValidateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackAccountValidateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackAccountValidate",
-		Method:             "POST",
-		PathPattern:        "/v1/overlords/openstack/{uid}/account/validate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackAccountValidateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackAccountValidateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackAccountValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackCloudConfigCreate creates the open stack cloud config for the private gateway
-*/
-func (a *Client) V1OverlordsUIDOpenStackCloudConfigCreate(params *V1OverlordsUIDOpenStackCloudConfigCreateParams) (*V1OverlordsUIDOpenStackCloudConfigCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackCloudConfigCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackCloudConfigCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/overlords/openstack/{uid}/cloudconfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackCloudConfigCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackCloudConfigCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackCloudConfigCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackCloudConfigUpdate updates the open stack cloud config for the private gateway
-*/
-func (a *Client) V1OverlordsUIDOpenStackCloudConfigUpdate(params *V1OverlordsUIDOpenStackCloudConfigUpdateParams) (*V1OverlordsUIDOpenStackCloudConfigUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackCloudConfigUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackCloudConfigUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/overlords/openstack/{uid}/cloudconfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackCloudConfigUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackCloudConfigUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackCloudConfigUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1OverlordsUIDOpenStackClusterProfile returns the specified open stack private gateway cluster profile
-*/
-func (a *Client) V1OverlordsUIDOpenStackClusterProfile(params *V1OverlordsUIDOpenStackClusterProfileParams) (*V1OverlordsUIDOpenStackClusterProfileOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1OverlordsUIDOpenStackClusterProfileParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1OverlordsUidOpenStackClusterProfile",
-		Method:             "GET",
-		PathPattern:        "/v1/overlords/openstack/{uid}/clusterprofile",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1OverlordsUIDOpenStackClusterProfileReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1OverlordsUIDOpenStackClusterProfileOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidOpenStackClusterProfile: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -26198,6 +29150,414 @@ func (a *Client) V1PermissionsList(params *V1PermissionsListParams) (*V1Permissi
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1PermissionsList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansCreate creates a user plan
+*/
+func (a *Client) V1PlansCreate(params *V1PlansCreateParams) (*V1PlansCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/plans",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansList retrieves a list of plans
+*/
+func (a *Client) V1PlansList(params *V1PlansListParams) (*V1PlansListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansList",
+		Method:             "GET",
+		PathPattern:        "/v1/plans",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDCreditsUIDDelete deletes the specified plan s credit data
+*/
+func (a *Client) V1PlansUIDCreditsUIDDelete(params *V1PlansUIDCreditsUIDDeleteParams) (*V1PlansUIDCreditsUIDDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDCreditsUIDDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidCreditsUidDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/plans/{uid}/credits/{creditUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDCreditsUIDDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDCreditsUIDDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidCreditsUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDCreditsUIDUpdate updates the specified plan s credit data
+*/
+func (a *Client) V1PlansUIDCreditsUIDUpdate(params *V1PlansUIDCreditsUIDUpdateParams) (*V1PlansUIDCreditsUIDUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDCreditsUIDUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidCreditsUidUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/plans/{uid}/credits/{creditUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDCreditsUIDUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDCreditsUIDUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidCreditsUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDExpiryPatch updates the specified plan s expiry
+*/
+func (a *Client) V1PlansUIDExpiryPatch(params *V1PlansUIDExpiryPatchParams) (*V1PlansUIDExpiryPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDExpiryPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidExpiryPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/plans/{uid}/expiry",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDExpiryPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDExpiryPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidExpiryPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDFreeCreditAdd adds free credit to the specified plan
+*/
+func (a *Client) V1PlansUIDFreeCreditAdd(params *V1PlansUIDFreeCreditAddParams) (*V1PlansUIDFreeCreditAddCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDFreeCreditAddParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidFreeCreditAdd",
+		Method:             "POST",
+		PathPattern:        "/v1/plans/{uid}/freeCredit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDFreeCreditAddReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDFreeCreditAddCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidFreeCreditAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDGet returns the specified plan
+*/
+func (a *Client) V1PlansUIDGet(params *V1PlansUIDGetParams) (*V1PlansUIDGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidGet",
+		Method:             "GET",
+		PathPattern:        "/v1/plans/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDPlanLimitUpdate updates the specified plan s limit
+*/
+func (a *Client) V1PlansUIDPlanLimitUpdate(params *V1PlansUIDPlanLimitUpdateParams) (*V1PlansUIDPlanLimitUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDPlanLimitUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidPlanLimitUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/plans/{uid}/planLimit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDPlanLimitUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDPlanLimitUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidPlanLimitUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDPlanTypeUpdate changes the plan type for the specified plan
+*/
+func (a *Client) V1PlansUIDPlanTypeUpdate(params *V1PlansUIDPlanTypeUpdateParams) (*V1PlansUIDPlanTypeUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDPlanTypeUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidPlanTypeUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/plans/{uid}/planType",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDPlanTypeUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDPlanTypeUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidPlanTypeUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDRenewal adds renewal data to the existing plan
+*/
+func (a *Client) V1PlansUIDRenewal(params *V1PlansUIDRenewalParams) (*V1PlansUIDRenewalNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDRenewalParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidRenewal",
+		Method:             "PATCH",
+		PathPattern:        "/v1/plans/{uid}/renewal",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDRenewalReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDRenewalNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidRenewal: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUIDSLACreditAdd adds sla breach credit to the specified plan
+*/
+func (a *Client) V1PlansUIDSLACreditAdd(params *V1PlansUIDSLACreditAddParams) (*V1PlansUIDSLACreditAddCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUIDSLACreditAddParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUidSlaCreditAdd",
+		Method:             "POST",
+		PathPattern:        "/v1/plans/{uid}/slaCredit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUIDSLACreditAddReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUIDSLACreditAddCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUidSlaCreditAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PlansUsageMonthlyGet returns the tenant s monthly plan usage grouped by projects
+*/
+func (a *Client) V1PlansUsageMonthlyGet(params *V1PlansUsageMonthlyGetParams) (*V1PlansUsageMonthlyGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PlansUsageMonthlyGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PlansUsageMonthlyGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/plans/usage/monthly",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PlansUsageMonthlyGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PlansUsageMonthlyGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PlansUsageMonthlyGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -29920,142 +33280,6 @@ func (a *Client) V1SpectroClustersMetadataSearchSchema(params *V1SpectroClusters
 }
 
 /*
-V1SpectroClustersOpenStackCreate creates a open stack cluster
-*/
-func (a *Client) V1SpectroClustersOpenStackCreate(params *V1SpectroClustersOpenStackCreateParams) (*V1SpectroClustersOpenStackCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersOpenStackCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersOpenStackCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/openstack",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersOpenStackCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersOpenStackCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersOpenStackCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersOpenStackImport imports an open stack cluster
-*/
-func (a *Client) V1SpectroClustersOpenStackImport(params *V1SpectroClustersOpenStackImportParams) (*V1SpectroClustersOpenStackImportCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersOpenStackImportParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersOpenStackImport",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/openstack/import",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersOpenStackImportReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersOpenStackImportCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersOpenStackImport: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersOpenStackRate gets openstack cluster estimated rate information
-*/
-func (a *Client) V1SpectroClustersOpenStackRate(params *V1SpectroClustersOpenStackRateParams) (*V1SpectroClustersOpenStackRateOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersOpenStackRateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersOpenStackRate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/openstack/rate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersOpenStackRateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersOpenStackRateOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersOpenStackRate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersOpenStackValidate validates open stack cluster create operation
-*/
-func (a *Client) V1SpectroClustersOpenStackValidate(params *V1SpectroClustersOpenStackValidateParams) (*V1SpectroClustersOpenStackValidateOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersOpenStackValidateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersOpenStackValidate",
-		Method:             "POST",
-		PathPattern:        "/v1/spectroclusters/openstack/validate",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersOpenStackValidateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersOpenStackValidateOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersOpenStackValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1SpectroClustersPacksRefUpdate updates the cluster s pack references
 */
 func (a *Client) V1SpectroClustersPacksRefUpdate(params *V1SpectroClustersPacksRefUpdateParams) (*V1SpectroClustersPacksRefUpdateNoContent, error) {
@@ -31514,6 +34738,42 @@ func (a *Client) V1SpectroClustersUIDManifestUpdate(params *V1SpectroClustersUID
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidManifestUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersUIDManifestsGet returns all manifests attached to the cluster
+
+Returns a flat list of manifests from all cluster profiles and packs. When resolveValues is true, macros, variables, and template placeholders in manifest content are resolved.
+*/
+func (a *Client) V1SpectroClustersUIDManifestsGet(params *V1SpectroClustersUIDManifestsGetParams) (*V1SpectroClustersUIDManifestsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersUIDManifestsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersUidManifestsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/{uid}/manifests",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersUIDManifestsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersUIDManifestsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidManifestsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -33458,6 +36718,40 @@ func (a *Client) V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphe
 }
 
 /*
+V1SpectrospectroInstallerCreate creates the spectro installer
+*/
+func (a *Client) V1SpectrospectroInstallerCreate(params *V1SpectrospectroInstallerCreateParams) (*V1SpectrospectroInstallerCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectrospectroInstallerCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectrospectroInstallerCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/installers/spectro",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectrospectroInstallerCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectrospectroInstallerCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectrospectroInstallerCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SyftScanLogImageSBOMGet returns the image sbom of syft scan log of cluster
 */
 func (a *Client) V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetParams, writer io.Writer) (*V1SyftScanLogImageSBOMGetOK, error) {
@@ -33488,6 +36782,1343 @@ func (a *Client) V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetPara
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SyftScanLogImageSBOMGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemActivate validates activation key updates plan logs activation updates cache
+*/
+func (a *Client) V1SystemActivate(params *V1SystemActivateParams) (*V1SystemActivateOK, *V1SystemActivateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemActivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemActivate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/activate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemActivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, nil, err
+	}
+	switch value := result.(type) {
+	case *V1SystemActivateOK:
+		return value, nil, nil
+	case *V1SystemActivateCreated:
+		return nil, value, nil
+	}
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for version1: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemActivationGet returns system activations doc to be used in sysadmin console
+*/
+func (a *Client) V1SystemActivationGet(params *V1SystemActivationGetParams) (*V1SystemActivationGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemActivationGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemActivationGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/activation",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemActivationGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemActivationGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemActivationGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsCreate creates a system administrator
+*/
+func (a *Client) V1SystemAdminsCreate(params *V1SystemAdminsCreateParams) (*V1SystemAdminsCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/admins",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsList lists users
+
+Lists all System Administrator's information
+*/
+func (a *Client) V1SystemAdminsList(params *V1SystemAdminsListParams) (*V1SystemAdminsListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsList",
+		Method:             "GET",
+		PathPattern:        "/v1/system/admins",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsPasswordActivate updates and activates the specified system administrator password using the password token
+
+Updates and Activates System Administrator password with the help of password token
+*/
+func (a *Client) V1SystemAdminsPasswordActivate(params *V1SystemAdminsPasswordActivateParams) (*V1SystemAdminsPasswordActivateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsPasswordActivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsPasswordActivate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/admins/auth/password/{passwordToken}/activate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsPasswordActivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsPasswordActivateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsPasswordActivate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsUIDDelete deletes the specified system administrator
+*/
+func (a *Client) V1SystemAdminsUIDDelete(params *V1SystemAdminsUIDDeleteParams) (*V1SystemAdminsUIDDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsUIDDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsUidDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/admins/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsUIDDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsUIDDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsUIDGet returns the specified system administrator information
+*/
+func (a *Client) V1SystemAdminsUIDGet(params *V1SystemAdminsUIDGetParams) (*V1SystemAdminsUIDGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsUIDGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsUidGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/admins/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsUIDGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsUIDGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsUidGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsUIDPasswordChange systems administrator password change request through the verification of the current password
+*/
+func (a *Client) V1SystemAdminsUIDPasswordChange(params *V1SystemAdminsUIDPasswordChangeParams) (*V1SystemAdminsUIDPasswordChangeNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsUIDPasswordChangeParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsUidPasswordChange",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/admins/{uid}/changePassword",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsUIDPasswordChangeReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsUIDPasswordChangeNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsUidPasswordChange: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsUIDPasswordResetLink resets password link for a specified system administrator
+*/
+func (a *Client) V1SystemAdminsUIDPasswordResetLink(params *V1SystemAdminsUIDPasswordResetLinkParams) (*V1SystemAdminsUIDPasswordResetLinkNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsUIDPasswordResetLinkParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsUidPasswordResetLink",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/admins/{uid}/passwordResetLink",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsUIDPasswordResetLinkReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsUIDPasswordResetLinkNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsUidPasswordResetLink: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAdminsUIDProfileUpdate updates user
+
+Update System Administrator Profile
+*/
+func (a *Client) V1SystemAdminsUIDProfileUpdate(params *V1SystemAdminsUIDProfileUpdateParams) (*V1SystemAdminsUIDProfileUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAdminsUIDProfileUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAdminsUidProfileUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/admins/{uid}/profile",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAdminsUIDProfileUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAdminsUIDProfileUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAdminsUidProfileUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAlertDelete deletes the specified alert to the specified system
+*/
+func (a *Client) V1SystemAlertDelete(params *V1SystemAlertDeleteParams) (*V1SystemAlertDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAlertDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAlertDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/alerts/{component}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAlertDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAlertDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAlertDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAlertUpdate upserts the specified alert to the specified system
+*/
+func (a *Client) V1SystemAlertUpdate(params *V1SystemAlertUpdateParams) (*V1SystemAlertUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAlertUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAlertUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/alerts/{component}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAlertUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAlertUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAlertUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAlertsGet gets the alerts specified for the system
+*/
+func (a *Client) V1SystemAlertsGet(params *V1SystemAlertsGetParams) (*V1SystemAlertsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAlertsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAlertsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/alerts",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAlertsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAlertsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAlertsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAppFeaturesGet gets system app features
+*/
+func (a *Client) V1SystemAppFeaturesGet(params *V1SystemAppFeaturesGetParams) (*V1SystemAppFeaturesGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAppFeaturesGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAppFeaturesGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/appFeatures",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAppFeaturesGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAppFeaturesGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAppFeaturesGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAppFeaturesUpdate updates system app features
+*/
+func (a *Client) V1SystemAppFeaturesUpdate(params *V1SystemAppFeaturesUpdateParams) (*V1SystemAppFeaturesUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAppFeaturesUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAppFeaturesUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/appFeatures",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAppFeaturesUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAppFeaturesUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAppFeaturesUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAuthTokenSettingsGet gets system auth token settings
+*/
+func (a *Client) V1SystemAuthTokenSettingsGet(params *V1SystemAuthTokenSettingsGetParams) (*V1SystemAuthTokenSettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAuthTokenSettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAuthTokenSettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/authTokenSettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAuthTokenSettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAuthTokenSettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAuthTokenSettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemAuthTokenSettingsUpdate updates system auth token settings
+*/
+func (a *Client) V1SystemAuthTokenSettingsUpdate(params *V1SystemAuthTokenSettingsUpdateParams) (*V1SystemAuthTokenSettingsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemAuthTokenSettingsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemAuthTokenSettingsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/authTokenSettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemAuthTokenSettingsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemAuthTokenSettingsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemAuthTokenSettingsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemClassificationBannerGet gets system classification banner
+*/
+func (a *Client) V1SystemClassificationBannerGet(params *V1SystemClassificationBannerGetParams) (*V1SystemClassificationBannerGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemClassificationBannerGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemClassificationBannerGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/classificationBanner",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemClassificationBannerGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemClassificationBannerGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemClassificationBannerGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemClassificationBannerUpdate updates system classification banner
+*/
+func (a *Client) V1SystemClassificationBannerUpdate(params *V1SystemClassificationBannerUpdateParams) (*V1SystemClassificationBannerUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemClassificationBannerUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemClassificationBannerUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/classificationBanner",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemClassificationBannerUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemClassificationBannerUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemClassificationBannerUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemCreditsUIDDelete deletes the specified plan s credit data
+*/
+func (a *Client) V1SystemCreditsUIDDelete(params *V1SystemCreditsUIDDeleteParams) (*V1SystemCreditsUIDDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemCreditsUIDDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemCreditsUidDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/plan/credits/{creditUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemCreditsUIDDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemCreditsUIDDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemCreditsUidDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemCreditsUIDUpdate updates the specified plan s credit data
+*/
+func (a *Client) V1SystemCreditsUIDUpdate(params *V1SystemCreditsUIDUpdateParams) (*V1SystemCreditsUIDUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemCreditsUIDUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemCreditsUidUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/plan/credits/{creditUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemCreditsUIDUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemCreditsUIDUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemCreditsUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemFreeCreditAdd adds system free credit
+*/
+func (a *Client) V1SystemFreeCreditAdd(params *V1SystemFreeCreditAddParams) (*V1SystemFreeCreditAddCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemFreeCreditAddParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemFreeCreditAdd",
+		Method:             "POST",
+		PathPattern:        "/v1/system/plan/freeCredit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemFreeCreditAddReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemFreeCreditAddCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemFreeCreditAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemLoginBannerGet gets system login banner settings
+*/
+func (a *Client) V1SystemLoginBannerGet(params *V1SystemLoginBannerGetParams) (*V1SystemLoginBannerGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemLoginBannerGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemLoginBannerGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/loginBanner",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemLoginBannerGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemLoginBannerGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemLoginBannerGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemLoginBannerUpdate updates system login banner settings
+*/
+func (a *Client) V1SystemLoginBannerUpdate(params *V1SystemLoginBannerUpdateParams) (*V1SystemLoginBannerUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemLoginBannerUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemLoginBannerUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/loginBanner",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemLoginBannerUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemLoginBannerUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemLoginBannerUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemPlanLimitUpdate updates the specified system plan s limit
+*/
+func (a *Client) V1SystemPlanLimitUpdate(params *V1SystemPlanLimitUpdateParams) (*V1SystemPlanLimitUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemPlanLimitUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemPlanLimitUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/plan/planLimit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemPlanLimitUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemPlanLimitUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemPlanLimitUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemResourceLimitsGet gets system resource limits
+*/
+func (a *Client) V1SystemResourceLimitsGet(params *V1SystemResourceLimitsGetParams) (*V1SystemResourceLimitsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemResourceLimitsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemResourceLimitsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/resourceLimits",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemResourceLimitsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemResourceLimitsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemResourceLimitsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemResourceLimitsUpdate updates system resource limits
+*/
+func (a *Client) V1SystemResourceLimitsUpdate(params *V1SystemResourceLimitsUpdateParams) (*V1SystemResourceLimitsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemResourceLimitsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemResourceLimitsUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/resourceLimits",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemResourceLimitsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemResourceLimitsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemResourceLimitsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemSLACreditAdd adds system sla breach credit
+*/
+func (a *Client) V1SystemSLACreditAdd(params *V1SystemSLACreditAddParams) (*V1SystemSLACreditAddCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemSLACreditAddParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemSlaCreditAdd",
+		Method:             "POST",
+		PathPattern:        "/v1/system/plan/slaCredit",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemSLACreditAddReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemSLACreditAddCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemSlaCreditAdd: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemSysplanGet returns system plan document
+*/
+func (a *Client) V1SystemSysplanGet(params *V1SystemSysplanGetParams) (*V1SystemSysplanGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemSysplanGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemSysplanGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/sysplan",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemSysplanGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemSysplanGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemSysplanGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeActivate activates a theme
+*/
+func (a *Client) V1SystemThemeActivate(params *V1SystemThemeActivateParams) (*V1SystemThemeActivateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeActivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeActivate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/themes/{uid}/activate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeActivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeActivateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeActivate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeActiveGet returns the active theme
+*/
+func (a *Client) V1SystemThemeActiveGet(params *V1SystemThemeActiveGetParams) (*V1SystemThemeActiveGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeActiveGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeActiveGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/themes/active",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeActiveGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeActiveGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeActiveGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeCreate stores the theme json fields like logo name at system level
+*/
+func (a *Client) V1SystemThemeCreate(params *V1SystemThemeCreateParams) (*V1SystemThemeCreateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/themes",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeCreateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeDeactivate deactivates a theme
+*/
+func (a *Client) V1SystemThemeDeactivate(params *V1SystemThemeDeactivateParams) (*V1SystemThemeDeactivateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeDeactivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeDeactivate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/themes/{uid}/deactivate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeDeactivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeDeactivateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeDeactivate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeDelete deletes the theme json fields like logo name at system level
+*/
+func (a *Client) V1SystemThemeDelete(params *V1SystemThemeDeleteParams) (*V1SystemThemeDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/system/themes/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeGet gets the theme json fields like logo name at system level
+*/
+func (a *Client) V1SystemThemeGet(params *V1SystemThemeGetParams) (*V1SystemThemeGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/themes/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemeUpdate updates the theme json fields like logo name at system level
+*/
+func (a *Client) V1SystemThemeUpdate(params *V1SystemThemeUpdateParams) (*V1SystemThemeUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemeUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemeUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/themes/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemeUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemeUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemeUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemThemesMetadataGet returns the metadata of all the themes
+*/
+func (a *Client) V1SystemThemesMetadataGet(params *V1SystemThemesMetadataGetParams) (*V1SystemThemesMetadataGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemThemesMetadataGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemThemesMetadataGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/themes/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemThemesMetadataGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemThemesMetadataGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemThemesMetadataGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemUsersPasswordReset resets the system user password using the password token
+
+Updates the new system user password with the help of password token
+*/
+func (a *Client) V1SystemUsersPasswordReset(params *V1SystemUsersPasswordResetParams) (*V1SystemUsersPasswordResetNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemUsersPasswordResetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemUsersPasswordReset",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/users/password/{passwordToken}/reset",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemUsersPasswordResetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemUsersPasswordResetNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemUsersPasswordReset: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemUsersPasswordResetRequest creates request to reset system password via email
+
+Creates request to reset system password via email. Password reset email will be sent to the user. Sends 204 No Content.
+*/
+func (a *Client) V1SystemUsersPasswordResetRequest(params *V1SystemUsersPasswordResetRequestParams) (*V1SystemUsersPasswordResetRequestNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemUsersPasswordResetRequestParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SystemUsersPasswordResetRequest",
+		Method:             "POST",
+		PathPattern:        "/v1/system/users/password/reset",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemUsersPasswordResetRequestReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemUsersPasswordResetRequestNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SystemUsersPasswordResetRequest: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -34654,6 +39285,74 @@ func (a *Client) V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpda
 }
 
 /*
+V1TenantsCleanUp cleans up tenant resources
+*/
+func (a *Client) V1TenantsCleanUp(params *V1TenantsCleanUpParams) (*V1TenantsCleanUpNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsCleanUpParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsCleanUp",
+		Method:             "DELETE",
+		PathPattern:        "/v1/tenants/{tenantUid}/cleanUp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsCleanUpReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsCleanUpNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsCleanUp: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsCreate creates a tenant
+*/
+func (a *Client) V1TenantsCreate(params *V1TenantsCreateParams) (*V1TenantsCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1TenantsCreditAccountDelete deletes the aws credit account for tenants
 */
 func (a *Client) V1TenantsCreditAccountDelete(params *V1TenantsCreditAccountDeleteParams) (*V1TenantsCreditAccountDeleteNoContent, error) {
@@ -34722,6 +39421,210 @@ func (a *Client) V1TenantsCreditAccountGet(params *V1TenantsCreditAccountGetPara
 }
 
 /*
+V1TenantsDelete deletes the specified tenant
+*/
+func (a *Client) V1TenantsDelete(params *V1TenantsDeleteParams) (*V1TenantsDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/tenants/{tenantUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsGet returns the specified tenant
+*/
+func (a *Client) V1TenantsGet(params *V1TenantsGetParams) (*V1TenantsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsIsCleanedUp gets cleaned up tenant resources
+*/
+func (a *Client) V1TenantsIsCleanedUp(params *V1TenantsIsCleanedUpParams) (*V1TenantsIsCleanedUpOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsIsCleanedUpParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsIsCleanedUp",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/isCleanedUp",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsIsCleanedUpReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsIsCleanedUpOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsIsCleanedUp: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsList retrieves a list of tenants
+*/
+func (a *Client) V1TenantsList(params *V1TenantsListParams) (*V1TenantsListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsList",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsSelfSignUp selves signing up
+*/
+func (a *Client) V1TenantsSelfSignUp(params *V1TenantsSelfSignUpParams) (*V1TenantsSelfSignUpNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsSelfSignUpParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsSelfSignUp",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/signup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsSelfSignUpReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsSelfSignUpNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsSelfSignUp: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsSelfSignUpActivate activates the self signed tenant using the password token
+*/
+func (a *Client) V1TenantsSelfSignUpActivate(params *V1TenantsSelfSignUpActivateParams) (*V1TenantsSelfSignUpActivateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsSelfSignUpActivateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsSelfSignUpActivate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/signup/{signupToken}/activate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsSelfSignUpActivateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsSelfSignUpActivateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsSelfSignUpActivate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1TenantsUIDContractAccept tenants to accept the contract agreement
 */
 func (a *Client) V1TenantsUIDContractAccept(params *V1TenantsUIDContractAcceptParams) (*V1TenantsUIDContractAcceptNoContent, error) {
@@ -34752,6 +39655,40 @@ func (a *Client) V1TenantsUIDContractAccept(params *V1TenantsUIDContractAcceptPa
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantsUidContractAccept: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsUIDContractUpdate updates the tenant contract settings
+*/
+func (a *Client) V1TenantsUIDContractUpdate(params *V1TenantsUIDContractUpdateParams) (*V1TenantsUIDContractUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsUIDContractUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsUidContractUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/contract",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsUIDContractUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsUIDContractUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsUidContractUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -34922,6 +39859,142 @@ func (a *Client) V1TenantsUIDMacrosUpdateByMacroName(params *V1TenantsUIDMacrosU
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantsUidMacrosUpdateByMacroName: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsUIDPlanGet returns the current tenant s plan
+*/
+func (a *Client) V1TenantsUIDPlanGet(params *V1TenantsUIDPlanGetParams) (*V1TenantsUIDPlanGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsUIDPlanGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsUidPlanGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/plan",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsUIDPlanGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsUIDPlanGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsUidPlanGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsUserGet returns the user object of the specified tenant
+*/
+func (a *Client) V1TenantsUserGet(params *V1TenantsUserGetParams) (*V1TenantsUserGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsUserGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsUserGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/user",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsUserGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsUserGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsUserGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantsValidate validates tenant
+*/
+func (a *Client) V1TenantsValidate(params *V1TenantsValidateParams) (*V1TenantsValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantsValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantsValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantsValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantsValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantsValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1UsageCPUCoreHours returns the tenant s cpu corehours usages grouped by projects
+*/
+func (a *Client) V1UsageCPUCoreHours(params *V1UsageCPUCoreHoursParams) (*V1UsageCPUCoreHoursOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1UsageCPUCoreHoursParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1UsageCpuCoreHours",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/usage/cpuCoreHours",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1UsageCPUCoreHoursReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1UsageCPUCoreHoursOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1UsageCpuCoreHours: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

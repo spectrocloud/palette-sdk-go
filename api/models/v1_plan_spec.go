@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 
@@ -29,7 +30,7 @@ type V1PlanSpec struct {
 	// plan expiry time
 	// Required: true
 	// Format: date-time
-	Expiry V1Time `json:"expiry"`
+	Expiry *V1Time `json:"expiry"`
 
 	// free credits
 	FreeCredits []*V1PlanCredit `json:"freeCredits"`
@@ -46,14 +47,14 @@ type V1PlanSpec struct {
 	// plan start time
 	// Required: true
 	// Format: date-time
-	Start V1Time `json:"start"`
+	Start *V1Time `json:"start"`
 
 	// tier pricing
 	TierPricing *V1TierPrice `json:"tierPricing,omitempty"`
 
 	// type
 	// Required: true
-	// Enum: [Trial MonthlyOnDemand AnnualSubscription]
+	// Enum: ["Trial","MonthlyOnDemand","AnnualSubscription"]
 	Type *string `json:"type"`
 }
 
@@ -108,7 +109,6 @@ func (m *V1PlanSpec) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanSpec) validateCost(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Cost) { // not required
 		return nil
 	}
@@ -117,6 +117,8 @@ func (m *V1PlanSpec) validateCost(formats strfmt.Registry) error {
 		if err := m.Cost.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
 			}
 			return err
 		}
@@ -126,7 +128,6 @@ func (m *V1PlanSpec) validateCost(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanSpec) validateDeveloperCredits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DeveloperCredits) { // not required
 		return nil
 	}
@@ -135,6 +136,8 @@ func (m *V1PlanSpec) validateDeveloperCredits(formats strfmt.Registry) error {
 		if err := m.DeveloperCredits.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("developerCredits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("developerCredits")
 			}
 			return err
 		}
@@ -145,18 +148,29 @@ func (m *V1PlanSpec) validateDeveloperCredits(formats strfmt.Registry) error {
 
 func (m *V1PlanSpec) validateExpiry(formats strfmt.Registry) error {
 
-	if err := m.Expiry.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("expiry")
-		}
+	if err := validate.Required("expiry", "body", m.Expiry); err != nil {
 		return err
+	}
+
+	if err := validate.Required("expiry", "body", m.Expiry); err != nil {
+		return err
+	}
+
+	if m.Expiry != nil {
+		if err := m.Expiry.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("expiry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("expiry")
+			}
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (m *V1PlanSpec) validateFreeCredits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.FreeCredits) { // not required
 		return nil
 	}
@@ -170,6 +184,8 @@ func (m *V1PlanSpec) validateFreeCredits(formats strfmt.Registry) error {
 			if err := m.FreeCredits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("freeCredits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("freeCredits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -181,7 +197,6 @@ func (m *V1PlanSpec) validateFreeCredits(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanSpec) validatePlanLimit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PlanLimit) { // not required
 		return nil
 	}
@@ -190,6 +205,8 @@ func (m *V1PlanSpec) validatePlanLimit(formats strfmt.Registry) error {
 		if err := m.PlanLimit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("planLimit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("planLimit")
 			}
 			return err
 		}
@@ -199,7 +216,6 @@ func (m *V1PlanSpec) validatePlanLimit(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanSpec) validateRenewal(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Renewal) { // not required
 		return nil
 	}
@@ -208,6 +224,8 @@ func (m *V1PlanSpec) validateRenewal(formats strfmt.Registry) error {
 		if err := m.Renewal.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("renewal")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("renewal")
 			}
 			return err
 		}
@@ -217,7 +235,6 @@ func (m *V1PlanSpec) validateRenewal(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanSpec) validateSLACredits(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SLACredits) { // not required
 		return nil
 	}
@@ -231,6 +248,8 @@ func (m *V1PlanSpec) validateSLACredits(formats strfmt.Registry) error {
 			if err := m.SLACredits[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("slaCredits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("slaCredits" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -243,18 +262,29 @@ func (m *V1PlanSpec) validateSLACredits(formats strfmt.Registry) error {
 
 func (m *V1PlanSpec) validateStart(formats strfmt.Registry) error {
 
-	if err := m.Start.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("start")
-		}
+	if err := validate.Required("start", "body", m.Start); err != nil {
 		return err
+	}
+
+	if err := validate.Required("start", "body", m.Start); err != nil {
+		return err
+	}
+
+	if m.Start != nil {
+		if err := m.Start.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("start")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("start")
+			}
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (m *V1PlanSpec) validateTierPricing(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TierPricing) { // not required
 		return nil
 	}
@@ -263,6 +293,8 @@ func (m *V1PlanSpec) validateTierPricing(formats strfmt.Registry) error {
 		if err := m.TierPricing.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tierPricing")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tierPricing")
 			}
 			return err
 		}
@@ -312,6 +344,241 @@ func (m *V1PlanSpec) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", *m.Type); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 plan spec based on the context it is used
+func (m *V1PlanSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCost(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateDeveloperCredits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExpiry(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateFreeCredits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePlanLimit(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRenewal(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSLACredits(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStart(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTierPricing(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateCost(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Cost != nil {
+
+		if swag.IsZero(m.Cost) { // not required
+			return nil
+		}
+
+		if err := m.Cost.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("cost")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("cost")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateDeveloperCredits(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.DeveloperCredits != nil {
+
+		if swag.IsZero(m.DeveloperCredits) { // not required
+			return nil
+		}
+
+		if err := m.DeveloperCredits.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("developerCredits")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("developerCredits")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateExpiry(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Expiry != nil {
+
+		if err := m.Expiry.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("expiry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("expiry")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateFreeCredits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.FreeCredits); i++ {
+
+		if m.FreeCredits[i] != nil {
+
+			if swag.IsZero(m.FreeCredits[i]) { // not required
+				return nil
+			}
+
+			if err := m.FreeCredits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("freeCredits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("freeCredits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidatePlanLimit(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PlanLimit != nil {
+
+		if swag.IsZero(m.PlanLimit) { // not required
+			return nil
+		}
+
+		if err := m.PlanLimit.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("planLimit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("planLimit")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateRenewal(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Renewal != nil {
+
+		if swag.IsZero(m.Renewal) { // not required
+			return nil
+		}
+
+		if err := m.Renewal.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("renewal")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("renewal")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateSLACredits(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.SLACredits); i++ {
+
+		if m.SLACredits[i] != nil {
+
+			if swag.IsZero(m.SLACredits[i]) { // not required
+				return nil
+			}
+
+			if err := m.SLACredits[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("slaCredits" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("slaCredits" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateStart(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Start != nil {
+
+		if err := m.Start.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("start")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("start")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanSpec) contextValidateTierPricing(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.TierPricing != nil {
+
+		if swag.IsZero(m.TierPricing) { // not required
+			return nil
+		}
+
+		if err := m.TierPricing.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tierPricing")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tierPricing")
+			}
+			return err
+		}
 	}
 
 	return nil

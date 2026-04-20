@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewV1ClusterProfilesDeleteParams creates a new V1ClusterProfilesDeleteParams object
@@ -61,6 +62,11 @@ for the v1 cluster profiles delete operation typically these are written to a ht
 */
 type V1ClusterProfilesDeleteParams struct {
 
+	/*IncludePackAnnotations
+	  If true, includes pack annotations like OCI registry provider type and OCI pack archive URL
+
+	*/
+	IncludePackAnnotations *bool
 	/*IncludePackMeta
 	  Comma seperated pack meta such as schema, presets
 
@@ -115,6 +121,17 @@ func (o *V1ClusterProfilesDeleteParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithIncludePackAnnotations adds the includePackAnnotations to the v1 cluster profiles delete params
+func (o *V1ClusterProfilesDeleteParams) WithIncludePackAnnotations(includePackAnnotations *bool) *V1ClusterProfilesDeleteParams {
+	o.SetIncludePackAnnotations(includePackAnnotations)
+	return o
+}
+
+// SetIncludePackAnnotations adds the includePackAnnotations to the v1 cluster profiles delete params
+func (o *V1ClusterProfilesDeleteParams) SetIncludePackAnnotations(includePackAnnotations *bool) {
+	o.IncludePackAnnotations = includePackAnnotations
+}
+
 // WithIncludePackMeta adds the includePackMeta to the v1 cluster profiles delete params
 func (o *V1ClusterProfilesDeleteParams) WithIncludePackMeta(includePackMeta *string) *V1ClusterProfilesDeleteParams {
 	o.SetIncludePackMeta(includePackMeta)
@@ -155,6 +172,22 @@ func (o *V1ClusterProfilesDeleteParams) WriteToRequest(r runtime.ClientRequest, 
 		return err
 	}
 	var res []error
+
+	if o.IncludePackAnnotations != nil {
+
+		// query param includePackAnnotations
+		var qrIncludePackAnnotations bool
+		if o.IncludePackAnnotations != nil {
+			qrIncludePackAnnotations = *o.IncludePackAnnotations
+		}
+		qIncludePackAnnotations := swag.FormatBool(qrIncludePackAnnotations)
+		if qIncludePackAnnotations != "" {
+			if err := r.SetQueryParam("includePackAnnotations", qIncludePackAnnotations); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	if o.IncludePackMeta != nil {
 

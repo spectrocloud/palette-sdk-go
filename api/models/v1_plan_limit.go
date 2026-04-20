@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -48,7 +50,6 @@ func (m *V1PlanLimit) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanLimit) validateAlloy(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Alloy) { // not required
 		return nil
 	}
@@ -57,6 +58,8 @@ func (m *V1PlanLimit) validateAlloy(formats strfmt.Registry) error {
 		if err := m.Alloy.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("alloy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("alloy")
 			}
 			return err
 		}
@@ -66,7 +69,6 @@ func (m *V1PlanLimit) validateAlloy(formats strfmt.Registry) error {
 }
 
 func (m *V1PlanLimit) validatePure(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Pure) { // not required
 		return nil
 	}
@@ -75,6 +77,68 @@ func (m *V1PlanLimit) validatePure(formats strfmt.Registry) error {
 		if err := m.Pure.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("pure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("pure")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 plan limit based on the context it is used
+func (m *V1PlanLimit) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAlloy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePure(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PlanLimit) contextValidateAlloy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Alloy != nil {
+
+		if swag.IsZero(m.Alloy) { // not required
+			return nil
+		}
+
+		if err := m.Alloy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("alloy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("alloy")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanLimit) contextValidatePure(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Pure != nil {
+
+		if swag.IsZero(m.Pure) { // not required
+			return nil
+		}
+
+		if err := m.Pure.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("pure")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("pure")
 			}
 			return err
 		}

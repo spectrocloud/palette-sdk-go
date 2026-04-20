@@ -71,6 +71,11 @@ type V1CloudStackVpcsGetParams struct {
 
 	*/
 	ProjectID *string
+	/*ZoneID
+	  Zone ID for which CloudStack VPCs are requested
+
+	*/
+	ZoneID *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -132,6 +137,17 @@ func (o *V1CloudStackVpcsGetParams) SetProjectID(projectID *string) {
 	o.ProjectID = projectID
 }
 
+// WithZoneID adds the zoneID to the v1 cloud stack vpcs get params
+func (o *V1CloudStackVpcsGetParams) WithZoneID(zoneID *string) *V1CloudStackVpcsGetParams {
+	o.SetZoneID(zoneID)
+	return o
+}
+
+// SetZoneID adds the zoneId to the v1 cloud stack vpcs get params
+func (o *V1CloudStackVpcsGetParams) SetZoneID(zoneID *string) {
+	o.ZoneID = zoneID
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *V1CloudStackVpcsGetParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -166,6 +182,22 @@ func (o *V1CloudStackVpcsGetParams) WriteToRequest(r runtime.ClientRequest, reg 
 		qProjectID := qrProjectID
 		if qProjectID != "" {
 			if err := r.SetQueryParam("projectId", qProjectID); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ZoneID != nil {
+
+		// query param zoneId
+		var qrZoneID string
+		if o.ZoneID != nil {
+			qrZoneID = *o.ZoneID
+		}
+		qZoneID := qrZoneID
+		if qZoneID != "" {
+			if err := r.SetQueryParam("zoneId", qZoneID); err != nil {
 				return err
 			}
 		}

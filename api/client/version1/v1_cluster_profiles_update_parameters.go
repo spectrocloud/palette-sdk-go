@@ -14,6 +14,7 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
@@ -65,6 +66,11 @@ type V1ClusterProfilesUpdateParams struct {
 
 	/*Body*/
 	Body *models.V1ClusterProfileUpdateEntity
+	/*IncludePackAnnotations
+	  If true, includes pack annotations like OCI registry provider type and OCI pack archive URL
+
+	*/
+	IncludePackAnnotations *bool
 	/*IncludePackMeta
 	  Comma seperated pack meta such as schema, presets
 
@@ -130,6 +136,17 @@ func (o *V1ClusterProfilesUpdateParams) SetBody(body *models.V1ClusterProfileUpd
 	o.Body = body
 }
 
+// WithIncludePackAnnotations adds the includePackAnnotations to the v1 cluster profiles update params
+func (o *V1ClusterProfilesUpdateParams) WithIncludePackAnnotations(includePackAnnotations *bool) *V1ClusterProfilesUpdateParams {
+	o.SetIncludePackAnnotations(includePackAnnotations)
+	return o
+}
+
+// SetIncludePackAnnotations adds the includePackAnnotations to the v1 cluster profiles update params
+func (o *V1ClusterProfilesUpdateParams) SetIncludePackAnnotations(includePackAnnotations *bool) {
+	o.IncludePackAnnotations = includePackAnnotations
+}
+
 // WithIncludePackMeta adds the includePackMeta to the v1 cluster profiles update params
 func (o *V1ClusterProfilesUpdateParams) WithIncludePackMeta(includePackMeta *string) *V1ClusterProfilesUpdateParams {
 	o.SetIncludePackMeta(includePackMeta)
@@ -175,6 +192,22 @@ func (o *V1ClusterProfilesUpdateParams) WriteToRequest(r runtime.ClientRequest, 
 		if err := r.SetBodyParam(o.Body); err != nil {
 			return err
 		}
+	}
+
+	if o.IncludePackAnnotations != nil {
+
+		// query param includePackAnnotations
+		var qrIncludePackAnnotations bool
+		if o.IncludePackAnnotations != nil {
+			qrIncludePackAnnotations = *o.IncludePackAnnotations
+		}
+		qIncludePackAnnotations := swag.FormatBool(qrIncludePackAnnotations)
+		if qIncludePackAnnotations != "" {
+			if err := r.SetQueryParam("includePackAnnotations", qIncludePackAnnotations); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if o.IncludePackMeta != nil {

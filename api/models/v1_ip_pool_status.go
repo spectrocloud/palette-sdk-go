@@ -27,6 +27,10 @@ type V1IPPoolStatus struct {
 	// Unique: true
 	AssociatedClusters []string `json:"associatedClusters"`
 
+	// available ips
+	// Unique: true
+	AvailableIps []string `json:"availableIps"`
+
 	// in use
 	InUse bool `json:"inUse"`
 }
@@ -40,6 +44,10 @@ func (m *V1IPPoolStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateAssociatedClusters(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateAvailableIps(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -67,6 +75,18 @@ func (m *V1IPPoolStatus) validateAssociatedClusters(formats strfmt.Registry) err
 	}
 
 	if err := validate.UniqueItems("associatedClusters", "body", m.AssociatedClusters); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1IPPoolStatus) validateAvailableIps(formats strfmt.Registry) error {
+	if swag.IsZero(m.AvailableIps) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("availableIps", "body", m.AvailableIps); err != nil {
 		return err
 	}
 
