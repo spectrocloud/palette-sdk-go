@@ -15,6 +15,31 @@
     "version": "v1"
   },
   "paths": {
+    "/v1/activations/system": {
+      "get": {
+        "description": "Only for UI to show the banner",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns system activation state from in-memory cache for UI banner",
+        "operationId": "v1ActivationsSystemGet",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/v1ActivationsSystemResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
     "/v1/apiKeys": {
       "get": {
         "tags": [
@@ -1275,6 +1300,27 @@
             }
           }
         }
+      }
+    },
+    "/v1/auth/mfa/devices": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1AuthMfaDevicesList",
+        "operationId": "V1AuthMfaDevicesList",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1MfaDevices"
+            }
+          }
+        },
+        "x-ApiScopes": [
+          "mfa"
+        ]
       }
     },
     "/v1/auth/org": {
@@ -16607,6 +16653,94 @@
         }
       ]
     },
+    "/v1/grpc/config": {
+      "get": {
+        "description": "Returns Grpc Configuration",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get Grpc Configuration",
+        "operationId": "V1GrpcConfiguration",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1GrpcConfiguration"
+            }
+          }
+        }
+      }
+    },
+    "/v1/health/ping": {
+      "get": {
+        "description": "Ping Service",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Ping Service",
+        "operationId": "V1HealthPing",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1HealthPing"
+            }
+          }
+        }
+      }
+    },
+    "/v1/health/ready": {
+      "get": {
+        "description": "Ready Service",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Ready Service",
+        "operationId": "V1HealthReady",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1HealthPing"
+            }
+          }
+        }
+      }
+    },
+    "/v1/installers/spectro": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates the spectro installer",
+        "operationId": "v1SpectrospectroInstallerCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroInstallerInputEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/metrics/{resourceKind}/values": {
       "get": {
         "description": "Returns all the metrics for a given resource kind",
@@ -17689,6 +17823,38 @@
         }
       }
     },
+    "/v1/overlords/vsphere/tenants/{tenantUid}/system": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates the system private gateway for the specified tenant",
+        "operationId": "v1OverlordsSystem",
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/overlords/vsphere/{uid}/account": {
       "put": {
         "tags": [
@@ -18547,6 +18713,383 @@
           }
         }
       }
+    },
+    "/v1/plans": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Retrieves a list of plans",
+        "operationId": "v1PlansList",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
+            "name": "fields",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
+            "name": "filters",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1Plans"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates a user plan",
+        "operationId": "v1PlansCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1Plan"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/plans/{uid}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the specified plan",
+        "operationId": "v1PlansUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1Plan"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/credits/{creditUid}": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified Plan's credit data",
+        "operationId": "v1PlansUidCreditsUidUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified Plan's credit data",
+        "operationId": "v1PlansUidCreditsUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "name": "creditUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/expiry": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified plan's expiry",
+        "operationId": "v1PlansUidExpiryPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanExpiry"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/freeCredit": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Adds free credit to the specified plan",
+        "operationId": "v1PlansUidFreeCreditAdd",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanAddFreeCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/planLimit": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified plan's limit",
+        "operationId": "v1PlansUidPlanLimitUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanLimitUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/planType": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Changes the plan type for the specified plan",
+        "operationId": "v1PlansUidPlanTypeUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanChangeUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/renewal": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Adds renewal data to the existing plan",
+        "operationId": "v1PlansUidRenewal",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanRenewalUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/plans/{uid}/slaCredit": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Adds sla breach credit to the specified plan",
+        "operationId": "v1PlansUidSlaCreditAdd",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanAddSlaCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
     "/v1/projects": {
       "post": {
@@ -26740,13 +27283,1846 @@
         }
       ]
     },
+    "/v1/system/activate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Validates activation key, updates plan, logs activation, updates cache",
+        "operationId": "v1SystemActivate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemActivateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty response"
+          },
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/activation": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns system activations doc, to be used in sysadmin console",
+        "operationId": "v1SystemActivationGet",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/v1SystemActivationResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/admin/email": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "email reset for system admin",
+        "operationId": "V1SystemAdminEmail",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1V1SystemAdminEmail"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/admin/password/reset": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "password reset for system admin",
+        "operationId": "V1SystemAdminPasswordReset",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1V1SystemAdminPasswordResetEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/admins": {
+      "get": {
+        "description": "Lists all System Administrator's information",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Lists users",
+        "operationId": "v1SystemAdminsList",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAdmins"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Create a System Administrator",
+        "operationId": "v1SystemAdminsCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAdminEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/admins/auth/password/{passwordToken}/activate": {
+      "patch": {
+        "description": "Updates and Activates System Administrator password with the help of password token",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates and Activates the specified System Administrator password using the password token",
+        "operationId": "v1SystemAdminsPasswordActivate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "password"
+              ],
+              "properties": {
+                "password": {
+                  "description": "Describes the new password for the System Administrator",
+                  "type": "string",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Describes the expirable password token for the System Administrator to be used for authentication",
+          "name": "passwordToken",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/admins/{uid}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the specified System Administrator information",
+        "operationId": "v1SystemAdminsUidGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAdmin"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified System Administrator",
+        "operationId": "v1SystemAdminsUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/admins/{uid}/changePassword": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "System Administrator password change request through the verification of the current password",
+        "operationId": "v1SystemAdminsUidPasswordChange",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "newPassword",
+                "currentPassword"
+              ],
+              "properties": {
+                "currentPassword": {
+                  "type": "string"
+                },
+                "newPassword": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/admins/{uid}/passwordResetLink": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Reset password link for a specified System Administrator",
+        "operationId": "v1SystemAdminsUidPasswordResetLink",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/admins/{uid}/profile": {
+      "patch": {
+        "description": "Update System Administrator Profile",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update User",
+        "operationId": "v1SystemAdminsUidProfileUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAdminProfile"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/alerts": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the alerts specified for the system",
+        "operationId": "v1SystemAlertsGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Alerts"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/alerts/{component}": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Upsert the specified alert to the specified system",
+        "operationId": "v1SystemAlertUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1AlertEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified alert to the specified system",
+        "operationId": "v1SystemAlertDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "component",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/appFeatures": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get system app features",
+        "operationId": "v1SystemAppFeaturesGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1AppFeatures"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update system app features",
+        "operationId": "v1SystemAppFeaturesUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1AppFeatures"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/authTokenSettings": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get system auth token settings",
+        "operationId": "v1SystemAuthTokenSettingsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AuthTokenSettings"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update system auth token settings",
+        "operationId": "v1SystemAuthTokenSettingsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1AuthTokenSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/classificationBanner": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get system classification banner",
+        "operationId": "v1SystemClassificationBannerGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ClassificationBanner"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update system classification banner",
+        "operationId": "v1SystemClassificationBannerUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ClassificationBanner"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/apache-cloudstack/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system cloudstack image",
+        "operationId": "V1SystemConfigCloudstackImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemCloudstackImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default cloudstack devops image",
+        "operationId": "V1SystemConfigCloudstackImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemCloudstackImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/auth": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config auth",
+        "operationId": "V1SystemConfigAuthGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigAuth"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the system config auth",
+        "operationId": "V1SystemConfigAuthUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigAuth"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/aws/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config aws devops account",
+        "operationId": "V1SystemConfigAwsAccountGet",
+        "responses": {
+          "200": {
+            "description": "Aws sts account",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system config aws devops account",
+        "operationId": "V1SystemConfigAwsAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/aws/apiEndpoints": {
+      "get": {
+        "description": "Retrieves all AWS partition endpoint configurations.",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get AWS API endpoints configuration",
+        "operationId": "V1SystemConfigAwsApiEndpointsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AwsApiEndpointsConfig"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Creates or replaces all AWS partition endpoint configurations.",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update AWS API endpoints configuration",
+        "operationId": "V1SystemConfigAwsApiEndpointsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1AwsApiEndpointsConfig"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/config/aws/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system aws image",
+        "operationId": "V1SystemConfigAwsImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default aws devops image",
+        "operationId": "V1SystemConfigAwsImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/aws/sts/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config aws sts devops account",
+        "operationId": "V1SystemConfigAwsStsAccountGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsStsAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system config AWS sts devops account",
+        "operationId": "V1SystemConfigAwsStsAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsStsAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/awsgov/sts/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config AWS gov sts devops account",
+        "operationId": "V1SystemConfigAwsGovStsAccountGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsStsAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the system config AWS gov sts devops account",
+        "operationId": "V1SystemConfigAwsGovStsAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsStsAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Create the system config AWS gov sts devops account",
+        "operationId": "V1SystemConfigAwsGovStsAccountCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsStsAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/azure/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system azure account",
+        "operationId": "V1SystemConfigAzureAccountGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAzureAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default azure devops account",
+        "operationId": "V1SystemConfigAzureAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAzureAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/azure/storage": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system azure storage",
+        "operationId": "V1SystemConfigAzureStorageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAzureStorage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default azure devops storage",
+        "operationId": "V1SystemConfigAzureStorageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAzureStorage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/cluster": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config cluster",
+        "operationId": "V1SystemConfigClusterGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigCluster"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the system config cluster",
+        "operationId": "V1SystemConfigClusterUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigCluster"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/database/backup/ftp": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system backup interval config",
+        "operationId": "V1SystemConfigDatabaseBackupFtpGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemBackupFtpConfigSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system backup interval config",
+        "operationId": "V1SystemConfigDatabaseBackupFtpUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemBackupFtpConfigSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/database/backup/s3": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system backup s3 config",
+        "operationId": "V1SystemConfigDatabaseBackupS3Get",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemBackupS3ConfigSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system backup ftp storage config",
+        "operationId": "V1SystemConfigDatabaseBackupS3Update",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemBackupS3ConfigSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/domain/certificates": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system domain config",
+        "operationId": "V1SystemConfigDomainCertificatesGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigDomainCertificatesSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "update domain host url and its certificates",
+        "operationId": "V1SystemConfigDomainCertificatesPut",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigDomainCertificatesSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/edge/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system edge image",
+        "operationId": "V1SystemConfigEdgeImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemEdgeImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default edge devops image",
+        "operationId": "V1SystemConfigEdgeImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemEdgeImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/edgeNative/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system edge-native image",
+        "operationId": "V1SystemConfigEdgeNativeImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemEdgeNativeImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default edge-native devops image",
+        "operationId": "V1SystemConfigEdgeNativeImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemEdgeNativeImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/ftp/validate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validates the ftp config",
+        "operationId": "V1SystemConfigFtpValidate",
+        "parameters": [
+          {
+            "enum": [
+              "read",
+              "write",
+              "readwrite"
+            ],
+            "type": "string",
+            "name": "permission",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemFtpSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/gcp/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system gcp account",
+        "operationId": "V1SystemConfigGcpAccountGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemGcpAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default gcp devops account",
+        "operationId": "V1SystemConfigGcpAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemGcpAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/gcp/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system gcp image",
+        "operationId": "V1SystemConfigGcpImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemGcpImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default gcp devops image",
+        "operationId": "V1SystemConfigGcpImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemGcpImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/keyValueStore": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified property for the key",
+        "operationId": "V1SystemConfigStoreUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigStoreEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/config/keyValueStore/{key}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Gets the specified property for the key",
+        "operationId": "V1SystemConfigStoreGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigStoreEntity"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified property for the key",
+        "operationId": "V1SystemConfigStoreDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "key",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/config/kubectl": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system web kubectl config",
+        "operationId": "V1SystemConfigKubectlGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemKubectlSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system web kubectl config",
+        "operationId": "V1SystemConfigKubectlUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemKubectlSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/logger": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system logger",
+        "operationId": "V1SystemConfigLoggerGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemLoggerSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system logger",
+        "operationId": "V1SystemConfigLoggerUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemLoggerSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/maas/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system maas image",
+        "operationId": "V1SystemConfigMaasImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemMaasImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default maas devops image",
+        "operationId": "V1SystemConfigMaasImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemMaasImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/paymentsecrets": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the payment secrets",
+        "operationId": "V1PaymentSecretsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1PaymentSecrets"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/preferences/billing": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the billing preference",
+        "operationId": "V1BillingPreferenceGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Billing"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the billing preference",
+        "operationId": "V1BillingPreferenceUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Billing"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/preferences/cluster": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the cluster preference",
+        "operationId": "V1ClusterPreferenceGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterPreference"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the cluster preference",
+        "operationId": "V1ClusterPreferenceUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ClusterPreference"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/proxy": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system proxy",
+        "operationId": "V1SystemConfigProxyGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemProxySpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system proxy",
+        "operationId": "V1SystemConfigProxyUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemProxySpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/registries/oci/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config oci image registry",
+        "operationId": "V1SystemConfigRegistriesOciImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemOciImageRegistry"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system config oci image registry",
+        "operationId": "V1SystemConfigRegistriesOciImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemOciImageRegistry"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/registries/{registryName}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Gets the specified Registry",
+        "operationId": "V1SystemRegistriesNameGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemRegistry"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified Registry",
+        "operationId": "V1SystemRegistriesNameUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemRegistry"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified Registry",
+        "operationId": "V1SystemRegistriesNameDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "registryName",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/system/config/reverseproxy": {
       "get": {
         "tags": [
           "v1",
-          "system",
-          "private",
-          "docs-show"
+          "system"
         ],
         "summary": "get the system config reverse proxy",
         "operationId": "V1SystemConfigReverseProxyGet",
@@ -26762,9 +29138,7 @@
       "put": {
         "tags": [
           "v1",
-          "system",
-          "private",
-          "docs-show"
+          "system"
         ],
         "summary": "updates the system config reverse proxy",
         "operationId": "V1SystemConfigReverseProxyUpdate",
@@ -26788,12 +29162,756 @@
         }
       }
     },
+    "/v1/system/config/s3/validate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validates the s3 config",
+        "operationId": "V1SystemConfigS3Validate",
+        "parameters": [
+          {
+            "enum": [
+              "read",
+              "write",
+              "readwrite"
+            ],
+            "type": "string",
+            "name": "permission",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemS3Spec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/scar": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system Spectro repository",
+        "operationId": "V1SystemConfigScarGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemScarSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system Spectro repository",
+        "operationId": "V1SystemConfigScarUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemScarSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/scar/validate": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validate existing scar config",
+        "operationId": "V1SystemConfigScarValidate",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemScarValidationResponse"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/smtp": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system smtp",
+        "operationId": "V1SystemConfigSmtpGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemSmtpSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system smtp",
+        "operationId": "V1SystemConfigSmtpUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemSmtpSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/smtp/validate": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validates the system smtp",
+        "operationId": "V1SystemConfigSmtpValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemSmtpSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/sso": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system sso",
+        "operationId": "V1SystemConfigSsoGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemSsoSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system sso",
+        "operationId": "V1SystemConfigSsoUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemSsoSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/sso/github/validate": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validates the system sso for github",
+        "operationId": "V1SystemConfigSsoGithubValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemGithubSsoSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/sso/oidc/validate": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "validates the system sso for oidc based logins",
+        "operationId": "V1SystemConfigSsoOidcValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemOidcClientSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/storage/s3": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system storage s3 config",
+        "operationId": "V1SystemConfigStorageS3Get",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemStorageS3ConfigSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system storage config",
+        "operationId": "V1SystemConfigStorageS3Update",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemStorageS3ConfigSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/timeseries": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system timeseries",
+        "operationId": "V1SystemConfigTimeseriesGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemTimeseriesSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system timeseries",
+        "operationId": "V1SystemConfigTimeseriesUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemTimeseriesSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/vsphere/image": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system vsphere image",
+        "operationId": "V1SystemConfigVsphereImageGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemVsphereImage"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system default vsphere devops image",
+        "operationId": "V1SystemConfigVsphereImageUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemVsphereImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/database/backup": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "backup the database",
+        "operationId": "V1SystemDbBackup",
+        "parameters": [
+          {
+            "enum": [
+              "ftp",
+              "s3"
+            ],
+            "type": "string",
+            "name": "mode",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/database/backups": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the database status",
+        "operationId": "V1SystemDbBackups",
+        "parameters": [
+          {
+            "enum": [
+              "ftp",
+              "s3"
+            ],
+            "type": "string",
+            "name": "mode",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1DatabaseTransferStatus"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/database/backups/{backupUid}": {
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "delete the database backup",
+        "operationId": "V1SystemDbBackupsBackupUid",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "backupUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "enum": [
+              "ftp",
+              "s3"
+            ],
+            "type": "string",
+            "name": "mode",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/database/recovery/{backupUid}/{mode}": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "recover the database",
+        "operationId": "V1SystemDbRecover",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "backupUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "enum": [
+              "ftp",
+              "s3"
+            ],
+            "type": "string",
+            "name": "mode",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/database/restore/{backupUid}": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "restore the database",
+        "operationId": "V1SystemDbRestore",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "backupUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "enum": [
+              "ftp",
+              "s3"
+            ],
+            "type": "string",
+            "name": "mode",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/encrypt": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "encrypt the system data",
+        "operationId": "V1SystemEncrypt",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemCryptoInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemCryptoData"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/features": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Lists all feature flags",
+        "operationId": "V1SystemFeaturesGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SystemFeatures"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/features/{uid}": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the feature permission",
+        "operationId": "V1SystemFeaturesUidUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemFeaturesOperation"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/loginBanner": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get system login banner settings",
+        "operationId": "v1SystemLoginBannerGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1LoginBannerSettings"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update system login banner settings",
+        "operationId": "v1SystemLoginBannerUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1LoginBannerSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/password/policy/default": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system password policy",
+        "operationId": "V1SystemPasswordPolicyGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemPasswordPolicySpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system admin",
+        "operationId": "V1SystemPasswordPolicyUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemPasswordPolicySpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
     "/v1/system/passwords/blocklist": {
       "delete": {
         "tags": [
           "v1",
-          "system",
-          "docs-show"
+          "system"
         ],
         "summary": "Delete a list of block listed passwords",
         "operationId": "V1PasswordsBlockListDelete",
@@ -26816,8 +29934,7 @@
       "patch": {
         "tags": [
           "v1",
-          "system",
-          "docs-show"
+          "system"
         ],
         "summary": "List of block listed passwords",
         "operationId": "V1PasswordsBlockListUpdate",
@@ -26836,6 +29953,705 @@
             "description": "(empty)",
             "schema": {
               "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/plan": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system plan",
+        "operationId": "V1SystemPlanGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemPlan"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/plan/credits/{creditUid}": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified Plan's credit data",
+        "operationId": "v1SystemCreditsUidUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified Plan's credit data",
+        "operationId": "v1SystemCreditsUidDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "creditUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/plan/freeCredit": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Add system free credit",
+        "operationId": "v1SystemFreeCreditAdd",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanAddFreeCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/plan/planLimit": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the specified system plan's limit",
+        "operationId": "v1SystemPlanLimitUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemPlanLimitUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/plan/slaCredit": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Adds system sla breach credit",
+        "operationId": "v1SystemSlaCreditAdd",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1PlanAddSlaCreditUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/plan/startDate": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system start date",
+        "operationId": "V1SystemStartDatePatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemStartDate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/ratelimit": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system plan",
+        "operationId": "V1SystemRateLimitGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemRateLimit"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "toggles the rate limit",
+        "operationId": "V1SystemRateLimitPatch",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemRateLimit"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/resourceLimits": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get system resource limits",
+        "operationId": "v1SystemResourceLimitsGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemResourceLimits"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Update system resource limits",
+        "operationId": "v1SystemResourceLimitsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SystemResourceLimits"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/security/mode": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get the system security mode",
+        "operationId": "V1SystemSecurityModeGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemSecurityMode"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the system security mode",
+        "operationId": "V1SystemServiceModeUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemSecurityMode"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/sysplan": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns system plan document",
+        "operationId": "v1SystemSysplanGet",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/v1SystemSysplan"
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/themes": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Stores the theme json fields like logo, name at system level.",
+        "operationId": "v1SystemThemeCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ThemeCreateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/themes/active": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the active theme",
+        "operationId": "v1SystemThemeActiveGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1Theme"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/themes/metadata": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the metadata of all the themes",
+        "operationId": "v1SystemThemesMetadataGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ThemesMetadata"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/themes/{uid}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get the theme json fields like logo, name at system level.",
+        "operationId": "v1SystemThemeGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1Theme"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the theme json fields like logo, name at system level.",
+        "operationId": "v1SystemThemeUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1ThemeUpdateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the theme json fields like logo, name at system level.",
+        "operationId": "v1SystemThemeDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/themes/{uid}/activate": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Activates a theme",
+        "operationId": "v1SystemThemeActivate",
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/themes/{uid}/deactivate": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deactivates a theme",
+        "operationId": "v1SystemThemeDeactivate",
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/users/email/verify/resend": {
+      "patch": {
+        "description": "Re-send the email to the user to be able to verify the email",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Re-send the email to the user to be able to verify the email",
+        "operationId": "V1SystemUsersEmailVerifyReSend",
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/system/users/email/{emailToken}/verify": {
+      "get": {
+        "description": "Verifies the system user email with the help of email token",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Verifies the system user email using the email token",
+        "operationId": "V1SystemUsersEmailVerify",
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Describes the expiry email token for the system user to be used for verification of email",
+          "name": "emailToken",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/users/me": {
+      "get": {
+        "description": "Verifies the system user email with the help of email token",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Verifies the system user email using the email token",
+        "operationId": "V1SystemUsersMe",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemUserMe"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/users/password/reset": {
+      "post": {
+        "description": "Creates request to reset system password via email. Password reset email will be sent to the user. Sends 204 No Content.",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates request to reset system password via email",
+        "operationId": "v1SystemUsersPasswordResetRequest",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "emailId"
+              ],
+              "properties": {
+                "emailId": {
+                  "description": "Describes email if for which password reset email has to be sent",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/users/password/{passwordToken}/reset": {
+      "patch": {
+        "description": "Updates the new system user password with the help of password token",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Resets the system user password using the password token",
+        "operationId": "v1SystemUsersPasswordReset",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "password"
+              ],
+              "properties": {
+                "password": {
+                  "description": "Describes the new password for the system user",
+                  "type": "string",
+                  "format": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Describes the expirable password token for the system user to be used for authentication of user",
+          "name": "passwordToken",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/system/version/installed": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system installed version",
+        "operationId": "V1SystemVersionInstalled",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemVersionInfo"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/version/latest": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system latest available version",
+        "operationId": "V1SystemVersionLatest",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemVersionInfo"
             }
           }
         }
@@ -27229,6 +31045,250 @@
         }
       ]
     },
+    "/v1/tenants": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Retrieves a list of tenants",
+        "operationId": "v1TenantsList",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Set of fields to be presented in the response with values. The fields are comma separated. Eg: metadata.uid,metadata.name",
+            "name": "fields",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Filters can be combined with AND, OR operators with field path name. Eg: metadata.name=TestServiceANDspec.cloudType=aws\n\nServer will be restricted to certain fields based on the indexed data for each resource.",
+            "name": "filters",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Specify the fields with sort order. 1 indicates ascending and -1 for descending. Eg: orderBy=metadata.name=1,metadata.uid=-1",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of tenants",
+            "schema": {
+              "$ref": "#/definitions/v1Tenants"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates a tenant",
+        "operationId": "v1TenantsCreate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/signup": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Self signing up",
+        "operationId": "v1TenantsSelfSignUp",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantSelfSignUpSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/signup/{signupToken}/activate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Activates the self signed tenant using the password token",
+        "operationId": "v1TenantsSelfSignUpActivate",
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "signupToken",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/validate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Validate tenant",
+        "operationId": "v1TenantsValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantBasicEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/{tenantUid}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the specified tenant",
+        "operationId": "v1TenantsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1Tenant"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Deletes the specified tenant",
+        "operationId": "v1TenantsDelete",
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/activate": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "activates the specified tenant",
+        "operationId": "V1TenantsUidActivate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantActivate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/tenants/{tenantUid}/address": {
       "patch": {
         "tags": [
@@ -27507,6 +31567,71 @@
                 "description": "Audit uid for the request"
               }
             }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/cleanUp": {
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Clean up tenant resources",
+        "operationId": "v1TenantsCleanUp",
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "boolean",
+          "name": "useTenantCtx",
+          "in": "query"
+        },
+        {
+          "type": "boolean",
+          "name": "forceDelete",
+          "in": "query"
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/contract": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Updates the tenant contract settings",
+        "operationId": "v1TenantsUidContractUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1TenantContractSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
           }
         }
       },
@@ -27905,6 +32030,32 @@
         }
       ]
     },
+    "/v1/tenants/{tenantUid}/isCleanedUp": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get cleaned up tenant resources",
+        "operationId": "v1TenantsIsCleanedUp",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1CleanUpResource"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/tenants/{tenantUid}/loginBanner": {
       "get": {
         "tags": [
@@ -28154,6 +32305,71 @@
           "type": "string",
           "name": "tenantUid",
           "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/plan": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the current tenant's plan",
+        "operationId": "v1TenantsUidPlanGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Plan"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/plans/usage/monthly": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the tenant's monthly planUsage grouped by projects",
+        "operationId": "v1PlansUsageMonthlyGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1PlanMonthlyUsages"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "format": "date",
+          "name": "endDate",
+          "in": "query"
+        },
+        {
+          "type": "string",
+          "format": "date",
+          "name": "startDate",
+          "in": "query",
           "required": true
         }
       ]
@@ -28599,6 +32815,91 @@
           "required": true
         }
       ]
+    },
+    "/v1/tenants/{tenantUid}/usage/cpuCoreHours": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the tenant's cpu corehours usages grouped by projects",
+        "operationId": "v1UsageCpuCoreHours",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1PlanCpuCoreHoursUsages"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.",
+          "name": "endTime",
+          "in": "query"
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.",
+          "name": "startTime",
+          "in": "query"
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/user": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the user object of the specified tenant",
+        "operationId": "v1TenantsUserGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1User"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tunnel/config": {
+      "get": {
+        "description": "Returns Tunnel Configuration",
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Get Tunnel Configuration",
+        "operationId": "V1TunnelConfiguration",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1TunnelConfiguration"
+            }
+          }
+        }
+      }
     },
     "/v1/users": {
       "get": {
@@ -29478,6 +33779,139 @@
             "description": "An array of users metadata items",
             "schema": {
               "$ref": "#/definitions/v1UsersMetadata"
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/mfa/devices": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1UsersMfaDevicesList",
+        "operationId": "V1UsersMfaDevicesList",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1MfaDevices"
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/mfa/devices/{deviceName}": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1UsersMfaDevicesNameGet",
+        "operationId": "V1UsersMfaDevicesNameGet",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "deviceName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1MfaDeviceMeta"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1UsersMfaDevicesNameDelete",
+        "operationId": "V1UsersMfaDevicesNameDelete",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "deviceName",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/mfa/register/device/finish": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1UsersMfaRegisterDeviceFinish",
+        "operationId": "V1UsersMfaRegisterDeviceFinish",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1MfaCredentialCreationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/mfa/register/device/start": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "V1UsersMfaRegisterDeviceStart",
+        "operationId": "V1UsersMfaRegisterDeviceStart",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "token",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1MfaDeviceName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1MfaRegistrationStart"
             }
           }
         }
@@ -30668,6 +35102,10 @@
     }
   },
   "definitions": {
+    "URLEncodedBase64": {
+      "type": "string",
+      "format": "url-encoded-base64"
+    },
     "V1AwsAccountSts": {
       "description": "AWS cloud account sts",
       "type": "object",
@@ -30753,6 +35191,10 @@
           "$ref": "#/definitions/v1PasswordsBlockListEntity"
         }
       }
+    },
+    "urlEncodedBase64": {
+      "type": "string",
+      "format": "url-encoded-base64"
     },
     "v1.AzureAccountEntitySpec": {
       "type": "object",
@@ -30942,6 +35384,45 @@
         }
       }
     },
+    "v1ActivationsSystemResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "expiresAt": {
+              "$ref": "#/definitions/v1Time"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "Active",
+                "Pending",
+                "Inactive"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "v1ActiveTenantResources": {
+      "description": "Active resources of tenant",
+      "type": "object",
+      "properties": {
+        "activeResources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "v1Address": {
       "description": "Tenant Address",
       "type": "object",
@@ -31004,6 +35485,12 @@
         "time": {
           "$ref": "#/definitions/v1Time"
         }
+      }
+    },
+    "v1Alerts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/v1Alert"
       }
     },
     "v1AmiTypes": {
@@ -31693,6 +36180,44 @@
         },
         "listmeta": {
           "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1AppFeatureFreemium": {
+      "description": "Freemium information",
+      "properties": {
+        "activeClustersLimit": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "isFreemium": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "overageUsageLimit": {
+          "type": "number",
+          "format": "float64",
+          "x-omitempty": false
+        },
+        "totalUsageLimit": {
+          "type": "number",
+          "format": "float64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1AppFeatures": {
+      "description": "System app features",
+      "properties": {
+        "developerCredit": {
+          "$ref": "#/definitions/v1DeveloperCredit"
+        },
+        "freeCloudCredit": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "freemium": {
+          "$ref": "#/definitions/v1AppFeatureFreemium"
         }
       }
     },
@@ -35269,6 +39794,17 @@
         }
       }
     },
+    "v1Billing": {
+      "description": "billing preference",
+      "properties": {
+        "billingDay": {
+          "type": "integer"
+        },
+        "tierPricing": {
+          "$ref": "#/definitions/v1TierPrice"
+        }
+      }
+    },
     "v1BulkDeleteFailure": {
       "properties": {
         "errMsg": {
@@ -35440,6 +39976,26 @@
         },
         "uid": {
           "type": "string"
+        }
+      }
+    },
+    "v1ClassificationBanner": {
+      "properties": {
+        "config": {
+          "description": "JSON-formatted string containing classification banner configuration data",
+          "type": "string"
+        }
+      }
+    },
+    "v1CleanUpResource": {
+      "description": "Resources of tenant",
+      "type": "object",
+      "properties": {
+        "activeResources": {
+          "$ref": "#/definitions/v1ActiveTenantResources"
+        },
+        "tenantStatus": {
+          "$ref": "#/definitions/v1TenantCleanUpStatus"
         }
       }
     },
@@ -38153,6 +42709,29 @@
         },
         "version": {
           "type": "string"
+        }
+      }
+    },
+    "v1ClusterPreference": {
+      "description": "cluster preference",
+      "properties": {
+        "archivalIntervalInHour": {
+          "description": "clusters cleanup interval post deletion",
+          "type": "integer"
+        },
+        "deletePeriodInHour": {
+          "description": "clusters deleted before delete period are eligible for cleanup",
+          "type": "integer"
+        },
+        "healthPollIntervalInMinutes": {
+          "description": "clusters health poll interval",
+          "type": "integer",
+          "maximum": 60,
+          "minimum": 3
+        },
+        "monitorIntervalInMinutes": {
+          "description": "clusters state and consistency monitor",
+          "type": "integer"
         }
       }
     },
@@ -42003,6 +46582,40 @@
         }
       }
     },
+    "v1DatabaseTransferJob": {
+      "description": "database transfer job details",
+      "type": "object",
+      "properties": {
+        "backupStatus": {
+          "$ref": "#/definitions/v1TransferJob"
+        },
+        "backupUid": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "FileSystem",
+            "Ftp"
+          ]
+        }
+      }
+    },
+    "v1DatabaseTransferStatus": {
+      "description": "database transfer status",
+      "type": "object",
+      "properties": {
+        "backups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1DatabaseTransferJob"
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
     "v1DeletedMsg": {
       "description": "Deleted response with message",
       "properties": {
@@ -43878,6 +48491,23 @@
         }
       }
     },
+    "v1Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object"
+        },
+        "message": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        }
+      }
+    },
     "v1Event": {
       "description": "Describes the component event details",
       "type": "object",
@@ -45327,6 +49957,54 @@
         }
       }
     },
+    "v1GrpcConfiguration": {
+      "description": "Describes the response that contains the grpc configuration to establish connection",
+      "type": "object",
+      "properties": {
+        "preferredServer": {
+          "$ref": "#/definitions/v1GrpcEndpoint"
+        },
+        "servers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1GrpcEndpoint"
+          }
+        }
+      }
+    },
+    "v1GrpcEndpoint": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "description": "Describes the URL where the client has to connect to the grpc server",
+          "type": "string"
+        },
+        "tls": {
+          "description": "Describes the Grpc tls config which client will use to make a request to the grpc server",
+          "type": "object",
+          "properties": {
+            "caCert": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "insecureSkipVerify": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "v1HealthPing": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
     "v1HelmChartOption": {
       "description": "If chart options are provided then the specified chart is validated first and synced immediately. If the specified chart is not found in the specified registry then creation is cancelled.",
       "type": "object",
@@ -46407,6 +51085,13 @@
             "type": "string"
           }
         },
+        "availableIps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
         "inUse": {
           "type": "boolean",
           "x-omitempty": false
@@ -47377,6 +52062,16 @@
           "description": "size of the pool, number of machines",
           "type": "integer",
           "format": "int32"
+        },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
         },
         "tags": {
           "description": "Tags in maas environment",
@@ -48468,6 +53163,214 @@
           "items": {
             "$ref": "#/definitions/v1Metrics"
           }
+        }
+      }
+    },
+    "v1MfaAuthenticationExtensions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "v1MfaAuthenticatorSelection": {
+      "type": "object",
+      "properties": {
+        "authenticatorAttachment": {
+          "type": "string"
+        },
+        "requireResidentKey": {
+          "type": "boolean"
+        },
+        "residentKey": {
+          "type": "string"
+        },
+        "userVerification": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaConveyancePreference": {
+      "type": "string",
+      "enum": [
+        "none",
+        "indirect",
+        "direct",
+        "enterprise"
+      ]
+    },
+    "v1MfaCredentialCreationRequest": {
+      "type": "object",
+      "properties": {
+        "_type": {
+          "type": "string"
+        },
+        "authenticatorAttachment": {
+          "type": "string"
+        },
+        "clientExtensionResults": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "deviceName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "rawId": {
+          "$ref": "#/definitions/URLEncodedBase64"
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "attestationObject": {
+              "$ref": "#/definitions/URLEncodedBase64"
+            },
+            "clientDataJSON": {
+              "$ref": "#/definitions/URLEncodedBase64"
+            },
+            "transports": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "transports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1MfaCredentialDescriptor": {
+      "type": "object",
+      "properties": {
+        "attestationType": {
+          "type": "string"
+        },
+        "id": {
+          "$ref": "#/definitions/urlEncodedBase64"
+        },
+        "transports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaCredentialParameter": {
+      "type": "object",
+      "properties": {
+        "alg": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaDeviceMeta": {
+      "type": "object",
+      "properties": {
+        "creationTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "deviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaDeviceName": {
+      "type": "object",
+      "properties": {
+        "deviceName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaDevices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/v1MfaDeviceMeta"
+      }
+    },
+    "v1MfaPublicKeyCredentialCreationOptions": {
+      "type": "object",
+      "properties": {
+        "attestation": {
+          "$ref": "#/definitions/v1MfaConveyancePreference"
+        },
+        "authenticatorSelection": {
+          "$ref": "#/definitions/v1MfaAuthenticatorSelection"
+        },
+        "challenge": {
+          "$ref": "#/definitions/URLEncodedBase64"
+        },
+        "excludeCredentials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MfaCredentialDescriptor"
+          }
+        },
+        "extensions": {
+          "$ref": "#/definitions/v1MfaAuthenticationExtensions"
+        },
+        "pubKeyCredParams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1MfaCredentialParameter"
+          }
+        },
+        "rp": {
+          "$ref": "#/definitions/v1MfaRelyingPartyEntity"
+        },
+        "timeout": {
+          "type": "integer"
+        },
+        "user": {
+          "$ref": "#/definitions/v1MfaUserEntity"
+        }
+      }
+    },
+    "v1MfaRegistrationStart": {
+      "type": "object",
+      "properties": {
+        "publicKey": {
+          "$ref": "#/definitions/v1MfaPublicKeyCredentialCreationOptions"
+        }
+      }
+    },
+    "v1MfaRelyingPartyEntity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "v1MfaUserEntity": {
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "object"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },
@@ -50997,6 +55900,17 @@
         }
       }
     },
+    "v1PaymentSecrets": {
+      "description": "payment secrets",
+      "properties": {
+        "publishableKey": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      }
+    },
     "v1PcgSelfHostedParams": {
       "properties": {
         "cloudType": {
@@ -51069,6 +55983,98 @@
         "$ref": "#/definitions/v1Permission"
       }
     },
+    "v1Plan": {
+      "description": "Plan",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1PlanSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1PlanStatus"
+        }
+      }
+    },
+    "v1PlanAddFreeCreditUpdate": {
+      "description": "Plan add free credit update entity",
+      "properties": {
+        "credit": {
+          "$ref": "#/definitions/v1PlanCreditEntity"
+        }
+      }
+    },
+    "v1PlanAddSlaCreditUpdate": {
+      "description": "Plan add sla credit update entity",
+      "properties": {
+        "credit": {
+          "$ref": "#/definitions/v1PlanCreditEntity"
+        }
+      }
+    },
+    "v1PlanChangeUpdate": {
+      "description": "Plan change update entity",
+      "required": [
+        "type",
+        "start",
+        "expiry"
+      ],
+      "properties": {
+        "expiry": {
+          "description": "plan expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "isPaymentGateway": {
+          "type": "boolean"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "start": {
+          "description": "plan start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "tierPrice": {
+          "$ref": "#/definitions/v1TierPrice"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        }
+      }
+    },
+    "v1PlanCost": {
+      "description": "Plan Cost",
+      "properties": {
+        "discount": {
+          "type": "number",
+          "format": "float",
+          "x-omitempty": false
+        },
+        "price": {
+          "type": "number",
+          "format": "float",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1PlanCpuCoreHoursUsages": {
+      "type": "object",
+      "properties": {
+        "hourlyUsages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ResourceUsage"
+          }
+        }
+      }
+    },
     "v1PlanCredit": {
       "description": "Plan Credit",
       "required": [
@@ -51100,6 +56106,276 @@
             "Pure",
             "Alloy"
           ]
+        }
+      }
+    },
+    "v1PlanCreditEntity": {
+      "description": "Plan Credit entity for create/update request",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "cpuCoreHours": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "expiry": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Pure",
+            "Alloy"
+          ]
+        }
+      }
+    },
+    "v1PlanCreditUpdate": {
+      "description": "Plan credit update entity",
+      "properties": {
+        "credit": {
+          "$ref": "#/definitions/v1PlanCreditEntity"
+        }
+      }
+    },
+    "v1PlanExpiry": {
+      "description": "Plan expiry",
+      "required": [
+        "expiry"
+      ],
+      "properties": {
+        "expiry": {
+          "description": "plan expiry time",
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1PlanLimit": {
+      "description": "Monthly Plan Limit",
+      "properties": {
+        "alloy": {
+          "$ref": "#/definitions/v1PlanLimitSpec"
+        },
+        "isOnDemand": {
+          "description": "is onDemand plan and has no limit",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isUnlimited": {
+          "description": "is unlimited cpu core hours",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "pure": {
+          "$ref": "#/definitions/v1PlanLimitSpec"
+        }
+      }
+    },
+    "v1PlanLimitSpec": {
+      "description": "Monthly Plan Limit spec",
+      "properties": {
+        "cpuCoreHours": {
+          "description": "cpu cores hours",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "overageLimitPercentage": {
+          "description": "overage limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 25,
+          "x-omitempty": false
+        },
+        "warnLimitPercentage": {
+          "description": "warning limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 90,
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1PlanLimitUpdate": {
+      "description": "Plan limit change update entity",
+      "required": [
+        "planLimit"
+      ],
+      "properties": {
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        }
+      }
+    },
+    "v1PlanMonthlyUsage": {
+      "description": "Plan monthly usage entity",
+      "properties": {
+        "dailyUsages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ResourceUsage"
+          }
+        },
+        "month": {
+          "description": "usage month",
+          "$ref": "#/definitions/v1Time"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "planType": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        },
+        "planUid": {
+          "type": "string"
+        },
+        "totalMonthlyUsage": {
+          "$ref": "#/definitions/v1TotalResourceUsage"
+        }
+      }
+    },
+    "v1PlanMonthlyUsages": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PlanMonthlyUsage"
+          }
+        }
+      }
+    },
+    "v1PlanRenewal": {
+      "description": "Plan Renewal",
+      "required": [
+        "type",
+        "start",
+        "expiry"
+      ],
+      "properties": {
+        "expiry": {
+          "description": "credit expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "start": {
+          "description": "credit start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        }
+      }
+    },
+    "v1PlanRenewalUpdate": {
+      "description": "Plan add renawal update entity",
+      "properties": {
+        "renewal": {
+          "$ref": "#/definitions/v1PlanRenewal"
+        }
+      }
+    },
+    "v1PlanSpec": {
+      "description": "Plan specifications",
+      "required": [
+        "type",
+        "start",
+        "expiry"
+      ],
+      "properties": {
+        "cost": {
+          "$ref": "#/definitions/v1PlanCost"
+        },
+        "developerCredits": {
+          "$ref": "#/definitions/v1DeveloperCredit"
+        },
+        "expiry": {
+          "description": "plan expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "freeCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PlanCredit"
+          }
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1PlanLimit"
+        },
+        "renewal": {
+          "$ref": "#/definitions/v1PlanRenewal"
+        },
+        "slaCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PlanCredit"
+          }
+        },
+        "start": {
+          "description": "plan start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "tierPricing": {
+          "$ref": "#/definitions/v1TierPrice"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Trial",
+            "MonthlyOnDemand",
+            "AnnualSubscription"
+          ]
+        }
+      }
+    },
+    "v1PlanStatus": {
+      "type": "object",
+      "properties": {
+        "changeLogs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1Plans": {
+      "description": "Array of Plans",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1Plan"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
         }
       }
     },
@@ -51165,6 +56441,30 @@
         "subnet": {
           "description": "Subnet is used to validate that the rendered IP is in bounds. eg: 192.168.0.0/24 If Start value is not given, start value is derived from the subnet ip incremented by 1 (start value is `192.168.0.1` for subnet `192.168.0.0/24`)",
           "type": "string"
+        }
+      }
+    },
+    "v1PriceRange": {
+      "description": "tier price range",
+      "properties": {
+        "discount": {
+          "type": "number",
+          "format": "int64"
+        },
+        "startFrom": {
+          "type": "number",
+          "format": "float64"
+        },
+        "unitAmount": {
+          "type": "number",
+          "format": "float64"
+        },
+        "upTo": {
+          "type": "number",
+          "format": "float64"
+        },
+        "upToInfinity": {
+          "type": "boolean"
         }
       }
     },
@@ -51526,6 +56826,22 @@
         }
       }
     },
+    "v1ProjectResourceUsage": {
+      "description": "project resource usage",
+      "properties": {
+        "alloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "project": {
+          "$ref": "#/definitions/v1ProjectMeta"
+        },
+        "pureCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1ProjectRolesEntity": {
       "type": "object",
       "properties": {
@@ -51880,6 +57196,18 @@
           ]
         },
         "username": {
+          "type": "string"
+        }
+      }
+    },
+    "v1RegistryConf": {
+      "description": "Registry configuration",
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/definitions/v1RegistryAuth"
+        },
+        "endpoint": {
           "type": "string"
         }
       }
@@ -52529,6 +57857,30 @@
         "total": {
           "type": "number",
           "format": "float64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ResourceUsage": {
+      "description": "ResourceUsage",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ProjectResourceUsage"
+          }
+        },
+        "timestamp": {
+          "description": "resource usage time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "totalAlloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "totalPureCpuCoreHours": {
+          "type": "number",
           "x-omitempty": false
         }
       }
@@ -56081,6 +61433,15 @@
         }
       }
     },
+    "v1SpectroInstallerInputEntity": {
+      "description": "Spectro installer entity for create",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        }
+      }
+    },
     "v1SpectroMaasClusterEntity": {
       "description": "Spectro Maas cluster request payload for create and update",
       "type": "object",
@@ -56895,6 +62256,515 @@
         }
       }
     },
+    "v1SystemActivateRequest": {
+      "type": "object",
+      "required": [
+        "activationKey"
+      ],
+      "properties": {
+        "activationKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemActivationResponse": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "required": [
+            "systemUid",
+            "planUid",
+            "activationKeyUid"
+          ],
+          "properties": {
+            "activationKeyUid": {
+              "type": "string"
+            },
+            "planUid": {
+              "type": "string"
+            },
+            "systemUid": {
+              "type": "string"
+            }
+          }
+        },
+        "status": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "lastActivatedAt": {
+              "$ref": "#/definitions/v1Time"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "Pending",
+                "Active",
+                "Inactive"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "v1SystemAdmin": {
+      "description": "System Admin information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SystemAdministratorSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SystemAdministratorStatus"
+        }
+      }
+    },
+    "v1SystemAdminActivation": {
+      "description": "System Administrator Activation Specification",
+      "type": "object",
+      "properties": {
+        "expiry": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "link": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdminEntity": {
+      "description": "System Admin information",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SystemAdministratorSpec"
+        }
+      }
+    },
+    "v1SystemAdminMfa": {
+      "description": "System Administrator MFA configuration",
+      "type": "object",
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdminProfile": {
+      "description": "System Administrator Profile Entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SystemAdminProfileSpec"
+        }
+      }
+    },
+    "v1SystemAdminProfileSpec": {
+      "description": "System Administrator Profile Specification",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdministratorSpec": {
+      "description": "System Administrator Entity Specification",
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "adminType"
+      ],
+      "properties": {
+        "adminType": {
+          "type": "string",
+          "enum": [
+            "AccountAdmin",
+            "OperationAdmin"
+          ]
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "mfa": {
+          "type": "string",
+          "$ref": "#/definitions/v1SystemAdminMfa"
+        }
+      }
+    },
+    "v1SystemAdministratorStatus": {
+      "description": "System Administrator Status",
+      "type": "object",
+      "properties": {
+        "activation": {
+          "$ref": "#/definitions/v1SystemAdminActivation"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "lastPasswordUpdate": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastSignIn": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAdmins": {
+      "description": "List of System Admin information's",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SystemAdmin"
+          }
+        }
+      }
+    },
+    "v1SystemAwsAccount": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemAwsSpec"
+        }
+      }
+    },
+    "v1SystemAwsImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemAwsImageSpec"
+        }
+      }
+    },
+    "v1SystemAwsImageSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accountId": {
+          "type": "string"
+        },
+        "goldenImageRegion": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAwsSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAwsStsAccount": {
+      "description": "System AWS Gov account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAzureAccount": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemAzureSpec"
+        }
+      }
+    },
+    "v1SystemAzureSpec": {
+      "description": "system azure account specifications",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecret": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemAzureStorage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemAzureStorageSpec"
+        }
+      }
+    },
+    "v1SystemAzureStorageSpec": {
+      "description": "system aws account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "container": {
+          "type": "string"
+        },
+        "storageName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemBackupFtpConfigSpec": {
+      "description": "system backup config spec",
+      "type": "object",
+      "properties": {
+        "backupSpec": {
+          "$ref": "#/definitions/v1SystemBackupSpec"
+        },
+        "ftp": {
+          "$ref": "#/definitions/v1SystemFtpSpec"
+        }
+      }
+    },
+    "v1SystemBackupS3ConfigSpec": {
+      "description": "system backup config spec",
+      "type": "object",
+      "properties": {
+        "backupSpec": {
+          "$ref": "#/definitions/v1SystemBackupSpec"
+        },
+        "s3": {
+          "$ref": "#/definitions/v1SystemS3Spec"
+        }
+      }
+    },
+    "v1SystemBackupSpec": {
+      "description": "system backup config spec",
+      "type": "object",
+      "properties": {
+        "hourOfTheDay": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "interval": {
+          "type": "integer",
+          "x-omitempty": false
+        },
+        "retentionPeriod": {
+          "type": "integer",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemCertificatesSpec": {
+      "description": "system certificate in base64 format",
+      "type": "object",
+      "properties": {
+        "caCertificateBase64": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "certificateBase64": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "insecureSkipVerify": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "keyBase64": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemCloudstackImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemCloudstackImageSpec"
+        }
+      }
+    },
+    "v1SystemCloudstackImageSpec": {
+      "description": "system cloudstack account specifications",
+      "properties": {
+        "imagesHostEndpoint": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemConfigAuth": {
+      "description": "System config auth",
+      "properties": {
+        "enforceServiceAuthToken": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "enforceTlsVerify": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemConfigCluster": {
+      "description": "System config cluster",
+      "properties": {
+        "stableEndpointAccess": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemConfigDomainCertificatesSpec": {
+      "description": "system domain and its certificate config spec",
+      "type": "object",
+      "properties": {
+        "certificates": {
+          "$ref": "#/definitions/v1SystemCertificatesSpec"
+        },
+        "rootDomain": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemConfigStoreEntity": {
+      "type": "object",
+      "required": [
+        "key",
+        "value"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "value": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemCryptoData": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemCryptoInput": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemEdgeImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemEdgeImageSpec"
+        }
+      }
+    },
+    "v1SystemEdgeImageSpec": {
+      "description": "system edge account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemEdgeNativeImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemEdgeNativeImageSpec"
+        }
+      }
+    },
+    "v1SystemEdgeNativeImageSpec": {
+      "description": "system edge-native account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "stylusImagesEndpoint": {
+          "type": "string"
+        }
+      }
+    },
     "v1SystemFeature": {
       "type": "object",
       "properties": {
@@ -56922,6 +62792,16 @@
         }
       }
     },
+    "v1SystemFeaturesOperation": {
+      "type": "object",
+      "properties": {
+        "isAllowed": {
+          "description": "Flag which specifies if feature is allowed or not",
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1SystemFeaturesSpec": {
       "type": "object",
       "properties": {
@@ -56944,6 +62824,62 @@
         }
       }
     },
+    "v1SystemFtpSpec": {
+      "description": "system ftp config spec",
+      "type": "object",
+      "properties": {
+        "dir": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "password": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "server": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "username": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemGcpAccount": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemGcpSpec"
+        }
+      }
+    },
+    "v1SystemGcpImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemGcpImageSpec"
+        }
+      }
+    },
+    "v1SystemGcpImageSpec": {
+      "description": "system gcp account specifications",
+      "properties": {
+        "imageProject": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemGcpSpec": {
+      "description": "system gcp account specifications",
+      "properties": {
+        "json": {
+          "type": "string"
+        }
+      }
+    },
     "v1SystemGitAuthSpec": {
       "description": "system git auth account specifications",
       "properties": {
@@ -56958,6 +62894,391 @@
         },
         "username": {
           "$ref": "#/definitions/v1SystemGitAuthSpec"
+        }
+      }
+    },
+    "v1SystemGithubSsoSpec": {
+      "description": "system sso github config spec",
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "clientSecretKey": {
+          "type": "string"
+        },
+        "isEnabled": {
+          "type": "boolean"
+        },
+        "logoUrl": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemKubectlSpec": {
+      "description": "system web kubectl config spec",
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "isEnabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemLoggerSpec": {
+      "description": "system logger config spec",
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemMaasImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemMaasImageSpec"
+        }
+      }
+    },
+    "v1SystemMaasImageSpec": {
+      "description": "system maas account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemOciImageRegistry": {
+      "description": "system web kubectl config spec",
+      "type": "object",
+      "properties": {
+        "baseContentPath": {
+          "type": "string"
+        },
+        "caCert": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "mirrorRegistries": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemOidcClaims": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "FirstName": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "LastName": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "SpectroTeam": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemOidcClientSpec": {
+      "description": "system sso oidc config spec",
+      "type": "object",
+      "properties": {
+        "callbackUrl": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "clientId": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "clientSecret": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "isEnabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "issuerUrl": {
+          "description": "the issuer is the URL identifier for the service",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "logoUrl": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "requiredClaims": {
+          "$ref": "#/definitions/v1SystemOidcClaims"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemPasswordPolicySpec": {
+      "description": "system password policy",
+      "type": "object",
+      "properties": {
+        "creationTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "expiryDurationInDays": {
+          "type": "integer"
+        },
+        "firstReminderInDays": {
+          "type": "integer"
+        },
+        "isRegex": {
+          "type": "boolean"
+        },
+        "maxLength": {
+          "type": "integer"
+        },
+        "minLength": {
+          "type": "integer"
+        },
+        "minNumOfBlockLetters": {
+          "type": "integer"
+        },
+        "minNumOfDigits": {
+          "type": "integer"
+        },
+        "minNumOfSmallLetters": {
+          "type": "integer"
+        },
+        "minNumOfSpecialCharacters": {
+          "type": "integer"
+        },
+        "regex": {
+          "type": "string"
+        },
+        "reminderFrequency": {
+          "type": "integer"
+        },
+        "updateTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SystemPlan": {
+      "description": "system plan",
+      "properties": {
+        "freeCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SystemPlanCredit"
+          }
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1SystemPlanLimit"
+        },
+        "slaCredits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SystemPlanCredit"
+          }
+        },
+        "systemStartDate": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SystemPlanCredit": {
+      "description": "Plan Credit",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "cpuCoreHours": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "creditUid": {
+          "type": "string"
+        },
+        "expiry": {
+          "description": "credit expiry time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "start": {
+          "description": "credit start time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Pure",
+            "Alloy"
+          ]
+        }
+      }
+    },
+    "v1SystemPlanLimit": {
+      "description": "System Monthly Plan Limit",
+      "properties": {
+        "alloy": {
+          "$ref": "#/definitions/v1SystemPlanLimitSpec"
+        },
+        "isUnlimited": {
+          "description": "is unlimited cpu core hours",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "pure": {
+          "$ref": "#/definitions/v1SystemPlanLimitSpec"
+        }
+      }
+    },
+    "v1SystemPlanLimitSpec": {
+      "description": "Monthly Plan Limit spec",
+      "properties": {
+        "cpuCoreHours": {
+          "description": "cpu cores hours",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "overageLimitPercentage": {
+          "description": "overage limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 25,
+          "x-omitempty": false
+        },
+        "warnLimitPercentage": {
+          "description": "warning limit in percentage",
+          "type": "integer",
+          "format": "int8",
+          "default": 90,
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemPlanLimitUpdate": {
+      "description": "System Plan limit change update entity",
+      "properties": {
+        "planLimit": {
+          "$ref": "#/definitions/v1SystemPlanLimit"
+        }
+      }
+    },
+    "v1SystemProxySpec": {
+      "description": "system proxy config spec",
+      "type": "object",
+      "properties": {
+        "httpProxy": {
+          "type": "string"
+        },
+        "httpsProxy": {
+          "type": "string"
+        },
+        "noProxy": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemRateLimit": {
+      "description": "system rate-limit",
+      "properties": {
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1SystemRegistry": {
+      "description": "Registry configuration",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1RegistryConf"
+        }
+      }
+    },
+    "v1SystemResourceLimit": {
+      "properties": {
+        "kind": {
+          "type": "string",
+          "x-omitempty": false,
+          "$ref": "#/definitions/v1ResourceLimitType"
+        },
+        "limit": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "maxLimit": {
+          "type": "number",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1SystemResourceLimits": {
+      "description": "System resource limits. Supported resources keys are 'user','project','apiKey','team','role','cloudaccount','clusterprofile','workspace','registry','privategateway','location','certificate','macro','sshkey','alert','spectrocluster','edgehost'.",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SystemResourceLimit"
+          }
+        }
+      }
+    },
+    "v1SystemRetentionPolicy": {
+      "description": "system retention policy",
+      "type": "object",
+      "properties": {
+        "retentionPeriod": {
+          "type": "integer",
+          "x-omitempty": false
         }
       }
     },
@@ -56991,6 +63312,32 @@
         }
       }
     },
+    "v1SystemS3Spec": {
+      "description": "system backup s3 storage config spec",
+      "type": "object",
+      "properties": {
+        "accessKey": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "bucket": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "folder": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "region": {
+          "type": "string",
+          "x-omitempty": false
+        },
+        "secretKey": {
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1SystemScarSpec": {
       "description": "system scar config spec",
       "type": "object",
@@ -57011,6 +63358,262 @@
           "type": "string"
         },
         "username": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemScarValidationResponse": {
+      "description": "system proxy config spec",
+      "type": "object",
+      "properties": {
+        "spectroVersion": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemSecurityMode": {
+      "description": "System service mode",
+      "properties": {
+        "securityMode": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemSmtpSpec": {
+      "description": "system smtp config spec",
+      "type": "object",
+      "properties": {
+        "fromEmailId": {
+          "type": "string"
+        },
+        "insecureSkipVerifyTls": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        },
+        "smtpPort": {
+          "type": "integer"
+        },
+        "smtpServer": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemSsoAuthSpec": {
+      "description": "system sso config spec",
+      "type": "object",
+      "properties": {
+        "github": {
+          "$ref": "#/definitions/v1SystemGithubSsoSpec"
+        },
+        "oidcAuthSpecs": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1SystemOidcClientSpec"
+          }
+        }
+      }
+    },
+    "v1SystemSsoSpec": {
+      "description": "system sso config spec",
+      "type": "object",
+      "properties": {
+        "acsUrlRoot": {
+          "type": "string"
+        },
+        "acsUrlScheme": {
+          "type": "string"
+        },
+        "apiVersion": {
+          "type": "string"
+        },
+        "audienceUrl": {
+          "type": "string"
+        },
+        "authSpec": {
+          "$ref": "#/definitions/v1SystemSsoAuthSpec"
+        },
+        "entityId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemStartDate": {
+      "description": "system start date",
+      "properties": {
+        "systemStartDate": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SystemStorageS3ConfigSpec": {
+      "description": "system storage s3 config spec",
+      "type": "object",
+      "properties": {
+        "isEnabled": {
+          "type": "boolean"
+        },
+        "retentionPolicy": {
+          "$ref": "#/definitions/v1SystemRetentionPolicy"
+        },
+        "s3": {
+          "$ref": "#/definitions/v1SystemS3Spec"
+        }
+      }
+    },
+    "v1SystemSysplan": {
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "expiresAt": {
+              "$ref": "#/definitions/v1Time"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "Trial",
+                "Unlimited"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "v1SystemTimeseriesMetrics": {
+      "description": "system timeseries metrics config",
+      "type": "object",
+      "properties": {
+        "archivalInterval": {
+          "type": "integer"
+        },
+        "batchInterval": {
+          "type": "integer"
+        },
+        "enabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "retentionPeriod": {
+          "type": "integer"
+        }
+      }
+    },
+    "v1SystemTimeseriesSpec": {
+      "description": "system timeseries config spec",
+      "type": "object",
+      "properties": {
+        "machine": {
+          "$ref": "#/definitions/v1SystemTimeseriesMetrics"
+        },
+        "pod": {
+          "$ref": "#/definitions/v1SystemTimeseriesMetrics"
+        }
+      }
+    },
+    "v1SystemUserMe": {
+      "description": "User information wrt permissions",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SystemUserSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SystemUserMeStatus"
+        }
+      }
+    },
+    "v1SystemUserMeStatus": {
+      "description": "User status with permissions",
+      "properties": {
+        "isEmailSet": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isEmailVerified": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isMfaEnabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isPasswordReset": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "lastEmailUpdateTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastEmailVerifiedTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastLoginTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastPasswordUpdateTime": {
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v1SystemUserSpec": {
+      "description": "User specifications",
+      "properties": {
+        "adminType": {
+          "description": "Admin type",
+          "type": "string"
+        },
+        "emailId": {
+          "description": "System User's email id",
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemVersionInfo": {
+      "description": "system version info",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemVsphereImage": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "$ref": "#/definitions/v1SystemVsphereImageSpec"
+        }
+      }
+    },
+    "v1SystemVsphereImageSpec": {
+      "description": "system vsphere account specifications",
+      "properties": {
+        "caCert": {
+          "type": "string"
+        },
+        "imagesHostEndpoint": {
+          "type": "string"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "overlordOvaLocation": {
           "type": "string"
         }
       }
@@ -57323,6 +63926,31 @@
         }
       }
     },
+    "v1Tenant": {
+      "description": "Tenant",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1TenantSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1TenantStatus"
+        }
+      }
+    },
+    "v1TenantActivate": {
+      "description": "Activate/Deactivate tenant",
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
     "v1TenantAddressPatch": {
       "description": "Tenant Address",
       "type": "object",
@@ -57359,6 +63987,47 @@
         }
       }
     },
+    "v1TenantBasicEntity": {
+      "description": "Tenant Basic param",
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TenantCleanUpStatus": {
+      "description": "Tenant CleanUp Status",
+      "type": "object",
+      "properties": {
+        "cleanUpError": {
+          "type": "string"
+        },
+        "cleanUpStages": {
+          "type": "string"
+        },
+        "cleanUpTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "cleanedResources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isInProgress": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
     "v1TenantClusterRbacSettings": {
       "description": "Tenant cluster RBAC settings",
       "type": "object",
@@ -57380,6 +64049,28 @@
       "properties": {
         "nodesAutoRemediationSetting": {
           "$ref": "#/definitions/v1NodesAutoRemediationSettings"
+        }
+      }
+    },
+    "v1TenantContractSpec": {
+      "description": "Tenant contract settings",
+      "type": "object",
+      "required": [
+        "isRequired",
+        "isAccepted"
+      ],
+      "properties": {
+        "acceptedTime": {
+          "description": "If the contract is accepted offline, set the accepted time",
+          "$ref": "#/definitions/v1Time"
+        },
+        "isAccepted": {
+          "description": "If the contract is accepted offline, then set this field to true",
+          "type": "boolean"
+        },
+        "isRequired": {
+          "description": "Is the contract required, for on-prem installation it will be false",
+          "type": "boolean"
         }
       }
     },
@@ -57416,6 +64107,18 @@
           "description": "Deprecated. Use hideSystemClusterGroups field",
           "type": "boolean",
           "x-omitempty": false
+        }
+      }
+    },
+    "v1TenantEntity": {
+      "description": "Tenant Entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1TenantSpecEntity"
         }
       }
     },
@@ -57770,6 +64473,110 @@
         }
       }
     },
+    "v1TenantSelfSignUpSpec": {
+      "description": "Tenant sign up data",
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "emailId",
+        "orgName"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "loginMode": {
+          "type": "string",
+          "default": "devops",
+          "enum": [
+            "dev",
+            "devops"
+          ]
+        },
+        "notifyTenantAdmin": {
+          "type": "boolean"
+        },
+        "orgName": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TenantSpec": {
+      "description": "Tenant Spec",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/v1Address"
+        },
+        "authType": {
+          "type": "string"
+        },
+        "defaultLoginMode": {
+          "type": "string"
+        },
+        "orgEmailId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "planUid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TenantSpecEntity": {
+      "description": "Tenant Entity input",
+      "type": "object",
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/v1Address"
+        },
+        "authType": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "loginMode": {
+          "type": "string",
+          "default": "devops",
+          "enum": [
+            "dev",
+            "devops"
+          ]
+        },
+        "orgEmailId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "ssoApp": {
+          "type": "string"
+        }
+      }
+    },
     "v1TenantSsoAuthProvidersEntity": {
       "type": "object",
       "properties": {
@@ -57782,6 +64589,156 @@
           "uniqueItems": true,
           "items": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "v1TenantStatus": {
+      "description": "Tenant Status",
+      "type": "object",
+      "properties": {
+        "cleanUpStatus": {
+          "$ref": "#/definitions/v1TenantCleanUpStatus"
+        },
+        "isActive": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "toBeDeleted": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1Tenants": {
+      "description": "Tenants list",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1Tenant"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1Theme": {
+      "description": "Theme data entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ThemeSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ThemeStatus"
+        }
+      }
+    },
+    "v1ThemeCreateEntity": {
+      "description": "Theme data create entity",
+      "type": "object",
+      "required": [
+        "metadata",
+        "spec"
+      ],
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaInputEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ThemeSpec"
+        }
+      }
+    },
+    "v1ThemeMetadata": {
+      "description": "Theme metadata",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "Tells if the theme is active or not",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "name": {
+          "description": "Name of the theme",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Uid of the theme",
+          "type": "string"
+        }
+      }
+    },
+    "v1ThemeSpec": {
+      "required": [
+        "values"
+      ],
+      "properties": {
+        "values": {
+          "description": "Contains the string value of custom properties like logo, name etc.",
+          "type": "string",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ThemeStatus": {
+      "properties": {
+        "active": {
+          "description": "Specifies if the theme is active or not",
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ThemeUpdateEntity": {
+      "description": "Theme data update entity",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMetaUpdateEntity"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ThemeSpec"
+        }
+      }
+    },
+    "v1ThemesMetadata": {
+      "description": "Theme metadata",
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ThemeMetadata"
+          }
+        }
+      }
+    },
+    "v1TierPrice": {
+      "description": "tier price",
+      "properties": {
+        "alloyPricing": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1PriceRange"
+          }
+        },
+        "purePricing": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1PriceRange"
           }
         }
       }
@@ -57845,6 +64802,99 @@
           "type": "number",
           "format": "float64",
           "x-omitempty": false
+        }
+      }
+    },
+    "v1TotalResourceUsage": {
+      "description": "Total Resource Usage",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ProjectResourceUsage"
+          }
+        },
+        "totalAlloyCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        },
+        "totalPureCpuCoreHours": {
+          "type": "number",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1TransferJob": {
+      "description": "transfer job details",
+      "type": "object",
+      "properties": {
+        "finishTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "folder": {
+          "type": "string"
+        },
+        "isCompleted": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "type": "string"
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1TunnelConfiguration": {
+      "description": "Describes the response that contains the tunnel configuration to establish connection",
+      "type": "object",
+      "properties": {
+        "preferredServer": {
+          "$ref": "#/definitions/v1TunnelEndpoint"
+        },
+        "servers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1TunnelEndpoint"
+          }
+        }
+      }
+    },
+    "v1TunnelEndpoint": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "description": "Describes the URL where the client has to connect to the tunnel server",
+          "type": "string"
+        },
+        "tls": {
+          "description": "Describes the Tunnel tls config which client will use to make a request to the tunnel server",
+          "type": "object",
+          "properties": {
+            "caCert": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "insecureSkipVerify": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
@@ -58584,6 +65634,36 @@
           "items": {
             "$ref": "#/definitions/v1UserSummarySortSpec"
           }
+        }
+      }
+    },
+    "v1V1SystemAdminEmail": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "insecureVerify": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "v1V1SystemAdminPasswordResetEntity": {
+      "description": "SystemAdmin",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "oldPassword": {
+          "type": "string"
         }
       }
     },
@@ -63174,6 +70254,16 @@
           "description": "size of the pool, number of machines",
           "type": "integer",
           "format": "int32"
+        },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
         },
         "taints": {
           "description": "control plane or worker taints",

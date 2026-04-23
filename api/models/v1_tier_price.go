@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -47,7 +48,6 @@ func (m *V1TierPrice) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1TierPrice) validateAlloyPricing(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AlloyPricing) { // not required
 		return nil
 	}
@@ -65,6 +65,8 @@ func (m *V1TierPrice) validateAlloyPricing(formats strfmt.Registry) error {
 			if err := m.AlloyPricing[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("alloyPricing" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("alloyPricing" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -76,7 +78,6 @@ func (m *V1TierPrice) validateAlloyPricing(formats strfmt.Registry) error {
 }
 
 func (m *V1TierPrice) validatePurePricing(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PurePricing) { // not required
 		return nil
 	}
@@ -94,6 +95,76 @@ func (m *V1TierPrice) validatePurePricing(formats strfmt.Registry) error {
 			if err := m.PurePricing[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("purePricing" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("purePricing" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 tier price based on the context it is used
+func (m *V1TierPrice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAlloyPricing(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePurePricing(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1TierPrice) contextValidateAlloyPricing(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.AlloyPricing); i++ {
+
+		if m.AlloyPricing[i] != nil {
+
+			if swag.IsZero(m.AlloyPricing[i]) { // not required
+				return nil
+			}
+
+			if err := m.AlloyPricing[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("alloyPricing" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("alloyPricing" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1TierPrice) contextValidatePurePricing(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PurePricing); i++ {
+
+		if m.PurePricing[i] != nil {
+
+			if swag.IsZero(m.PurePricing[i]) { // not required
+				return nil
+			}
+
+			if err := m.PurePricing[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("purePricing" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("purePricing" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

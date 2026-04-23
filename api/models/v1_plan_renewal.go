@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -22,7 +23,7 @@ type V1PlanRenewal struct {
 	// credit expiry time
 	// Required: true
 	// Format: date-time
-	Expiry V1Time `json:"expiry"`
+	Expiry *V1Time `json:"expiry"`
 
 	// plan limit
 	PlanLimit *V1PlanLimit `json:"planLimit,omitempty"`
@@ -30,11 +31,11 @@ type V1PlanRenewal struct {
 	// credit start time
 	// Required: true
 	// Format: date-time
-	Start V1Time `json:"start"`
+	Start *V1Time `json:"start"`
 
 	// type
 	// Required: true
-	// Enum: [Trial MonthlyOnDemand AnnualSubscription]
+	// Enum: ["Trial","MonthlyOnDemand","AnnualSubscription"]
 	Type *string `json:"type"`
 }
 
@@ -66,18 +67,29 @@ func (m *V1PlanRenewal) Validate(formats strfmt.Registry) error {
 
 func (m *V1PlanRenewal) validateExpiry(formats strfmt.Registry) error {
 
-	if err := m.Expiry.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("expiry")
-		}
+	if err := validate.Required("expiry", "body", m.Expiry); err != nil {
 		return err
+	}
+
+	if err := validate.Required("expiry", "body", m.Expiry); err != nil {
+		return err
+	}
+
+	if m.Expiry != nil {
+		if err := m.Expiry.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("expiry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("expiry")
+			}
+			return err
+		}
 	}
 
 	return nil
 }
 
 func (m *V1PlanRenewal) validatePlanLimit(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PlanLimit) { // not required
 		return nil
 	}
@@ -86,6 +98,8 @@ func (m *V1PlanRenewal) validatePlanLimit(formats strfmt.Registry) error {
 		if err := m.PlanLimit.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("planLimit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("planLimit")
 			}
 			return err
 		}
@@ -96,11 +110,23 @@ func (m *V1PlanRenewal) validatePlanLimit(formats strfmt.Registry) error {
 
 func (m *V1PlanRenewal) validateStart(formats strfmt.Registry) error {
 
-	if err := m.Start.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("start")
-		}
+	if err := validate.Required("start", "body", m.Start); err != nil {
 		return err
+	}
+
+	if err := validate.Required("start", "body", m.Start); err != nil {
+		return err
+	}
+
+	if m.Start != nil {
+		if err := m.Start.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("start")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("start")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -147,6 +173,83 @@ func (m *V1PlanRenewal) validateType(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateTypeEnum("type", "body", *m.Type); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 plan renewal based on the context it is used
+func (m *V1PlanRenewal) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateExpiry(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePlanLimit(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateStart(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1PlanRenewal) contextValidateExpiry(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Expiry != nil {
+
+		if err := m.Expiry.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("expiry")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("expiry")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanRenewal) contextValidatePlanLimit(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PlanLimit != nil {
+
+		if swag.IsZero(m.PlanLimit) { // not required
+			return nil
+		}
+
+		if err := m.PlanLimit.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("planLimit")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("planLimit")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1PlanRenewal) contextValidateStart(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Start != nil {
+
+		if err := m.Start.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("start")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("start")
+			}
+			return err
+		}
 	}
 
 	return nil

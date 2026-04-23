@@ -62,7 +62,7 @@ for the v1 vsphere datacenters operation typically these are written to a http.R
 type V1VsphereDatacentersParams struct {
 
 	/*CloudAccountUID
-	  Uid for the specific OpenStack cloud account
+	  Uid for the specific cloud account
 
 	*/
 	CloudAccountUID *string

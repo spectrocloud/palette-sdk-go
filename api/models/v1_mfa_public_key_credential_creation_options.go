@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -89,7 +90,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) Validate(formats strfmt.Regist
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateAttestation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Attestation) { // not required
 		return nil
 	}
@@ -97,6 +97,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateAttestation(formats st
 	if err := m.Attestation.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("attestation")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("attestation")
 		}
 		return err
 	}
@@ -105,7 +107,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateAttestation(formats st
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateAuthenticatorSelection(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.AuthenticatorSelection) { // not required
 		return nil
 	}
@@ -114,6 +115,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateAuthenticatorSelection
 		if err := m.AuthenticatorSelection.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("authenticatorSelection")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("authenticatorSelection")
 			}
 			return err
 		}
@@ -123,7 +126,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateAuthenticatorSelection
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateChallenge(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Challenge) { // not required
 		return nil
 	}
@@ -131,6 +133,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateChallenge(formats strf
 	if err := m.Challenge.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("challenge")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("challenge")
 		}
 		return err
 	}
@@ -139,7 +143,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateChallenge(formats strf
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateExcludeCredentials(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.ExcludeCredentials) { // not required
 		return nil
 	}
@@ -153,6 +156,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateExcludeCredentials(for
 			if err := m.ExcludeCredentials[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("excludeCredentials" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("excludeCredentials" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -164,23 +169,25 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateExcludeCredentials(for
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateExtensions(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Extensions) { // not required
 		return nil
 	}
 
-	if err := m.Extensions.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("extensions")
+	if m.Extensions != nil {
+		if err := m.Extensions.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("extensions")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("extensions")
+			}
+			return err
 		}
-		return err
 	}
 
 	return nil
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validatePubKeyCredParams(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PubKeyCredParams) { // not required
 		return nil
 	}
@@ -194,6 +201,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validatePubKeyCredParams(forma
 			if err := m.PubKeyCredParams[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("pubKeyCredParams" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("pubKeyCredParams" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -205,7 +214,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validatePubKeyCredParams(forma
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateRp(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Rp) { // not required
 		return nil
 	}
@@ -214,6 +222,8 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateRp(formats strfmt.Regi
 		if err := m.Rp.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("rp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rp")
 			}
 			return err
 		}
@@ -223,7 +233,6 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateRp(formats strfmt.Regi
 }
 
 func (m *V1MfaPublicKeyCredentialCreationOptions) validateUser(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.User) { // not required
 		return nil
 	}
@@ -232,6 +241,217 @@ func (m *V1MfaPublicKeyCredentialCreationOptions) validateUser(formats strfmt.Re
 		if err := m.User.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("user")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("user")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 mfa public key credential creation options based on the context it is used
+func (m *V1MfaPublicKeyCredentialCreationOptions) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateAttestation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateAuthenticatorSelection(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateChallenge(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExcludeCredentials(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateExtensions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePubKeyCredParams(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRp(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUser(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateAttestation(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Attestation) { // not required
+		return nil
+	}
+
+	if err := m.Attestation.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("attestation")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("attestation")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateAuthenticatorSelection(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.AuthenticatorSelection != nil {
+
+		if swag.IsZero(m.AuthenticatorSelection) { // not required
+			return nil
+		}
+
+		if err := m.AuthenticatorSelection.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("authenticatorSelection")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("authenticatorSelection")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateChallenge(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Challenge) { // not required
+		return nil
+	}
+
+	if err := m.Challenge.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("challenge")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("challenge")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateExcludeCredentials(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.ExcludeCredentials); i++ {
+
+		if m.ExcludeCredentials[i] != nil {
+
+			if swag.IsZero(m.ExcludeCredentials[i]) { // not required
+				return nil
+			}
+
+			if err := m.ExcludeCredentials[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("excludeCredentials" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("excludeCredentials" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateExtensions(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Extensions) { // not required
+		return nil
+	}
+
+	if err := m.Extensions.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("extensions")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("extensions")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidatePubKeyCredParams(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PubKeyCredParams); i++ {
+
+		if m.PubKeyCredParams[i] != nil {
+
+			if swag.IsZero(m.PubKeyCredParams[i]) { // not required
+				return nil
+			}
+
+			if err := m.PubKeyCredParams[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("pubKeyCredParams" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("pubKeyCredParams" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateRp(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Rp != nil {
+
+		if swag.IsZero(m.Rp) { // not required
+			return nil
+		}
+
+		if err := m.Rp.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("rp")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("rp")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1MfaPublicKeyCredentialCreationOptions) contextValidateUser(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.User != nil {
+
+		if swag.IsZero(m.User) { // not required
+			return nil
+		}
+
+		if err := m.User.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("user")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("user")
 			}
 			return err
 		}

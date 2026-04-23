@@ -55,26 +55,6 @@ func (h *V1Client) GetCloudAccountGcpByName(name, scope string) (*models.V1GcpAc
 	return nil, fmt.Errorf("GCP cloud account with name %q not found", name)
 }
 
-// GetCloudAccountOpenStackByName retrieves an OpenStack cloud account by name (and optional scope) using the list GET.
-// scope can be "" (any), "project", or "tenant".
-func (h *V1Client) GetCloudAccountOpenStackByName(name, scope string) (*models.V1OpenStackAccount, error) {
-	params := clientv1.NewV1CloudAccountsOpenStackListParamsWithContext(h.ctx).
-		WithLimit(apiutil.Ptr(int64(0)))
-	resp, err := h.Client.V1CloudAccountsOpenStackList(params)
-	if err != nil {
-		return nil, err
-	}
-	matchScope := func(annotations map[string]string) bool {
-		return scope == "" || (annotations != nil && annotations["scope"] == scope)
-	}
-	for _, account := range resp.Payload.Items {
-		if account.Metadata != nil && account.Metadata.Name == name && matchScope(account.Metadata.Annotations) {
-			return account, nil
-		}
-	}
-	return nil, fmt.Errorf("OpenStack cloud account with name %q not found", name)
-}
-
 // GetCloudAccountAwsByName retrieves an AWS cloud account by name (and optional scope) using the list GET.
 // scope can be "" (any), "project", or "tenant".
 func (h *V1Client) GetCloudAccountAwsByName(name, scope string) (*models.V1AwsAccount, error) {

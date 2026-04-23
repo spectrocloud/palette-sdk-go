@@ -6,6 +6,7 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -26,7 +27,7 @@ type V1DatabaseTransferJob struct {
 	BackupUID string `json:"backupUid,omitempty"`
 
 	// mode
-	// Enum: [FileSystem Ftp]
+	// Enum: ["FileSystem","Ftp"]
 	Mode string `json:"mode,omitempty"`
 }
 
@@ -49,7 +50,6 @@ func (m *V1DatabaseTransferJob) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1DatabaseTransferJob) validateBackupStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.BackupStatus) { // not required
 		return nil
 	}
@@ -58,6 +58,8 @@ func (m *V1DatabaseTransferJob) validateBackupStatus(formats strfmt.Registry) er
 		if err := m.BackupStatus.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("backupStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupStatus")
 			}
 			return err
 		}
@@ -96,7 +98,6 @@ func (m *V1DatabaseTransferJob) validateModeEnum(path, location string, value st
 }
 
 func (m *V1DatabaseTransferJob) validateMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Mode) { // not required
 		return nil
 	}
@@ -104,6 +105,41 @@ func (m *V1DatabaseTransferJob) validateMode(formats strfmt.Registry) error {
 	// value enum
 	if err := m.validateModeEnum("mode", "body", m.Mode); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 database transfer job based on the context it is used
+func (m *V1DatabaseTransferJob) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateBackupStatus(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1DatabaseTransferJob) contextValidateBackupStatus(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.BackupStatus != nil {
+
+		if swag.IsZero(m.BackupStatus) { // not required
+			return nil
+		}
+
+		if err := m.BackupStatus.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("backupStatus")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("backupStatus")
+			}
+			return err
+		}
 	}
 
 	return nil

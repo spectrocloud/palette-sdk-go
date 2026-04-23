@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -38,7 +40,6 @@ func (m *V1TunnelEndpoint) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1TunnelEndpoint) validateTLS(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.TLS) { // not required
 		return nil
 	}
@@ -47,6 +48,43 @@ func (m *V1TunnelEndpoint) validateTLS(formats strfmt.Registry) error {
 		if err := m.TLS.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("tls")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tls")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 tunnel endpoint based on the context it is used
+func (m *V1TunnelEndpoint) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTLS(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1TunnelEndpoint) contextValidateTLS(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.TLS != nil {
+
+		if swag.IsZero(m.TLS) { // not required
+			return nil
+		}
+
+		if err := m.TLS.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tls")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tls")
 			}
 			return err
 		}
@@ -90,6 +128,11 @@ type V1TunnelEndpointTLS struct {
 
 // Validate validates this v1 tunnel endpoint TLS
 func (m *V1TunnelEndpointTLS) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 tunnel endpoint TLS based on context it is used
+func (m *V1TunnelEndpointTLS) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

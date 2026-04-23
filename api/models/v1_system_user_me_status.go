@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -72,7 +74,6 @@ func (m *V1SystemUserMeStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SystemUserMeStatus) validateLastEmailUpdateTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastEmailUpdateTime) { // not required
 		return nil
 	}
@@ -80,6 +81,8 @@ func (m *V1SystemUserMeStatus) validateLastEmailUpdateTime(formats strfmt.Regist
 	if err := m.LastEmailUpdateTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastEmailUpdateTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastEmailUpdateTime")
 		}
 		return err
 	}
@@ -88,7 +91,6 @@ func (m *V1SystemUserMeStatus) validateLastEmailUpdateTime(formats strfmt.Regist
 }
 
 func (m *V1SystemUserMeStatus) validateLastEmailVerifiedTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastEmailVerifiedTime) { // not required
 		return nil
 	}
@@ -96,6 +98,8 @@ func (m *V1SystemUserMeStatus) validateLastEmailVerifiedTime(formats strfmt.Regi
 	if err := m.LastEmailVerifiedTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastEmailVerifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastEmailVerifiedTime")
 		}
 		return err
 	}
@@ -104,7 +108,6 @@ func (m *V1SystemUserMeStatus) validateLastEmailVerifiedTime(formats strfmt.Regi
 }
 
 func (m *V1SystemUserMeStatus) validateLastLoginTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastLoginTime) { // not required
 		return nil
 	}
@@ -112,6 +115,8 @@ func (m *V1SystemUserMeStatus) validateLastLoginTime(formats strfmt.Registry) er
 	if err := m.LastLoginTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastLoginTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastLoginTime")
 		}
 		return err
 	}
@@ -120,7 +125,6 @@ func (m *V1SystemUserMeStatus) validateLastLoginTime(formats strfmt.Registry) er
 }
 
 func (m *V1SystemUserMeStatus) validateLastPasswordUpdateTime(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastPasswordUpdateTime) { // not required
 		return nil
 	}
@@ -128,6 +132,106 @@ func (m *V1SystemUserMeStatus) validateLastPasswordUpdateTime(formats strfmt.Reg
 	if err := m.LastPasswordUpdateTime.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastPasswordUpdateTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastPasswordUpdateTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 system user me status based on the context it is used
+func (m *V1SystemUserMeStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLastEmailUpdateTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastEmailVerifiedTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastLoginTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastPasswordUpdateTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SystemUserMeStatus) contextValidateLastEmailUpdateTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastEmailUpdateTime) { // not required
+		return nil
+	}
+
+	if err := m.LastEmailUpdateTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastEmailUpdateTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastEmailUpdateTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SystemUserMeStatus) contextValidateLastEmailVerifiedTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastEmailVerifiedTime) { // not required
+		return nil
+	}
+
+	if err := m.LastEmailVerifiedTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastEmailVerifiedTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastEmailVerifiedTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SystemUserMeStatus) contextValidateLastLoginTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastLoginTime) { // not required
+		return nil
+	}
+
+	if err := m.LastLoginTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastLoginTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastLoginTime")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SystemUserMeStatus) contextValidateLastPasswordUpdateTime(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastPasswordUpdateTime) { // not required
+		return nil
+	}
+
+	if err := m.LastPasswordUpdateTime.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastPasswordUpdateTime")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastPasswordUpdateTime")
 		}
 		return err
 	}

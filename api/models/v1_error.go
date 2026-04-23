@@ -14,7 +14,7 @@ import (
 
 // V1Error v1 error
 //
-// swagger:model V1Error
+// swagger:model v1Error
 type V1Error struct {
 
 	// code

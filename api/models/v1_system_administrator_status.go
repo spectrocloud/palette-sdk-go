@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
@@ -57,7 +59,6 @@ func (m *V1SystemAdministratorStatus) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1SystemAdministratorStatus) validateActivation(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.Activation) { // not required
 		return nil
 	}
@@ -66,6 +67,8 @@ func (m *V1SystemAdministratorStatus) validateActivation(formats strfmt.Registry
 		if err := m.Activation.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("activation")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("activation")
 			}
 			return err
 		}
@@ -75,7 +78,6 @@ func (m *V1SystemAdministratorStatus) validateActivation(formats strfmt.Registry
 }
 
 func (m *V1SystemAdministratorStatus) validateLastPasswordUpdate(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastPasswordUpdate) { // not required
 		return nil
 	}
@@ -83,6 +85,8 @@ func (m *V1SystemAdministratorStatus) validateLastPasswordUpdate(formats strfmt.
 	if err := m.LastPasswordUpdate.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastPasswordUpdate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastPasswordUpdate")
 		}
 		return err
 	}
@@ -91,7 +95,6 @@ func (m *V1SystemAdministratorStatus) validateLastPasswordUpdate(formats strfmt.
 }
 
 func (m *V1SystemAdministratorStatus) validateLastSignIn(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.LastSignIn) { // not required
 		return nil
 	}
@@ -99,6 +102,87 @@ func (m *V1SystemAdministratorStatus) validateLastSignIn(formats strfmt.Registry
 	if err := m.LastSignIn.Validate(formats); err != nil {
 		if ve, ok := err.(*errors.Validation); ok {
 			return ve.ValidateName("lastSignIn")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastSignIn")
+		}
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 system administrator status based on the context it is used
+func (m *V1SystemAdministratorStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateActivation(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastPasswordUpdate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLastSignIn(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SystemAdministratorStatus) contextValidateActivation(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Activation != nil {
+
+		if swag.IsZero(m.Activation) { // not required
+			return nil
+		}
+
+		if err := m.Activation.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("activation")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("activation")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SystemAdministratorStatus) contextValidateLastPasswordUpdate(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastPasswordUpdate) { // not required
+		return nil
+	}
+
+	if err := m.LastPasswordUpdate.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastPasswordUpdate")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastPasswordUpdate")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1SystemAdministratorStatus) contextValidateLastSignIn(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.LastSignIn) { // not required
+		return nil
+	}
+
+	if err := m.LastSignIn.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("lastSignIn")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("lastSignIn")
 		}
 		return err
 	}

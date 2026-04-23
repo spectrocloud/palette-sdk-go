@@ -61,11 +61,6 @@ for the v1 cloudstack accounts Uid vpcs operation typically these are written to
 */
 type V1CloudstackAccountsUIDVpcsParams struct {
 
-	/*DomainID
-	  Domain ID for which CloudStack VPCs are requested
-
-	*/
-	DomainID *string
 	/*ProjectID
 	  Project ID for which CloudStack VPCs are requested
 
@@ -73,6 +68,11 @@ type V1CloudstackAccountsUIDVpcsParams struct {
 	ProjectID *string
 	/*UID*/
 	UID string
+	/*ZoneID
+	  Zone ID for which CloudStack VPCs are requested
+
+	*/
+	ZoneID *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -112,17 +112,6 @@ func (o *V1CloudstackAccountsUIDVpcsParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithDomainID adds the domainID to the v1 cloudstack accounts Uid vpcs params
-func (o *V1CloudstackAccountsUIDVpcsParams) WithDomainID(domainID *string) *V1CloudstackAccountsUIDVpcsParams {
-	o.SetDomainID(domainID)
-	return o
-}
-
-// SetDomainID adds the domainId to the v1 cloudstack accounts Uid vpcs params
-func (o *V1CloudstackAccountsUIDVpcsParams) SetDomainID(domainID *string) {
-	o.DomainID = domainID
-}
-
 // WithProjectID adds the projectID to the v1 cloudstack accounts Uid vpcs params
 func (o *V1CloudstackAccountsUIDVpcsParams) WithProjectID(projectID *string) *V1CloudstackAccountsUIDVpcsParams {
 	o.SetProjectID(projectID)
@@ -145,6 +134,17 @@ func (o *V1CloudstackAccountsUIDVpcsParams) SetUID(uid string) {
 	o.UID = uid
 }
 
+// WithZoneID adds the zoneID to the v1 cloudstack accounts Uid vpcs params
+func (o *V1CloudstackAccountsUIDVpcsParams) WithZoneID(zoneID *string) *V1CloudstackAccountsUIDVpcsParams {
+	o.SetZoneID(zoneID)
+	return o
+}
+
+// SetZoneID adds the zoneId to the v1 cloudstack accounts Uid vpcs params
+func (o *V1CloudstackAccountsUIDVpcsParams) SetZoneID(zoneID *string) {
+	o.ZoneID = zoneID
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *V1CloudstackAccountsUIDVpcsParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -152,22 +152,6 @@ func (o *V1CloudstackAccountsUIDVpcsParams) WriteToRequest(r runtime.ClientReque
 		return err
 	}
 	var res []error
-
-	if o.DomainID != nil {
-
-		// query param domainId
-		var qrDomainID string
-		if o.DomainID != nil {
-			qrDomainID = *o.DomainID
-		}
-		qDomainID := qrDomainID
-		if qDomainID != "" {
-			if err := r.SetQueryParam("domainId", qDomainID); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	if o.ProjectID != nil {
 
@@ -188,6 +172,22 @@ func (o *V1CloudstackAccountsUIDVpcsParams) WriteToRequest(r runtime.ClientReque
 	// path param uid
 	if err := r.SetPathParam("uid", o.UID); err != nil {
 		return err
+	}
+
+	if o.ZoneID != nil {
+
+		// query param zoneId
+		var qrZoneID string
+		if o.ZoneID != nil {
+			qrZoneID = *o.ZoneID
+		}
+		qZoneID := qrZoneID
+		if qZoneID != "" {
+			if err := r.SetQueryParam("zoneId", qZoneID); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if len(res) > 0 {

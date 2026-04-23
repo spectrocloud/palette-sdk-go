@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 )
 
@@ -16,5 +18,10 @@ type URLEncodedBase64 string
 
 // Validate validates this url encoded base64
 func (m URLEncodedBase64) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this url encoded base64 based on context it is used
+func (m URLEncodedBase64) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }

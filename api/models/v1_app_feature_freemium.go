@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
+
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -30,6 +32,11 @@ type V1AppFeatureFreemium struct {
 
 // Validate validates this v1 app feature freemium
 func (m *V1AppFeatureFreemium) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this v1 app feature freemium based on context it is used
+func (m *V1AppFeatureFreemium) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

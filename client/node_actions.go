@@ -185,20 +185,6 @@ func (h *V1Client) GetNodeMaintenanceStatusGke(configUID, machineName, nodeID st
 	return resp.Payload.Status.MaintenanceStatus, nil
 }
 
-// GetNodeMaintenanceStatusOpenStack retrieves maintenance status for an OpenStack node.
-func (h *V1Client) GetNodeMaintenanceStatusOpenStack(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
-	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesUIDGetParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machineName).
-		WithMachineUID(nodeID)
-
-	resp, err := h.Client.V1CloudConfigsOpenStackPoolMachinesUIDGet(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload.Status.MaintenanceStatus, nil
-}
-
 // GetNodeVirtualMaintenanceStatusVirtual retrieves maintenance status for a virtual node.
 // TODO: deprecate unused virtual cluster functions
 func (h *V1Client) GetNodeVirtualMaintenanceStatusVirtual(configUID, machineName, nodeID string) (*models.V1MachineMaintenanceStatus, error) {
@@ -410,25 +396,6 @@ func (h *V1Client) GetMachinesListEdgeNative(configUID, machinePoolName string) 
 		WithConfigUID(configUID).
 		WithMachinePoolName(machinePoolName)
 	mpList, err := h.Client.V1CloudConfigsEdgeNativePoolMachinesList(params)
-	if err != nil {
-		return nil, err
-	}
-	machinesMap := make(map[string]string)
-	for _, machine := range mpList.Payload.Items {
-		if machine.Metadata != nil && machine.Metadata.Name != "" {
-			machinesMap[machine.Metadata.Name] = machine.Metadata.UID
-		}
-	}
-	return machinesMap, nil
-}
-
-// GetMachinesListOpenStack retrieves a list of OpenStack machines from a machine pool.
-// Returns a map where key is the machine name and value is the machine UID.
-func (h *V1Client) GetMachinesListOpenStack(configUID, machinePoolName string) (map[string]string, error) {
-	params := clientv1.NewV1CloudConfigsOpenStackPoolMachinesListParamsWithContext(h.ctx).
-		WithConfigUID(configUID).
-		WithMachinePoolName(machinePoolName)
-	mpList, err := h.Client.V1CloudConfigsOpenStackPoolMachinesList(params)
 	if err != nil {
 		return nil, err
 	}

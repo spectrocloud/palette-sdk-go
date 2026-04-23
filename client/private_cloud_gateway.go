@@ -201,54 +201,6 @@ func (h *V1Client) GetPCGClusterProfileCloudStack(uid string) (*models.V1Cluster
 	return resp.Payload, nil
 }
 
-// PCG - OpenStack
-
-// CreatePCGCloudAccountOpenStack creates a new OpenStack PCG cloud account.
-func (h *V1Client) CreatePCGCloudAccountOpenStack(overlordUID string, account *models.V1OverlordOpenStackAccountCreate) (string, error) {
-	params := clientv1.NewV1OverlordsUIDOpenStackAccountCreateParamsWithContext(h.ctx).
-		WithUID(overlordUID).
-		WithBody(account)
-	resp, err := h.Client.V1OverlordsUIDOpenStackAccountCreate(params)
-	if err != nil {
-		return "", err
-	}
-	return *resp.Payload.UID, nil
-}
-
-// CreatePCGOpenStack creates a new OpenStack Private Cloud Gateway.
-func (h *V1Client) CreatePCGOpenStack(overlordUID string, cloudConfig *models.V1OverlordOpenStackCloudConfig) (string, error) {
-	params := clientv1.NewV1OverlordsUIDOpenStackCloudConfigCreateParamsWithContext(h.ctx).
-		WithUID(overlordUID).
-		WithBody(cloudConfig)
-	resp, err := h.Client.V1OverlordsUIDOpenStackCloudConfigCreate(params)
-	if err != nil {
-		return "", err
-	}
-	return *resp.Payload.UID, nil
-}
-
-// GetPCGManifestOpenStack retrieves an OpenStack PCG manifest by pairing code.
-func (h *V1Client) GetPCGManifestOpenStack(pairingCode string) (string, error) {
-	params := clientv1.NewV1OverlordsOpenStackManifestParamsWithContext(h.ctx).
-		WithPairingCode(pairingCode)
-	resp, err := h.Client.V1OverlordsOpenStackManifest(params)
-	if err != nil {
-		return "", err
-	}
-	return resp.Payload.Manifest, nil
-}
-
-// GetPCGClusterProfileOpenStack retrieves an OpenStack PCG cluster profile by PCG UID.
-func (h *V1Client) GetPCGClusterProfileOpenStack(uid string) (*models.V1ClusterProfile, error) {
-	params := clientv1.NewV1OverlordsUIDOpenStackClusterProfileParamsWithContext(h.ctx).
-		WithUID(uid)
-	resp, err := h.Client.V1OverlordsUIDOpenStackClusterProfile(params)
-	if err != nil {
-		return nil, err
-	}
-	return resp.Payload, nil
-}
-
 // PCG - MAAS
 
 // CreatePCGCloudAccountMaas creates a new MAAS PCG cloud account.
