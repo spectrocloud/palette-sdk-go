@@ -28061,6 +28061,50 @@
         }
       }
     },
+    "/v1/system/config/aws/marketplace/account": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system config aws marketplace account",
+        "operationId": "V1SystemConfigAwsMarketplaceAccountGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsMarketplaceAccount"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "updates the system config aws marketplace account",
+        "operationId": "V1SystemConfigAwsMarketplaceAccountUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemAwsMarketplaceAccount"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
     "/v1/system/config/aws/sts/account": {
       "get": {
         "tags": [
@@ -28645,6 +28689,50 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1SystemGcpImage"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/imagePullSecret": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "get the system DHI image pull secret config",
+        "operationId": "V1SystemConfigImagePullSecretGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigImagePullSecretSpec"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "create or update the system DHI image pull secret config",
+        "operationId": "V1SystemConfigImagePullSecretUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SystemConfigImagePullSecretSpec"
             }
           }
         ],
@@ -31135,6 +31223,65 @@
         }
       }
     },
+    "/v1/tenants/marketplace/aws/setup": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates the AWS Marketplace token and redirects the browser to the UI setup page",
+        "operationId": "v1MarketplaceAwsSetup",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Temporary registration token from AWS Marketplace",
+            "name": "x-amzn-marketplace-token",
+            "in": "formData",
+            "required": true
+          }
+        ],
+        "responses": {
+          "303": {
+            "description": "Redirects to the UI setup page with an encrypted token"
+          }
+        }
+      }
+    },
+    "/v1/tenants/marketplace/register": {
+      "post": {
+        "description": "Called after a user completes a SaaS contract purchase on a marketplace (e.g., AWS Marketplace) and is redirected to the Palette registration landing page. The flow resolves the temporary registration token to obtain the user's account identifier and product code, fetches the user's entitlements and creates a new tenant with the corresponding plan and admin user. The registration token is short-lived and must be resolved promptly.\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Registers a marketplace user by resolving the registration token, verifying entitlements, and provisioning a tenant",
+        "operationId": "v1MarketplaceRegister",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1MarketplaceRegisterEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Registration completed — tenant provisioned, entitlements applied to plan",
+            "schema": {
+              "$ref": "#/definitions/v1MarketplaceRegisterResponse"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/tenants/signup": {
       "post": {
         "tags": [
@@ -32804,6 +32951,64 @@
         "responses": {
           "204": {
             "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/subscriptions/aws/{uid}": {
+      "get": {
+        "description": "Returns detailed subscription information including the user's AWS account ID, entitlement data (plan limits, contract dates), and the derived monthly plan limits.\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the details of a specific AWS marketplace subscription",
+        "operationId": "v1TenantSubscriptionsAwsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AwsMarketplaceSubscription"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/subscriptions/metadata": {
+      "get": {
+        "description": "Returns active marketplace subscription metadata for the specified tenant.\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the metadata of marketplace subscriptions for the tenant",
+        "operationId": "v1TenantSubscriptionsMetadataList",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1MarketplaceSubscriptionSummaries"
+            }
           }
         }
       },
@@ -37500,6 +37705,10 @@
           "description": "AWS hybrid cluster config",
           "$ref": "#/definitions/v1AwsHybridConfig"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "region": {
           "type": "string"
         },
@@ -38063,6 +38272,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -38204,6 +38417,58 @@
         },
         "listmeta": {
           "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1AwsMarketplaceSubscription": {
+      "description": "AWS marketplace subscription with metadata, spec, and status",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1AwsMarketplaceSubscriptionMetadata"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1AwsMarketplaceSubscriptionSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1AwsMarketplaceSubscriptionStatus"
+        }
+      }
+    },
+    "v1AwsMarketplaceSubscriptionMetadata": {
+      "description": "Subscription metadata",
+      "properties": {
+        "kind": {
+          "description": "Cloud provider kind",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Subscription document UID",
+          "type": "string"
+        }
+      }
+    },
+    "v1AwsMarketplaceSubscriptionSpec": {
+      "description": "AWS marketplace subscription specification",
+      "properties": {
+        "customerAccountId": {
+          "description": "AWS account ID of the user",
+          "type": "string"
+        },
+        "entitlement": {
+          "$ref": "#/definitions/v1MarketplaceEntitlement"
+        },
+        "productId": {
+          "description": "AWS Marketplace product ID (from the AWS license) the subscription belongs to",
+          "type": "string"
+        }
+      }
+    },
+    "v1AwsMarketplaceSubscriptionStatus": {
+      "description": "AWS marketplace subscription status",
+      "properties": {
+        "state": {
+          "description": "Current subscription state",
+          "type": "string"
         }
       }
     },
@@ -38970,6 +39235,10 @@
           "description": "Location is the Azure datacenter location",
           "type": "string"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "resourceGroup": {
           "type": "string"
         },
@@ -39191,6 +39460,10 @@
         "osType": {
           "type": "string",
           "$ref": "#/definitions/v1OsType"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
         },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
@@ -47817,6 +48090,10 @@
           "description": "the os type for the pool, must be supported by the provider",
           "type": "string"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -48405,6 +48682,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
         },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
@@ -49359,6 +49640,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
         },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
@@ -52051,6 +52336,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -52610,6 +52899,10 @@
           "type": "integer",
           "format": "int32"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\nCurrently implemented for CloudStack only.\n",
           "type": "string"
@@ -52700,6 +52993,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
         },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\nCurrently implemented for CloudStack only.\n",
@@ -53018,6 +53315,116 @@
         },
         "uid": {
           "description": "Manifest uid",
+          "type": "string"
+        }
+      }
+    },
+    "v1MarketplaceEntitlement": {
+      "description": "Entitlement details from the marketplace contract",
+      "properties": {
+        "planEndTime": {
+          "description": "Contract end time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "planLimit": {
+          "$ref": "#/definitions/v1MarketplacePlanLimit"
+        },
+        "planStartTime": {
+          "description": "Contract start time",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "v1MarketplacePlanLimit": {
+      "description": "Marketplace plan limit",
+      "properties": {
+        "cpuCoreHours": {
+          "description": "Total CPU core-hours entitled",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1MarketplaceRegisterEntity": {
+      "description": "Registration request submitted when a marketplace user is redirected to Palette after purchasing a SaaS contract (e.g., from AWS Marketplace). Contains the temporary registration token from the redirect and the user's profile information for tenant and user creation.\n",
+      "required": [
+        "registrationToken",
+        "emailId",
+        "firstName",
+        "lastName",
+        "orgName"
+      ],
+      "properties": {
+        "emailId": {
+          "description": "User's email address",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "User's first name for the admin user profile",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "User's last name for the admin user profile",
+          "type": "string"
+        },
+        "orgName": {
+          "description": "Organization name used as the tenant name. Must be unique across the platform.",
+          "type": "string"
+        },
+        "providerType": {
+          "description": "Marketplace provider type. Defaults to \"aws\" if empty or omitted.",
+          "type": "string",
+          "enum": [
+            "aws"
+          ]
+        },
+        "registrationToken": {
+          "description": "Temporary token provided by the marketplace provider during the redirect after purchase. Must be resolved promptly as it is short-lived (e.g., x-amzn-marketplace-token for AWS).\n",
+          "type": "string"
+        }
+      }
+    },
+    "v1MarketplaceRegisterResponse": {
+      "description": "Response returned after successful marketplace registration.\n",
+      "properties": {
+        "tenantUid": {
+          "description": "UID of the newly created tenant",
+          "type": "string"
+        }
+      }
+    },
+    "v1MarketplaceSubscriptionSummaries": {
+      "description": "List of marketplace subscription summaries",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1MarketplaceSubscriptionSummary"
+          }
+        }
+      }
+    },
+    "v1MarketplaceSubscriptionSummary": {
+      "description": "Summary of a marketplace subscription for the tenant",
+      "properties": {
+        "kind": {
+          "description": "Cloud provider kind",
+          "type": "string"
+        },
+        "state": {
+          "description": "Current subscription state",
+          "type": "string"
+        },
+        "uid": {
+          "description": "Subscription document UID",
           "type": "string"
         }
       }
@@ -57317,6 +57724,9 @@
         },
         "status": {
           "type": "string"
+        },
+        "syncRecovery": {
+          "$ref": "#/definitions/v1SyncRecovery"
         }
       }
     },
@@ -60568,6 +60978,9 @@
         "fips": {
           "$ref": "#/definitions/v1ClusterFips"
         },
+        "image": {
+          "$ref": "#/definitions/v1SpectroClusterStatusImage"
+        },
         "location": {
           "$ref": "#/definitions/v1ClusterLocation"
         },
@@ -60613,6 +61026,16 @@
       "properties": {
         "status": {
           "$ref": "#/definitions/v1SpectroClusterState"
+        }
+      }
+    },
+    "v1SpectroClusterStatusImage": {
+      "description": "Spectro cluster image status details",
+      "type": "object",
+      "properties": {
+        "imagePullSecret": {
+          "description": "Image pull secret configured for images",
+          "type": "string"
         }
       }
     },
@@ -62256,6 +62679,25 @@
         }
       }
     },
+    "v1SyncRecovery": {
+      "description": "Sync recovery lifecycle details set by the orphan-recovery scheduler",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Recovery-specific failure message, if any",
+          "type": "string"
+        },
+        "syncRecoveryState": {
+          "description": "Sync recovery state: Interrupted, Recovering, or Recovered",
+          "type": "string",
+          "enum": [
+            "Interrupted",
+            "Recovering",
+            "Recovered"
+          ]
+        }
+      }
+    },
     "v1SystemActivateRequest": {
       "type": "object",
       "required": [
@@ -62489,6 +62931,28 @@
         }
       }
     },
+    "v1SystemAwsMarketplaceAccount": {
+      "description": "System AWS marketplace account specifications",
+      "properties": {
+        "accessKey": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "productId": {
+          "description": "AWS Marketplace product ID",
+          "type": "string"
+        },
+        "secretKey": {
+          "type": "string"
+        },
+        "sqsQueueUrl": {
+          "description": "AWS SQS queue URL for marketplace event notifications",
+          "type": "string"
+        }
+      }
+    },
     "v1SystemAwsSpec": {
       "description": "system aws account specifications",
       "properties": {
@@ -62674,6 +63138,16 @@
           "$ref": "#/definitions/v1SystemCertificatesSpec"
         },
         "rootDomain": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SystemConfigImagePullSecretSpec": {
+      "description": "system DHI image pull secret config spec",
+      "type": "object",
+      "properties": {
+        "imagePullSecret": {
+          "description": "base64 encoded docker config JSON",
           "type": "string"
         }
       }
@@ -66163,6 +66637,10 @@
           "format": "int32"
         },
         "name": {
+          "type": "string"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
         },
         "overrideKubeadmConfiguration": {
@@ -70238,6 +70716,10 @@
           "description": "Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster",
           "type": "integer",
           "format": "int32"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
         },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",

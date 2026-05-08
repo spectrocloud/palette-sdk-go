@@ -58,6 +58,11 @@ type V1EdgeNativeMachinePoolConfig struct {
 	// the os type for the pool, must be supported by the provider
 	OsType string `json:"osType,omitempty"`
 
+	// YAML override for CAPI properties at pool level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
 	// Overrides pack-level settings. Worker pools only.
 	//

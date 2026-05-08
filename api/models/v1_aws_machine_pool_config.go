@@ -75,6 +75,11 @@ type V1AwsMachinePoolConfig struct {
 	// Minimum number of seconds a node should be Ready, before the next node is selected for repave. Applicable only for workerpools in infrastructure cluster
 	NodeRepaveInterval int32 `json:"nodeRepaveInterval,omitempty"`
 
+	// YAML override for CAPI properties at pool level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
 	// Overrides pack-level settings. Worker pools only.
 	//
