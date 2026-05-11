@@ -58,6 +58,15 @@ func (h *V1Client) GetCloudConfigAws(configUID string) (*models.V1AwsCloudConfig
 	return resp.Payload, nil
 }
 
+// UpdateCloudConfigAws updates an existing AWS IaaS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigAws(configUID string, config *models.V1AwsCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsAwsUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsAwsUIDClusterConfig(params)
+	return err
+}
+
 // ImportClusterAws imports an existing AWS IaaS cluster.
 func (h *V1Client) ImportClusterAws(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersAwsImportParamsWithContext(h.ctx).
