@@ -132,10 +132,15 @@ func WithSchemes(schemes []string) func(*V1Client) {
 	}
 }
 
-// WithTransportDebug sets the client's HTTP transport debug flag.
+// WithTransportDebug enables verbose HTTP request/response logging on the client transport.
+// Use only for local development troubleshooting. Never enable in CI, production, or any
+// environment where logs may be collected, shared, or retained.
 func WithTransportDebug() func(*V1Client) {
 	return func(v *V1Client) {
 		v.transportDebug = true
+		if v.Client != nil {
+			v.Client = clientv1.New(v.getTransport(), strfmt.Default)
+		}
 	}
 }
 
@@ -222,6 +227,7 @@ func (h *V1Client) jwtTransport() *transport.Runtime {
 
 func (h *V1Client) handleBasicAuth() error {
 	httpTransport := h.baseTransport()
+	httpTransport.AddSensitiveValue(h.password)
 	c := clientv1.New(httpTransport, strfmt.Default)
 
 	params := &clientv1.V1AuthenticateParams{
