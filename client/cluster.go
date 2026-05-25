@@ -398,6 +398,12 @@ func (h *V1Client) UpdatePauseAgentUpgradeSettingCluster(upgradeSetting *models.
 
 // InitiateTheCertRenewal initiates the certificate renewal process for the specified cluster.
 func (h *V1Client) InitiateTheCertRenewal(clusterUID string) error {
+	return h.RenewClusterK8Certificates(clusterUID)
+}
+
+// RenewClusterK8Certificates triggers on-demand renewal of control plane Kubernetes PKI
+// certificates via PATCH /v1/spectroclusters/{uid}/k8certificates/renew.
+func (h *V1Client) RenewClusterK8Certificates(clusterUID string) error {
 	params := clientv1.NewV1SpectroClustersCertificatesRenewParamsWithContext(h.ctx).WithUID(clusterUID)
 	_, err := h.Client.V1SpectroClustersCertificatesRenew(params)
 	if err != nil {
