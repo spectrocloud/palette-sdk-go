@@ -610,9 +610,23 @@ type ClientService interface {
 
 	V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataSinksUpdateParams) (*V1TenantUIDAssetsDataSinksUpdateNoContent, error)
 
+	V1TenantUIDDatasinksSplunkCreate(params *V1TenantUIDDatasinksSplunkCreateParams) (*V1TenantUIDDatasinksSplunkCreateCreated, error)
+
+	V1TenantUIDDatasinksSplunkDelete(params *V1TenantUIDDatasinksSplunkDeleteParams) (*V1TenantUIDDatasinksSplunkDeleteNoContent, error)
+
+	V1TenantUIDDatasinksSplunkGet(params *V1TenantUIDDatasinksSplunkGetParams) (*V1TenantUIDDatasinksSplunkGetOK, error)
+
+	V1TenantUIDDatasinksSplunkUpdate(params *V1TenantUIDDatasinksSplunkUpdateParams) (*V1TenantUIDDatasinksSplunkUpdateNoContent, error)
+
+	V1TenantUIDDatasinksSplunkValidate(params *V1TenantUIDDatasinksSplunkValidateParams) (*V1TenantUIDDatasinksSplunkValidateNoContent, error)
+
+	V1TenantUIDDatasinksSummaryGet(params *V1TenantUIDDatasinksSummaryGetParams) (*V1TenantUIDDatasinksSummaryGetOK, error)
+
 	V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1TenantUIDDomainsGetOK, error)
 
 	V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams) (*V1TenantUIDDomainsUpdateNoContent, error)
+
+	V1TenantUIDIdpPaletteConfigGet(params *V1TenantUIDIdpPaletteConfigGetParams) (*V1TenantUIDIdpPaletteConfigGetOK, error)
 
 	V1TenantUIDOidcConfigGet(params *V1TenantUIDOidcConfigGetParams) (*V1TenantUIDOidcConfigGetOK, error)
 
@@ -1772,6 +1786,8 @@ type ClientService interface {
 
 	V1SpectroClustersCloudStackValidate(params *V1SpectroClustersCloudStackValidateParams) (*V1SpectroClustersCloudStackValidateOK, error)
 
+	V1SpectroClustersClusterUpgradeSettingsGet(params *V1SpectroClustersClusterUpgradeSettingsGetParams) (*V1SpectroClustersClusterUpgradeSettingsGetOK, error)
+
 	V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersConfigEdgeInstallerParams) (*V1SpectroClustersConfigEdgeInstallerOK, error)
 
 	V1SpectroClustersCustomCreate(params *V1SpectroClustersCustomCreateParams) (*V1SpectroClustersCustomCreateCreated, error)
@@ -1871,6 +1887,8 @@ type ClientService interface {
 	V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUIDParams) (*V1SpectroClustersSummaryUIDOK, error)
 
 	V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSummaryUIDOverviewParams) (*V1SpectroClustersSummaryUIDOverviewOK, error)
+
+	V1SpectroClustersSystemImagePullSecretGet(params *V1SpectroClustersSystemImagePullSecretGetParams) (*V1SpectroClustersSystemImagePullSecretGetOK, error)
 
 	V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error)
 
@@ -12374,6 +12392,210 @@ func (a *Client) V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataS
 }
 
 /*
+V1TenantUIDDatasinksSplunkCreate creates the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkCreate(params *V1TenantUIDDatasinksSplunkCreateParams) (*V1TenantUIDDatasinksSplunkCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkDelete deletes the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkDelete(params *V1TenantUIDDatasinksSplunkDeleteParams) (*V1TenantUIDDatasinksSplunkDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkGet returns the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkGet(params *V1TenantUIDDatasinksSplunkGetParams) (*V1TenantUIDDatasinksSplunkGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkUpdate updates the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkUpdate(params *V1TenantUIDDatasinksSplunkUpdateParams) (*V1TenantUIDDatasinksSplunkUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkValidate validates the splunk h e c data sink connection for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkValidate(params *V1TenantUIDDatasinksSplunkValidateParams) (*V1TenantUIDDatasinksSplunkValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSummaryGet returns a summary of all data sinks configured for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSummaryGet(params *V1TenantUIDDatasinksSummaryGetParams) (*V1TenantUIDDatasinksSummaryGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSummaryGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSummaryGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/summary",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSummaryGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSummaryGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSummaryGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1TenantUIDDomainsGet retrieves the domains for tenant
 */
 func (a *Client) V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1TenantUIDDomainsGetOK, error) {
@@ -12438,6 +12660,40 @@ func (a *Client) V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1TenantUidDomainsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDIdpPaletteConfigGet returns the palette ID p config for the tenant
+*/
+func (a *Client) V1TenantUIDIdpPaletteConfigGet(params *V1TenantUIDIdpPaletteConfigGetParams) (*V1TenantUIDIdpPaletteConfigGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDIdpPaletteConfigGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidIdpPaletteConfigGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/idp/palette/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDIdpPaletteConfigGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDIdpPaletteConfigGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidIdpPaletteConfigGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -32199,6 +32455,40 @@ func (a *Client) V1SpectroClustersCloudStackValidate(params *V1SpectroClustersCl
 }
 
 /*
+V1SpectroClustersClusterUpgradeSettingsGet gets cluster upgrade settings by host cluster Uid or overlord Uid
+*/
+func (a *Client) V1SpectroClustersClusterUpgradeSettingsGet(params *V1SpectroClustersClusterUpgradeSettingsGetParams) (*V1SpectroClustersClusterUpgradeSettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersClusterUpgradeSettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersClusterUpgradeSettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/cluster/upgrade/settings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersClusterUpgradeSettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersClusterUpgradeSettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersClusterUpgradeSettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersConfigEdgeInstaller clusters configuration for the edge installer
 */
 func (a *Client) V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersConfigEdgeInstallerParams) (*V1SpectroClustersConfigEdgeInstallerOK, error) {
@@ -33899,6 +34189,40 @@ func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSu
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSummaryUidOverview: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersSystemImagePullSecretGet returns the cluster image pull secret for the given scope
+*/
+func (a *Client) V1SpectroClustersSystemImagePullSecretGet(params *V1SpectroClustersSystemImagePullSecretGetParams) (*V1SpectroClustersSystemImagePullSecretGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersSystemImagePullSecretGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersSystemImagePullSecretGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/system/imagePullSecret",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersSystemImagePullSecretGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersSystemImagePullSecretGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSystemImagePullSecretGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

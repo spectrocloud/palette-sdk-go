@@ -21853,6 +21853,35 @@
         }
       ]
     },
+    "/v1/spectroclusters/cluster/upgrade/settings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get cluster upgrade settings by hostClusterUid or overlordUid",
+        "operationId": "v1SpectroClustersClusterUpgradeSettingsGet",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "hostClusterUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "overlordUid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterUpgradeSettingsSpec"
+            }
+          }
+        }
+      }
+    },
     "/v1/spectroclusters/clusterTemplates/{uid}/clusters/upgrade": {
       "patch": {
         "tags": [
@@ -22778,6 +22807,43 @@
               "Content-Disposition": {
                 "type": "string"
               }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/system/imagePullSecret": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the cluster image pull secret for the given scope",
+        "operationId": "v1SpectroClustersSystemImagePullSecretGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Spectro cluster uid",
+            "name": "clusterUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Overlord (private cloud gateway) uid",
+            "name": "overlordUid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Edge host uid",
+            "name": "edgeHostUid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterSystemImagePullSecret"
             }
           }
         }
@@ -31864,6 +31930,323 @@
         }
       ]
     },
+    "/v1/tenants/{tenantUid}/datasinks/splunk": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Creates the Splunk HEC data sink for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSplunkCreate",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SplunkSinkEntity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created successfully",
+            "schema": {
+              "$ref": "#/definitions/v1Uid"
+            },
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "409": {
+            "description": "Sink already exists for tenant + kind (runtime code=SinkAlreadyExists)",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/{tenantUid}/datasinks/splunk/validate": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validates the Splunk HEC data sink connection for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSplunkValidate",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SplunkSinkSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "504": {
+            "description": "Network/TLS/timeout error",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the Splunk HEC data sink for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSplunkGet",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SplunkSink"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Updates the Splunk HEC data sink for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSplunkUpdate",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SplunkSinkEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Deletes the Splunk HEC data sink for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSplunkDelete",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "name": "uid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
+    "/v1/tenants/{tenantUid}/datasinks/summary": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns a summary of all data sinks configured for the specified tenant",
+        "operationId": "V1TenantUidDatasinksSummaryGet",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "tenantUid",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1DataSinksSummary"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      }
+    },
     "/v1/tenants/{tenantUid}/domains": {
       "get": {
         "tags": [
@@ -31999,6 +32382,31 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/v1TenantFreemiumUsage"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/idp/palette/config": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the Palette IDP config for the tenant",
+        "operationId": "V1TenantUidIdpPaletteConfigGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1TenantPaletteIdpConfigSpec"
             }
           }
         }
@@ -38276,6 +38684,10 @@
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
         },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -39457,12 +39869,21 @@
         "osDisk": {
           "$ref": "#/definitions/v1AzureOSDisk"
         },
+        "osSku": {
+          "description": "OS SKU for the AKS node pool. Valid values - Ubuntu, AzureLinux, Windows2022. Immutable after creation.",
+          "x-omitempty": true,
+          "$ref": "#/definitions/v1OsSku"
+        },
         "osType": {
           "type": "string",
           "$ref": "#/definitions/v1OsType"
         },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
           "type": "string"
         },
         "overrideKubeadmConfiguration": {
@@ -39632,6 +40053,11 @@
           "description": "whether this pool is for system node Pool",
           "type": "boolean",
           "x-omitempty": false
+        },
+        "osSku": {
+          "description": "OS SKU for the AKS node pool. Valid values - Ubuntu, AzureLinux, Windows2022. Immutable after creation.",
+          "x-omitempty": true,
+          "$ref": "#/definitions/v1OsSku"
         },
         "osType": {
           "type": "string",
@@ -40753,6 +41179,10 @@
           "description": "Endpoint IP to be used for API server, should only be enabled for static CloudStack network",
           "type": "string"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
+        },
         "project": {
           "description": "Project name for the cluster (optional)",
           "$ref": "#/definitions/v1CloudStackResource"
@@ -40780,6 +41210,10 @@
       "properties": {
         "controlPlaneEndpoint": {
           "description": "Endpoint IP to be used for API server, should only be enabled for static CloudStack network",
+          "type": "string"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
           "type": "string"
         }
       }
@@ -45075,7 +45509,8 @@
       "default": "PureManage",
       "enum": [
         "PureManage",
-        "PureAttach"
+        "PureAttach",
+        "PureAdopt"
       ]
     },
     "v1ClusterUpgradeSettingsEntity": {
@@ -45086,6 +45521,15 @@
             "lock",
             "unlock"
           ]
+        }
+      }
+    },
+    "v1ClusterUpgradeSettingsSpec": {
+      "type": "object",
+      "properties": {
+        "spectroComponentsUpgradeForbidden": {
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -46841,6 +47285,22 @@
         }
       }
     },
+    "v1DataSinkSummary": {
+      "description": "Data sink summary",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Sink kind discriminator (e.g. splunk, cloudwatch). For legacy cloudwatch\nentries the caller treats kind=cloudwatch as a presence signal and calls\n/v1/tenants/{t}/assets/dataSinks to fetch the legacy CloudWatch configuration.\n",
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SinkStatus"
+        }
+      }
+    },
     "v1DataSinkableSpec": {
       "type": "object",
       "properties": {
@@ -46852,6 +47312,22 @@
           "enum": [
             "cloudwatch"
           ]
+        }
+      }
+    },
+    "v1DataSinksSummary": {
+      "description": "Summary of all sinks configured for a tenant, across kinds.",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1DataSinkSummary"
+          }
         }
       }
     },
@@ -48094,6 +48570,10 @@
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
         },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -48102,6 +48582,16 @@
           "description": "size of the pool, number of machines",
           "type": "integer",
           "format": "int32"
+        },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
         },
         "taints": {
           "description": "control plane or worker taints",
@@ -48482,6 +48972,10 @@
         "endpointAccess": {
           "description": "Endpoints specifies access to this cluster's control plane endpoints",
           "$ref": "#/definitions/v1EksClusterConfigEndpointAccess"
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
         },
         "region": {
           "description": "The AWS Region the cluster lives in.",
@@ -49643,6 +50137,10 @@
         },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
           "type": "string"
         },
         "overrideKubeadmConfiguration": {
@@ -52340,6 +52838,10 @@
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
         },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\n",
           "type": "string"
@@ -52903,6 +53405,10 @@
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
         },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
+          "type": "string"
+        },
         "overrideKubeadmConfiguration": {
           "description": "YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.\nOverrides pack-level settings. Worker pools only.\nCurrently implemented for CloudStack only.\n",
           "type": "string"
@@ -52996,6 +53502,10 @@
         },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
           "type": "string"
         },
         "overrideKubeadmConfiguration": {
@@ -54462,6 +54972,15 @@
           "$ref": "#/definitions/v1OsPatchConfig"
         }
       }
+    },
+    "v1OsSku": {
+      "description": "OS SKU for AKS node pools. Immutable after creation.",
+      "type": "string",
+      "enum": [
+        "Ubuntu",
+        "AzureLinux",
+        "Windows2022"
+      ]
     },
     "v1OsType": {
       "type": "string",
@@ -59237,6 +59756,39 @@
         }
       }
     },
+    "v1SinkStatus": {
+      "description": "Data sink status",
+      "type": "object",
+      "properties": {
+        "sync": {
+          "$ref": "#/definitions/v1SinkSyncStatus"
+        }
+      }
+    },
+    "v1SinkSyncStatus": {
+      "description": "Status of the data sink delivery sync loop",
+      "type": "object",
+      "properties": {
+        "lastRunTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "lastSuccessTime": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "message": {
+          "description": "Last error message when status=Failed. Empty when status=Success.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Last known delivery status.",
+          "type": "string",
+          "enum": [
+            "Success",
+            "Failed"
+          ]
+        }
+      }
+    },
     "v1SonobuoyEntity": {
       "description": "Sonobuoy response",
       "required": [
@@ -60978,9 +61530,6 @@
         "fips": {
           "$ref": "#/definitions/v1ClusterFips"
         },
-        "image": {
-          "$ref": "#/definitions/v1SpectroClusterStatusImage"
-        },
         "location": {
           "$ref": "#/definitions/v1ClusterLocation"
         },
@@ -61026,16 +61575,6 @@
       "properties": {
         "status": {
           "$ref": "#/definitions/v1SpectroClusterState"
-        }
-      }
-    },
-    "v1SpectroClusterStatusImage": {
-      "description": "Spectro cluster image status details",
-      "type": "object",
-      "properties": {
-        "imagePullSecret": {
-          "description": "Image pull secret configured for images",
-          "type": "string"
         }
       }
     },
@@ -61117,6 +61656,16 @@
               "$ref": "#/definitions/v1Virtual"
             }
           }
+        }
+      }
+    },
+    "v1SpectroClusterSystemImagePullSecret": {
+      "description": "Image pull secret for cluster system operations",
+      "type": "object",
+      "properties": {
+        "imagePullSecret": {
+          "description": "base64-encoded image pull secret token",
+          "type": "string"
         }
       }
     },
@@ -61699,6 +62248,9 @@
             "clusterTemplate": {
               "$ref": "#/definitions/v1ClusterTemplateRef"
             },
+            "clusterType": {
+              "$ref": "#/definitions/v1ClusterType"
+            },
             "fargateProfiles": {
               "type": "array",
               "items": {
@@ -62107,6 +62659,68 @@
           "items": {
             "$ref": "#/definitions/v1VsphereMachinePoolConfigEntity"
           }
+        }
+      }
+    },
+    "v1SplunkSink": {
+      "description": "Splunk HEC audit-log sink configuration.",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SplunkSinkSpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SinkStatus"
+        }
+      }
+    },
+    "v1SplunkSinkEntity": {
+      "description": "Input payload for creating or updating a Splunk HEC sink.",
+      "type": "object",
+      "required": [
+        "name",
+        "spec"
+      ],
+      "properties": {
+        "name": {
+          "description": "Human-readable name for this sink. Must be unique per tenant.",
+          "type": "string"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1SplunkSinkSpec"
+        }
+      }
+    },
+    "v1SplunkSinkSpec": {
+      "description": "Splunk HEC connection configuration.",
+      "type": "object",
+      "required": [
+        "hecUrl",
+        "token"
+      ],
+      "properties": {
+        "hecUrl": {
+          "description": "Splunk HEC URL, e.g. https://stack.splunkcloud.com:8088 or\nhttps://http-inputs-\u003cstack\u003e.splunkcloud.com:443. Must use https,\nexcept http://localhost:* / http://127.0.0.1:* permitted for dev.\n",
+          "type": "string"
+        },
+        "index": {
+          "description": "Optional. If empty, the HEC token's default index is used.",
+          "type": "string"
+        },
+        "source": {
+          "description": "Optional. If empty, the HEC token's default source is used.",
+          "type": "string"
+        },
+        "tlsConfig": {
+          "$ref": "#/definitions/v1TlsCA"
+        },
+        "token": {
+          "description": "HEC token. Returned masked ('***') on GET. PUT with the masked literal\n'***' preserves the existing encrypted value; PUT with any other value\nre-encrypts and replaces.\n",
+          "type": "string",
+          "format": "password"
         }
       }
     },
@@ -64726,6 +65340,35 @@
         }
       }
     },
+    "v1TenantPaletteIdpConfigSpec": {
+      "description": "Palette IDP configuration for the tenant",
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "description": "The client ID for Palette OIDC",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "clientSecret": {
+          "description": "The client secret for Palette OIDC",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "issuerUrl": {
+          "description": "The issuer URL for Palette acting as OIDC identity provider",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "scopes": {
+          "description": "The OIDC scopes",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        }
+      }
+    },
     "v1TenantPasswordPolicyEntity": {
       "description": "Tenant Password Policy Entity",
       "type": "object",
@@ -65232,6 +65875,20 @@
           "description": "The timezone field is mandatory if cluster is deployed through template, else it is optional",
           "type": "string",
           "example": "America/New_York"
+        }
+      }
+    },
+    "v1TlsCA": {
+      "type": "object",
+      "properties": {
+        "caCertBase64": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
         }
       }
     },
@@ -70719,6 +71376,10 @@
         },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at pool level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
+          "type": "string"
+        },
+        "overrideHealthCheckConfiguration": {
+          "description": "YAML config to override Machine Health Check values at the node pool level.\nAccepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,\nand unhealthyNodeConditions. Falls back to Palette defaults when unset and\nremains subject to the project/tenant Cluster Auto Remediation setting.\n",
           "type": "string"
         },
         "overrideKubeadmConfiguration": {
