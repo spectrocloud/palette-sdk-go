@@ -22,6 +22,11 @@ type V1CloudStackClusterConfig struct {
 	// Endpoint IP to be used for API server, should only be enabled for static CloudStack network
 	ControlPlaneEndpoint string `json:"controlPlaneEndpoint,omitempty"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// Project name for the cluster (optional)
 	Project *V1CloudStackResource `json:"project,omitempty"`
 

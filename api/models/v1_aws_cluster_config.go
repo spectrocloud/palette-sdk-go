@@ -28,6 +28,11 @@ type V1AwsClusterConfig struct {
 	// AWS hybrid cluster config
 	HybridConfig *V1AwsHybridConfig `json:"hybridConfig,omitempty"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// region
 	// Required: true
 	Region *string `json:"region"`

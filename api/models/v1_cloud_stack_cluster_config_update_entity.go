@@ -19,6 +19,11 @@ type V1CloudStackClusterConfigUpdateEntity struct {
 
 	// Endpoint IP to be used for API server, should only be enabled for static CloudStack network
 	ControlPlaneEndpoint string `json:"controlPlaneEndpoint,omitempty"`
+
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
 }
 
 // Validate validates this v1 cloud stack cluster config update entity

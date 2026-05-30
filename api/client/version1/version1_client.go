@@ -410,6 +410,10 @@ type ClientService interface {
 
 	V1SystemConfigAwsImageUpdate(params *V1SystemConfigAwsImageUpdateParams) (*V1SystemConfigAwsImageUpdateNoContent, error)
 
+	V1SystemConfigAwsMarketplaceAccountGet(params *V1SystemConfigAwsMarketplaceAccountGetParams) (*V1SystemConfigAwsMarketplaceAccountGetOK, error)
+
+	V1SystemConfigAwsMarketplaceAccountUpdate(params *V1SystemConfigAwsMarketplaceAccountUpdateParams) (*V1SystemConfigAwsMarketplaceAccountUpdateNoContent, error)
+
 	V1SystemConfigAwsStsAccountGet(params *V1SystemConfigAwsStsAccountGetParams) (*V1SystemConfigAwsStsAccountGetOK, error)
 
 	V1SystemConfigAwsStsAccountUpdate(params *V1SystemConfigAwsStsAccountUpdateParams) (*V1SystemConfigAwsStsAccountUpdateNoContent, error)
@@ -459,6 +463,10 @@ type ClientService interface {
 	V1SystemConfigGcpImageGet(params *V1SystemConfigGcpImageGetParams) (*V1SystemConfigGcpImageGetOK, error)
 
 	V1SystemConfigGcpImageUpdate(params *V1SystemConfigGcpImageUpdateParams) (*V1SystemConfigGcpImageUpdateNoContent, error)
+
+	V1SystemConfigImagePullSecretGet(params *V1SystemConfigImagePullSecretGetParams) (*V1SystemConfigImagePullSecretGetOK, error)
+
+	V1SystemConfigImagePullSecretUpdate(params *V1SystemConfigImagePullSecretUpdateParams) (*V1SystemConfigImagePullSecretUpdateNoContent, error)
 
 	V1SystemConfigKubectlGet(params *V1SystemConfigKubectlGetParams) (*V1SystemConfigKubectlGetOK, error)
 
@@ -602,9 +610,23 @@ type ClientService interface {
 
 	V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataSinksUpdateParams) (*V1TenantUIDAssetsDataSinksUpdateNoContent, error)
 
+	V1TenantUIDDatasinksSplunkCreate(params *V1TenantUIDDatasinksSplunkCreateParams) (*V1TenantUIDDatasinksSplunkCreateCreated, error)
+
+	V1TenantUIDDatasinksSplunkDelete(params *V1TenantUIDDatasinksSplunkDeleteParams) (*V1TenantUIDDatasinksSplunkDeleteNoContent, error)
+
+	V1TenantUIDDatasinksSplunkGet(params *V1TenantUIDDatasinksSplunkGetParams) (*V1TenantUIDDatasinksSplunkGetOK, error)
+
+	V1TenantUIDDatasinksSplunkUpdate(params *V1TenantUIDDatasinksSplunkUpdateParams) (*V1TenantUIDDatasinksSplunkUpdateNoContent, error)
+
+	V1TenantUIDDatasinksSplunkValidate(params *V1TenantUIDDatasinksSplunkValidateParams) (*V1TenantUIDDatasinksSplunkValidateNoContent, error)
+
+	V1TenantUIDDatasinksSummaryGet(params *V1TenantUIDDatasinksSummaryGetParams) (*V1TenantUIDDatasinksSummaryGetOK, error)
+
 	V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1TenantUIDDomainsGetOK, error)
 
 	V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams) (*V1TenantUIDDomainsUpdateNoContent, error)
+
+	V1TenantUIDIdpPaletteConfigGet(params *V1TenantUIDIdpPaletteConfigGetParams) (*V1TenantUIDIdpPaletteConfigGetOK, error)
 
 	V1TenantUIDOidcConfigGet(params *V1TenantUIDOidcConfigGetParams) (*V1TenantUIDOidcConfigGetOK, error)
 
@@ -1468,6 +1490,10 @@ type ClientService interface {
 
 	V1MacrosList(params *V1MacrosListParams) (*V1MacrosListOK, error)
 
+	V1MarketplaceAwsSetup(params *V1MarketplaceAwsSetupParams) error
+
+	V1MarketplaceRegister(params *V1MarketplaceRegisterParams) (*V1MarketplaceRegisterCreated, error)
+
 	V1MetricsList(params *V1MetricsListParams) (*V1MetricsListOK, error)
 
 	V1MetricsUIDDelete(params *V1MetricsUIDDeleteParams) (*V1MetricsUIDDeleteNoContent, error)
@@ -1760,6 +1786,8 @@ type ClientService interface {
 
 	V1SpectroClustersCloudStackValidate(params *V1SpectroClustersCloudStackValidateParams) (*V1SpectroClustersCloudStackValidateOK, error)
 
+	V1SpectroClustersClusterUpgradeSettingsGet(params *V1SpectroClustersClusterUpgradeSettingsGetParams) (*V1SpectroClustersClusterUpgradeSettingsGetOK, error)
+
 	V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersConfigEdgeInstallerParams) (*V1SpectroClustersConfigEdgeInstallerOK, error)
 
 	V1SpectroClustersCustomCreate(params *V1SpectroClustersCustomCreateParams) (*V1SpectroClustersCustomCreateCreated, error)
@@ -1859,6 +1887,8 @@ type ClientService interface {
 	V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUIDParams) (*V1SpectroClustersSummaryUIDOK, error)
 
 	V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSummaryUIDOverviewParams) (*V1SpectroClustersSummaryUIDOverviewOK, error)
+
+	V1SpectroClustersSystemImagePullSecretGet(params *V1SpectroClustersSystemImagePullSecretGetParams) (*V1SpectroClustersSystemImagePullSecretGetOK, error)
 
 	V1SpectroClustersTagsGet(params *V1SpectroClustersTagsGetParams) (*V1SpectroClustersTagsGetOK, error)
 
@@ -2179,6 +2209,10 @@ type ClientService interface {
 	V1TenantResourceLimitsGet(params *V1TenantResourceLimitsGetParams) (*V1TenantResourceLimitsGetOK, error)
 
 	V1TenantResourceLimitsUpdate(params *V1TenantResourceLimitsUpdateParams) (*V1TenantResourceLimitsUpdateNoContent, error)
+
+	V1TenantSubscriptionsAwsGet(params *V1TenantSubscriptionsAwsGetParams) (*V1TenantSubscriptionsAwsGetOK, error)
+
+	V1TenantSubscriptionsMetadataList(params *V1TenantSubscriptionsMetadataListParams) (*V1TenantSubscriptionsMetadataListOK, error)
 
 	V1TenantUIDAuthTokenSettingsGet(params *V1TenantUIDAuthTokenSettingsGetParams) (*V1TenantUIDAuthTokenSettingsGetOK, error)
 
@@ -8952,6 +8986,74 @@ func (a *Client) V1SystemConfigAwsImageUpdate(params *V1SystemConfigAwsImageUpda
 }
 
 /*
+V1SystemConfigAwsMarketplaceAccountGet gets the system config aws marketplace account
+*/
+func (a *Client) V1SystemConfigAwsMarketplaceAccountGet(params *V1SystemConfigAwsMarketplaceAccountGetParams) (*V1SystemConfigAwsMarketplaceAccountGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsMarketplaceAccountGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsMarketplaceAccountGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/aws/marketplace/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsMarketplaceAccountGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsMarketplaceAccountGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsMarketplaceAccountGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigAwsMarketplaceAccountUpdate updates the system config aws marketplace account
+*/
+func (a *Client) V1SystemConfigAwsMarketplaceAccountUpdate(params *V1SystemConfigAwsMarketplaceAccountUpdateParams) (*V1SystemConfigAwsMarketplaceAccountUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigAwsMarketplaceAccountUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigAwsMarketplaceAccountUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/aws/marketplace/account",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigAwsMarketplaceAccountUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigAwsMarketplaceAccountUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigAwsMarketplaceAccountUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SystemConfigAwsStsAccountGet gets the system config aws sts devops account
 */
 func (a *Client) V1SystemConfigAwsStsAccountGet(params *V1SystemConfigAwsStsAccountGetParams) (*V1SystemConfigAwsStsAccountGetOK, error) {
@@ -9798,6 +9900,74 @@ func (a *Client) V1SystemConfigGcpImageUpdate(params *V1SystemConfigGcpImageUpda
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemConfigGcpImageUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigImagePullSecretGet gets the system d h i image pull secret config
+*/
+func (a *Client) V1SystemConfigImagePullSecretGet(params *V1SystemConfigImagePullSecretGetParams) (*V1SystemConfigImagePullSecretGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigImagePullSecretGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigImagePullSecretGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/imagePullSecret",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigImagePullSecretGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigImagePullSecretGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigImagePullSecretGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigImagePullSecretUpdate creates or update the system d h i image pull secret config
+*/
+func (a *Client) V1SystemConfigImagePullSecretUpdate(params *V1SystemConfigImagePullSecretUpdateParams) (*V1SystemConfigImagePullSecretUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigImagePullSecretUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigImagePullSecretUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/imagePullSecret",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigImagePullSecretUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigImagePullSecretUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigImagePullSecretUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -12222,6 +12392,210 @@ func (a *Client) V1TenantUIDAssetsDataSinksUpdate(params *V1TenantUIDAssetsDataS
 }
 
 /*
+V1TenantUIDDatasinksSplunkCreate creates the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkCreate(params *V1TenantUIDDatasinksSplunkCreateParams) (*V1TenantUIDDatasinksSplunkCreateCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkCreateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkCreate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkCreateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkCreateCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkDelete deletes the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkDelete(params *V1TenantUIDDatasinksSplunkDeleteParams) (*V1TenantUIDDatasinksSplunkDeleteNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkDeleteParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkDelete",
+		Method:             "DELETE",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkDeleteReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkDeleteNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkGet returns the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkGet(params *V1TenantUIDDatasinksSplunkGetParams) (*V1TenantUIDDatasinksSplunkGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkUpdate updates the splunk h e c data sink for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkUpdate(params *V1TenantUIDDatasinksSplunkUpdateParams) (*V1TenantUIDDatasinksSplunkUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSplunkValidate validates the splunk h e c data sink connection for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSplunkValidate(params *V1TenantUIDDatasinksSplunkValidateParams) (*V1TenantUIDDatasinksSplunkValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSplunkValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSplunkValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/splunk/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSplunkValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSplunkValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSplunkValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDDatasinksSummaryGet returns a summary of all data sinks configured for the specified tenant
+*/
+func (a *Client) V1TenantUIDDatasinksSummaryGet(params *V1TenantUIDDatasinksSummaryGetParams) (*V1TenantUIDDatasinksSummaryGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDDatasinksSummaryGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidDatasinksSummaryGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/datasinks/summary",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDDatasinksSummaryGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDDatasinksSummaryGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidDatasinksSummaryGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1TenantUIDDomainsGet retrieves the domains for tenant
 */
 func (a *Client) V1TenantUIDDomainsGet(params *V1TenantUIDDomainsGetParams) (*V1TenantUIDDomainsGetOK, error) {
@@ -12286,6 +12660,40 @@ func (a *Client) V1TenantUIDDomainsUpdate(params *V1TenantUIDDomainsUpdateParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1TenantUidDomainsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDIdpPaletteConfigGet returns the palette ID p config for the tenant
+*/
+func (a *Client) V1TenantUIDIdpPaletteConfigGet(params *V1TenantUIDIdpPaletteConfigGetParams) (*V1TenantUIDIdpPaletteConfigGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDIdpPaletteConfigGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1TenantUidIdpPaletteConfigGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/idp/palette/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDIdpPaletteConfigGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDIdpPaletteConfigGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1TenantUidIdpPaletteConfigGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -26992,6 +27400,69 @@ func (a *Client) V1MacrosList(params *V1MacrosListParams) (*V1MacrosListOK, erro
 }
 
 /*
+V1MarketplaceAwsSetup validates the a w s marketplace token and redirects the browser to the UI setup page
+*/
+func (a *Client) V1MarketplaceAwsSetup(params *V1MarketplaceAwsSetupParams) error {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1MarketplaceAwsSetupParams()
+	}
+
+	_, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1MarketplaceAwsSetup",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/marketplace/aws/setup",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/x-www-form-urlencoded"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1MarketplaceAwsSetupReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+/*
+V1MarketplaceRegister registers a marketplace user by resolving the registration token verifying entitlements and provisioning a tenant
+
+Called after a user completes a SaaS contract purchase on a marketplace (e.g., AWS Marketplace) and is redirected to the Palette registration landing page. The flow resolves the temporary registration token to obtain the user's account identifier and product code, fetches the user's entitlements and creates a new tenant with the corresponding plan and admin user. The registration token is short-lived and must be resolved promptly.
+*/
+func (a *Client) V1MarketplaceRegister(params *V1MarketplaceRegisterParams) (*V1MarketplaceRegisterCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1MarketplaceRegisterParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1MarketplaceRegister",
+		Method:             "POST",
+		PathPattern:        "/v1/tenants/marketplace/register",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1MarketplaceRegisterReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1MarketplaceRegisterCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1MarketplaceRegister: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1MetricsList retrieves the list of metrics for a specified resource kind
 
 Returns all the metrics for a given resource kind
@@ -31984,6 +32455,40 @@ func (a *Client) V1SpectroClustersCloudStackValidate(params *V1SpectroClustersCl
 }
 
 /*
+V1SpectroClustersClusterUpgradeSettingsGet gets cluster upgrade settings by host cluster Uid or overlord Uid
+*/
+func (a *Client) V1SpectroClustersClusterUpgradeSettingsGet(params *V1SpectroClustersClusterUpgradeSettingsGetParams) (*V1SpectroClustersClusterUpgradeSettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersClusterUpgradeSettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersClusterUpgradeSettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/cluster/upgrade/settings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersClusterUpgradeSettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersClusterUpgradeSettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersClusterUpgradeSettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersConfigEdgeInstaller clusters configuration for the edge installer
 */
 func (a *Client) V1SpectroClustersConfigEdgeInstaller(params *V1SpectroClustersConfigEdgeInstallerParams) (*V1SpectroClustersConfigEdgeInstallerOK, error) {
@@ -33684,6 +34189,40 @@ func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSu
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSummaryUidOverview: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersSystemImagePullSecretGet returns the cluster image pull secret for the given scope
+*/
+func (a *Client) V1SpectroClustersSystemImagePullSecretGet(params *V1SpectroClustersSystemImagePullSecretGetParams) (*V1SpectroClustersSystemImagePullSecretGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersSystemImagePullSecretGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersSystemImagePullSecretGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/system/imagePullSecret",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersSystemImagePullSecretGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersSystemImagePullSecretGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSystemImagePullSecretGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -39145,6 +39684,78 @@ func (a *Client) V1TenantResourceLimitsUpdate(params *V1TenantResourceLimitsUpda
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantResourceLimitsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantSubscriptionsAwsGet returns the details of a specific a w s marketplace subscription
+
+Returns detailed subscription information including the user's AWS account ID, entitlement data (plan limits, contract dates), and the derived monthly plan limits.
+*/
+func (a *Client) V1TenantSubscriptionsAwsGet(params *V1TenantSubscriptionsAwsGetParams) (*V1TenantSubscriptionsAwsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantSubscriptionsAwsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantSubscriptionsAwsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/subscriptions/aws/{uid}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantSubscriptionsAwsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantSubscriptionsAwsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantSubscriptionsAwsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantSubscriptionsMetadataList returns the metadata of marketplace subscriptions for the tenant
+
+Returns active marketplace subscription metadata for the specified tenant.
+*/
+func (a *Client) V1TenantSubscriptionsMetadataList(params *V1TenantSubscriptionsMetadataListParams) (*V1TenantSubscriptionsMetadataListOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantSubscriptionsMetadataListParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantSubscriptionsMetadataList",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/subscriptions/metadata",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantSubscriptionsMetadataListReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantSubscriptionsMetadataListOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantSubscriptionsMetadataList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

@@ -61,6 +61,15 @@ func (h *V1Client) GetCloudConfigAks(configUID string) (*models.V1AzureCloudConf
 	return resp.Payload, nil
 }
 
+// UpdateCloudConfigAks updates an existing AKS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigAks(configUID string, config *models.V1AzureCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsAksUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsAksUIDClusterConfig(params)
+	return err
+}
+
 // GetNodeStatusMapAks retrieves the status of all nodes in an AKS machine pool.
 func (h *V1Client) GetNodeStatusMapAks(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsAksPoolMachinesListParamsWithContext(h.ctx).

@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -58,6 +59,18 @@ type V1EdgeNativeMachinePoolConfig struct {
 	// the os type for the pool, must be supported by the provider
 	OsType string `json:"osType,omitempty"`
 
+	// YAML override for CAPI properties at pool level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
+	// YAML config to override Machine Health Check values at the node pool level.
+	// Accepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,
+	// and unhealthyNodeConditions. Falls back to Palette defaults when unset and
+	// remains subject to the project/tenant Cluster Auto Remediation setting.
+	//
+	OverrideHealthCheckConfiguration string `json:"overrideHealthCheckConfiguration,omitempty"`
+
 	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
 	// Overrides pack-level settings. Worker pools only.
 	//
@@ -65,6 +78,13 @@ type V1EdgeNativeMachinePoolConfig struct {
 
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
+
+	// Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.
+	// - enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is >3 minor versions behind
+	// - disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)
+	//
+	// Enum: ["enabled","disabled"]
+	SkipK8sUpgrade *string `json:"skipK8sUpgrade,omitempty"`
 
 	// control plane or worker taints
 	Taints []*V1Taint `json:"taints"`
@@ -85,6 +105,10 @@ func (m *V1EdgeNativeMachinePoolConfig) Validate(formats strfmt.Registry) error 
 	}
 
 	if err := m.validateMachinePoolProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSkipK8sUpgrade(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -143,6 +167,48 @@ func (m *V1EdgeNativeMachinePoolConfig) validateMachinePoolProperties(formats st
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1EdgeNativeMachinePoolConfigTypeSkipK8sUpgradePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1EdgeNativeMachinePoolConfigTypeSkipK8sUpgradePropEnum = append(v1EdgeNativeMachinePoolConfigTypeSkipK8sUpgradePropEnum, v)
+	}
+}
+
+const (
+
+	// V1EdgeNativeMachinePoolConfigSkipK8sUpgradeEnabled captures enum value "enabled"
+	V1EdgeNativeMachinePoolConfigSkipK8sUpgradeEnabled string = "enabled"
+
+	// V1EdgeNativeMachinePoolConfigSkipK8sUpgradeDisabled captures enum value "disabled"
+	V1EdgeNativeMachinePoolConfigSkipK8sUpgradeDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1EdgeNativeMachinePoolConfig) validateSkipK8sUpgradeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1EdgeNativeMachinePoolConfigTypeSkipK8sUpgradePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1EdgeNativeMachinePoolConfig) validateSkipK8sUpgrade(formats strfmt.Registry) error {
+	if swag.IsZero(m.SkipK8sUpgrade) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSkipK8sUpgradeEnum("skipK8sUpgrade", "body", *m.SkipK8sUpgrade); err != nil {
+		return err
 	}
 
 	return nil

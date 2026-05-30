@@ -41,6 +41,11 @@ type V1AzureClusterConfig struct {
 	// Required: true
 	Location *string `json:"location"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// resource group
 	ResourceGroup string `json:"resourceGroup,omitempty"`
 

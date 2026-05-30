@@ -67,8 +67,23 @@ type V1AzureMachinePoolConfig struct {
 	// os disk
 	OsDisk *V1AzureOSDisk `json:"osDisk,omitempty"`
 
+	// OS SKU for the AKS node pool. Valid values - Ubuntu, AzureLinux, Windows2022. Immutable after creation.
+	OsSku V1OsSku `json:"osSku,omitempty"`
+
 	// os type
 	OsType *V1OsType `json:"osType,omitempty"`
+
+	// YAML override for CAPI properties at pool level.
+	// Overrides pack-level and Palette-managed values. See PCP-4787.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
+	// YAML config to override Machine Health Check values at the node pool level.
+	// Accepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,
+	// and unhealthyNodeConditions. Falls back to Palette defaults when unset and
+	// remains subject to the project/tenant Cluster Auto Remediation setting.
+	//
+	OverrideHealthCheckConfiguration string `json:"overrideHealthCheckConfiguration,omitempty"`
 
 	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
 	// Overrides pack-level settings. Worker pools only.
@@ -109,6 +124,10 @@ func (m *V1AzureMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateOsDisk(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateOsSku(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -195,6 +214,23 @@ func (m *V1AzureMachinePoolConfig) validateOsDisk(formats strfmt.Registry) error
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) validateOsSku(formats strfmt.Registry) error {
+	if swag.IsZero(m.OsSku) { // not required
+		return nil
+	}
+
+	if err := m.OsSku.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("osSku")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("osSku")
+		}
+		return err
 	}
 
 	return nil
@@ -303,6 +339,10 @@ func (m *V1AzureMachinePoolConfig) ContextValidate(ctx context.Context, formats 
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateOsSku(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateOsType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -383,6 +423,24 @@ func (m *V1AzureMachinePoolConfig) contextValidateOsDisk(ctx context.Context, fo
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateOsSku(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.OsSku) { // not required
+		return nil
+	}
+
+	if err := m.OsSku.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("osSku")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("osSku")
+		}
+		return err
 	}
 
 	return nil

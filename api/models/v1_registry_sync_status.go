@@ -34,6 +34,9 @@ type V1RegistrySyncStatus struct {
 
 	// status
 	Status string `json:"status,omitempty"`
+
+	// sync recovery
+	SyncRecovery *V1SyncRecovery `json:"syncRecovery,omitempty"`
 }
 
 // Validate validates this v1 registry sync status
@@ -45,6 +48,10 @@ func (m *V1RegistrySyncStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateLastSyncedTime(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSyncRecovery(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -88,6 +95,25 @@ func (m *V1RegistrySyncStatus) validateLastSyncedTime(formats strfmt.Registry) e
 	return nil
 }
 
+func (m *V1RegistrySyncStatus) validateSyncRecovery(formats strfmt.Registry) error {
+	if swag.IsZero(m.SyncRecovery) { // not required
+		return nil
+	}
+
+	if m.SyncRecovery != nil {
+		if err := m.SyncRecovery.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("syncRecovery")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("syncRecovery")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 registry sync status based on the context it is used
 func (m *V1RegistrySyncStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -97,6 +123,10 @@ func (m *V1RegistrySyncStatus) ContextValidate(ctx context.Context, formats strf
 	}
 
 	if err := m.contextValidateLastSyncedTime(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateSyncRecovery(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -137,6 +167,27 @@ func (m *V1RegistrySyncStatus) contextValidateLastSyncedTime(ctx context.Context
 			return ce.ValidateName("lastSyncedTime")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1RegistrySyncStatus) contextValidateSyncRecovery(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.SyncRecovery != nil {
+
+		if swag.IsZero(m.SyncRecovery) { // not required
+			return nil
+		}
+
+		if err := m.SyncRecovery.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("syncRecovery")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("syncRecovery")
+			}
+			return err
+		}
 	}
 
 	return nil
