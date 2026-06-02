@@ -80,6 +80,17 @@ func (h *V1Client) GetCloudAccountMaas(uid string) (*models.V1MaasAccount, error
 	return resp.Payload, nil
 }
 
+// GetCloudAccountMaasDomains retrieves domains for a MAAS cloud account.
+func (h *V1Client) GetCloudAccountMaasDomains(uid string) ([]*models.V1MaasDomain, error) {
+	params := clientv1.NewV1MaasAccountsUIDDomainsParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1MaasAccountsUIDDomains(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload.Items, nil
+}
+
 // GetCloudAccountsMaas retrieves all MAAS cloud accounts.
 func (h *V1Client) GetCloudAccountsMaas() ([]*models.V1MaasAccount, error) {
 	params := clientv1.NewV1CloudAccountsMaasListParamsWithContext(h.ctx).
