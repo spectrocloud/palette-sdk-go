@@ -3,9 +3,11 @@ package herr
 
 import "github.com/spectrocloud/palette-sdk-go/client/apiutil"
 
+const resourceNotFound = "ResourceNotFound"
+
 // IsNotFound returns a boolean indicating whether an error is a ResourceNotFound error.
 func IsNotFound(err error) bool {
-	return apiutil.ToV1ErrorObj(err).Code == "ResourceNotFound"
+	return apiutil.ToV1ErrorObj(err).Code == resourceNotFound
 }
 
 // IsEdgeHostDeviceNotRegistered returns a boolean indicating whether an error is an EdgeHostDeviceNotRegistered error.

@@ -1,36 +1,41 @@
-# References:
-# - https://golangci-lint.run/usage/linters/
-
 version: "2"
-
 run:
-  timeout: 10m
-
-issues:
-  exclude-use-default: false
-  exclude-dirs:
-    - "api/apiutil"
-    - "api/client/version1"
-  exclude-files:
-    - ".*_test\\.go"
-
-formatters:
-  enable:
-    - goimports
-
+  allow-parallel-runners: true
 linters:
-  disable-all: true
+  default: none
   enable:
-    - errcheck
     - copyloopvar
+    - errcheck
     - goconst
     - govet
     - ineffassign
     - misspell
     - nakedret
     - prealloc
+    - revive
     - staticcheck
     - unconvert
     - unparam
     - unused
-    - revive
+  exclusions:
+    generated: lax
+    paths:
+      - .*_test\.go
+      - api/apiutil
+      - api/client/version1
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - .*_test\.go
+      - api/apiutil
+      - api/client/version1
+      - third_party$
+      - builtin$
+      - examples$
