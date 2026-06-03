@@ -113,7 +113,7 @@ func (h *V1Client) GetCloudAccountApacheCloudStackByName(name, scope string) (*m
 			return account, nil
 		}
 	}
-	return nil, fmt.Errorf("apache cloudstack cloud account with name %q not found", name)
+	return nil, fmt.Errorf("Apache CloudStack cloud account with name %q not found", name) //nolint:staticcheck
 }
 
 // GetCloudAccountMaasByName retrieves a MAAS cloud account by name (and optional scope) using the list GET.
