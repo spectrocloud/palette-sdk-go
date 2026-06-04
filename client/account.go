@@ -93,7 +93,7 @@ func (h *V1Client) GetCloudAccountAzureByName(name, scope string) (*models.V1Azu
 			return account, nil
 		}
 	}
-	return nil, fmt.Errorf("azure cloud account with name %q not found", name)
+	return nil, fmt.Errorf("Azure cloud account with name %q not found", name) //nolint:staticcheck
 }
 
 // GetCloudAccountApacheCloudStackByName retrieves an Apache CloudStack cloud account by name (and optional scope) using the list GET.
