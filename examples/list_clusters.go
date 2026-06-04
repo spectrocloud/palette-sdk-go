@@ -1,3 +1,4 @@
+// Package main demonstrates listing Palette clusters using the SDK.
 package main
 
 import (
@@ -14,14 +15,14 @@ func main() {
 
 	host := os.Getenv("PALETTE_HOST")
 	apiKey := os.Getenv("PALETTE_API_KEY")
-	projectUid := os.Getenv("PALETTE_PROJECT_UID")
+	projectUID := os.Getenv("PALETTE_PROJECT_UID")
 	scope := "tenant"
 
 	if host == "" || apiKey == "" {
 		fmt.Println("You must specify the PALETTE_HOST and PALETTE_API_KEY environment variables.")
 		os.Exit(1)
 	}
-	if projectUid != "" {
+	if projectUID != "" {
 		scope = "project"
 	}
 
@@ -31,8 +32,8 @@ func main() {
 		client.WithPaletteURI(host),
 		client.WithAPIKey(apiKey),
 	)
-	if projectUid != "" {
-		client.WithScopeProject(projectUid)(pc)
+	if projectUID != "" {
+		client.WithScopeProject(projectUID)(pc)
 	} else {
 		client.WithScopeTenant()(pc)
 	}
