@@ -16,6 +16,7 @@ func main() {
 	host := os.Getenv("PALETTE_HOST")
 	apiKey := os.Getenv("PALETTE_API_KEY")
 	projectUID := os.Getenv("PALETTE_PROJECT_UID")
+	trace := os.Getenv("PALETTE_TRACE") == "1" || os.Getenv("PALETTE_TRACE") == "true"
 	scope := "tenant"
 
 	if host == "" || apiKey == "" {
@@ -32,6 +33,9 @@ func main() {
 		client.WithPaletteURI(host),
 		client.WithAPIKey(apiKey),
 	)
+	if trace {
+		client.WithTransportDebug()(pc)
+	}
 	if projectUID != "" {
 		client.WithScopeProject(projectUID)(pc)
 	} else {
@@ -40,6 +44,9 @@ func main() {
 
 	// Search for clusters
 
+	if trace {
+		fmt.Println("HTTP transport debug logging enabled (PALETTE_TRACE). Logs go to stderr.")
+	}
 	fmt.Printf("Searching for Palette clusters with %s scope...\n", scope)
 
 	clusters, err := pc.SearchClusterSummaries(&models.V1SearchFilterSpec{}, []*models.V1SearchFilterSortSpec{})
