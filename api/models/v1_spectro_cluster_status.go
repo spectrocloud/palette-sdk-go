@@ -38,9 +38,6 @@ type V1SpectroClusterStatus struct {
 	// fips
 	Fips *V1ClusterFips `json:"fips,omitempty"`
 
-	// image
-	Image *V1SpectroClusterStatusImage `json:"image,omitempty"`
-
 	// location
 	Location *V1ClusterLocation `json:"location,omitempty"`
 
@@ -94,10 +91,6 @@ func (m *V1SpectroClusterStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateFips(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateImage(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -264,25 +257,6 @@ func (m *V1SpectroClusterStatus) validateFips(formats strfmt.Registry) error {
 				return ve.ValidateName("fips")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("fips")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterStatus) validateImage(formats strfmt.Registry) error {
-	if swag.IsZero(m.Image) { // not required
-		return nil
-	}
-
-	if m.Image != nil {
-		if err := m.Image.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("image")
 			}
 			return err
 		}
@@ -492,10 +466,6 @@ func (m *V1SpectroClusterStatus) ContextValidate(ctx context.Context, formats st
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateImage(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.contextValidateLocation(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -661,27 +631,6 @@ func (m *V1SpectroClusterStatus) contextValidateFips(ctx context.Context, format
 				return ve.ValidateName("fips")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("fips")
-			}
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (m *V1SpectroClusterStatus) contextValidateImage(ctx context.Context, formats strfmt.Registry) error {
-
-	if m.Image != nil {
-
-		if swag.IsZero(m.Image) { // not required
-			return nil
-		}
-
-		if err := m.Image.ContextValidate(ctx, formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("image")
-			} else if ce, ok := err.(*errors.CompositeError); ok {
-				return ce.ValidateName("image")
 			}
 			return err
 		}

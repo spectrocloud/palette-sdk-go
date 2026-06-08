@@ -62,6 +62,13 @@ type V1VsphereMachinePoolConfig struct {
 	//
 	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
 
+	// YAML config to override Machine Health Check values at the node pool level.
+	// Accepts CAPI MachineHealthCheck fields such as maxUnhealthy, nodeStartupTimeout,
+	// and unhealthyNodeConditions. Falls back to Palette defaults when unset and
+	// remains subject to the project/tenant Cluster Auto Remediation setting.
+	//
+	OverrideHealthCheckConfiguration string `json:"overrideHealthCheckConfiguration,omitempty"`
+
 	// YAML config for kubeletExtraArgs, preKubeadmCommands, postKubeadmCommands.
 	// Overrides pack-level settings. Worker pools only.
 	//

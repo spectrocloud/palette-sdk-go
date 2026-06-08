@@ -35,6 +35,11 @@ type V1EksClusterConfig struct {
 	// Endpoints specifies access to this cluster's control plane endpoints
 	EndpointAccess *V1EksClusterConfigEndpointAccess `json:"endpointAccess,omitempty"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// The AWS Region the cluster lives in.
 	// Required: true
 	Region *string `json:"region"`
