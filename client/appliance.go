@@ -128,7 +128,7 @@ func getApplianceFilter(extraFilters []*models.V1SearchFilterItem, tags map[stri
 
 	// Tags filter
 	if len(tags) > 0 {
-		var tagValues []string
+		tagValues := make([]string, 0, len(tags))
 		for key, value := range tags {
 			tagValues = append(tagValues, fmt.Sprintf("%s:%s", key, value))
 		}
