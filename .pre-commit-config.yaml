@@ -15,5 +15,6 @@ repos:
       entry: golangci-lint run --new-from-rev HEAD --whole-files --fix
       types: [go]
       language: golang
+      language_version: "1.26.4"
       require_serial: true
       pass_filenames: false
