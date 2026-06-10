@@ -56,6 +56,18 @@ func (h *V1Client) UpdateWorkspaceResourceAllocation(uid string, we *models.V1Wo
 	return err
 }
 
+// CreateWorkspaceRBACS creates a workspace cluster RBAC configuration.
+func (h *V1Client) CreateWorkspaceRBACS(uid string, r *models.V1ClusterRbac) (string, error) {
+	params := clientv1.NewV1WorkspacesClusterRbacCreateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(r)
+	resp, err := h.Client.V1WorkspacesClusterRbacCreate(params)
+	if err != nil {
+		return "", err
+	}
+	return *resp.Payload.UID, nil
+}
+
 // UpdateWorkspaceRBACS updates an existing workspace's RBAC configuration.
 func (h *V1Client) UpdateWorkspaceRBACS(uid, rbacUID string, r *models.V1ClusterRbac) error {
 	params := clientv1.NewV1WorkspacesUIDClusterRbacUpdateParamsWithContext(h.ctx).
@@ -63,6 +75,15 @@ func (h *V1Client) UpdateWorkspaceRBACS(uid, rbacUID string, r *models.V1Cluster
 		WithClusterRbacUID(rbacUID).
 		WithBody(r)
 	_, err := h.Client.V1WorkspacesUIDClusterRbacUpdate(params)
+	return err
+}
+
+// DeleteWorkspaceRBACS deletes a workspace cluster RBAC configuration.
+func (h *V1Client) DeleteWorkspaceRBACS(uid, rbacUID string) error {
+	params := clientv1.NewV1WorkspacesUIDClusterRbacDeleteParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithClusterRbacUID(rbacUID)
+	_, err := h.Client.V1WorkspacesUIDClusterRbacDelete(params)
 	return err
 }
 
