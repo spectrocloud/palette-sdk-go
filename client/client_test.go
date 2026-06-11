@@ -22,13 +22,18 @@ func captureStderr(t *testing.T, fn func()) string {
 	r, w, err := os.Pipe()
 	require.NoError(t, err)
 	os.Stderr = w
-
-	done := make(chan string)
+	done := make(chan string, 1)
 	go func() {
 		var buf bytes.Buffer
 		_, _ = io.Copy(&buf, r)
+		_ = r.Close()
 		done <- buf.String()
 	}()
+	t.Cleanup(func() {
+		os.Stderr = old
+		_ = w.Close()
+		_ = r.Close()
+	})
 
 	fn()
 	require.NoError(t, w.Close())
