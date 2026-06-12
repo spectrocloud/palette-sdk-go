@@ -6,6 +6,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -18,17 +19,33 @@ func main() {
 		os.Exit(1)
 	}
 
-	dir := os.Args[1]
+	root, err := os.OpenRoot(os.Args[1])
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		os.Exit(1)
+	}
+	defer func() {
+		if closeErr := root.Close(); closeErr != nil {
+			fmt.Printf("Error closing root: %v\n", closeErr)
+		}
+	}()
 
-	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
+	rootPath := root.Name()
+
+	err = filepath.WalkDir(rootPath, func(path string, d fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+
+		rel, err := filepath.Rel(rootPath, path)
+		if err != nil || strings.HasPrefix(rel, "..") {
+			return fmt.Errorf("path escapes root: %s", path)
 		}
 
 		// Skip generated deepcopy files
-		if !info.IsDir() && strings.HasSuffix(path, ".go") &&
+		if !d.IsDir() && strings.HasSuffix(path, ".go") &&
 			!strings.Contains(path, "zz_generated") {
-			return processFile(path)
+			return processFile(root, rel)
 		}
 
 		return nil
@@ -42,14 +59,14 @@ func main() {
 	fmt.Println("Successfully added DeepCopy markers to eligible types")
 }
 
-func processFile(filename string) error {
-	content, err := os.ReadFile(filename)
+func processFile(root *os.Root, relPath string) error {
+	content, err := root.ReadFile(relPath)
 	if err != nil {
 		return err
 	}
 
 	fset := token.NewFileSet()
-	node, err := parser.ParseFile(fset, filename, content, parser.ParseComments)
+	node, err := parser.ParseFile(fset, relPath, content, parser.ParseComments)
 	if err != nil {
 		return err
 	}
@@ -120,9 +137,8 @@ func processFile(filename string) error {
 		}
 
 		newContent := strings.Join(newLines, "\n")
-		err = os.WriteFile(filename, []byte(newContent), 0644)
-		if err != nil {
-			return fmt.Errorf("failed to write %s: %w", filename, err)
+		if err := root.WriteFile(relPath, []byte(newContent), 0o600); err != nil {
+			return fmt.Errorf("failed to write %s: %w", relPath, err)
 		}
 	}
 

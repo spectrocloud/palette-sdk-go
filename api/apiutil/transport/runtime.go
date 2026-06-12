@@ -154,6 +154,11 @@ func TLSClientAuth(opts TLSClientOptions) (*tls.Config, error) {
 	cfg.VerifyPeerCertificate = opts.VerifyPeerCertificate
 	cfg.SessionTicketsDisabled = opts.SessionTicketsDisabled
 	cfg.ClientSessionCache = opts.ClientSessionCache
+	if opts.VerifyPeerCertificate != nil {
+		// Resumed TLS sessions can skip VerifyPeerCertificate.
+		cfg.SessionTicketsDisabled = true
+		cfg.ClientSessionCache = nil
+	}
 
 	// When no CA certificate is provided, default to the system cert pool
 	// that way when a request is made to a server known by the system trust store,
