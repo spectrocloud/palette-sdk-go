@@ -12,9 +12,8 @@ repos:
     rev: v2.12.2
     hooks:
     - id: golangci-lint
-      entry: golangci-lint run --new-from-rev HEAD --whole-files --fix
+      entry: bash -c 'make -s golangci-lint && PATH="$(pwd)/bin:$PATH" golangci-lint run --new-from-rev HEAD --whole-files --fix'
       types: [go]
-      language: golang
-      language_version: "1.26.4"
+      language: system
       require_serial: true
       pass_filenames: false
