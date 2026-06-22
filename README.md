@@ -33,6 +33,10 @@ Switch from a tenant-scoped client to a project-scoped client - or from one proj
 client.WithScopeProject(projectUid)(pc)
 ```
 
+### HTTP transport debug logging
+
+`client.WithTransportDebug()` logs full HTTP requests and responses to stderr. **Use it only on a local machine while debugging.** Do not enable it in CI, production, Terraform runs whose logs are retained, or any shared environment. The Terraform provider maps `trace = true` / `SPECTROCLOUD_TRACE=1` to this option.
+
 ### Next Steps
 - Refer to the [examples](examples/) to get started quickly.
 - Refer to [client.go](client/client.go) for all possible client configuration options.
