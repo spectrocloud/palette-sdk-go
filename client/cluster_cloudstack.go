@@ -45,6 +45,15 @@ func (h *V1Client) DeleteMachinePoolCloudStack(cloudConfigUID, machinePoolName s
 	return err
 }
 
+// UpdateCloudConfigCloudStack updates an existing CloudStack cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigCloudStack(configUID string, config *models.V1CloudStackCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsCloudStackUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsCloudStackUIDClusterConfig(params)
+	return err
+}
+
 // GetCloudConfigCloudStack retrieves an existing CloudStack cluster's cloud config.
 func (h *V1Client) GetCloudConfigCloudStack(configUID string) (*models.V1CloudStackCloudConfig, error) {
 	params := clientv1.NewV1CloudConfigsCloudStackGetParamsWithContext(h.ctx).
