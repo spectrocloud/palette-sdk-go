@@ -124,7 +124,6 @@ func (h *V1Client) GetSplunkAuditTrail(tenantUID, uid string) (*models.V1SplunkS
 }
 
 // UpdateSplunkAuditTrail updates a Splunk audit trail.
-// Call ValidateSplunkAuditTrail separately when the update payload uses a masked token.
 func (h *V1Client) UpdateSplunkAuditTrail(tenantUID, uid string, entity *models.V1SplunkSinkEntity) error {
 	params := clientv1.NewV1TenantUIDDatasinksSplunkUpdateParamsWithContext(h.ctx).
 		WithTenantUID(tenantUID).
