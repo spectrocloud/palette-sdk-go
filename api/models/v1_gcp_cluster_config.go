@@ -25,6 +25,11 @@ type V1GcpClusterConfig struct {
 	// NetworkName if empty would create VPC Network in auto mode. If provided, custom VPC network will be used
 	Network string `json:"network,omitempty"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// Name of the project in which cluster is to be deployed
 	// Required: true
 	Project *string `json:"project"`
