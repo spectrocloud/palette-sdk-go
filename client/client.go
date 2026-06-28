@@ -227,6 +227,7 @@ func (h *V1Client) jwtTransport() *transport.Runtime {
 
 func (h *V1Client) handleBasicAuth() error {
 	httpTransport := h.baseTransport()
+	httpTransport.Debug = false
 	httpTransport.AddSensitiveValue(h.password)
 	c := clientv1.New(httpTransport, strfmt.Default)
 
