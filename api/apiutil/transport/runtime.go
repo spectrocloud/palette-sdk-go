@@ -574,7 +574,6 @@ func (e *redactedError) Unwrap() error { return e.original }
 // authSensitiveHeaders are removed from HTTP debug dumps before logging.
 var authSensitiveHeaders = []string{
 	"Apikey",
-	"ApiKey",
 	"Authorization",
 	"Proxy-Authorization",
 	"Cookie",
@@ -589,7 +588,6 @@ func sanitizeAuthHeaders(h http.Header) {
 
 func (r *Runtime) logRequestDebug(req *http.Request) error {
 	clone := req.Clone(req.Context())
-	clone.Header = req.Header.Clone()
 	sanitizeAuthHeaders(clone.Header)
 
 	includeBody := req.Body != nil
