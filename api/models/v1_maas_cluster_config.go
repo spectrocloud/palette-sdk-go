@@ -27,7 +27,7 @@ type V1MaasClusterConfig struct {
 	// When true, Palette configures MaasMachineTemplate LXD settings so LXD initialization
 	// is triggered on nodes of this (host) cluster. This does not affect workload clusters.
 	// Cannot be enabled for clusters where useLxdVm is enabled for any of the control plane machine pool configs.
-	EnableLxdVM bool `json:"enableLxdVm,omitempty"`
+	EnableLxdVM bool `json:"enableLxdVm"`
 
 	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.
 	NtpServers []string `json:"ntpServers"`
@@ -35,7 +35,7 @@ type V1MaasClusterConfig struct {
 	// YAML override for CAPI properties at cluster level.
 	// Overrides pack-level and Palette-managed values.
 	//
-	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig"`
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
 
 	// SSH keys specifies a list of ssh authorized keys for the 'spectro' user
 	SSHKeys []string `json:"sshKeys"`

@@ -52597,7 +52597,8 @@
         },
         "enableLxdVm": {
           "description": "enableLxdVm controls MaaS KVM host enablement for the Host ControlPlane cluster only.\nWhen true, Palette configures MaasMachineTemplate LXD settings so LXD initialization\nis triggered on nodes of this (host) cluster. This does not affect workload clusters.\nCannot be enabled for clusters where useLxdVm is enabled for any of the control plane machine pool configs.",
-          "type": "boolean"
+          "type": "boolean",
+          "x-omitempty": false
         },
         "ntpServers": {
           "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.",
@@ -52608,8 +52609,7 @@
         },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
-          "type": "string",
-          "x-omitempty": false
+          "type": "string"
         },
         "sshKeys": {
           "description": "SSH keys specifies a list of ssh authorized keys for the 'spectro' user",
