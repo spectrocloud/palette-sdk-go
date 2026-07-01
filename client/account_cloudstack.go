@@ -136,6 +136,45 @@ func (h *V1Client) GetCloudStackAccountNetworks(accountUID, zone, projectID, vpc
 	return resp.Payload.Networks, nil
 }
 
+// GetCloudStackAccountZones lists CloudStack zones for a cloud account.
+func (h *V1Client) GetCloudStackAccountZones(accountUID string) ([]*models.V1CloudStackZone, error) {
+	params := clientv1.NewV1CloudstackAccountsUIDZonesParamsWithContext(h.ctx).
+		WithUID(accountUID)
+	resp, err := h.Client.V1CloudstackAccountsUIDZones(params)
+	if err != nil {
+		return nil, err
+	}
+	if resp.Payload == nil {
+		return nil, nil
+	}
+	return resp.Payload.Zones, nil
+}
+
+// ResolveCloudStackZoneID returns the CloudStack zone ID for a zone name within the given account.
+func (h *V1Client) ResolveCloudStackZoneID(accountUID, zoneName string) (string, error) {
+	if zoneName == "" {
+		return "", fmt.Errorf("zone name is required to resolve CloudStack zone ID")
+	}
+	zones, err := h.GetCloudStackAccountZones(accountUID)
+	if err != nil {
+		return "", fmt.Errorf("failed to list CloudStack zones for account %q: %w", accountUID, err)
+	}
+	var matches []string
+	for _, zone := range zones {
+		if zone != nil && zone.Name == zoneName && zone.ID != "" {
+			matches = append(matches, zone.ID)
+		}
+	}
+	switch len(matches) {
+	case 0:
+		return "", fmt.Errorf("no CloudStack zone found with name %q for account %q", zoneName, accountUID)
+	case 1:
+		return matches[0], nil
+	default:
+		return "", fmt.Errorf("multiple CloudStack zones found with name %q for account %q; specify zone id explicitly", zoneName, accountUID)
+	}
+}
+
 // ResolveCloudStackNetworkID returns the CloudStack network ID for a network name
 // within the given account and zone/project/vpc context.
 func (h *V1Client) ResolveCloudStackNetworkID(accountUID, networkName, zone, projectID, vpcID string) (string, error) {

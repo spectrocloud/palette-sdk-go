@@ -10,6 +10,33 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestResolveCloudStackZoneID(t *testing.T) {
+	t.Parallel()
+
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/v1/cloudaccounts/apache-cloudstack/account-1/properties/zones", r.URL.Path)
+		rw.Header().Set("Content-Type", "application/json")
+		rw.WriteHeader(http.StatusOK)
+		_, _ = rw.Write([]byte(`{
+			"zones": [
+				{"id": "zone-other", "name": "other"},
+				{"id": "zone-spectro", "name": "spectro"}
+			]
+		}`))
+	}))
+	t.Cleanup(server.Close)
+
+	c := New(
+		WithPaletteURI(strings.TrimPrefix(server.URL, "http://")),
+		WithAPIKey("test-key"),
+		WithSchemes([]string{"http"}),
+	)
+
+	id, err := c.ResolveCloudStackZoneID("account-1", "spectro")
+	require.NoError(t, err)
+	assert.Equal(t, "zone-spectro", id)
+}
+
 func TestResolveCloudStackNetworkID(t *testing.T) {
 	t.Parallel()
 
