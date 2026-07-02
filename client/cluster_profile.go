@@ -329,6 +329,15 @@ func (h *V1Client) GetProfileVariables(uid string) ([]*models.V1Variable, error)
 	return resp.Payload.Variables, nil
 }
 
+// PatchProfileVariables adds or updates specific variables for a cluster profile.
+func (h *V1Client) PatchProfileVariables(variables *models.V1Variables, uid string) error {
+	params := clientv1.NewV1ClusterProfilesUIDVariablesPatchParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(variables)
+	_, err := h.Client.V1ClusterProfilesUIDVariablesPatch(params)
+	return err
+}
+
 // UpdateProfileVariables updates variables for a cluster profile.
 func (h *V1Client) UpdateProfileVariables(variables *models.V1Variables, uid string) error {
 	params := clientv1.NewV1ClusterProfilesUIDVariablesPutParamsWithContext(h.ctx).
