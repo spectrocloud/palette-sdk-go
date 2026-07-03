@@ -32,6 +32,11 @@ type V1MaasClusterConfig struct {
 	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.
 	NtpServers []string `json:"ntpServers"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// SSH keys specifies a list of ssh authorized keys for the 'spectro' user
 	SSHKeys []string `json:"sshKeys"`
 

@@ -83,6 +83,15 @@ func (h *V1Client) ImportSpectroClusterAzure(entity *models.V1SpectroAzureCluste
 	return *resp.Payload.UID, nil
 }
 
+// UpdateCloudConfigAzure updates an existing Azure IaaS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigAzure(configUID string, config *models.V1AzureCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsAzureUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsAzureUIDClusterConfig(params)
+	return err
+}
+
 // GetNodeStatusMapAzure retrieves the status of all nodes in an Azure IaaS machine pool.
 func (h *V1Client) GetNodeStatusMapAzure(configUID, machinePoolName string) (map[string]models.V1CloudMachineStatus, error) {
 	params := clientv1.NewV1CloudConfigsAzurePoolMachinesListParamsWithContext(h.ctx).

@@ -25,6 +25,11 @@ type V1VsphereClusterConfigEntity struct {
 	// NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list.
 	NtpServers []string `json:"ntpServers"`
 
+	// YAML override for CAPI properties at cluster level.
+	// Overrides pack-level and Palette-managed values.
+	//
+	OverrideClusterAPIConfig string `json:"overrideClusterAPIConfig,omitempty"`
+
 	// Placement configuration Placement config in ClusterConfig serve as default values for each MachinePool
 	// Required: true
 	Placement *V1VspherePlacementConfigEntity `json:"placement"`

@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.8",
+    "title": "Palette APIs - 4.9",
     "version": "v1"
   },
   "paths": {
@@ -49951,6 +49951,10 @@
           "description": "NetworkName if empty would create VPC Network in auto mode. If provided, custom VPC network will be used",
           "type": "string"
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
+        },
         "project": {
           "description": "Name of the project in which cluster is to be deployed",
           "type": "string"
@@ -52602,6 +52606,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
         },
         "sshKeys": {
           "description": "SSH keys specifies a list of ssh authorized keys for the 'spectro' user",
@@ -71028,6 +71036,10 @@
             "type": "string"
           }
         },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
+        },
         "placement": {
           "description": "Placement configuration Placement config in ClusterConfig serve as default values for each MachinePool",
           "$ref": "#/definitions/v1VspherePlacementConfig"
@@ -71061,6 +71073,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "overrideClusterAPIConfig": {
+          "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values.\n",
+          "type": "string"
         },
         "placement": {
           "description": "Placement configuration Placement config in ClusterConfig serve as default values for each MachinePool",

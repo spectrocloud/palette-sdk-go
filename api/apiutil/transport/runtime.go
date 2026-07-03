@@ -15,6 +15,7 @@ package transport
 // limitations under the License.
 
 import (
+	"bytes"
 	"context"
 	"crypto"
 	"crypto/ecdsa"
@@ -476,11 +477,9 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 	})
 
 	if r.Debug {
-		b, err2 := httputil.DumpRequestOut(req, true)
-		if err2 != nil {
+		if err2 := r.logRequestDebug(req); err2 != nil {
 			return nil, err2
 		}
-		r.logger.Debugf("%s\n", string(b))
 	}
 
 	var hasTimeout bool
@@ -514,11 +513,9 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 	defer res.Body.Close()
 
 	if r.Debug {
-		b, err2 := httputil.DumpResponse(res, true)
-		if err2 != nil {
+		if err2 := r.logResponseDebug(res); err2 != nil {
 			return nil, err2
 		}
-		r.logger.Debugf("%s\n", string(b))
 	}
 
 	ct := res.Header.Get(runtime.HeaderContentType)
@@ -574,7 +571,82 @@ type redactedError struct {
 func (e *redactedError) Error() string { return e.message }
 func (e *redactedError) Unwrap() error { return e.original }
 
-// AddSensitiveValue registers a value that should be redacted from error messages.
+// authSensitiveHeaders are removed from HTTP debug dumps before logging.
+var authSensitiveHeaders = []string{
+	"Apikey",
+	"Authorization",
+	"Proxy-Authorization",
+	"Cookie",
+	"Set-Cookie",
+}
+
+func sanitizeAuthHeaders(h http.Header) {
+	for _, key := range authSensitiveHeaders {
+		h.Del(key)
+	}
+}
+
+func (r *Runtime) logRequestDebug(req *http.Request) error {
+	clone := req.Clone(req.Context())
+	sanitizeAuthHeaders(clone.Header)
+
+	includeBody := req.Body != nil
+	if includeBody {
+		if req.GetBody != nil {
+			body, err := req.GetBody()
+			if err != nil {
+				return err
+			}
+			clone.Body = body
+		} else {
+			bodyBytes, err := io.ReadAll(req.Body)
+			if err != nil {
+				return err
+			}
+			req.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+			clone.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+		}
+	}
+
+	raw, err := httputil.DumpRequestOut(clone, includeBody)
+	if err != nil {
+		return err
+	}
+	r.logger.Debugf("%s\n", redactString(string(raw), r.sensitiveValues))
+	return nil
+}
+
+func (r *Runtime) logResponseDebug(res *http.Response) error {
+	bodyBytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+	res.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+
+	clone := &http.Response{
+		Status:           res.Status,
+		StatusCode:       res.StatusCode,
+		Proto:            res.Proto,
+		ProtoMajor:       res.ProtoMajor,
+		ProtoMinor:       res.ProtoMinor,
+		Header:           res.Header.Clone(),
+		ContentLength:    res.ContentLength,
+		TransferEncoding: res.TransferEncoding,
+		Trailer:          res.Trailer.Clone(),
+		Request:          res.Request,
+		Body:             io.NopCloser(bytes.NewReader(bodyBytes)),
+	}
+	sanitizeAuthHeaders(clone.Header)
+
+	raw, err := httputil.DumpResponse(clone, true)
+	if err != nil {
+		return err
+	}
+	r.logger.Debugf("%s\n", redactString(string(raw), r.sensitiveValues))
+	return nil
+}
+
+// AddSensitiveValue registers a value that should be redacted from error messages and debug logs.
 func (r *Runtime) AddSensitiveValue(value string) {
 	if value != "" {
 		r.sensitiveValues = append(r.sensitiveValues, value)

@@ -12,8 +12,8 @@ repos:
     rev: v2.12.2
     hooks:
     - id: golangci-lint
-      entry: golangci-lint run --new-from-rev HEAD --whole-files --fix
+      entry: bash -c 'make -s golangci-lint && "$(pwd)/bin/golangci-lint-$(go env GOOS)-$(go env GOARCH)" run --new-from-rev HEAD --whole-files --fix'
       types: [go]
-      language: golang
+      language: system
       require_serial: true
       pass_filenames: false
