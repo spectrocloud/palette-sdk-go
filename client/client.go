@@ -144,10 +144,15 @@ func WithTransportDebug() func(*V1Client) {
 	}
 }
 
-// WithRootCAs sets root CAs for the client.
+// WithRootCAs sets root CAs for the client. The supplied pool is cloned, so
+// mutating it after this call has no effect on the client's trust store, and
+// callers holding a reference to the same pool across multiple clients can't
+// accidentally share mutable trust state.
 func WithRootCAs(rootCAs *x509.CertPool) func(*V1Client) {
 	return func(v *V1Client) {
-		v.rootCAs = rootCAs
+		if rootCAs != nil {
+			v.rootCAs = rootCAs.Clone()
+		}
 	}
 }
 
@@ -190,6 +195,9 @@ func (h *V1Client) Clone() *V1Client {
 	}
 	if h.transportDebug {
 		opts = append(opts, WithTransportDebug())
+	}
+	if h.rootCAs != nil {
+		opts = append(opts, WithRootCAs(h.rootCAs))
 	}
 	return New(opts...)
 }
