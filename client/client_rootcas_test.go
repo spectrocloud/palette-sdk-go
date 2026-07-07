@@ -11,6 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const testScheme = "https"
+
 func newTLSTestServer(t *testing.T) *httptest.Server {
 	t.Helper()
 	server := httptest.NewTLSServer(http.HandlerFunc(func(rw http.ResponseWriter, _ *http.Request) {
@@ -42,7 +44,7 @@ func canReach(t *testing.T, server *httptest.Server, opts ...func(*V1Client)) bo
 	t.Helper()
 	base := []func(*V1Client){
 		WithPaletteURI(hostOf(t, server)),
-		WithSchemes([]string{"https"}),
+		WithSchemes([]string{testScheme}),
 	}
 	c := New(append(base, opts...)...)
 	_, err := c.Client.V1ProjectsMetadata(nil)
@@ -73,7 +75,7 @@ func TestWithRootCAs_ClonesInput(t *testing.T) {
 	pool := poolFor(serverA)
 	c := New(
 		WithPaletteURI(hostOf(t, serverA)),
-		WithSchemes([]string{"https"}),
+		WithSchemes([]string{testScheme}),
 		WithRootCAs(pool),
 	)
 
@@ -96,7 +98,7 @@ func TestClone_PropagatesRootCAs(t *testing.T) {
 
 	c := New(
 		WithPaletteURI(hostOf(t, server)),
-		WithSchemes([]string{"https"}),
+		WithSchemes([]string{testScheme}),
 		WithRootCAs(pool),
 	)
 	_, err := c.Client.V1ProjectsMetadata(nil)
