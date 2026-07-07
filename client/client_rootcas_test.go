@@ -114,6 +114,13 @@ func TestClone_PropagatesRootCAs(t *testing.T) {
 	// beyond the system pool even though the original client worked fine.
 	require.NotNil(t, cloned.rootCAs, "Clone() must propagate rootCAs — this was the bug: Clone() never called WithRootCAs")
 	assert.NotSame(t, c.rootCAs, cloned.rootCAs, "Clone() must clone the pool again, not share the original client's pointer")
+
+	// The non-nil/not-same checks above prove Clone() carries a distinct
+	// rootCAs value, but not that the clone can actually complete a TLS
+	// handshake with it — Clone() preserves paletteURI/schemes from h, so
+	// this reaches the same test server the original client did.
+	_, err = cloned.Client.V1ProjectsMetadata(nil)
+	assert.NoError(t, err, "cloned client must be able to complete a real TLS handshake using its propagated rootCAs")
 }
 
 func TestClone_PlainSaaSClient_NoRootCAs_Unaffected(t *testing.T) {
