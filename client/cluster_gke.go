@@ -28,6 +28,15 @@ func (h *V1Client) GetCloudConfigGke(configUID string) (*models.V1GcpCloudConfig
 	return success.Payload, nil
 }
 
+// UpdateCloudConfigGke updates an existing GKE cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigGke(configUID string, config *models.V1GcpCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGkeUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsGkeUIDClusterConfig(params)
+	return err
+}
+
 // CreateMachinePoolGke creates a new GKE machine pool.
 func (h *V1Client) CreateMachinePoolGke(cloudConfigID string, machinePool *models.V1GcpMachinePoolConfigEntity) error {
 	params := clientv1.NewV1CloudConfigsGkeMachinePoolCreateParamsWithContext(h.ctx).WithConfigUID(cloudConfigID).WithBody(machinePool)
