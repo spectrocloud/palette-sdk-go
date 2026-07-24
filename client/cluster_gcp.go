@@ -58,6 +58,15 @@ func (h *V1Client) GetCloudConfigGcp(configUID string) (*models.V1GcpCloudConfig
 	return resp.Payload, nil
 }
 
+// UpdateCloudConfigGcp updates an existing GCP IaaS cluster's cloud config.
+func (h *V1Client) UpdateCloudConfigGcp(configUID string, config *models.V1GcpCloudClusterConfigEntity) error {
+	params := clientv1.NewV1CloudConfigsGcpUIDClusterConfigParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(config)
+	_, err := h.Client.V1CloudConfigsGcpUIDClusterConfig(params)
+	return err
+}
+
 // ImportClusterGcp imports an existing GCP IaaS cluster.
 func (h *V1Client) ImportClusterGcp(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersGcpImportParamsWithContext(h.ctx).
