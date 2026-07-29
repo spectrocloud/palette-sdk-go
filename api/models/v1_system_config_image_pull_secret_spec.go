@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1SystemConfigImagePullSecretSpec system DHI image pull secret config spec
@@ -19,15 +21,77 @@ type V1SystemConfigImagePullSecretSpec struct {
 
 	// base64 encoded docker config JSON
 	ImagePullSecret string `json:"imagePullSecret,omitempty"`
+
+	// tenants
+	Tenants map[string]V1SystemConfigImagePullSecretTenant `json:"tenants,omitempty"`
 }
 
 // Validate validates this v1 system config image pull secret spec
 func (m *V1SystemConfigImagePullSecretSpec) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateTenants(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 system config image pull secret spec based on context it is used
+func (m *V1SystemConfigImagePullSecretSpec) validateTenants(formats strfmt.Registry) error {
+	if swag.IsZero(m.Tenants) { // not required
+		return nil
+	}
+
+	for k := range m.Tenants {
+
+		if err := validate.Required("tenants"+"."+k, "body", m.Tenants[k]); err != nil {
+			return err
+		}
+		if val, ok := m.Tenants[k]; ok {
+			if err := val.Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("tenants" + "." + k)
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("tenants" + "." + k)
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 system config image pull secret spec based on the context it is used
 func (m *V1SystemConfigImagePullSecretSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateTenants(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1SystemConfigImagePullSecretSpec) contextValidateTenants(ctx context.Context, formats strfmt.Registry) error {
+
+	for k := range m.Tenants {
+
+		if val, ok := m.Tenants[k]; ok {
+			if err := val.ContextValidate(ctx, formats); err != nil {
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

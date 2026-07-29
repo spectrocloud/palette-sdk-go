@@ -38,6 +38,9 @@ type V1SpectroClusterStatus struct {
 	// fips
 	Fips *V1ClusterFips `json:"fips,omitempty"`
 
+	// image pull secret
+	ImagePullSecret *V1SpectroClusterStatusImagePullSecret `json:"imagePullSecret,omitempty"`
+
 	// location
 	Location *V1ClusterLocation `json:"location,omitempty"`
 
@@ -91,6 +94,10 @@ func (m *V1SpectroClusterStatus) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateFips(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateImagePullSecret(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -257,6 +264,25 @@ func (m *V1SpectroClusterStatus) validateFips(formats strfmt.Registry) error {
 				return ve.ValidateName("fips")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("fips")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) validateImagePullSecret(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImagePullSecret) { // not required
+		return nil
+	}
+
+	if m.ImagePullSecret != nil {
+		if err := m.ImagePullSecret.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imagePullSecret")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imagePullSecret")
 			}
 			return err
 		}
@@ -466,6 +492,10 @@ func (m *V1SpectroClusterStatus) ContextValidate(ctx context.Context, formats st
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateImagePullSecret(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateLocation(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -631,6 +661,27 @@ func (m *V1SpectroClusterStatus) contextValidateFips(ctx context.Context, format
 				return ve.ValidateName("fips")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("fips")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterStatus) contextValidateImagePullSecret(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImagePullSecret != nil {
+
+		if swag.IsZero(m.ImagePullSecret) { // not required
+			return nil
+		}
+
+		if err := m.ImagePullSecret.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imagePullSecret")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imagePullSecret")
 			}
 			return err
 		}

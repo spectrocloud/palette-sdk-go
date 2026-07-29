@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.9",
+    "title": "Palette APIs - 4.10",
     "version": "v1"
   },
   "paths": {
@@ -13781,10 +13781,11 @@
     },
     "/v1/dashboard/clusterprofiles": {
       "post": {
+        "description": "This is the recommended API for listing and searching cluster profiles by name, tag, type,\nenvironment, or resource type. Prefer this over the older GET /v1/clusterprofiles.\nSupported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'].\nSupported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp'].\n\nExample - find cluster profiles tagged 'production':\n{\"filter\": {\"tags\": {\"eq\": [\"production\"]}}, \"sort\": [{\"field\": \"profileName\", \"order\": \"asc\"}]}",
         "tags": [
           "v1"
         ],
-        "summary": "Retrieves a list of cluster profiles filter summary Supported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'] Supported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp']",
+        "summary": "Retrieves a list of cluster profiles filter summary",
         "operationId": "v1ClusterProfilesFilterSummary",
         "parameters": [
           {
@@ -14442,10 +14443,11 @@
     },
     "/v1/dashboard/spectroclusters/search": {
       "post": {
+        "description": "This is the recommended API for listing and searching clusters. Prefer this over the older\nGET /v1/spectroclusters and POST /v1/dashboard/spectroclusters. Supports filtering by any cluster\nproperty (e.g. clusterName, environment, tags, healthState) via a conjunction of filter groups.\nSupported sort fields - [\"environment\", \"clusterName\", \"memoryUsage\", \"healthState\", \"creationTimestamp\", \"lastModifiedTimestamp\"].\n\nExample - find clusters whose name contains 'aws':\n{\"filter\": {\"conjunction\": \"and\", \"filterGroups\": [{\"conjunction\": \"and\", \"filters\": [{\"property\": \"clusterName\", \"type\": \"string\", \"condition\": {\"string\": {\"operator\": \"contains\", \"negation\": false, \"ignoreCase\": false, \"match\": {\"conjunction\": \"or\", \"values\": [\"aws\"]}}}}]}]}, \"sort\": [{\"field\": \"clusterName\", \"order\": \"asc\"}]}",
         "tags": [
           "v1"
         ],
-        "summary": "Retrieves a list of cluster summary with provided search filter spec Supported sort fields - [\"environment\", \"clusterName\", \"memoryUsage\", \"healthState\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "summary": "Retrieves a list of cluster summary with provided search filter spec",
         "operationId": "v1SpectroClustersSearchFilterSummary",
         "parameters": [
           {
@@ -22650,6 +22652,117 @@
         }
       }
     },
+    "/v1/spectroclusters/imagePullSecret/clusters": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update cluster exclude flags for DHI image pull secret propagation rollup",
+        "operationId": "v1SpectroClustersImagePullSecretClustersUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretPropagationClustersUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/imagePullSecret/export": {
+      "get": {
+        "description": "Returns all matching cluster rows in one CSV. Use query filters only; limit and offset are not supported.",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Bulk CSV export of DHI image pull secret propagation status for the tenant (no pagination)",
+        "operationId": "v1SpectroClustersImagePullSecretExportGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter clusters by name",
+            "name": "clusterName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Scope to a project",
+            "name": "projectUid",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export of propagation status",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/imagePullSecret/status": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns DHI image pull secret propagation status for the authenticated tenant",
+        "operationId": "v1SpectroClustersImagePullSecretStatusGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter clusters by name",
+            "name": "clusterName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Scope to a project",
+            "name": "projectUid",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretTenantPropagationStatus"
+            }
+          }
+        }
+      }
+    },
     "/v1/spectroclusters/maas": {
       "post": {
         "tags": [
@@ -22807,6 +22920,81 @@
               "Content-Disposition": {
                 "type": "string"
               }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/system/config/imagePullSecret/export": {
+      "get": {
+        "description": "Returns all matching tenant rows in one CSV. Use query filters only; limit and offset are not supported.",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Bulk CSV export of DHI image pull secret propagation status (no pagination)",
+        "operationId": "v1SpectroClustersSystemConfigImagePullSecretExportGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter tenants by name",
+            "name": "tenantName",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export of propagation status",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/system/config/imagePullSecret/status": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns DHI image pull secret propagation status for all tenants",
+        "operationId": "v1SpectroClustersSystemConfigImagePullSecretStatusGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter tenants by name",
+            "name": "tenantName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretSystemPropagationStatus"
             }
           }
         }
@@ -28799,6 +28987,34 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1SystemConfigImagePullSecretSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/imagePullSecret/tenants": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "update tenant exclude flags for DHI image pull secret propagation rollup",
+        "operationId": "V1SystemConfigImagePullSecretTenantsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretPropagationTenantsUpdate"
             }
           }
         ],
@@ -38731,6 +38947,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -39895,6 +40116,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "spotVMOptions": {
           "description": "SpotVMOptions allows the ability to specify the Machine should use a Spot VM",
           "$ref": "#/definitions/v1SpotVMOptions"
@@ -39906,6 +40137,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -46920,6 +47156,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "useControlPlaneAsWorker": {
           "description": "If IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean",
@@ -46980,6 +47221,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "useControlPlaneAsWorker": {
           "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
@@ -48600,6 +48846,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -49213,6 +49464,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -50161,6 +50417,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "subnet": {
           "description": "Subnet specifies the subnetwork to use for given instance. If not specified, the first subnet from the cluster region and network is used",
           "type": "string"
@@ -50179,6 +50445,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -51360,6 +51631,167 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/v1IdentityProvider"
+      }
+    },
+    "v1ImagePullSecretPropagationClusterCounts": {
+      "description": "Cluster propagation counts",
+      "type": "object",
+      "properties": {
+        "completed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "failed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretPropagationClustersUpdate": {
+      "description": "Update cluster exclude flags for propagation rollup",
+      "type": "object",
+      "required": [
+        "exclude",
+        "clusterUids"
+      ],
+      "properties": {
+        "clusterUids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretPropagationState": {
+      "description": "DHI image pull secret propagation state",
+      "type": "string",
+      "enum": [
+        "Completed",
+        "InProgress",
+        "Failed"
+      ]
+    },
+    "v1ImagePullSecretPropagationTenantsUpdate": {
+      "description": "update tenant exclude flags for propagation rollup",
+      "type": "object",
+      "required": [
+        "exclude",
+        "tenantUids"
+      ],
+      "properties": {
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "tenantUids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1ImagePullSecretSystemPropagationStatus": {
+      "description": "System-wide DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        },
+        "tenants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ImagePullSecretSystemPropagationTenantStatus"
+          }
+        }
+      }
+    },
+    "v1ImagePullSecretSystemPropagationTenantStatus": {
+      "description": "Per-tenant DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationClusterCounts"
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "name": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationClusterCounts": {
+      "description": "Tenant cluster propagation failed count",
+      "type": "object",
+      "properties": {
+        "failed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationClusterStatus": {
+      "description": "Per-cluster DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "cluster": {
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "project": {
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationStatus": {
+      "description": "Tenant DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "$ref": "#/definitions/v1ImagePullSecretTenantPropagationClusterCounts"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ImagePullSecretTenantPropagationClusterStatus"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        },
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        }
       }
     },
     "v1ImportClusterConfig": {
@@ -52887,6 +53319,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -53426,6 +53863,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "taints": {
           "description": "control plane or worker taints",
           "type": "array",
@@ -53433,6 +53880,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -53542,6 +53994,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "Rolling update strategy for this machine pool if not specified, will use ScaleOut",
@@ -61538,6 +61995,9 @@
         "fips": {
           "$ref": "#/definitions/v1ClusterFips"
         },
+        "imagePullSecret": {
+          "$ref": "#/definitions/v1SpectroClusterStatusImagePullSecret"
+        },
         "location": {
           "$ref": "#/definitions/v1ClusterLocation"
         },
@@ -61583,6 +62043,16 @@
       "properties": {
         "status": {
           "$ref": "#/definitions/v1SpectroClusterState"
+        }
+      }
+    },
+    "v1SpectroClusterStatusImagePullSecret": {
+      "description": "DHI image pull secret status on a spectro cluster",
+      "type": "object",
+      "properties": {
+        "hash": {
+          "description": "hash of the expected image pull secret for this cluster",
+          "type": "string"
         }
       }
     },
@@ -63771,6 +64241,23 @@
         "imagePullSecret": {
           "description": "base64 encoded docker config JSON",
           "type": "string"
+        },
+        "tenants": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1SystemConfigImagePullSecretTenant"
+          }
+        }
+      }
+    },
+    "v1SystemConfigImagePullSecretTenant": {
+      "description": "per-tenant DHI image pull secret propagation settings",
+      "type": "object",
+      "properties": {
+        "exclude": {
+          "description": "when true, tenant is omitted from propagation rollup",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -67327,6 +67814,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -71431,6 +71923,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",

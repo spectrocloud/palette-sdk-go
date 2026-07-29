@@ -46,6 +46,9 @@ type V1CustomMachinePoolConfig struct {
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
 
+	// If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.
+	TolerateTaintsForSystemPods bool `json:"tolerateTaintsForSystemPods"`
+
 	// if IsControlPlane==true && useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools
 	UseControlPlaneAsWorker bool `json:"useControlPlaneAsWorker"`
 

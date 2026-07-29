@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -85,6 +86,13 @@ type V1GcpMachinePoolConfig struct {
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
 
+	// Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.
+	// - enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is >3 minor versions behind
+	// - disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)
+	//
+	// Enum: ["enabled","disabled"]
+	SkipK8sUpgrade *string `json:"skipK8sUpgrade,omitempty"`
+
 	// Subnet specifies the subnetwork to use for given instance. If not specified, the first subnet from the cluster region and network is used
 	Subnet string `json:"subnet,omitempty"`
 
@@ -94,6 +102,9 @@ type V1GcpMachinePoolConfig struct {
 	// control plane or worker taints
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
+
+	// If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.
+	TolerateTaintsForSystemPods bool `json:"tolerateTaintsForSystemPods"`
 
 	// rolling update strategy for this machinepool if not specified, will use ScaleOut
 	UpdateStrategy *V1UpdateStrategy `json:"updateStrategy,omitempty"`
@@ -119,6 +130,10 @@ func (m *V1GcpMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateMachinePoolProperties(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSkipK8sUpgrade(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -187,6 +202,48 @@ func (m *V1GcpMachinePoolConfig) validateMachinePoolProperties(formats strfmt.Re
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1GcpMachinePoolConfigTypeSkipK8sUpgradePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1GcpMachinePoolConfigTypeSkipK8sUpgradePropEnum = append(v1GcpMachinePoolConfigTypeSkipK8sUpgradePropEnum, v)
+	}
+}
+
+const (
+
+	// V1GcpMachinePoolConfigSkipK8sUpgradeEnabled captures enum value "enabled"
+	V1GcpMachinePoolConfigSkipK8sUpgradeEnabled string = "enabled"
+
+	// V1GcpMachinePoolConfigSkipK8sUpgradeDisabled captures enum value "disabled"
+	V1GcpMachinePoolConfigSkipK8sUpgradeDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1GcpMachinePoolConfig) validateSkipK8sUpgradeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1GcpMachinePoolConfigTypeSkipK8sUpgradePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1GcpMachinePoolConfig) validateSkipK8sUpgrade(formats strfmt.Registry) error {
+	if swag.IsZero(m.SkipK8sUpgrade) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSkipK8sUpgradeEnum("skipK8sUpgrade", "body", *m.SkipK8sUpgrade); err != nil {
+		return err
 	}
 
 	return nil

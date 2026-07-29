@@ -466,6 +466,8 @@ type ClientService interface {
 
 	V1SystemConfigImagePullSecretGet(params *V1SystemConfigImagePullSecretGetParams) (*V1SystemConfigImagePullSecretGetOK, error)
 
+	V1SystemConfigImagePullSecretTenantsUpdate(params *V1SystemConfigImagePullSecretTenantsUpdateParams) (*V1SystemConfigImagePullSecretTenantsUpdateNoContent, error)
+
 	V1SystemConfigImagePullSecretUpdate(params *V1SystemConfigImagePullSecretUpdateParams) (*V1SystemConfigImagePullSecretUpdateNoContent, error)
 
 	V1SystemConfigKubectlGet(params *V1SystemConfigKubectlGetParams) (*V1SystemConfigKubectlGetOK, error)
@@ -1842,6 +1844,12 @@ type ClientService interface {
 
 	V1SpectroClustersGkeValidate(params *V1SpectroClustersGkeValidateParams) (*V1SpectroClustersGkeValidateOK, error)
 
+	V1SpectroClustersImagePullSecretClustersUpdate(params *V1SpectroClustersImagePullSecretClustersUpdateParams) (*V1SpectroClustersImagePullSecretClustersUpdateNoContent, error)
+
+	V1SpectroClustersImagePullSecretExportGet(params *V1SpectroClustersImagePullSecretExportGetParams, writer io.Writer) (*V1SpectroClustersImagePullSecretExportGetOK, error)
+
+	V1SpectroClustersImagePullSecretStatusGet(params *V1SpectroClustersImagePullSecretStatusGetParams) (*V1SpectroClustersImagePullSecretStatusGetOK, error)
+
 	V1SpectroClustersK8Certificate(params *V1SpectroClustersK8CertificateParams) (*V1SpectroClustersK8CertificateOK, error)
 
 	V1SpectroClustersK8CertificateUpdate(params *V1SpectroClustersK8CertificateUpdateParams) (*V1SpectroClustersK8CertificateUpdateNoContent, error)
@@ -1887,6 +1895,10 @@ type ClientService interface {
 	V1SpectroClustersSummaryUID(params *V1SpectroClustersSummaryUIDParams) (*V1SpectroClustersSummaryUIDOK, error)
 
 	V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSummaryUIDOverviewParams) (*V1SpectroClustersSummaryUIDOverviewOK, error)
+
+	V1SpectroClustersSystemConfigImagePullSecretExportGet(params *V1SpectroClustersSystemConfigImagePullSecretExportGetParams, writer io.Writer) (*V1SpectroClustersSystemConfigImagePullSecretExportGetOK, error)
+
+	V1SpectroClustersSystemConfigImagePullSecretStatusGet(params *V1SpectroClustersSystemConfigImagePullSecretStatusGetParams) (*V1SpectroClustersSystemConfigImagePullSecretStatusGetOK, error)
 
 	V1SpectroClustersSystemImagePullSecretGet(params *V1SpectroClustersSystemImagePullSecretGetParams) (*V1SpectroClustersSystemImagePullSecretGetOK, error)
 
@@ -9934,6 +9946,40 @@ func (a *Client) V1SystemConfigImagePullSecretGet(params *V1SystemConfigImagePul
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemConfigImagePullSecretGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemConfigImagePullSecretTenantsUpdate updates tenant exclude flags for d h i image pull secret propagation rollup
+*/
+func (a *Client) V1SystemConfigImagePullSecretTenantsUpdate(params *V1SystemConfigImagePullSecretTenantsUpdateParams) (*V1SystemConfigImagePullSecretTenantsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemConfigImagePullSecretTenantsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemConfigImagePullSecretTenantsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/config/imagePullSecret/tenants",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemConfigImagePullSecretTenantsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemConfigImagePullSecretTenantsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemConfigImagePullSecretTenantsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -23332,7 +23378,16 @@ func (a *Client) V1ClusterProfilesDelete(params *V1ClusterProfilesDeleteParams) 
 }
 
 /*
-V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary supported filter fields profile name tags profile type environment resource type supported sort fields profile name environment profile type creation timestamp last modified timestamp
+	V1ClusterProfilesFilterSummary retrieves a list of cluster profiles filter summary
+
+	This is the recommended API for listing and searching cluster profiles by name, tag, type,
+
+environment, or resource type. Prefer this over the older GET /v1/clusterprofiles.
+Supported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'].
+Supported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp'].
+
+Example - find cluster profiles tagged 'production':
+{"filter": {"tags": {"eq": ["production"]}}, "sort": [{"field": "profileName", "order": "asc"}]}
 */
 func (a *Client) V1ClusterProfilesFilterSummary(params *V1ClusterProfilesFilterSummaryParams) (*V1ClusterProfilesFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -33409,6 +33464,110 @@ func (a *Client) V1SpectroClustersGkeValidate(params *V1SpectroClustersGkeValida
 }
 
 /*
+V1SpectroClustersImagePullSecretClustersUpdate updates cluster exclude flags for d h i image pull secret propagation rollup
+*/
+func (a *Client) V1SpectroClustersImagePullSecretClustersUpdate(params *V1SpectroClustersImagePullSecretClustersUpdateParams) (*V1SpectroClustersImagePullSecretClustersUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersImagePullSecretClustersUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersImagePullSecretClustersUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/spectroclusters/imagePullSecret/clusters",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersImagePullSecretClustersUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersImagePullSecretClustersUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersImagePullSecretClustersUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersImagePullSecretExportGet bulks c s v export of d h i image pull secret propagation status for the tenant no pagination
+
+Returns all matching cluster rows in one CSV. Use query filters only; limit and offset are not supported.
+*/
+func (a *Client) V1SpectroClustersImagePullSecretExportGet(params *V1SpectroClustersImagePullSecretExportGetParams, writer io.Writer) (*V1SpectroClustersImagePullSecretExportGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersImagePullSecretExportGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersImagePullSecretExportGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/imagePullSecret/export",
+		ProducesMediaTypes: []string{"application/octet-stream"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersImagePullSecretExportGetReader{formats: a.formats, writer: writer},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersImagePullSecretExportGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersImagePullSecretExportGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersImagePullSecretStatusGet returns d h i image pull secret propagation status for the authenticated tenant
+*/
+func (a *Client) V1SpectroClustersImagePullSecretStatusGet(params *V1SpectroClustersImagePullSecretStatusGetParams) (*V1SpectroClustersImagePullSecretStatusGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersImagePullSecretStatusGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersImagePullSecretStatusGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/imagePullSecret/status",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersImagePullSecretStatusGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersImagePullSecretStatusGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersImagePullSecretStatusGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersK8Certificate gets k8 certificate for spectro cluster
 */
 func (a *Client) V1SpectroClustersK8Certificate(params *V1SpectroClustersK8CertificateParams) (*V1SpectroClustersK8CertificateOK, error) {
@@ -34023,7 +34182,16 @@ func (a *Client) V1SpectroClustersResourcesUsageSummary(params *V1SpectroCluster
 }
 
 /*
-V1SpectroClustersSearchFilterSummary retrieves a list of cluster summary with provided search filter spec supported sort fields environment cluster name memory usage health state creation timestamp last modified timestamp
+	V1SpectroClustersSearchFilterSummary retrieves a list of cluster summary with provided search filter spec
+
+	This is the recommended API for listing and searching clusters. Prefer this over the older
+
+GET /v1/spectroclusters and POST /v1/dashboard/spectroclusters. Supports filtering by any cluster
+property (e.g. clusterName, environment, tags, healthState) via a conjunction of filter groups.
+Supported sort fields - ["environment", "clusterName", "memoryUsage", "healthState", "creationTimestamp", "lastModifiedTimestamp"].
+
+Example - find clusters whose name contains 'aws':
+{"filter": {"conjunction": "and", "filterGroups": [{"conjunction": "and", "filters": [{"property": "clusterName", "type": "string", "condition": {"string": {"operator": "contains", "negation": false, "ignoreCase": false, "match": {"conjunction": "or", "values": ["aws"]}}}}]}]}, "sort": [{"field": "clusterName", "order": "asc"}]}
 */
 func (a *Client) V1SpectroClustersSearchFilterSummary(params *V1SpectroClustersSearchFilterSummaryParams) (*V1SpectroClustersSearchFilterSummaryOK, error) {
 	// TODO: Validate the params before sending
@@ -34189,6 +34357,76 @@ func (a *Client) V1SpectroClustersSummaryUIDOverview(params *V1SpectroClustersSu
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSummaryUidOverview: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersSystemConfigImagePullSecretExportGet bulks c s v export of d h i image pull secret propagation status no pagination
+
+Returns all matching tenant rows in one CSV. Use query filters only; limit and offset are not supported.
+*/
+func (a *Client) V1SpectroClustersSystemConfigImagePullSecretExportGet(params *V1SpectroClustersSystemConfigImagePullSecretExportGetParams, writer io.Writer) (*V1SpectroClustersSystemConfigImagePullSecretExportGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersSystemConfigImagePullSecretExportGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersSystemConfigImagePullSecretExportGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/system/config/imagePullSecret/export",
+		ProducesMediaTypes: []string{"application/octet-stream"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersSystemConfigImagePullSecretExportGetReader{formats: a.formats, writer: writer},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersSystemConfigImagePullSecretExportGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSystemConfigImagePullSecretExportGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SpectroClustersSystemConfigImagePullSecretStatusGet returns d h i image pull secret propagation status for all tenants
+*/
+func (a *Client) V1SpectroClustersSystemConfigImagePullSecretStatusGet(params *V1SpectroClustersSystemConfigImagePullSecretStatusGetParams) (*V1SpectroClustersSystemConfigImagePullSecretStatusGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersSystemConfigImagePullSecretStatusGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersSystemConfigImagePullSecretStatusGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/system/config/imagePullSecret/status",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersSystemConfigImagePullSecretStatusGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersSystemConfigImagePullSecretStatusGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersSystemConfigImagePullSecretStatusGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
