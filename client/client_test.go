@@ -50,6 +50,16 @@ func newTestServer(t *testing.T) *httptest.Server {
 	}))
 }
 
+func newHeaderCapturingServer(t *testing.T, captured *string) *httptest.Server {
+	t.Helper()
+	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		*captured = req.Header.Get("X-SpectroCloud-Client")
+		rw.Header().Set("Content-Type", "application/json")
+		rw.WriteHeader(http.StatusOK)
+		_, _ = rw.Write([]byte(`{}`))
+	}))
+}
+
 func assertDebugLogsExcludeCanary(t *testing.T, output string) {
 	t.Helper()
 	assert.NotContains(t, strings.ToLower(output), strings.ToLower(testCanaryAPIKey),
@@ -72,6 +82,37 @@ func TestWithTransportDebugAtNewRedactsAPIKey(t *testing.T) {
 	})
 
 	assertDebugLogsExcludeCanary(t, output)
+}
+
+func TestWithClientHeaderSetsHeaderOnRequests(t *testing.T) {
+	var gotHeader string
+	server := newHeaderCapturingServer(t, &gotHeader)
+	defer server.Close()
+
+	c := New(
+		WithPaletteURI(strings.TrimPrefix(server.URL, "http://")),
+		WithSchemes([]string{"http"}),
+		WithClientHeader("terraform-v1.2.3"),
+	)
+	_, err := c.Client.V1ProjectsMetadata(nil)
+	require.NoError(t, err)
+
+	assert.Equal(t, "terraform-v1.2.3", gotHeader)
+}
+
+func TestWithoutClientHeaderOmitsHeaderOnRequests(t *testing.T) {
+	var gotHeader string
+	server := newHeaderCapturingServer(t, &gotHeader)
+	defer server.Close()
+
+	c := New(
+		WithPaletteURI(strings.TrimPrefix(server.URL, "http://")),
+		WithSchemes([]string{"http"}),
+	)
+	_, err := c.Client.V1ProjectsMetadata(nil)
+	require.NoError(t, err)
+
+	assert.Empty(t, gotHeader)
 }
 
 func TestWithTransportDebugAfterNewRedactsAPIKey(t *testing.T) {
