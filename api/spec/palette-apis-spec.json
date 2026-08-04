@@ -38966,7 +38966,8 @@
     "v1AwsMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -40157,7 +40158,8 @@
     "v1AzureMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -41689,7 +41691,8 @@
     "v1CloudStackMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -45746,7 +45749,10 @@
       "enum": [
         "PureManage",
         "PureAttach",
-        "PureAdopt"
+        "PureAdopt",
+        "AlloyMonitor",
+        "AlloyAssist",
+        "AlloyExtend"
       ]
     },
     "v1ClusterUpgradeSettingsEntity": {
@@ -47241,7 +47247,8 @@
     "v1CustomMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -48863,6 +48870,10 @@
     },
     "v1EdgeNativeMachinePoolConfigEntity": {
       "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1EdgeNativeMachinePoolCloudConfigEntity"
@@ -49482,6 +49493,11 @@
       }
     },
     "v1EksMachinePoolConfigEntity": {
+      "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1EksMachineCloudConfigEntity"
@@ -50464,7 +50480,8 @@
     "v1GcpMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -50881,6 +50898,11 @@
       }
     },
     "v1GenericMachinePoolConfigEntity": {
+      "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1GenericClusterConfig"
@@ -53342,7 +53364,8 @@
     "v1MaasMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -61944,13 +61967,7 @@
           "$ref": "#/definitions/v1SpectroClusterTemplateRef"
         },
         "clusterType": {
-          "type": "string",
-          "enum": [
-            "PureManage",
-            "AlloyMonitor",
-            "AlloyAssist",
-            "AlloyExtend"
-          ]
+          "$ref": "#/definitions/v1ClusterType"
         }
       }
     },
@@ -71943,7 +71960,8 @@
     "v1VsphereMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {

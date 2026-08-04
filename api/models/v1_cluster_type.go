@@ -38,6 +38,15 @@ const (
 
 	// V1ClusterTypePureAdopt captures enum value "PureAdopt"
 	V1ClusterTypePureAdopt V1ClusterType = "PureAdopt"
+
+	// V1ClusterTypeAlloyMonitor captures enum value "AlloyMonitor"
+	V1ClusterTypeAlloyMonitor V1ClusterType = "AlloyMonitor"
+
+	// V1ClusterTypeAlloyAssist captures enum value "AlloyAssist"
+	V1ClusterTypeAlloyAssist V1ClusterType = "AlloyAssist"
+
+	// V1ClusterTypeAlloyExtend captures enum value "AlloyExtend"
+	V1ClusterTypeAlloyExtend V1ClusterType = "AlloyExtend"
 )
 
 // for schema
@@ -45,7 +54,7 @@ var v1ClusterTypeEnum []interface{}
 
 func init() {
 	var res []V1ClusterType
-	if err := json.Unmarshal([]byte(`["PureManage","PureAttach","PureAdopt"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["PureManage","PureAttach","PureAdopt","AlloyMonitor","AlloyAssist","AlloyExtend"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
