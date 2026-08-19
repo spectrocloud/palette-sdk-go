@@ -15,6 +15,25 @@ import (
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
+const spectroCloudClientHeader = "X-SpectroCloud-Client"
+
+func mergeContextHeader(ctx context.Context, key, value string) context.Context {
+	if value == "" {
+		return ctx
+	}
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	headers := map[string]string{}
+	if v, ok := ctx.Value(transport.CUSTOM_HEADERS).(transport.Values); ok && v.HeaderMap != nil {
+		for k, val := range v.HeaderMap {
+			headers[k] = val
+		}
+	}
+	headers[key] = value
+	return context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{HeaderMap: headers})
+}
+
 // V1Client is a client for the Spectro Cloud API.
 type V1Client struct {
 	Client clientv1.ClientService
@@ -157,23 +176,19 @@ func WithRootCAs(rootCAs *x509.CertPool) func(*V1Client) {
 func WithClientHeader(clientHeader string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.clientHeader = clientHeader
+		if clientHeader != "" {
+			v.baseCtx = mergeContextHeader(v.baseCtx, spectroCloudClientHeader, clientHeader)
+			v.ctx = mergeContextHeader(v.ctx, spectroCloudClientHeader, clientHeader)
+		}
 	}
 }
 
 // ContextForScope returns a context with the given scope and optional project UID.
 func ContextForScope(baseCtx context.Context, scope, projectUID string) context.Context {
-	ctx := baseCtx
 	if scope == "project" {
-		ctx = context.WithValue(ctx, transport.CUSTOM_HEADERS, transport.Values{
-			HeaderMap: map[string]string{
-				"ProjectUid": projectUID,
-			}},
-		)
-	} else {
-		// revert to the base context (without headers) if scope is not project
-		return baseCtx
+		return mergeContextHeader(baseCtx, "ProjectUid", projectUID)
 	}
-	return ctx
+	return baseCtx
 }
 
 // Clone creates a new V1Client with the same configuration as the original.
@@ -294,7 +309,7 @@ type clientHeaderRoundTripper struct {
 func (rt *clientHeaderRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	// RoundTrippers must not mutate the original request, so clone before setting the header.
 	cloned := req.Clone(req.Context())
-	cloned.Header.Set("X-SpectroCloud-Client", rt.clientHeader)
+	cloned.Header.Set(spectroCloudClientHeader, rt.clientHeader)
 	return rt.next.RoundTrip(cloned)
 }
 
