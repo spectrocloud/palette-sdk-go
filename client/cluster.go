@@ -224,6 +224,19 @@ func (h *V1Client) PatchClusterProfileValues(uid string, profiles *models.V1Spec
 	return err
 }
 
+// GetResolvedPackValues returns each profile's macro-resolved values for the given cluster: the
+// Resolved map's keys are the raw Palette macro expressions ("{{ .foo.bar }}") that appear in the
+// cluster's pack YAMLs, mapped to their rendered strings.
+func (h *V1Client) GetResolvedPackValues(clusterUID string) (*models.V1SpectroClusterProfilesResolvedValues, error) {
+	params := clientv1.NewV1SpectroClustersUIDPacksResolvedValuesGetParamsWithContext(h.ctx).
+		WithUID(clusterUID)
+	resp, err := h.Client.V1SpectroClustersUIDPacksResolvedValuesGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
 // ImportClusterGeneric imports a cluster using a generic import manifest.
 func (h *V1Client) ImportClusterGeneric(meta *models.V1ObjectMetaInputEntity) (string, error) {
 	params := clientv1.NewV1SpectroClustersGenericImportParamsWithContext(h.ctx).
