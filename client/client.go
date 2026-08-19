@@ -32,6 +32,7 @@ type V1Client struct {
 	transportDebug     bool
 	retryAttempts      int
 	rootCAs            *x509.CertPool
+	clientHeader       string
 }
 
 // New creates a new V1Client.
@@ -151,6 +152,14 @@ func WithRootCAs(rootCAs *x509.CertPool) func(*V1Client) {
 	}
 }
 
+// WithClientHeader sets the value the client sends on every request in the
+// X-SpectroCloud-Client header, identifying the calling client (e.g. "terraform-v1.2.3").
+func WithClientHeader(clientHeader string) func(*V1Client) {
+	return func(v *V1Client) {
+		v.clientHeader = clientHeader
+	}
+}
+
 // ContextForScope returns a context with the given scope and optional project UID.
 func ContextForScope(baseCtx context.Context, scope, projectUID string) context.Context {
 	ctx := baseCtx
@@ -190,6 +199,9 @@ func (h *V1Client) Clone() *V1Client {
 	}
 	if h.transportDebug {
 		opts = append(opts, WithTransportDebug())
+	}
+	if h.clientHeader != "" {
+		opts = append(opts, WithClientHeader(h.clientHeader))
 	}
 	return New(opts...)
 }
@@ -254,15 +266,36 @@ func (h *V1Client) baseTransport() *transport.Runtime {
 }
 
 func (h *V1Client) httpClient() *http.Client {
-	return &http.Client{
-		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: h.insecureSkipVerify, // #nosec G402 - InsecureSkipVerify is enabled via user input
-				RootCAs:            h.rootCAs,
-			},
+	var rt http.RoundTripper = &http.Transport{
+		Proxy: http.ProxyFromEnvironment,
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: h.insecureSkipVerify, // #nosec G402 - InsecureSkipVerify is enabled via user input
+			RootCAs:            h.rootCAs,
 		},
 	}
+	if h.clientHeader != "" {
+		rt = &clientHeaderRoundTripper{
+			clientHeader: h.clientHeader,
+			next:         rt,
+		}
+	}
+	return &http.Client{
+		Transport: rt,
+	}
+}
+
+// clientHeaderRoundTripper sets the X-SpectroCloud-Client header on every
+// outgoing request, identifying which client is calling the API.
+type clientHeaderRoundTripper struct {
+	clientHeader string
+	next         http.RoundTripper
+}
+
+func (rt *clientHeaderRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	// RoundTrippers must not mutate the original request, so clone before setting the header.
+	cloned := req.Clone(req.Context())
+	cloned.Header.Set("X-SpectroCloud-Client", rt.clientHeader)
+	return rt.next.RoundTrip(cloned)
 }
 
 // Validate validates the configuration for a project-scoped client.
