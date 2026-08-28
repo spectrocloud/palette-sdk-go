@@ -12,9 +12,9 @@ import (
 // TODO: edgev1 deprecation
 
 // SearchApplianceSummaries retrieves a list of edge host summaries based on the provided filter and sort criteria.
-func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1SearchFilterSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
+func (h *V1Client) SearchApplianceSummaries(filter *models.V1SearchFilterSpec, sort []*models.V1EdgeHostsSearchSortSpec) ([]*models.V1EdgeHostsMetadata, error) {
 	params := clientv1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
-		WithBody(&models.V1SearchFilterSummarySpec{
+		WithBody(&models.V1EdgeHostsSearchFilterSummarySpec{
 			Filter: filter,
 			Sort:   sort,
 		})

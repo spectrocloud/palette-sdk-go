@@ -65,7 +65,7 @@ for the v1 dashboard edgehosts search operation typically these are written to a
 type V1DashboardEdgehostsSearchParams struct {
 
 	/*Body*/
-	Body *models.V1SearchFilterSummarySpec
+	Body *models.V1EdgeHostsSearchFilterSummarySpec
 	/*Continue
 	  continue token to paginate the subsequent data items
 
@@ -122,13 +122,13 @@ func (o *V1DashboardEdgehostsSearchParams) SetHTTPClient(client *http.Client) {
 }
 
 // WithBody adds the body to the v1 dashboard edgehosts search params
-func (o *V1DashboardEdgehostsSearchParams) WithBody(body *models.V1SearchFilterSummarySpec) *V1DashboardEdgehostsSearchParams {
+func (o *V1DashboardEdgehostsSearchParams) WithBody(body *models.V1EdgeHostsSearchFilterSummarySpec) *V1DashboardEdgehostsSearchParams {
 	o.SetBody(body)
 	return o
 }
 
 // SetBody adds the body to the v1 dashboard edgehosts search params
-func (o *V1DashboardEdgehostsSearchParams) SetBody(body *models.V1SearchFilterSummarySpec) {
+func (o *V1DashboardEdgehostsSearchParams) SetBody(body *models.V1EdgeHostsSearchFilterSummarySpec) {
 	o.Body = body
 }
 

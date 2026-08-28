@@ -66,6 +66,11 @@ type V1SpectroClustersImagePullSecretExportGetParams struct {
 
 	*/
 	ClusterName *string
+	/*FailureReason
+	  Filter clusters by ImagePullSecretPropagationDone condition failure reason
+
+	*/
+	FailureReason *string
 	/*ProjectUID
 	  Scope to a project
 
@@ -121,6 +126,17 @@ func (o *V1SpectroClustersImagePullSecretExportGetParams) SetClusterName(cluster
 	o.ClusterName = clusterName
 }
 
+// WithFailureReason adds the failureReason to the v1 spectro clusters image pull secret export get params
+func (o *V1SpectroClustersImagePullSecretExportGetParams) WithFailureReason(failureReason *string) *V1SpectroClustersImagePullSecretExportGetParams {
+	o.SetFailureReason(failureReason)
+	return o
+}
+
+// SetFailureReason adds the failureReason to the v1 spectro clusters image pull secret export get params
+func (o *V1SpectroClustersImagePullSecretExportGetParams) SetFailureReason(failureReason *string) {
+	o.FailureReason = failureReason
+}
+
 // WithProjectUID adds the projectUID to the v1 spectro clusters image pull secret export get params
 func (o *V1SpectroClustersImagePullSecretExportGetParams) WithProjectUID(projectUID *string) *V1SpectroClustersImagePullSecretExportGetParams {
 	o.SetProjectUID(projectUID)
@@ -150,6 +166,22 @@ func (o *V1SpectroClustersImagePullSecretExportGetParams) WriteToRequest(r runti
 		qClusterName := qrClusterName
 		if qClusterName != "" {
 			if err := r.SetQueryParam("clusterName", qClusterName); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.FailureReason != nil {
+
+		// query param failureReason
+		var qrFailureReason string
+		if o.FailureReason != nil {
+			qrFailureReason = *o.FailureReason
+		}
+		qFailureReason := qrFailureReason
+		if qFailureReason != "" {
+			if err := r.SetQueryParam("failureReason", qFailureReason); err != nil {
 				return err
 			}
 		}

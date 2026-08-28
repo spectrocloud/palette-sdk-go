@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// V1AwsHybridConfig AwsHybridConfig specifies the AWS Hybrid configuration for the cluster
+// V1AwsHybridConfig Deprecated: EKS Hybrid Nodes is deprecated. AwsHybridConfig specifies the AWS Hybrid configuration for the cluster.
 //
 // swagger:model v1AwsHybridConfig
 type V1AwsHybridConfig struct {

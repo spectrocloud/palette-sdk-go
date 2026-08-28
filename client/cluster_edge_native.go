@@ -168,7 +168,7 @@ func (h *V1Client) GetEdgeHostsByTags(tags map[string]string) ([]*models.V1EdgeH
 	filter := GetEdgeFilter(nil, tags)
 	for ok := true; ok; ok = (continueToken != "") {
 		params := clientv1.NewV1DashboardEdgehostsSearchParamsWithContext(h.ctx).
-			WithBody(&models.V1SearchFilterSummarySpec{
+			WithBody(&models.V1EdgeHostsSearchFilterSummarySpec{
 				Filter: filter,
 				Sort:   nil,
 			}).

@@ -22,6 +22,9 @@ type V1SystemConfigImagePullSecretSpec struct {
 	// base64 encoded docker config JSON
 	ImagePullSecret string `json:"imagePullSecret,omitempty"`
 
+	// metadata
+	Metadata *V1ObjectMeta `json:"metadata,omitempty"`
+
 	// tenants
 	Tenants map[string]V1SystemConfigImagePullSecretTenant `json:"tenants,omitempty"`
 }
@@ -30,6 +33,10 @@ type V1SystemConfigImagePullSecretSpec struct {
 func (m *V1SystemConfigImagePullSecretSpec) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateMetadata(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateTenants(formats); err != nil {
 		res = append(res, err)
 	}
@@ -37,6 +44,25 @@ func (m *V1SystemConfigImagePullSecretSpec) Validate(formats strfmt.Registry) er
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1SystemConfigImagePullSecretSpec) validateMetadata(formats strfmt.Registry) error {
+	if swag.IsZero(m.Metadata) { // not required
+		return nil
+	}
+
+	if m.Metadata != nil {
+		if err := m.Metadata.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -70,6 +96,10 @@ func (m *V1SystemConfigImagePullSecretSpec) validateTenants(formats strfmt.Regis
 func (m *V1SystemConfigImagePullSecretSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateMetadata(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateTenants(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -77,6 +107,27 @@ func (m *V1SystemConfigImagePullSecretSpec) ContextValidate(ctx context.Context,
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1SystemConfigImagePullSecretSpec) contextValidateMetadata(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Metadata != nil {
+
+		if swag.IsZero(m.Metadata) { // not required
+			return nil
+		}
+
+		if err := m.Metadata.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("metadata")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("metadata")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

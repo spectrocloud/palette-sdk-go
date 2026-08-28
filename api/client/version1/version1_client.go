@@ -44,8 +44,6 @@ type ClientService interface {
 
 	V1AwsAmiTypes(params *V1AwsAmiTypesParams) (*V1AwsAmiTypesOK, error)
 
-	V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params *V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams) (*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateCreated, error)
-
 	V1AwsClusterNameValidate(params *V1AwsClusterNameValidateParams) (*V1AwsClusterNameValidateNoContent, error)
 
 	V1AwsCopyImageFromDefaultRegion(params *V1AwsCopyImageFromDefaultRegionParams) (*V1AwsCopyImageFromDefaultRegionOK, error)
@@ -771,14 +769,6 @@ type ClientService interface {
 	V1AuthRefresh(params *V1AuthRefreshParams) (*V1AuthRefreshOK, error)
 
 	V1Authenticate(params *V1AuthenticateParams) (*V1AuthenticateOK, error)
-
-	V1AwsCloudConfigsEdgeNativeMachinePoolDelete(params *V1AwsCloudConfigsEdgeNativeMachinePoolDeleteParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent, error)
-
-	V1AwsCloudConfigsEdgeNativeMachinePoolGet(params *V1AwsCloudConfigsEdgeNativeMachinePoolGetParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolGetOK, error)
-
-	V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent, error)
-
-	V1AwsCloudConfigsUIDHybridConfig(params *V1AwsCloudConfigsUIDHybridConfigParams) (*V1AwsCloudConfigsUIDHybridConfigNoContent, error)
 
 	V1AwsCloudCost(params *V1AwsCloudCostParams) (*V1AwsCloudCostOK, error)
 
@@ -1762,6 +1752,8 @@ type ClientService interface {
 
 	V1SpectroClustersAksValidate(params *V1SpectroClustersAksValidateParams) (*V1SpectroClustersAksValidateOK, error)
 
+	V1SpectroClustersAttachClusterTemplate(params *V1SpectroClustersAttachClusterTemplateParams) (*V1SpectroClustersAttachClusterTemplateNoContent, error)
+
 	V1SpectroClustersAwsCreate(params *V1SpectroClustersAwsCreateParams) (*V1SpectroClustersAwsCreateCreated, error)
 
 	V1SpectroClustersAwsImport(params *V1SpectroClustersAwsImportParams) (*V1SpectroClustersAwsImportCreated, error)
@@ -1829,8 +1821,6 @@ type ClientService interface {
 	V1SpectroClustersGenericRate(params *V1SpectroClustersGenericRateParams) (*V1SpectroClustersGenericRateOK, error)
 
 	V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1SpectroClustersGetOK, error)
-
-	V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroClustersGetHybridPoolsMetadataParams) (*V1SpectroClustersGetHybridPoolsMetadataOK, error)
 
 	V1SpectroClustersGetProfileUpdates(params *V1SpectroClustersGetProfileUpdatesParams) (*V1SpectroClustersGetProfileUpdatesOK, error)
 
@@ -1939,8 +1929,6 @@ type ClientService interface {
 	V1SpectroClustersUIDFrpKubeConfigUpdate(params *V1SpectroClustersUIDFrpKubeConfigUpdateParams) (*V1SpectroClustersUIDFrpKubeConfigUpdateNoContent, error)
 
 	V1SpectroClustersUIDHeartbeatUpdate(params *V1SpectroClustersUIDHeartbeatUpdateParams) (*V1SpectroClustersUIDHeartbeatUpdateNoContent, error)
-
-	V1SpectroClustersUIDHybridSettings(params *V1SpectroClustersUIDHybridSettingsParams) (*V1SpectroClustersUIDHybridSettingsNoContent, error)
 
 	V1SpectroClustersUIDImportManifest(params *V1SpectroClustersUIDImportManifestParams, writer io.Writer) (*V1SpectroClustersUIDImportManifestOK, error)
 
@@ -2714,40 +2702,6 @@ func (a *Client) V1AwsAmiTypes(params *V1AwsAmiTypesParams) (*V1AwsAmiTypesOK, e
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1AwsAmiTypes: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate creates an hybrid a w s cloud config s edge native machine pool
-*/
-func (a *Client) V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreate(params *V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams) (*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1AwsCloudConfigsEdgeNativeUidMachinePoolCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsEdgeNativeUIDMachinePoolCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1AwsCloudConfigsEdgeNativeUidMachinePoolCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -15170,142 +15124,6 @@ func (a *Client) V1Authenticate(params *V1AuthenticateParams) (*V1AuthenticateOK
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1Authenticate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolDelete deletes the specified edge native machine pool of hybrid a w s cluster
-*/
-func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolDelete(params *V1AwsCloudConfigsEdgeNativeMachinePoolDeleteParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsEdgeNativeMachinePoolDeleteParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1AwsCloudConfigsEdgeNativeMachinePoolDelete",
-		Method:             "DELETE",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsEdgeNativeMachinePoolDeleteReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsEdgeNativeMachinePoolDeleteNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsEdgeNativeMachinePoolDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolGet returns the specified a w s cluster s edge native machine pool configuration
-*/
-func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolGet(params *V1AwsCloudConfigsEdgeNativeMachinePoolGetParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsEdgeNativeMachinePoolGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1AwsCloudConfigsEdgeNativeMachinePoolGet",
-		Method:             "GET",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsEdgeNativeMachinePoolGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsEdgeNativeMachinePoolGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsEdgeNativeMachinePoolGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsEdgeNativeMachinePoolUpdate updates the specified hybrid a w s cluster cloud config s edge native machine pool
-*/
-func (a *Client) V1AwsCloudConfigsEdgeNativeMachinePoolUpdate(params *V1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams) (*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsEdgeNativeMachinePoolUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1AwsCloudConfigsEdgeNativeMachinePoolUpdate",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsEdgeNativeMachinePoolUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsEdgeNativeMachinePoolUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsEdgeNativeMachinePoolUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1AwsCloudConfigsUIDHybridConfig updates the hybrid configuration information of a w s cluster
-*/
-func (a *Client) V1AwsCloudConfigsUIDHybridConfig(params *V1AwsCloudConfigsUIDHybridConfigParams) (*V1AwsCloudConfigsUIDHybridConfigNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AwsCloudConfigsUIDHybridConfigParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1AwsCloudConfigsUidHybridConfig",
-		Method:             "PUT",
-		PathPattern:        "/v1/cloudconfigs/aws/{configUid}/clusterConfig/hybridConfig",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AwsCloudConfigsUIDHybridConfigReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AwsCloudConfigsUIDHybridConfigNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1AwsCloudConfigsUidHybridConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -32068,6 +31886,47 @@ func (a *Client) V1SpectroClustersAksValidate(params *V1SpectroClustersAksValida
 }
 
 /*
+	V1SpectroClustersAttachClusterTemplate attaches an existing cluster to a cluster template
+
+	Binds an existing Palette-provisioned cluster to a cluster template so it comes
+
+under template governance. Attach only binds; the target profile set is applied
+by the template's batch reconciler at the next maintenance window. Optional per-
+profile variable values in the body carry AssignStrategy=cluster variable
+overrides.
+*/
+func (a *Client) V1SpectroClustersAttachClusterTemplate(params *V1SpectroClustersAttachClusterTemplateParams) (*V1SpectroClustersAttachClusterTemplateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersAttachClusterTemplateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersAttachClusterTemplate",
+		Method:             "POST",
+		PathPattern:        "/v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersAttachClusterTemplateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersAttachClusterTemplateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersAttachClusterTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersAwsCreate creates an a w s cluster
 */
 func (a *Client) V1SpectroClustersAwsCreate(params *V1SpectroClustersAwsCreateParams) (*V1SpectroClustersAwsCreateCreated, error) {
@@ -33222,40 +33081,6 @@ func (a *Client) V1SpectroClustersGet(params *V1SpectroClustersGetParams) (*V1Sp
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersGetHybridPoolsMetadata returns the metadata of all hybrid pools associated with the specified cluster
-*/
-func (a *Client) V1SpectroClustersGetHybridPoolsMetadata(params *V1SpectroClustersGetHybridPoolsMetadataParams) (*V1SpectroClustersGetHybridPoolsMetadataOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersGetHybridPoolsMetadataParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersGetHybridPoolsMetadata",
-		Method:             "GET",
-		PathPattern:        "/v1/spectroclusters/{uid}/hybridPools/metadata",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersGetHybridPoolsMetadataReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersGetHybridPoolsMetadataOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersGetHybridPoolsMetadata: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -35107,40 +34932,6 @@ func (a *Client) V1SpectroClustersUIDHeartbeatUpdate(params *V1SpectroClustersUI
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidHeartbeatUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersUIDHybridSettings updates specific cluster hybrid settings
-*/
-func (a *Client) V1SpectroClustersUIDHybridSettings(params *V1SpectroClustersUIDHybridSettingsParams) (*V1SpectroClustersUIDHybridSettingsNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersUIDHybridSettingsParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersUidHybridSettings",
-		Method:             "PATCH",
-		PathPattern:        "/v1/spectroclusters/{uid}/hybridSettings",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersUIDHybridSettingsReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersUIDHybridSettingsNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidHybridSettings: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

@@ -79,6 +79,11 @@ type V1SpectroClustersImagePullSecretStatusGetParams struct {
 
 	*/
 	ClusterName *string
+	/*FailureReason
+	  Filter clusters by ImagePullSecretPropagationDone condition failure reason
+
+	*/
+	FailureReason *string
 	/*Limit
 	  limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.
 	If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.
@@ -145,6 +150,17 @@ func (o *V1SpectroClustersImagePullSecretStatusGetParams) SetClusterName(cluster
 	o.ClusterName = clusterName
 }
 
+// WithFailureReason adds the failureReason to the v1 spectro clusters image pull secret status get params
+func (o *V1SpectroClustersImagePullSecretStatusGetParams) WithFailureReason(failureReason *string) *V1SpectroClustersImagePullSecretStatusGetParams {
+	o.SetFailureReason(failureReason)
+	return o
+}
+
+// SetFailureReason adds the failureReason to the v1 spectro clusters image pull secret status get params
+func (o *V1SpectroClustersImagePullSecretStatusGetParams) SetFailureReason(failureReason *string) {
+	o.FailureReason = failureReason
+}
+
 // WithLimit adds the limit to the v1 spectro clusters image pull secret status get params
 func (o *V1SpectroClustersImagePullSecretStatusGetParams) WithLimit(limit *int64) *V1SpectroClustersImagePullSecretStatusGetParams {
 	o.SetLimit(limit)
@@ -196,6 +212,22 @@ func (o *V1SpectroClustersImagePullSecretStatusGetParams) WriteToRequest(r runti
 		qClusterName := qrClusterName
 		if qClusterName != "" {
 			if err := r.SetQueryParam("clusterName", qClusterName); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.FailureReason != nil {
+
+		// query param failureReason
+		var qrFailureReason string
+		if o.FailureReason != nil {
+			qrFailureReason = *o.FailureReason
+		}
+		qFailureReason := qrFailureReason
+		if qFailureReason != "" {
+			if err := r.SetQueryParam("failureReason", qFailureReason); err != nil {
 				return err
 			}
 		}
