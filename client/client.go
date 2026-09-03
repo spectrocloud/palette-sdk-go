@@ -154,10 +154,38 @@ func WithRootCAs(rootCAs *x509.CertPool) func(*V1Client) {
 
 // WithClientHeader sets the value the client sends on every request in the
 // X-SpectroCloud-Client header, identifying the calling client (e.g. "terraform-v1.2.3").
+//
+// Caveat: this only covers requests made through the client's own default HTTP
+// client. Every generated operation also accepts a per-call override via
+// params.WithHTTPClient(customClient); go-openapi/runtime's Runtime.Submit uses
+// that client verbatim when set, bypassing this header entirely -- there is no
+// way to intercept it from here. If you must set a per-operation HTTPClient and
+// still want this header, wrap your client with WrapWithClientHeader first.
 func WithClientHeader(clientHeader string) func(*V1Client) {
 	return func(v *V1Client) {
 		v.clientHeader = clientHeader
 	}
+}
+
+// WrapWithClientHeader wraps base so it sends the same X-SpectroCloud-Client
+// header this client is configured with (see WithClientHeader's caveat). Use
+// this to build the *http.Client you pass to a generated operation's
+// params.WithHTTPClient(...), since that per-call override otherwise bypasses
+// header injection entirely. Returns base unchanged if no header is configured.
+func (h *V1Client) WrapWithClientHeader(base *http.Client) *http.Client {
+	if h.clientHeader == "" || base == nil {
+		return base
+	}
+	next := base.Transport
+	if next == nil {
+		next = http.DefaultTransport
+	}
+	wrapped := *base
+	wrapped.Transport = &clientHeaderRoundTripper{
+		clientHeader: h.clientHeader,
+		next:         next,
+	}
+	return &wrapped
 }
 
 // ContextForScope returns a context with the given scope and optional project UID.
