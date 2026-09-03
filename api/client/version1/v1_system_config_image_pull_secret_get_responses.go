@@ -43,7 +43,7 @@ func NewV1SystemConfigImagePullSecretGetOK() *V1SystemConfigImagePullSecretGetOK
 /*
 V1SystemConfigImagePullSecretGetOK handles this case with default header values.
 
-(empty)
+OK
 */
 type V1SystemConfigImagePullSecretGetOK struct {
 	Payload *models.V1SystemConfigImagePullSecretSpec

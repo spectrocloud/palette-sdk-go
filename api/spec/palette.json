@@ -11,7 +11,7 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "Palette APIs - 4.9",
+    "title": "Palette APIs - 4.10",
     "version": "v1"
   },
   "paths": {
@@ -1909,10 +1909,7 @@
               "$ref": "#/definitions/v1CloudStackAccounts"
             }
           }
-        },
-        "x-Features": [
-          "ApacheCloudstack"
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -1943,10 +1940,7 @@
               }
             }
           }
-        },
-        "x-Features": [
-          "ApacheCloudstack"
-        ]
+        }
       }
     },
     "/v1/cloudaccounts/apache-cloudstack/{uid}": {
@@ -4216,145 +4210,6 @@
           "type": "string",
           "description": "Cluster's cloud config uid",
           "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/aws/{configUid}/clusterConfig/hybridConfig": {
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the hybrid configuration information of AWS cluster",
-        "operationId": "v1AwsCloudConfigsUidHybridConfig",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1AwsCloudHybridConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "AWS Cluster's Hybrid Configuration",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Creates an Hybrid AWS cloud config's Edge-Native machine pool",
-        "operationId": "V1AwsCloudConfigsEdgeNativeUidMachinePoolCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfigEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Hybrid AWS cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/cloudconfigs/aws/{configUid}/edge-native/machinePools/{machinePoolName}": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified AWS Cluster's Edge-Native machine pool configuration",
-        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfig"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Updates the specified Hybrid AWS cluster cloud config's Edge-Native machine pool",
-        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1HybridEdgeNativeMachinePoolConfigUpdateEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Deletes the specified Edge-Native machine pool of hybrid AWS cluster",
-        "operationId": "v1AwsCloudConfigsEdgeNativeMachinePoolDelete",
-        "responses": {
-          "204": {
-            "description": "The resource was deleted successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "AWS Cluster's cloud config uid",
-          "name": "configUid",
-          "in": "path",
-          "required": true
-        },
-        {
-          "type": "string",
-          "description": "Edge-native machine pool name",
-          "name": "machinePoolName",
           "in": "path",
           "required": true
         }
@@ -13781,10 +13636,11 @@
     },
     "/v1/dashboard/clusterprofiles": {
       "post": {
+        "description": "This is the recommended API for listing and searching cluster profiles by name, tag, type,\nenvironment, or resource type. Prefer this over the older GET /v1/clusterprofiles.\nSupported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'].\nSupported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp'].\n\nExample - find cluster profiles tagged 'production':\n{\"filter\": {\"tags\": {\"eq\": [\"production\"]}}, \"sort\": [{\"field\": \"profileName\", \"order\": \"asc\"}]}",
         "tags": [
           "v1"
         ],
-        "summary": "Retrieves a list of cluster profiles filter summary Supported filter fields - ['profileName', 'tags', 'profileType', 'environment', 'resourceType'] Supported sort fields - ['profileName', 'environment', 'profileType', 'creationTimestamp', 'lastModifiedTimestamp']",
+        "summary": "Retrieves a list of cluster profiles filter summary",
         "operationId": "v1ClusterProfilesFilterSummary",
         "parameters": [
           {
@@ -13901,7 +13757,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/v1SearchFilterSummarySpec"
+              "$ref": "#/definitions/v1EdgeHostsSearchFilterSummarySpec"
             }
           }
         ],
@@ -14442,10 +14298,11 @@
     },
     "/v1/dashboard/spectroclusters/search": {
       "post": {
+        "description": "This is the recommended API for listing and searching clusters. Prefer this over the older\nGET /v1/spectroclusters and POST /v1/dashboard/spectroclusters. Supports filtering by any cluster\nproperty (e.g. clusterName, environment, tags, healthState) via a conjunction of filter groups.\nSupported sort fields - [\"environment\", \"clusterName\", \"memoryUsage\", \"healthState\", \"creationTimestamp\", \"lastModifiedTimestamp\"].\n\nExample - find clusters whose name contains 'aws':\n{\"filter\": {\"conjunction\": \"and\", \"filterGroups\": [{\"conjunction\": \"and\", \"filters\": [{\"property\": \"clusterName\", \"type\": \"string\", \"condition\": {\"string\": {\"operator\": \"contains\", \"negation\": false, \"ignoreCase\": false, \"match\": {\"conjunction\": \"or\", \"values\": [\"aws\"]}}}}]}]}, \"sort\": [{\"field\": \"clusterName\", \"order\": \"asc\"}]}",
         "tags": [
           "v1"
         ],
-        "summary": "Retrieves a list of cluster summary with provided search filter spec Supported sort fields - [\"environment\", \"clusterName\", \"memoryUsage\", \"healthState\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "summary": "Retrieves a list of cluster summary with provided search filter spec",
         "operationId": "v1SpectroClustersSearchFilterSummary",
         "parameters": [
           {
@@ -22650,6 +22507,139 @@
         }
       }
     },
+    "/v1/spectroclusters/imagePullSecret/clusters": {
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update cluster exclude flags for DHI image pull secret propagation rollup",
+        "operationId": "v1SpectroClustersImagePullSecretClustersUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretPropagationClustersUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/imagePullSecret/export": {
+      "get": {
+        "description": "Returns all matching cluster rows in one CSV. Use query filters only; limit and offset are not supported.",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Bulk CSV export of DHI image pull secret propagation status for the tenant (no pagination)",
+        "operationId": "v1SpectroClustersImagePullSecretExportGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter clusters by name",
+            "name": "clusterName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Scope to a project",
+            "name": "projectUid",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "ConnectivityIssue",
+              "PauseAgentUpgrades",
+              "LocalPropagationFailure"
+            ],
+            "type": "string",
+            "description": "Filter clusters by ImagePullSecretPropagationDone condition failure reason",
+            "name": "failureReason",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export of propagation status",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/imagePullSecret/status": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns DHI image pull secret propagation status for the authenticated tenant",
+        "operationId": "v1SpectroClustersImagePullSecretStatusGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter clusters by name",
+            "name": "clusterName",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Scope to a project",
+            "name": "projectUid",
+            "in": "query"
+          },
+          {
+            "enum": [
+              "ConnectivityIssue",
+              "PauseAgentUpgrades",
+              "LocalPropagationFailure"
+            ],
+            "type": "string",
+            "description": "Filter clusters by ImagePullSecretPropagationDone condition failure reason",
+            "name": "failureReason",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretTenantPropagationStatus"
+            }
+          }
+        }
+      }
+    },
     "/v1/spectroclusters/maas": {
       "post": {
         "tags": [
@@ -22807,6 +22797,81 @@
               "Content-Disposition": {
                 "type": "string"
               }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/system/config/imagePullSecret/export": {
+      "get": {
+        "description": "Returns all matching tenant rows in one CSV. Use query filters only; limit and offset are not supported.",
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Bulk CSV export of DHI image pull secret propagation status (no pagination)",
+        "operationId": "v1SpectroClustersSystemConfigImagePullSecretExportGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter tenants by name",
+            "name": "tenantName",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV export of propagation status",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spectroclusters/system/config/imagePullSecret/status": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns DHI image pull secret propagation status for all tenants",
+        "operationId": "v1SpectroClustersSystemConfigImagePullSecretStatusGet",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Filter tenants by name",
+            "name": "tenantName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretSystemPropagationStatus"
             }
           }
         }
@@ -23850,6 +23915,76 @@
           "type": "string",
           "description": "Cluster uid",
           "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach": {
+      "post": {
+        "description": "Binds an existing Palette-provisioned cluster to a cluster template so it comes\nunder template governance. Attach only binds; the target profile set is applied\nby the template's batch reconciler at the next maintenance window. Optional per-\nprofile variable values in the body carry AssignStrategy=cluster variable\noverrides.\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Attach an existing cluster to a cluster template",
+        "operationId": "v1SpectroClustersAttachClusterTemplate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterAttachTemplateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state of the resource",
+            "schema": {
+              "$ref": "#/definitions/v1Error"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "description": "Cluster template uid to attach",
+          "name": "templateUid",
           "in": "path",
           "required": true
         }
@@ -25058,70 +25193,6 @@
         "responses": {
           "204": {
             "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster uid",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/spectroclusters/{uid}/hybridPools/metadata": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the metadata of all hybrid pools associated with the specified cluster",
-        "operationId": "v1SpectroClustersGetHybridPoolsMetadata",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterHybridPoolsMetadata"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "description": "Cluster uid",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/spectroclusters/{uid}/hybridSettings": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update specific cluster hybrid settings",
-        "operationId": "v1SpectroClustersUidHybridSettings",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1ClusterHybridSettingsEntity"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Ok response without content",
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
-            }
           }
         }
       },
@@ -28778,7 +28849,7 @@
         "operationId": "V1SystemConfigImagePullSecretGet",
         "responses": {
           "200": {
-            "description": "(empty)",
+            "description": "OK",
             "schema": {
               "$ref": "#/definitions/v1SystemConfigImagePullSecretSpec"
             }
@@ -28799,6 +28870,34 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1SystemConfigImagePullSecretSpec"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/config/imagePullSecret/tenants": {
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "update tenant exclude flags for DHI image pull secret propagation rollup",
+        "operationId": "V1SystemConfigImagePullSecretTenantsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ImagePullSecretPropagationTenantsUpdate"
             }
           }
         ],
@@ -38102,15 +38201,6 @@
         }
       }
     },
-    "v1AwsCloudHybridConfigEntity": {
-      "description": "AWS cloud hybrid config entity",
-      "type": "object",
-      "properties": {
-        "hybridConfig": {
-          "$ref": "#/definitions/v1AwsHybridConfig"
-        }
-      }
-    },
     "v1AwsClusterConfig": {
       "description": "Cluster level configuration for aws cloud and applicable for all the machine pools",
       "type": "object",
@@ -38127,7 +38217,7 @@
           "type": "string"
         },
         "hybridConfig": {
-          "description": "AWS hybrid cluster config",
+          "description": "Deprecated: EKS Hybrid Nodes is deprecated. AWS hybrid cluster config",
           "$ref": "#/definitions/v1AwsHybridConfig"
         },
         "overrideClusterAPIConfig": {
@@ -38265,7 +38355,7 @@
       }
     },
     "v1AwsHybridConfig": {
-      "description": "AwsHybridConfig specifies the AWS Hybrid configuration for the cluster",
+      "description": "Deprecated: EKS Hybrid Nodes is deprecated. AwsHybridConfig specifies the AWS Hybrid configuration for the cluster.",
       "type": "object",
       "properties": {
         "awsVpcCidr": {
@@ -38748,6 +38838,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -38762,7 +38857,8 @@
     "v1AwsMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -39912,6 +40008,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "spotVMOptions": {
           "description": "SpotVMOptions allows the ability to specify the Machine should use a Spot VM",
           "$ref": "#/definitions/v1SpotVMOptions"
@@ -39923,6 +40029,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -39938,7 +40049,8 @@
     "v1AzureMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -41470,7 +41582,8 @@
     "v1CloudStackMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -42911,14 +43024,6 @@
         },
         "uid": {
           "type": "string"
-        }
-      }
-    },
-    "v1ClusterHybridSettingsEntity": {
-      "properties": {
-        "enable": {
-          "description": "Property which is used to enable a cluster to perform hybrid operations",
-          "type": "boolean"
         }
       }
     },
@@ -45527,7 +45632,10 @@
       "enum": [
         "PureManage",
         "PureAttach",
-        "PureAdopt"
+        "PureAdopt",
+        "AlloyMonitor",
+        "AlloyAssist",
+        "AlloyExtend"
       ]
     },
     "v1ClusterUpgradeSettingsEntity": {
@@ -46937,6 +47045,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "useControlPlaneAsWorker": {
           "description": "If IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean",
@@ -46998,6 +47111,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "useControlPlaneAsWorker": {
           "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean",
@@ -47012,7 +47130,8 @@
     "v1CustomMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -48156,6 +48275,42 @@
         }
       }
     },
+    "v1EdgeHostsSearchFilterSummarySpec": {
+      "description": "Edge host search filter summary spec",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v1SearchFilterSpec"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1EdgeHostsSearchSortSpec"
+          }
+        }
+      }
+    },
+    "v1EdgeHostsSearchSortFields": {
+      "type": "string",
+      "enum": [
+        "name",
+        "state",
+        "healthState",
+        "creationTimestamp",
+        "lastModifiedTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v1EdgeHostsSearchSortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v1EdgeHostsSearchSortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
+        }
+      }
+    },
     "v1EdgeHostsSearchSummary": {
       "type": "object",
       "required": [
@@ -48358,103 +48513,6 @@
         }
       }
     },
-    "v1EdgeNativeHybridClusterConfig": {
-      "description": "EdgeNativeHybridClusterConfig defines Edge Native Cluster specific specification",
-      "type": "object",
-      "properties": {
-        "controlPlaneEndpoint": {
-          "description": "ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN",
-          "$ref": "#/definitions/v1EdgeNativeControlPlaneEndPoint"
-        },
-        "ntpServers": {
-          "description": "NTPServers is a list of NTP servers to use instead of the machine image's default NTP server list",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "sshKeys": {
-          "description": "SSHKeys specifies a list of ssh authorized keys to access the vms as a 'spectro' user",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "v1EdgeNativeHybridConfigEntity": {
-      "description": "EdgeNativeHybridMachineConfigEntity defines Edge Native machine configuration",
-      "properties": {
-        "clusterConfig": {
-          "description": "Edge-Native cluster configurations",
-          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
-        },
-        "machineCloudConfig": {
-          "description": "Edge-Native machine cluster configurations",
-          "$ref": "#/definitions/v1EdgeNativeHybridMachineConfigEntity"
-        },
-        "profiles": {
-          "description": "Cluster profile templates for edge-native machine pool",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1SpectroClusterProfileEntity"
-          }
-        }
-      }
-    },
-    "v1EdgeNativeHybridMachineConfigEntity": {
-      "description": "EdgeNativeHybridMachineConfigEntity defines Edge Native machine configuration",
-      "required": [
-        "archType",
-        "edgeHosts"
-      ],
-      "properties": {
-        "archType": {
-          "description": "Architecture type of the edge hosts",
-          "x-omitempty": false,
-          "$ref": "#/definitions/v1ArchType"
-        },
-        "edgeHosts": {
-          "description": "Edge hosts configurations",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1EdgeNativeHybridMachinePoolHost"
-          }
-        }
-      }
-    },
-    "v1EdgeNativeHybridMachinePoolHost": {
-      "description": "v1EdgeNativeHybridMachinePoolHostEntity defines Edge Native machine pool's host configuration",
-      "required": [
-        "hostUid"
-      ],
-      "properties": {
-        "hostName": {
-          "description": "Edge host name",
-          "type": "string"
-        },
-        "hostUid": {
-          "description": "Edge host id",
-          "type": "string"
-        },
-        "nic": {
-          "description": "Edge native nic",
-          "$ref": "#/definitions/v1Nic"
-        },
-        "twoNodeCandidatePriority": {
-          "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
-          "type": "string",
-          "enum": [
-            "primary",
-            "secondary"
-          ]
-        },
-        "vpnServerIp": {
-          "description": "Vpn server IP",
-          "type": "string"
-        }
-      }
-    },
     "v1EdgeNativeInstanceType": {
       "description": "EdgeNativeInstanceType defines the instance configuration for a docker container node",
       "type": "object",
@@ -48617,6 +48675,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -48629,6 +48692,10 @@
     },
     "v1EdgeNativeMachinePoolConfigEntity": {
       "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1EdgeNativeMachinePoolCloudConfigEntity"
@@ -49231,6 +49298,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -49243,6 +49315,11 @@
       }
     },
     "v1EksMachinePoolConfigEntity": {
+      "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1EksMachineCloudConfigEntity"
@@ -50178,6 +50255,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "subnet": {
           "description": "Subnet specifies the subnetwork to use for given instance. If not specified, the first subnet from the cluster region and network is used",
           "type": "string"
@@ -50197,6 +50284,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -50210,7 +50302,8 @@
     "v1GcpMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -50627,6 +50720,11 @@
       }
     },
     "v1GenericMachinePoolConfigEntity": {
+      "type": "object",
+      "required": [
+        "cloudConfig",
+        "poolConfig"
+      ],
       "properties": {
         "cloudConfig": {
           "$ref": "#/definitions/v1GenericClusterConfig"
@@ -51108,22 +51206,6 @@
         }
       }
     },
-    "v1HybridCluster": {
-      "properties": {
-        "cloudConfigUid": {
-          "description": "Cloud config uid",
-          "type": "string"
-        },
-        "name": {
-          "description": "Cluster name",
-          "type": "string"
-        },
-        "uid": {
-          "description": "Cluster uid",
-          "type": "string"
-        }
-      }
-    },
     "v1HybridClusterConfig": {
       "properties": {
         "clusterUid": {
@@ -51152,121 +51234,6 @@
         },
         "uid": {
           "description": "Uid of the hybrid cluster",
-          "type": "string"
-        }
-      }
-    },
-    "v1HybridEdgeNativeMachineCloudConfig": {
-      "description": "HybridEdgeNativeMachineCloudConfig defines hybrid Edge-Native cluster's machine configurations",
-      "required": [
-        "archType",
-        "edgeHosts"
-      ],
-      "properties": {
-        "archType": {
-          "description": "Architecture type of the edge hosts",
-          "x-omitempty": false,
-          "$ref": "#/definitions/v1ArchType"
-        },
-        "edgeHosts": {
-          "description": "Edge host's configuration",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1EdgeNativeHybridMachinePoolHost"
-          }
-        },
-        "hybridCluster": {
-          "description": "Hybrid cluster reference",
-          "$ref": "#/definitions/v1HybridCluster"
-        }
-      }
-    },
-    "v1HybridEdgeNativeMachinePoolConfig": {
-      "description": "HybridEdgeNativeMachinePoolConfig defines hybrid Edge-Native cluster's machine-pool configurations",
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1HybridEdgeNativeMachineCloudConfig"
-        },
-        "poolConfig": {
-          "$ref": "#/definitions/v1MachinePoolConfigEntity"
-        }
-      }
-    },
-    "v1HybridEdgeNativeMachinePoolConfigEntity": {
-      "description": "Hybrid Edge-Native cluster's machine-pool configuration request payload",
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1EdgeNativeHybridConfigEntity"
-        },
-        "poolConfig": {
-          "$ref": "#/definitions/v1MachinePoolConfigEntity"
-        }
-      }
-    },
-    "v1HybridEdgeNativeMachinePoolConfigUpdateEntity": {
-      "description": "Hybrid Edge-Native cluster's machine-pool configuration update request payload",
-      "properties": {
-        "cloudConfig": {
-          "$ref": "#/definitions/v1EdgeNativeHybridMachineConfigEntity"
-        },
-        "clusterConfig": {
-          "$ref": "#/definitions/v1EdgeNativeHybridClusterConfig"
-        },
-        "poolConfig": {
-          "$ref": "#/definitions/v1MachinePoolConfigEntity"
-        }
-      }
-    },
-    "v1HybridMachinePool": {
-      "description": "Metadata information related to a hybrid machine pool launched as part of an hybrid cluster",
-      "properties": {
-        "cloudConfigUid": {
-          "description": "Cloud config uid associated with the hybrid machine pool",
-          "type": "string"
-        },
-        "cloudType": {
-          "description": "Cloud type of the hybrid machine pool",
-          "type": "string"
-        },
-        "clusterUid": {
-          "description": "Uid of the hybrid machine pool cluster",
-          "type": "string"
-        },
-        "name": {
-          "description": "Name of the hybrid machine pool",
-          "type": "string"
-        },
-        "status": {
-          "$ref": "#/definitions/v1HybridMachinePoolStatus"
-        },
-        "uid": {
-          "description": "Uid of the hybrid machine pool",
-          "type": "string"
-        }
-      }
-    },
-    "v1HybridMachinePoolClusterHealth": {
-      "description": "Machine pool cluster meta health information",
-      "type": "object",
-      "properties": {
-        "isHeartBeatFailed": {
-          "type": "boolean",
-          "x-omitempty": false
-        },
-        "state": {
-          "type": "string"
-        }
-      }
-    },
-    "v1HybridMachinePoolStatus": {
-      "description": "Get the hybrid machine pool's cluster status",
-      "properties": {
-        "health": {
-          "description": "Health of the hybrid machine pool",
-          "$ref": "#/definitions/v1HybridMachinePoolClusterHealth"
-        },
-        "state": {
-          "description": "State of the hybrid machine pool",
           "type": "string"
         }
       }
@@ -51377,6 +51344,167 @@
       "uniqueItems": true,
       "items": {
         "$ref": "#/definitions/v1IdentityProvider"
+      }
+    },
+    "v1ImagePullSecretPropagationClusterCounts": {
+      "description": "Cluster propagation counts",
+      "type": "object",
+      "properties": {
+        "completed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "failed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretPropagationClustersUpdate": {
+      "description": "Update cluster exclude flags for propagation rollup",
+      "type": "object",
+      "required": [
+        "exclude",
+        "clusterUids"
+      ],
+      "properties": {
+        "clusterUids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretPropagationState": {
+      "description": "DHI image pull secret propagation state",
+      "type": "string",
+      "enum": [
+        "Completed",
+        "InProgress",
+        "Failed"
+      ]
+    },
+    "v1ImagePullSecretPropagationTenantsUpdate": {
+      "description": "update tenant exclude flags for propagation rollup",
+      "type": "object",
+      "required": [
+        "exclude",
+        "tenantUids"
+      ],
+      "properties": {
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "tenantUids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1ImagePullSecretSystemPropagationStatus": {
+      "description": "System-wide DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        },
+        "tenants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ImagePullSecretSystemPropagationTenantStatus"
+          }
+        }
+      }
+    },
+    "v1ImagePullSecretSystemPropagationTenantStatus": {
+      "description": "Per-tenant DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationClusterCounts"
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "name": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationClusterCounts": {
+      "description": "Tenant cluster propagation failed count",
+      "type": "object",
+      "properties": {
+        "failed": {
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationClusterStatus": {
+      "description": "Per-cluster DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "cluster": {
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "exclude": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "message": {
+          "type": "string"
+        },
+        "project": {
+          "$ref": "#/definitions/v1ObjectReference"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        }
+      }
+    },
+    "v1ImagePullSecretTenantPropagationStatus": {
+      "description": "Tenant DHI image pull secret propagation status",
+      "type": "object",
+      "properties": {
+        "clusters": {
+          "$ref": "#/definitions/v1ImagePullSecretTenantPropagationClusterCounts"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ImagePullSecretTenantPropagationClusterStatus"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        },
+        "state": {
+          "$ref": "#/definitions/v1ImagePullSecretPropagationState"
+        }
       }
     },
     "v1ImportClusterConfig": {
@@ -52904,6 +53032,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -52922,7 +53055,8 @@
     "v1MaasMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {
@@ -53443,6 +53577,16 @@
           "type": "integer",
           "format": "int32"
         },
+        "skipK8sUpgrade": {
+          "description": "Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.\n- enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is \u003e3 minor versions behind\n- disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)\n",
+          "type": "string",
+          "default": "disabled",
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "x-omitempty": true
+        },
         "taints": {
           "description": "control plane or worker taints",
           "type": "array",
@@ -53450,6 +53594,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -53559,6 +53708,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "Rolling update strategy for this machine pool if not specified, will use ScaleOut",
@@ -60555,6 +60709,46 @@
         }
       }
     },
+    "v1SpectroClusterAttachTemplateEntity": {
+      "description": "Request body for attaching an existing cluster to a cluster template.\nCarries optional per-profile variable values that override the template's\nAssignStrategy=cluster variables at attach time. cluster-strategy variables\nnot supplied here remain UnResolved and can be provided later via the\nexisting update-cluster-template-variables endpoint.\n",
+      "type": "object",
+      "properties": {
+        "spec": {
+          "type": "object",
+          "properties": {
+            "profiles": {
+              "description": "Per-profile variable values to apply at attach.",
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/definitions/v1SpectroClusterAttachTemplateProfileEntity"
+              }
+            }
+          }
+        }
+      }
+    },
+    "v1SpectroClusterAttachTemplateProfileEntity": {
+      "description": "Per-profile variable values for the attach API.",
+      "type": "object",
+      "required": [
+        "profileUid"
+      ],
+      "properties": {
+        "profileUid": {
+          "description": "UID of the cluster profile whose variables are being set.",
+          "type": "string"
+        },
+        "variables": {
+          "description": "cluster-strategy variables to set on this profile at attach.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1SpectroClusterVariable"
+          }
+        }
+      }
+    },
     "v1SpectroClusterCloudCost": {
       "description": "Spectro cluster cloud cost information",
       "type": "object",
@@ -60722,33 +60916,6 @@
         "message": {
           "description": "Heartbeat message",
           "type": "string"
-        }
-      }
-    },
-    "v1SpectroClusterHybridPoolsMetadata": {
-      "description": "Metadata of clusters launched as hybrid machine pools",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "type": "object",
-          "properties": {
-            "cloudType": {
-              "description": "Cluster's cloud type",
-              "type": "string"
-            },
-            "hybridPools": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/v1HybridMachinePool"
-              }
-            }
-          }
-        },
-        "status": {
-          "$ref": "#/definitions/v1SpectroClusterStatus"
         }
       }
     },
@@ -61504,13 +61671,7 @@
           "$ref": "#/definitions/v1SpectroClusterTemplateRef"
         },
         "clusterType": {
-          "type": "string",
-          "enum": [
-            "PureManage",
-            "AlloyMonitor",
-            "AlloyAssist",
-            "AlloyExtend"
-          ]
+          "$ref": "#/definitions/v1ClusterType"
         }
       }
     },
@@ -61554,6 +61715,9 @@
         },
         "fips": {
           "$ref": "#/definitions/v1ClusterFips"
+        },
+        "imagePullSecret": {
+          "$ref": "#/definitions/v1SpectroClusterStatusImagePullSecret"
         },
         "location": {
           "$ref": "#/definitions/v1ClusterLocation"
@@ -61600,6 +61764,16 @@
       "properties": {
         "status": {
           "$ref": "#/definitions/v1SpectroClusterState"
+        }
+      }
+    },
+    "v1SpectroClusterStatusImagePullSecret": {
+      "description": "DHI image pull secret status on a spectro cluster",
+      "type": "object",
+      "properties": {
+        "hash": {
+          "description": "hash of the expected image pull secret for this cluster",
+          "type": "string"
         }
       }
     },
@@ -63788,6 +63962,26 @@
         "imagePullSecret": {
           "description": "base64 encoded docker config JSON",
           "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "tenants": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1SystemConfigImagePullSecretTenant"
+          }
+        }
+      }
+    },
+    "v1SystemConfigImagePullSecretTenant": {
+      "description": "per-tenant DHI image pull secret propagation settings",
+      "type": "object",
+      "properties": {
+        "exclude": {
+          "description": "when true, tenant is omitted from propagation rollup",
+          "type": "boolean",
+          "x-omitempty": false
         }
       }
     },
@@ -67344,6 +67538,11 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
+        },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -71449,6 +71648,11 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
+        "tolerateTaintsForSystemPods": {
+          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -71463,7 +71667,8 @@
     "v1VsphereMachinePoolConfigEntity": {
       "type": "object",
       "required": [
-        "cloudConfig"
+        "cloudConfig",
+        "poolConfig"
       ],
       "properties": {
         "cloudConfig": {

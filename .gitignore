@@ -12,3 +12,4 @@ golangci-report.xml
 profile.cov
 
 .DS_Store
+.claude/

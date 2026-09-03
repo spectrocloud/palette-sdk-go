@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1EksMachinePoolConfigEntity v1 eks machine pool config entity
@@ -19,10 +20,12 @@ import (
 type V1EksMachinePoolConfigEntity struct {
 
 	// cloud config
-	CloudConfig *V1EksMachineCloudConfigEntity `json:"cloudConfig,omitempty"`
+	// Required: true
+	CloudConfig *V1EksMachineCloudConfigEntity `json:"cloudConfig"`
 
 	// pool config
-	PoolConfig *V1MachinePoolConfigEntity `json:"poolConfig,omitempty"`
+	// Required: true
+	PoolConfig *V1MachinePoolConfigEntity `json:"poolConfig"`
 }
 
 // Validate validates this v1 eks machine pool config entity
@@ -44,8 +47,9 @@ func (m *V1EksMachinePoolConfigEntity) Validate(formats strfmt.Registry) error {
 }
 
 func (m *V1EksMachinePoolConfigEntity) validateCloudConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.CloudConfig) { // not required
-		return nil
+
+	if err := validate.Required("cloudConfig", "body", m.CloudConfig); err != nil {
+		return err
 	}
 
 	if m.CloudConfig != nil {
@@ -63,8 +67,9 @@ func (m *V1EksMachinePoolConfigEntity) validateCloudConfig(formats strfmt.Regist
 }
 
 func (m *V1EksMachinePoolConfigEntity) validatePoolConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.PoolConfig) { // not required
-		return nil
+
+	if err := validate.Required("poolConfig", "body", m.PoolConfig); err != nil {
+		return err
 	}
 
 	if m.PoolConfig != nil {
@@ -103,10 +108,6 @@ func (m *V1EksMachinePoolConfigEntity) contextValidateCloudConfig(ctx context.Co
 
 	if m.CloudConfig != nil {
 
-		if swag.IsZero(m.CloudConfig) { // not required
-			return nil
-		}
-
 		if err := m.CloudConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("cloudConfig")
@@ -123,10 +124,6 @@ func (m *V1EksMachinePoolConfigEntity) contextValidateCloudConfig(ctx context.Co
 func (m *V1EksMachinePoolConfigEntity) contextValidatePoolConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PoolConfig != nil {
-
-		if swag.IsZero(m.PoolConfig) { // not required
-			return nil
-		}
 
 		if err := m.PoolConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {

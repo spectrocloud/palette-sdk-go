@@ -101,6 +101,9 @@ type V1EksMachinePoolConfig struct {
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
 
+	// If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.
+	TolerateTaintsForSystemPods bool `json:"tolerateTaintsForSystemPods"`
+
 	// rolling update strategy for this machinepool if not specified, will use ScaleOut
 	UpdateStrategy *V1UpdateStrategy `json:"updateStrategy,omitempty"`
 

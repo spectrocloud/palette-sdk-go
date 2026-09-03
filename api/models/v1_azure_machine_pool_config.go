@@ -7,6 +7,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
@@ -93,12 +94,22 @@ type V1AzureMachinePoolConfig struct {
 	// size of the pool, number of machines
 	Size int32 `json:"size,omitempty"`
 
+	// Skip Kubernetes version upgrade validation for worker pools with N-3 version skew.
+	// - enabled: Bypasses version skew validation, allows Control Plane upgrade even when this worker pool is >3 minor versions behind
+	// - disabled: Automatically upgrade worker pool to match Control Plane Kubernetes version (default)
+	//
+	// Enum: ["enabled","disabled"]
+	SkipK8sUpgrade *string `json:"skipK8sUpgrade,omitempty"`
+
 	// SpotVMOptions allows the ability to specify the Machine should use a Spot VM
 	SpotVMOptions *V1SpotVMOptions `json:"spotVMOptions,omitempty"`
 
 	// control plane or worker taints
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
+
+	// If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.
+	TolerateTaintsForSystemPods bool `json:"tolerateTaintsForSystemPods"`
 
 	// rolling update strategy for this machinepool if not specified, will use ScaleOut
 	UpdateStrategy *V1UpdateStrategy `json:"updateStrategy,omitempty"`
@@ -132,6 +143,10 @@ func (m *V1AzureMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateOsType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSkipK8sUpgrade(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -250,6 +265,48 @@ func (m *V1AzureMachinePoolConfig) validateOsType(formats strfmt.Registry) error
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1AzureMachinePoolConfigTypeSkipK8sUpgradePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["enabled","disabled"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1AzureMachinePoolConfigTypeSkipK8sUpgradePropEnum = append(v1AzureMachinePoolConfigTypeSkipK8sUpgradePropEnum, v)
+	}
+}
+
+const (
+
+	// V1AzureMachinePoolConfigSkipK8sUpgradeEnabled captures enum value "enabled"
+	V1AzureMachinePoolConfigSkipK8sUpgradeEnabled string = "enabled"
+
+	// V1AzureMachinePoolConfigSkipK8sUpgradeDisabled captures enum value "disabled"
+	V1AzureMachinePoolConfigSkipK8sUpgradeDisabled string = "disabled"
+)
+
+// prop value enum
+func (m *V1AzureMachinePoolConfig) validateSkipK8sUpgradeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1AzureMachinePoolConfigTypeSkipK8sUpgradePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) validateSkipK8sUpgrade(formats strfmt.Registry) error {
+	if swag.IsZero(m.SkipK8sUpgrade) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateSkipK8sUpgradeEnum("skipK8sUpgrade", "body", *m.SkipK8sUpgrade); err != nil {
+		return err
 	}
 
 	return nil

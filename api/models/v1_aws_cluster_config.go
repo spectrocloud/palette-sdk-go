@@ -25,7 +25,7 @@ type V1AwsClusterConfig struct {
 	// ControlPlaneLoadBalancer specifies how API server elb will be configured, this field is optional, not provided, "", default => "Internet-facing" "Internet-facing" => "Internet-facing" "internal" => "internal" For spectro saas setup we require to talk to the apiserver from our cluster so ControlPlaneLoadBalancer should be "", not provided or "Internet-facing"
 	ControlPlaneLoadBalancer string `json:"controlPlaneLoadBalancer,omitempty"`
 
-	// AWS hybrid cluster config
+	// Deprecated: EKS Hybrid Nodes is deprecated. AWS hybrid cluster config
 	HybridConfig *V1AwsHybridConfig `json:"hybridConfig,omitempty"`
 
 	// YAML override for CAPI properties at cluster level.

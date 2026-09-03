@@ -24,7 +24,8 @@ type V1MaasMachinePoolConfigEntity struct {
 	CloudConfig *V1MaasMachinePoolCloudConfigEntity `json:"cloudConfig"`
 
 	// pool config
-	PoolConfig *V1MachinePoolConfigEntity `json:"poolConfig,omitempty"`
+	// Required: true
+	PoolConfig *V1MachinePoolConfigEntity `json:"poolConfig"`
 }
 
 // Validate validates this v1 maas machine pool config entity
@@ -66,8 +67,9 @@ func (m *V1MaasMachinePoolConfigEntity) validateCloudConfig(formats strfmt.Regis
 }
 
 func (m *V1MaasMachinePoolConfigEntity) validatePoolConfig(formats strfmt.Registry) error {
-	if swag.IsZero(m.PoolConfig) { // not required
-		return nil
+
+	if err := validate.Required("poolConfig", "body", m.PoolConfig); err != nil {
+		return err
 	}
 
 	if m.PoolConfig != nil {
@@ -122,10 +124,6 @@ func (m *V1MaasMachinePoolConfigEntity) contextValidateCloudConfig(ctx context.C
 func (m *V1MaasMachinePoolConfigEntity) contextValidatePoolConfig(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.PoolConfig != nil {
-
-		if swag.IsZero(m.PoolConfig) { // not required
-			return nil
-		}
 
 		if err := m.PoolConfig.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {

@@ -7,13 +7,11 @@ package models
 
 import (
 	"context"
-	"encoding/json"
 	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // V1SpectroClusterSpec SpectroClusterSpec defines the desired state of SpectroCluster
@@ -37,8 +35,7 @@ type V1SpectroClusterSpec struct {
 	ClusterTemplate *V1SpectroClusterTemplateRef `json:"clusterTemplate,omitempty"`
 
 	// cluster type
-	// Enum: ["PureManage","AlloyMonitor","AlloyAssist","AlloyExtend"]
-	ClusterType string `json:"clusterType,omitempty"`
+	ClusterType *V1ClusterType `json:"clusterType,omitempty"`
 }
 
 // Validate validates this v1 spectro cluster spec
@@ -154,49 +151,20 @@ func (m *V1SpectroClusterSpec) validateClusterTemplate(formats strfmt.Registry) 
 	return nil
 }
 
-var v1SpectroClusterSpecTypeClusterTypePropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["PureManage","AlloyMonitor","AlloyAssist","AlloyExtend"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		v1SpectroClusterSpecTypeClusterTypePropEnum = append(v1SpectroClusterSpecTypeClusterTypePropEnum, v)
-	}
-}
-
-const (
-
-	// V1SpectroClusterSpecClusterTypePureManage captures enum value "PureManage"
-	V1SpectroClusterSpecClusterTypePureManage string = "PureManage"
-
-	// V1SpectroClusterSpecClusterTypeAlloyMonitor captures enum value "AlloyMonitor"
-	V1SpectroClusterSpecClusterTypeAlloyMonitor string = "AlloyMonitor"
-
-	// V1SpectroClusterSpecClusterTypeAlloyAssist captures enum value "AlloyAssist"
-	V1SpectroClusterSpecClusterTypeAlloyAssist string = "AlloyAssist"
-
-	// V1SpectroClusterSpecClusterTypeAlloyExtend captures enum value "AlloyExtend"
-	V1SpectroClusterSpecClusterTypeAlloyExtend string = "AlloyExtend"
-)
-
-// prop value enum
-func (m *V1SpectroClusterSpec) validateClusterTypeEnum(path, location string, value string) error {
-	if err := validate.EnumCase(path, location, value, v1SpectroClusterSpecTypeClusterTypePropEnum, true); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *V1SpectroClusterSpec) validateClusterType(formats strfmt.Registry) error {
 	if swag.IsZero(m.ClusterType) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateClusterTypeEnum("clusterType", "body", m.ClusterType); err != nil {
-		return err
+	if m.ClusterType != nil {
+		if err := m.ClusterType.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterType")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -219,6 +187,10 @@ func (m *V1SpectroClusterSpec) ContextValidate(ctx context.Context, formats strf
 	}
 
 	if err := m.contextValidateClusterTemplate(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateClusterType(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -308,6 +280,27 @@ func (m *V1SpectroClusterSpec) contextValidateClusterTemplate(ctx context.Contex
 				return ve.ValidateName("clusterTemplate")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("clusterTemplate")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1SpectroClusterSpec) contextValidateClusterType(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ClusterType != nil {
+
+		if swag.IsZero(m.ClusterType) { // not required
+			return nil
+		}
+
+		if err := m.ClusterType.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("clusterType")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("clusterType")
 			}
 			return err
 		}
