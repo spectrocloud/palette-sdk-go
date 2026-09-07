@@ -199,7 +199,7 @@ func GetEdgeFilter(extraFilters []*models.V1SearchFilterItem, tags map[string]st
 
 	// Tags filter
 	if len(tags) > 0 {
-		var tagValues []string
+		tagValues := make([]string, 0, len(tags))
 		for key, value := range tags {
 			tagValues = append(tagValues, fmt.Sprintf("%s:%s", key, value))
 		}

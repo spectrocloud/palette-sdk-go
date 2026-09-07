@@ -345,7 +345,7 @@ func (h *V1Client) GetIPPools(pcgUID string) ([]*models.V1IPPoolEntity, error) {
 		WithUID(pcgUID)
 	resp, err := h.Client.V1OverlordsUIDPoolsList(params)
 	if err != nil {
-		if v1Err := apiutil.ToV1ErrorObj(err); v1Err.Code != "ResourceNotFound" {
+		if v1Err := apiutil.ToV1ErrorObj(err); v1Err.Code != apiutil.ResourceNotFoundCode {
 			return nil, err
 		}
 	}

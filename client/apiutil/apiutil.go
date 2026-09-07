@@ -39,6 +39,9 @@ func Ptr[T any](v T) *T {
 	return &v
 }
 
+// ResourceNotFoundCode is the V1Error code returned when a resource is not found.
+const ResourceNotFoundCode = "ResourceNotFound"
+
 // Is404 returns a boolean indicating whether an error is a 404 error.
 func Is404(err error) bool {
 	var e *transport.TransportError

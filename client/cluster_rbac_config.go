@@ -51,7 +51,7 @@ func (h *V1Client) ApplyClusterRbacConfig(uid string, config []*models.V1Cluster
 }
 
 func toCreateClusterRbac(rbacs []*models.V1ClusterRbacInputEntity) *models.V1ClusterRbac {
-	bindings := make([]*models.V1ClusterRbacBinding, 0)
+	bindings := make([]*models.V1ClusterRbacBinding, 0, len(rbacs))
 	for _, rbac := range rbacs {
 		bindings = append(bindings, rbac.Spec.Bindings...)
 	}
