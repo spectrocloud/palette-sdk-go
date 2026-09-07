@@ -113,7 +113,7 @@ func (h *V1Client) GetCloudAccountAzureByName(name, scope string) (*models.V1Azu
 			return account, nil
 		}
 	}
-	return nil, fmt.Errorf("Azure cloud account with name %q not found", name)
+	return nil, fmt.Errorf("no Azure cloud account found with name %q", name)
 }
 
 // GetCloudAccountApacheCloudStackByName retrieves an Apache CloudStack cloud account by name (and optional scope) using the list GET.
@@ -133,7 +133,7 @@ func (h *V1Client) GetCloudAccountApacheCloudStackByName(name, scope string) (*m
 			return account, nil
 		}
 	}
-	return nil, fmt.Errorf("Apache CloudStack cloud account with name %q not found", name)
+	return nil, fmt.Errorf("no Apache CloudStack cloud account found with name %q", name)
 }
 
 // GetCloudAccountMaasByName retrieves a MAAS cloud account by name (and optional scope) using the list GET.
