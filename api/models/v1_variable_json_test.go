@@ -34,6 +34,11 @@ func TestV1Variable_UnmarshalJSON_DefaultValueScalars(t *testing.T) {
 			data: `{"name":"ratio","defaultValue":1.5}`,
 			want: "1.5",
 		},
+		{
+			name: "large integer defaultValue preserves precision",
+			data: `{"name":"bigInt","defaultValue":9007199254740993}`,
+			want: "9007199254740993",
+		},
 	}
 
 	for _, tt := range tests {

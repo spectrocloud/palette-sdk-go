@@ -4,15 +4,14 @@
 package models
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"strconv"
 )
 
 // UnmarshalJSON decodes V1Variable JSON, coercing numeric and boolean
-// defaultValue scalars to strings. Profile bundle YAML converted via
-// sigs.k8s.io/yaml may emit unquoted numeric defaults even though the API
-// schema types defaultValue as a string.
+// defaultValue scalars to strings.
 func (m *V1Variable) UnmarshalJSON(data []byte) error {
 	type variableAlias V1Variable
 	aux := &struct {
@@ -34,9 +33,7 @@ func (m *V1Variable) UnmarshalJSON(data []byte) error {
 }
 
 // UnmarshalJSON decodes V1SpectroClusterVariableResponse JSON, coercing
-// numeric and boolean defaultValue scalars to strings. Profile bundle YAML
-// converted via sigs.k8s.io/yaml may emit unquoted numeric defaults even
-// though the API schema types defaultValue as a string.
+// numeric and boolean defaultValue scalars to strings.
 func (m *V1SpectroClusterVariableResponse) UnmarshalJSON(data []byte) error {
 	type variableAlias V1SpectroClusterVariableResponse
 	aux := &struct {
@@ -63,16 +60,18 @@ func unmarshalJSONScalarAsString(raw json.RawMessage) (string, error) {
 		return "", nil
 	}
 
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
 	var v any
-	if err := json.Unmarshal(raw, &v); err != nil {
+	if err := dec.Decode(&v); err != nil {
 		return "", err
 	}
 
 	switch val := v.(type) {
 	case string:
 		return val, nil
-	case float64:
-		return strconv.FormatFloat(val, 'f', -1, 64), nil
+	case json.Number:
+		return val.String(), nil
 	case bool:
 		return strconv.FormatBool(val), nil
 	default:
