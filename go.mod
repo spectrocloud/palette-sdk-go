@@ -4,13 +4,13 @@ go 1.26.4
 
 require (
 	github.com/go-errors/errors v1.5.1
-	github.com/go-openapi/errors v0.22.0
+	github.com/go-openapi/errors v0.22.8
 	github.com/go-openapi/runtime v0.28.0
 	github.com/go-openapi/strfmt v0.23.0
 	github.com/go-openapi/swag v0.23.1
 	github.com/go-openapi/validate v0.24.0
 	github.com/pkg/errors v0.9.1
-	github.com/sirupsen/logrus v1.9.3
+	github.com/sirupsen/logrus v1.9.4
 	github.com/stretchr/testify v1.10.0
 )
 
