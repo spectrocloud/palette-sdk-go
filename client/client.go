@@ -207,8 +207,12 @@ func ContextForScope(baseCtx context.Context, scope, projectUID string) context.
 // Clone creates a new V1Client with the same configuration as the original.
 func (h *V1Client) Clone() *V1Client {
 	opts := []func(*V1Client){
+		// WithContext must run before scope helpers; WithScopeProject / WithScopeTenant
+		// derive their v.ctx from v.baseCtx (see ContextForScope).
+		WithContext(h.baseCtx),
 		WithPaletteURI(h.paletteURI),
 		WithInsecureSkipVerify(h.insecureSkipVerify),
+		WithRootCAs(h.rootCAs),
 		WithRetries(h.retryAttempts),
 		WithSchemes(h.schemes),
 		WithScopeTenant(),
