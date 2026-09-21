@@ -31,6 +31,9 @@ type V1GitRepoFileContent struct {
 
 	// sha
 	Sha string `json:"sha,omitempty"`
+
+	// Parsed service version extracted from content
+	Version string `json:"version,omitempty"`
 }
 
 // Validate validates this v1 git repo file content
