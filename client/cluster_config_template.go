@@ -108,3 +108,66 @@ func (h *V1Client) UpdateClusterConfigTemplateProfilesVariables(uid string, body
 	_, err := h.Client.V1ClusterTemplatesUIDProfilesVariablesPatch(params)
 	return err
 }
+
+// AttachClusterTemplate attaches an existing, already-running cluster to a cluster
+// template (PLT-2410 / PEM-10589 Day 2 attach). Attach only binds the cluster to
+// the template; the target profile set is applied by the template's batch
+// reconciler at the next maintenance window. Optional per-profile variables in
+// body override the template's cluster-strategy variables at attach time -
+// variables not supplied here remain unresolved until set later via
+// UpdateClusterConfigTemplateProfilesVariables or UpdateClusterProfileVariableInCluster.
+func (h *V1Client) AttachClusterTemplate(clusterUID, templateUID string, body *models.V1SpectroClusterAttachTemplateEntity) error {
+	params := clientv1.NewV1SpectroClustersAttachClusterTemplateParamsWithContext(h.ctx).
+		WithUID(clusterUID).
+		WithTemplateUID(templateUID).
+		WithBody(body)
+	_, err := h.Client.V1SpectroClustersAttachClusterTemplate(params)
+	return err
+}
+
+// GetClusterTemplateAttachEligibility checks whether a cluster is eligible to be
+// attached to a cluster template (e.g. Running state, timezone configured,
+// Palette-provisioned, not already attached). Read-only, no side effects.
+func (h *V1Client) GetClusterTemplateAttachEligibility(clusterUID string) (*models.V1SpectroClusterAttachEligibilityResponse, error) {
+	params := clientv1.NewV1SpectroClustersAttachValidateParamsWithContext(h.ctx).
+		WithUID(clusterUID)
+	resp, err := h.Client.V1SpectroClustersAttachValidate(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// ListAttachableClusterTemplates lists cluster templates that can be attached to
+// the given cluster. When includeIneligible is false, only eligible templates
+// are returned; when true, both eligible and ineligible templates are returned,
+// each with its per-template eligibility status and reasons.
+func (h *V1Client) ListAttachableClusterTemplates(clusterUID string, includeIneligible bool) (*models.V1ClusterTemplatesAttachSummary, error) {
+	body := &models.V1ClusterTemplatesAttachFilterSpec{
+		Filter: &models.V1ClusterTemplateAttachFilter{
+			ClusterUID:                 &clusterUID,
+			IncludeInEligibleTemplates: &includeIneligible,
+		},
+	}
+	params := clientv1.NewV1DashboardClusterTemplatesAttachParamsWithContext(h.ctx).
+		WithBody(body)
+	resp, err := h.Client.V1DashboardClusterTemplatesAttach(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// GetClusterTemplateProfilesPacksManifests retrieves the packs and manifest
+// content for every profile in a cluster template, for pre-attach "view
+// changes" display. Reuses the same response shape as the cluster-level
+// packs/manifests endpoint.
+func (h *V1Client) GetClusterTemplateProfilesPacksManifests(templateUID string) (*models.V1SpectroClusterProfilesPacksManifests, error) {
+	params := clientv1.NewV1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetParamsWithContext(h.ctx).
+		WithUID(templateUID)
+	resp, err := h.Client.V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
