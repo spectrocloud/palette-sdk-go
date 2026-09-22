@@ -19,6 +19,9 @@ import (
 // swagger:model v1SystemConfigImagePullSecretSpec
 type V1SystemConfigImagePullSecretSpec struct {
 
+	// configured by
+	ConfiguredBy *V1SystemConfigImagePullSecretConfiguredBy `json:"configuredBy,omitempty"`
+
 	// base64 encoded docker config JSON
 	ImagePullSecret string `json:"imagePullSecret,omitempty"`
 
@@ -33,6 +36,10 @@ type V1SystemConfigImagePullSecretSpec struct {
 func (m *V1SystemConfigImagePullSecretSpec) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateConfiguredBy(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateMetadata(formats); err != nil {
 		res = append(res, err)
 	}
@@ -44,6 +51,25 @@ func (m *V1SystemConfigImagePullSecretSpec) Validate(formats strfmt.Registry) er
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1SystemConfigImagePullSecretSpec) validateConfiguredBy(formats strfmt.Registry) error {
+	if swag.IsZero(m.ConfiguredBy) { // not required
+		return nil
+	}
+
+	if m.ConfiguredBy != nil {
+		if err := m.ConfiguredBy.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuredBy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuredBy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -96,6 +122,10 @@ func (m *V1SystemConfigImagePullSecretSpec) validateTenants(formats strfmt.Regis
 func (m *V1SystemConfigImagePullSecretSpec) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateConfiguredBy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateMetadata(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -107,6 +137,27 @@ func (m *V1SystemConfigImagePullSecretSpec) ContextValidate(ctx context.Context,
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1SystemConfigImagePullSecretSpec) contextValidateConfiguredBy(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ConfiguredBy != nil {
+
+		if swag.IsZero(m.ConfiguredBy) { // not required
+			return nil
+		}
+
+		if err := m.ConfiguredBy.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuredBy")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("configuredBy")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

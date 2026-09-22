@@ -31,7 +31,7 @@ type V1ClusterReconcileLog struct {
 	ProfileUids []string `json:"profileUids"`
 
 	// Reconciliation state for this log entry
-	// Enum: ["Created","Pending","InProgress","Applied","Failed"]
+	// Enum: ["Created","Pending","Attached","InProgress","Applied","Failed"]
 	State string `json:"state,omitempty"`
 }
 
@@ -69,7 +69,7 @@ var v1ClusterReconcileLogTypeStatePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["Created","Pending","InProgress","Applied","Failed"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["Created","Pending","Attached","InProgress","Applied","Failed"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -84,6 +84,9 @@ const (
 
 	// V1ClusterReconcileLogStatePending captures enum value "Pending"
 	V1ClusterReconcileLogStatePending string = "Pending"
+
+	// V1ClusterReconcileLogStateAttached captures enum value "Attached"
+	V1ClusterReconcileLogStateAttached string = "Attached"
 
 	// V1ClusterReconcileLogStateInProgress captures enum value "InProgress"
 	V1ClusterReconcileLogStateInProgress string = "InProgress"

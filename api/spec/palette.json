@@ -13485,6 +13485,54 @@
         }
       }
     },
+    "/v1/dashboard/clusterTemplates/attach": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Retrieves cluster templates eligible for attach to the given cluster. Supported filter fields - [\"clusterUid\", \"includeInEligibleTemplates\"] Supported sort fields - [\"clusterTemplateName\", \"creationTimestamp\", \"lastModifiedTimestamp\"]",
+        "operationId": "v1DashboardClusterTemplatesAttach",
+        "parameters": [
+          {
+            "maximum": 50,
+            "type": "integer",
+            "format": "int64",
+            "description": "limit is a maximum number of responses to return for a list call. Maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatesAttachFilterSpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of cluster templates with per-item attach eligibility",
+            "schema": {
+              "$ref": "#/definitions/v1ClusterTemplatesAttachSummary"
+            }
+          }
+        }
+      }
+    },
     "/v1/dashboard/clusterTemplates/metadata": {
       "get": {
         "tags": [
@@ -21805,6 +21853,32 @@
         }
       ]
     },
+    "/v1/spectroclusters/clusterTemplates/{uid}/profiles/packs/manifests": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the packs and manifests for all the profiles of the specified cluster template",
+        "operationId": "V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterProfilesPacksManifests"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster template uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/spectroclusters/clusterTemplates/{uid}/validate/repave": {
       "post": {
         "tags": [
@@ -23920,9 +23994,36 @@
         }
       ]
     },
+    "/v1/spectroclusters/{uid}/clusterTemplates/attach/validate": {
+      "get": {
+        "description": "Read-only check of whether a cluster is eligible to be attached to a\ncluster template. No cluster or template state is modified.\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validate cluster eligibility for cluster template attach",
+        "operationId": "v1SpectroClustersAttachValidate",
+        "responses": {
+          "200": {
+            "description": "Eligibility check result",
+            "schema": {
+              "$ref": "#/definitions/v1SpectroClusterAttachEligibilityResponse"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Cluster uid",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach": {
       "post": {
-        "description": "Binds an existing Palette-provisioned cluster to a cluster template so it comes\nunder template governance. Attach only binds; the target profile set is applied\nby the template's batch reconciler at the next maintenance window. Optional per-\nprofile variable values in the body carry AssignStrategy=cluster variable\noverrides.\n",
+        "description": "Binds an existing Palette-provisioned cluster to a cluster template so it comes\nunder template governance. Attach only binds; the target profile set is applied\nby the template's batch reconciler at the next maintenance window. Optional per-\nprofile variable values in the body carry AssignStrategy=cluster variable\noverrides. See the design doc for eligibility rules and error semantics.\n",
         "tags": [
           "v1"
         ],
@@ -23945,30 +24046,6 @@
                 "type": "string",
                 "description": "Audit uid for the request"
               }
-            }
-          },
-          "400": {
-            "description": "Invalid request data",
-            "schema": {
-              "$ref": "#/definitions/v1Error"
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "schema": {
-              "$ref": "#/definitions/v1Error"
-            }
-          },
-          "404": {
-            "description": "The specified resource was not found",
-            "schema": {
-              "$ref": "#/definitions/v1Error"
-            }
-          },
-          "409": {
-            "description": "The request conflicts with the current state of the resource",
-            "schema": {
-              "$ref": "#/definitions/v1Error"
             }
           }
         }
@@ -30116,6 +30193,106 @@
         }
       }
     },
+    "/v1/system/observability/config": {
+      "get": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Returns the observability metric sink configuration",
+        "operationId": "V1SystemObservabilityConfigGet",
+        "responses": {
+          "200": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1ObservabilityConfig"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Creates or replaces the observability metric sink configuration",
+        "operationId": "V1SystemObservabilityConfigUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ObservabilityConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/observability/config/enabled": {
+      "patch": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Toggles the enabled flag on the observability metric sink config without altering sink data",
+        "operationId": "V1SystemObservabilityConfigEnabled",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ObservabilityConfigEnabled"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
+    "/v1/system/observability/config/validate": {
+      "post": {
+        "tags": [
+          "v1",
+          "system"
+        ],
+        "summary": "Validates an observability metric sink configuration without applying it",
+        "operationId": "V1SystemObservabilityConfigValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1ObservabilityConfigEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "(empty)",
+            "schema": {
+              "$ref": "#/definitions/v1Updated"
+            }
+          }
+        }
+      }
+    },
     "/v1/system/password/policy/default": {
       "get": {
         "tags": [
@@ -33262,6 +33439,58 @@
             "in": "body",
             "schema": {
               "$ref": "#/definitions/v1FipsSettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/tenants/{tenantUid}/preferences/oidc/callbackUrls": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get tenant OIDC callback URLs",
+        "operationId": "v1TenantOidcCallbackUrlsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1OidcCallbackUrls"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update tenant OIDC callback URLs",
+        "operationId": "v1TenantOidcCallbackUrlsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v1OidcCallbackUrls"
             }
           }
         ],
@@ -38736,6 +38965,11 @@
             "spot"
           ]
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "hostResourceGroupArn": {
           "description": "ARN of AWS Host Resource Group for node placement on dedicated hosts",
           "type": "string"
@@ -38837,11 +39071,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -39934,6 +40163,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "instanceConfig": {
           "$ref": "#/definitions/v1InstanceConfig"
         },
@@ -40029,11 +40263,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -44527,6 +44756,7 @@
           "enum": [
             "Created",
             "Pending",
+            "Attached",
             "InProgress",
             "Applied",
             "Failed"
@@ -44566,6 +44796,7 @@
           "enum": [
             "Created",
             "Pending",
+            "Attached",
             "InProgress",
             "Applied",
             "Failed"
@@ -44988,6 +45219,66 @@
         },
         "status": {
           "$ref": "#/definitions/v1ClusterTemplateStatus"
+        }
+      }
+    },
+    "v1ClusterTemplateAttachFilter": {
+      "type": "object",
+      "required": [
+        "clusterUid"
+      ],
+      "properties": {
+        "clusterTemplateName": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "clusterUid": {
+          "description": "The UID of the target cluster the templates are evaluated against",
+          "type": "string"
+        },
+        "includeInEligibleTemplates": {
+          "description": "When true, returns both eligible and ineligible templates with per-item reasons; when false, only eligible templates are returned",
+          "type": "boolean",
+          "default": false
+        },
+        "tags": {
+          "$ref": "#/definitions/v1FilterArray"
+        }
+      }
+    },
+    "v1ClusterTemplateAttachItem": {
+      "description": "A cluster template with its attach eligibility for the target cluster",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v1ClusterTemplateSummarySpec"
+        },
+        "status": {
+          "$ref": "#/definitions/v1ClusterTemplateAttachStatus"
+        }
+      }
+    },
+    "v1ClusterTemplateAttachStatus": {
+      "description": "Indicates whether this cluster template can accept the target cluster",
+      "type": "object",
+      "properties": {
+        "inUseClusters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ObjectEntity"
+          }
+        },
+        "isEligible": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -45531,6 +45822,40 @@
           "items": {
             "$ref": "#/definitions/v1ClusterTemplateProfileVariable"
           }
+        }
+      }
+    },
+    "v1ClusterTemplatesAttachFilterSpec": {
+      "description": "Filter and sort spec for the attach-eligible cluster templates list",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v1ClusterTemplateAttachFilter"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplatesSortSpec"
+          }
+        }
+      }
+    },
+    "v1ClusterTemplatesAttachSummary": {
+      "description": "Cluster templates evaluated for attach to a specific cluster",
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1ClusterTemplateAttachItem"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
         }
       }
     },
@@ -47045,11 +47370,6 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
-        },
         "useControlPlaneAsWorker": {
           "description": "If IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean",
@@ -47110,11 +47430,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "useControlPlaneAsWorker": {
           "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
@@ -48475,6 +48790,13 @@
           "default": false,
           "x-omitempty": false
         },
+        "additionalLabels": {
+          "description": "Per-host additional labels. Merged with pool-level additionalLabels; host-level values win on key collision.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "caCert": {
           "description": "CACert for TLS connections",
           "type": "string"
@@ -48502,6 +48824,13 @@
         "staticIP": {
           "description": "Deprecated. Edge host static IP",
           "type": "string"
+        },
+        "taints": {
+          "description": "Per-host taints. Combined with pool-level taints; a host-level taint overrides a pool-level taint with the same key and effect.\n",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Taint"
+          }
         },
         "twoNodeCandidatePriority": {
           "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
@@ -48599,6 +48928,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "hosts": {
           "type": "array",
           "items": {
@@ -48675,11 +49009,6 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
-        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -48710,6 +49039,13 @@
         "hostUid"
       ],
       "properties": {
+        "additionalLabels": {
+          "description": "Per-host additional labels. Merged with pool-level additionalLabels; host-level values win on key collision.\n",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
         "hostName": {
           "description": "Edge host name",
           "type": "string"
@@ -48729,6 +49065,13 @@
         "staticIP": {
           "description": "Deprecated - Edge host static IP",
           "type": "string"
+        },
+        "taints": {
+          "description": "Per-host taints. Combined with pool-level taints; a host-level taint overrides a pool-level taint with the same key and effect.\n",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Taint"
+          }
         },
         "twoNodeCandidatePriority": {
           "description": "Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.\n",
@@ -49217,6 +49560,11 @@
             "spot"
           ]
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "enableAwsLaunchTemplate": {
           "description": "flag to know if aws launch template is enabled",
           "type": "boolean"
@@ -49297,11 +49645,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -50195,6 +50538,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "instanceConfig": {
           "$ref": "#/definitions/v1InstanceConfig"
         },
@@ -50283,11 +50631,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -50835,6 +51178,10 @@
           "type": "string"
         },
         "sha": {
+          "type": "string"
+        },
+        "version": {
+          "description": "Parsed service version extracted from content",
           "type": "string"
         }
       }
@@ -52947,6 +53294,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "instanceType": {
           "description": "InstanceType defines the required CPU, Memory",
           "$ref": "#/definitions/v1MaasInstanceType"
@@ -53031,11 +53383,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -53528,6 +53875,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "isControlPlane": {
           "description": "whether this pool is for control plane",
           "type": "boolean"
@@ -53595,11 +53947,6 @@
             "$ref": "#/definitions/v1Taint"
           }
         },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
-        },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
           "$ref": "#/definitions/v1UpdateStrategy"
@@ -53640,6 +53987,11 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
         },
         "isControlPlane": {
           "description": "Whether this pool is for control plane",
@@ -53708,11 +54060,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "Rolling update strategy for this machine pool if not specified, will use ScaleOut",
@@ -54927,6 +55274,76 @@
         }
       }
     },
+    "v1ObservabilityConfig": {
+      "description": "Observability metric sink configuration (response, secrets masked)",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isObservabilityInstalled": {
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "splunk": {
+          "$ref": "#/definitions/v1ObservabilitySplunkSink"
+        }
+      }
+    },
+    "v1ObservabilityConfigEnabled": {
+      "description": "Partial observability config patch — toggle enabled only",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-omitempty": false
+        }
+      }
+    },
+    "v1ObservabilityConfigEntity": {
+      "description": "Observability metric sink configuration (request)",
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "splunk": {
+          "$ref": "#/definitions/v1ObservabilitySplunkSink"
+        }
+      }
+    },
+    "v1ObservabilitySplunkSink": {
+      "description": "Splunk HEC metric sink settings",
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "eventsIndex": {
+          "type": "string"
+        },
+        "metricsIndex": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "tls": {
+          "$ref": "#/definitions/v1TlsConfig"
+        },
+        "token": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
     "v1OciImageRegistry": {
       "description": "Oci Image Registry",
       "type": "object",
@@ -55055,6 +55472,33 @@
       "properties": {
         "sync": {
           "$ref": "#/definitions/v1RegistrySyncStatus"
+        }
+      }
+    },
+    "v1OidcCallbackUrls": {
+      "description": "Tenant OIDC callback URLs. allowed entries are complete callback URLs (scheme, host, optional port and path) that OIDC authorization redirects may target; matching semantics are decided by the OIDC authentication layer.",
+      "type": "object",
+      "properties": {
+        "allowWildcard": {
+          "description": "When true, allowed entries may use a leading-wildcard host matching any host under that suffix. Default false.",
+          "type": "boolean",
+          "default": false,
+          "x-omitempty": false
+        },
+        "allowed": {
+          "description": "Registered callback URLs allowed for this tenant, stored as the complete endpoint the admin submits (scheme and host lowercased; port and path preserved; userinfo and fragment rejected; query is preserved). Entries may use a leading-wildcard host (e.g. https://*.sso.example.com) when allowWildcard is true. An empty list clears the registrations; the tenant then allows only the platform defaults (loopback and Palette-domain callbacks) while isEnforced is true.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        },
+        "isEnforced": {
+          "description": "When false, every redirect_uri is allowed for this tenant (no reject). Default true.",
+          "type": "boolean",
+          "default": true,
+          "x-omitempty": false
         }
       }
     },
@@ -60709,6 +61153,25 @@
         }
       }
     },
+    "v1SpectroClusterAttachEligibilityResponse": {
+      "description": "Cluster template attach eligibility response",
+      "type": "object",
+      "properties": {
+        "isEligible": {
+          "description": "Whether the cluster is eligible to attach to a cluster template",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "reasons": {
+          "description": "Reasons for ineligibility (empty when eligible)",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-omitempty": false
+        }
+      }
+    },
     "v1SpectroClusterAttachTemplateEntity": {
       "description": "Request body for attaching an existing cluster to a cluster template.\nCarries optional per-profile variable values that override the template's\nAssignStrategy=cluster variables at attach time. cluster-strategy variables\nnot supplied here remain UnResolved and can be provided later via the\nexisting update-cluster-template-variables endpoint.\n",
       "type": "object",
@@ -61434,6 +61897,10 @@
           "items": {
             "$ref": "#/definitions/v1ClusterProfilePacksEntity"
           }
+        },
+        "profileVersion": {
+          "description": "Cluster profile version set by the user, in semantic version format",
+          "type": "string"
         },
         "relatedObject": {
           "description": "RelatedObject refers to the type of object(clustergroup, cluster or edgeHost) the cluster profile is associated with",
@@ -63955,10 +64422,23 @@
         }
       }
     },
+    "v1SystemConfigImagePullSecretConfiguredBy": {
+      "description": "who last configured the system DHI image pull secret",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "display name of the admin who last configured the secret",
+          "type": "string"
+        }
+      }
+    },
     "v1SystemConfigImagePullSecretSpec": {
       "description": "system DHI image pull secret config spec",
       "type": "object",
       "properties": {
+        "configuredBy": {
+          "$ref": "#/definitions/v1SystemConfigImagePullSecretConfiguredBy"
+        },
         "imagePullSecret": {
           "description": "base64 encoded docker config JSON",
           "type": "string"
@@ -66111,6 +66591,32 @@
         }
       }
     },
+    "v1TlsConfig": {
+      "type": "object",
+      "properties": {
+        "ca": {
+          "type": "string"
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "insecureSkipVerify": {
+          "type": "boolean"
+        },
+        "key": {
+          "type": "string"
+        },
+        "scheme": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "v1TlsConfiguration": {
       "description": "TLS configuration",
       "type": "object",
@@ -67484,6 +67990,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "instanceType": {
           "description": "InstanceType defines the required CPU, Memory",
           "$ref": "#/definitions/v1VirtualInstanceType"
@@ -67538,11 +68049,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
@@ -71569,6 +72075,11 @@
             "type": "string"
           }
         },
+        "dedicateNodePoolForSystemPods": {
+          "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
+          "type": "boolean",
+          "x-omitempty": false
+        },
         "instanceType": {
           "description": "InstanceType defines the required CPU, Memory, Storage",
           "$ref": "#/definitions/v1VsphereInstanceType"
@@ -71647,11 +72158,6 @@
           "items": {
             "$ref": "#/definitions/v1Taint"
           }
-        },
-        "tolerateTaintsForSystemPods": {
-          "description": "If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.",
-          "type": "boolean",
-          "x-omitempty": false
         },
         "updateStrategy": {
           "description": "rolling update strategy for this machinepool if not specified, will use ScaleOut",
