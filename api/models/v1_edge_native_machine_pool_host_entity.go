@@ -40,6 +40,12 @@ type V1EdgeNativeMachinePoolHostEntity struct {
 	//
 	// Enum: ["primary","secondary"]
 	TwoNodeCandidatePriority string `json:"twoNodeCandidatePriority,omitempty"`
+
+	// Per-host labels merged with pool-level labels at reconcile time.
+	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
+
+	// Per-host taints merged with pool-level taints at reconcile time.
+	Taints []*V1Taint `json:"taints,omitempty"`
 }
 
 // Validate validates this v1 edge native machine pool host entity
