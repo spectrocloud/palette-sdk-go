@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -19,6 +20,10 @@ import (
 //
 // swagger:model v1EdgeNativeMachinePoolHostEntity
 type V1EdgeNativeMachinePoolHostEntity struct {
+
+	// Per-host additional labels. Merged with pool-level additionalLabels; host-level values win on key collision.
+	//
+	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 
 	// Edge host name
 	HostName string `json:"hostName,omitempty"`
@@ -36,6 +41,10 @@ type V1EdgeNativeMachinePoolHostEntity struct {
 	// Deprecated - Edge host static IP
 	StaticIP string `json:"staticIP,omitempty"`
 
+	// Per-host taints. Combined with pool-level taints; a host-level taint overrides a pool-level taint with the same key and effect.
+	//
+	Taints []*V1Taint `json:"taints"`
+
 	// Sets the Edge Host candidate priority as either primary or secondary. This field is applicable only when the Edge Host is nominated as a two-node candidate. To enable priority assignment, ensure that 'isTwoNodeCluster' is set to true.
 	//
 	// Enum: ["primary","secondary"]
@@ -51,6 +60,10 @@ func (m *V1EdgeNativeMachinePoolHostEntity) Validate(formats strfmt.Registry) er
 	}
 
 	if err := m.validateNic(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTaints(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -87,6 +100,32 @@ func (m *V1EdgeNativeMachinePoolHostEntity) validateNic(formats strfmt.Registry)
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeNativeMachinePoolHostEntity) validateTaints(formats strfmt.Registry) error {
+	if swag.IsZero(m.Taints) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Taints); i++ {
+		if swag.IsZero(m.Taints[i]) { // not required
+			continue
+		}
+
+		if m.Taints[i] != nil {
+			if err := m.Taints[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -142,6 +181,10 @@ func (m *V1EdgeNativeMachinePoolHostEntity) ContextValidate(ctx context.Context,
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateTaints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -164,6 +207,31 @@ func (m *V1EdgeNativeMachinePoolHostEntity) contextValidateNic(ctx context.Conte
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeNativeMachinePoolHostEntity) contextValidateTaints(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Taints); i++ {
+
+		if m.Taints[i] != nil {
+
+			if swag.IsZero(m.Taints[i]) { // not required
+				return nil
+			}
+
+			if err := m.Taints[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("taints" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("taints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

@@ -362,6 +362,8 @@ type ClientService interface {
 
 	V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1SpectroClustersClusterTemplatesUIDProfilesGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesGetOK, error)
 
+	V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet(params *V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetOK, error)
+
 	V1SpectroClustersClusterTemplatesUIDValidateRepave(params *V1SpectroClustersClusterTemplatesUIDValidateRepaveParams) (*V1SpectroClustersClusterTemplatesUIDValidateRepaveOK, error)
 
 	V1SpectroClustersTemplatesUIDClustersUpgrade(params *V1SpectroClustersTemplatesUIDClustersUpgradeParams) (*V1SpectroClustersTemplatesUIDClustersUpgradeNoContent, error)
@@ -547,6 +549,14 @@ type ClientService interface {
 	V1SystemFeaturesGet(params *V1SystemFeaturesGetParams) (*V1SystemFeaturesGetOK, error)
 
 	V1SystemFeaturesUIDUpdate(params *V1SystemFeaturesUIDUpdateParams) (*V1SystemFeaturesUIDUpdateNoContent, error)
+
+	V1SystemObservabilityConfigEnabled(params *V1SystemObservabilityConfigEnabledParams) (*V1SystemObservabilityConfigEnabledNoContent, error)
+
+	V1SystemObservabilityConfigGet(params *V1SystemObservabilityConfigGetParams) (*V1SystemObservabilityConfigGetOK, error)
+
+	V1SystemObservabilityConfigUpdate(params *V1SystemObservabilityConfigUpdateParams) (*V1SystemObservabilityConfigUpdateNoContent, error)
+
+	V1SystemObservabilityConfigValidate(params *V1SystemObservabilityConfigValidateParams) (*V1SystemObservabilityConfigValidateNoContent, error)
 
 	V1SystemPasswordPolicyGet(params *V1SystemPasswordPolicyGetParams) (*V1SystemPasswordPolicyGetOK, error)
 
@@ -1318,6 +1328,8 @@ type ClientService interface {
 
 	V1DashboardCloudAccountsMetadata(params *V1DashboardCloudAccountsMetadataParams) (*V1DashboardCloudAccountsMetadataOK, error)
 
+	V1DashboardClusterTemplatesAttach(params *V1DashboardClusterTemplatesAttachParams) (*V1DashboardClusterTemplatesAttachOK, error)
+
 	V1DashboardClustersSearchSummaryExport(params *V1DashboardClustersSearchSummaryExportParams, writer io.Writer) (*V1DashboardClustersSearchSummaryExportOK, error)
 
 	V1DashboardClustersSearchSummaryExportGet(params *V1DashboardClustersSearchSummaryExportGetParams, writer io.Writer) (*V1DashboardClustersSearchSummaryExportGetOK, error)
@@ -1753,6 +1765,8 @@ type ClientService interface {
 	V1SpectroClustersAksValidate(params *V1SpectroClustersAksValidateParams) (*V1SpectroClustersAksValidateOK, error)
 
 	V1SpectroClustersAttachClusterTemplate(params *V1SpectroClustersAttachClusterTemplateParams) (*V1SpectroClustersAttachClusterTemplateNoContent, error)
+
+	V1SpectroClustersAttachValidate(params *V1SpectroClustersAttachValidateParams) (*V1SpectroClustersAttachValidateOK, error)
 
 	V1SpectroClustersAwsCreate(params *V1SpectroClustersAwsCreateParams) (*V1SpectroClustersAwsCreateCreated, error)
 
@@ -2205,6 +2219,10 @@ type ClientService interface {
 	V1TenantFreemiumUpdate(params *V1TenantFreemiumUpdateParams) (*V1TenantFreemiumUpdateNoContent, error)
 
 	V1TenantFreemiumUsageGet(params *V1TenantFreemiumUsageGetParams) (*V1TenantFreemiumUsageGetOK, error)
+
+	V1TenantOidcCallbackUrlsGet(params *V1TenantOidcCallbackUrlsGetParams) (*V1TenantOidcCallbackUrlsGetOK, error)
+
+	V1TenantOidcCallbackUrlsUpdate(params *V1TenantOidcCallbackUrlsUpdateParams) (*V1TenantOidcCallbackUrlsUpdateNoContent, error)
 
 	V1TenantResourceLimitsGet(params *V1TenantResourceLimitsGetParams) (*V1TenantResourceLimitsGetOK, error)
 
@@ -8160,6 +8178,40 @@ func (a *Client) V1SpectroClustersClusterTemplatesUIDProfilesGet(params *V1Spect
 }
 
 /*
+V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet returns the packs and manifests for all the profiles of the specified cluster template
+*/
+func (a *Client) V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet(params *V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetParams) (*V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/clusterTemplates/{uid}/profiles/packs/manifests",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SpectroClustersClusterTemplatesUIDProfilesPacksManifestsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1SpectroClustersClusterTemplatesUIDValidateRepave validates if cluster template profile update triggers repave
 */
 func (a *Client) V1SpectroClustersClusterTemplatesUIDValidateRepave(params *V1SpectroClustersClusterTemplatesUIDValidateRepaveParams) (*V1SpectroClustersClusterTemplatesUIDValidateRepaveOK, error) {
@@ -11328,6 +11380,142 @@ func (a *Client) V1SystemFeaturesUIDUpdate(params *V1SystemFeaturesUIDUpdatePara
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemFeaturesUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemObservabilityConfigEnabled toggles the enabled flag on the observability metric sink config without altering sink data
+*/
+func (a *Client) V1SystemObservabilityConfigEnabled(params *V1SystemObservabilityConfigEnabledParams) (*V1SystemObservabilityConfigEnabledNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemObservabilityConfigEnabledParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemObservabilityConfigEnabled",
+		Method:             "PATCH",
+		PathPattern:        "/v1/system/observability/config/enabled",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemObservabilityConfigEnabledReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemObservabilityConfigEnabledNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemObservabilityConfigEnabled: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemObservabilityConfigGet returns the observability metric sink configuration
+*/
+func (a *Client) V1SystemObservabilityConfigGet(params *V1SystemObservabilityConfigGetParams) (*V1SystemObservabilityConfigGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemObservabilityConfigGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemObservabilityConfigGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/observability/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemObservabilityConfigGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemObservabilityConfigGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemObservabilityConfigGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemObservabilityConfigUpdate creates or replaces the observability metric sink configuration
+*/
+func (a *Client) V1SystemObservabilityConfigUpdate(params *V1SystemObservabilityConfigUpdateParams) (*V1SystemObservabilityConfigUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemObservabilityConfigUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemObservabilityConfigUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/system/observability/config",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemObservabilityConfigUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemObservabilityConfigUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemObservabilityConfigUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemObservabilityConfigValidate validates an observability metric sink configuration without applying it
+*/
+func (a *Client) V1SystemObservabilityConfigValidate(params *V1SystemObservabilityConfigValidateParams) (*V1SystemObservabilityConfigValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemObservabilityConfigValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemObservabilityConfigValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/system/observability/config/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemObservabilityConfigValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemObservabilityConfigValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemObservabilityConfigValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -24471,6 +24659,40 @@ func (a *Client) V1DashboardCloudAccountsMetadata(params *V1DashboardCloudAccoun
 }
 
 /*
+V1DashboardClusterTemplatesAttach retrieves cluster templates eligible for attach to the given cluster supported filter fields cluster Uid include in eligible templates supported sort fields cluster template name creation timestamp last modified timestamp
+*/
+func (a *Client) V1DashboardClusterTemplatesAttach(params *V1DashboardClusterTemplatesAttachParams) (*V1DashboardClusterTemplatesAttachOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1DashboardClusterTemplatesAttachParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1DashboardClusterTemplatesAttach",
+		Method:             "POST",
+		PathPattern:        "/v1/dashboard/clusterTemplates/attach",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1DashboardClusterTemplatesAttachReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1DashboardClusterTemplatesAttachOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1DashboardClusterTemplatesAttach: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1DashboardClustersSearchSummaryExport exports the list of cluster summary with matching search filter and download as a file csv supported sort fields environment cluster name health state creation timestamp last modified timestamp
 */
 func (a *Client) V1DashboardClustersSearchSummaryExport(params *V1DashboardClustersSearchSummaryExportParams, writer io.Writer) (*V1DashboardClustersSearchSummaryExportOK, error) {
@@ -31893,7 +32115,7 @@ func (a *Client) V1SpectroClustersAksValidate(params *V1SpectroClustersAksValida
 under template governance. Attach only binds; the target profile set is applied
 by the template's batch reconciler at the next maintenance window. Optional per-
 profile variable values in the body carry AssignStrategy=cluster variable
-overrides.
+overrides. See the design doc for eligibility rules and error semantics.
 */
 func (a *Client) V1SpectroClustersAttachClusterTemplate(params *V1SpectroClustersAttachClusterTemplateParams) (*V1SpectroClustersAttachClusterTemplateNoContent, error) {
 	// TODO: Validate the params before sending
@@ -31923,6 +32145,44 @@ func (a *Client) V1SpectroClustersAttachClusterTemplate(params *V1SpectroCluster
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersAttachClusterTemplate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	V1SpectroClustersAttachValidate validates cluster eligibility for cluster template attach
+
+	Read-only check of whether a cluster is eligible to be attached to a
+
+cluster template. No cluster or template state is modified.
+*/
+func (a *Client) V1SpectroClustersAttachValidate(params *V1SpectroClustersAttachValidateParams) (*V1SpectroClustersAttachValidateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SpectroClustersAttachValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1SpectroClustersAttachValidate",
+		Method:             "GET",
+		PathPattern:        "/v1/spectroclusters/{uid}/clusterTemplates/attach/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SpectroClustersAttachValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SpectroClustersAttachValidateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersAttachValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -39645,6 +39905,74 @@ func (a *Client) V1TenantFreemiumUsageGet(params *V1TenantFreemiumUsageGetParams
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantFreemiumUsageGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantOidcCallbackUrlsGet gets tenant o ID c callback u r ls
+*/
+func (a *Client) V1TenantOidcCallbackUrlsGet(params *V1TenantOidcCallbackUrlsGetParams) (*V1TenantOidcCallbackUrlsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantOidcCallbackUrlsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantOidcCallbackUrlsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/preferences/oidc/callbackUrls",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantOidcCallbackUrlsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantOidcCallbackUrlsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantOidcCallbackUrlsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantOidcCallbackUrlsUpdate updates tenant o ID c callback u r ls
+*/
+func (a *Client) V1TenantOidcCallbackUrlsUpdate(params *V1TenantOidcCallbackUrlsUpdateParams) (*V1TenantOidcCallbackUrlsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantOidcCallbackUrlsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantOidcCallbackUrlsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/preferences/oidc/callbackUrls",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantOidcCallbackUrlsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantOidcCallbackUrlsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantOidcCallbackUrlsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
