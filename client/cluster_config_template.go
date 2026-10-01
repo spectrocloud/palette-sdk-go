@@ -181,3 +181,16 @@ func (h *V1Client) UpdateClusterTemplateVariablesForCluster(clusterUID string, b
 	_, err := h.Client.V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch(params)
 	return err
 }
+
+// GetClusterTemplateProfileVariables retrieves the variable assignments for a
+// single profile within a cluster template, across every cluster currently
+func (h *V1Client) GetClusterTemplateProfileVariables(templateUID, profileUID string) (*models.V1ClusterTemplateProfileVariablesResponse, error) {
+	params := clientv1.NewV1ClusterTemplatesUIDProfilesProfileUIDVariablesGetParamsWithContext(h.ctx).
+		WithUID(templateUID).
+		WithProfileUID(profileUID)
+	resp, err := h.Client.V1ClusterTemplatesUIDProfilesProfileUIDVariablesGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
