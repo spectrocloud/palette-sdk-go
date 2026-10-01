@@ -171,3 +171,13 @@ func (h *V1Client) GetClusterTemplateProfilesPacksManifests(templateUID string) 
 	}
 	return resp.Payload, nil
 }
+
+// UpdateClusterTemplateVariablesForCluster patches the per-cluster profile
+// variable overrides for a cluster that is attached to a cluster template
+func (h *V1Client) UpdateClusterTemplateVariablesForCluster(clusterUID string, body *models.V1ClusterTemplateVariablesUpdateEntity) error {
+	params := clientv1.NewV1ClusterTemplatesUIDSpectroClustersUIDVariablesPatchParamsWithContext(h.ctx).
+		WithClusterUID(clusterUID).
+		WithBody(body)
+	_, err := h.Client.V1ClusterTemplatesUIDSpectroClustersUIDVariablesPatch(params)
+	return err
+}
