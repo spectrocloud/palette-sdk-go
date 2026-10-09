@@ -29,7 +29,7 @@ type V1ClusterReconcileStatus struct {
 	Message string `json:"message,omitempty"`
 
 	// Current reconciliation state
-	// Enum: ["Created","Pending","InProgress","Applied","Failed"]
+	// Enum: ["Created","Pending","Attached","InProgress","Applied","Failed"]
 	State string `json:"state,omitempty"`
 
 	// List of reconciliation update logs
@@ -81,7 +81,7 @@ var v1ClusterReconcileStatusTypeStatePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["Created","Pending","InProgress","Applied","Failed"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["Created","Pending","Attached","InProgress","Applied","Failed"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -96,6 +96,9 @@ const (
 
 	// V1ClusterReconcileStatusStatePending captures enum value "Pending"
 	V1ClusterReconcileStatusStatePending string = "Pending"
+
+	// V1ClusterReconcileStatusStateAttached captures enum value "Attached"
+	V1ClusterReconcileStatusStateAttached string = "Attached"
 
 	// V1ClusterReconcileStatusStateInProgress captures enum value "InProgress"
 	V1ClusterReconcileStatusStateInProgress string = "InProgress"

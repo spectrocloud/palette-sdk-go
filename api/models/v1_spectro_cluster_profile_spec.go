@@ -27,6 +27,9 @@ type V1SpectroClusterProfileSpec struct {
 	// Unique: true
 	Packs []*V1ClusterProfilePacksEntity `json:"packs"`
 
+	// Cluster profile version set by the user, in semantic version format
+	ProfileVersion string `json:"profileVersion,omitempty"`
+
 	// RelatedObject refers to the type of object(clustergroup, cluster or edgeHost) the cluster profile is associated with
 	RelatedObject *V1ObjectReference `json:"relatedObject,omitempty"`
 

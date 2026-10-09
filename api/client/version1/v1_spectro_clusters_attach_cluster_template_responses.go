@@ -7,12 +7,9 @@ package version1
 
 import (
 	"fmt"
-	"io"
 
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
-
-	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // V1SpectroClustersAttachClusterTemplateReader is a Reader for the V1SpectroClustersAttachClusterTemplate structure.
@@ -29,30 +26,6 @@ func (o *V1SpectroClustersAttachClusterTemplateReader) ReadResponse(response run
 			return nil, err
 		}
 		return result, nil
-	case 400:
-		result := NewV1SpectroClustersAttachClusterTemplateBadRequest()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 403:
-		result := NewV1SpectroClustersAttachClusterTemplateForbidden()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 404:
-		result := NewV1SpectroClustersAttachClusterTemplateNotFound()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
-	case 409:
-		result := NewV1SpectroClustersAttachClusterTemplateConflict()
-		if err := result.readResponse(response, consumer, o.formats); err != nil {
-			return nil, err
-		}
-		return nil, result
 
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
@@ -83,142 +56,6 @@ func (o *V1SpectroClustersAttachClusterTemplateNoContent) readResponse(response 
 
 	// response header AuditUid
 	o.AuditUID = response.GetHeader("AuditUid")
-
-	return nil
-}
-
-// NewV1SpectroClustersAttachClusterTemplateBadRequest creates a V1SpectroClustersAttachClusterTemplateBadRequest with default headers values
-func NewV1SpectroClustersAttachClusterTemplateBadRequest() *V1SpectroClustersAttachClusterTemplateBadRequest {
-	return &V1SpectroClustersAttachClusterTemplateBadRequest{}
-}
-
-/*
-V1SpectroClustersAttachClusterTemplateBadRequest handles this case with default header values.
-
-Invalid request data
-*/
-type V1SpectroClustersAttachClusterTemplateBadRequest struct {
-	Payload *models.V1Error
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateBadRequest) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach][%d] v1SpectroClustersAttachClusterTemplateBadRequest  %+v", 400, o.Payload)
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateBadRequest) GetPayload() *models.V1Error {
-	return o.Payload
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.V1Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
-
-	return nil
-}
-
-// NewV1SpectroClustersAttachClusterTemplateForbidden creates a V1SpectroClustersAttachClusterTemplateForbidden with default headers values
-func NewV1SpectroClustersAttachClusterTemplateForbidden() *V1SpectroClustersAttachClusterTemplateForbidden {
-	return &V1SpectroClustersAttachClusterTemplateForbidden{}
-}
-
-/*
-V1SpectroClustersAttachClusterTemplateForbidden handles this case with default header values.
-
-Forbidden
-*/
-type V1SpectroClustersAttachClusterTemplateForbidden struct {
-	Payload *models.V1Error
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateForbidden) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach][%d] v1SpectroClustersAttachClusterTemplateForbidden  %+v", 403, o.Payload)
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateForbidden) GetPayload() *models.V1Error {
-	return o.Payload
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.V1Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
-
-	return nil
-}
-
-// NewV1SpectroClustersAttachClusterTemplateNotFound creates a V1SpectroClustersAttachClusterTemplateNotFound with default headers values
-func NewV1SpectroClustersAttachClusterTemplateNotFound() *V1SpectroClustersAttachClusterTemplateNotFound {
-	return &V1SpectroClustersAttachClusterTemplateNotFound{}
-}
-
-/*
-V1SpectroClustersAttachClusterTemplateNotFound handles this case with default header values.
-
-The specified resource was not found
-*/
-type V1SpectroClustersAttachClusterTemplateNotFound struct {
-	Payload *models.V1Error
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateNotFound) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach][%d] v1SpectroClustersAttachClusterTemplateNotFound  %+v", 404, o.Payload)
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateNotFound) GetPayload() *models.V1Error {
-	return o.Payload
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.V1Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
-
-	return nil
-}
-
-// NewV1SpectroClustersAttachClusterTemplateConflict creates a V1SpectroClustersAttachClusterTemplateConflict with default headers values
-func NewV1SpectroClustersAttachClusterTemplateConflict() *V1SpectroClustersAttachClusterTemplateConflict {
-	return &V1SpectroClustersAttachClusterTemplateConflict{}
-}
-
-/*
-V1SpectroClustersAttachClusterTemplateConflict handles this case with default header values.
-
-The request conflicts with the current state of the resource
-*/
-type V1SpectroClustersAttachClusterTemplateConflict struct {
-	Payload *models.V1Error
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateConflict) Error() string {
-	return fmt.Sprintf("[POST /v1/spectroclusters/{uid}/clusterTemplates/{templateUid}/attach][%d] v1SpectroClustersAttachClusterTemplateConflict  %+v", 409, o.Payload)
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateConflict) GetPayload() *models.V1Error {
-	return o.Payload
-}
-
-func (o *V1SpectroClustersAttachClusterTemplateConflict) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.V1Error)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
 
 	return nil
 }

@@ -34,6 +34,9 @@ type V1MaasMachinePoolConfig struct {
 	// azs
 	Azs []string `json:"azs"`
 
+	// If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.
+	DedicateNodePoolForSystemPods bool `json:"dedicateNodePoolForSystemPods"`
+
 	// InstanceType defines the required CPU, Memory
 	// Required: true
 	InstanceType *V1MaasInstanceType `json:"instanceType"`
@@ -98,9 +101,6 @@ type V1MaasMachinePoolConfig struct {
 	// control plane or worker taints
 	// Unique: true
 	Taints []*V1Taint `json:"taints"`
-
-	// If enabled, Palette system pods will tolerate all the taints applied on this node pool. This does not apply to third party components that Palette installs.
-	TolerateTaintsForSystemPods bool `json:"tolerateTaintsForSystemPods"`
 
 	// rolling update strategy for this machinepool if not specified, will use ScaleOut
 	UpdateStrategy *V1UpdateStrategy `json:"updateStrategy,omitempty"`
