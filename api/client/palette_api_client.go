@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/spectrocloud/palette-sdk-go/api/client/version1"
+	"github.com/spectrocloud/palette-sdk-go/api/client/version2"
 )
 
 // Default palette API HTTP client.
@@ -56,6 +57,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *PaletteAPI
 	cli := new(PaletteAPI)
 	cli.Transport = transport
 	cli.Version1 = version1.New(transport, formats)
+	cli.Version2 = version2.New(transport, formats)
 	return cli
 }
 
@@ -102,6 +104,8 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 type PaletteAPI struct {
 	Version1 version1.ClientService
 
+	Version2 version2.ClientService
+
 	Transport runtime.ClientTransport
 }
 
@@ -109,4 +113,5 @@ type PaletteAPI struct {
 func (c *PaletteAPI) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
 	c.Version1.SetTransport(transport)
+	c.Version2.SetTransport(transport)
 }

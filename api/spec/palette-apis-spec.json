@@ -1302,27 +1302,6 @@
         }
       }
     },
-    "/v1/auth/mfa/devices": {
-      "get": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "V1AuthMfaDevicesList",
-        "operationId": "V1AuthMfaDevicesList",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1MfaDevices"
-            }
-          }
-        },
-        "x-ApiScopes": [
-          "mfa"
-        ]
-      }
-    },
     "/v1/auth/org": {
       "get": {
         "description": "Returns the allowed login method and information with the organization details",
@@ -5463,6 +5442,39 @@
           "type": "string",
           "description": "Machine uid",
           "name": "machineUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/cloudconfigs/edge-native/{configUid}/updateLock": {
+      "patch": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Enables or disables the profile update lock on the specified Edge native cloud config\n",
+        "operationId": "v1CloudConfigsEdgeNativeUidUpdateLockPatch",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateLockEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The resource was updated successfully"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "description": "Edge native cluster's cloud config uid",
+          "name": "configUid",
           "in": "path",
           "required": true
         }
@@ -17317,6 +17329,510 @@
         }
       ]
     },
+    "/v1/overlords/azure/{uid}/account/validate": {
+      "post": {
+        "description": "Validates the Azure cloud account from inside the private gateway and returns the resolved management identity resource ID.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "validate the Azure cloudaccount for the private gateway",
+        "operationId": "v1OverlordsUidAzureAccountValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "properties": {
+                "account": {
+                  "$ref": "#/definitions/v1AzureCloudAccount"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureAccountValidate"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/aksClusterName/validate": {
+      "post": {
+        "description": "Returns no content if the name is available, else error.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validate AKS cluster name availability via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesAksClusterNameValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureAksClusterNameValidateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/groups": {
+      "post": {
+        "description": "Lists Azure AD groups (Microsoft Graph) using the management identity on the private gateway.",
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure AD groups via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesGroups",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureAccountEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureGroups"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/identities": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure user-assigned managed identities via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesIdentities",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureIdentitiesEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureIdentities"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/identities/permissions/validate": {
+      "post": {
+        "description": "Preflight check of role assignments for the selected cluster and pool identities.\nReturns no content if valid, else error (same pattern as other validate APIs).\n",
+        "tags": [
+          "v1"
+        ],
+        "summary": "Validate Azure managed identity permissions via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesIdentitiesPermissionsValidate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureIdentitiesPermissionsValidateEntity"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/identity": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get one Azure user-assigned managed identity via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesIdentity",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureIdentityEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureIdentity"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/networks": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure virtual networks via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesNetworks",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureNetworksEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureVirtualNetworkList"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/privateDnsZones": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure private DNS zones via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesPrivateDnsZones",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzurePrivateDnsZonesEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzurePrivateDnsZones"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/regions": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure regions via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesRegions",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureRegionsEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureRegions"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/resourceGroups": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure resource groups via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesResourceGroups",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureResourceGroupsEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureResourceGroupList"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/storageAccounts": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure storage accounts via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesStorageAccounts",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureStorageAccountsEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureStorageAccounts"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/storageContainers": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure storage containers via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesStorageContainers",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureStorageContainersEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureStorageContainers"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/subscriptions": {
+      "post": {
+        "description": "Lists Azure subscriptions using the account from the request body, resolved through the private gateway (Ambit).",
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure subscriptions via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesSubscriptions",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureAccountEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureSubscriptionList"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/overlords/azure/{uid}/properties/zones": {
+      "post": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "List Azure availability zones via the private gateway",
+        "operationId": "v1OverlordsUidAzurePropertiesZones",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1OverlordAzureZonesEntity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1AzureZoneEntity"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/overlords/maas/manifest": {
       "get": {
         "tags": [
@@ -18531,6 +19047,40 @@
         ],
         "summary": "Returns the pcg ally manifest",
         "operationId": "v1PcgUidAllyManifestGet",
+        "responses": {
+          "200": {
+            "description": "download file",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            },
+            "headers": {
+              "Content-Disposition": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "uid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/v1/pcg/{uid}/services/ambit/manifest": {
+      "get": {
+        "produces": [
+          "application/octet-stream"
+        ],
+        "tags": [
+          "v1"
+        ],
+        "summary": "Returns the pcg ambit manifest",
+        "operationId": "v1PcgUidAmbitManifestGet",
         "responses": {
           "200": {
             "description": "download file",
@@ -20069,6 +20619,20 @@
         ],
         "summary": "Retrieves a oci registries summary",
         "operationId": "v1OciRegistriesSummary",
+        "parameters": [
+          {
+            "enum": [
+              "helm",
+              "pack",
+              "zarf",
+              "image"
+            ],
+            "type": "string",
+            "description": "Returns only the registries of this provider type",
+            "name": "providerType",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "An array of oci registry items",
@@ -33094,6 +33658,59 @@
         }
       ]
     },
+    "/v1/tenants/{tenantUid}/passkeySettings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get tenant passkey enforcement settings",
+        "operationId": "v1TenantUidPasskeySettingsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1TenantPasskeySettings"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update tenant passkey enforcement settings",
+        "operationId": "v1TenantUidPasskeySettingsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1TenantPasskeySettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/tenants/{tenantUid}/password/policy": {
       "get": {
         "tags": [
@@ -34682,32 +35299,6 @@
         }
       }
     },
-    "/v1/users/kubectl/session/{sessionUid}": {
-      "get": {
-        "description": "gets users kubectl session",
-        "tags": [
-          "v1"
-        ],
-        "summary": "gets users kubectl session",
-        "operationId": "V1UsersKubectlSessionUid",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "sessionUid",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1UserKubectlSession"
-            }
-          }
-        }
-      }
-    },
     "/v1/users/meta": {
       "get": {
         "tags": [
@@ -34728,8 +35319,7 @@
     "/v1/users/mfa/devices": {
       "get": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesList",
         "operationId": "V1UsersMfaDevicesList",
@@ -34746,8 +35336,7 @@
     "/v1/users/mfa/devices/{deviceName}": {
       "get": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesNameGet",
         "operationId": "V1UsersMfaDevicesNameGet",
@@ -34770,8 +35359,7 @@
       },
       "delete": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesNameDelete",
         "operationId": "V1UsersMfaDevicesNameDelete",
@@ -34799,8 +35387,7 @@
     "/v1/users/mfa/register/device/finish": {
       "post": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaRegisterDeviceFinish",
         "operationId": "V1UsersMfaRegisterDeviceFinish",
@@ -34829,8 +35416,7 @@
     "/v1/users/mfa/register/device/start": {
       "post": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaRegisterDeviceStart",
         "operationId": "V1UsersMfaRegisterDeviceStart",
@@ -36040,13 +36626,103 @@
           "required": true
         }
       ]
+    },
+    "/v2/teams/summary": {
+      "post": {
+        "tags": [
+          "v2"
+        ],
+        "summary": "Retrieves a paginated list of teams summary with provided filter spec",
+        "operationId": "v2TeamsSummaryGet",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v2TeamsSummarySpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated array of teams summary items",
+            "schema": {
+              "$ref": "#/definitions/v2TeamsSummaryList"
+            }
+          }
+        }
+      }
+    },
+    "/v2/users/summary": {
+      "post": {
+        "tags": [
+          "v2"
+        ],
+        "summary": "Retrieves a paginated list of users summary with provided filter spec",
+        "operationId": "v2UsersSummaryGet",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "default": 50,
+            "description": "limit is a maximum number of responses to return for a list call. Default and maximum value of the limit is 50.\nIf more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results.",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "offset is the next index number from which the response will start. The response offset value can be used along with continue token for the pagination.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "continue token to paginate the subsequent data items",
+            "name": "continue",
+            "in": "query"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/v2UsersSummarySpec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated array of users summary items",
+            "schema": {
+              "$ref": "#/definitions/v2UsersSummaryList"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "URLEncodedBase64": {
-      "type": "string",
-      "format": "url-encoded-base64"
-    },
     "V1AwsAccountSts": {
       "description": "AWS cloud account sts",
       "type": "object",
@@ -39800,8 +40476,7 @@
       "type": "object",
       "required": [
         "tenantId",
-        "clientId",
-        "clientSecret"
+        "clientId"
       ],
       "properties": {
         "azureEnvironment": {
@@ -39817,12 +40492,27 @@
           ]
         },
         "clientId": {
-          "description": "Client ID(Directory ID) is a unique identifier generated by Azure AD that is tied to an application",
+          "description": "ClientId is the client ID of the service principal or of the user-assigned managed identity Palette uses to authenticate to Azure",
           "type": "string"
         },
         "clientSecret": {
-          "description": "ClientSecret is the secret associated with Client",
-          "type": "string"
+          "description": "ClientSecret is the secret associated with the service principal. Required only when identityType is ServicePrincipal",
+          "type": "string",
+          "x-nullable": true
+        },
+        "identityType": {
+          "description": "IdentityType is the type of identity Palette uses to authenticate to Azure. Defaults to ServicePrincipal when unset",
+          "type": "string",
+          "default": "ServicePrincipal",
+          "enum": [
+            "ServicePrincipal",
+            "UserAssignedMSI"
+          ]
+        },
+        "managementIdentityResourceId": {
+          "description": "ManagementIdentityResourceId is the resource ID of the user-assigned managed identity attached to the private cloud gateway or self-hosted Palette VMs. Resolved during cloud account validation. Read-only",
+          "type": "string",
+          "readOnly": true
         },
         "settings": {
           "description": "Palette internal cloud settings",
@@ -39972,6 +40662,10 @@
           "description": "Location is the Azure datacenter location",
           "type": "string"
         },
+        "managedIdentity": {
+          "description": "ManagedIdentity holds the user-assigned managed identities used by the cluster. Immutable after cluster creation",
+          "$ref": "#/definitions/v1AzureManagedIdentity"
+        },
         "overrideClusterAPIConfig": {
           "description": "YAML override for CAPI properties at cluster level.\nOverrides pack-level and Palette-managed values. See PCP-4787.\n",
           "type": "string"
@@ -40031,6 +40725,27 @@
           "items": {
             "$ref": "#/definitions/v1AzureGroup"
           }
+        }
+      }
+    },
+    "v1AzureIdentityRef": {
+      "description": "Reference to an Azure user-assigned managed identity",
+      "type": "object",
+      "required": [
+        "resourceId"
+      ],
+      "properties": {
+        "clientId": {
+          "description": "ClientId is the client ID of the user-assigned managed identity, resolved from resourceId by the management plane. Read-only",
+          "type": "string",
+          "maxLength": 36,
+          "readOnly": true
+        },
+        "resourceId": {
+          "description": "ResourceId is the Azure resource ID of the user-assigned managed identity",
+          "type": "string",
+          "maxLength": 345,
+          "minLength": 1
         }
       }
     },
@@ -40100,6 +40815,12 @@
             "type": "string"
           }
         },
+        "excludeClusterIdentity": {
+          "description": "ExcludeClusterIdentity leaves the cluster identity off the machines of this pool.\nValid only on IaaS worker pools of a cluster that has a clusterIdentity.\nPalette, CAPZ, ASO and any other component that authenticates as the cluster identity\nfail on this pool's nodes, and keeping them off the pool is the customer's responsibility.\nImmutable after the pool is created\n",
+          "type": "boolean",
+          "default": false,
+          "x-omitempty": false
+        },
         "instanceType": {
           "description": "Instance type stands for VMSize in Azure",
           "type": "string"
@@ -40110,6 +40831,14 @@
         },
         "osDisk": {
           "$ref": "#/definitions/v1AzureOSDisk"
+        },
+        "userAssignedIdentities": {
+          "description": "UserAssignedIdentities are the user-assigned managed identities attached to the nodes of this pool, in\naddition to the cluster identity. Valid only on IaaS worker pools. Customers may add more identities here;\nto leave the cluster identity off the pool, use excludeClusterIdentity. Immutable after the pool is created\n",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1AzureIdentityRef"
+          }
         }
       }
     },
@@ -40149,6 +40878,12 @@
         "dedicateNodePoolForSystemPods": {
           "description": "If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.",
           "type": "boolean",
+          "x-omitempty": false
+        },
+        "excludeClusterIdentity": {
+          "description": "ExcludeClusterIdentity leaves the cluster identity off the machines of this pool.\nValid only on IaaS worker pools of a cluster that has a clusterIdentity.\nPalette, CAPZ, ASO and any other component that authenticates as the cluster identity\nfail on this pool's nodes, and keeping them off the pool is the customer's responsibility.\nImmutable after the pool is created\n",
+          "type": "boolean",
+          "default": false,
           "x-omitempty": false
         },
         "instanceConfig": {
@@ -40255,6 +40990,14 @@
           "description": "if IsControlPlane==true \u0026\u0026 useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools",
           "type": "boolean",
           "x-omitempty": false
+        },
+        "userAssignedIdentities": {
+          "description": "UserAssignedIdentities are the user-assigned managed identities attached to the nodes of this pool, in\naddition to the cluster identity. Valid only on IaaS worker pools. Customers may add more identities here;\nto leave the cluster identity off the pool, use excludeClusterIdentity. Immutable after the pool is created\n",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1AzureIdentityRef"
+          }
         }
       }
     },
@@ -40384,6 +41127,24 @@
         },
         "listmeta": {
           "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v1AzureManagedIdentity": {
+      "description": "Managed identity configuration for the cluster. Each identity is immutable after cluster creation",
+      "type": "object",
+      "properties": {
+        "aksServiceIdentity": {
+          "description": "AksServiceIdentity is the user-assigned managed identity used by the AKS control plane. Immutable after cluster creation",
+          "$ref": "#/definitions/v1AzureIdentityRef"
+        },
+        "clusterIdentity": {
+          "description": "ClusterIdentity is the user-assigned managed identity Palette authenticates to Azure with on an IaaS cluster.\nIt is attached to every node of the cluster by default; a worker pool can leave it off with\nexcludeClusterIdentity, and customers may attach additional identities through userAssignedIdentities.\nImmutable after cluster creation\n",
+          "$ref": "#/definitions/v1AzureIdentityRef"
+        },
+        "kubeletIdentity": {
+          "description": "KubeletIdentity is the user-assigned managed identity used by the AKS kubelet. Immutable after cluster creation",
+          "$ref": "#/definitions/v1AzureIdentityRef"
         }
       }
     },
@@ -40822,7 +41583,8 @@
           "enum": [
             "helm",
             "zarf",
-            "pack"
+            "pack",
+            "image"
           ]
         },
         "registryUid": {
@@ -47979,7 +48741,8 @@
           "enum": [
             "helm",
             "pack",
-            "zarf"
+            "zarf",
+            "image"
           ]
         },
         "registryUid": {
@@ -48708,6 +49471,10 @@
           "description": "ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN",
           "$ref": "#/definitions/v1EdgeNativeControlPlaneEndPoint"
         },
+        "imageRegistryRef": {
+          "description": "ImageRegistryRef points to an OCI registry with the image provider type. The edge hosts use its credentials to pull the provider image",
+          "$ref": "#/definitions/v1ObjectReference"
+        },
         "isTwoNodeCluster": {
           "description": "IsTwoNodeCluster is to enable two node cluster support in the control-plane",
           "type": "boolean"
@@ -48733,6 +49500,10 @@
         "staticIp": {
           "description": "StaticIP indicates if IP allocation type is static IP. DHCP is the default allocation type",
           "type": "boolean"
+        },
+        "updateLock": {
+          "description": "UpdateLock is the profile update lock state of the edge native cluster and when that state last changed",
+          "$ref": "#/definitions/v1UpdateLock"
         }
       }
     },
@@ -54646,16 +55417,16 @@
           "type": "string"
         },
         "rawId": {
-          "$ref": "#/definitions/URLEncodedBase64"
+          "$ref": "#/definitions/urlEncodedBase64"
         },
         "response": {
           "type": "object",
           "properties": {
             "attestationObject": {
-              "$ref": "#/definitions/URLEncodedBase64"
+              "$ref": "#/definitions/urlEncodedBase64"
             },
             "clientDataJSON": {
-              "$ref": "#/definitions/URLEncodedBase64"
+              "$ref": "#/definitions/urlEncodedBase64"
             },
             "transports": {
               "type": "array",
@@ -54712,6 +55483,14 @@
         },
         "deviceName": {
           "type": "string"
+        },
+        "ownerType": {
+          "description": "Console the passkey was registered from, system or tenant",
+          "type": "string"
+        },
+        "tenantUid": {
+          "description": "Tenant the passkey was registered in",
+          "type": "string"
         }
       }
     },
@@ -54739,7 +55518,7 @@
           "$ref": "#/definitions/v1MfaAuthenticatorSelection"
         },
         "challenge": {
-          "$ref": "#/definitions/URLEncodedBase64"
+          "$ref": "#/definitions/urlEncodedBase64"
         },
         "excludeCredentials": {
           "type": "array",
@@ -55683,6 +56462,314 @@
         },
         "status": {
           "$ref": "#/definitions/v1OverloadStatus"
+        }
+      }
+    },
+    "v1OverlordAzureAccountEntity": {
+      "description": "Azure account payload for private-gateway lookups. Not tied to a saved cloud account uid.",
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        }
+      }
+    },
+    "v1OverlordAzureAccountValidate": {
+      "type": "object",
+      "properties": {
+        "managementIdentityResourceId": {
+          "description": "ManagementIdentityResourceId is the resource ID of the user-assigned managed identity attached to the private gateway, resolved during validation",
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureAksClusterNameValidateEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "resourceGroup",
+        "region",
+        "name"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "name": {
+          "description": "AKS cluster name to validate",
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureIdentities": {
+      "type": "object",
+      "required": [
+        "identities"
+      ],
+      "properties": {
+        "identities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1OverlordAzureManagedIdentity"
+          }
+        }
+      }
+    },
+    "v1OverlordAzureIdentitiesEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "resourceGroup": {
+          "description": "Optional resource group filter",
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureIdentitiesPermissionsValidateEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "resourceGroup"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "aksServiceIdentity": {
+          "$ref": "#/definitions/v1AzureIdentityRef"
+        },
+        "clusterIdentity": {
+          "$ref": "#/definitions/v1AzureIdentityRef"
+        },
+        "kubeletIdentity": {
+          "$ref": "#/definitions/v1AzureIdentityRef"
+        },
+        "poolIdentities": {
+          "description": "Extra pool MIs; omit pools with excludeClusterIdentity",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v1AzureIdentityRef"
+          }
+        },
+        "resourceGroup": {
+          "description": "Cluster resource group",
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureIdentity": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$ref": "#/definitions/v1OverlordAzureManagedIdentity"
+        }
+      }
+    },
+    "v1OverlordAzureIdentityEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "resourceId"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "resourceId": {
+          "description": "Azure resource ID of the user-assigned managed identity",
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureManagedIdentity": {
+      "description": "Azure user-assigned managed identity",
+      "type": "object",
+      "properties": {
+        "clientId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "principalId": {
+          "type": "string"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureNetworksEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "region"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "region": {
+          "type": "string"
+        },
+        "resourceGroup": {
+          "description": "Optional resource group filter",
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzurePrivateDnsZonesEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "resourceGroup"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureRegionsEntity": {
+      "type": "object",
+      "required": [
+        "account"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "subscriptionId": {
+          "description": "Subscription ID for which regions are requested",
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureResourceGroupsEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "region"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "region": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureStorageAccountsEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "resourceGroup"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureStorageContainersEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "resourceGroup",
+        "storageAccountName"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "storageAccountName": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
+        }
+      }
+    },
+    "v1OverlordAzureZonesEntity": {
+      "type": "object",
+      "required": [
+        "account",
+        "subscriptionId",
+        "region"
+      ],
+      "properties": {
+        "account": {
+          "$ref": "#/definitions/v1AzureCloudAccount"
+        },
+        "region": {
+          "type": "string"
+        },
+        "subscriptionId": {
+          "type": "string"
         }
       }
     },
@@ -56766,7 +57853,7 @@
           "type": "string"
         },
         "providerType": {
-          "description": "OCI registry provider type [ \"helm\", \"pack\", \"zarf\" ]",
+          "description": "OCI registry provider type [ \"helm\", \"pack\", \"zarf\", \"image\" ]",
           "type": "string"
         },
         "uid": {
@@ -66051,6 +67138,38 @@
         }
       }
     },
+    "v1TenantPasskeySettings": {
+      "description": "Tenant passkey (MFA) enforcement settings",
+      "required": [
+        "enforcement"
+      ],
+      "properties": {
+        "enforcedAt": {
+          "description": "Read-only. Unix seconds at which the current grace period started. Stamped when enforcement is switched on, and again when the grace period length changes, which restarts the window for every user. A user's grace period runs from the later of this and the time the user was created",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false,
+          "readOnly": true
+        },
+        "enforcement": {
+          "description": "Whether the tenant requires passkeys. When enabled, local-password users must authenticate with a registered passkey once the grace period has elapsed. \"none\" means the tenant has never configured it; only \"enabled\" enforces",
+          "type": "string",
+          "enum": [
+            "enabled",
+            "disabled",
+            "none"
+          ]
+        },
+        "gracePeriodDays": {
+          "description": "Days a user may continue to sign in with a password alone before a passkey is required. Counted from enforcedAt, or from the time the user was created if that is later. Changing this value restarts the window for every user. 0 applies enforcement immediately",
+          "type": "integer",
+          "format": "int32",
+          "maximum": 365,
+          "minimum": 0,
+          "x-omitempty": false
+        }
+      }
+    },
     "v1TenantPasswordPolicyEntity": {
       "description": "Tenant Password Policy Entity",
       "type": "object",
@@ -66789,6 +67908,40 @@
         "$ref": "#/definitions/v1Uid"
       }
     },
+    "v1UpdateLock": {
+      "description": "UpdateLock is the profile update lock of a cluster, with when it last changed",
+      "type": "object",
+      "properties": {
+        "lastModifiedTimestamp": {
+          "description": "LastModifiedTimestamp is when the lock state was last changed",
+          "$ref": "#/definitions/v1Time"
+        },
+        "state": {
+          "$ref": "#/definitions/v1UpdateLockState"
+        }
+      }
+    },
+    "v1UpdateLockEntity": {
+      "description": "Profile update lock state to apply on a cluster",
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "description": "State is the profile update lock state to apply on the cluster",
+          "$ref": "#/definitions/v1UpdateLockState"
+        }
+      }
+    },
+    "v1UpdateLockState": {
+      "description": "UpdateLockState is the profile update lock state of a cluster. When enabled, cluster profile updates are held on the device until a local operator releases the lock",
+      "type": "string",
+      "enum": [
+        "enabled",
+        "disabled"
+      ]
+    },
     "v1UpdateStrategy": {
       "description": "UpdatesStrategy will be used to translate to RollingUpdateStrategy of a MachineDeployment We'll start with default values for the translation, can expose more details later Following is details of parameters translated from the type ScaleOut =\u003e maxSurge=1, maxUnavailable=0 ScaleIn =\u003e maxSurge=0, maxUnavailable=1 OverrideScaling =\u003e maxSurge and maxUnavailable are user-specified (both required)",
       "type": "object",
@@ -67068,47 +68221,6 @@
         }
       }
     },
-    "v1UserKubectlSession": {
-      "type": "object",
-      "properties": {
-        "clusterUid": {
-          "type": "string"
-        },
-        "creationTime": {
-          "type": "string"
-        },
-        "isActive": {
-          "type": "boolean"
-        },
-        "podIp": {
-          "type": "string"
-        },
-        "podName": {
-          "type": "string"
-        },
-        "port": {
-          "type": "string"
-        },
-        "projectUid": {
-          "type": "string"
-        },
-        "sessionUid": {
-          "type": "string"
-        },
-        "shellyCluster": {
-          "type": "string"
-        },
-        "tenantClusterEndpoint": {
-          "type": "string"
-        },
-        "userName": {
-          "type": "string"
-        },
-        "userUid": {
-          "type": "string"
-        }
-      }
-    },
     "v1UserMeta": {
       "type": "object",
       "properties": {
@@ -67141,6 +68253,40 @@
         },
         "uid": {
           "type": "string"
+        }
+      }
+    },
+    "v1UserPasskeyStatus": {
+      "description": "The passkey obligation of the user this record describes",
+      "type": "object",
+      "properties": {
+        "deadline": {
+          "description": "unix seconds at which this user's grace window closes. Absent unless enrolment is grace",
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "enrolment": {
+          "description": "whether this user must register a passkey, and by when",
+          "type": "string",
+          "enum": [
+            "none",
+            "grace",
+            "required"
+          ],
+          "readOnly": true
+        },
+        "hasDevices": {
+          "description": "whether this user has at least one registered passkey",
+          "type": "boolean",
+          "x-omitempty": false,
+          "readOnly": true
+        },
+        "restrictLastDeviceDeletion": {
+          "description": "whether removing this user's only remaining passkey would be refused, because a tenant they belong to enforces passkeys",
+          "type": "boolean",
+          "x-omitempty": false,
+          "readOnly": true
         }
       }
     },
@@ -67304,6 +68450,10 @@
         "lastSignIn": {
           "description": "user's last sign in time",
           "$ref": "#/definitions/v1Time"
+        },
+        "passkey": {
+          "description": "the user's passkey obligation. Populated only by GET /v1/users/{uid}; absent on list and summary responses",
+          "$ref": "#/definitions/v1UserPasskeyStatus"
         }
       }
     },
@@ -67363,6 +68513,16 @@
         "isMfa": {
           "description": "Indicates the authentication flow using MFA",
           "type": "boolean",
+          "x-omitempty": false
+        },
+        "mfaEnrollment": {
+          "description": "What the console must show after a successful password login. \"required\" is a session that may do nothing but register a passkey; \"grace\" is an ordinary session the user may be prompted, and may decline, to enrol; \"none\" is an ordinary session with nothing to show",
+          "type": "string",
+          "enum": [
+            "none",
+            "grace",
+            "required"
+          ],
           "x-omitempty": false
         }
       }
@@ -73342,6 +74502,250 @@
         },
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "v2TeamSpecSummary": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        }
+      }
+    },
+    "v2TeamStatus": {
+      "description": "Team status",
+      "type": "object"
+    },
+    "v2TeamSummary": {
+      "description": "Team summary",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v2TeamSpecSummary"
+        },
+        "status": {
+          "$ref": "#/definitions/v2TeamStatus"
+        }
+      }
+    },
+    "v2TeamSummarySortFields": {
+      "type": "string",
+      "enum": [
+        "name",
+        "creationTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v2TeamSummarySortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v2TeamSummarySortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
+        }
+      }
+    },
+    "v2TeamsFilterSpec": {
+      "description": "Teams filter spec",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/v1FilterString"
+        }
+      }
+    },
+    "v2TeamsSummaryList": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v2TeamSummary"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v2TeamsSummarySpec": {
+      "description": "Teams summary filter spec",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v2TeamsFilterSpec"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v2TeamSummarySortSpec"
+          }
+        }
+      }
+    },
+    "v2UserSpecSummary": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "projects": {
+          "description": "Deprecated.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        },
+        "projectsCount": {
+          "type": "integer",
+          "format": "int32",
+          "x-omitempty": false
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        },
+        "teams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UidSummary"
+          }
+        }
+      }
+    },
+    "v2UserStatus": {
+      "description": "User status",
+      "type": "object",
+      "properties": {
+        "activationLink": {
+          "description": "provides the link to activate or reset the user password",
+          "type": "string",
+          "x-omitempty": false
+        },
+        "isActive": {
+          "description": "Specifies if user account is active/disabled",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "isPasswordResetting": {
+          "description": "Specifies if user in multi org requested password reset",
+          "type": "boolean",
+          "x-omitempty": false
+        },
+        "lastSignIn": {
+          "description": "user's last sign in time",
+          "$ref": "#/definitions/v1Time"
+        }
+      }
+    },
+    "v2UserSummary": {
+      "description": "User summary",
+      "type": "object",
+      "properties": {
+        "metadata": {
+          "$ref": "#/definitions/v1ObjectMeta"
+        },
+        "spec": {
+          "$ref": "#/definitions/v2UserSpecSummary"
+        },
+        "status": {
+          "$ref": "#/definitions/v2UserStatus"
+        }
+      }
+    },
+    "v2UserSummarySortFields": {
+      "type": "string",
+      "enum": [
+        "name",
+        "creationTimestamp"
+      ],
+      "x-nullable": true
+    },
+    "v2UserSummarySortSpec": {
+      "properties": {
+        "field": {
+          "$ref": "#/definitions/v2UserSummarySortFields"
+        },
+        "order": {
+          "$ref": "#/definitions/v1SortOrder"
+        }
+      }
+    },
+    "v2UsersFilterSpec": {
+      "description": "Users filter spec",
+      "properties": {
+        "emailId": {
+          "$ref": "#/definitions/v1FilterString"
+        },
+        "name": {
+          "$ref": "#/definitions/v1FilterString"
+        }
+      }
+    },
+    "v2UsersSummaryList": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v2UserSummary"
+          }
+        },
+        "listmeta": {
+          "$ref": "#/definitions/v1ListMetaData"
+        }
+      }
+    },
+    "v2UsersSummarySpec": {
+      "description": "Users summary filter spec",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/v2UsersFilterSpec"
+        },
+        "sort": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/v2UserSummarySortSpec"
+          }
         }
       }
     }

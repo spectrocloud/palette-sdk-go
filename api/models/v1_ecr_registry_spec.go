@@ -44,7 +44,7 @@ type V1EcrRegistrySpec struct {
 	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
-	// Enum: ["helm","pack","zarf"]
+	// Enum: ["helm","pack","zarf","image"]
 	ProviderType *string `json:"providerType,omitempty"`
 
 	// Ecr registry uid
@@ -128,7 +128,7 @@ var v1EcrRegistrySpecTypeProviderTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["helm","pack","zarf"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["helm","pack","zarf","image"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -146,6 +146,9 @@ const (
 
 	// V1EcrRegistrySpecProviderTypeZarf captures enum value "zarf"
 	V1EcrRegistrySpecProviderTypeZarf string = "zarf"
+
+	// V1EcrRegistrySpecProviderTypeImage captures enum value "image"
+	V1EcrRegistrySpecProviderTypeImage string = "image"
 )
 
 // prop value enum

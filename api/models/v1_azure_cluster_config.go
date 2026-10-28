@@ -41,6 +41,9 @@ type V1AzureClusterConfig struct {
 	// Required: true
 	Location *string `json:"location"`
 
+	// ManagedIdentity holds the user-assigned managed identities used by the cluster. Immutable after cluster creation
+	ManagedIdentity *V1AzureManagedIdentity `json:"managedIdentity,omitempty"`
+
 	// YAML override for CAPI properties at cluster level.
 	// Overrides pack-level and Palette-managed values. See PCP-4787.
 	//
@@ -94,6 +97,10 @@ func (m *V1AzureClusterConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateLocation(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateManagedIdentity(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -200,6 +207,25 @@ func (m *V1AzureClusterConfig) validateLocation(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1AzureClusterConfig) validateManagedIdentity(formats strfmt.Registry) error {
+	if swag.IsZero(m.ManagedIdentity) { // not required
+		return nil
+	}
+
+	if m.ManagedIdentity != nil {
+		if err := m.ManagedIdentity.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("managedIdentity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("managedIdentity")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1AzureClusterConfig) validateSSHKey(formats strfmt.Registry) error {
 
 	if err := validate.Required("sshKey", "body", m.SSHKey); err != nil {
@@ -254,6 +280,10 @@ func (m *V1AzureClusterConfig) ContextValidate(ctx context.Context, formats strf
 	}
 
 	if err := m.contextValidateInfraLBConfig(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateManagedIdentity(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -343,6 +373,27 @@ func (m *V1AzureClusterConfig) contextValidateInfraLBConfig(ctx context.Context,
 				return ve.ValidateName("infraLBConfig")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("infraLBConfig")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureClusterConfig) contextValidateManagedIdentity(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ManagedIdentity != nil {
+
+		if swag.IsZero(m.ManagedIdentity) { // not required
+			return nil
+		}
+
+		if err := m.ManagedIdentity.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("managedIdentity")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("managedIdentity")
 			}
 			return err
 		}

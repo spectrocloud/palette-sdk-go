@@ -41,7 +41,7 @@ type V1BasicOciRegistrySpec struct {
 	IsSyncSupported bool `json:"isSyncSupported,omitempty"`
 
 	// provider type
-	// Enum: ["helm","zarf","pack"]
+	// Enum: ["helm","zarf","pack","image"]
 	ProviderType *string `json:"providerType,omitempty"`
 
 	// Basic oci registry uid
@@ -106,7 +106,7 @@ var v1BasicOciRegistrySpecTypeProviderTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["helm","zarf","pack"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["helm","zarf","pack","image"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -124,6 +124,9 @@ const (
 
 	// V1BasicOciRegistrySpecProviderTypePack captures enum value "pack"
 	V1BasicOciRegistrySpecProviderTypePack string = "pack"
+
+	// V1BasicOciRegistrySpecProviderTypeImage captures enum value "image"
+	V1BasicOciRegistrySpecProviderTypeImage string = "image"
 )
 
 // prop value enum

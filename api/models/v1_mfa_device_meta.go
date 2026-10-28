@@ -24,6 +24,12 @@ type V1MfaDeviceMeta struct {
 
 	// device name
 	DeviceName string `json:"deviceName,omitempty"`
+
+	// Console the passkey was registered from, system or tenant
+	OwnerType string `json:"ownerType,omitempty"`
+
+	// Tenant the passkey was registered in
+	TenantUID string `json:"tenantUid,omitempty"`
 }
 
 // Validate validates this v1 mfa device meta
