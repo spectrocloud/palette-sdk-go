@@ -19,7 +19,7 @@ import (
 // NewV1OciRegistriesSummaryParams creates a new V1OciRegistriesSummaryParams object
 // with the default values initialized.
 func NewV1OciRegistriesSummaryParams() *V1OciRegistriesSummaryParams {
-
+	var ()
 	return &V1OciRegistriesSummaryParams{
 
 		timeout: cr.DefaultTimeout,
@@ -29,7 +29,7 @@ func NewV1OciRegistriesSummaryParams() *V1OciRegistriesSummaryParams {
 // NewV1OciRegistriesSummaryParamsWithTimeout creates a new V1OciRegistriesSummaryParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewV1OciRegistriesSummaryParamsWithTimeout(timeout time.Duration) *V1OciRegistriesSummaryParams {
-
+	var ()
 	return &V1OciRegistriesSummaryParams{
 
 		timeout: timeout,
@@ -39,7 +39,7 @@ func NewV1OciRegistriesSummaryParamsWithTimeout(timeout time.Duration) *V1OciReg
 // NewV1OciRegistriesSummaryParamsWithContext creates a new V1OciRegistriesSummaryParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewV1OciRegistriesSummaryParamsWithContext(ctx context.Context) *V1OciRegistriesSummaryParams {
-
+	var ()
 	return &V1OciRegistriesSummaryParams{
 
 		Context: ctx,
@@ -49,7 +49,7 @@ func NewV1OciRegistriesSummaryParamsWithContext(ctx context.Context) *V1OciRegis
 // NewV1OciRegistriesSummaryParamsWithHTTPClient creates a new V1OciRegistriesSummaryParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewV1OciRegistriesSummaryParamsWithHTTPClient(client *http.Client) *V1OciRegistriesSummaryParams {
-
+	var ()
 	return &V1OciRegistriesSummaryParams{
 		HTTPClient: client,
 	}
@@ -60,6 +60,13 @@ V1OciRegistriesSummaryParams contains all the parameters to send to the API endp
 for the v1 oci registries summary operation typically these are written to a http.Request
 */
 type V1OciRegistriesSummaryParams struct {
+
+	/*ProviderType
+	  Returns only the registries of this provider type
+
+	*/
+	ProviderType *string
+
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -98,6 +105,17 @@ func (o *V1OciRegistriesSummaryParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithProviderType adds the providerType to the v1 oci registries summary params
+func (o *V1OciRegistriesSummaryParams) WithProviderType(providerType *string) *V1OciRegistriesSummaryParams {
+	o.SetProviderType(providerType)
+	return o
+}
+
+// SetProviderType adds the providerType to the v1 oci registries summary params
+func (o *V1OciRegistriesSummaryParams) SetProviderType(providerType *string) {
+	o.ProviderType = providerType
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *V1OciRegistriesSummaryParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -105,6 +123,22 @@ func (o *V1OciRegistriesSummaryParams) WriteToRequest(r runtime.ClientRequest, r
 		return err
 	}
 	var res []error
+
+	if o.ProviderType != nil {
+
+		// query param providerType
+		var qrProviderType string
+		if o.ProviderType != nil {
+			qrProviderType = *o.ProviderType
+		}
+		qProviderType := qrProviderType
+		if qProviderType != "" {
+			if err := r.SetQueryParam("providerType", qProviderType); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

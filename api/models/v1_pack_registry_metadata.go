@@ -29,7 +29,7 @@ type V1PackRegistryMetadata struct {
 	// Pack registry name
 	Name string `json:"name,omitempty"`
 
-	// OCI registry provider type [ "helm", "pack", "zarf" ]
+	// OCI registry provider type [ "helm", "pack", "zarf", "image" ]
 	ProviderType string `json:"providerType,omitempty"`
 
 	// Pack registry uid

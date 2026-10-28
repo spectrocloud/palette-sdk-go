@@ -7,10 +7,12 @@ package models
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1AzureMachinePoolCloudConfigEntity v1 azure machine pool cloud config entity
@@ -21,6 +23,14 @@ type V1AzureMachinePoolCloudConfigEntity struct {
 	// azs
 	Azs []string `json:"azs"`
 
+	// ExcludeClusterIdentity leaves the cluster identity off the machines of this pool.
+	// Valid only on IaaS worker pools of a cluster that has a clusterIdentity.
+	// Palette, CAPZ, ASO and any other component that authenticates as the cluster identity
+	// fail on this pool's nodes, and keeping them off the pool is the customer's responsibility.
+	// Immutable after the pool is created
+	//
+	ExcludeClusterIdentity *bool `json:"excludeClusterIdentity"`
+
 	// Instance type stands for VMSize in Azure
 	InstanceType string `json:"instanceType,omitempty"`
 
@@ -29,6 +39,13 @@ type V1AzureMachinePoolCloudConfigEntity struct {
 
 	// os disk
 	OsDisk *V1AzureOSDisk `json:"osDisk,omitempty"`
+
+	// UserAssignedIdentities are the user-assigned managed identities attached to the nodes of this pool, in
+	// addition to the cluster identity. Valid only on IaaS worker pools. Customers may add more identities here;
+	// to leave the cluster identity off the pool, use excludeClusterIdentity. Immutable after the pool is created
+	//
+	// Unique: true
+	UserAssignedIdentities []*V1AzureIdentityRef `json:"userAssignedIdentities"`
 }
 
 // Validate validates this v1 azure machine pool cloud config entity
@@ -36,6 +53,10 @@ func (m *V1AzureMachinePoolCloudConfigEntity) Validate(formats strfmt.Registry) 
 	var res []error
 
 	if err := m.validateOsDisk(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUserAssignedIdentities(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -64,11 +85,45 @@ func (m *V1AzureMachinePoolCloudConfigEntity) validateOsDisk(formats strfmt.Regi
 	return nil
 }
 
+func (m *V1AzureMachinePoolCloudConfigEntity) validateUserAssignedIdentities(formats strfmt.Registry) error {
+	if swag.IsZero(m.UserAssignedIdentities) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("userAssignedIdentities", "body", m.UserAssignedIdentities); err != nil {
+		return err
+	}
+
+	for i := 0; i < len(m.UserAssignedIdentities); i++ {
+		if swag.IsZero(m.UserAssignedIdentities[i]) { // not required
+			continue
+		}
+
+		if m.UserAssignedIdentities[i] != nil {
+			if err := m.UserAssignedIdentities[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 azure machine pool cloud config entity based on the context it is used
 func (m *V1AzureMachinePoolCloudConfigEntity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateOsDisk(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUserAssignedIdentities(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -94,6 +149,31 @@ func (m *V1AzureMachinePoolCloudConfigEntity) contextValidateOsDisk(ctx context.
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolCloudConfigEntity) contextValidateUserAssignedIdentities(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.UserAssignedIdentities); i++ {
+
+		if m.UserAssignedIdentities[i] != nil {
+
+			if swag.IsZero(m.UserAssignedIdentities[i]) { // not required
+				return nil
+			}
+
+			if err := m.UserAssignedIdentities[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
