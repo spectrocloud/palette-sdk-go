@@ -28,8 +28,6 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error)
-
 	V1AuthOrgs(params *V1AuthOrgsParams) (*V1AuthOrgsOK, error)
 
 	V1AuthSsoProviders(params *V1AuthSsoProvidersParams) (*V1AuthSsoProvidersOK, error)
@@ -660,8 +658,6 @@ type ClientService interface {
 
 	V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1UsersConfigScarGetOK, error)
 
-	V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams) (*V1UsersKubectlSessionUIDOK, error)
-
 	V1UsersMfaDevicesList(params *V1UsersMfaDevicesListParams) (*V1UsersMfaDevicesListOK, error)
 
 	V1UsersMfaDevicesNameDelete(params *V1UsersMfaDevicesNameDeleteParams) (*V1UsersMfaDevicesNameDeleteNoContent, error)
@@ -989,6 +985,8 @@ type ClientService interface {
 	V1CloudConfigsEdgeNativePoolMachinesUIDUpdate(params *V1CloudConfigsEdgeNativePoolMachinesUIDUpdateParams) (*V1CloudConfigsEdgeNativePoolMachinesUIDUpdateNoContent, error)
 
 	V1CloudConfigsEdgeNativeUIDClusterConfig(params *V1CloudConfigsEdgeNativeUIDClusterConfigParams) (*V1CloudConfigsEdgeNativeUIDClusterConfigNoContent, error)
+
+	V1CloudConfigsEdgeNativeUIDUpdateLockPatch(params *V1CloudConfigsEdgeNativeUIDUpdateLockPatchParams) (*V1CloudConfigsEdgeNativeUIDUpdateLockPatchNoContent, error)
 
 	V1CloudConfigsEksGet(params *V1CloudConfigsEksGetParams) (*V1CloudConfigsEksGetOK, error)
 
@@ -1528,6 +1526,34 @@ type ClientService interface {
 
 	V1OverlordsSystem(params *V1OverlordsSystemParams) (*V1OverlordsSystemCreated, error)
 
+	V1OverlordsUIDAzureAccountValidate(params *V1OverlordsUIDAzureAccountValidateParams) (*V1OverlordsUIDAzureAccountValidateOK, error)
+
+	V1OverlordsUIDAzurePropertiesAksClusterNameValidate(params *V1OverlordsUIDAzurePropertiesAksClusterNameValidateParams) (*V1OverlordsUIDAzurePropertiesAksClusterNameValidateNoContent, error)
+
+	V1OverlordsUIDAzurePropertiesGroups(params *V1OverlordsUIDAzurePropertiesGroupsParams) (*V1OverlordsUIDAzurePropertiesGroupsOK, error)
+
+	V1OverlordsUIDAzurePropertiesIdentities(params *V1OverlordsUIDAzurePropertiesIdentitiesParams) (*V1OverlordsUIDAzurePropertiesIdentitiesOK, error)
+
+	V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidate(params *V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateParams) (*V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateNoContent, error)
+
+	V1OverlordsUIDAzurePropertiesIdentity(params *V1OverlordsUIDAzurePropertiesIdentityParams) (*V1OverlordsUIDAzurePropertiesIdentityOK, error)
+
+	V1OverlordsUIDAzurePropertiesNetworks(params *V1OverlordsUIDAzurePropertiesNetworksParams) (*V1OverlordsUIDAzurePropertiesNetworksOK, error)
+
+	V1OverlordsUIDAzurePropertiesPrivateDNSZones(params *V1OverlordsUIDAzurePropertiesPrivateDNSZonesParams) (*V1OverlordsUIDAzurePropertiesPrivateDNSZonesOK, error)
+
+	V1OverlordsUIDAzurePropertiesRegions(params *V1OverlordsUIDAzurePropertiesRegionsParams) (*V1OverlordsUIDAzurePropertiesRegionsOK, error)
+
+	V1OverlordsUIDAzurePropertiesResourceGroups(params *V1OverlordsUIDAzurePropertiesResourceGroupsParams) (*V1OverlordsUIDAzurePropertiesResourceGroupsOK, error)
+
+	V1OverlordsUIDAzurePropertiesStorageAccounts(params *V1OverlordsUIDAzurePropertiesStorageAccountsParams) (*V1OverlordsUIDAzurePropertiesStorageAccountsOK, error)
+
+	V1OverlordsUIDAzurePropertiesStorageContainers(params *V1OverlordsUIDAzurePropertiesStorageContainersParams) (*V1OverlordsUIDAzurePropertiesStorageContainersOK, error)
+
+	V1OverlordsUIDAzurePropertiesSubscriptions(params *V1OverlordsUIDAzurePropertiesSubscriptionsParams) (*V1OverlordsUIDAzurePropertiesSubscriptionsOK, error)
+
+	V1OverlordsUIDAzurePropertiesZones(params *V1OverlordsUIDAzurePropertiesZonesParams) (*V1OverlordsUIDAzurePropertiesZonesOK, error)
+
 	V1OverlordsUIDCloudStackAccountCreate(params *V1OverlordsUIDCloudStackAccountCreateParams) (*V1OverlordsUIDCloudStackAccountCreateCreated, error)
 
 	V1OverlordsUIDCloudStackAccountUpdate(params *V1OverlordsUIDCloudStackAccountUpdateParams) (*V1OverlordsUIDCloudStackAccountUpdateNoContent, error)
@@ -1617,6 +1643,8 @@ type ClientService interface {
 	V1PcgSelfHosted(params *V1PcgSelfHostedParams) (*V1PcgSelfHostedOK, error)
 
 	V1PcgUIDAllyManifestGet(params *V1PcgUIDAllyManifestGetParams, writer io.Writer) (*V1PcgUIDAllyManifestGetOK, error)
+
+	V1PcgUIDAmbitManifestGet(params *V1PcgUIDAmbitManifestGetParams, writer io.Writer) (*V1PcgUIDAmbitManifestGetOK, error)
 
 	V1PcgUIDJetManifestGet(params *V1PcgUIDJetManifestGetParams, writer io.Writer) (*V1PcgUIDJetManifestGetOK, error)
 
@@ -2240,6 +2268,10 @@ type ClientService interface {
 
 	V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpdateParams) (*V1TenantUIDLoginBannerUpdateNoContent, error)
 
+	V1TenantUIDPasskeySettingsGet(params *V1TenantUIDPasskeySettingsGetParams) (*V1TenantUIDPasskeySettingsGetOK, error)
+
+	V1TenantUIDPasskeySettingsUpdate(params *V1TenantUIDPasskeySettingsUpdateParams) (*V1TenantUIDPasskeySettingsUpdateNoContent, error)
+
 	V1TenantsCleanUp(params *V1TenantsCleanUpParams) (*V1TenantsCleanUpNoContent, error)
 
 	V1TenantsCreate(params *V1TenantsCreateParams) (*V1TenantsCreateCreated, error)
@@ -2443,40 +2475,6 @@ type ClientService interface {
 	V1WorkspacesValidateName(params *V1WorkspacesValidateNameParams) (*V1WorkspacesValidateNameNoContent, error)
 
 	SetTransport(transport runtime.ClientTransport)
-}
-
-/*
-V1AuthMfaDevicesList v1s auth mfa devices list
-*/
-func (a *Client) V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AuthMfaDevicesListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1AuthMfaDevicesList",
-		Method:             "GET",
-		PathPattern:        "/v1/auth/mfa/devices",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AuthMfaDevicesListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AuthMfaDevicesListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1AuthMfaDevicesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
 }
 
 /*
@@ -13262,42 +13260,6 @@ func (a *Client) V1UsersConfigScarGet(params *V1UsersConfigScarGetParams) (*V1Us
 }
 
 /*
-V1UsersKubectlSessionUID gets users kubectl session
-
-gets users kubectl session
-*/
-func (a *Client) V1UsersKubectlSessionUID(params *V1UsersKubectlSessionUIDParams) (*V1UsersKubectlSessionUIDOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1UsersKubectlSessionUIDParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1UsersKubectlSessionUid",
-		Method:             "GET",
-		PathPattern:        "/v1/users/kubectl/session/{sessionUid}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1UsersKubectlSessionUIDReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1UsersKubectlSessionUIDOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1UsersKubectlSessionUid: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1UsersMfaDevicesList v1s users mfa devices list
 */
 func (a *Client) V1UsersMfaDevicesList(params *V1UsersMfaDevicesListParams) (*V1UsersMfaDevicesListOK, error) {
@@ -18892,6 +18854,40 @@ func (a *Client) V1CloudConfigsEdgeNativeUIDClusterConfig(params *V1CloudConfigs
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsEdgeNativeUidClusterConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1CloudConfigsEdgeNativeUIDUpdateLockPatch enables or disables the profile update lock on the specified edge native cloud config
+*/
+func (a *Client) V1CloudConfigsEdgeNativeUIDUpdateLockPatch(params *V1CloudConfigsEdgeNativeUIDUpdateLockPatchParams) (*V1CloudConfigsEdgeNativeUIDUpdateLockPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1CloudConfigsEdgeNativeUIDUpdateLockPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1CloudConfigsEdgeNativeUidUpdateLockPatch",
+		Method:             "PATCH",
+		PathPattern:        "/v1/cloudconfigs/edge-native/{configUid}/updateLock",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1CloudConfigsEdgeNativeUIDUpdateLockPatchReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1CloudConfigsEdgeNativeUIDUpdateLockPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1CloudConfigsEdgeNativeUidUpdateLockPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -28080,6 +28076,494 @@ func (a *Client) V1OverlordsSystem(params *V1OverlordsSystemParams) (*V1Overlord
 }
 
 /*
+V1OverlordsUIDAzureAccountValidate validates the azure cloudaccount for the private gateway
+
+Validates the Azure cloud account from inside the private gateway and returns the resolved management identity resource ID.
+*/
+func (a *Client) V1OverlordsUIDAzureAccountValidate(params *V1OverlordsUIDAzureAccountValidateParams) (*V1OverlordsUIDAzureAccountValidateOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzureAccountValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzureAccountValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/account/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzureAccountValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzureAccountValidateOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzureAccountValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesAksClusterNameValidate validates a k s cluster name availability via the private gateway
+
+Returns no content if the name is available, else error.
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesAksClusterNameValidate(params *V1OverlordsUIDAzurePropertiesAksClusterNameValidateParams) (*V1OverlordsUIDAzurePropertiesAksClusterNameValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesAksClusterNameValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesAksClusterNameValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/aksClusterName/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesAksClusterNameValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesAksClusterNameValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesAksClusterNameValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesGroups lists azure a d groups via the private gateway
+
+Lists Azure AD groups (Microsoft Graph) using the management identity on the private gateway.
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesGroups(params *V1OverlordsUIDAzurePropertiesGroupsParams) (*V1OverlordsUIDAzurePropertiesGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesGroupsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesGroups",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/groups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesGroupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesIdentities lists azure user assigned managed identities via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesIdentities(params *V1OverlordsUIDAzurePropertiesIdentitiesParams) (*V1OverlordsUIDAzurePropertiesIdentitiesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesIdentitiesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesIdentities",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/identities",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesIdentitiesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesIdentitiesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesIdentities: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+	V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidate validates azure managed identity permissions via the private gateway
+
+	Preflight check of role assignments for the selected cluster and pool identities.
+
+Returns no content if valid, else error (same pattern as other validate APIs).
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidate(params *V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateParams) (*V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesIdentitiesPermissionsValidate",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/identities/permissions/validate",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesIdentitiesPermissionsValidateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesIdentitiesPermissionsValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesIdentity gets one azure user assigned managed identity via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesIdentity(params *V1OverlordsUIDAzurePropertiesIdentityParams) (*V1OverlordsUIDAzurePropertiesIdentityOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesIdentityParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesIdentity",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/identity",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesIdentityReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesIdentityOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesIdentity: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesNetworks lists azure virtual networks via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesNetworks(params *V1OverlordsUIDAzurePropertiesNetworksParams) (*V1OverlordsUIDAzurePropertiesNetworksOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesNetworksParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesNetworks",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/networks",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesNetworksReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesNetworksOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesNetworks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesPrivateDNSZones lists azure private DNS zones via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesPrivateDNSZones(params *V1OverlordsUIDAzurePropertiesPrivateDNSZonesParams) (*V1OverlordsUIDAzurePropertiesPrivateDNSZonesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesPrivateDNSZonesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesPrivateDnsZones",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/privateDnsZones",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesPrivateDNSZonesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesPrivateDNSZonesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesPrivateDnsZones: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesRegions lists azure regions via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesRegions(params *V1OverlordsUIDAzurePropertiesRegionsParams) (*V1OverlordsUIDAzurePropertiesRegionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesRegionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesRegions",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/regions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesRegionsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesRegionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesRegions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesResourceGroups lists azure resource groups via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesResourceGroups(params *V1OverlordsUIDAzurePropertiesResourceGroupsParams) (*V1OverlordsUIDAzurePropertiesResourceGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesResourceGroupsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesResourceGroups",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/resourceGroups",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesResourceGroupsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesResourceGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesResourceGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesStorageAccounts lists azure storage accounts via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesStorageAccounts(params *V1OverlordsUIDAzurePropertiesStorageAccountsParams) (*V1OverlordsUIDAzurePropertiesStorageAccountsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesStorageAccountsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesStorageAccounts",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/storageAccounts",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesStorageAccountsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesStorageAccountsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesStorageAccounts: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesStorageContainers lists azure storage containers via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesStorageContainers(params *V1OverlordsUIDAzurePropertiesStorageContainersParams) (*V1OverlordsUIDAzurePropertiesStorageContainersOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesStorageContainersParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesStorageContainers",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/storageContainers",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesStorageContainersReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesStorageContainersOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesStorageContainers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesSubscriptions lists azure subscriptions via the private gateway
+
+Lists Azure subscriptions using the account from the request body, resolved through the private gateway (Ambit).
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesSubscriptions(params *V1OverlordsUIDAzurePropertiesSubscriptionsParams) (*V1OverlordsUIDAzurePropertiesSubscriptionsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesSubscriptionsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesSubscriptions",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/subscriptions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesSubscriptionsReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesSubscriptionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesSubscriptions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1OverlordsUIDAzurePropertiesZones lists azure availability zones via the private gateway
+*/
+func (a *Client) V1OverlordsUIDAzurePropertiesZones(params *V1OverlordsUIDAzurePropertiesZonesParams) (*V1OverlordsUIDAzurePropertiesZonesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1OverlordsUIDAzurePropertiesZonesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1OverlordsUidAzurePropertiesZones",
+		Method:             "POST",
+		PathPattern:        "/v1/overlords/azure/{uid}/properties/zones",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1OverlordsUIDAzurePropertiesZonesReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1OverlordsUIDAzurePropertiesZonesOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1OverlordsUidAzurePropertiesZones: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
 V1OverlordsUIDCloudStackAccountCreate creates the cloud stack cloudaccount for the private gateway
 */
 func (a *Client) V1OverlordsUIDCloudStackAccountCreate(params *V1OverlordsUIDCloudStackAccountCreateParams) (*V1OverlordsUIDCloudStackAccountCreateCreated, error) {
@@ -29614,6 +30098,40 @@ func (a *Client) V1PcgUIDAllyManifestGet(params *V1PcgUIDAllyManifestGetParams, 
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1PcgUidAllyManifestGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1PcgUIDAmbitManifestGet returns the pcg ambit manifest
+*/
+func (a *Client) V1PcgUIDAmbitManifestGet(params *V1PcgUIDAmbitManifestGetParams, writer io.Writer) (*V1PcgUIDAmbitManifestGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1PcgUIDAmbitManifestGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1PcgUidAmbitManifestGet",
+		Method:             "GET",
+		PathPattern:        "/v1/pcg/{uid}/services/ambit/manifest",
+		ProducesMediaTypes: []string{"application/octet-stream"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1PcgUIDAmbitManifestGetReader{formats: a.formats, writer: writer},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1PcgUIDAmbitManifestGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1PcgUidAmbitManifestGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -40249,6 +40767,74 @@ func (a *Client) V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpda
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantUidLoginBannerUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDPasskeySettingsGet gets tenant passkey enforcement settings
+*/
+func (a *Client) V1TenantUIDPasskeySettingsGet(params *V1TenantUIDPasskeySettingsGetParams) (*V1TenantUIDPasskeySettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDPasskeySettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantUidPasskeySettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/passkeySettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDPasskeySettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDPasskeySettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantUidPasskeySettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDPasskeySettingsUpdate updates tenant passkey enforcement settings
+*/
+func (a *Client) V1TenantUIDPasskeySettingsUpdate(params *V1TenantUIDPasskeySettingsUpdateParams) (*V1TenantUIDPasskeySettingsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDPasskeySettingsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantUidPasskeySettingsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/passkeySettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDPasskeySettingsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDPasskeySettingsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantUidPasskeySettingsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

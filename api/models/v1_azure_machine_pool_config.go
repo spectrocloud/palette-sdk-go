@@ -37,6 +37,14 @@ type V1AzureMachinePoolConfig struct {
 	// If enabled, this node pool is dedicated to Palette system pods. Palette applies the reserved taint node.spectrocloud.com/dedicated=true:NoExecute to the pool and its system pods carry the matching toleration. Custom taints cannot be set on a dedicated pool. Supported on EKS and GKE only.
 	DedicateNodePoolForSystemPods bool `json:"dedicateNodePoolForSystemPods"`
 
+	// ExcludeClusterIdentity leaves the cluster identity off the machines of this pool.
+	// Valid only on IaaS worker pools of a cluster that has a clusterIdentity.
+	// Palette, CAPZ, ASO and any other component that authenticates as the cluster identity
+	// fail on this pool's nodes, and keeping them off the pool is the customer's responsibility.
+	// Immutable after the pool is created
+	//
+	ExcludeClusterIdentity *bool `json:"excludeClusterIdentity"`
+
 	// instance config
 	InstanceConfig *V1InstanceConfig `json:"instanceConfig,omitempty"`
 
@@ -116,6 +124,13 @@ type V1AzureMachinePoolConfig struct {
 
 	// if IsControlPlane==true && useControlPlaneAsWorker==true, then will remove control plane taint this will not be used for worker pools
 	UseControlPlaneAsWorker bool `json:"useControlPlaneAsWorker"`
+
+	// UserAssignedIdentities are the user-assigned managed identities attached to the nodes of this pool, in
+	// addition to the cluster identity. Valid only on IaaS worker pools. Customers may add more identities here;
+	// to leave the cluster identity off the pool, use excludeClusterIdentity. Immutable after the pool is created
+	//
+	// Unique: true
+	UserAssignedIdentities []*V1AzureIdentityRef `json:"userAssignedIdentities"`
 }
 
 // Validate validates this v1 azure machine pool config
@@ -159,6 +174,10 @@ func (m *V1AzureMachinePoolConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateUpdateStrategy(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUserAssignedIdentities(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -380,6 +399,36 @@ func (m *V1AzureMachinePoolConfig) validateUpdateStrategy(formats strfmt.Registr
 	return nil
 }
 
+func (m *V1AzureMachinePoolConfig) validateUserAssignedIdentities(formats strfmt.Registry) error {
+	if swag.IsZero(m.UserAssignedIdentities) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("userAssignedIdentities", "body", m.UserAssignedIdentities); err != nil {
+		return err
+	}
+
+	for i := 0; i < len(m.UserAssignedIdentities); i++ {
+		if swag.IsZero(m.UserAssignedIdentities[i]) { // not required
+			continue
+		}
+
+		if m.UserAssignedIdentities[i] != nil {
+			if err := m.UserAssignedIdentities[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 azure machine pool config based on the context it is used
 func (m *V1AzureMachinePoolConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -413,6 +462,10 @@ func (m *V1AzureMachinePoolConfig) ContextValidate(ctx context.Context, formats 
 	}
 
 	if err := m.contextValidateUpdateStrategy(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUserAssignedIdentities(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -586,6 +639,31 @@ func (m *V1AzureMachinePoolConfig) contextValidateUpdateStrategy(ctx context.Con
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1AzureMachinePoolConfig) contextValidateUserAssignedIdentities(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.UserAssignedIdentities); i++ {
+
+		if m.UserAssignedIdentities[i] != nil {
+
+			if swag.IsZero(m.UserAssignedIdentities[i]) { // not required
+				return nil
+			}
+
+			if err := m.UserAssignedIdentities[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("userAssignedIdentities" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

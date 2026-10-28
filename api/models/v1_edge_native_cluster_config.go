@@ -21,6 +21,9 @@ type V1EdgeNativeClusterConfig struct {
 	// ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN
 	ControlPlaneEndpoint *V1EdgeNativeControlPlaneEndPoint `json:"controlPlaneEndpoint,omitempty"`
 
+	// ImageRegistryRef points to an OCI registry with the image provider type. The edge hosts use its credentials to pull the provider image
+	ImageRegistryRef *V1ObjectReference `json:"imageRegistryRef,omitempty"`
+
 	// IsTwoNodeCluster is to enable two node cluster support in the control-plane
 	IsTwoNodeCluster bool `json:"isTwoNodeCluster,omitempty"`
 
@@ -35,6 +38,9 @@ type V1EdgeNativeClusterConfig struct {
 
 	// StaticIP indicates if IP allocation type is static IP. DHCP is the default allocation type
 	StaticIP bool `json:"staticIp,omitempty"`
+
+	// UpdateLock is the profile update lock state of the edge native cluster and when that state last changed
+	UpdateLock *V1UpdateLock `json:"updateLock,omitempty"`
 }
 
 // Validate validates this v1 edge native cluster config
@@ -45,7 +51,15 @@ func (m *V1EdgeNativeClusterConfig) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateImageRegistryRef(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOverlayNetworkConfiguration(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUpdateLock(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -74,6 +88,25 @@ func (m *V1EdgeNativeClusterConfig) validateControlPlaneEndpoint(formats strfmt.
 	return nil
 }
 
+func (m *V1EdgeNativeClusterConfig) validateImageRegistryRef(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImageRegistryRef) { // not required
+		return nil
+	}
+
+	if m.ImageRegistryRef != nil {
+		if err := m.ImageRegistryRef.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageRegistryRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageRegistryRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1EdgeNativeClusterConfig) validateOverlayNetworkConfiguration(formats strfmt.Registry) error {
 	if swag.IsZero(m.OverlayNetworkConfiguration) { // not required
 		return nil
@@ -93,6 +126,25 @@ func (m *V1EdgeNativeClusterConfig) validateOverlayNetworkConfiguration(formats 
 	return nil
 }
 
+func (m *V1EdgeNativeClusterConfig) validateUpdateLock(formats strfmt.Registry) error {
+	if swag.IsZero(m.UpdateLock) { // not required
+		return nil
+	}
+
+	if m.UpdateLock != nil {
+		if err := m.UpdateLock.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("updateLock")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("updateLock")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 edge native cluster config based on the context it is used
 func (m *V1EdgeNativeClusterConfig) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -101,7 +153,15 @@ func (m *V1EdgeNativeClusterConfig) ContextValidate(ctx context.Context, formats
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateImageRegistryRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateOverlayNetworkConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUpdateLock(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -132,6 +192,27 @@ func (m *V1EdgeNativeClusterConfig) contextValidateControlPlaneEndpoint(ctx cont
 	return nil
 }
 
+func (m *V1EdgeNativeClusterConfig) contextValidateImageRegistryRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImageRegistryRef != nil {
+
+		if swag.IsZero(m.ImageRegistryRef) { // not required
+			return nil
+		}
+
+		if err := m.ImageRegistryRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageRegistryRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageRegistryRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1EdgeNativeClusterConfig) contextValidateOverlayNetworkConfiguration(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.OverlayNetworkConfiguration != nil {
@@ -145,6 +226,27 @@ func (m *V1EdgeNativeClusterConfig) contextValidateOverlayNetworkConfiguration(c
 				return ve.ValidateName("overlayNetworkConfiguration")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("overlayNetworkConfiguration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeNativeClusterConfig) contextValidateUpdateLock(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.UpdateLock != nil {
+
+		if swag.IsZero(m.UpdateLock) { // not required
+			return nil
+		}
+
+		if err := m.UpdateLock.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("updateLock")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("updateLock")
 			}
 			return err
 		}
