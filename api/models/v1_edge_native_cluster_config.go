@@ -21,6 +21,9 @@ type V1EdgeNativeClusterConfig struct {
 	// ControlPlaneEndpoint is the control plane endpoint, which can be an IP or FQDN
 	ControlPlaneEndpoint *V1EdgeNativeControlPlaneEndPoint `json:"controlPlaneEndpoint,omitempty"`
 
+	// ImageRegistryRef points to an OCI registry with the image provider type. The edge hosts use its credentials to pull the provider image
+	ImageRegistryRef *V1ObjectReference `json:"imageRegistryRef,omitempty"`
+
 	// IsTwoNodeCluster is to enable two node cluster support in the control-plane
 	IsTwoNodeCluster bool `json:"isTwoNodeCluster,omitempty"`
 
@@ -45,6 +48,10 @@ func (m *V1EdgeNativeClusterConfig) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateImageRegistryRef(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateOverlayNetworkConfiguration(formats); err != nil {
 		res = append(res, err)
 	}
@@ -66,6 +73,25 @@ func (m *V1EdgeNativeClusterConfig) validateControlPlaneEndpoint(formats strfmt.
 				return ve.ValidateName("controlPlaneEndpoint")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("controlPlaneEndpoint")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeNativeClusterConfig) validateImageRegistryRef(formats strfmt.Registry) error {
+	if swag.IsZero(m.ImageRegistryRef) { // not required
+		return nil
+	}
+
+	if m.ImageRegistryRef != nil {
+		if err := m.ImageRegistryRef.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageRegistryRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageRegistryRef")
 			}
 			return err
 		}
@@ -101,6 +127,10 @@ func (m *V1EdgeNativeClusterConfig) ContextValidate(ctx context.Context, formats
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateImageRegistryRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateOverlayNetworkConfiguration(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -124,6 +154,27 @@ func (m *V1EdgeNativeClusterConfig) contextValidateControlPlaneEndpoint(ctx cont
 				return ve.ValidateName("controlPlaneEndpoint")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("controlPlaneEndpoint")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1EdgeNativeClusterConfig) contextValidateImageRegistryRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ImageRegistryRef != nil {
+
+		if swag.IsZero(m.ImageRegistryRef) { // not required
+			return nil
+		}
+
+		if err := m.ImageRegistryRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("imageRegistryRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("imageRegistryRef")
 			}
 			return err
 		}
