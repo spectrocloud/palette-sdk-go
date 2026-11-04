@@ -15784,68 +15784,6 @@
         }
       ]
     },
-    "/v1/edgehosts/{uid}/hostCheckSum": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host check sum",
-        "operationId": "v1EdgeHostDeviceHostCheckSumUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostCheckSum"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/edgehosts/{uid}/hostPairingKey": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host pairing key",
-        "operationId": "v1EdgeHostDeviceHostPairingKeyUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostPairingKey"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/edgehosts/{uid}/meta": {
       "put": {
         "tags": [
@@ -29952,22 +29890,6 @@
       }
     },
     "/v1/system/config/registries/{registryName}": {
-      "get": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "Gets the specified Registry",
-        "operationId": "V1SystemRegistriesNameGet",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1SystemRegistry"
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
           "v1",
@@ -48815,7 +48737,7 @@
           "x-omitempty": false
         },
         "hostChecksum": {
-          "description": "HostChecksum is the checksum provided by the edge host, to be persisted in SaaS",
+          "description": "Deprecated: HostChecksum is the checksum provided by the edge host, to be persisted in SaaS. This field will be removed in a future release.",
           "type": "string",
           "x-omitempty": false
         },
@@ -48824,7 +48746,7 @@
           "$ref": "#/definitions/v1EdgeHostIdentity"
         },
         "hostPairingKey": {
-          "description": "HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS",
+          "description": "Deprecated: HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS. This field will be removed in a future release.",
           "type": "string",
           "format": "password",
           "x-omitempty": false
@@ -48914,23 +48836,6 @@
         }
       }
     },
-    "v1EdgeHostDeviceHostCheckSum": {
-      "type": "object",
-      "properties": {
-        "hostCheckSum": {
-          "type": "string"
-        }
-      }
-    },
-    "v1EdgeHostDeviceHostPairingKey": {
-      "type": "object",
-      "properties": {
-        "hostPairingKey": {
-          "type": "string",
-          "format": "password"
-        }
-      }
-    },
     "v1EdgeHostDeviceMetaUpdateEntity": {
       "description": "Edge host device uid and name",
       "type": "object",
@@ -48989,6 +48894,7 @@
           "$ref": "#/definitions/v1ArchType"
         },
         "hostPairingKey": {
+          "description": "Deprecated: This field will be removed in a future release.",
           "type": "string",
           "format": "password"
         },
@@ -62998,7 +62904,7 @@
           "type": "string"
         },
         "version": {
-          "description": "Cluster profile version",
+          "description": "Publish revision counter of the cluster profile, starting from 0. Deprecated. Use profileVersion for the version set by the user",
           "type": "integer",
           "format": "int32"
         }
