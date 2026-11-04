@@ -30,6 +30,9 @@ type V1UserStatus struct {
 	// user's last sign in time
 	// Format: date-time
 	LastSignIn V1Time `json:"lastSignIn,omitempty"`
+
+	// the user's passkey obligation. Populated only by GET /v1/users/{uid}; absent on list and summary responses
+	Passkey *V1UserPasskeyStatus `json:"passkey,omitempty"`
 }
 
 // Validate validates this v1 user status
@@ -37,6 +40,10 @@ func (m *V1UserStatus) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateLastSignIn(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePasskey(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -63,11 +70,34 @@ func (m *V1UserStatus) validateLastSignIn(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1UserStatus) validatePasskey(formats strfmt.Registry) error {
+	if swag.IsZero(m.Passkey) { // not required
+		return nil
+	}
+
+	if m.Passkey != nil {
+		if err := m.Passkey.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("passkey")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("passkey")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 user status based on the context it is used
 func (m *V1UserStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateLastSignIn(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePasskey(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -90,6 +120,27 @@ func (m *V1UserStatus) contextValidateLastSignIn(ctx context.Context, formats st
 			return ce.ValidateName("lastSignIn")
 		}
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1UserStatus) contextValidatePasskey(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Passkey != nil {
+
+		if swag.IsZero(m.Passkey) { // not required
+			return nil
+		}
+
+		if err := m.Passkey.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("passkey")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("passkey")
+			}
+			return err
+		}
 	}
 
 	return nil

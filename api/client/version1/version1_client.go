@@ -28,8 +28,6 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error)
-
 	V1AuthOrgs(params *V1AuthOrgsParams) (*V1AuthOrgsOK, error)
 
 	V1AuthSsoProviders(params *V1AuthSsoProvidersParams) (*V1AuthSsoProvidersOK, error)
@@ -569,8 +567,6 @@ type ClientService interface {
 	V1SystemRateLimitPatch(params *V1SystemRateLimitPatchParams) (*V1SystemRateLimitPatchOK, error)
 
 	V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDeleteParams) (*V1SystemRegistriesNameDeleteNoContent, error)
-
-	V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error)
 
 	V1SystemRegistriesNameUpdate(params *V1SystemRegistriesNameUpdateParams) (*V1SystemRegistriesNameUpdateNoContent, error)
 
@@ -1401,10 +1397,6 @@ type ClientService interface {
 	V1EcrRegistriesUIDUpdate(params *V1EcrRegistriesUIDUpdateParams) (*V1EcrRegistriesUIDUpdateNoContent, error)
 
 	V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) (*V1EcrRegistriesValidateNoContent, error)
-
-	V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error)
-
-	V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error)
 
 	V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) (*V1EdgeHostDevicesCreateCreated, error)
 
@@ -2270,6 +2262,10 @@ type ClientService interface {
 
 	V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpdateParams) (*V1TenantUIDLoginBannerUpdateNoContent, error)
 
+	V1TenantUIDPasskeySettingsGet(params *V1TenantUIDPasskeySettingsGetParams) (*V1TenantUIDPasskeySettingsGetOK, error)
+
+	V1TenantUIDPasskeySettingsUpdate(params *V1TenantUIDPasskeySettingsUpdateParams) (*V1TenantUIDPasskeySettingsUpdateNoContent, error)
+
 	V1TenantsCleanUp(params *V1TenantsCleanUpParams) (*V1TenantsCleanUpNoContent, error)
 
 	V1TenantsCreate(params *V1TenantsCreateParams) (*V1TenantsCreateCreated, error)
@@ -2473,40 +2469,6 @@ type ClientService interface {
 	V1WorkspacesValidateName(params *V1WorkspacesValidateNameParams) (*V1WorkspacesValidateNameNoContent, error)
 
 	SetTransport(transport runtime.ClientTransport)
-}
-
-/*
-V1AuthMfaDevicesList v1s auth mfa devices list
-*/
-func (a *Client) V1AuthMfaDevicesList(params *V1AuthMfaDevicesListParams) (*V1AuthMfaDevicesListOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1AuthMfaDevicesListParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1AuthMfaDevicesList",
-		Method:             "GET",
-		PathPattern:        "/v1/auth/mfa/devices",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1AuthMfaDevicesListReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1AuthMfaDevicesListOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1AuthMfaDevicesList: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
 }
 
 /*
@@ -11750,40 +11712,6 @@ func (a *Client) V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDele
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SystemRegistriesNameGet gets the specified registry
-*/
-func (a *Client) V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SystemRegistriesNameGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1SystemRegistriesNameGet",
-		Method:             "GET",
-		PathPattern:        "/v1/system/config/registries/{registryName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SystemRegistriesNameGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SystemRegistriesNameGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -25947,74 +25875,6 @@ func (a *Client) V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) 
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1EcrRegistriesValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1EdgeHostDeviceHostCheckSumUpdate updates the specified edge host device host check sum
-*/
-func (a *Client) V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1EdgeHostDeviceHostCheckSumUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1EdgeHostDeviceHostCheckSumUpdate",
-		Method:             "PATCH",
-		PathPattern:        "/v1/edgehosts/{uid}/hostCheckSum",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1EdgeHostDeviceHostCheckSumUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1EdgeHostDeviceHostCheckSumUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostCheckSumUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1EdgeHostDeviceHostPairingKeyUpdate updates the specified edge host device host pairing key
-*/
-func (a *Client) V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1EdgeHostDeviceHostPairingKeyUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1EdgeHostDeviceHostPairingKeyUpdate",
-		Method:             "PATCH",
-		PathPattern:        "/v1/edgehosts/{uid}/hostPairingKey",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1EdgeHostDeviceHostPairingKeyUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1EdgeHostDeviceHostPairingKeyUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostPairingKeyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -40799,6 +40659,74 @@ func (a *Client) V1TenantUIDLoginBannerUpdate(params *V1TenantUIDLoginBannerUpda
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TenantUidLoginBannerUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDPasskeySettingsGet gets tenant passkey enforcement settings
+*/
+func (a *Client) V1TenantUIDPasskeySettingsGet(params *V1TenantUIDPasskeySettingsGetParams) (*V1TenantUIDPasskeySettingsGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDPasskeySettingsGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantUidPasskeySettingsGet",
+		Method:             "GET",
+		PathPattern:        "/v1/tenants/{tenantUid}/passkeySettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDPasskeySettingsGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDPasskeySettingsGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantUidPasskeySettingsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1TenantUIDPasskeySettingsUpdate updates tenant passkey enforcement settings
+*/
+func (a *Client) V1TenantUIDPasskeySettingsUpdate(params *V1TenantUIDPasskeySettingsUpdateParams) (*V1TenantUIDPasskeySettingsUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1TenantUIDPasskeySettingsUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1TenantUidPasskeySettingsUpdate",
+		Method:             "PUT",
+		PathPattern:        "/v1/tenants/{tenantUid}/passkeySettings",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1TenantUIDPasskeySettingsUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1TenantUIDPasskeySettingsUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1TenantUidPasskeySettingsUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

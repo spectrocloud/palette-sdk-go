@@ -7,9 +7,12 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1UserToken Returns the Authorization token. To be used for further api calls
@@ -22,10 +25,68 @@ type V1UserToken struct {
 
 	// Indicates the authentication flow using MFA
 	IsMfa bool `json:"isMfa"`
+
+	// What the console must show after a successful password login. "required" is a session that may do nothing but register a passkey; "grace" is an ordinary session the user may be prompted, and may decline, to enrol; "none" is an ordinary session with nothing to show
+	// Enum: ["none","grace","required"]
+	MfaEnrollment string `json:"mfaEnrollment"`
 }
 
 // Validate validates this v1 user token
 func (m *V1UserToken) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateMfaEnrollment(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+var v1UserTokenTypeMfaEnrollmentPropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["none","grace","required"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1UserTokenTypeMfaEnrollmentPropEnum = append(v1UserTokenTypeMfaEnrollmentPropEnum, v)
+	}
+}
+
+const (
+
+	// V1UserTokenMfaEnrollmentNone captures enum value "none"
+	V1UserTokenMfaEnrollmentNone string = "none"
+
+	// V1UserTokenMfaEnrollmentGrace captures enum value "grace"
+	V1UserTokenMfaEnrollmentGrace string = "grace"
+
+	// V1UserTokenMfaEnrollmentRequired captures enum value "required"
+	V1UserTokenMfaEnrollmentRequired string = "required"
+)
+
+// prop value enum
+func (m *V1UserToken) validateMfaEnrollmentEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1UserTokenTypeMfaEnrollmentPropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1UserToken) validateMfaEnrollment(formats strfmt.Registry) error {
+	if swag.IsZero(m.MfaEnrollment) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateMfaEnrollmentEnum("mfaEnrollment", "body", m.MfaEnrollment); err != nil {
+		return err
+	}
+
 	return nil
 }
 

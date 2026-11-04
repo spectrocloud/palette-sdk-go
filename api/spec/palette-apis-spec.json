@@ -1302,27 +1302,6 @@
         }
       }
     },
-    "/v1/auth/mfa/devices": {
-      "get": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "V1AuthMfaDevicesList",
-        "operationId": "V1AuthMfaDevicesList",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1MfaDevices"
-            }
-          }
-        },
-        "x-ApiScopes": [
-          "mfa"
-        ]
-      }
-    },
     "/v1/auth/org": {
       "get": {
         "description": "Returns the allowed login method and information with the organization details",
@@ -15805,68 +15784,6 @@
         }
       ]
     },
-    "/v1/edgehosts/{uid}/hostCheckSum": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host check sum",
-        "operationId": "v1EdgeHostDeviceHostCheckSumUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostCheckSum"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/edgehosts/{uid}/hostPairingKey": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host pairing key",
-        "operationId": "v1EdgeHostDeviceHostPairingKeyUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostPairingKey"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/edgehosts/{uid}/meta": {
       "put": {
         "tags": [
@@ -29973,22 +29890,6 @@
       }
     },
     "/v1/system/config/registries/{registryName}": {
-      "get": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "Gets the specified Registry",
-        "operationId": "V1SystemRegistriesNameGet",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1SystemRegistry"
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
           "v1",
@@ -33679,6 +33580,59 @@
         }
       ]
     },
+    "/v1/tenants/{tenantUid}/passkeySettings": {
+      "get": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Get tenant passkey enforcement settings",
+        "operationId": "v1TenantUidPasskeySettingsGet",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/v1TenantPasskeySettings"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "v1"
+        ],
+        "summary": "Update tenant passkey enforcement settings",
+        "operationId": "v1TenantUidPasskeySettingsUpdate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1TenantPasskeySettings"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ok response without content",
+            "headers": {
+              "AuditUid": {
+                "type": "string",
+                "description": "Audit uid for the request"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "tenantUid",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/v1/tenants/{tenantUid}/password/policy": {
       "get": {
         "tags": [
@@ -35287,8 +35241,7 @@
     "/v1/users/mfa/devices": {
       "get": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesList",
         "operationId": "V1UsersMfaDevicesList",
@@ -35305,8 +35258,7 @@
     "/v1/users/mfa/devices/{deviceName}": {
       "get": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesNameGet",
         "operationId": "V1UsersMfaDevicesNameGet",
@@ -35329,8 +35281,7 @@
       },
       "delete": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaDevicesNameDelete",
         "operationId": "V1UsersMfaDevicesNameDelete",
@@ -35358,8 +35309,7 @@
     "/v1/users/mfa/register/device/finish": {
       "post": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaRegisterDeviceFinish",
         "operationId": "V1UsersMfaRegisterDeviceFinish",
@@ -35388,8 +35338,7 @@
     "/v1/users/mfa/register/device/start": {
       "post": {
         "tags": [
-          "v1",
-          "system"
+          "v1"
         ],
         "summary": "V1UsersMfaRegisterDeviceStart",
         "operationId": "V1UsersMfaRegisterDeviceStart",
@@ -36696,10 +36645,6 @@
     }
   },
   "definitions": {
-    "URLEncodedBase64": {
-      "type": "string",
-      "format": "url-encoded-base64"
-    },
     "V1AwsAccountSts": {
       "description": "AWS cloud account sts",
       "type": "object",
@@ -48775,7 +48720,7 @@
           "x-omitempty": false
         },
         "hostChecksum": {
-          "description": "HostChecksum is the checksum provided by the edge host, to be persisted in SaaS",
+          "description": "Deprecated: HostChecksum is the checksum provided by the edge host, to be persisted in SaaS. This field will be removed in a future release.",
           "type": "string",
           "x-omitempty": false
         },
@@ -48784,7 +48729,7 @@
           "$ref": "#/definitions/v1EdgeHostIdentity"
         },
         "hostPairingKey": {
-          "description": "HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS",
+          "description": "Deprecated: HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS. This field will be removed in a future release.",
           "type": "string",
           "format": "password",
           "x-omitempty": false
@@ -48874,23 +48819,6 @@
         }
       }
     },
-    "v1EdgeHostDeviceHostCheckSum": {
-      "type": "object",
-      "properties": {
-        "hostCheckSum": {
-          "type": "string"
-        }
-      }
-    },
-    "v1EdgeHostDeviceHostPairingKey": {
-      "type": "object",
-      "properties": {
-        "hostPairingKey": {
-          "type": "string",
-          "format": "password"
-        }
-      }
-    },
     "v1EdgeHostDeviceMetaUpdateEntity": {
       "description": "Edge host device uid and name",
       "type": "object",
@@ -48949,6 +48877,7 @@
           "$ref": "#/definitions/v1ArchType"
         },
         "hostPairingKey": {
+          "description": "Deprecated: This field will be removed in a future release.",
           "type": "string",
           "format": "password"
         },
@@ -55394,16 +55323,16 @@
           "type": "string"
         },
         "rawId": {
-          "$ref": "#/definitions/URLEncodedBase64"
+          "$ref": "#/definitions/urlEncodedBase64"
         },
         "response": {
           "type": "object",
           "properties": {
             "attestationObject": {
-              "$ref": "#/definitions/URLEncodedBase64"
+              "$ref": "#/definitions/urlEncodedBase64"
             },
             "clientDataJSON": {
-              "$ref": "#/definitions/URLEncodedBase64"
+              "$ref": "#/definitions/urlEncodedBase64"
             },
             "transports": {
               "type": "array",
@@ -55460,6 +55389,14 @@
         },
         "deviceName": {
           "type": "string"
+        },
+        "ownerType": {
+          "description": "Console the passkey was registered from, system or tenant",
+          "type": "string"
+        },
+        "tenantUid": {
+          "description": "Tenant the passkey was registered in",
+          "type": "string"
         }
       }
     },
@@ -55487,7 +55424,7 @@
           "$ref": "#/definitions/v1MfaAuthenticatorSelection"
         },
         "challenge": {
-          "$ref": "#/definitions/URLEncodedBase64"
+          "$ref": "#/definitions/urlEncodedBase64"
         },
         "excludeCredentials": {
           "type": "array",
@@ -62950,7 +62887,7 @@
           "type": "string"
         },
         "version": {
-          "description": "Cluster profile version",
+          "description": "Publish revision counter of the cluster profile, starting from 0. Deprecated. Use profileVersion for the version set by the user",
           "type": "integer",
           "format": "int32"
         }
@@ -67107,6 +67044,38 @@
         }
       }
     },
+    "v1TenantPasskeySettings": {
+      "description": "Tenant passkey (MFA) enforcement settings",
+      "required": [
+        "enforcement"
+      ],
+      "properties": {
+        "enforcedAt": {
+          "description": "Read-only. Unix seconds at which the current grace period started. Stamped when enforcement is switched on, and again when the grace period length changes, which restarts the window for every user. A user's grace period runs from the later of this and the time the user was created",
+          "type": "integer",
+          "format": "int64",
+          "x-omitempty": false,
+          "readOnly": true
+        },
+        "enforcement": {
+          "description": "Whether the tenant requires passkeys. When enabled, local-password users must authenticate with a registered passkey once the grace period has elapsed. \"none\" means the tenant has never configured it; only \"enabled\" enforces",
+          "type": "string",
+          "enum": [
+            "enabled",
+            "disabled",
+            "none"
+          ]
+        },
+        "gracePeriodDays": {
+          "description": "Days a user may continue to sign in with a password alone before a passkey is required. Counted from enforcedAt, or from the time the user was created if that is later. Changing this value restarts the window for every user. 0 applies enforcement immediately",
+          "type": "integer",
+          "format": "int32",
+          "maximum": 365,
+          "minimum": 0,
+          "x-omitempty": false
+        }
+      }
+    },
     "v1TenantPasswordPolicyEntity": {
       "description": "Tenant Password Policy Entity",
       "type": "object",
@@ -68193,6 +68162,40 @@
         }
       }
     },
+    "v1UserPasskeyStatus": {
+      "description": "The passkey obligation of the user this record describes",
+      "type": "object",
+      "properties": {
+        "deadline": {
+          "description": "unix seconds at which this user's grace window closes. Absent unless enrolment is grace",
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "enrolment": {
+          "description": "whether this user must register a passkey, and by when",
+          "type": "string",
+          "enum": [
+            "none",
+            "grace",
+            "required"
+          ],
+          "readOnly": true
+        },
+        "hasDevices": {
+          "description": "whether this user has at least one registered passkey",
+          "type": "boolean",
+          "x-omitempty": false,
+          "readOnly": true
+        },
+        "restrictLastDeviceDeletion": {
+          "description": "whether removing this user's only remaining passkey would be refused, because a tenant they belong to enforces passkeys",
+          "type": "boolean",
+          "x-omitempty": false,
+          "readOnly": true
+        }
+      }
+    },
     "v1UserPatch": {
       "type": "array",
       "items": {
@@ -68353,6 +68356,10 @@
         "lastSignIn": {
           "description": "user's last sign in time",
           "$ref": "#/definitions/v1Time"
+        },
+        "passkey": {
+          "description": "the user's passkey obligation. Populated only by GET /v1/users/{uid}; absent on list and summary responses",
+          "$ref": "#/definitions/v1UserPasskeyStatus"
         }
       }
     },
@@ -68412,6 +68419,16 @@
         "isMfa": {
           "description": "Indicates the authentication flow using MFA",
           "type": "boolean",
+          "x-omitempty": false
+        },
+        "mfaEnrollment": {
+          "description": "What the console must show after a successful password login. \"required\" is a session that may do nothing but register a passkey; \"grace\" is an ordinary session the user may be prompted, and may decline, to enrol; \"none\" is an ordinary session with nothing to show",
+          "type": "string",
+          "enum": [
+            "none",
+            "grace",
+            "required"
+          ],
           "x-omitempty": false
         }
       }
