@@ -30,13 +30,13 @@ type V1EdgeHost struct {
 	// HostAuthToken to authorize auto registration
 	HostAuthToken string `json:"hostAuthToken"`
 
-	// Deprecated: HostChecksum is the checksum provided by the edge host, to be persisted in SaaS. This field will be removed in a future release.
+	// HostChecksum is the checksum provided by the edge host, to be persisted in SaaS
 	HostChecksum string `json:"hostChecksum"`
 
 	// HostIdentity is the identity to access the edge host
 	HostIdentity *V1EdgeHostIdentity `json:"hostIdentity,omitempty"`
 
-	// Deprecated: HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS. This field will be removed in a future release.
+	// HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS
 	// Format: password
 	HostPairingKey strfmt.Password `json:"hostPairingKey"`
 

@@ -568,6 +568,8 @@ type ClientService interface {
 
 	V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDeleteParams) (*V1SystemRegistriesNameDeleteNoContent, error)
 
+	V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error)
+
 	V1SystemRegistriesNameUpdate(params *V1SystemRegistriesNameUpdateParams) (*V1SystemRegistriesNameUpdateNoContent, error)
 
 	V1SystemSecurityModeGet(params *V1SystemSecurityModeGetParams) (*V1SystemSecurityModeGetOK, error)
@@ -1397,6 +1399,10 @@ type ClientService interface {
 	V1EcrRegistriesUIDUpdate(params *V1EcrRegistriesUIDUpdateParams) (*V1EcrRegistriesUIDUpdateNoContent, error)
 
 	V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) (*V1EcrRegistriesValidateNoContent, error)
+
+	V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error)
+
+	V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error)
 
 	V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) (*V1EdgeHostDevicesCreateCreated, error)
 
@@ -11712,6 +11718,40 @@ func (a *Client) V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDele
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1SystemRegistriesNameGet gets the specified registry
+*/
+func (a *Client) V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1SystemRegistriesNameGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "V1SystemRegistriesNameGet",
+		Method:             "GET",
+		PathPattern:        "/v1/system/config/registries/{registryName}",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1SystemRegistriesNameGetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1SystemRegistriesNameGetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -25875,6 +25915,74 @@ func (a *Client) V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) 
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1EcrRegistriesValidate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1EdgeHostDeviceHostCheckSumUpdate updates the specified edge host device host check sum
+*/
+func (a *Client) V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDeviceHostCheckSumUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDeviceHostCheckSumUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/hostCheckSum",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDeviceHostCheckSumUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDeviceHostCheckSumUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostCheckSumUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+V1EdgeHostDeviceHostPairingKeyUpdate updates the specified edge host device host pairing key
+*/
+func (a *Client) V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewV1EdgeHostDeviceHostPairingKeyUpdateParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "v1EdgeHostDeviceHostPairingKeyUpdate",
+		Method:             "PATCH",
+		PathPattern:        "/v1/edgehosts/{uid}/hostPairingKey",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http", "https"},
+		Params:             params,
+		Reader:             &V1EdgeHostDeviceHostPairingKeyUpdateReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*V1EdgeHostDeviceHostPairingKeyUpdateNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostPairingKeyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

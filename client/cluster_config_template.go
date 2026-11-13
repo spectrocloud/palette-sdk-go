@@ -194,3 +194,17 @@ func (h *V1Client) GetClusterTemplateProfileVariables(templateUID, profileUID st
 	}
 	return resp.Payload, nil
 }
+
+// GetClusterTemplateClusterReconcile retrieves the reconcile document of a
+// cluster attached to a cluster template: the reconcile state and, per
+// profile, which variables are resolved or still unresolved.
+func (h *V1Client) GetClusterTemplateClusterReconcile(templateUID, clusterUID string) (*models.V1ClusterReconcile, error) {
+	params := clientv1.NewV1ClusterTemplatesUIDClusterReconcileClusterUIDGetParamsWithContext(h.ctx).
+		WithUID(templateUID).
+		WithClusterUID(clusterUID)
+	resp, err := h.Client.V1ClusterTemplatesUIDClusterReconcileClusterUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}

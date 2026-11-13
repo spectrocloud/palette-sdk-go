@@ -36,7 +36,7 @@ type V1SpectroClusterProfileSpec struct {
 	// Cluster profile type [ "cluster", "infra", "add-on", "system" ]
 	Type string `json:"type,omitempty"`
 
-	// Publish revision counter of the cluster profile, starting from 0. Deprecated. Use profileVersion for the version set by the user
+	// Cluster profile version
 	Version int32 `json:"version,omitempty"`
 }
 
