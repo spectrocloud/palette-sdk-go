@@ -429,3 +429,18 @@ func (h *V1Client) UpdateCloudConfigEdgeNative(configUID string, config *models.
 	}
 	return nil
 }
+
+// UpdateLockEdgeNative enables or disables the profile update lock (PLT-2476) on an edge
+// native cluster's cloud config. When enabled, cluster profile updates targeting the
+// device are held until a local operator releases the lock from the Edge Local UI;
+// release itself is out of scope for this provider (see PLT-2476 comment thread).
+func (h *V1Client) UpdateLockEdgeNative(configUID string, state models.V1UpdateLockState) error {
+	params := clientv1.NewV1CloudConfigsEdgeNativeUIDUpdateLockPatchParamsWithContext(h.ctx).
+		WithConfigUID(configUID).
+		WithBody(&models.V1UpdateLockEntity{State: state.Pointer()})
+	_, err := h.Client.V1CloudConfigsEdgeNativeUIDUpdateLockPatch(params)
+	if err != nil {
+		return fmt.Errorf("failed to update profile update lock for cloud config %s: %w", configUID, err)
+	}
+	return nil
+}

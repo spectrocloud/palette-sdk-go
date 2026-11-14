@@ -16,8 +16,11 @@ serviceDir="${currentDir}"
 apiDir="${serviceDir}"
 templateDir="${apiDir}/swagger/templates"
 
-# Fetch the latest hapi spec
-rm -rf hapi && git clone https://github.com/spectrocloud/hapi
+# Fetch the hapi spec. Uses the release tag in HAPI_TAG (e.g. HAPI_TAG=v4.10.b);
+# falls back to the main branch when HAPI_TAG is not set.
+hapiRef="${HAPI_TAG:-main}"
+echo "Cloning hapi at ref: ${hapiRef}"
+rm -rf hapi && git clone --depth 1 --branch "${hapiRef}" https://github.com/spectrocloud/hapi
 (
     cd hapi
     bash generate_hubble_spec.sh
