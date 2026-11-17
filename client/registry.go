@@ -238,6 +238,66 @@ func (h *V1Client) GetPackRegistrySyncStatus(uid string) (*models.V1RegistrySync
 	return resp.Payload, nil
 }
 
+// GetPackRegistryByUID retrieves an existing Pack registry by UID.
+func (h *V1Client) GetPackRegistryByUID(uid string) (*models.V1PackRegistry, error) {
+	params := clientv1.NewV1RegistriesPackUIDGetParamsWithContext(h.ctx).
+		WithUID(uid)
+	resp, err := h.Client.V1RegistriesPackUIDGet(params)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Payload, nil
+}
+
+// CreatePackRegistry creates a new Pack registry and returns its UID.
+func (h *V1Client) CreatePackRegistry(registry *models.V1PackRegistry) (string, error) {
+	params := clientv1.NewV1RegistriesPackCreateParamsWithContext(h.ctx).
+		WithBody(registry)
+	resp, err := h.Client.V1RegistriesPackCreate(params)
+	if err != nil {
+		return "", err
+	}
+	if resp.Payload == nil || resp.Payload.UID == nil {
+		return "", fmt.Errorf("pack registry create returned no UID")
+	}
+	return *resp.Payload.UID, nil
+}
+
+// UpdatePackRegistry updates an existing Pack registry.
+func (h *V1Client) UpdatePackRegistry(uid string, registry *models.V1PackRegistry) error {
+	params := clientv1.NewV1RegistriesPackUIDUpdateParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithBody(registry)
+	_, err := h.Client.V1RegistriesPackUIDUpdate(params)
+	return err
+}
+
+// DeletePackRegistry deletes an existing Pack registry.
+func (h *V1Client) DeletePackRegistry(uid string) error {
+	params := clientv1.NewV1RegistriesPackUIDDeleteParamsWithContext(h.ctx).
+		WithUID(uid)
+	_, err := h.Client.V1RegistriesPackUIDDelete(params)
+	return err
+}
+
+// ValidatePackRegistry checks that Palette can reach the Pack registry endpoint with the given credentials.
+func (h *V1Client) ValidatePackRegistry(spec *models.V1PackRegistrySpec) error {
+	params := clientv1.NewV1RegistriesPackValidateParamsWithContext(h.ctx).
+		WithBody(spec)
+	_, err := h.Client.V1RegistriesPackValidate(params)
+	return err
+}
+
+// SyncPackRegistry starts a synchronization of the Pack registry's packs. forceSync asks Palette to sync even when
+// it considers the registry up to date.
+func (h *V1Client) SyncPackRegistry(uid string, forceSync bool) error {
+	params := clientv1.NewV1RegistriesPackUIDSyncParamsWithContext(h.ctx).
+		WithUID(uid).
+		WithForceSync(&forceSync)
+	_, err := h.Client.V1RegistriesPackUIDSync(params)
+	return err
+}
+
 // GetOciEcrRegistry retrieves an existing ECR OCI registry by UID.
 func (h *V1Client) GetOciEcrRegistry(uid string) (*models.V1EcrRegistry, error) {
 	params := clientv1.NewV1EcrRegistriesUIDGetParamsWithContext(h.ctx).
