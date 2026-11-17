@@ -78,6 +78,8 @@ type TcpError struct {
 	Url     string
 	Code    string
 	Message string
+
+	err error
 }
 
 func NewTcpError() *TcpError {
@@ -85,27 +87,34 @@ func NewTcpError() *TcpError {
 }
 
 func (t *TcpError) readResponse(err error) {
+	t.err = err
 	urlError, ok := err.(*url.Error)
+	if !ok {
+		t.Message = fmt.Sprintf("An Unknown error occurred. %s", err)
+		return
+	}
 	t.Op = urlError.Op
 	t.Url = urlError.URL
-	if ok {
-		opError, ok := urlError.Err.(*net.OpError)
-		if ok {
-			sysCallError, ok := opError.Err.(*os.SyscallError)
-			if ok {
-				t.Code = sysCallError.Syscall
-				t.Message = sysCallError.Error()
-				return
-			}
+	if opError, ok := urlError.Err.(*net.OpError); ok {
+		if sysCallError, ok := opError.Err.(*os.SyscallError); ok {
+			t.Code = sysCallError.Syscall
+			t.Message = sysCallError.Error()
+			return
 		}
-
-		//BET-2377 : Return error message for Unhandled error types. Otherwise actual err message gets lost
-		t.Message = fmt.Sprintf("An Unknown error occurred. %s", urlError.Err)
 	}
+
+	//BET-2377 : Return error message for Unhandled error types. Otherwise actual err message gets lost
+	t.Message = fmt.Sprintf("An Unknown error occurred. %s", urlError.Err)
 }
 
 func (t *TcpError) Error() string {
 	return fmt.Sprintf(" %v", t.Message)
+}
+
+// Unwrap returns the error the HTTP client reported, so callers can match it with errors.Is, for example
+// context.DeadlineExceeded when a request timed out.
+func (t *TcpError) Unwrap() error {
+	return t.err
 }
 
 func TcpErrorResponse(err error) error {
