@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"net/http"
+	"time"
 
 	openapiclient "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
@@ -33,6 +34,9 @@ type V1Client struct {
 	retryAttempts      int
 	rootCAs            *x509.CertPool
 	clientHeader       string
+
+	requestTimeout      time.Duration
+	responseIdleTimeout time.Duration
 }
 
 // New creates a new V1Client.
@@ -126,6 +130,25 @@ func WithRetries(retries int) func(*V1Client) {
 	}
 }
 
+// WithRequestTimeout bounds each API call, from sending the request to reading the whole response, when the call's
+// context has no deadline of its own. Zero keeps transport.DefaultRequestTimeout (5 minutes); a negative value
+// disables the limit. Timed-out reads (GET, HEAD) are retried; timed-out writes are not, since they may already have
+// been applied.
+func WithRequestTimeout(timeout time.Duration) func(*V1Client) {
+	return func(v *V1Client) {
+		v.requestTimeout = timeout
+	}
+}
+
+// WithResponseIdleTimeout cancels an API call when its response body delivers no data for this long, failing it with
+// transport.ErrResponseStalled. The timer restarts whenever data arrives, so a large response that keeps arriving is
+// never cut off. Zero keeps transport.DefaultResponseIdleTimeout (60 seconds); a negative value disables the check.
+func WithResponseIdleTimeout(timeout time.Duration) func(*V1Client) {
+	return func(v *V1Client) {
+		v.responseIdleTimeout = timeout
+	}
+}
+
 // WithSchemes sets the schemes for the client.
 func WithSchemes(schemes []string) func(*V1Client) {
 	return func(v *V1Client) {
@@ -214,6 +237,8 @@ func (h *V1Client) Clone() *V1Client {
 		WithInsecureSkipVerify(h.insecureSkipVerify),
 		WithRootCAs(h.rootCAs),
 		WithRetries(h.retryAttempts),
+		WithRequestTimeout(h.requestTimeout),
+		WithResponseIdleTimeout(h.responseIdleTimeout),
 		WithSchemes(h.schemes),
 		WithScopeTenant(),
 	}
@@ -293,6 +318,8 @@ func (h *V1Client) handleBasicAuth() error {
 func (h *V1Client) baseTransport() *transport.Runtime {
 	httpTransport := transport.NewWithClient(h.paletteURI, "", h.schemes, h.httpClient())
 	httpTransport.RetryAttempts = h.retryAttempts
+	httpTransport.RequestTimeout = h.requestTimeout
+	httpTransport.ResponseIdleTimeout = h.responseIdleTimeout
 	httpTransport.Debug = h.transportDebug
 	return httpTransport
 }

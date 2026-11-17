@@ -204,6 +204,14 @@ func TLSClient(opts TLSClientOptions) (*http.Client, error) {
 // DefaultTimeout the default request timeout
 var DefaultTimeout = 30 * time.Second
 
+// DefaultRequestTimeout is the total time allowed for an API call, from sending the request to reading the whole
+// response, when the caller's context has no deadline. Runtime.RequestTimeout overrides it.
+var DefaultRequestTimeout = 5 * time.Minute
+
+// DefaultResponseIdleTimeout is how long a response body may go without delivering any data before the call is
+// cancelled with ErrResponseStalled. Runtime.ResponseIdleTimeout overrides it.
+var DefaultResponseIdleTimeout = 60 * time.Second
+
 // Runtime represents an API client that uses the transport
 // to make http requests based on a swagger specification.
 type Runtime struct {
@@ -220,10 +228,16 @@ type Runtime struct {
 	Formats  strfmt.Registry
 	Context  context.Context
 
-	RetryAttempts   int
-	Debug           bool
-	logger          logger.Logger
-	sensitiveValues []string
+	RetryAttempts int
+	// RequestTimeout bounds each API call when the caller's context has no deadline. Zero uses
+	// DefaultRequestTimeout; a negative value disables it.
+	RequestTimeout time.Duration
+	// ResponseIdleTimeout cancels a call when its response body delivers no data for this long. Zero uses
+	// DefaultResponseIdleTimeout; a negative value disables it.
+	ResponseIdleTimeout time.Duration
+	Debug               bool
+	logger              logger.Logger
+	sensitiveValues     []string
 
 	clientOnce *sync.Once
 	client     *http.Client
@@ -391,7 +405,21 @@ func (r *Runtime) Submit(operation *runtime.ClientOperation) (interface{}, error
 	var res interface{}
 	var err error
 	_ = retry.Retry(retryMsg, r.RetryAttempts, 2*time.Second, func() error {
-		res, err = r.submitRequest(operation)
+		var timedOut bool
+		res, timedOut, err = r.submitRequest(operation)
+		if err != nil && operation.Context != nil && operation.Context.Err() != nil {
+			// The caller cancelled or its deadline passed; another attempt would fail straight away.
+			return nil
+		}
+		if timedOut {
+			// A timed-out read is safe to repeat. A timed-out write may already have been applied, so repeating
+			// it could create or change something twice.
+			if isIdempotentMethod(operation.Method) {
+				return errors.New(printMsg(fmt.Sprintf("Failed %s timed out: %s", retryMsg, err.Error())))
+			}
+			printMsg(fmt.Sprintf("Failed %s timed out, not retrying a write: %s", retryMsg, err.Error()))
+			return nil
+		}
 		if err == nil && res != nil {
 			if r, ok := res.(*http.Response); ok && (r.StatusCode > 500 || r.StatusCode == http.StatusTooManyRequests) {
 				return errors.New(printMsg(fmt.Sprintf("Failed %s error code: %d", retryMsg, r.StatusCode)))
@@ -420,6 +448,15 @@ var retryableErrors = map[syscall.Errno]string{
 	syscall.ECONNRESET: "connection reset",
 }
 
+// isIdempotentMethod reports whether a request with this method can be repeated without side effects.
+func isIdempotentMethod(method string) bool {
+	switch strings.ToUpper(method) {
+	case http.MethodGet, http.MethodHead:
+		return true
+	}
+	return false
+}
+
 func isErrToBeRetried(err error) bool {
 	if err == nil {
 		return false
@@ -432,17 +469,19 @@ func isErrToBeRetried(err error) bool {
 	return false
 }
 
-func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}, error) {
+// submitRequest sends one attempt of the operation. timedOut is true when the attempt failed because of this
+// runtime's request or response idle timeout, rather than a caller cancelling its own context.
+func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (result interface{}, timedOut bool, err error) {
 	params, readResponse, auth := operation.Params, operation.Reader, operation.AuthInfo
 	request, err := newRequest(operation.Method, operation.PathPattern, params)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	var accept []string
 	accept = append(accept, operation.ProducesMediaTypes...)
 	if err = request.SetHeaderParam(runtime.HeaderAccept, accept...); err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	if auth == nil && r.DefaultAuthentication != nil {
@@ -458,12 +497,12 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 	}
 
 	if _, ok := r.Producers[cmt]; !ok && cmt != runtime.MultipartFormMime && cmt != runtime.URLencodedFormMime {
-		return nil, fmt.Errorf("none of producers: %v registered. try %s", r.Producers, cmt)
+		return nil, false, fmt.Errorf("none of producers: %v registered. try %s", r.Producers, cmt)
 	}
 
 	req, err := request.buildHTTP(cmt, r.BasePath, r.Producers, r.Formats, auth, operation.Context)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 	req.URL.Scheme = r.pickScheme(operation.Schemes)
 	req.URL.Host = r.Host
@@ -478,28 +517,35 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 
 	if r.Debug {
 		if err2 := r.logRequestDebug(req); err2 != nil {
-			return nil, err2
+			return nil, false, err2
 		}
 	}
 
-	var hasTimeout bool
 	pctx := operation.Context
 	if pctx == nil {
 		pctx = r.Context
-	} else {
-		hasTimeout = true
 	}
 	if pctx == nil {
 		pctx = context.Background()
 	}
 	var ctx context.Context
 	var cancel context.CancelFunc
-	if hasTimeout {
+	// Keep the caller's deadline when its context has one. Otherwise bound the call, so a response that stalls on
+	// the network cannot block the caller forever.
+	if _, hasDeadline := pctx.Deadline(); hasDeadline {
 		ctx, cancel = context.WithCancel(pctx)
+	} else if timeout := r.getRequestTimeout(request); timeout > 0 {
+		ctx, cancel = context.WithTimeout(pctx, timeout)
 	} else {
-		ctx, cancel = context.WithTimeout(pctx, r.getDefaultTimeOut(request))
+		ctx, cancel = context.WithCancel(pctx)
 	}
 	defer cancel()
+	ctx, cancelStalled := context.WithCancelCause(ctx)
+	defer cancelStalled(nil)
+	// Only failures caused by this runtime's own timeouts count as timed out, not a caller cancelling pctx.
+	isTimedOut := func(err error) bool {
+		return err != nil && ctx.Err() != nil && pctx.Err() == nil
+	}
 
 	client := operation.Client
 	if client == nil {
@@ -508,13 +554,18 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 	req = req.WithContext(ctx)
 	res, err := client.Do(req) // make requests, by default follows 10 redirects before failing
 	if err != nil {
-		return nil, TcpErrorResponse(err)
+		return nil, isTimedOut(err), TcpErrorResponse(err)
+	}
+	// The idle timer starts once headers have arrived, so a server that is slow to answer is bounded only by the
+	// request timeout.
+	if idle := r.getResponseIdleTimeout(); idle > 0 {
+		res.Body = newStallReader(res.Body, idle, cancelStalled)
 	}
 	defer res.Body.Close()
 
 	if r.Debug {
 		if err2 := r.logResponseDebug(res); err2 != nil {
-			return nil, err2
+			return nil, isTimedOut(err2), err2
 		}
 	}
 
@@ -525,35 +576,55 @@ func (r *Runtime) submitRequest(operation *runtime.ClientOperation) (interface{}
 
 	mt, _, err := mime.ParseMediaType(ct)
 	if err != nil {
-		return nil, fmt.Errorf("parse content type: %s", err)
+		return nil, false, fmt.Errorf("parse content type: %s", err)
 	}
 
 	cons, ok := r.Consumers[mt]
 	if !ok {
 		if cons, ok = r.Consumers["*/*"]; !ok {
 			// scream about not knowing what to do
-			return nil, fmt.Errorf("no consumer: %q", ct)
+			return nil, false, fmt.Errorf("no consumer: %q", ct)
 		}
 	}
 
 	//all 2xx, 3xx responses
 	if res.StatusCode >= 200 && res.StatusCode <= 399 {
-		return readResponse.ReadResponse(response{res}, cons)
+		result, err = readResponse.ReadResponse(response{res}, cons)
+		return result, isTimedOut(err), err
 	} else if res.StatusCode == http.StatusTooManyRequests {
 		result, err := ReadTooManyRequestError(req.Method, req.URL.Path)
-		return result, r.redactError(err)
+		return result, false, r.redactError(err)
 	} else {
 		result, err := ReadErrorResponse(response{res}, cons)
-		return result, r.redactError(err)
+		return result, false, r.redactError(err)
 	}
 }
 
-func (r *Runtime) getDefaultTimeOut(request *request) time.Duration {
-	timeout := 30 * time.Second
-	if timeout < request.timeout {
+// getRequestTimeout returns the deadline applied to a call whose context has none. A larger timeout set on the
+// request parameters wins; zero means no deadline.
+func (r *Runtime) getRequestTimeout(request *request) time.Duration {
+	timeout := r.RequestTimeout
+	if timeout == 0 {
+		timeout = DefaultRequestTimeout
+	}
+	if timeout < 0 {
+		timeout = 0
+	}
+	if request.timeout > timeout {
 		timeout = request.timeout
 	}
 	return timeout
+}
+
+// getResponseIdleTimeout returns how long a response body may deliver no data; zero means no limit.
+func (r *Runtime) getResponseIdleTimeout() time.Duration {
+	switch {
+	case r.ResponseIdleTimeout == 0:
+		return DefaultResponseIdleTimeout
+	case r.ResponseIdleTimeout < 0:
+		return 0
+	}
+	return r.ResponseIdleTimeout
 }
 
 func printMsg(m string) string {
