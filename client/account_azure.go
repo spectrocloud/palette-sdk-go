@@ -11,6 +11,7 @@ func toV1AzureCloudAccount(account *models.V1AzureAccount) *models.V1AzureCloudA
 		AzureEnvironment: account.Spec.AzureEnvironment,
 		ClientID:         account.Spec.ClientID,
 		ClientSecret:     account.Spec.ClientSecret,
+		IdentityType:     account.Spec.IdentityType,
 		Settings:         account.Spec.Settings,
 		TenantID:         account.Spec.TenantID,
 		TenantName:       account.Spec.TenantName,
@@ -36,7 +37,21 @@ func (h *V1Client) CreateCloudAccountAzure(account *models.V1AzureAccount) (stri
 
 func (h *V1Client) validateCloudAccountAzure(account *models.V1AzureAccount) error {
 	// check PCG
-	if err := h.CheckPCG(account.Metadata.Annotations[OverlordUID]); err != nil {
+	overlordUID := account.Metadata.Annotations[OverlordUID]
+	if err := h.CheckPCG(overlordUID); err != nil {
+		return err
+	}
+
+	// PLT-2489: UserAssignedMSI accounts have no clientSecret, so the
+	// service-principal validate endpoint below doesn't apply to them.
+	// They're validated from inside the private gateway instead, which also
+	// resolves managementIdentityResourceId for the caller to read back.
+	if account.Spec.IdentityType != nil && *account.Spec.IdentityType == models.V1AzureCloudAccountIdentityTypeUserAssignedMSI {
+		params := clientv1.NewV1OverlordsUIDAzureAccountValidateParamsWithContext(h.ctx).
+			WithUID(overlordUID).
+			WithBody(clientv1.V1OverlordsUIDAzureAccountValidateBody{Account: toV1AzureCloudAccount(account)})
+
+		_, err := h.Client.V1OverlordsUIDAzureAccountValidate(params)
 		return err
 	}
 

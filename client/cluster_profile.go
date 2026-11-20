@@ -270,11 +270,7 @@ func (h *V1Client) GetClusterProfiles() ([]*models.V1ClusterProfileMetadata, err
 
 // PatchClusterProfile patches an existing cluster profile's metadata.
 func (h *V1Client) PatchClusterProfile(clusterProfile *models.V1ClusterProfileUpdateEntity, metadata *models.V1ProfileMetaEntity) error {
-	params := clientv1.NewV1ClusterProfilesUIDMetadataUpdateParamsWithContext(h.ctx).
-		WithUID(clusterProfile.Metadata.UID).
-		WithBody(metadata)
-	_, err := h.Client.V1ClusterProfilesUIDMetadataUpdate(params)
-	return err
+	return h.patchClusterProfileMetadata(clusterProfile.Metadata.UID, metadata)
 }
 
 // UpdateClusterProfile updates an existing cluster profile.
