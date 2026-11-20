@@ -8,8 +8,10 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1Nic v1 nic
@@ -35,12 +37,64 @@ type V1Nic struct {
 	// nic name
 	NicName string `json:"nicName,omitempty"`
 
+	// Additional IPv4 addresses on the VLAN subinterface in CIDR form (e.g. "10.3.12.165/27"). The primary address is ip/subnet.
+	// Unique: true
+	SecondaryIps []string `json:"secondaryIps"`
+
 	// subnet
 	Subnet string `json:"subnet,omitempty"`
+
+	// VLAN identifier; the address is configured on <nicName>.<vlanId>
+	// Maximum: 4094
+	// Minimum: 1
+	VlanID *int32 `json:"vlanId,omitempty"`
 }
 
 // Validate validates this v1 nic
 func (m *V1Nic) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateSecondaryIps(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateVlanID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1Nic) validateSecondaryIps(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SecondaryIps) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("secondaryIps", "body", m.SecondaryIps); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1Nic) validateVlanID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.VlanID) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("vlanId", "body", int64(*m.VlanID), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("vlanId", "body", int64(*m.VlanID), 4094, false); err != nil {
+		return err
+	}
+
 	return nil
 }
 
