@@ -23,6 +23,12 @@ type V1VMMemory struct {
 
 	// hugepages
 	Hugepages *V1VMHugepages `json:"hugepages,omitempty"`
+
+	// max guest
+	MaxGuest V1VMQuantity `json:"maxGuest,omitempty"`
+
+	// reserved overhead
+	ReservedOverhead *V1VMReservedOverhead `json:"reservedOverhead,omitempty"`
 }
 
 // Validate validates this v1 Vm memory
@@ -34,6 +40,14 @@ func (m *V1VMMemory) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateHugepages(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMaxGuest(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateReservedOverhead(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -79,6 +93,42 @@ func (m *V1VMMemory) validateHugepages(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1VMMemory) validateMaxGuest(formats strfmt.Registry) error {
+	if swag.IsZero(m.MaxGuest) { // not required
+		return nil
+	}
+
+	if err := m.MaxGuest.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("maxGuest")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("maxGuest")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1VMMemory) validateReservedOverhead(formats strfmt.Registry) error {
+	if swag.IsZero(m.ReservedOverhead) { // not required
+		return nil
+	}
+
+	if m.ReservedOverhead != nil {
+		if err := m.ReservedOverhead.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("reservedOverhead")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reservedOverhead")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 Vm memory based on the context it is used
 func (m *V1VMMemory) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -88,6 +138,14 @@ func (m *V1VMMemory) ContextValidate(ctx context.Context, formats strfmt.Registr
 	}
 
 	if err := m.contextValidateHugepages(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateMaxGuest(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateReservedOverhead(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -128,6 +186,45 @@ func (m *V1VMMemory) contextValidateHugepages(ctx context.Context, formats strfm
 				return ve.ValidateName("hugepages")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("hugepages")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMMemory) contextValidateMaxGuest(ctx context.Context, formats strfmt.Registry) error {
+
+	if swag.IsZero(m.MaxGuest) { // not required
+		return nil
+	}
+
+	if err := m.MaxGuest.ContextValidate(ctx, formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("maxGuest")
+		} else if ce, ok := err.(*errors.CompositeError); ok {
+			return ce.ValidateName("maxGuest")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1VMMemory) contextValidateReservedOverhead(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ReservedOverhead != nil {
+
+		if swag.IsZero(m.ReservedOverhead) { // not required
+			return nil
+		}
+
+		if err := m.ReservedOverhead.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("reservedOverhead")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("reservedOverhead")
 			}
 			return err
 		}

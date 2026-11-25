@@ -22,6 +22,9 @@ type V1VMLunTarget struct {
 
 	// ReadOnly. Defaults to false.
 	Readonly bool `json:"readonly,omitempty"`
+
+	// Reservation indicates if the disk needs to support the persistent reservation for the SCSI disk
+	Reservation bool `json:"reservation,omitempty"`
 }
 
 // Validate validates this v1 Vm lun target

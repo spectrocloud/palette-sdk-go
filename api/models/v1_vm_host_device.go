@@ -19,6 +19,9 @@ import (
 // swagger:model v1VmHostDevice
 type V1VMHostDevice struct {
 
+	// ClaimName references the name of an entry in the VMI's spec.resourceClaims[] array. The referenced entry may use either resourceClaimName or resourceClaimTemplateName.
+	ClaimName string `json:"claimName,omitempty"`
+
 	// DeviceName is the resource name of the host device exposed by a device plugin
 	// Required: true
 	DeviceName *string `json:"deviceName"`
@@ -26,6 +29,9 @@ type V1VMHostDevice struct {
 	// name
 	// Required: true
 	Name *string `json:"name"`
+
+	// RequestName specifies which request from the ResourceClaim/ResourceClaimTemplate spec.devices.requests array this claim request corresponds to.
+	RequestName string `json:"requestName,omitempty"`
 
 	// If specified, the virtual network interface address and its tag will be provided to the guest via config drive
 	Tag string `json:"tag,omitempty"`

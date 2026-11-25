@@ -35,6 +35,9 @@ type V1EdgeNativeHost struct {
 	// Required: true
 	HostAddress *string `json:"hostAddress"`
 
+	// HostAddresses holds all addresses of the host. When set, hostAddress carries the primary address.
+	HostAddresses []string `json:"hostAddresses"`
+
 	// Qualified name of host
 	HostName string `json:"hostName,omitempty"`
 

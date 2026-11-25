@@ -31,6 +31,9 @@ type V1VMCPU struct {
 	// IsolateEmulatorThread requests one more dedicated pCPU to be allocated for the VMI to place the emulator thread on it.
 	IsolateEmulatorThread bool `json:"isolateEmulatorThread,omitempty"`
 
+	// MaxSockets specifies the maximum amount of sockets that can be hotplugged
+	MaxSockets int64 `json:"maxSockets,omitempty"`
+
 	// Model specifies the CPU model inside the VMI. List of available models https://github.com/libvirt/libvirt/tree/master/src/cpu_map. It is possible to specify special cases like "host-passthrough" to get the same CPU as the node and "host-model" to get CPU closest to the node one. Defaults to host-model.
 	Model string `json:"model,omitempty"`
 

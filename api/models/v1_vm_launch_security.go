@@ -8,6 +8,7 @@ package models
 import (
 	"context"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -18,16 +19,80 @@ import (
 type V1VMLaunchSecurity struct {
 
 	// sev
-	Sev V1VMSEV `json:"sev,omitempty"`
+	Sev *V1VMSEV `json:"sev,omitempty"`
+
+	// snp
+	Snp V1VMSEVSNP `json:"snp,omitempty"`
+
+	// tdx
+	Tdx V1VMTDX `json:"tdx,omitempty"`
 }
 
 // Validate validates this v1 Vm launch security
 func (m *V1VMLaunchSecurity) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateSev(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this v1 Vm launch security based on context it is used
+func (m *V1VMLaunchSecurity) validateSev(formats strfmt.Registry) error {
+	if swag.IsZero(m.Sev) { // not required
+		return nil
+	}
+
+	if m.Sev != nil {
+		if err := m.Sev.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sev")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sev")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this v1 Vm launch security based on the context it is used
 func (m *V1VMLaunchSecurity) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateSev(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *V1VMLaunchSecurity) contextValidateSev(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Sev != nil {
+
+		if swag.IsZero(m.Sev) { // not required
+			return nil
+		}
+
+		if err := m.Sev.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("sev")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("sev")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

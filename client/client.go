@@ -13,12 +13,15 @@ import (
 
 	"github.com/spectrocloud/palette-sdk-go/api/apiutil/transport"
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/version1"
+	clientv2 "github.com/spectrocloud/palette-sdk-go/api/client/version2"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 )
 
 // V1Client is a client for the Spectro Cloud API.
 type V1Client struct {
 	Client clientv1.ClientService
+	// ClientV2 exposes the v2 API operations (e.g. paginated users summary).
+	ClientV2 clientv2.ClientService
 
 	baseCtx            context.Context
 	ctx                context.Context
@@ -51,7 +54,9 @@ func New(options ...func(*V1Client)) *V1Client {
 	for _, o := range options {
 		o(client)
 	}
-	client.Client = clientv1.New(client.getTransport(), strfmt.Default)
+	t := client.getTransport()
+	client.Client = clientv1.New(t, strfmt.Default)
+	client.ClientV2 = clientv2.New(t, strfmt.Default)
 	return client
 }
 
@@ -163,7 +168,9 @@ func WithTransportDebug() func(*V1Client) {
 	return func(v *V1Client) {
 		v.transportDebug = true
 		if v.Client != nil {
-			v.Client = clientv1.New(v.getTransport(), strfmt.Default)
+			t := v.getTransport()
+			v.Client = clientv1.New(t, strfmt.Default)
+			v.ClientV2 = clientv2.New(t, strfmt.Default)
 		}
 	}
 }

@@ -23,7 +23,7 @@ type V1EdgeNativeControlPlaneEndPoint struct {
 	// DDNSSearchDomain is the search domain used for resolving IP addresses when the EndpointType is DDNS. This search domain is appended to the generated Hostname to obtain the complete DNS name for the endpoint. If Host is already a DDNS FQDN, DDNSSearchDomain is not required
 	DdnsSearchDomain string `json:"ddnsSearchDomain,omitempty"`
 
-	// Host is FQDN(DDNS) or IP
+	// Host is FQDN(DDNS) or IP.
 	Host string `json:"host,omitempty"`
 
 	// Type indicates DDNS or VIP

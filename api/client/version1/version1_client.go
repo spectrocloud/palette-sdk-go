@@ -568,8 +568,6 @@ type ClientService interface {
 
 	V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDeleteParams) (*V1SystemRegistriesNameDeleteNoContent, error)
 
-	V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error)
-
 	V1SystemRegistriesNameUpdate(params *V1SystemRegistriesNameUpdateParams) (*V1SystemRegistriesNameUpdateNoContent, error)
 
 	V1SystemSecurityModeGet(params *V1SystemSecurityModeGetParams) (*V1SystemSecurityModeGetOK, error)
@@ -1400,10 +1398,6 @@ type ClientService interface {
 
 	V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) (*V1EcrRegistriesValidateNoContent, error)
 
-	V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error)
-
-	V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error)
-
 	V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) (*V1EdgeHostDevicesCreateCreated, error)
 
 	V1EdgeHostDevicesHealthUpdate(params *V1EdgeHostDevicesHealthUpdateParams) (*V1EdgeHostDevicesHealthUpdateNoContent, error)
@@ -1940,8 +1934,6 @@ type ClientService interface {
 
 	V1SpectroClustersUIDAssets(params *V1SpectroClustersUIDAssetsParams) (*V1SpectroClustersUIDAssetsNoContent, error)
 
-	V1SpectroClustersUIDAssetsGet(params *V1SpectroClustersUIDAssetsGetParams) (*V1SpectroClustersUIDAssetsGetOK, error)
-
 	V1SpectroClustersUIDClusterMetaAttributeUpdate(params *V1SpectroClustersUIDClusterMetaAttributeUpdateParams) (*V1SpectroClustersUIDClusterMetaAttributeUpdateNoContent, error)
 
 	V1SpectroClustersUIDConfigNamespacesGet(params *V1SpectroClustersUIDConfigNamespacesGetParams) (*V1SpectroClustersUIDConfigNamespacesGetOK, error)
@@ -1975,8 +1967,6 @@ type ClientService interface {
 	V1SpectroClustersUIDImportManifest(params *V1SpectroClustersUIDImportManifestParams, writer io.Writer) (*V1SpectroClustersUIDImportManifestOK, error)
 
 	V1SpectroClustersUIDImportUpgradePatch(params *V1SpectroClustersUIDImportUpgradePatchParams) (*V1SpectroClustersUIDImportUpgradePatchNoContent, error)
-
-	V1SpectroClustersUIDKubeConfig(params *V1SpectroClustersUIDKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDKubeConfigOK, error)
 
 	V1SpectroClustersUIDKubeConfigClientDelete(params *V1SpectroClustersUIDKubeConfigClientDeleteParams) (*V1SpectroClustersUIDKubeConfigClientDeleteNoContent, error)
 
@@ -2110,8 +2100,6 @@ type ClientService interface {
 
 	V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphereValidateParams) (*V1SpectroClustersVsphereValidateOK, error)
 
-	V1SpectrospectroInstallerCreate(params *V1SpectrospectroInstallerCreateParams) (*V1SpectrospectroInstallerCreateCreated, error)
-
 	V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetParams, writer io.Writer) (*V1SyftScanLogImageSBOMGetOK, error)
 
 	V1SystemActivate(params *V1SystemActivateParams) (*V1SystemActivateOK, *V1SystemActivateCreated, error)
@@ -2209,8 +2197,6 @@ type ClientService interface {
 	V1TeamsProjectRolesPut(params *V1TeamsProjectRolesPutParams) (*V1TeamsProjectRolesPutNoContent, error)
 
 	V1TeamsResourceRolesUIDUpdate(params *V1TeamsResourceRolesUIDUpdateParams) (*V1TeamsResourceRolesUIDUpdateNoContent, error)
-
-	V1TeamsSummaryGet(params *V1TeamsSummaryGetParams) (*V1TeamsSummaryGetOK, error)
 
 	V1TeamsUIDDelete(params *V1TeamsUIDDeleteParams) (*V1TeamsUIDDeleteNoContent, error)
 
@@ -2375,8 +2361,6 @@ type ClientService interface {
 	V1UsersResourceRolesUIDUpdate(params *V1UsersResourceRolesUIDUpdateParams) (*V1UsersResourceRolesUIDUpdateNoContent, error)
 
 	V1UsersStatusLoginMode(params *V1UsersStatusLoginModeParams) (*V1UsersStatusLoginModeNoContent, error)
-
-	V1UsersSummaryGet(params *V1UsersSummaryGetParams) (*V1UsersSummaryGetOK, error)
 
 	V1UsersSystemFeature(params *V1UsersSystemFeatureParams) (*V1UsersSystemFeatureOK, error)
 
@@ -11718,40 +11702,6 @@ func (a *Client) V1SystemRegistriesNameDelete(params *V1SystemRegistriesNameDele
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameDelete: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SystemRegistriesNameGet gets the specified registry
-*/
-func (a *Client) V1SystemRegistriesNameGet(params *V1SystemRegistriesNameGetParams) (*V1SystemRegistriesNameGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SystemRegistriesNameGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "V1SystemRegistriesNameGet",
-		Method:             "GET",
-		PathPattern:        "/v1/system/config/registries/{registryName}",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SystemRegistriesNameGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SystemRegistriesNameGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for V1SystemRegistriesNameGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -25919,74 +25869,6 @@ func (a *Client) V1EcrRegistriesValidate(params *V1EcrRegistriesValidateParams) 
 }
 
 /*
-V1EdgeHostDeviceHostCheckSumUpdate updates the specified edge host device host check sum
-*/
-func (a *Client) V1EdgeHostDeviceHostCheckSumUpdate(params *V1EdgeHostDeviceHostCheckSumUpdateParams) (*V1EdgeHostDeviceHostCheckSumUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1EdgeHostDeviceHostCheckSumUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1EdgeHostDeviceHostCheckSumUpdate",
-		Method:             "PATCH",
-		PathPattern:        "/v1/edgehosts/{uid}/hostCheckSum",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1EdgeHostDeviceHostCheckSumUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1EdgeHostDeviceHostCheckSumUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostCheckSumUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1EdgeHostDeviceHostPairingKeyUpdate updates the specified edge host device host pairing key
-*/
-func (a *Client) V1EdgeHostDeviceHostPairingKeyUpdate(params *V1EdgeHostDeviceHostPairingKeyUpdateParams) (*V1EdgeHostDeviceHostPairingKeyUpdateNoContent, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1EdgeHostDeviceHostPairingKeyUpdateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1EdgeHostDeviceHostPairingKeyUpdate",
-		Method:             "PATCH",
-		PathPattern:        "/v1/edgehosts/{uid}/hostPairingKey",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1EdgeHostDeviceHostPairingKeyUpdateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1EdgeHostDeviceHostPairingKeyUpdateNoContent)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1EdgeHostDeviceHostPairingKeyUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1EdgeHostDevicesCreate creates the edge host device
 */
 func (a *Client) V1EdgeHostDevicesCreate(params *V1EdgeHostDevicesCreateParams) (*V1EdgeHostDevicesCreateCreated, error) {
@@ -35170,40 +35052,6 @@ func (a *Client) V1SpectroClustersUIDAssets(params *V1SpectroClustersUIDAssetsPa
 }
 
 /*
-V1SpectroClustersUIDAssetsGet gets the cluster asset doc
-*/
-func (a *Client) V1SpectroClustersUIDAssetsGet(params *V1SpectroClustersUIDAssetsGetParams) (*V1SpectroClustersUIDAssetsGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersUIDAssetsGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersUidAssetsGet",
-		Method:             "GET",
-		PathPattern:        "/v1/spectroclusters/{uid}/assets",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersUIDAssetsGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersUIDAssetsGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidAssetsGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1SpectroClustersUIDClusterMetaAttributeUpdate updates the specified cluster meta attribute
 */
 func (a *Client) V1SpectroClustersUIDClusterMetaAttributeUpdate(params *V1SpectroClustersUIDClusterMetaAttributeUpdateParams) (*V1SpectroClustersUIDClusterMetaAttributeUpdateNoContent, error) {
@@ -35778,40 +35626,6 @@ func (a *Client) V1SpectroClustersUIDImportUpgradePatch(params *V1SpectroCluster
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidImportUpgradePatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1SpectroClustersUIDKubeConfig returns the specified cluster s kube config file
-*/
-func (a *Client) V1SpectroClustersUIDKubeConfig(params *V1SpectroClustersUIDKubeConfigParams, writer io.Writer) (*V1SpectroClustersUIDKubeConfigOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectroClustersUIDKubeConfigParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectroClustersUidKubeConfig",
-		Method:             "GET",
-		PathPattern:        "/v1/spectroclusters/{uid}/assets/kubeconfig",
-		ProducesMediaTypes: []string{"application/octet-stream"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectroClustersUIDKubeConfigReader{formats: a.formats, writer: writer},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectroClustersUIDKubeConfigOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectroClustersUidKubeConfig: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -38064,40 +37878,6 @@ func (a *Client) V1SpectroClustersVsphereValidate(params *V1SpectroClustersVsphe
 }
 
 /*
-V1SpectrospectroInstallerCreate creates the spectro installer
-*/
-func (a *Client) V1SpectrospectroInstallerCreate(params *V1SpectrospectroInstallerCreateParams) (*V1SpectrospectroInstallerCreateCreated, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1SpectrospectroInstallerCreateParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1SpectrospectroInstallerCreate",
-		Method:             "POST",
-		PathPattern:        "/v1/installers/spectro",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1SpectrospectroInstallerCreateReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1SpectrospectroInstallerCreateCreated)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1SpectrospectroInstallerCreate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
 V1SyftScanLogImageSBOMGet returns the image sbom of syft scan log of cluster
 */
 func (a *Client) V1SyftScanLogImageSBOMGet(params *V1SyftScanLogImageSBOMGetParams, writer io.Writer) (*V1SyftScanLogImageSBOMGetOK, error) {
@@ -39773,40 +39553,6 @@ func (a *Client) V1TeamsResourceRolesUIDUpdate(params *V1TeamsResourceRolesUIDUp
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1TeamsResourceRolesUidUpdate: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1TeamsSummaryGet retrieves a list of teams summary with provided filter spec
-*/
-func (a *Client) V1TeamsSummaryGet(params *V1TeamsSummaryGetParams) (*V1TeamsSummaryGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1TeamsSummaryGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1TeamsSummaryGet",
-		Method:             "POST",
-		PathPattern:        "/v1/teams/summary",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1TeamsSummaryGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1TeamsSummaryGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1TeamsSummaryGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
@@ -42617,40 +42363,6 @@ func (a *Client) V1UsersStatusLoginMode(params *V1UsersStatusLoginModeParams) (*
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for v1UsersStatusLoginMode: API contract not enforced by server. Client expected to get an error, but got: %T", result)
-	panic(msg)
-}
-
-/*
-V1UsersSummaryGet retrieves a list of users summary with provided filter spec
-*/
-func (a *Client) V1UsersSummaryGet(params *V1UsersSummaryGetParams) (*V1UsersSummaryGetOK, error) {
-	// TODO: Validate the params before sending
-	if params == nil {
-		params = NewV1UsersSummaryGetParams()
-	}
-
-	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "v1UsersSummaryGet",
-		Method:             "POST",
-		PathPattern:        "/v1/users/summary",
-		ProducesMediaTypes: []string{"application/json"},
-		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http", "https"},
-		Params:             params,
-		Reader:             &V1UsersSummaryGetReader{formats: a.formats},
-		Context:            params.Context,
-		Client:             params.HTTPClient,
-	})
-	if err != nil {
-		return nil, err
-	}
-	success, ok := result.(*V1UsersSummaryGetOK)
-	if ok {
-		return success, nil
-	}
-	// unexpected success response
-	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for v1UsersSummaryGet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

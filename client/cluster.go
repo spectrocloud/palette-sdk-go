@@ -132,12 +132,19 @@ func (h *V1Client) SearchClusterSummaries(filter *models.V1SearchFilterSpec, sor
 }
 
 // GetClusterKubeConfig retrieves a cluster's kubeconfig.
-// Deprecated: use GetClusterClientKubeConfig() instead.
+// Deprecated: use GetClusterClientKubeConfig(), GetClusterAdminKubeConfig() or
+// GetClusterFrpKubeConfig() instead. The underlying v1 kubeconfig endpoint was
+// removed from the API, so this now delegates to GetClusterAdminKubeConfig().
 func (h *V1Client) GetClusterKubeConfig(uid string) (string, error) {
+	return h.GetClusterAdminKubeConfig(uid)
+}
+
+// GetClusterFrpKubeConfig retrieves a cluster's FRP (reverse proxy) kubeconfig.
+func (h *V1Client) GetClusterFrpKubeConfig(uid string) (string, error) {
 	builder := &strings.Builder{}
-	params := clientv1.NewV1SpectroClustersUIDKubeConfigParamsWithContext(h.ctx).
+	params := clientv1.NewV1SpectroClustersUIDFrpKubeConfigGetParamsWithContext(h.ctx).
 		WithUID(uid)
-	_, err := h.Client.V1SpectroClustersUIDKubeConfig(params, builder)
+	_, err := h.Client.V1SpectroClustersUIDFrpKubeConfigGet(params, builder)
 	if err != nil {
 		if herr.IsNotFound(err) {
 			return "", nil

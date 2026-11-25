@@ -31,11 +31,17 @@ type V1VMDisk struct {
 	// cdrom
 	Cdrom *V1VMCDRomTarget `json:"cdrom,omitempty"`
 
+	// ChangedBlockTracking indicates this disk should have CBT option Defaults to false.
+	ChangedBlockTracking bool `json:"changedBlockTracking,omitempty"`
+
 	// dedicatedIOThread indicates this disk should have an exclusive IO Thread. Enabling this implies useIOThreads = true. Defaults to false.
 	DedicatedIOThread bool `json:"dedicatedIOThread,omitempty"`
 
 	// disk
 	Disk *V1VMDiskTarget `json:"disk,omitempty"`
+
+	// If specified, it can change the default error policy (stop) for the disk
+	ErrorPolicy string `json:"errorPolicy,omitempty"`
 
 	// IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.
 	Io string `json:"io,omitempty"`

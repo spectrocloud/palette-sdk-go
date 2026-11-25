@@ -53,6 +53,9 @@ type V1VMDomainSpec struct {
 	// memory
 	Memory *V1VMMemory `json:"memory,omitempty"`
 
+	// RebootPolicy specifies how the guest should behave on reboot. Reboot (default): The guest is allowed to reboot silently. Terminate: The VMI will be terminated on guest reboot, allowing higher level controllers (such as the VM controller) to recreate the VMI with any updated configuration such as boot order changes.
+	RebootPolicy string `json:"rebootPolicy,omitempty"`
+
 	// resources
 	Resources *V1VMResourceRequirements `json:"resources,omitempty"`
 }

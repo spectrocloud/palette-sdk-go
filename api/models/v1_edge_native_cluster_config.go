@@ -7,10 +7,12 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1EdgeNativeClusterConfig EdgeNativeClusterConfig definnes Edge Native Cluster specific Spec
@@ -23,6 +25,10 @@ type V1EdgeNativeClusterConfig struct {
 
 	// ImageRegistryRef points to an OCI registry with the image provider type. The edge hosts use its credentials to pull the provider image
 	ImageRegistryRef *V1ObjectReference `json:"imageRegistryRef,omitempty"`
+
+	// IPMode is the address family mode of the cluster network.
+	// Enum: ["ipv4","ipv6","dual-stack"]
+	IPMode string `json:"ipMode,omitempty"`
 
 	// IsTwoNodeCluster is to enable two node cluster support in the control-plane
 	IsTwoNodeCluster bool `json:"isTwoNodeCluster,omitempty"`
@@ -52,6 +58,10 @@ func (m *V1EdgeNativeClusterConfig) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateImageRegistryRef(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateIPMode(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -102,6 +112,51 @@ func (m *V1EdgeNativeClusterConfig) validateImageRegistryRef(formats strfmt.Regi
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+var v1EdgeNativeClusterConfigTypeIPModePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ipv4","ipv6","dual-stack"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1EdgeNativeClusterConfigTypeIPModePropEnum = append(v1EdgeNativeClusterConfigTypeIPModePropEnum, v)
+	}
+}
+
+const (
+
+	// V1EdgeNativeClusterConfigIPModeIPV4 captures enum value "ipv4"
+	V1EdgeNativeClusterConfigIPModeIPV4 string = "ipv4"
+
+	// V1EdgeNativeClusterConfigIPModeIPV6 captures enum value "ipv6"
+	V1EdgeNativeClusterConfigIPModeIPV6 string = "ipv6"
+
+	// V1EdgeNativeClusterConfigIPModeDualDashStack captures enum value "dual-stack"
+	V1EdgeNativeClusterConfigIPModeDualDashStack string = "dual-stack"
+)
+
+// prop value enum
+func (m *V1EdgeNativeClusterConfig) validateIPModeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1EdgeNativeClusterConfigTypeIPModePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1EdgeNativeClusterConfig) validateIPMode(formats strfmt.Registry) error {
+	if swag.IsZero(m.IPMode) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateIPModeEnum("ipMode", "body", m.IPMode); err != nil {
+		return err
 	}
 
 	return nil

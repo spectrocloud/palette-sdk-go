@@ -21,6 +21,9 @@ type V1VMSSHPublicKeyAccessCredentialPropagationMethod struct {
 	// config drive
 	ConfigDrive V1VMConfigDriveSSHPublicKeyAccessCredentialPropagation `json:"configDrive,omitempty"`
 
+	// no cloud
+	NoCloud V1VMNoCloudSSHPublicKeyAccessCredentialPropagation `json:"noCloud,omitempty"`
+
 	// qemu guest agent
 	QemuGuestAgent *V1VMQemuGuestAgentSSHPublicKeyAccessCredentialPropagation `json:"qemuGuestAgent,omitempty"`
 }
