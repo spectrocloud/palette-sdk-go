@@ -22,7 +22,7 @@ type V1EdgeHostDeviceSpecEntity struct {
 	// arch type
 	ArchType *V1ArchType `json:"archType,omitempty"`
 
-	// host pairing key
+	// Deprecated: This field will be removed in a future release.
 	// Format: password
 	HostPairingKey strfmt.Password `json:"hostPairingKey,omitempty"`
 

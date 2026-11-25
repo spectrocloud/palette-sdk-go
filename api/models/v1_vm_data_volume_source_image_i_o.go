@@ -26,6 +26,9 @@ type V1VMDataVolumeSourceImageIO struct {
 	// Required: true
 	DiskID *string `json:"diskId"`
 
+	// InsecureSkipVerify is a flag to skip certificate verification
+	InsecureSkipVerify bool `json:"insecureSkipVerify,omitempty"`
+
 	// SecretRef provides the secret reference needed to access the ovirt-engine
 	SecretRef string `json:"secretRef,omitempty"`
 

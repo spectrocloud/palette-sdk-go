@@ -23,6 +23,9 @@ type V1VMInterface struct {
 	// If specified, the ACPI index is used to provide network interface device naming, that is stable across changes in PCI addresses assigned to the device. This value is required to be unique across all devices and be between 1 and (16*1024-1).
 	AcpiIndex int32 `json:"acpiIndex,omitempty"`
 
+	// binding
+	Binding *V1VMPluginBinding `json:"binding,omitempty"`
+
 	// BootOrder is an integer value > 0, used to determine ordering of boot devices. Lower values take precedence. Each interface or disk that has a boot order must have a unique value. Interfaces without a boot order are not tried.
 	BootOrder int32 `json:"bootOrder,omitempty"`
 
@@ -51,8 +54,14 @@ type V1VMInterface struct {
 	// passt
 	Passt V1VMInterfacePasst `json:"passt,omitempty"`
 
+	// passt binding
+	PasstBinding V1VMInterfacePasstBinding `json:"passtBinding,omitempty"`
+
 	// If specified, the virtual network interface will be placed on the guests pci address with the specified PCI address. For example: 0000:81:01.10
 	PciAddress string `json:"pciAddress,omitempty"`
+
+	// List of port ranges to be forwarded to the virtual machine. Mutually exclusive with ports. Only supported on masquerade interfaces. This feature is in Alpha.
+	PortRanges []*V1VMPortRange `json:"portRanges"`
 
 	// List of ports to be forwarded to the virtual machine.
 	Ports []*V1VMPort `json:"ports"`
@@ -63,6 +72,9 @@ type V1VMInterface struct {
 	// sriov
 	Sriov V1VMInterfaceSRIOV `json:"sriov,omitempty"`
 
+	// State represents the requested operational state of the interface. The supported values are: `absent`, expressing a request to remove the interface. `down`, expressing a request to set the link down. `up`, expressing a request to set the link up. Empty value functions as `up`.
+	State string `json:"state,omitempty"`
+
 	// If specified, the virtual network interface address and its tag will be provided to the guest via config drive
 	Tag string `json:"tag,omitempty"`
 }
@@ -71,11 +83,19 @@ type V1VMInterface struct {
 func (m *V1VMInterface) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateBinding(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateDhcpOptions(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePortRanges(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -86,6 +106,25 @@ func (m *V1VMInterface) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMInterface) validateBinding(formats strfmt.Registry) error {
+	if swag.IsZero(m.Binding) { // not required
+		return nil
+	}
+
+	if m.Binding != nil {
+		if err := m.Binding.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("binding")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("binding")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -112,6 +151,32 @@ func (m *V1VMInterface) validateName(formats strfmt.Registry) error {
 
 	if err := validate.Required("name", "body", m.Name); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *V1VMInterface) validatePortRanges(formats strfmt.Registry) error {
+	if swag.IsZero(m.PortRanges) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.PortRanges); i++ {
+		if swag.IsZero(m.PortRanges[i]) { // not required
+			continue
+		}
+
+		if m.PortRanges[i] != nil {
+			if err := m.PortRanges[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("portRanges" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("portRanges" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil
@@ -147,7 +212,15 @@ func (m *V1VMInterface) validatePorts(formats strfmt.Registry) error {
 func (m *V1VMInterface) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateBinding(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateDhcpOptions(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePortRanges(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -158,6 +231,27 @@ func (m *V1VMInterface) ContextValidate(ctx context.Context, formats strfmt.Regi
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMInterface) contextValidateBinding(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Binding != nil {
+
+		if swag.IsZero(m.Binding) { // not required
+			return nil
+		}
+
+		if err := m.Binding.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("binding")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("binding")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -177,6 +271,31 @@ func (m *V1VMInterface) contextValidateDhcpOptions(ctx context.Context, formats 
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *V1VMInterface) contextValidatePortRanges(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PortRanges); i++ {
+
+		if m.PortRanges[i] != nil {
+
+			if swag.IsZero(m.PortRanges[i]) { // not required
+				return nil
+			}
+
+			if err := m.PortRanges[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("portRanges" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("portRanges" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

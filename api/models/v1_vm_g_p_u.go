@@ -19,6 +19,9 @@ import (
 // swagger:model v1VmGPU
 type V1VMGPU struct {
 
+	// ClaimName references the name of an entry in the VMI's spec.resourceClaims[] array. The referenced entry may use either resourceClaimName or resourceClaimTemplateName.
+	ClaimName string `json:"claimName,omitempty"`
+
 	// device name
 	// Required: true
 	DeviceName *string `json:"deviceName"`
@@ -26,6 +29,9 @@ type V1VMGPU struct {
 	// Name of the GPU device as exposed by a device plugin
 	// Required: true
 	Name *string `json:"name"`
+
+	// RequestName specifies which request from the ResourceClaim/ResourceClaimTemplate spec.devices.requests array this claim request corresponds to.
+	RequestName string `json:"requestName,omitempty"`
 
 	// If specified, the virtual network interface address and its tag will be provided to the guest via config drive
 	Tag string `json:"tag,omitempty"`

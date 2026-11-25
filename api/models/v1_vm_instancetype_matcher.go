@@ -20,6 +20,9 @@ type V1VMInstancetypeMatcher struct {
 	// InferFromVolume lists the name of a volume that should be used to infer or discover the instancetype to be used through known annotations on the underlying resource. Once applied to the InstancetypeMatcher this field is removed.
 	InferFromVolume string `json:"inferFromVolume,omitempty"`
 
+	// InferFromVolumeFailurePolicy controls what should happen on failure when inferring the instancetype. Allowed values are: "RejectInferFromVolumeFailure" and "IgnoreInferFromVolumeFailure". If not specified, "RejectInferFromVolumeFailure" is used by default.
+	InferFromVolumeFailurePolicy string `json:"inferFromVolumeFailurePolicy,omitempty"`
+
 	// Kind specifies which instancetype resource is referenced. Allowed values are: "VirtualMachineInstancetype" and "VirtualMachineClusterInstancetype". If not specified, "VirtualMachineClusterInstancetype" is used by default.
 	Kind string `json:"kind,omitempty"`
 

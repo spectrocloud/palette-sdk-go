@@ -15784,68 +15784,6 @@
         }
       ]
     },
-    "/v1/edgehosts/{uid}/hostCheckSum": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host check sum",
-        "operationId": "v1EdgeHostDeviceHostCheckSumUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostCheckSum"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
-    "/v1/edgehosts/{uid}/hostPairingKey": {
-      "patch": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Update the specified edge host device host pairing key",
-        "operationId": "v1EdgeHostDeviceHostPairingKeyUpdate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1EdgeHostDeviceHostPairingKey"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The resource was updated successfully"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "uid",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/v1/edgehosts/{uid}/meta": {
       "put": {
         "tags": [
@@ -16620,39 +16558,6 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/v1HealthPing"
-            }
-          }
-        }
-      }
-    },
-    "/v1/installers/spectro": {
-      "post": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "Creates the spectro installer",
-        "operationId": "v1SpectrospectroInstallerCreate",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroInstallerInputEntity"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created successfully",
-            "schema": {
-              "$ref": "#/definitions/v1Uid"
-            },
-            "headers": {
-              "AuditUid": {
-                "type": "string",
-                "description": "Audit uid for the request"
-              }
             }
           }
         }
@@ -23964,21 +23869,6 @@
       ]
     },
     "/v1/spectroclusters/{uid}/assets": {
-      "get": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Get the cluster asset doc",
-        "operationId": "v1SpectroClustersUidAssetsGet",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/v1SpectroClusterAssetEntity"
-            }
-          }
-        }
-      },
       "post": {
         "tags": [
           "v1"
@@ -24187,39 +24077,6 @@
       ]
     },
     "/v1/spectroclusters/{uid}/assets/kubeconfig": {
-      "get": {
-        "produces": [
-          "application/octet-stream"
-        ],
-        "tags": [
-          "v1"
-        ],
-        "summary": "Returns the specified cluster's kube config file",
-        "operationId": "v1SpectroClustersUidKubeConfig",
-        "parameters": [
-          {
-            "type": "boolean",
-            "default": true,
-            "description": "FRP (reverse-proxy) based kube config will be returned if available",
-            "name": "frp",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "download file",
-            "schema": {
-              "type": "string",
-              "format": "binary"
-            },
-            "headers": {
-              "Content-Disposition": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
           "v1"
@@ -29952,22 +29809,6 @@
       }
     },
     "/v1/system/config/registries/{registryName}": {
-      "get": {
-        "tags": [
-          "v1",
-          "system"
-        ],
-        "summary": "Gets the specified Registry",
-        "operationId": "V1SystemRegistriesNameGet",
-        "responses": {
-          "200": {
-            "description": "(empty)",
-            "schema": {
-              "$ref": "#/definitions/v1SystemRegistry"
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
           "v1",
@@ -31734,32 +31575,6 @@
                 "type": "string",
                 "description": "Audit uid for the request"
               }
-            }
-          }
-        }
-      }
-    },
-    "/v1/teams/summary": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of teams summary with provided filter spec",
-        "operationId": "v1TeamsSummaryGet",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1TeamsSummarySpec"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of teams summary items",
-            "schema": {
-              "$ref": "#/definitions/v1TeamsSummaryList"
             }
           }
         }
@@ -35525,32 +35340,6 @@
                 "type": "string",
                 "description": "Audit uid for the request"
               }
-            }
-          }
-        }
-      }
-    },
-    "/v1/users/summary": {
-      "post": {
-        "tags": [
-          "v1"
-        ],
-        "summary": "Retrieves a list of users summary with provided filter spec",
-        "operationId": "v1UsersSummaryGet",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/v1UsersSummarySpec"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An array of users summary items",
-            "schema": {
-              "$ref": "#/definitions/v1UsersSummaryList"
             }
           }
         }
@@ -41546,6 +41335,32 @@
         }
       }
     },
+    "v1BackupVolumeInfo": {
+      "description": "BackupVolumeInfo contains information about a volume included in a backup",
+      "type": "object",
+      "required": [
+        "volumeName",
+        "diskTarget"
+      ],
+      "properties": {
+        "dataEndpoint": {
+          "description": "DataEndpoint is the URL of the endpoint for read for pull mode",
+          "type": "string"
+        },
+        "diskTarget": {
+          "description": "DiskTarget is the disk target device name at backup time",
+          "type": "string"
+        },
+        "mapEndpoint": {
+          "description": "MapEndpoint is the URL of the endpoint for map for pull mode",
+          "type": "string"
+        },
+        "volumeName": {
+          "description": "VolumeName is the volume name from VMI spec",
+          "type": "string"
+        }
+      }
+    },
     "v1BasicOciRegistry": {
       "description": "Basic oci registry information",
       "type": "object",
@@ -46899,6 +46714,9 @@
       "description": "VirtualMachineStatus represents the status returned by the controller to describe how the VirtualMachine is doing",
       "type": "object",
       "properties": {
+        "changedBlockTracking": {
+          "$ref": "#/definitions/v1VmChangedBlockTrackingStatus"
+        },
         "conditions": {
           "description": "Hold the state information of the VirtualMachine and its VirtualMachineInstance",
           "type": "array",
@@ -46910,8 +46728,24 @@
           "description": "Created indicates if the virtual machine is created in the cluster",
           "type": "boolean"
         },
+        "desiredGeneration": {
+          "description": "DesiredGeneration is the generation which is desired for the VMI. This will be used in comparisons with ObservedGeneration to understand when the VMI is out of sync. This will be changed at the same time as ObservedGeneration to remove errors which could occur if Generation is updated through an Update() before ObservedGeneration in Status.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "instancetypeRef": {
+          "$ref": "#/definitions/v1VmInstancetypeStatusRef"
+        },
         "memoryDumpRequest": {
           "$ref": "#/definitions/v1VmVirtualMachineMemoryDumpRequest"
+        },
+        "observedGeneration": {
+          "description": "ObservedGeneration is the generation observed by the vmi when started.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "preferenceRef": {
+          "$ref": "#/definitions/v1VmInstancetypeStatusRef"
         },
         "printableStatus": {
           "description": "PrintableStatus is a human readable, high-level representation of the status of the virtual machine",
@@ -46923,6 +46757,10 @@
         },
         "restoreInProgress": {
           "description": "RestoreInProgress is the name of the VirtualMachineRestore currently executing",
+          "type": "string"
+        },
+        "runStrategy": {
+          "description": "RunStrategy tracks the last recorded RunStrategy used by the VM. This is needed to correctly process the next strategy (for now only the RerunOnFailure)",
           "type": "string"
         },
         "snapshotInProgress": {
@@ -46953,6 +46791,9 @@
           "items": {
             "$ref": "#/definitions/v1VmVolumeSnapshotStatus"
           }
+        },
+        "volumeUpdateState": {
+          "$ref": "#/definitions/v1VmVolumeUpdateState"
         }
       },
       "x-nullable": true
@@ -48809,13 +48650,20 @@
           "description": "HostAddress is a FQDN or IP address of the Host",
           "type": "string"
         },
+        "hostAddresses": {
+          "description": "HostAddresses holds all addresses of the host. When set, hostAddress carries the primary address.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "hostAuthToken": {
           "description": "HostAuthToken to authorize auto registration",
           "type": "string",
           "x-omitempty": false
         },
         "hostChecksum": {
-          "description": "HostChecksum is the checksum provided by the edge host, to be persisted in SaaS",
+          "description": "Deprecated: HostChecksum is the checksum provided by the edge host, to be persisted in SaaS. This field will be removed in a future release.",
           "type": "string",
           "x-omitempty": false
         },
@@ -48824,7 +48672,7 @@
           "$ref": "#/definitions/v1EdgeHostIdentity"
         },
         "hostPairingKey": {
-          "description": "HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS",
+          "description": "Deprecated: HostPairingKey is the one-time pairing key to pair the edge host with the device registered in SaaS. This field will be removed in a future release.",
           "type": "string",
           "format": "password",
           "x-omitempty": false
@@ -48914,23 +48762,6 @@
         }
       }
     },
-    "v1EdgeHostDeviceHostCheckSum": {
-      "type": "object",
-      "properties": {
-        "hostCheckSum": {
-          "type": "string"
-        }
-      }
-    },
-    "v1EdgeHostDeviceHostPairingKey": {
-      "type": "object",
-      "properties": {
-        "hostPairingKey": {
-          "type": "string",
-          "format": "password"
-        }
-      }
-    },
     "v1EdgeHostDeviceMetaUpdateEntity": {
       "description": "Edge host device uid and name",
       "type": "object",
@@ -48989,6 +48820,7 @@
           "$ref": "#/definitions/v1ArchType"
         },
         "hostPairingKey": {
+          "description": "Deprecated: This field will be removed in a future release.",
           "type": "string",
           "format": "password"
         },
@@ -49492,6 +49324,15 @@
           "description": "ImageRegistryRef points to an OCI registry with the image provider type. The edge hosts use its credentials to pull the provider image",
           "$ref": "#/definitions/v1ObjectReference"
         },
+        "ipMode": {
+          "description": "IPMode is the address family mode of the cluster network.",
+          "type": "string",
+          "enum": [
+            "ipv4",
+            "ipv6",
+            "dual-stack"
+          ]
+        },
         "isTwoNodeCluster": {
           "description": "IsTwoNodeCluster is to enable two node cluster support in the control-plane",
           "type": "boolean"
@@ -49532,7 +49373,7 @@
           "type": "string"
         },
         "host": {
-          "description": "Host is FQDN(DDNS) or IP",
+          "description": "Host is FQDN(DDNS) or IP.",
           "type": "string"
         },
         "type": {
@@ -49575,6 +49416,13 @@
         "hostAddress": {
           "description": "HostAddress is a FQDN or IP address of the Host",
           "type": "string"
+        },
+        "hostAddresses": {
+          "description": "HostAddresses holds all addresses of the host. When set, hostAddress carries the primary address.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "hostName": {
           "description": "Qualified name of host",
@@ -55416,7 +55264,9 @@
       "type": "object",
       "properties": {
         "_type": {
-          "type": "string"
+          "description": "Legacy alias for type, kept for older console clients; prefer type.",
+          "type": "string",
+          "x-go-name": "UnderscoreType"
         },
         "authenticatorAttachment": {
           "type": "string"
@@ -55458,6 +55308,11 @@
           "items": {
             "type": "string"
           }
+        },
+        "type": {
+          "description": "Specifies the type of WebAuthn credential. Use \"public-key\" as the value.",
+          "type": "string",
+          "x-go-name": "Type"
         }
       }
     },
@@ -55642,10 +55497,35 @@
           }
         },
         "gateway": {
+          "description": "Deprecated. Use gateways. Gateway of the primary address.",
           "type": "string"
         },
+        "gateways": {
+          "description": "Gateways holds the default gateway for each address family, one entry per family.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "ip": {
+          "description": "Deprecated. Use ipAddresses. Primary interface address.",
           "type": "string"
+        },
+        "ipAddresses": {
+          "description": "IPAddresses holds all interface addresses in CIDR form, primary first. When set, it supersedes ip and subnet.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ipMode": {
+          "description": "IPMode is the address family mode of this interface.",
+          "type": "string",
+          "enum": [
+            "ipv4",
+            "ipv6",
+            "dual-stack"
+          ]
         },
         "isDefault": {
           "type": "boolean"
@@ -55657,6 +55537,7 @@
           "type": "string"
         },
         "subnet": {
+          "description": "Deprecated. Use ipAddresses. Subnet mask of the primary address.",
           "type": "string"
         }
       }
@@ -62998,7 +62879,7 @@
           "type": "string"
         },
         "version": {
-          "description": "Cluster profile version",
+          "description": "Publish revision counter of the cluster profile, starting from 0. Deprecated. Use profileVersion for the version set by the user",
           "type": "integer",
           "format": "int32"
         }
@@ -64158,15 +64039,6 @@
           "items": {
             "$ref": "#/definitions/v1GenericMachinePoolConfigEntity"
           }
-        }
-      }
-    },
-    "v1SpectroInstallerInputEntity": {
-      "description": "Spectro installer entity for create",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMetaInputEntity"
         }
       }
     },
@@ -66658,68 +66530,9 @@
         }
       }
     },
-    "v1TeamSpecSummary": {
-      "type": "object",
-      "properties": {
-        "emailId": {
-          "type": "string"
-        },
-        "projects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        },
-        "users": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        }
-      }
-    },
     "v1TeamStatus": {
       "description": "Team status",
       "type": "object"
-    },
-    "v1TeamSummary": {
-      "description": "Team summary",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1TeamSpecSummary"
-        },
-        "status": {
-          "$ref": "#/definitions/v1TeamStatus"
-        }
-      }
-    },
-    "v1TeamSummarySortFields": {
-      "type": "string",
-      "enum": [
-        "name",
-        "creationTimestamp"
-      ],
-      "x-nullable": true
-    },
-    "v1TeamSummarySortSpec": {
-      "properties": {
-        "field": {
-          "$ref": "#/definitions/v1TeamSummarySortFields"
-        },
-        "order": {
-          "$ref": "#/definitions/v1SortOrder"
-        }
-      }
     },
     "v1TeamTenantRolesEntity": {
       "type": "object",
@@ -66758,45 +66571,6 @@
         },
         "listmeta": {
           "$ref": "#/definitions/v1ListMetaData"
-        }
-      }
-    },
-    "v1TeamsFilterSpec": {
-      "description": "Teams filter spec",
-      "properties": {
-        "name": {
-          "$ref": "#/definitions/v1FilterString"
-        }
-      }
-    },
-    "v1TeamsSummaryList": {
-      "description": "Returns Team summary",
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1TeamSummary"
-          }
-        }
-      }
-    },
-    "v1TeamsSummarySpec": {
-      "description": "Teams filter summary spec",
-      "properties": {
-        "filter": {
-          "$ref": "#/definitions/v1TeamsFilterSpec"
-        },
-        "sort": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1TeamSummarySortSpec"
-          }
         }
       }
     },
@@ -68408,44 +68182,6 @@
         }
       }
     },
-    "v1UserSpecSummary": {
-      "type": "object",
-      "properties": {
-        "emailId": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "projects": {
-          "description": "Deprecated.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        },
-        "projectsCount": {
-          "type": "integer",
-          "format": "int32",
-          "x-omitempty": false
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        },
-        "teams": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1UidSummary"
-          }
-        }
-      }
-    },
     "v1UserStatus": {
       "description": "User status",
       "properties": {
@@ -68483,39 +68219,6 @@
             "dev",
             "devops"
           ]
-        }
-      }
-    },
-    "v1UserSummary": {
-      "description": "User summary",
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/v1ObjectMeta"
-        },
-        "spec": {
-          "$ref": "#/definitions/v1UserSpecSummary"
-        },
-        "status": {
-          "$ref": "#/definitions/v1UserStatus"
-        }
-      }
-    },
-    "v1UserSummarySortFields": {
-      "type": "string",
-      "enum": [
-        "name",
-        "creationTimestamp"
-      ],
-      "x-nullable": true
-    },
-    "v1UserSummarySortSpec": {
-      "properties": {
-        "field": {
-          "$ref": "#/definitions/v1UserSummarySortFields"
-        },
-        "order": {
-          "$ref": "#/definitions/v1SortOrder"
         }
       }
     },
@@ -68597,17 +68300,6 @@
         }
       }
     },
-    "v1UsersFilterSpec": {
-      "description": "Users filter spec",
-      "properties": {
-        "emailId": {
-          "$ref": "#/definitions/v1FilterString"
-        },
-        "name": {
-          "$ref": "#/definitions/v1FilterString"
-        }
-      }
-    },
     "v1UsersMetadata": {
       "type": "object",
       "required": [
@@ -68619,36 +68311,6 @@
           "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/v1UserMetaEntity"
-          }
-        }
-      }
-    },
-    "v1UsersSummaryList": {
-      "type": "object",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1UserSummary"
-          }
-        }
-      }
-    },
-    "v1UsersSummarySpec": {
-      "description": "Users filter summary spec",
-      "properties": {
-        "filter": {
-          "$ref": "#/definitions/v1UsersFilterSpec"
-        },
-        "sort": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "$ref": "#/definitions/v1UserSummarySortSpec"
           }
         }
       }
@@ -69411,6 +69073,19 @@
         }
       }
     },
+    "v1VmACPI": {
+      "type": "object",
+      "properties": {
+        "msdmNameRef": {
+          "description": "Similar to SlicNameRef, another ACPI entry that is used in more recent Windows versions. The above points to the spec of MSDM too.",
+          "type": "string"
+        },
+        "slicNameRef": {
+          "description": "SlicNameRef should match the volume name of a secret object. The data in the secret should be a binary blob that follows the ACPI SLIC standard, see: https://learn.microsoft.com/en-us/previous-versions/windows/hardware/design/dn653305(v=vs.85)",
+          "type": "string"
+        }
+      }
+    },
     "v1VmAccessCredential": {
       "description": "AccessCredential represents a credential source that can be used to authorize remote access to the vm guest Only one of its members may be specified.",
       "type": "object",
@@ -69530,6 +69205,22 @@
         }
       }
     },
+    "v1VmChangedBlockTrackingStatus": {
+      "description": "ChangedBlockTrackingStatus represents the status of ChangedBlockTracking for a VM",
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "backupStatus": {
+          "$ref": "#/definitions/v1VmVirtualMachineInstanceBackupStatus"
+        },
+        "state": {
+          "description": "State represents the current CBT state",
+          "type": "string"
+        }
+      }
+    },
     "v1VmChassis": {
       "description": "Chassis specifies the chassis info passed to the domain.",
       "type": "object",
@@ -69547,6 +69238,19 @@
           "type": "string"
         },
         "version": {
+          "type": "string"
+        }
+      }
+    },
+    "v1VmClaimRequest": {
+      "type": "object",
+      "properties": {
+        "claimName": {
+          "description": "ClaimName references the name of an entry in the VMI's spec.resourceClaims[] array. The referenced entry may use either resourceClaimName or resourceClaimTemplateName.",
+          "type": "string"
+        },
+        "requestName": {
+          "description": "RequestName specifies which request from the ResourceClaim/ResourceClaimTemplate spec.devices.requests array this claim request corresponds to.",
           "type": "string"
         }
       }
@@ -69712,6 +69416,32 @@
         }
       }
     },
+    "v1VmContainerPathVolumeSource": {
+      "description": "ContainerPathVolumeSource represents a path from the virt-launcher container to be exposed to the VM via virtiofs. The path must correspond to an existing volumeMount in the virt-launcher pod's compute container.",
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "description": "Path is the absolute path within the virt-launcher container to expose to the VM. The path must correspond to an existing volumeMount in the compute container.",
+          "type": "string"
+        },
+        "readOnly": {
+          "description": "ReadOnly controls whether the volume is exposed as read-only to the VM. Defaults to true. Write access is not currently supported.",
+          "type": "boolean"
+        }
+      }
+    },
+    "v1VmControllerRevisionRef": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the ControllerRevision",
+          "type": "string"
+        }
+      }
+    },
     "v1VmCoreDataVolumeSource": {
       "type": "object",
       "required": [
@@ -69772,6 +69502,11 @@
           "description": "IsolateEmulatorThread requests one more dedicated pCPU to be allocated for the VMI to place the emulator thread on it.",
           "type": "boolean"
         },
+        "maxSockets": {
+          "description": "MaxSockets specifies the maximum amount of sockets that can be hotplugged",
+          "type": "integer",
+          "format": "int64"
+        },
         "model": {
           "description": "Model specifies the CPU model inside the VMI. List of available models https://github.com/libvirt/libvirt/tree/master/src/cpu_map. It is possible to specify special cases like \"host-passthrough\" to get the same CPU as the node and \"host-model\" to get CPU closest to the node one. Defaults to host-model.",
           "type": "string"
@@ -69819,6 +69554,10 @@
         "physical"
       ],
       "properties": {
+        "discardGranularity": {
+          "type": "integer",
+          "format": "int32"
+        },
         "logical": {
           "type": "integer",
           "format": "int32"
@@ -70001,6 +69740,10 @@
         "diskId": {
           "description": "DiskID provides id of a disk to be imported",
           "type": "string"
+        },
+        "insecureSkipVerify": {
+          "description": "InsecureSkipVerify is a flag to skip certificate verification",
+          "type": "boolean"
         },
         "secretRef": {
           "description": "SecretRef provides the secret reference needed to access the ovirt-engine",
@@ -70312,6 +70055,13 @@
           "description": "If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.",
           "type": "boolean"
         },
+        "panicDevices": {
+          "description": "PanicDevices provides additional crash information when a guest crashes.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VmPanicDevice"
+          }
+        },
         "rng": {
           "$ref": "#/definitions/v1VmRng"
         },
@@ -70325,8 +70075,21 @@
           "description": "Fall back to legacy virtio 0.9 support if virtio bus is selected on devices. This is helpful for old machines like CentOS6 or RHEL6 which do not understand virtio_non_transitional (virtio 1.0).",
           "type": "boolean"
         },
+        "video": {
+          "$ref": "#/definitions/v1VmVideoDevice"
+        },
         "watchdog": {
           "$ref": "#/definitions/v1VmWatchdog"
+        }
+      }
+    },
+    "v1VmDiag288Watchdog": {
+      "description": "diag288 watchdog device.",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "The action to take. Valid values are poweroff, reset, shutdown. Defaults to reset.",
+          "type": "string"
         }
       }
     },
@@ -70351,12 +70114,20 @@
         "cdrom": {
           "$ref": "#/definitions/v1VmCDRomTarget"
         },
+        "changedBlockTracking": {
+          "description": "ChangedBlockTracking indicates this disk should have CBT option Defaults to false.",
+          "type": "boolean"
+        },
         "dedicatedIOThread": {
           "description": "dedicatedIOThread indicates this disk should have an exclusive IO Thread. Enabling this implies useIOThreads = true. Defaults to false.",
           "type": "boolean"
         },
         "disk": {
           "$ref": "#/definitions/v1VmDiskTarget"
+        },
+        "errorPolicy": {
+          "description": "If specified, it can change the default error policy (stop) for the disk",
+          "type": "string"
         },
         "io": {
           "description": "IO specifies which QEMU disk IO mode should be used. Supported values are: native, default, threads.",
@@ -70447,6 +70218,10 @@
         },
         "memory": {
           "$ref": "#/definitions/v1VmMemory"
+        },
+        "rebootPolicy": {
+          "description": "RebootPolicy specifies how the guest should behave on reboot. Reboot (default): The guest is allowed to reboot silently. Terminate: The VMI will be terminated on guest reboot, allowing higher level controllers (such as the VM controller) to recreate the VMI with any updated configuration such as boot order changes.",
+          "type": "string"
         },
         "resources": {
           "$ref": "#/definitions/v1VmResourceRequirements"
@@ -70731,6 +70506,9 @@
     "v1VmFirmware": {
       "type": "object",
       "properties": {
+        "acpi": {
+          "$ref": "#/definitions/v1VmACPI"
+        },
         "bootloader": {
           "$ref": "#/definitions/v1VmBootloader"
         },
@@ -70754,11 +70532,19 @@
         "deviceName"
       ],
       "properties": {
+        "claimName": {
+          "description": "ClaimName references the name of an entry in the VMI's spec.resourceClaims[] array. The referenced entry may use either resourceClaimName or resourceClaimTemplateName.",
+          "type": "string"
+        },
         "deviceName": {
           "type": "string"
         },
         "name": {
           "description": "Name of the GPU device as exposed by a device plugin",
+          "type": "string"
+        },
+        "requestName": {
+          "description": "RequestName specifies which request from the ResourceClaim/ResourceClaimTemplate spec.devices.requests array this claim request corresponds to.",
           "type": "string"
         },
         "tag": {
@@ -70794,11 +70580,19 @@
         "deviceName"
       ],
       "properties": {
+        "claimName": {
+          "description": "ClaimName references the name of an entry in the VMI's spec.resourceClaims[] array. The referenced entry may use either resourceClaimName or resourceClaimTemplateName.",
+          "type": "string"
+        },
         "deviceName": {
           "description": "DeviceName is the resource name of the host device exposed by a device plugin",
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "requestName": {
+          "description": "RequestName specifies which request from the ResourceClaim/ResourceClaimTemplate spec.devices.requests array this claim request corresponds to.",
           "type": "string"
         },
         "tag": {
@@ -70965,6 +70759,10 @@
           "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the instancetype to be used through known annotations on the underlying resource. Once applied to the InstancetypeMatcher this field is removed.",
           "type": "string"
         },
+        "inferFromVolumeFailurePolicy": {
+          "description": "InferFromVolumeFailurePolicy controls what should happen on failure when inferring the instancetype. Allowed values are: \"RejectInferFromVolumeFailure\" and \"IgnoreInferFromVolumeFailure\". If not specified, \"RejectInferFromVolumeFailure\" is used by default.",
+          "type": "string"
+        },
         "kind": {
           "description": "Kind specifies which instancetype resource is referenced. Allowed values are: \"VirtualMachineInstancetype\" and \"VirtualMachineClusterInstancetype\". If not specified, \"VirtualMachineClusterInstancetype\" is used by default.",
           "type": "string"
@@ -70979,6 +70777,30 @@
         }
       }
     },
+    "v1VmInstancetypeStatusRef": {
+      "type": "object",
+      "properties": {
+        "controllerRevisionRef": {
+          "$ref": "#/definitions/v1VmControllerRevisionRef"
+        },
+        "inferFromVolume": {
+          "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the resource",
+          "type": "string"
+        },
+        "inferFromVolumeFailurePolicy": {
+          "description": "InferFromVolumeFailurePolicy controls what should happen on failure when inferring the resource",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Kind specifies the kind of resource",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the name of resource",
+          "type": "string"
+        }
+      }
+    },
     "v1VmInterface": {
       "type": "object",
       "required": [
@@ -70989,6 +70811,9 @@
           "description": "If specified, the ACPI index is used to provide network interface device naming, that is stable across changes in PCI addresses assigned to the device. This value is required to be unique across all devices and be between 1 and (16*1024-1).",
           "type": "integer",
           "format": "int32"
+        },
+        "binding": {
+          "$ref": "#/definitions/v1VmPluginBinding"
         },
         "bootOrder": {
           "description": "BootOrder is an integer value \u003e 0, used to determine ordering of boot devices. Lower values take precedence. Each interface or disk that has a boot order must have a unique value. Interfaces without a boot order are not tried.",
@@ -71022,9 +70847,20 @@
         "passt": {
           "$ref": "#/definitions/v1VmInterfacePasst"
         },
+        "passtBinding": {
+          "$ref": "#/definitions/v1VmInterfacePasstBinding"
+        },
         "pciAddress": {
           "description": "If specified, the virtual network interface will be placed on the guests pci address with the specified PCI address. For example: 0000:81:01.10",
           "type": "string"
+        },
+        "portRanges": {
+          "description": "List of port ranges to be forwarded to the virtual machine. Mutually exclusive with ports. Only supported on masquerade interfaces. This feature is in Alpha.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VmPortRange"
+          },
+          "x-kubernetes-list-type": "atomic"
         },
         "ports": {
           "description": "List of ports to be forwarded to the virtual machine.",
@@ -71038,6 +70874,10 @@
         },
         "sriov": {
           "$ref": "#/definitions/v1VmInterfaceSRIOV"
+        },
+        "state": {
+          "description": "State represents the requested operational state of the interface. The supported values are: `absent`, expressing a request to remove the interface. `down`, expressing a request to set the link down. `up`, expressing a request to set the link up. Empty value functions as `up`.",
+          "type": "string"
         },
         "tag": {
           "description": "If specified, the virtual network interface address and its tag will be provided to the guest via config drive",
@@ -71059,6 +70899,10 @@
     },
     "v1VmInterfacePasst": {
       "description": "InterfacePasst connects to a given network.",
+      "type": "object"
+    },
+    "v1VmInterfacePasstBinding": {
+      "description": "InterfacePasstBinding connects to a given network using passt usermode networking.",
       "type": "object"
     },
     "v1VmInterfaceSRIOV": {
@@ -71172,6 +71016,12 @@
       "properties": {
         "sev": {
           "$ref": "#/definitions/v1VmSEV"
+        },
+        "snp": {
+          "$ref": "#/definitions/v1VmSEVSNP"
+        },
+        "tdx": {
+          "$ref": "#/definitions/v1VmTDX"
         }
       }
     },
@@ -71217,6 +71067,10 @@
         },
         "readonly": {
           "description": "ReadOnly. Defaults to false.",
+          "type": "boolean"
+        },
+        "reservation": {
+          "description": "Reservation indicates if the disk needs to support the persistent reservation for the SCSI disk",
           "type": "boolean"
         }
       }
@@ -71271,6 +71125,12 @@
         },
         "hugepages": {
           "$ref": "#/definitions/v1VmHugepages"
+        },
+        "maxGuest": {
+          "$ref": "#/definitions/v1VmQuantity"
+        },
+        "reservedOverhead": {
+          "$ref": "#/definitions/v1VmReservedOverhead"
         }
       }
     },
@@ -71339,8 +71199,14 @@
         },
         "pod": {
           "$ref": "#/definitions/v1VmPodNetwork"
+        },
+        "resourceClaim": {
+          "$ref": "#/definitions/v1VmClaimRequest"
         }
       }
+    },
+    "v1VmNoCloudSshPublicKeyAccessCredentialPropagation": {
+      "type": "object"
     },
     "v1VmNodeAffinity": {
       "description": "Node affinity is a group of node affinity scheduling rules.",
@@ -71577,6 +71443,70 @@
         }
       }
     },
+    "v1VmPanicDevice": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "description": "Model specifies what type of panic device is provided. The panic model used when this attribute is missing depends on the hypervisor and guest arch. One of: isa, hyperv, pvpanic.",
+          "type": "string"
+        }
+      }
+    },
+    "v1VmPersistentVolumeClaimInfo": {
+      "description": "PersistentVolumeClaimInfo contains the relavant information virt-handler needs cached about a PVC",
+      "type": "object",
+      "properties": {
+        "accessModes": {
+          "description": "AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ReadOnlyMany",
+              "ReadWriteMany",
+              "ReadWriteOnce",
+              "ReadWriteOncePod"
+            ]
+          },
+          "x-kubernetes-list-type": "atomic"
+        },
+        "capacity": {
+          "description": "Capacity represents the capacity set on the corresponding PVC status",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1VmQuantity"
+          }
+        },
+        "claimName": {
+          "description": "ClaimName is the name of the PVC",
+          "type": "string"
+        },
+        "filesystemOverhead": {
+          "description": "Percentage of filesystem's size to be reserved when resizing the PVC",
+          "type": "string"
+        },
+        "preallocated": {
+          "description": "Preallocated indicates if the PVC's storage is preallocated or not",
+          "type": "boolean"
+        },
+        "requests": {
+          "description": "Requests represents the resources requested by the corresponding PVC spec",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/v1VmQuantity"
+          }
+        },
+        "volumeMode": {
+          "description": "VolumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec.\n\nPossible enum values:\n - `\"Block\"` means the volume will not be formatted with a filesystem and will remain a raw block device.\n - `\"Filesystem\"` means the volume will be or is formatted with a filesystem.\n - `\"FromStorageProfile\"` means the volume mode will be auto selected by CDI according to a matching StorageProfile",
+          "type": "string",
+          "enum": [
+            "Block",
+            "Filesystem",
+            "FromStorageProfile"
+          ]
+        }
+      }
+    },
     "v1VmPersistentVolumeClaimSpec": {
       "description": "PersistentVolumeClaimSpec describes the common attributes of storage devices and allows a Source for provider-specific attributes",
       "type": "object",
@@ -71641,6 +71571,19 @@
       "properties": {
         "architecture": {
           "description": "Architecture specifies the image target CPU architecture",
+          "type": "string"
+        }
+      }
+    },
+    "v1VmPluginBinding": {
+      "description": "PluginBinding represents a binding implemented in a plugin.",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "description": "Name references to the binding name as denined in the kubevirt CR. version: 1alphav1",
           "type": "string"
         }
       }
@@ -71788,12 +71731,41 @@
         }
       }
     },
+    "v1VmPortRange": {
+      "description": "PortRange represents a range of ports to be forwarded to the virtual machine. All fields are mandatory.",
+      "type": "object",
+      "required": [
+        "protocol",
+        "start",
+        "end"
+      ],
+      "properties": {
+        "end": {
+          "description": "Last port of the range to expose for the virtual machine. This must be a valid port number, 0 \u003c x \u003c 65536. Must be greater than or equal to start.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "protocol": {
+          "description": "Required. Must be UDP or TCP.",
+          "type": "string"
+        },
+        "start": {
+          "description": "First port of the range to expose for the virtual machine. This must be a valid port number, 0 \u003c x \u003c 65536.",
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "v1VmPreferenceMatcher": {
       "description": "PreferenceMatcher references a set of preference that is used to fill fields in the VMI template.",
       "type": "object",
       "properties": {
         "inferFromVolume": {
           "description": "InferFromVolume lists the name of a volume that should be used to infer or discover the preference to be used through known annotations on the underlying resource. Once applied to the PreferenceMatcher this field is removed.",
+          "type": "string"
+        },
+        "inferFromVolumeFailurePolicy": {
+          "description": "InferFromVolumeFailurePolicy controls what should happen on failure when preference the instancetype. Allowed values are: \"RejectInferFromVolumeFailure\" and \"IgnoreInferFromVolumeFailure\". If not specified, \"RejectInferFromVolumeFailure\" is used by default.",
           "type": "string"
         },
         "kind": {
@@ -71942,6 +71914,18 @@
         }
       }
     },
+    "v1VmReservedOverhead": {
+      "type": "object",
+      "properties": {
+        "addedOverhead": {
+          "$ref": "#/definitions/v1VmQuantity"
+        },
+        "memLock": {
+          "description": "RequiresLock determines whether the VM's and its overhead memory need to be locked or not. It is a common practice to enable this if vDPA, VFIO or any other specialized hardware that depends on DMA is being used by the VM. False - (Default) memory lock RLimits are not modified. True - Memory lock RLimits will be updated to consider VM memory\n       size and memory overhead",
+          "type": "string"
+        }
+      }
+    },
     "v1VmResourceFieldSelector": {
       "description": "ResourceFieldSelector represents container resources (cpu, memory) and their output format",
       "type": "object",
@@ -71984,6 +71968,37 @@
       "type": "object"
     },
     "v1VmSEV": {
+      "type": "object",
+      "properties": {
+        "attestation": {
+          "$ref": "#/definitions/v1VmSEVAttestation"
+        },
+        "dhCert": {
+          "description": "Base64 encoded guest owner's Diffie-Hellman key.",
+          "type": "string"
+        },
+        "policy": {
+          "$ref": "#/definitions/v1VmSEVPolicy"
+        },
+        "session": {
+          "description": "Base64 encoded session blob.",
+          "type": "string"
+        }
+      }
+    },
+    "v1VmSEVAttestation": {
+      "type": "object"
+    },
+    "v1VmSEVPolicy": {
+      "type": "object",
+      "properties": {
+        "encryptedState": {
+          "description": "SEV-ES is required. Defaults to false.",
+          "type": "boolean"
+        }
+      }
+    },
+    "v1VmSEVSNP": {
       "type": "object"
     },
     "v1VmSecretVolumeSource": {
@@ -72074,6 +72089,9 @@
         "configDrive": {
           "$ref": "#/definitions/v1VmConfigDriveSshPublicKeyAccessCredentialPropagation"
         },
+        "noCloud": {
+          "$ref": "#/definitions/v1VmNoCloudSshPublicKeyAccessCredentialPropagation"
+        },
         "qemuGuestAgent": {
           "$ref": "#/definitions/v1VmQemuGuestAgentSshPublicKeyAccessCredentialPropagation"
         }
@@ -72085,6 +72103,25 @@
       "properties": {
         "secret": {
           "$ref": "#/definitions/v1VmAccessCredentialSecretSource"
+        }
+      }
+    },
+    "v1VmStorageMigratedVolumeInfo": {
+      "description": "StorageMigratedVolumeInfo tracks the information about the source and destination volumes during the volume migration",
+      "type": "object",
+      "required": [
+        "volumeName"
+      ],
+      "properties": {
+        "destinationPVCInfo": {
+          "$ref": "#/definitions/v1VmPersistentVolumeClaimInfo"
+        },
+        "sourcePVCInfo": {
+          "$ref": "#/definitions/v1VmPersistentVolumeClaimInfo"
+        },
+        "volumeName": {
+          "description": "VolumeName is the name of the volume that is being migrated",
+          "type": "string"
         }
       }
     },
@@ -72148,8 +72185,21 @@
         }
       }
     },
-    "v1VmTPMDevice": {
+    "v1VmTDX": {
       "type": "object"
+    },
+    "v1VmTPMDevice": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Enabled allows a user to explicitly disable the vTPM even when one is enabled by a preference referenced by the VirtualMachine Defaults to True",
+          "type": "boolean"
+        },
+        "persistent": {
+          "description": "Persistent indicates the state of the TPM device should be kept accross reboots Defaults to false",
+          "type": "boolean"
+        }
+      }
     },
     "v1VmTcpSocketAction": {
       "description": "TCPSocketAction describes an action based on opening a socket",
@@ -72328,6 +72378,31 @@
         }
       }
     },
+    "v1VmUtilityVolume": {
+      "type": "object",
+      "required": [
+        "name",
+        "claimName"
+      ],
+      "properties": {
+        "claimName": {
+          "description": "claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims",
+          "type": "string"
+        },
+        "name": {
+          "description": "UtilityVolume's name. Must be unique within the vmi, including regular Volumes.",
+          "type": "string"
+        },
+        "readOnly": {
+          "description": "readOnly Will force the ReadOnly setting in VolumeMounts. Default false.",
+          "type": "boolean"
+        },
+        "type": {
+          "description": "Type represents the type of the utility volume.",
+          "type": "string"
+        }
+      }
+    },
     "v1VmVGPUDisplayOptions": {
       "type": "object",
       "properties": {
@@ -72345,6 +72420,15 @@
       "properties": {
         "display": {
           "$ref": "#/definitions/v1VmVGPUDisplayOptions"
+        }
+      }
+    },
+    "v1VmVideoDevice": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Type specifies the video device type (e.g., virtio, vga, bochs, ramfb). If not specified, the default is architecture-dependent (VGA for BIOS-based VMs, Bochs for EFI-based VMs on AMD64; virtio for Arm and s390x).",
+          "type": "string"
         }
       }
     },
@@ -72373,6 +72457,50 @@
         },
         "type": {
           "type": "string"
+        }
+      }
+    },
+    "v1VmVirtualMachineInstanceBackupStatus": {
+      "description": "VirtualMachineInstanceBackupStatus tracks the information of the executed backup",
+      "type": "object",
+      "properties": {
+        "backupMsg": {
+          "description": "BackupMsg resturns any relevant information like failure reason unfreeze failed etc...",
+          "type": "string"
+        },
+        "backupName": {
+          "description": "BackupName is the name of the executed backup",
+          "type": "string"
+        },
+        "checkpointName": {
+          "description": "CheckpointName is the name of the checkpoint created for the backup",
+          "type": "string"
+        },
+        "completed": {
+          "description": "Completed indicates the backup completed",
+          "type": "boolean"
+        },
+        "endTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "failed": {
+          "description": "Failed indicates that the backup failed",
+          "type": "boolean"
+        },
+        "quiesceStatus": {
+          "description": "QuiesceStatus indicates whether filesystem freeze succeeded, failed, or was skipped.",
+          "type": "string"
+        },
+        "startTimestamp": {
+          "$ref": "#/definitions/v1Time"
+        },
+        "volumes": {
+          "description": "Volumes lists the volumes included in the backup",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1BackupVolumeInfo"
+          },
+          "x-kubernetes-list-type": "atomic"
         }
       }
     },
@@ -72455,6 +72583,10 @@
           "description": "If specified, the VMI will be dispatched by specified scheduler. If not specified, the VMI will be dispatched by default scheduler.",
           "type": "string"
         },
+        "serviceAccountName": {
+          "description": "ServiceAccountName is the name of the ServiceAccount to use to run the virt-launcher pod. This sets pod.spec.serviceAccountName but does NOT automatically expose the service account token to the VM guest. To expose the token to the VM, use a serviceAccount volume.",
+          "type": "string"
+        },
         "startStrategy": {
           "description": "StartStrategy can be set to \"Paused\" if Virtual Machine should be started in paused state.",
           "type": "string"
@@ -72488,6 +72620,17 @@
           "x-kubernetes-list-type": "map",
           "x-kubernetes-patch-merge-key": "topologyKey",
           "x-kubernetes-patch-strategy": "merge"
+        },
+        "utilityVolumes": {
+          "description": "List of utility volumes that can be mounted to the vmi virt-launcher pod without having a matching disk in the domain. Used to collect data for various operational workflows.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VmUtilityVolume"
+          },
+          "x-kubernetes-list-map-keys": [
+            "name"
+          ],
+          "x-kubernetes-list-type": "map"
         },
         "volumes": {
           "description": "List of volumes that can be mounted by disks belonging to the vmi.",
@@ -72614,6 +72757,9 @@
         "containerDisk": {
           "$ref": "#/definitions/v1VmContainerDiskSource"
         },
+        "containerPath": {
+          "$ref": "#/definitions/v1VmContainerPathVolumeSource"
+        },
         "dataVolume": {
           "$ref": "#/definitions/v1VmCoreDataVolumeSource"
         },
@@ -72653,6 +72799,19 @@
         }
       }
     },
+    "v1VmVolumeMigrationState": {
+      "type": "object",
+      "properties": {
+        "migratedVolumes": {
+          "description": "MigratedVolumes lists the source and destination volumes during the volume migration",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1VmStorageMigratedVolumeInfo"
+          },
+          "x-kubernetes-list-type": "atomic"
+        }
+      }
+    },
     "v1VmVolumeSnapshotStatus": {
       "type": "object",
       "required": [
@@ -72674,6 +72833,14 @@
         }
       }
     },
+    "v1VmVolumeUpdateState": {
+      "type": "object",
+      "properties": {
+        "volumeMigrationState": {
+          "$ref": "#/definitions/v1VmVolumeMigrationState"
+        }
+      }
+    },
     "v1VmWatchdog": {
       "description": "Named watchdog device.",
       "type": "object",
@@ -72681,6 +72848,9 @@
         "name"
       ],
       "properties": {
+        "diag288": {
+          "$ref": "#/definitions/v1VmDiag288Watchdog"
+        },
         "i6300esb": {
           "$ref": "#/definitions/v1VmI6300ESBWatchdog"
         },

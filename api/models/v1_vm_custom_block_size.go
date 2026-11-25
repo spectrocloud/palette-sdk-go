@@ -19,6 +19,9 @@ import (
 // swagger:model v1VmCustomBlockSize
 type V1VMCustomBlockSize struct {
 
+	// discard granularity
+	DiscardGranularity int32 `json:"discardGranularity,omitempty"`
+
 	// logical
 	// Required: true
 	Logical *int32 `json:"logical"`

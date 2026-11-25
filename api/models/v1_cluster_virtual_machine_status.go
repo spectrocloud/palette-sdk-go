@@ -19,14 +19,29 @@ import (
 // swagger:model v1ClusterVirtualMachineStatus
 type V1ClusterVirtualMachineStatus struct {
 
+	// changed block tracking
+	ChangedBlockTracking *V1VMChangedBlockTrackingStatus `json:"changedBlockTracking,omitempty"`
+
 	// Hold the state information of the VirtualMachine and its VirtualMachineInstance
 	Conditions []*V1VMVirtualMachineCondition `json:"conditions"`
 
 	// Created indicates if the virtual machine is created in the cluster
 	Created bool `json:"created,omitempty"`
 
+	// DesiredGeneration is the generation which is desired for the VMI. This will be used in comparisons with ObservedGeneration to understand when the VMI is out of sync. This will be changed at the same time as ObservedGeneration to remove errors which could occur if Generation is updated through an Update() before ObservedGeneration in Status.
+	DesiredGeneration int64 `json:"desiredGeneration,omitempty"`
+
+	// instancetype ref
+	InstancetypeRef *V1VMInstancetypeStatusRef `json:"instancetypeRef,omitempty"`
+
 	// memory dump request
 	MemoryDumpRequest *V1VMVirtualMachineMemoryDumpRequest `json:"memoryDumpRequest,omitempty"`
+
+	// ObservedGeneration is the generation observed by the vmi when started.
+	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
+
+	// preference ref
+	PreferenceRef *V1VMInstancetypeStatusRef `json:"preferenceRef,omitempty"`
 
 	// PrintableStatus is a human readable, high-level representation of the status of the virtual machine
 	PrintableStatus string `json:"printableStatus,omitempty"`
@@ -36,6 +51,9 @@ type V1ClusterVirtualMachineStatus struct {
 
 	// RestoreInProgress is the name of the VirtualMachineRestore currently executing
 	RestoreInProgress string `json:"restoreInProgress,omitempty"`
+
+	// RunStrategy tracks the last recorded RunStrategy used by the VM. This is needed to correctly process the next strategy (for now only the RerunOnFailure)
+	RunStrategy string `json:"runStrategy,omitempty"`
 
 	// SnapshotInProgress is the name of the VirtualMachineSnapshot currently executing
 	SnapshotInProgress string `json:"snapshotInProgress,omitempty"`
@@ -51,17 +69,32 @@ type V1ClusterVirtualMachineStatus struct {
 
 	// VolumeSnapshotStatuses indicates a list of statuses whether snapshotting is supported by each volume.
 	VolumeSnapshotStatuses []*V1VMVolumeSnapshotStatus `json:"volumeSnapshotStatuses"`
+
+	// volume update state
+	VolumeUpdateState *V1VMVolumeUpdateState `json:"volumeUpdateState,omitempty"`
 }
 
 // Validate validates this v1 cluster virtual machine status
 func (m *V1ClusterVirtualMachineStatus) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateChangedBlockTracking(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateConditions(formats); err != nil {
 		res = append(res, err)
 	}
 
+	if err := m.validateInstancetypeRef(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateMemoryDumpRequest(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePreferenceRef(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -81,9 +114,32 @@ func (m *V1ClusterVirtualMachineStatus) Validate(formats strfmt.Registry) error 
 		res = append(res, err)
 	}
 
+	if err := m.validateVolumeUpdateState(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) validateChangedBlockTracking(formats strfmt.Registry) error {
+	if swag.IsZero(m.ChangedBlockTracking) { // not required
+		return nil
+	}
+
+	if m.ChangedBlockTracking != nil {
+		if err := m.ChangedBlockTracking.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("changedBlockTracking")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("changedBlockTracking")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -113,6 +169,25 @@ func (m *V1ClusterVirtualMachineStatus) validateConditions(formats strfmt.Regist
 	return nil
 }
 
+func (m *V1ClusterVirtualMachineStatus) validateInstancetypeRef(formats strfmt.Registry) error {
+	if swag.IsZero(m.InstancetypeRef) { // not required
+		return nil
+	}
+
+	if m.InstancetypeRef != nil {
+		if err := m.InstancetypeRef.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instancetypeRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instancetypeRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1ClusterVirtualMachineStatus) validateMemoryDumpRequest(formats strfmt.Registry) error {
 	if swag.IsZero(m.MemoryDumpRequest) { // not required
 		return nil
@@ -124,6 +199,25 @@ func (m *V1ClusterVirtualMachineStatus) validateMemoryDumpRequest(formats strfmt
 				return ve.ValidateName("memoryDumpRequest")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("memoryDumpRequest")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) validatePreferenceRef(formats strfmt.Registry) error {
+	if swag.IsZero(m.PreferenceRef) { // not required
+		return nil
+	}
+
+	if m.PreferenceRef != nil {
+		if err := m.PreferenceRef.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("preferenceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("preferenceRef")
 			}
 			return err
 		}
@@ -229,15 +323,46 @@ func (m *V1ClusterVirtualMachineStatus) validateVolumeSnapshotStatuses(formats s
 	return nil
 }
 
+func (m *V1ClusterVirtualMachineStatus) validateVolumeUpdateState(formats strfmt.Registry) error {
+	if swag.IsZero(m.VolumeUpdateState) { // not required
+		return nil
+	}
+
+	if m.VolumeUpdateState != nil {
+		if err := m.VolumeUpdateState.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("volumeUpdateState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("volumeUpdateState")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 cluster virtual machine status based on the context it is used
 func (m *V1ClusterVirtualMachineStatus) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.contextValidateChangedBlockTracking(ctx, formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.contextValidateConditions(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateInstancetypeRef(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateMemoryDumpRequest(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidatePreferenceRef(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -257,9 +382,34 @@ func (m *V1ClusterVirtualMachineStatus) ContextValidate(ctx context.Context, for
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateVolumeUpdateState(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateChangedBlockTracking(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ChangedBlockTracking != nil {
+
+		if swag.IsZero(m.ChangedBlockTracking) { // not required
+			return nil
+		}
+
+		if err := m.ChangedBlockTracking.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("changedBlockTracking")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("changedBlockTracking")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -288,6 +438,27 @@ func (m *V1ClusterVirtualMachineStatus) contextValidateConditions(ctx context.Co
 	return nil
 }
 
+func (m *V1ClusterVirtualMachineStatus) contextValidateInstancetypeRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.InstancetypeRef != nil {
+
+		if swag.IsZero(m.InstancetypeRef) { // not required
+			return nil
+		}
+
+		if err := m.InstancetypeRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("instancetypeRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("instancetypeRef")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *V1ClusterVirtualMachineStatus) contextValidateMemoryDumpRequest(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.MemoryDumpRequest != nil {
@@ -301,6 +472,27 @@ func (m *V1ClusterVirtualMachineStatus) contextValidateMemoryDumpRequest(ctx con
 				return ve.ValidateName("memoryDumpRequest")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("memoryDumpRequest")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidatePreferenceRef(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.PreferenceRef != nil {
+
+		if swag.IsZero(m.PreferenceRef) { // not required
+			return nil
+		}
+
+		if err := m.PreferenceRef.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("preferenceRef")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("preferenceRef")
 			}
 			return err
 		}
@@ -400,6 +592,27 @@ func (m *V1ClusterVirtualMachineStatus) contextValidateVolumeSnapshotStatuses(ct
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *V1ClusterVirtualMachineStatus) contextValidateVolumeUpdateState(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.VolumeUpdateState != nil {
+
+		if swag.IsZero(m.VolumeUpdateState) { // not required
+			return nil
+		}
+
+		if err := m.VolumeUpdateState.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("volumeUpdateState")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("volumeUpdateState")
+			}
+			return err
+		}
 	}
 
 	return nil

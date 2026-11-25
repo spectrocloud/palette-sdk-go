@@ -20,6 +20,9 @@ type V1VMPreferenceMatcher struct {
 	// InferFromVolume lists the name of a volume that should be used to infer or discover the preference to be used through known annotations on the underlying resource. Once applied to the PreferenceMatcher this field is removed.
 	InferFromVolume string `json:"inferFromVolume,omitempty"`
 
+	// InferFromVolumeFailurePolicy controls what should happen on failure when preference the instancetype. Allowed values are: "RejectInferFromVolumeFailure" and "IgnoreInferFromVolumeFailure". If not specified, "RejectInferFromVolumeFailure" is used by default.
+	InferFromVolumeFailurePolicy string `json:"inferFromVolumeFailurePolicy,omitempty"`
+
 	// Kind specifies which preference resource is referenced. Allowed values are: "VirtualMachinePreference" and "VirtualMachineClusterPreference". If not specified, "VirtualMachineClusterPreference" is used by default.
 	Kind string `json:"kind,omitempty"`
 

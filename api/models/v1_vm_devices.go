@@ -73,6 +73,9 @@ type V1VMDevices struct {
 	// If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.
 	NetworkInterfaceMultiqueue bool `json:"networkInterfaceMultiqueue,omitempty"`
 
+	// PanicDevices provides additional crash information when a guest crashes.
+	PanicDevices []*V1VMPanicDevice `json:"panicDevices"`
+
 	// rng
 	Rng V1VMRng `json:"rng,omitempty"`
 
@@ -80,10 +83,13 @@ type V1VMDevices struct {
 	Sound *V1VMSoundDevice `json:"sound,omitempty"`
 
 	// tpm
-	Tpm V1VMTPMDevice `json:"tpm,omitempty"`
+	Tpm *V1VMTPMDevice `json:"tpm,omitempty"`
 
 	// Fall back to legacy virtio 0.9 support if virtio bus is selected on devices. This is helpful for old machines like CentOS6 or RHEL6 which do not understand virtio_non_transitional (virtio 1.0).
 	UseVirtioTransitional bool `json:"useVirtioTransitional,omitempty"`
+
+	// video
+	Video *V1VMVideoDevice `json:"video,omitempty"`
 
 	// watchdog
 	Watchdog *V1VMWatchdog `json:"watchdog,omitempty"`
@@ -117,7 +123,19 @@ func (m *V1VMDevices) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validatePanicDevices(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateSound(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTpm(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateVideo(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -287,6 +305,32 @@ func (m *V1VMDevices) validateInterfaces(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1VMDevices) validatePanicDevices(formats strfmt.Registry) error {
+	if swag.IsZero(m.PanicDevices) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.PanicDevices); i++ {
+		if swag.IsZero(m.PanicDevices[i]) { // not required
+			continue
+		}
+
+		if m.PanicDevices[i] != nil {
+			if err := m.PanicDevices[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("panicDevices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("panicDevices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1VMDevices) validateSound(formats strfmt.Registry) error {
 	if swag.IsZero(m.Sound) { // not required
 		return nil
@@ -298,6 +342,44 @@ func (m *V1VMDevices) validateSound(formats strfmt.Registry) error {
 				return ve.ValidateName("sound")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("sound")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDevices) validateTpm(formats strfmt.Registry) error {
+	if swag.IsZero(m.Tpm) { // not required
+		return nil
+	}
+
+	if m.Tpm != nil {
+		if err := m.Tpm.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tpm")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tpm")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDevices) validateVideo(formats strfmt.Registry) error {
+	if swag.IsZero(m.Video) { // not required
+		return nil
+	}
+
+	if m.Video != nil {
+		if err := m.Video.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("video")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("video")
 			}
 			return err
 		}
@@ -353,7 +435,19 @@ func (m *V1VMDevices) ContextValidate(ctx context.Context, formats strfmt.Regist
 		res = append(res, err)
 	}
 
+	if err := m.contextValidatePanicDevices(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateSound(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateTpm(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateVideo(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -517,6 +611,31 @@ func (m *V1VMDevices) contextValidateInterfaces(ctx context.Context, formats str
 	return nil
 }
 
+func (m *V1VMDevices) contextValidatePanicDevices(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.PanicDevices); i++ {
+
+		if m.PanicDevices[i] != nil {
+
+			if swag.IsZero(m.PanicDevices[i]) { // not required
+				return nil
+			}
+
+			if err := m.PanicDevices[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("panicDevices" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("panicDevices" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1VMDevices) contextValidateSound(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Sound != nil {
@@ -530,6 +649,48 @@ func (m *V1VMDevices) contextValidateSound(ctx context.Context, formats strfmt.R
 				return ve.ValidateName("sound")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("sound")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDevices) contextValidateTpm(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Tpm != nil {
+
+		if swag.IsZero(m.Tpm) { // not required
+			return nil
+		}
+
+		if err := m.Tpm.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("tpm")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("tpm")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMDevices) contextValidateVideo(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Video != nil {
+
+		if swag.IsZero(m.Video) { // not required
+			return nil
+		}
+
+		if err := m.Video.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("video")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("video")
 			}
 			return err
 		}

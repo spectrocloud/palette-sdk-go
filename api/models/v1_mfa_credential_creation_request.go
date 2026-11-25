@@ -18,8 +18,11 @@ import (
 // swagger:model v1MfaCredentialCreationRequest
 type V1MfaCredentialCreationRequest struct {
 
-	// type
-	Type string `json:"_type,omitempty"`
+	// Specifies the type of WebAuthn credential. Use "public-key" as the value.
+	Type string `json:"type,omitempty"`
+
+	// Legacy alias for type, kept for older console clients; prefer type.
+	UnderscoreType string `json:"_type,omitempty"`
 
 	// authenticator attachment
 	AuthenticatorAttachment string `json:"authenticatorAttachment,omitempty"`

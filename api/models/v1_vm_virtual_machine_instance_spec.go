@@ -66,6 +66,9 @@ type V1VMVirtualMachineInstanceSpec struct {
 	// If specified, the VMI will be dispatched by specified scheduler. If not specified, the VMI will be dispatched by default scheduler.
 	SchedulerName string `json:"schedulerName,omitempty"`
 
+	// ServiceAccountName is the name of the ServiceAccount to use to run the virt-launcher pod. This sets pod.spec.serviceAccountName but does NOT automatically expose the service account token to the VM guest. To expose the token to the VM, use a serviceAccount volume.
+	ServiceAccountName string `json:"serviceAccountName,omitempty"`
+
 	// StartStrategy can be set to "Paused" if Virtual Machine should be started in paused state.
 	StartStrategy string `json:"startStrategy,omitempty"`
 
@@ -80,6 +83,9 @@ type V1VMVirtualMachineInstanceSpec struct {
 
 	// TopologySpreadConstraints describes how a group of VMIs will be spread across a given topology domains. K8s scheduler will schedule VMI pods in a way which abides by the constraints.
 	TopologySpreadConstraints []*V1VMTopologySpreadConstraint `json:"topologySpreadConstraints"`
+
+	// List of utility volumes that can be mounted to the vmi virt-launcher pod without having a matching disk in the domain. Used to collect data for various operational workflows.
+	UtilityVolumes []*V1VMUtilityVolume `json:"utilityVolumes"`
 
 	// List of volumes that can be mounted by disks belonging to the vmi.
 	Volumes []*V1VMVolume `json:"volumes"`
@@ -126,6 +132,10 @@ func (m *V1VMVirtualMachineInstanceSpec) Validate(formats strfmt.Registry) error
 	}
 
 	if err := m.validateTopologySpreadConstraints(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUtilityVolumes(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -365,6 +375,32 @@ func (m *V1VMVirtualMachineInstanceSpec) validateTopologySpreadConstraints(forma
 	return nil
 }
 
+func (m *V1VMVirtualMachineInstanceSpec) validateUtilityVolumes(formats strfmt.Registry) error {
+	if swag.IsZero(m.UtilityVolumes) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.UtilityVolumes); i++ {
+		if swag.IsZero(m.UtilityVolumes[i]) { // not required
+			continue
+		}
+
+		if m.UtilityVolumes[i] != nil {
+			if err := m.UtilityVolumes[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("utilityVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("utilityVolumes" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 func (m *V1VMVirtualMachineInstanceSpec) validateVolumes(formats strfmt.Registry) error {
 	if swag.IsZero(m.Volumes) { // not required
 		return nil
@@ -432,6 +468,10 @@ func (m *V1VMVirtualMachineInstanceSpec) ContextValidate(ctx context.Context, fo
 	}
 
 	if err := m.contextValidateTopologySpreadConstraints(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateUtilityVolumes(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -661,6 +701,31 @@ func (m *V1VMVirtualMachineInstanceSpec) contextValidateTopologySpreadConstraint
 					return ve.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
 				} else if ce, ok := err.(*errors.CompositeError); ok {
 					return ce.ValidateName("topologySpreadConstraints" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *V1VMVirtualMachineInstanceSpec) contextValidateUtilityVolumes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.UtilityVolumes); i++ {
+
+		if m.UtilityVolumes[i] != nil {
+
+			if swag.IsZero(m.UtilityVolumes[i]) { // not required
+				return nil
+			}
+
+			if err := m.UtilityVolumes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("utilityVolumes" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("utilityVolumes" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

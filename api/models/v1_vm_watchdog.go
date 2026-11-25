@@ -19,6 +19,9 @@ import (
 // swagger:model v1VmWatchdog
 type V1VMWatchdog struct {
 
+	// diag288
+	Diag288 *V1VMDiag288Watchdog `json:"diag288,omitempty"`
+
 	// i6300esb
 	I6300esb *V1VMI6300ESBWatchdog `json:"i6300esb,omitempty"`
 
@@ -31,6 +34,10 @@ type V1VMWatchdog struct {
 func (m *V1VMWatchdog) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateDiag288(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateI6300esb(formats); err != nil {
 		res = append(res, err)
 	}
@@ -42,6 +49,25 @@ func (m *V1VMWatchdog) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMWatchdog) validateDiag288(formats strfmt.Registry) error {
+	if swag.IsZero(m.Diag288) { // not required
+		return nil
+	}
+
+	if m.Diag288 != nil {
+		if err := m.Diag288.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diag288")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diag288")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -77,6 +103,10 @@ func (m *V1VMWatchdog) validateName(formats strfmt.Registry) error {
 func (m *V1VMWatchdog) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.contextValidateDiag288(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateI6300esb(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -84,6 +114,27 @@ func (m *V1VMWatchdog) ContextValidate(ctx context.Context, formats strfmt.Regis
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *V1VMWatchdog) contextValidateDiag288(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Diag288 != nil {
+
+		if swag.IsZero(m.Diag288) { // not required
+			return nil
+		}
+
+		if err := m.Diag288.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("diag288")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("diag288")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

@@ -7,9 +7,12 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // V1Nic v1 nic
@@ -20,11 +23,21 @@ type V1Nic struct {
 	// dns
 	DNS []string `json:"dns"`
 
-	// gateway
+	// Deprecated. Use gateways. Gateway of the primary address.
 	Gateway string `json:"gateway,omitempty"`
 
-	// ip
+	// Gateways holds the default gateway for each address family, one entry per family.
+	Gateways []string `json:"gateways"`
+
+	// Deprecated. Use ipAddresses. Primary interface address.
 	IP string `json:"ip,omitempty"`
+
+	// IPAddresses holds all interface addresses in CIDR form, primary first. When set, it supersedes ip and subnet.
+	IPAddresses []string `json:"ipAddresses"`
+
+	// IPMode is the address family mode of this interface.
+	// Enum: ["ipv4","ipv6","dual-stack"]
+	IPMode string `json:"ipMode,omitempty"`
 
 	// is default
 	IsDefault bool `json:"isDefault,omitempty"`
@@ -35,12 +48,66 @@ type V1Nic struct {
 	// nic name
 	NicName string `json:"nicName,omitempty"`
 
-	// subnet
+	// Deprecated. Use ipAddresses. Subnet mask of the primary address.
 	Subnet string `json:"subnet,omitempty"`
 }
 
 // Validate validates this v1 nic
 func (m *V1Nic) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateIPMode(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+var v1NicTypeIPModePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["ipv4","ipv6","dual-stack"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		v1NicTypeIPModePropEnum = append(v1NicTypeIPModePropEnum, v)
+	}
+}
+
+const (
+
+	// V1NicIPModeIPV4 captures enum value "ipv4"
+	V1NicIPModeIPV4 string = "ipv4"
+
+	// V1NicIPModeIPV6 captures enum value "ipv6"
+	V1NicIPModeIPV6 string = "ipv6"
+
+	// V1NicIPModeDualDashStack captures enum value "dual-stack"
+	V1NicIPModeDualDashStack string = "dual-stack"
+)
+
+// prop value enum
+func (m *V1Nic) validateIPModeEnum(path, location string, value string) error {
+	if err := validate.EnumCase(path, location, value, v1NicTypeIPModePropEnum, true); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *V1Nic) validateIPMode(formats strfmt.Registry) error {
+	if swag.IsZero(m.IPMode) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateIPModeEnum("ipMode", "body", m.IPMode); err != nil {
+		return err
+	}
+
 	return nil
 }
 

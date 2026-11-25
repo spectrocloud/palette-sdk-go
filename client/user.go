@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	clientv1 "github.com/spectrocloud/palette-sdk-go/api/client/version1"
+	clientv2 "github.com/spectrocloud/palette-sdk-go/api/client/version2"
 	"github.com/spectrocloud/palette-sdk-go/api/models"
 	"github.com/spectrocloud/palette-sdk-go/client/apiutil"
 )
@@ -58,18 +59,18 @@ func (h *V1Client) GetUsers() (*models.V1Users, error) {
 }
 
 // GetUserSummaryByEmail retrieves user by email.
-func (h *V1Client) GetUserSummaryByEmail(userEmail string) (*models.V1UserSummary, error) {
+func (h *V1Client) GetUserSummaryByEmail(userEmail string) (*models.V2UserSummary, error) {
 	// ACL scoped to tenant only
-	filterSummary := &models.V1UsersSummarySpec{
-		Filter: &models.V1UsersFilterSpec{
+	filterSummary := &models.V2UsersSummarySpec{
+		Filter: &models.V2UsersFilterSpec{
 			EmailID: &models.V1FilterString{
 				Eq: &userEmail,
 			},
 		},
 	}
 
-	summaryParams := clientv1.NewV1UsersSummaryGetParams().WithBody(filterSummary)
-	summaryResponse, err := h.Client.V1UsersSummaryGet(summaryParams)
+	summaryParams := clientv2.NewV2UsersSummaryGetParamsWithContext(h.ctx).WithBody(filterSummary)
+	summaryResponse, err := h.ClientV2.V2UsersSummaryGet(summaryParams)
 	if err != nil {
 		return nil, err
 	}

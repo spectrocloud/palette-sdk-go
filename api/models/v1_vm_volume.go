@@ -31,6 +31,9 @@ type V1VMVolume struct {
 	// container disk
 	ContainerDisk *V1VMContainerDiskSource `json:"containerDisk,omitempty"`
 
+	// container path
+	ContainerPath *V1VMContainerPathVolumeSource `json:"containerPath,omitempty"`
+
 	// data volume
 	DataVolume *V1VMCoreDataVolumeSource `json:"dataVolume,omitempty"`
 
@@ -86,6 +89,10 @@ func (m *V1VMVolume) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateContainerDisk(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateContainerPath(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -207,6 +214,25 @@ func (m *V1VMVolume) validateContainerDisk(formats strfmt.Registry) error {
 				return ve.ValidateName("containerDisk")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("containerDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) validateContainerPath(formats strfmt.Registry) error {
+	if swag.IsZero(m.ContainerPath) { // not required
+		return nil
+	}
+
+	if m.ContainerPath != nil {
+		if err := m.ContainerPath.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("containerPath")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("containerPath")
 			}
 			return err
 		}
@@ -434,6 +460,10 @@ func (m *V1VMVolume) ContextValidate(ctx context.Context, formats strfmt.Registr
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateContainerPath(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.contextValidateDataVolume(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -556,6 +586,27 @@ func (m *V1VMVolume) contextValidateContainerDisk(ctx context.Context, formats s
 				return ve.ValidateName("containerDisk")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("containerDisk")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMVolume) contextValidateContainerPath(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ContainerPath != nil {
+
+		if swag.IsZero(m.ContainerPath) { // not required
+			return nil
+		}
+
+		if err := m.ContainerPath.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("containerPath")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("containerPath")
 			}
 			return err
 		}

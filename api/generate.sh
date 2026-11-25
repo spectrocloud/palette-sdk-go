@@ -17,8 +17,8 @@ apiDir="${serviceDir}"
 templateDir="${apiDir}/swagger/templates"
 
 # Fetch the hapi spec. Uses the release tag in HAPI_TAG (e.g. HAPI_TAG=v4.10.b);
-# falls back to the main branch when HAPI_TAG is not set.
-hapiRef="${HAPI_TAG:-main}"
+# falls back to the master branch when HAPI_TAG is not set.
+hapiRef="${HAPI_TAG:-master}"
 echo "Cloning hapi at ref: ${hapiRef}"
 rm -rf hapi && git clone --depth 1 --branch "${hapiRef}" https://github.com/spectrocloud/hapi
 (

@@ -28,6 +28,9 @@ type V1VMNetwork struct {
 
 	// pod
 	Pod *V1VMPodNetwork `json:"pod,omitempty"`
+
+	// resource claim
+	ResourceClaim *V1VMClaimRequest `json:"resourceClaim,omitempty"`
 }
 
 // Validate validates this v1 Vm network
@@ -43,6 +46,10 @@ func (m *V1VMNetwork) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validatePod(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateResourceClaim(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -99,6 +106,25 @@ func (m *V1VMNetwork) validatePod(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *V1VMNetwork) validateResourceClaim(formats strfmt.Registry) error {
+	if swag.IsZero(m.ResourceClaim) { // not required
+		return nil
+	}
+
+	if m.ResourceClaim != nil {
+		if err := m.ResourceClaim.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resourceClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resourceClaim")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ContextValidate validate this v1 Vm network based on the context it is used
 func (m *V1VMNetwork) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
@@ -108,6 +134,10 @@ func (m *V1VMNetwork) ContextValidate(ctx context.Context, formats strfmt.Regist
 	}
 
 	if err := m.contextValidatePod(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateResourceClaim(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -151,6 +181,27 @@ func (m *V1VMNetwork) contextValidatePod(ctx context.Context, formats strfmt.Reg
 				return ve.ValidateName("pod")
 			} else if ce, ok := err.(*errors.CompositeError); ok {
 				return ce.ValidateName("pod")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *V1VMNetwork) contextValidateResourceClaim(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.ResourceClaim != nil {
+
+		if swag.IsZero(m.ResourceClaim) { // not required
+			return nil
+		}
+
+		if err := m.ResourceClaim.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("resourceClaim")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("resourceClaim")
 			}
 			return err
 		}
