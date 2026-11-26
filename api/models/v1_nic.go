@@ -58,7 +58,7 @@ type V1Nic struct {
 	// VLAN identifier; the address is configured on <nicName>.<vlanId>
 	// Maximum: 4094
 	// Minimum: 1
-	VlanID int32 `json:"vlanId,omitempty"`
+	VlanID *int32 `json:"vlanId,omitempty"`
 }
 
 // Validate validates this v1 nic
@@ -145,11 +145,11 @@ func (m *V1Nic) validateVlanID(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.MinimumInt("vlanId", "body", int64(m.VlanID), 1, false); err != nil {
+	if err := validate.MinimumInt("vlanId", "body", int64(*m.VlanID), 1, false); err != nil {
 		return err
 	}
 
-	if err := validate.MaximumInt("vlanId", "body", int64(m.VlanID), 4094, false); err != nil {
+	if err := validate.MaximumInt("vlanId", "body", int64(*m.VlanID), 4094, false); err != nil {
 		return err
 	}
 
