@@ -48,8 +48,17 @@ type V1Nic struct {
 	// nic name
 	NicName string `json:"nicName,omitempty"`
 
+	// Additional IPv4 addresses on the VLAN subinterface in CIDR form (e.g. "192.0.2.165/27"). The primary address is ip/subnet.
+	// Unique: true
+	SecondaryIps []string `json:"secondaryIps"`
+
 	// Deprecated. Use ipAddresses. Subnet mask of the primary address.
 	Subnet string `json:"subnet,omitempty"`
+
+	// VLAN identifier; the address is configured on <nicName>.<vlanId>
+	// Maximum: 4094
+	// Minimum: 1
+	VlanID int32 `json:"vlanId,omitempty"`
 }
 
 // Validate validates this v1 nic
@@ -57,6 +66,14 @@ func (m *V1Nic) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateIPMode(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateSecondaryIps(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateVlanID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -105,6 +122,34 @@ func (m *V1Nic) validateIPMode(formats strfmt.Registry) error {
 
 	// value enum
 	if err := m.validateIPModeEnum("ipMode", "body", m.IPMode); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1Nic) validateSecondaryIps(formats strfmt.Registry) error {
+	if swag.IsZero(m.SecondaryIps) { // not required
+		return nil
+	}
+
+	if err := validate.UniqueItems("secondaryIps", "body", m.SecondaryIps); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *V1Nic) validateVlanID(formats strfmt.Registry) error {
+	if swag.IsZero(m.VlanID) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("vlanId", "body", int64(m.VlanID), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("vlanId", "body", int64(m.VlanID), 4094, false); err != nil {
 		return err
 	}
 

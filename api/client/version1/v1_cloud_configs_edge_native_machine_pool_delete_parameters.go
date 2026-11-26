@@ -14,13 +14,17 @@ import (
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/swag"
 )
 
 // NewV1CloudConfigsEdgeNativeMachinePoolDeleteParams creates a new V1CloudConfigsEdgeNativeMachinePoolDeleteParams object
 // with the default values initialized.
 func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParams() *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
-	var ()
+	var (
+		hardDeleteDefault = bool(false)
+	)
 	return &V1CloudConfigsEdgeNativeMachinePoolDeleteParams{
+		HardDelete: &hardDeleteDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -29,8 +33,11 @@ func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParams() *V1CloudConfigsEdgeNat
 // NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithTimeout creates a new V1CloudConfigsEdgeNativeMachinePoolDeleteParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithTimeout(timeout time.Duration) *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
-	var ()
+	var (
+		hardDeleteDefault = bool(false)
+	)
 	return &V1CloudConfigsEdgeNativeMachinePoolDeleteParams{
+		HardDelete: &hardDeleteDefault,
 
 		timeout: timeout,
 	}
@@ -39,8 +46,11 @@ func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithTimeout(timeout time.
 // NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext creates a new V1CloudConfigsEdgeNativeMachinePoolDeleteParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(ctx context.Context) *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
-	var ()
+	var (
+		hardDeleteDefault = bool(false)
+	)
 	return &V1CloudConfigsEdgeNativeMachinePoolDeleteParams{
+		HardDelete: &hardDeleteDefault,
 
 		Context: ctx,
 	}
@@ -49,8 +59,11 @@ func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithContext(ctx context.C
 // NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithHTTPClient creates a new V1CloudConfigsEdgeNativeMachinePoolDeleteParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewV1CloudConfigsEdgeNativeMachinePoolDeleteParamsWithHTTPClient(client *http.Client) *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
-	var ()
+	var (
+		hardDeleteDefault = bool(false)
+	)
 	return &V1CloudConfigsEdgeNativeMachinePoolDeleteParams{
+		HardDelete: &hardDeleteDefault,
 		HTTPClient: client,
 	}
 }
@@ -66,6 +79,11 @@ type V1CloudConfigsEdgeNativeMachinePoolDeleteParams struct {
 
 	*/
 	ConfigUID string
+	/*HardDelete
+	  If set to true the machine pool will be permanently deleted
+
+	*/
+	HardDelete *bool
 	/*MachinePoolName
 	  Machine pool name
 
@@ -121,6 +139,17 @@ func (o *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) SetConfigUID(configUID
 	o.ConfigUID = configUID
 }
 
+// WithHardDelete adds the hardDelete to the v1 cloud configs edge native machine pool delete params
+func (o *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) WithHardDelete(hardDelete *bool) *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
+	o.SetHardDelete(hardDelete)
+	return o
+}
+
+// SetHardDelete adds the hardDelete to the v1 cloud configs edge native machine pool delete params
+func (o *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) SetHardDelete(hardDelete *bool) {
+	o.HardDelete = hardDelete
+}
+
 // WithMachinePoolName adds the machinePoolName to the v1 cloud configs edge native machine pool delete params
 func (o *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) WithMachinePoolName(machinePoolName string) *V1CloudConfigsEdgeNativeMachinePoolDeleteParams {
 	o.SetMachinePoolName(machinePoolName)
@@ -143,6 +172,22 @@ func (o *V1CloudConfigsEdgeNativeMachinePoolDeleteParams) WriteToRequest(r runti
 	// path param configUid
 	if err := r.SetPathParam("configUid", o.ConfigUID); err != nil {
 		return err
+	}
+
+	if o.HardDelete != nil {
+
+		// query param hardDelete
+		var qrHardDelete bool
+		if o.HardDelete != nil {
+			qrHardDelete = *o.HardDelete
+		}
+		qHardDelete := swag.FormatBool(qrHardDelete)
+		if qHardDelete != "" {
+			if err := r.SetQueryParam("hardDelete", qHardDelete); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	// path param machinePoolName

@@ -5288,6 +5288,15 @@
         ],
         "summary": "Deletes the specified machine pool",
         "operationId": "v1CloudConfigsEdgeNativeMachinePoolDelete",
+        "parameters": [
+          {
+            "type": "boolean",
+            "default": false,
+            "description": "If set to true the machine pool will be permanently deleted",
+            "name": "hardDelete",
+            "in": "query"
+          }
+        ],
         "responses": {
           "204": {
             "description": "The resource was deleted successfully"
@@ -55536,9 +55545,24 @@
         "nicName": {
           "type": "string"
         },
+        "secondaryIps": {
+          "description": "Additional IPv4 addresses on the VLAN subinterface in CIDR form (e.g. \"192.0.2.165/27\"). The primary address is ip/subnet.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
         "subnet": {
           "description": "Deprecated. Use ipAddresses. Subnet mask of the primary address.",
           "type": "string"
+        },
+        "vlanId": {
+          "description": "VLAN identifier; the address is configured on \u003cnicName\u003e.\u003cvlanId\u003e",
+          "type": "integer",
+          "format": "int32",
+          "maximum": 4094,
+          "minimum": 1
         }
       }
     },
